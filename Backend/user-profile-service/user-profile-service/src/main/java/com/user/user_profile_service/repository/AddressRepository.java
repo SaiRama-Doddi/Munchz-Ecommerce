@@ -11,6 +11,7 @@ import java.util.UUID;
 @Repository
 public interface AddressRepository extends JpaRepository<Address, UUID> {
     List<Address> findByUserId(UUID userId);
-    Optional<Address> findByUserIdAndIsDefault(UUID userId, boolean isDefault);
+    Optional<Address> findByUserIdAndDefaultAddress(UUID userId, boolean defaultAddress);
+
 }
 

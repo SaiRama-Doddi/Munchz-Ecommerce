@@ -24,7 +24,8 @@ public class Address {
     private String country;
     private String pincode;
     private String phone;
-    private boolean isDefault;
+    private boolean defaultAddress;
+
 
     private Instant createdAt;
     private Instant updatedAt;
