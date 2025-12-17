@@ -37,14 +37,22 @@ public class OtpService {
         otpRecord.setUserId(user.getId());
         otpRecord.setOtpHash(hash);
         otpRecord.setPurpose(purpose);
-        otpRecord.setExpiresAt(Instant.now().plus(10, ChronoUnit.MINUTES));  // REQUIRED
+        otpRecord.setExpiresAt(Instant.now().plus(1, ChronoUnit.MINUTES));  // REQUIRED
         otpRecord.setConsumed(false);
 
         userOtpRepository.save(otpRecord);
         emailService.sendOtpMail(email,otp);
     }
 
+
+    @Transactional
+    public void resendOtp(String email, String purpose) {
+        sendOtp(email, purpose);
+    }
+
+
     public User verifyOtp(String email,String otp,String purpose){
+            System.out.println("VERIFY OTP EMAIL = [" + email + "]");
 
         User user=userRepository.findByEmail(email).orElseThrow(()->new RuntimeException("user email not found"));
         UserOtp otpRec=userOtpRepository.findAllByUserIdAndPurposeAndConsumedFalseOrderByExpiresAtDesc(user.getId(),purpose)

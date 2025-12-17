@@ -21,7 +21,7 @@ public class ProfileService {
         profile.setFirstName(req.firstName());
         profile.setLastName(req.lastName());
         profile.setMobile(req.mobile());
-        profile.setDob(LocalDate.parse(req.dob()));
+ /*       profile.setDob(LocalDate.parse(req.dob()));*/
 
         return profileRepository.save(profile);
 

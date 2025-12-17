@@ -6,6 +6,11 @@ import Hero from "./components/Hero";
 
 import LoginPage from "./pages/LoginPage";
 import OtpPage from "./pages/OtpPage";
+import AboutUs from "./components/AboutUs";
+import Footer from "./components/Footer";
+import FAQ from "./components/FAQ";
+import ProductImage from "./components/ProductImage";
+import SignUp from "./pages/SignUp";
 
 export default function App() {
   return (
@@ -19,6 +24,10 @@ export default function App() {
               <TopHeader />
               <Header />
               <Hero />
+              <ProductImage/>
+              <AboutUs/>
+              <FAQ/>
+              <Footer/>
             </>
           }
         />
@@ -29,6 +38,7 @@ export default function App() {
           <TopHeader/>
           <Header/>
           <LoginPage />
+          <Footer/>
           </>
           } />
 
@@ -36,8 +46,19 @@ export default function App() {
         <Route path="/otp" element={ <>
           <TopHeader/>
           <Header/>
-          <LoginPage />
+          <OtpPage />
+          <Footer/>
           </>} />
+
+          <Route path="/signup" element={
+            <>
+             <TopHeader/>
+          <Header/>
+           <SignUp/>
+           <Footer/>
+            </>
+            
+           }/>
       </Routes>
     </BrowserRouter>
   );

@@ -23,7 +23,7 @@ public class Profile {
     private String firstName;
     private String lastName;
     private String mobile;
-    private LocalDate dob;
+/*    private LocalDate dob;*/
 
 
     private Instant createdAt;
