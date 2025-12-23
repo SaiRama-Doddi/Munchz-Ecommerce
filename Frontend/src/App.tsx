@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {  Routes, Route } from "react-router-dom";
 
 import TopHeader from "./components/TopHeader";
 import Header from "./components/Header";
@@ -11,12 +11,30 @@ import Footer from "./components/Footer";
 import FAQ from "./components/FAQ";
 import ProductImage from "./components/ProductImage";
 import SignUp from "./pages/SignUp";
+import Categories from "./pages/Categories";
+import Subcategories from "./pages/Subcategories";
+import Dashboard from "./pages/Dashboard";
+import Products from "./pages/Products";
+import ProductForm from "./pages/ProductForm";
+import ProductsPage from "./pages/ProductsPage";
+import EditProduct from "./pages/EditProduct";
+import ProductDetails from "./pages/ProductDetails";
+import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import SuccessPage from "./pages/SucessPage";
+import OrdersPage from "./pages/OrdersPage";
+import UserCategories from "./pages/UserCategories";
+import CategoryProducts from "./pages/CategoryProducts";
+import AdminRoute from "./routes/AdminRoute";
+import Layout from "./components/Layout";
+import FeaturedProducts from "./pages/ProductsPage";
+
+
 
 export default function App() {
   return (
-    <BrowserRouter>
+ 
       <Routes>
-        {/* Home Page */}
         <Route
           path="/"
           element={
@@ -24,42 +42,130 @@ export default function App() {
               <TopHeader />
               <Header />
               <Hero />
-              <ProductImage/>
-              <AboutUs/>
-              <FAQ/>
-              <Footer/>
+              <UserCategories/>
+              <ProductImage />
+              <ProductsPage/>
+              <AboutUs />
+              <FAQ />
+              <Footer />
             </>
           }
         />
 
-        {/* Login */}
-        <Route path="/login" element={
+        <Route
+          path="/login"
+          element={
+            <>
+              <TopHeader />
+              <Header />
+              <LoginPage />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route
+          path="/otp"
+          element={
+            <>
+              <TopHeader />
+              <Header />
+              <OtpPage />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route
+          path="/signup"
+          element={
+            <>
+              <TopHeader />
+              <Header />
+              <SignUp />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route path="/category" element={
+          <Layout>
+          <Categories />
+          </Layout>
+          } />
+        <Route path="/sub-category" element={<>
+         <Layout>
+        <Subcategories />
+      </Layout>
+        </>} />
+      
+        <Route path="/products" element={
+          <Layout>
+          <Products />
+          </Layout>
+    
+          } />
+        <Route path="/products/new" element={<ProductForm />} />
+        <Route path="/product" element={
+          <Layout>
+      <ProductsPage />
+          </Layout>
+    
+          } />
+        <Route path="/add-product" element={
+          <Layout>
+  <ProductForm />
+          </Layout>
+        
+          } />
+        <Route path="/edit-product/:id" element={<EditProduct />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+
+  <Route path="/dashboard" element={
+    <AdminRoute>
+  <Dashboard />
+    </AdminRoute>
+  } />
+        <Route path="/cart" element={
+
           <>
           <TopHeader/>
           <Header/>
-          <LoginPage />
-          <Footer/>
-          </>
-          } />
-
-        {/* OTP */}
-        <Route path="/otp" element={ <>
-          <TopHeader/>
-          <Header/>
-          <OtpPage />
-          <Footer/>
-          </>} />
-
-          <Route path="/signup" element={
-            <>
-             <TopHeader/>
-          <Header/>
-           <SignUp/>
+         
+           <CartPage />
+          
            <Footer/>
-            </>
-            
-           }/>
+          </>
+       
+          } />
+        <Route path="/checkout" element={<CheckoutPage />} />
+<Route path="/success" element={<SuccessPage />} />
+<Route path="/orders" element={<OrdersPage />} />
+
+
+<Route path="/categories" element={
+  <Layout>
+  <UserCategories />
+  </Layout>
+
+}
+   />
+<Route path="/category/:id" element={
+  <>
+   <TopHeader/>
+   <Header/>
+    <CategoryProducts />
+    <Footer/>
+  </>
+
+  } />
+
+<Route path="/product/:id" element={<ProductDetails />} />
+
+<Route path="/feature" element={<FeaturedProducts/>} />
+
+        
       </Routes>
-    </BrowserRouter>
+
   );
 }
