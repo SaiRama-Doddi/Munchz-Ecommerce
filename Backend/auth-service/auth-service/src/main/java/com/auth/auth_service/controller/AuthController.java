@@ -7,9 +7,11 @@ import com.auth.auth_service.feign.UserProfileClient;
 import com.auth.auth_service.repository.UserRepository;
 import com.auth.auth_service.security.JwtProvider;
 import com.auth.auth_service.service.EmailService;
+import com.auth.auth_service.service.GoogleTokenVerifier;
 import com.auth.auth_service.service.OtpService;
 import com.auth.auth_service.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +42,9 @@ public class AuthController {
     @Autowired
     UserProfileClient userProfileClient;
 
+    @Autowired
+    GoogleTokenVerifier googleTokenVerifier;
+
 
     @PostMapping("/register")
     public Map<String, Object> register(@RequestBody RegisterRequest req) {
@@ -48,21 +53,21 @@ public class AuthController {
             throw new RuntimeException("Email already registered");
         }
 
-        // 1️⃣ Save user in Auth DB
+        // Save user in Auth DB
         User user = new User();
         user.setEmail(req.email());
         user.setPhone(req.phone());
         user.setEmailVerified(false);
         userRepo.save(user);
 
-        // 2️⃣ Generate INTERNAL JWT (service-to-service)
+        //  Generate INTERNAL JWT (service-to-service)
         String token = jwtProvider.generateToken(
                 user.getId(),
                 user.getEmail(),
                 List.of("USER")
         );
 
-        // 3️⃣ Save firstname & lastname in User Profile Service
+        // Save firstname & lastname in User Profile Service
         CreateProfileRequest profileReq =
                 new CreateProfileRequest(req.firstName(), req.lastName(),req.phone());
 
@@ -71,7 +76,7 @@ public class AuthController {
                 profileReq
         );
 
-        // 4️⃣ Send welcome email
+        //  Send welcome email
         emailService.sendWelcomeMail(req.email());
 
         return Map.of(
@@ -138,6 +143,7 @@ public class AuthController {
         // Step 5: Return both token + profile
         return Map.of(
                 "token", token,
+                "roles", roles,
                 "profile", mergedProfile
         );
     }
@@ -178,12 +184,129 @@ public class AuthController {
         // Step 5: Return response
         return Map.of(
                 "token", token,
+                "profile", profile,
+                "roles", roles
+                );
+    }
+
+
+    @PostMapping("/register/google")
+    public Map<String, Object> googleRegister(
+            @RequestBody GoogleLoginRequest req
+    ) {
+
+        // 1️⃣ Verify Google Token
+        GoogleUserPayload googleUser =
+                googleTokenVerifier.verify(req.idToken());
+
+        // 2️⃣ Check if already registered
+        if (userRepo.existsByEmail(googleUser.email())) {
+            throw new RuntimeException(
+                    "Account already exists. Please login."
+            );
+        }
+
+        // 3️⃣ Create Auth User
+        User user = new User();
+        user.setEmail(googleUser.email());
+        user.setProvider("GOOGLE");
+        user.setProviderId(googleUser.googleId());
+        user.setEmailVerified(true);
+
+        userRepo.save(user);
+
+
+
+        // 5️⃣ INTERNAL JWT (service-to-service)
+        String internalToken =
+                jwtProvider.generateToken(
+                        user.getId(),
+                        user.getEmail(),
+                        List.of()
+                );
+
+        // 6️⃣ Create profile
+        userProfileClient.createOrUpdateProfile(
+                "Bearer " + internalToken,
+                new CreateProfileRequest(
+                        googleUser.firstName(),
+                        googleUser.lastName(),
+                        null
+                )
+        );
+        List<String> roles = List.of(); // empty
+        // 7️⃣ Final login JWT
+        String token =
+                jwtProvider.generateToken(
+                        user.getId(),
+                        user.getEmail(),
+                        List.of("USER")
+                );
+
+        ProfileResponse profile =
+                userProfileClient.getProfile("Bearer " + token);
+
+        return Map.of(
+                "token", token,
                 "profile", profile
         );
     }
 
 
 
+    @PostMapping("/login/google")
+    public ResponseEntity<Map<String, Object>> googleLogin(
+            @RequestBody GoogleLoginRequest req
+    ) {
+
+        // 1️⃣ Verify Google token
+        GoogleUserPayload googleUser =
+                googleTokenVerifier.verify(req.idToken());
+
+        // 2️⃣ Fetch user
+        User user = userRepo.findByEmail(googleUser.email())
+                .orElse(null);
+
+        if (user == null) {
+            return ResponseEntity.status(404).body(
+                    Map.of("message", "User not registered. Please signup.")
+            );
+        }
+
+        // 3️⃣ Provider check (SAFE)
+        if (user.getProvider() == null || !"GOOGLE".equals(user.getProvider())) {
+            return ResponseEntity.status(400).body(
+                    Map.of("message", "This email is registered using OTP login.")
+            );
+        }
+
+        // 4️⃣ Generate JWT (no roles)
+        String token =
+                jwtProvider.generateToken(
+                        user.getId(),
+                        user.getEmail(),
+                        List.of()
+                );
+
+        // 5️⃣ Fetch profile
+        ProfileResponse profile =
+                userProfileClient.getProfile("Bearer " + token);
+
+        AuthProfileResponse mergedProfile =
+                new AuthProfileResponse(
+                        profile.getFirstName(),
+                        profile.getLastName(),
+                        user.getPhone(),
+                        user.getEmail()
+                );
+
+        return ResponseEntity.ok(
+                Map.of(
+                        "token", token,
+                        "profile", mergedProfile
+                )
+        );
+    }
 
 
 

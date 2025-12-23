@@ -35,4 +35,12 @@ public class User {
     public void preUpdate() {
         updatedAt = Instant.now();
     }
+
+    @Column(name = "provider", nullable = false)
+    private String provider = "LOCAL"; // default
+
+
+    @Column(name = "provider_id")
+    private String providerId; // Google "sub"
+
 }

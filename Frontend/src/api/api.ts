@@ -51,3 +51,10 @@ export const updateProfileApi = (data: any) =>
   });
 
 
+/* ---------- GOOGLE AUTH ---------- */
+
+export const googleRegister = (idToken: string) =>
+  API.post("/auth/register/google", { idToken });
+
+export const googleLogin = (idToken: string) =>
+  API.post("/auth/login/google", { idToken });

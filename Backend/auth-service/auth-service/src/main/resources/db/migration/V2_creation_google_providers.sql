@@ -1,0 +1,5 @@
+ALTER TABLE auth_users
+ADD COLUMN provider VARCHAR(20) DEFAULT 'LOCAL';
+
+ALTER TABLE auth_users
+ADD COLUMN provider_id VARCHAR(255);
