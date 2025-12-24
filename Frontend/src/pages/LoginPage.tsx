@@ -28,9 +28,10 @@ export default function LoginPage() {
         err.response?.status === 404 &&
         err.response?.data?.message?.includes("signup")
       ) {
-        setError("Email not exists. Please signup.");
-      } else {
+        
         setError("Failed to send OTP. Try again.");
+      } else {
+     setError("Email not exists. Please signup.");
       }
     } finally {
       setLoading(false);

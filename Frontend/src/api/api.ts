@@ -43,13 +43,30 @@ export default API;
 
 /* ---------- PROFILE ---------- */
 
-export const updateProfileApi = (data: any) =>
-  axios.post("/profile/update", data, {
+/* ---------- PROFILE ---------- */
+
+export const updateProfileApi = (data: {
+  firstName: string;
+  lastName: string;
+  mobile: string;
+}) =>
+  API.put("/auth/profile", data, {
     headers: {
       Authorization: "Bearer " + localStorage.getItem("token"),
     },
   });
 
+
+  export const patchProfileApi = (data: Partial<{
+  firstName: string;
+  lastName: string;
+  mobile: string;
+}>) =>
+  API.patch("/auth/profile", data, {
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+  });
 
 /* ---------- GOOGLE AUTH ---------- */
 
@@ -58,3 +75,19 @@ export const googleRegister = (idToken: string) =>
 
 export const googleLogin = (idToken: string) =>
   API.post("/auth/login/google", { idToken });
+
+
+
+export const listAddressesApi = () =>
+  API.get("/auth/address", {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+
+export const addAddressApi = (data: any) =>
+  API.post("/auth/address", data, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
