@@ -24,6 +24,8 @@ public class Address {
     private String country;
     private String pincode;
     private String phone;
+
+    @Column(name = "is_default")
     private boolean defaultAddress;
 
 

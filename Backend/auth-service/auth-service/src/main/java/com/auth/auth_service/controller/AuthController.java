@@ -3,6 +3,7 @@ package com.auth.auth_service.controller;
 import com.auth.auth_service.dto.*;
 import com.auth.auth_service.entity.User;
 import com.auth.auth_service.entity.UserOtp;
+import com.auth.auth_service.excepton.ResourceNotFoundException;
 import com.auth.auth_service.feign.UserProfileClient;
 import com.auth.auth_service.repository.UserRepository;
 import com.auth.auth_service.security.JwtProvider;
@@ -12,10 +13,7 @@ import com.auth.auth_service.service.OtpService;
 import com.auth.auth_service.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -71,7 +69,7 @@ public class AuthController {
         CreateProfileRequest profileReq =
                 new CreateProfileRequest(req.firstName(), req.lastName(),req.phone());
 
-        userProfileClient.createOrUpdateProfile(
+        userProfileClient.createProfile(
                 "Bearer " + token,
                 profileReq
         );
@@ -104,7 +102,7 @@ public class AuthController {
     public String sendLoginOtp(@RequestBody LoginOtpRequest req){
         User user = userRepo.findByEmail(req.email())
                 .orElseThrow(() ->
-                        new RuntimeException("Email not exists, please signup")
+                        new ResourceNotFoundException("Email not exists, please signup")
                 );
         otpService.sendOtp(user.getEmail(),"login");
         return "OTP sent for the login";
@@ -226,7 +224,7 @@ public class AuthController {
                 );
 
         // 6️⃣ Create profile
-        userProfileClient.createOrUpdateProfile(
+        userProfileClient.patchProfile(
                 "Bearer " + internalToken,
                 new CreateProfileRequest(
                         googleUser.firstName(),
@@ -309,5 +307,55 @@ public class AuthController {
     }
 
 
+    @PostMapping("/profile")
+    public ResponseEntity<ProfileResponse> createProfile(
+            @RequestHeader("Authorization") String token,
+            @RequestBody CreateProfileRequest req
+    ) {
+        ProfileResponse profile =
+                userProfileClient.createProfile(token, req);
+
+        return ResponseEntity.ok(profile);
+    }
+
+    @PutMapping("/profile")
+    public ResponseEntity<ProfileResponse> putProfile(
+            @RequestHeader("Authorization") String token,
+            @RequestBody CreateProfileRequest req
+    ) {
+        ProfileResponse profile =
+                userProfileClient.putProfile(token, req);
+
+        return ResponseEntity.ok(profile);
+    }
+
+
+    @PatchMapping("/profile")
+    public ResponseEntity<ProfileResponse> patchProfile(
+            @RequestHeader("Authorization") String token,
+            @RequestBody CreateProfileRequest req
+    ) {
+        ProfileResponse profile =
+                userProfileClient.patchProfile(token, req);
+
+        return ResponseEntity.ok(profile);
+    }
+
+
+
+    @PostMapping("/address")
+    public AddressResponse addAddress(
+            @RequestHeader("Authorization") String token,
+            @RequestBody CreateAddressRequest req
+    ) {
+        return userProfileClient.addAddress(token, req);
+    }
+
+    @GetMapping("/address")
+    public List<AddressResponse> listAddresses(
+            @RequestHeader("Authorization") String token
+    ) {
+        return userProfileClient.listAddresses(token);
+    }
 
 }

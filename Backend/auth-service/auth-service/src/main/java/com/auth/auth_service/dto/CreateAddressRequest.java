@@ -1,4 +1,13 @@
 package com.auth.auth_service.dto;
 
-public record CreateAddressRequest() {
-}
+public record CreateAddressRequest(
+        String label,           // Home / Office
+        String addressLine1,
+        String addressLine2,     // optional
+        String city,
+        String state,
+        String country,
+        String pincode,
+        String mobile,           // optional delivery mobile
+        boolean isDefault
+) {}
