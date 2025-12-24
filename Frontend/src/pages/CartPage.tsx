@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useCart } from "../state/CartContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Cart() {
   const { items, updateQty, changeVariant, removeItem } = useCart();
@@ -29,10 +30,34 @@ export default function Cart() {
   };
 
   const finalAmount = Math.max(totalPrice - discount, 0);
+const navigate = useNavigate();
 
   return (
-    <div className="bg-[#f6fff4] min-h-screen py-12">
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-10">
+    <div className="bg-[#f6fff4] min-h-screen py-12 -mt-10">
+        <button
+  onClick={() => navigate(-1)}
+  className=" ml-20
+    inline-flex items-center gap-3
+    bg-white px-4 py-2 rounded-full
+    shadow-md border border-green-100
+    text-green-700 font-medium
+    hover:bg-green-50 hover:shadow-lg
+    active:scale-95
+    transition-all duration-200
+    cursor-pointer
+  "
+>
+  <span className="
+    flex items-center justify-center
+    w-8 h-8 rounded-full
+    bg-green-700 text-white
+    text-lg
+  ">
+    ←
+  </span>
+  Back
+</button>
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-10 mt-2">
 
         {/* ================= LEFT: CART ITEMS ================= */}
         <div className="lg:col-span-2 space-y-6">
@@ -183,3 +208,5 @@ export default function Cart() {
     </div>
   );
 }
+
+

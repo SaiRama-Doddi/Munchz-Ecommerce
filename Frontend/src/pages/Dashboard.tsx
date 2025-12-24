@@ -8,7 +8,7 @@ export default function Dashboard(){
   const { data: products } = useProducts()
 
   return (
-    <Layout>
+  
     <div className='space-y-4'>
       <h1 className='text-2xl font-bold'>Dashboard</h1>
       <div className='grid grid-cols-4 gap-4'>
@@ -29,7 +29,7 @@ export default function Dashboard(){
         </div>
       </section>
     </div>
-    </Layout>
+ 
   )
 }
 

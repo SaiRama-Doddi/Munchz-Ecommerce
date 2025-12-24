@@ -1,4 +1,9 @@
-import React, { createContext, useContext, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
 
 /* =========================
    TYPES
@@ -26,7 +31,7 @@ interface CartContextType {
   updateQty: (index: number, qty: number) => void;
   changeVariant: (index: number, variantIndex: number) => void;
   removeItem: (index: number) => void;
-  clearCart: () => void; // ✅ REQUIRED
+  clearCart: () => void;
 }
 
 /* =========================
@@ -38,23 +43,41 @@ const CartContext = createContext<CartContextType | null>(null);
    PROVIDER
 ========================= */
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
+  /* ✅ LOAD CART FROM LOCAL STORAGE */
+  const [items, setItems] = useState<CartItem[]>(() => {
+    const stored = localStorage.getItem("cart-items");
+    return stored ? JSON.parse(stored) : [];
+  });
+
+  /* ✅ SAVE CART TO LOCAL STORAGE */
+  useEffect(() => {
+    localStorage.setItem("cart-items", JSON.stringify(items));
+  }, [items]);
+
+  /* =========================
+     CART FUNCTIONS
+  ========================= */
 
   const addToCart = (item: CartItem) => {
     setItems((prev) => {
-      const idx = prev.findIndex(p => p.productId === item.productId);
+      const idx = prev.findIndex(
+        (p) =>
+          p.productId === item.productId &&
+          p.selectedVariantIndex === item.selectedVariantIndex
+      );
 
       if (idx !== -1) {
         const copy = [...prev];
         copy[idx].qty += item.qty;
         return copy;
       }
+
       return [...prev, item];
     });
   };
 
   const updateQty = (index: number, qty: number) => {
-    setItems(prev => {
+    setItems((prev) => {
       const copy = [...prev];
       copy[index].qty = Math.max(1, qty);
       return copy;
@@ -62,7 +85,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const changeVariant = (index: number, variantIndex: number) => {
-    setItems(prev => {
+    setItems((prev) => {
       const copy = [...prev];
       copy[index].selectedVariantIndex = variantIndex;
       return copy;
@@ -70,11 +93,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const removeItem = (index: number) => {
-    setItems(prev => prev.filter((_, i) => i !== index));
+    setItems((prev) => prev.filter((_, i) => i !== index));
   };
 
   const clearCart = () => {
     setItems([]);
+    localStorage.removeItem("cart-items");
   };
 
   return (
@@ -93,8 +117,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
+/* =========================
+   HOOK
+========================= */
 export function useCart() {
   const ctx = useContext(CartContext);
-  if (!ctx) throw new Error("useCart must be used inside CartProvider");
+  if (!ctx) {
+    throw new Error("useCart must be used inside CartProvider");
+  }
   return ctx;
 }

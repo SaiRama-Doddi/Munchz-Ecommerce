@@ -1,9 +1,8 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../api/client";
 import { useCategories } from "../hooks/useQueryHelpers";
 import { useSubcategories } from "../hooks/useSubcategories";
-
 
 export default function EditProduct() {
   const { id } = useParams();
@@ -21,15 +20,15 @@ export default function EditProduct() {
     description: "",
     imageUrl: "",
     imageUrls: [] as string[],
-    variants: [] as any[]
+    variants: [] as any[],
   });
 
-  /** Load Product **/
+  /* LOAD PRODUCT */
   useEffect(() => {
     loadProduct();
   }, [id]);
 
-  /** Fetch Subcategories when category changes **/
+  /* FETCH SUBCATEGORIES */
   useEffect(() => {
     if (form.categoryId) {
       fetchSubcats(Number(form.categoryId));
@@ -42,9 +41,11 @@ export default function EditProduct() {
       const p = res.data || {};
 
       const images =
-        Array.isArray(p.imageUrls) ? p.imageUrls :
-        Array.isArray(p.images) ? p.images.map((i: any) => i.imageUrl) :
-        [];
+        Array.isArray(p.imageUrls)
+          ? p.imageUrls
+          : Array.isArray(p.images)
+          ? p.images.map((i: any) => i.imageUrl)
+          : [];
 
       const variants = Array.isArray(p.variants) ? p.variants : [];
 
@@ -60,14 +61,14 @@ export default function EditProduct() {
           weightLabel: v.weightLabel || "",
           weightInGrams: v.weightInGrams || 0,
           mrp: v.mrp || 0,
-          offerPrice: v.offerPrice || 0
-        }))
+          offerPrice: v.offerPrice || 0,
+        })),
       });
 
       setLoading(false);
     } catch (err) {
       console.error("FAILED TO LOAD PRODUCT:", err);
-      alert("Unable to fetch product. Check API response.");
+      alert("Unable to fetch product.");
       setLoading(false);
     }
   };
@@ -82,7 +83,7 @@ export default function EditProduct() {
     setForm({ ...form, variants: arr });
   };
 
-  const updateImage = (index: number, value: any) => {
+  const updateImage = (index: number, value: string) => {
     const arr = [...form.imageUrls];
     arr[index] = value;
     setForm({ ...form, imageUrls: arr });
@@ -93,8 +94,8 @@ export default function EditProduct() {
       ...form,
       variants: [
         ...form.variants,
-        { weightLabel: "", weightInGrams: 0, mrp: 0, offerPrice: 0 }
-      ]
+        { weightLabel: "", weightInGrams: 0, mrp: 0, offerPrice: 0 },
+      ],
     });
   };
 
@@ -112,7 +113,7 @@ export default function EditProduct() {
       description: form.description,
       imageUrl: form.imageUrl,
       imageUrls: form.imageUrls.filter((x) => x.trim() !== ""),
-      variants: form.variants
+      variants: form.variants,
     };
 
     try {
@@ -121,7 +122,7 @@ export default function EditProduct() {
       navigate("/products");
     } catch (err) {
       console.error("UPDATE FAILED:", err);
-      alert("Update failed. Check console for details.");
+      alert("Update failed.");
     }
   };
 
@@ -133,7 +134,7 @@ export default function EditProduct() {
 
       <form onSubmit={submit} className="space-y-4">
 
-        {/* Category */}
+        {/* CATEGORY */}
         <select
           value={form.categoryId}
           onChange={(e) => updateField("categoryId", e.target.value)}
@@ -145,7 +146,7 @@ export default function EditProduct() {
           ))}
         </select>
 
-        {/* Subcategory */}
+        {/* SUBCATEGORY */}
         <select
           value={form.subcategoryId}
           onChange={(e) => updateField("subcategoryId", e.target.value)}
@@ -175,7 +176,7 @@ export default function EditProduct() {
           className="border p-2 rounded w-full"
         />
 
-        {/* Multi images */}
+        {/* MULTI IMAGES */}
         {form.imageUrls.map((img, idx) => (
           <input
             key={idx}
@@ -184,34 +185,56 @@ export default function EditProduct() {
             className="border p-2 rounded w-full"
           />
         ))}
-        <button type="button" onClick={addImage} className="bg-gray-600 text-white px-3 py-1 rounded">
+
+        <button
+          type="button"
+          onClick={addImage}
+          className="bg-gray-600 text-white px-3 py-1 rounded"
+        >
           + Add Image
         </button>
 
-        {/* Variants */}
+        {/* VARIANTS */}
         {form.variants.map((v, idx) => (
           <div key={idx} className="grid grid-cols-4 gap-2">
             <input
               value={v.weightLabel}
-              onChange={(e) => updateVariant(idx, "weightLabel", e.target.value)}
+              onChange={(e) =>
+                updateVariant(idx, "weightLabel", e.target.value)
+              }
               className="border p-2 rounded"
             />
+
+            {/* WEIGHT (TEXT INPUT – NUMBERS ONLY) */}
             <input
-              type="number"
+              type="text"
               value={v.weightInGrams}
-              onChange={(e) => updateVariant(idx, "weightInGrams", Number(e.target.value))}
+              onChange={(e) => {
+                const val = e.target.value.replace(/\D/g, "");
+                updateVariant(idx, "weightInGrams", Number(val));
+              }}
               className="border p-2 rounded"
             />
+
+            {/* MRP */}
             <input
-              type="number"
+              type="text"
               value={v.mrp}
-              onChange={(e) => updateVariant(idx, "mrp", Number(e.target.value))}
+              onChange={(e) => {
+                const val = e.target.value.replace(/\D/g, "");
+                updateVariant(idx, "mrp", Number(val));
+              }}
               className="border p-2 rounded"
             />
+
+            {/* OFFER PRICE */}
             <input
-              type="number"
+              type="text"
               value={v.offerPrice}
-              onChange={(e) => updateVariant(idx, "offerPrice", Number(e.target.value))}
+              onChange={(e) => {
+                const val = e.target.value.replace(/\D/g, "");
+                updateVariant(idx, "offerPrice", Number(val));
+              }}
               className="border p-2 rounded"
             />
           </div>
@@ -225,7 +248,9 @@ export default function EditProduct() {
           + Add Variant
         </button>
 
-        <button className="bg-blue-600 text-white px-4 py-2 rounded">Update</button>
+        <button className="bg-blue-600 text-white px-4 py-2 rounded">
+          Update
+        </button>
       </form>
     </div>
   );
