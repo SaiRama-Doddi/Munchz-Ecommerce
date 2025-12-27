@@ -1,29 +1,43 @@
 package com.yourorg.service.dto;
 
-import java.math.BigDecimal;
-import java.util.List;
+import lombok.Data;
 
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.List;
+import java.util.UUID;
+
+@Data
 public class OrderResponse {
-    private Long orderId;
-    private Long userId;
-    private String userName;
-    private String address;
-    private List<OrderItemResponse> items;
-    private BigDecimal totalAmount;
+
+    /* =======================
+       ORDER INFO
+    ======================= */
+    private UUID orderId;
+    private UUID userId;
     private String orderStatus;
 
-    public Long getOrderId() { return orderId; }
-    public void setOrderId(Long orderId) { this.orderId = orderId; }
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
-    public String getUserName() { return userName; }
-    public void setUserName(String userName) { this.userName = userName; }
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
-    public List<OrderItemResponse> getItems() { return items; }
-    public void setItems(List<OrderItemResponse> items) { this.items = items; }
-    public BigDecimal getTotalAmount() { return totalAmount; }
-    public void setTotalAmount(BigDecimal totalAmount) { this.totalAmount = totalAmount; }
-    public String getOrderStatus() { return orderStatus; }
-    public void setOrderStatus(String orderStatus) { this.orderStatus = orderStatus; }
+    /* =======================
+       AMOUNTS
+    ======================= */
+    private BigDecimal totalAmount;
+    private BigDecimal totalTax;        // nullable
+    private BigDecimal totalDiscount;   // nullable
+    private String currency;
+
+    /* =======================
+       ADDRESSES (JSON STRING)
+    ======================= */
+    private String shippingAddress;
+    private String billingAddress;
+
+    /* =======================
+       AUDIT
+    ======================= */
+    private Instant placedAt;
+
+    /* =======================
+       ITEMS
+    ======================= */
+    private List<OrderItemResponse> items;
 }

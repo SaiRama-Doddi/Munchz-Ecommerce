@@ -232,13 +232,13 @@ public class AuthController {
                         null
                 )
         );
-        List<String> roles = List.of(); // empty
+        List<String> roles = List.of("USER"); // empty
         // 7️⃣ Final login JWT
         String token =
                 jwtProvider.generateToken(
                         user.getId(),
                         user.getEmail(),
-                        List.of("USER")
+                        roles
                 );
 
         ProfileResponse profile =
@@ -246,7 +246,8 @@ public class AuthController {
 
         return Map.of(
                 "token", token,
-                "profile", profile
+                "profile", profile,
+                "roles",roles
         );
     }
 
@@ -277,6 +278,7 @@ public class AuthController {
                     Map.of("message", "This email is registered using OTP login.")
             );
         }
+
 
         // 4️⃣ Generate JWT (no roles)
         String token =
