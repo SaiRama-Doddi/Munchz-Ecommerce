@@ -200,9 +200,20 @@ const navigate = useNavigate();
           </div> */}
 
           {/* PLACE ORDER */}
-          <button className="mt-6 w-full bg-green-700 text-white py-3 rounded-lg hover:bg-green-800">
-            Place order
-          </button>
+        <button
+  onClick={() =>
+    navigate("/checkout", {
+      state: {
+        items,
+        totalAmount: finalAmount,
+      },
+    })
+  }
+  className="mt-6 w-full bg-green-700 text-white py-3 rounded-lg hover:bg-green-800"
+>
+  Place order
+</button>
+
         </div>
       </div>
     </div>

@@ -1,45 +1,98 @@
 package com.yourorg.service.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Instant;
+import java.util.*;
 
 @Entity
 @Table(name = "orders")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class OrderEntity {
 
+    /* =======================
+       PRIMARY KEY (UUID)
+    ======================= */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
+    @GeneratedValue
+    @Column(columnDefinition = "uuid", nullable = false, updatable = false)
+    private UUID id;
 
-    private Long userId;
+    /* =======================
+       BASIC ORDER INFO
+    ======================= */
+    @Column(columnDefinition = "uuid", nullable = false)
+    private UUID userId;
+
     private String userName;
-    private String address;
-    private BigDecimal totalAmount;
+    private String userEmail;
     private String orderStatus;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Column(precision = 12, scale = 2)
+    private BigDecimal totalAmount;
+
+    /* =======================
+       OPTIONAL FIELDS
+    ======================= */
+    @Column(precision = 12, scale = 2)
+    private BigDecimal totalTax;
+
+    @Column(precision = 12, scale = 2)
+    private BigDecimal totalDiscount;
+
+    @Column(columnDefinition = "uuid")
+    private UUID paymentId;
+
+    private String couponCode;
+    private String currency;
+
+    /* =======================
+       ADDRESSES (JSONB)
+    ======================= */
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "shipping_address", columnDefinition = "jsonb", nullable = false)
+    private String shippingAddress;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "billing_address", columnDefinition = "jsonb", nullable = false)
+    private String billingAddress;
+
+    /* =======================
+       TIMESTAMPS
+    ======================= */
+    private Instant placedAt;
+    private Instant updatedAt;
+
+    @PrePersist
+    public void prePersist() {
+        Instant now = Instant.now();
+        this.placedAt = now;
+        this.updatedAt = now;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = Instant.now();
+    }
+
+    /* =======================
+       ORDER ITEMS
+    ======================= */
+    @OneToMany(
+            mappedBy = "order",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    @JsonIgnore
     private List<OrderItemEntity> items = new ArrayList<>();
-
-    public Long getOrderId() { return orderId; }
-    public void setOrderId(Long orderId) { this.orderId = orderId; }
-
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
-
-    public String getUserName() { return userName; }
-    public void setUserName(String userName) { this.userName = userName; }
-
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
-
-    public BigDecimal getTotalAmount() { return totalAmount; }
-    public void setTotalAmount(BigDecimal totalAmount) { this.totalAmount = totalAmount; }
-
-    public String getOrderStatus() { return orderStatus; }
-    public void setOrderStatus(String orderStatus) { this.orderStatus = orderStatus; }
-
-    public List<OrderItemEntity> getItems() { return items; }
-    public void setItems(List<OrderItemEntity> items) { this.items = items; }
 }

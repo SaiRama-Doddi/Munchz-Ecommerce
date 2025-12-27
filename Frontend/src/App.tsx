@@ -140,7 +140,15 @@ export default function App() {
         </>
 
       } />
-      <Route path="/checkout" element={<CheckoutPage />} />
+      <Route path="/checkout" element={
+        <> 
+        <TopHeader/>
+        <Header/>
+         <CheckoutPage />
+         <Footer/>
+         </>
+      
+        } />
       <Route path="/success" element={<SuccessPage />} />
       <Route path="/orders" element={<OrdersPage />} />
 

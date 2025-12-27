@@ -1,37 +1,40 @@
 package com.yourorg.service.exception;
 
-import org.springframework.http.HttpHeaders;
+import jakarta.persistence.RollbackException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
 import java.util.Map;
 
-@ControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+@RestControllerAdvice
+public class GlobalExceptionHandler {
 
-  @Override
-protected ResponseEntity<Object> handleMethodArgumentNotValid(
-        MethodArgumentNotValidException ex,
-        HttpHeaders headers,
-        HttpStatusCode status,
-        WebRequest request)
- {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(err -> errors.put(err.getField(), err.getDefaultMessage()));
-        return ResponseEntity.badRequest().body(errors);
+    @ExceptionHandler(TransactionSystemException.class)
+    public ResponseEntity<?> handleTx(TransactionSystemException ex) {
+
+        Throwable root = ex;
+        while (root.getCause() != null) {
+            root = root.getCause();
+        }
+
+        root.printStackTrace(); // 🔥 THIS WILL SHOW DB ERROR
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of(
+                        "error", root.getClass().getSimpleName(),
+                        "message", root.getMessage()
+                ));
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleAll(Exception ex) {
-        Map<String, String> err = new HashMap<>();
-        err.put("error", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(err);
+    public ResponseEntity<?> handleOther(Exception ex) {
+        ex.printStackTrace();
+        return ResponseEntity.status(500).body(
+                Map.of("error", ex.getClass().getSimpleName(),
+                        "message", ex.getMessage())
+        );
     }
 }

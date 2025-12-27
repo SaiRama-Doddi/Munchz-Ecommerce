@@ -1,5 +1,6 @@
 package com.auth.auth_service.feign;
 
+import com.auth.auth_service.config.FeignConfig;
 import com.auth.auth_service.dto.AddressResponse;
 import com.auth.auth_service.dto.CreateAddressRequest;
 import com.auth.auth_service.dto.CreateProfileRequest;
@@ -11,7 +12,8 @@ import java.util.List;
 
 @FeignClient(
         name = "user-profile-service",
-        url = "${services.user-profile.url}"
+        url = "${services.user-profile.url}",
+        configuration = FeignConfig.class
 )
 public interface UserProfileClient {
 
