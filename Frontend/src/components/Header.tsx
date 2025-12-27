@@ -29,7 +29,7 @@ export default function Header() {
           <nav className="hidden md:flex gap-8 text-gray-900 text-md">
             <Link to="/">Home</Link>
             <Link to="/productpage">Shop</Link>
-            <Link to="/about">About</Link>
+            <Link to="/Aboutmain">About</Link>
             <Link to="/track">Track</Link>
             <Link to="/contact">Contact</Link>
           </nav>

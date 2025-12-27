@@ -7,6 +7,9 @@ const items = [
   { to: "/sub-category", label: "Subcategories" },
   { to: "/admin/products", label: "Admin Products" },
   { to: "/admin/orders", label: "Orders" },
+    { to: "/addstock", label: "Add Stock" },
+    { to: "/inventory", label: "Stock List" },
+     { to: "/Stockhistory", label: "Stock History" },
 ];
 
 export default function Sidebar() {

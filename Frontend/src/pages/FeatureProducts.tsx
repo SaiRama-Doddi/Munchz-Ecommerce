@@ -134,7 +134,7 @@ export default function FeaturedProducts() {
                 />
 
                 {/* WEIGHT */}
-                <span className="inline-block bg-green-700 text-white w-10 text-xs px-2 py-1 rounded mb-2">
+                <span className="inline-block bg-green-700 text-white w-12 text-xs px-2 py-1 rounded mb-2">
                   {selectedVariant.weightLabel}
                 </span>
 

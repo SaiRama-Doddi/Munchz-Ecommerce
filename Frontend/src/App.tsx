@@ -30,6 +30,10 @@ import Layout from "./components/Layout";
 import FeaturedProducts from "./pages/FeatureProducts";
 import Contact from "./components/Contact"
 import AdminLayout from "./components/AdminLayout";
+import AddStock from "./pages/AddStock";
+import StockList from "./pages/StockList";
+import StockHistory from "./pages/StockHistory";
+import AboutMain from "./pages/Aboutmain";
 
 
 
@@ -196,6 +200,15 @@ export default function App() {
         <Route path="products" element={<Products />} />
         <Route path="orders" element={<OrdersPage />} />
       </Route>
+<Route path="/addstock" element ={<AddStock />}/>
+<Route path="/inventory" element={<StockList />} />
+<Route path="/StockHistory" element ={<StockHistory productId={0} />}/>
+<Route path="/AboutMain" element ={<>
+            <TopHeader />
+            <Header />
+            <AboutMain />
+            <Footer />
+          </>}/>
 
     </Routes>
 
