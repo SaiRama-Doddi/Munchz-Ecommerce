@@ -34,6 +34,7 @@ import AddStock from "./pages/AddStock";
 import StockList from "./pages/StockList";
 import StockHistory from "./pages/StockHistory";
 import AboutMain from "./pages/Aboutmain";
+import AdminCoupons from "./pages/AdminCoupons";
 
 
 
@@ -217,7 +218,7 @@ export default function App() {
             <AboutMain />
             <Footer />
           </>}/>
-
+<Route path="/admincoupons" element ={<AdminCoupons />}/>
     </Routes>
 
   );

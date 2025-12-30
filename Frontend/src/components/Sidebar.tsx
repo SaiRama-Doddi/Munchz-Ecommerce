@@ -10,6 +10,7 @@ const items = [
     { to: "/addstock", label: "Add Stock" },
     { to: "/inventory", label: "Stock List" },
      { to: "/Stockhistory", label: "Stock History" },
+    { to: "/admincoupons", label: "Admin Coupons" },
 ];
 
 export default function Sidebar() {
