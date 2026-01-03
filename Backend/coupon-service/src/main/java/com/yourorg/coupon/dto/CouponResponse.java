@@ -9,5 +9,8 @@ public record CouponResponse(
         Double minAmount,
         Double discountAmount,
         LocalDate expiryDate,
-        Boolean active
+        Boolean active,
+        Double appliedDiscount,
+        Double finalAmount
 ) {}
+

@@ -37,6 +37,11 @@ public class CouponController {
 
     @PostMapping("/apply")
     public CouponResponse apply(@RequestBody ApplyCouponRequest request) {
-        return couponService.applyCoupon(request.orderAmount());
+        return couponService.applyCoupon(
+                request.getCouponCode(),
+                request.getOrderAmount()
+        );
     }
+
+
 }

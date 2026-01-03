@@ -7,10 +7,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.yourorg.service.dto.ProductResponse;
 
-@FeignClient(name = "PRODUCT-SERVICE" ,
-        url = "${services.PRODUCT-SERVICE.url}",
-        configuration = FeignConfig.class)
+@FeignClient(
+        name = "product-service",
+        url = "${services.product-service.url}"
+)
 public interface ProductClient {
+
+
 
     @GetMapping("/api/products/{id}")
     ProductResponse getProductById(@PathVariable("id") Long id);

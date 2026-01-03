@@ -92,7 +92,7 @@ const email = location.state?.email;
     alert("Login successful!");
 
    if (roles.includes("ADMIN")) {
-      window.location.replace("/dashboard"); //  ADMIN DASHBOARD
+      window.location.replace("/admin/dashboard"); //  ADMIN DASHBOARD
     } else {
       window.location.replace("/"); //  NORMAL USER
     }

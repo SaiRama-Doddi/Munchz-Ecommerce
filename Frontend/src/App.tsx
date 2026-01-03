@@ -35,6 +35,8 @@ import StockList from "./pages/StockList";
 import StockHistory from "./pages/StockHistory";
 import AboutMain from "./pages/Aboutmain";
 import AdminCoupons from "./pages/AdminCoupons";
+import AddStockDetails from "./pages/AddStockDetails";
+import StockDetails from "./pages/StockDetails";
 
 
 
@@ -219,6 +221,9 @@ export default function App() {
             <Footer />
           </>}/>
 <Route path="/admincoupons" element ={<AdminCoupons />}/>
+<Route path="/adminStockEntry" element ={<AddStockDetails />}/>
+<Route path="/adminStockDetails" element ={<StockDetails />}/>
+
     </Routes>
 
   );

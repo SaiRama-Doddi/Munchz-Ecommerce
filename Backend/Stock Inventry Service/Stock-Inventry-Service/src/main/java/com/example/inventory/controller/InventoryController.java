@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:5173")
 @RestController
-@RequestMapping("/inventory")
+@RequestMapping("/api/inventory")
+@CrossOrigin(origins = "http://localhost:5173")
 public class InventoryController {
 
     private final InventoryService inventoryService;
@@ -79,4 +79,15 @@ public class InventoryController {
     public List<StockTransaction> history(@PathVariable Long productId) {
         return inventoryService.getStockHistory(productId);
     }
+
+
+    // ✅ UPDATE STOCK
+    @PutMapping("/{id}")
+    public StockInventory updateStock(
+            @PathVariable Long id,
+            @RequestBody StockRequest request
+    ) {
+        return inventoryService.updateStock(id, request);
+    }
+
 }

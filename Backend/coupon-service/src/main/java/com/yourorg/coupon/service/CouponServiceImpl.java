@@ -1,4 +1,3 @@
-
 package com.yourorg.coupon.service;
 
 import com.yourorg.coupon.dto.*;
@@ -50,18 +49,50 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public List<CouponResponse> getAllCoupons() {
-        return repository.findAll().stream().map(this::map).toList();
+        return repository.findAll().stream()
+                .map(this::map)
+                .toList();
     }
 
+    // ================= APPLY COUPON =================
     @Override
-    public CouponResponse applyCoupon(Double orderAmount) {
-        return repository.findAll().stream()
-                .filter(Coupon::getActive)
-                .filter(c -> c.getExpiryDate().isAfter(LocalDate.now()))
-                .filter(c -> orderAmount >= c.getMinAmount())
-                .findFirst()
-                .map(this::map)
-                .orElse(null);
+    public CouponResponse applyCoupon(String couponCode, Double orderAmount) {
+
+        Coupon coupon = repository
+                .findByCodeIgnoreCaseAndActiveTrue(couponCode)
+                .orElseThrow(() -> new RuntimeException("Invalid coupon code"));
+
+        // ✅ Safe expiry check
+        if (coupon.getExpiryDate() != null &&
+                coupon.getExpiryDate().isBefore(LocalDate.now())) {
+            throw new RuntimeException("Coupon expired");
+        }
+
+        // ✅ Minimum order check
+        if (coupon.getMinAmount() != null &&
+                orderAmount < coupon.getMinAmount()) {
+            throw new RuntimeException(
+                    "Minimum order amount ₹" + coupon.getMinAmount()
+            );
+        }
+
+        // ✅ Safe discount calculation
+        double discount = coupon.getDiscountAmount() != null
+                ? coupon.getDiscountAmount()
+                : 0.0;
+
+        double finalAmount = Math.max(orderAmount - discount, 0);
+
+        return new CouponResponse(
+                coupon.getId(),
+                coupon.getCode(),
+                coupon.getMinAmount(),
+                coupon.getDiscountAmount(),
+                coupon.getExpiryDate(),
+                coupon.getActive(),
+                discount,
+                finalAmount
+        );
     }
 
     private CouponResponse map(Coupon c) {
@@ -71,7 +102,9 @@ public class CouponServiceImpl implements CouponService {
                 c.getMinAmount(),
                 c.getDiscountAmount(),
                 c.getExpiryDate(),
-                c.getActive()
+                c.getActive(),
+                null,
+                null
         );
     }
 }

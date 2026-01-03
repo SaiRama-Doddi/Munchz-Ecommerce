@@ -52,12 +52,60 @@ public class InventoryService {
         stock.setQuantity(stock.getQuantity() + request.getQuantity());
         inventoryRepo.save(stock);
 
+        // transaction log
         StockTransaction tx = new StockTransaction();
         tx.setProductId(request.getProductId());
         tx.setProductName(request.getProductName());
         tx.setVariantLabel(variant);
         tx.setQuantity(request.getQuantity());
         tx.setTransactionType("ADD");
+
+        transactionRepo.save(tx);
+
+        return stock;
+    }
+
+    // ================= UPDATE STOCK =================
+    @Transactional
+    public StockInventory updateStock(Long id, StockRequest request) {
+
+        StockInventory stock = inventoryRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Stock not found"));
+
+        stock.setCategoryId(request.getCategoryId());
+        stock.setCategoryName(request.getCategoryName());
+        stock.setSubCategoryId(request.getSubCategoryId());
+        stock.setSubCategoryName(request.getSubCategoryName());
+        stock.setProductId(request.getProductId());
+        stock.setProductName(request.getProductName());
+        stock.setVariantLabel(request.getVariant());
+        stock.setQuantity(request.getQuantity());
+
+        return inventoryRepo.save(stock);
+    }
+
+    // ================= REDUCE STOCK =================
+    @Transactional
+    public StockInventory reduceStock(Long productId, String variant, int quantity) {
+
+        String normalizedVariant = variant.trim().toLowerCase();
+
+        StockInventory stock = inventoryRepo
+                .findByProductIdAndVariantLabel(productId, normalizedVariant)
+                .orElseThrow(() -> new RuntimeException("Stock not found"));
+
+        if (stock.getQuantity() < quantity) {
+            throw new RuntimeException("Insufficient stock");
+        }
+
+        stock.setQuantity(stock.getQuantity() - quantity);
+        inventoryRepo.save(stock);
+
+        StockTransaction tx = new StockTransaction();
+        tx.setProductId(productId);
+        tx.setVariantLabel(normalizedVariant);
+        tx.setQuantity(quantity);
+        tx.setTransactionType("REMOVE");
 
         transactionRepo.save(tx);
 
@@ -72,34 +120,6 @@ public class InventoryService {
     // ================= GET BY PRODUCT =================
     public List<StockInventory> getStockByProduct(Long productId) {
         return inventoryRepo.findByProductId(productId);
-    }
-
-    // ================= REDUCE =================
-    @Transactional
-    public StockInventory reduceStock(Long productId, String variant, int qty) {
-
-        String normalizedVariant = variant.trim().toLowerCase();
-
-        StockInventory stock = inventoryRepo
-                .findByProductIdAndVariantLabel(productId, normalizedVariant)
-                .orElseThrow(() -> new RuntimeException("Stock not found"));
-
-        if (stock.getQuantity() < qty) {
-            throw new RuntimeException("Insufficient stock");
-        }
-
-        stock.setQuantity(stock.getQuantity() - qty);
-        inventoryRepo.save(stock);
-
-        StockTransaction tx = new StockTransaction();
-        tx.setProductId(productId);
-        tx.setVariantLabel(normalizedVariant);
-        tx.setQuantity(qty);
-        tx.setTransactionType("REMOVE");
-
-        transactionRepo.save(tx);
-
-        return stock;
     }
 
     // ================= DELETE =================
