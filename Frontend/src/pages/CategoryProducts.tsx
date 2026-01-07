@@ -138,7 +138,7 @@ export default function CategoryProducts() {
 
         <button
   onClick={() => navigate(-1)}
-  className="
+  className=" m-0 mb-8
     inline-flex items-center gap-3
     bg-white px-4 py-2 rounded-full
     shadow-md border border-green-100
@@ -162,6 +162,8 @@ export default function CategoryProducts() {
 
 
         <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8">
+
+      
 
           {/* ================= FILTER PANEL ================= */}
           <aside className="sticky top-24 h-fit bg-white rounded-xl p-5 shadow hidden lg:block">

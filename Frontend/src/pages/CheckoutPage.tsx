@@ -147,6 +147,29 @@ const placeOrder = async () => {
 
   return (
     <div className="min-h-screen bg-[#f6fff4] py-10">
+       <button
+            onClick={() => navigate(-1)}
+            className="mt-6 mb-8 ml-[136px]
+      inline-flex items-center gap-3
+      bg-white px-4 py-2 rounded-full
+      shadow-md border border-green-100
+      text-green-700 font-medium
+      hover:bg-green-50 hover:shadow-lg
+      active:scale-95
+      transition-all duration-200
+      cursor-pointer
+    "
+          >
+            <span className="
+      flex items-center justify-center
+      w-8 h-8 rounded-full
+      bg-green-700 text-white
+      text-lg
+    ">
+              ←
+            </span>
+            Back
+          </button>
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10 px-6">
 
         {/* ================= LEFT ================= */}

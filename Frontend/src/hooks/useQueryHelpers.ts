@@ -26,3 +26,13 @@ export function useProducts() {
    },
   });
 }
+
+export function useOrders() {
+  return useQuery({
+    queryKey: ["orders"],
+    queryFn: async () => {
+      const res = await api.get("/orders");
+      return res.data;
+    },
+  });
+}

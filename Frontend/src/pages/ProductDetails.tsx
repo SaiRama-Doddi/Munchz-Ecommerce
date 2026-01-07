@@ -98,43 +98,39 @@ const { addToCart } = useCart();
     <section>
       <TopHeader/>
       <Header/>
-<button
-  onClick={() => navigate(-1)}
-  className="
-    inline-flex items-center gap-3
-    bg-white px-5 py-2.5
-    rounded-full
-    shadow-md border border-green-200
-    text-green-700 font-medium
-    hover:bg-green-50 hover:shadow-lg
-    active:scale-95
-    transition-all duration-200
-    cursor-pointer
-  "
->
-  <span
-    className="
-      flex items-center justify-center
-      w-8 h-8 rounded-full
-      bg-green-700 text-white
-      text-base
-      leading-none
-    "
-  >
-    ←
-  </span>
-  <span className="text-sm">Back</span>
-</button>
+
 
 
 
     <div className="bg-[#f6fff4] min-h-screen py-12">
 
-
+<button
+            onClick={() => navigate(-1)}
+            className="mt-0 mb-8 ml-[136px]
+      inline-flex items-center gap-3
+      bg-white px-4 py-2 rounded-full
+      shadow-md border border-green-100
+      text-green-700 font-medium
+      hover:bg-green-50 hover:shadow-lg
+      active:scale-95
+      transition-all duration-200
+      cursor-pointer
+    "
+          >
+            <span className="
+      flex items-center justify-center
+      w-8 h-8 rounded-full
+      bg-green-700 text-white
+      text-lg
+    ">
+              ←
+            </span>
+            Back
+          </button>
 
       
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12">
-
+ 
         {/* ================= LEFT IMAGE (AMAZON OVERLAY ZOOM) ================= */}
         <div className="relative">
 

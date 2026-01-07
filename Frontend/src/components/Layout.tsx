@@ -10,28 +10,30 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      
-      {/* Main content area */}
-      <div className="flex flex-1">
-        
-        {/* Sidebar */}
-        <Sidebar />
 
-        {/* Right content */}
-        <div className="flex-1 flex flex-col">
-          
-          {/* Top navbar */}
+      {/* MAIN WRAPPER */}
+      <div className="flex flex-1 overflow-hidden">
+
+        {/* SIDEBAR (FIXED WIDTH, NO SHRINK) */}
+        <div className="w-72 shrink-0">
+          <Sidebar />
+        </div>
+
+        {/* RIGHT CONTENT */}
+        <div className="flex-1 flex flex-col min-w-0">
+
+          {/* TOP NAVBAR */}
           <AdminNavbar />
 
-          {/* Page content */}
-          <main className="flex-1 p-6 overflow-y-auto">
+          {/* PAGE CONTENT */}
+          <main className="flex-1 p-6 overflow-y-auto overflow-x-hidden">
             {children}
           </main>
 
         </div>
       </div>
 
-      {/* Footer */}
+      {/* FOOTER */}
       <Footer />
     </div>
   );

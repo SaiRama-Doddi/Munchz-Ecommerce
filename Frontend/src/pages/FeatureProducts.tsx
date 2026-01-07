@@ -165,9 +165,11 @@ export default function FeaturedProducts() {
                 </div>
 
                 {/* DESCRIPTION */}
-                <p className="text-sm text-gray-600 mt-2 line-clamp-2">
-                  {p.description}
-                </p>
+               <div className="mt-1 h-[40px] overflow-hidden">
+  <p className="text-sm text-gray-600 line-clamp-2">
+    {p.description}
+  </p>
+</div>
 
                 {/* VARIANTS – 3 PER ROW */}
                 <div
