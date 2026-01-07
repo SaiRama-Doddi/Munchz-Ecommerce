@@ -18,9 +18,9 @@ public class AddressService {
     public Address addAddress(UUID userId, CreateAddressRequest req) {
         // If default address requested, unset current default
         if (req.isDefault()) {
-            addressRepository.findByUserIdAndIsDefault(userId, true)
+            addressRepository.findByUserIdAndDefaultAddress(userId, true)
                     .ifPresent(addr -> {
-                        addr.setDefault(false);
+                        addr.setDefaultAddress(false);
                         addressRepository.save(addr);
                     });
         }
@@ -35,7 +35,7 @@ public class AddressService {
         addr.setCountry(req.country());
         addr.setPincode(req.pincode());
         addr.setPhone(req.phone());
-        addr.setDefault(req.isDefault());
+        addr.setDefaultAddress(req.isDefault());
 
         return addressRepository.save(addr);
     }

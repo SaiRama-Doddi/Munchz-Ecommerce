@@ -36,6 +36,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 DecodedJWT jwt = jwtProvider.validate(token);
 
                 UUID userId = UUID.fromString(jwt.getSubject());
+                String email = jwt.getClaim("email").asString();
                 List<String> roles = jwt.getClaim("roles").asList(String.class);
 
                 List<SimpleGrantedAuthority> authorities =
@@ -46,7 +47,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken auth =
                         new UsernamePasswordAuthenticationToken(
                                 userId,
-                                null,
+                                email,
                                 authorities
                         );
 

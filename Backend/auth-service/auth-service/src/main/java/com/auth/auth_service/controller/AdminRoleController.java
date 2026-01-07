@@ -10,6 +10,7 @@ import com.auth.auth_service.entity.UserRole;
 import com.auth.auth_service.service.PermissionService;
 import com.auth.auth_service.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,11 +25,13 @@ public class AdminRoleController {
     @Autowired
     PermissionService permissionService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public Role createRole(@RequestBody CreateRoleRequest req){
         return roleService.createRole(req.name());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/assign-role")
     public String assignRole(@RequestBody AssignRoleRequest req){
         roleService.assignRole(req.userId(),req.roleId(),req.assignedBy());
@@ -40,11 +43,13 @@ public class AdminRoleController {
         return roleService.listRoles();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create-permission")
     public Permission createPermission(@RequestBody CreatePermissionRequest req){
        return permissionService.createPermission(req.name(),req.description());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/assign-permission")
     public String assignPermisson(@RequestBody AssignPermissionRequest req){
         permissionService.assignPermissionToRole(req.roleId(),req.permissionId());

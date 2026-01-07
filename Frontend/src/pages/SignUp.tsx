@@ -1,6 +1,6 @@
-// src/pages/Signup.tsx
 import { useState } from "react";
-import { registerUser } from "../api/api";
+import { registerUser, googleRegister } from "../api/api";
+import { GoogleLogin } from "@react-oauth/google";
 
 export default function Signup() {
   const [firstName, setFirstName] = useState("");
@@ -19,6 +19,7 @@ export default function Signup() {
   const isValidPhone = (phone: string) =>
     /^[6-9]\d{9}$/.test(phone); // Indian mobile numbers
 
+  // ✅ NORMAL SIGNUP
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -61,9 +62,9 @@ export default function Signup() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">
       <div className="bg-white w-full max-w-md rounded-xl shadow-xl px-8 py-10 animate-fade-in-up">
-        
+
         {/* Logo */}
-        <div className="flex flex-col items-center mb-8">
+        <div className="flex flex-col items-center mb-6">
           <img src="/munchz.png" alt="Munchz logo" className="w-24 mb-3" />
           <h2 className="text-xl font-semibold text-gray-800">
             Create Account
@@ -82,9 +83,25 @@ export default function Signup() {
           </p>
         )}
 
-        {/* Form */}
+        {/* 🔹 GOOGLE SIGNUP */}
+        <GoogleLogin
+          onSuccess={async (res) => {
+            try {
+              const apiRes = await googleRegister(res.credential!);
+              localStorage.setItem("token", apiRes.data.token);
+              setSuccess("Registered successfully 🎉");
+            } catch {
+              setError("Google signup failed");
+            }
+          }}
+          onError={() => setError("Google signup failed")}
+        />
+
+        <div className="my-6 text-center text-gray-400 text-sm">OR</div>
+
+        {/* 🔹 NORMAL SIGNUP FORM */}
         <form className="space-y-5" onSubmit={handleSubmit}>
-          
+
           {/* First + Last name */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <input
@@ -92,7 +109,8 @@ export default function Signup() {
               placeholder="First name"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              className="w-full border border-green-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-600"
+              className="w-full border border-green-700 rounded-lg px-4 py-3
+                         focus:outline-none focus:ring-2 focus:ring-green-600"
             />
 
             <input
@@ -100,7 +118,8 @@ export default function Signup() {
               placeholder="Last name"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              className="w-full border border-green-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-600"
+              className="w-full border border-green-700 rounded-lg px-4 py-3
+                         focus:outline-none focus:ring-2 focus:ring-green-600"
             />
           </div>
 
@@ -111,7 +130,8 @@ export default function Signup() {
               placeholder="Email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-green-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-600"
+              className="w-full border border-green-700 rounded-lg px-4 py-3
+                         focus:outline-none focus:ring-2 focus:ring-green-600"
             />
 
             <input
@@ -119,10 +139,11 @@ export default function Signup() {
               placeholder="Mobile number"
               value={phone}
               onChange={(e) =>
-                setPhone(e.target.value.replace(/\D/g, "")) // numbers only
+                setPhone(e.target.value.replace(/\D/g, ""))
               }
               maxLength={10}
-              className="w-full border border-green-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-600"
+              className="w-full border border-green-700 rounded-lg px-4 py-3
+                         focus:outline-none focus:ring-2 focus:ring-green-600"
             />
           </div>
 
@@ -130,7 +151,9 @@ export default function Signup() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-6 bg-green-700 hover:bg-green-800 text-white font-semibold py-3 rounded-lg transition disabled:opacity-60"
+            className="w-full mt-6 bg-green-700 hover:bg-green-800
+                       text-white font-semibold py-3 rounded-lg transition
+                       disabled:opacity-60"
           >
             {loading ? "Signing up..." : "Sign Up"}
           </button>

@@ -9,28 +9,53 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+
 @RestController
 @RequestMapping("/profile")
 public class ProfileController {
 
     @Autowired
-    ProfileService profileService;
+    private ProfileService profileService;
 
     @Autowired
-    JwtUtil jwtUtil;
+    private JwtUtil jwtUtil;
 
-    @PostMapping("/update")
-    public Profile updateProfile(@RequestHeader("Authorization") String token,
-                                 @RequestBody CreateProfileRequest req) {
+    /* ===================== CREATE ===================== */
+    @PostMapping
+    public Profile createProfile(
+            @RequestHeader("Authorization") String token,
+            @RequestBody CreateProfileRequest req
+    ) {
         UUID userId = jwtUtil.extractUserId(token);
         return profileService.createProfile(userId, req);
     }
 
+    /* ===================== GET ===================== */
     @GetMapping
-    public Profile getProfile(@RequestHeader("Authorization") String token) {
+    public Profile getProfile(
+            @RequestHeader("Authorization") String token
+    ) {
         UUID userId = jwtUtil.extractUserId(token);
         return profileService.getProfile(userId);
     }
 
+    /* ===================== PUT ===================== */
+    @PutMapping
+    public Profile putProfile(
+            @RequestHeader("Authorization") String token,
+            @RequestBody CreateProfileRequest req
+    ) {
+        UUID userId = jwtUtil.extractUserId(token);
+        return profileService.putProfile(userId, req);
+    }
 
+    /* ===================== PATCH ===================== */
+    @PatchMapping
+    public Profile patchProfile(
+            @RequestHeader("Authorization") String token,
+            @RequestBody CreateProfileRequest req
+    ) {
+        UUID userId = jwtUtil.extractUserId(token);
+        return profileService.patchProfile(userId, req);
+    }
 }

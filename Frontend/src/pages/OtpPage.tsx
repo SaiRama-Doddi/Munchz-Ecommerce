@@ -85,11 +85,17 @@ const email = location.state?.email;
     // ✅ SAVE BOTH TOKEN + PROFILE
     localStorage.setItem("token", res.data.token);
     localStorage.setItem("profile", JSON.stringify(res.data.profile));
+    localStorage.setItem("roles", JSON.stringify(res.data.roles)); 
+    
+    const roles: string[] = res.data.roles;
 
     alert("Login successful!");
 
-    // ✅ FORCE RELOAD SO AuthContext INITIALIZES
-    window.location.replace("/");
+   if (roles.includes("ADMIN")) {
+      window.location.replace("/admin/dashboard"); //  ADMIN DASHBOARD
+    } else {
+      window.location.replace("/"); //  NORMAL USER
+    }
   } catch {
     alert("Invalid OTP");
   } finally {

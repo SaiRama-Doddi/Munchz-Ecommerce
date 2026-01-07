@@ -24,7 +24,10 @@ public class Address {
     private String country;
     private String pincode;
     private String phone;
-    private boolean isDefault;
+
+    @Column(name = "is_default")
+    private boolean defaultAddress;
+
 
     private Instant createdAt;
     private Instant updatedAt;
