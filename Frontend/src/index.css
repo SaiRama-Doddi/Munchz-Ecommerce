@@ -61,6 +61,8 @@ body {
 
 }
 
+}
+
 /* Hide scrollbar but keep scroll */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -69,7 +71,5 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;  /* IE & Edge */
   scrollbar-width: none;     /* Firefox */
-}
-
 }
 
