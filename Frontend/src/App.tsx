@@ -37,6 +37,9 @@ import AboutMain from "./pages/Aboutmain";
 import AdminCoupons from "./pages/AdminCoupons";
 import AddStockDetails from "./pages/AddStockDetails";
 import StockDetails from "./pages/StockDetails";
+import AddOfflineStock from "./pages/OfflineStockAdd";
+import OfflineInventoryList from "./pages/OfflineInventoryList";
+import AdminCompleteStock from "./pages/AdminCompleteStock";
 
 
 
@@ -206,23 +209,28 @@ export default function App() {
         }
       />
  <Route path="/admin" element={<AdminLayout />}>
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="dashboard" element={ <Dashboard />} />
         <Route path="category" element={<Categories />} />
         <Route path="products" element={<Products />} />
         <Route path="orders" element={<OrdersPage />} />
       </Route>
-<Route path="/addstock" element ={<AddStock />}/>
-<Route path="/inventory" element={<StockList />} />
-<Route path="/StockHistory" element ={<StockHistory productId={0} />}/>
+<Route path="/addstock" element ={<Layout><AddStock /></Layout>}/>
+<Route path="/inventory" element={<Layout><StockList /></Layout>} />
+<Route path="/StockHistory" element ={<Layout><StockHistory productId={0} /></Layout>}/>
 <Route path="/AboutMain" element ={<>
             <TopHeader />
             <Header />
             <AboutMain />
             <Footer />
           </>}/>
-<Route path="/admincoupons" element ={<AdminCoupons />}/>
-<Route path="/adminStockEntry" element ={<AddStockDetails />}/>
-<Route path="/adminStockDetails" element ={<StockDetails />}/>
+<Route path="/admincoupons" element ={<Layout><AdminCoupons /></Layout>}/>
+<Route path="/adminStockEntry" element ={<Layout><AddStockDetails /></Layout>}/>
+<Route path="/adminStockDetails" element ={<Layout><StockDetails /></Layout>} />
+
+
+ <Route path="/offline-inventory" element={<Layout><OfflineInventoryList /></Layout>} />
+  <Route path="/offline-inventorys/add" element={<Layout><AddOfflineStock /></Layout>} />
+  <Route path="/AdminCompleteStock" element={<Layout><AdminCompleteStock /></Layout>} />
 
     </Routes>
 
