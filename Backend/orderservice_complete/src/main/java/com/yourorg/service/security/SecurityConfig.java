@@ -40,6 +40,12 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(auth -> auth
+                        // 🔥 ALLOW INTERNAL PAYMENT SERVICE CALL (NO JWT)
+                        .requestMatchers(
+                                org.springframework.http.HttpMethod.PUT,
+                                "/api/orders/*/payment-success"
+                        ).permitAll()
+
                         .requestMatchers("/api/orders/**").authenticated()
                         .anyRequest().permitAll()
                 )

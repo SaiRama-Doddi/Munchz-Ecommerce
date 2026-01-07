@@ -78,12 +78,19 @@ export const googleLogin = (idToken: string) =>
 
 
 
-export const listAddressesApi = () =>
-  API.get("/auth/address", {
+export const listAddressesApi = () => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return Promise.reject("No token found");
+  }
+
+  return API.get("/auth/address", {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${token}`,
     },
   });
+};
+
 
 export const addAddressApi = (data: any) =>
   API.post("/auth/address", data, {

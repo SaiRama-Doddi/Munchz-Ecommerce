@@ -30,4 +30,7 @@ public class OrderRequest {
     @NotNull(message = "Order items are required")
     @Size(min = 1, message = "Order must contain at least one item")
     private List<OrderItemRequest> items;
+
+
+    private String couponCode;
 }

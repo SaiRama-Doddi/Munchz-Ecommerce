@@ -5,9 +5,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<!-- ===============================
-         Spring Boot Parent
-    =============================== -->
+	<groupId>com.payment</groupId>
+	<artifactId>payment-service</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -15,25 +16,11 @@
 		<relativePath/>
 	</parent>
 
-	<!-- ===============================
-         Project Info
-    =============================== -->
-	<groupId>com.payment</groupId>
-	<artifactId>payment-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>payment-service</name>
-	<description>Payment Service for Munchz using Razorpay</description>
-
-	<!-- ===============================
-         Java Version
-    =============================== -->
 	<properties>
 		<java.version>21</java.version>
 	</properties>
 
-	<!-- ===============================
-         Spring Cloud BOM
-    =============================== -->
+	<!-- SAME Spring Cloud BOM AS OTHER SERVICES -->
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -46,9 +33,6 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<!-- ===============================
-         Dependencies
-    =============================== -->
 	<dependencies>
 
 		<!-- Eureka Client -->
@@ -57,7 +41,7 @@
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
 
-		<!-- OpenFeign (Call Order Service) -->
+		<!-- OpenFeign -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
@@ -85,14 +69,20 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 
-		<!-- Flyway -->
+		<!-- Flyway (DO NOT OVERRIDE VERSION) -->
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
 		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
 
 		<!-- Razorpay SDK -->
 		<dependency>
@@ -101,12 +91,8 @@
 			<version>1.4.4</version>
 		</dependency>
 
-		<!-- JSONB support for PostgreSQL -->
-		<dependency>
-			<groupId>com.vladmihalcea</groupId>
-			<artifactId>hibernate-types-60</artifactId>
-			<version>2.21.1</version>
-		</dependency>
+		<!-- JSONB Support (same Hibernate 6 style you use elsewhere) -->
+
 
 		<!-- Lombok -->
 		<dependency>
@@ -115,7 +101,7 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!-- Actuator (optional but recommended) -->
+		<!-- Actuator -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
@@ -130,32 +116,12 @@
 
 	</dependencies>
 
-	<!-- ===============================
-         Build
-    =============================== -->
 	<build>
 		<plugins>
-
-			<!-- Lombok Annotation Processing -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</path>
-					</annotationProcessorPaths>
-				</configuration>
-			</plugin>
-
-			<!-- Spring Boot Plugin -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-
 		</plugins>
 	</build>
 

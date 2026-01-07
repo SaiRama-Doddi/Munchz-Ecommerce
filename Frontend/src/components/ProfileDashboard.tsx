@@ -59,13 +59,17 @@ export default function ProfileDashboard({ open, onClose }: Props) {
     }
   }, [profile, open]);
 
-  useEffect(() => {
-    if (open) {
-      listAddressesApi()
-        .then(res => setAddresses(res.data))
-        .catch(() => setAddresses([]));
-    }
-  }, [open]);
+useEffect(() => {
+  if (open && profile) {
+    listAddressesApi()
+      .then(res => setAddresses(res.data))
+      .catch(err => {
+        console.error("Address fetch failed", err);
+        setAddresses([]);
+      });
+  }
+}, [open, profile]);
+
 
   if (!open || !profile) return null;
 

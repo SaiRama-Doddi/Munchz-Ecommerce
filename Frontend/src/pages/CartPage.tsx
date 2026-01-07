@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useCart } from "../state/CartContext";
 import { useNavigate } from "react-router-dom";
 import api from "../api/coupon";
+import { useAuth } from "../context/AuthContext";
 
 export default function Cart() {
   const { items, updateQty, changeVariant, removeItem } = useCart();
@@ -13,6 +14,9 @@ export default function Cart() {
   const [loadingCoupon, setLoadingCoupon] = useState(false);
   const [availableCoupons, setAvailableCoupons] = useState<any[]>([]);
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
+
+const { profile } = useAuth();
+const userId = profile?.id;
 
   /* ================= TOTAL CALCULATIONS ================= */
   const totalMrp = items.reduce((sum, item) => {
@@ -26,6 +30,7 @@ export default function Cart() {
   }, 0);
 
   const finalAmount = Math.max(totalPrice - discount, 0);
+  console.log(userId);
 
   /* ================= COUPON EXPIRY CHECK ================= */
   const isCouponExpired = (expiryDate: string) => {
@@ -47,34 +52,44 @@ export default function Cart() {
   }, []);
 
   /* ================= APPLY COUPON ================= */
-  const applyCoupon = async (code: string) => {
-    if (!code || appliedCoupon) return;
+ const applyCoupon = async (code: string) => {
+  if (!code || appliedCoupon) return;
 
-    try {
-      setLoadingCoupon(true);
+  // ✅ IMPORTANT CHECK
+  if (!userId) {
+    setCouponMessage("Please login to apply coupon");
+    return;
+  }
 
-      const res = await api.post("/coupons/apply", {
+  try {
+    setLoadingCoupon(true);
+
+    const res = await api.post(
+      "/coupons/apply",
+      {
         couponCode: code,
         orderAmount: totalPrice,
-      });
-
-      if (isCouponExpired(res.data.expiryDate)) {
-        setCouponMessage("This coupon has expired");
-        return;
+      },
+      {
+        headers: {
+          "X-USER-ID": userId, // ✅ NOW ALWAYS VALID
+        },
       }
+    );
 
-      setDiscount(res.data.appliedDiscount);
-      setAppliedCoupon(code);
-      setCouponMessage(`Coupon "${code}" applied successfully`);
-    } catch (error: any) {
-      setDiscount(0);
-      setCouponMessage(
-        error?.response?.data?.message || "Invalid coupon"
-      );
-    } finally {
-      setLoadingCoupon(false);
-    }
-  };
+    setDiscount(res.data.appliedDiscount);
+    setAppliedCoupon(code);
+    setCouponMessage(`Coupon "${code}" applied successfully`);
+  } catch (error: any) {
+    setDiscount(0);
+    setCouponMessage(
+      error?.response?.data?.message || "Invalid coupon"
+    );
+  } finally {
+    setLoadingCoupon(false);
+  }
+};
+
 
   /* ================= REMOVE COUPON ================= */
   const removeCoupon = () => {
@@ -83,6 +98,15 @@ export default function Cart() {
     setCoupon("");
     setCouponMessage("Coupon removed");
   };
+
+
+
+  useEffect(() => {
+  console.log("Auth profile:", profile);
+  console.log("User ID:", profile?.id);
+}, [profile]);
+
+
 
   return (
     <div className="bg-[#f6fff4] min-h-screen py-12 -mt-10">
@@ -167,6 +191,12 @@ export default function Cart() {
               </div>
             );
           })}
+          {!userId && (
+  <p className="mt-2 text-sm text-red-500">
+    Login required to apply coupons
+  </p>
+)}
+
         </div>
 
         {/* RIGHT SIDE */}
@@ -246,9 +276,15 @@ export default function Cart() {
 
           <button
             onClick={() =>
-              navigate("/checkout", {
-                state: { items, totalAmount: finalAmount },
+            navigate("/checkout", {
+                 state: {
+                    items,
+                   totalAmount: finalAmount,   // ✅ discounted amount
+                   discount,                   // ✅ send discount
+                   appliedCoupon,              // ✅ optional but useful
+                   },
               })
+
             }
             className="mt-6 w-full bg-green-700 text-white py-3 rounded-lg hover:bg-green-800"
           >

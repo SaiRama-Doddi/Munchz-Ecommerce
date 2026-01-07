@@ -4,7 +4,7 @@ interface Profile {
   firstName: string;
   lastName: string;
   id: string;
-  userId: string;
+/*   userId: string;  */
   mobile: string;
   email?: string;
 }

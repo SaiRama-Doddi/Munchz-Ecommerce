@@ -131,4 +131,19 @@ public class OrderController {
 
         return response;
     }
+
+
+
+    /* ===========================
+   PAYMENT SUCCESS (FROM PAYMENT SERVICE)
+=========================== */
+    @PutMapping("/{orderId}/payment-success")
+    public ResponseEntity<Void> markPaymentSuccess(
+            @PathVariable UUID orderId,
+            @RequestParam(required = false) UUID paymentId
+    ) {
+        service.markPaymentSuccess(orderId, paymentId);
+        return ResponseEntity.ok().build();
+    }
+
 }

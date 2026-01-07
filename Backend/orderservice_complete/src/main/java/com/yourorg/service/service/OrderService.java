@@ -1,5 +1,6 @@
 package com.yourorg.service.service;
 
+import com.yourorg.service.client.CouponClient;
 import com.yourorg.service.client.ProductClient;
 import com.yourorg.service.client.UserProfileClient;
 import com.yourorg.service.dto.*;
@@ -25,17 +26,20 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderEventRepository orderEventRepository;
     private final ProductClient productClient;
+    private final CouponClient couponClient;
 
     public OrderService(
             UserProfileClient userProfileClient,
             OrderRepository orderRepository,
             OrderEventRepository orderEventRepository,
-            ProductClient productClient
+            ProductClient productClient,
+            CouponClient couponClient
     ) {
         this.userProfileClient = userProfileClient;
         this.orderRepository = orderRepository;
         this.orderEventRepository = orderEventRepository;
         this.productClient = productClient;
+        this.couponClient=couponClient;
     }
 
     /* ===========================
@@ -81,11 +85,41 @@ public class OrderService {
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         order.setTotalAmount(total);
+        /* ================= APPLY COUPON (ADD HERE) ================= */
+        if (req.getCouponCode() != null && !req.getCouponCode().isBlank()) {
 
-        /* ✅ SAVE + FLUSH */
+            CouponResponse coupon;
+
+            try {
+                coupon = couponClient.applyCoupon(
+                        new ApplyCouponRequest(
+                                req.getCouponCode(),
+                                total.doubleValue()
+                        ),userId
+                );
+            } catch (FeignException.BadRequest ex) {
+                throw new RuntimeException("Invalid coupon");
+            }
+
+            order.setCouponId(coupon.id());
+            order.setCouponCode(coupon.code());
+
+            order.setTotalDiscount(
+                    BigDecimal.valueOf(coupon.appliedDiscount())
+            );
+
+            order.setTotalAmount(
+                    BigDecimal.valueOf(coupon.finalAmount())
+            );
+        }
+
+        /* SAVE + FLUSH */
         OrderEntity saved = orderRepository.saveAndFlush(order);
 
-        /* ✅ SAVE EVENT AFTER ORDER EXISTS */
+
+
+
+        /*  SAVE EVENT AFTER ORDER EXISTS */
         OrderEventEntity event = new OrderEventEntity();
         event.setOrder(saved);
         event.setEventType("ORDER_CREATED");
@@ -184,4 +218,21 @@ public class OrderService {
                 .lineTotal(price.multiply(qty))
                 .build();
     }
+
+    @Transactional
+    public void markPaymentSuccess(UUID orderId, UUID paymentId) {
+
+        OrderEntity order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        order.setOrderStatus("PAID");
+
+        if (paymentId != null) {
+            order.setPaymentId(paymentId);
+        }
+
+        orderRepository.save(order);
+
+    }
+
 }
