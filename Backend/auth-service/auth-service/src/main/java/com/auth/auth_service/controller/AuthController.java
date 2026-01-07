@@ -2,7 +2,6 @@ package com.auth.auth_service.controller;
 
 import com.auth.auth_service.dto.*;
 import com.auth.auth_service.entity.User;
-import com.auth.auth_service.entity.UserOtp;
 import com.auth.auth_service.excepton.ResourceNotFoundException;
 import com.auth.auth_service.feign.UserProfileClient;
 import com.auth.auth_service.repository.UserRepository;
@@ -134,7 +133,8 @@ public class AuthController {
                         profile.getFirstName(),
                         profile.getLastName(),
                         user.getPhone(),   // mobile
-                        user.getEmail()        //  email from auth service
+                        user.getEmail(),        //  email from auth service
+                        user.getId()
                 );
       System.out.println(mergedProfile.mobile());
 
@@ -297,8 +297,8 @@ public class AuthController {
                         profile.getFirstName(),
                         profile.getLastName(),
                         user.getPhone(),
-                        user.getEmail()
-                );
+                        user.getEmail(),
+                        user.getId());
 
         return ResponseEntity.ok(
                 Map.of(

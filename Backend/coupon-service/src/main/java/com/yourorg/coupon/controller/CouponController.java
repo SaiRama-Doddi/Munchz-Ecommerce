@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/coupons")
@@ -35,13 +36,35 @@ public class CouponController {
         return couponService.getAllCoupons();
     }
 
-    @PostMapping("/apply")
+   /* @PostMapping("/apply")
     public CouponResponse apply(@RequestBody ApplyCouponRequest request) {
         return couponService.applyCoupon(
                 request.getCouponCode(),
                 request.getOrderAmount()
         );
+    }*/
+
+    @PostMapping("/apply")
+    public CouponResponse apply(
+            @RequestBody ApplyCouponRequest request,
+            @RequestHeader("X-USER-ID") UUID userId
+    ) {
+        return couponService.applyCoupon(
+                request.getCouponCode(),
+                request.getOrderAmount(),
+                userId
+        );
     }
+
+
+    @PostMapping("/mark-used")
+    public void markCouponUsed(
+            @RequestParam Long couponId,
+            @RequestParam UUID userId
+    ) {
+        couponService.markUsed(couponId, userId);
+    }
+
 
 
 }

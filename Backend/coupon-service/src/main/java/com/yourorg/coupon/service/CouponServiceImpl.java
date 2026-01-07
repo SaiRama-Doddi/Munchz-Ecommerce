@@ -2,18 +2,23 @@ package com.yourorg.coupon.service;
 
 import com.yourorg.coupon.dto.*;
 import com.yourorg.coupon.entity.Coupon;
+import com.yourorg.coupon.entity.CouponUsageEntity;
 import com.yourorg.coupon.repository.CouponRepository;
+import com.yourorg.coupon.repository.CouponUsageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class CouponServiceImpl implements CouponService {
 
     private final CouponRepository repository;
+    private final CouponUsageRepository usageRepository;
 
     @Override
     public CouponResponse createCoupon(CouponRequest request) {
@@ -54,13 +59,28 @@ public class CouponServiceImpl implements CouponService {
                 .toList();
     }
 
+
+
     // ================= APPLY COUPON =================
     @Override
-    public CouponResponse applyCoupon(String couponCode, Double orderAmount) {
+    public CouponResponse applyCoupon(String couponCode, Double orderAmount,UUID userId) {
 
         Coupon coupon = repository
                 .findByCodeIgnoreCaseAndActiveTrue(couponCode)
                 .orElseThrow(() -> new RuntimeException("Invalid coupon code"));
+
+
+        /* ================= REUSE CHECK (ADD HERE) ================= */
+       /* UUID userId = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal() instanceof UUID
+                ? (UUID) SecurityContextHolder.getContext().getAuthentication().getPrincipal()
+                : null;*/
+
+        if (userId != null &&
+                usageRepository.existsByCouponIdAndUserId(coupon.getId(), userId)) {
+            throw new RuntimeException("Coupon already used");
+        }
 
         // ✅ Safe expiry check
         if (coupon.getExpiryDate() != null &&
@@ -107,4 +127,21 @@ public class CouponServiceImpl implements CouponService {
                 null
         );
     }
+
+    @Transactional
+    public void markUsed(Long couponId, UUID userId) {
+
+        if (usageRepository.existsByCouponIdAndUserId(couponId, userId)) {
+            return; // already used
+        }
+
+        CouponUsageEntity usage = new CouponUsageEntity();
+        usage.setCouponId(couponId);
+        usage.setUserId(userId);
+
+        usageRepository.save(usage);
+    }
+
+
+
 }

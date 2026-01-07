@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { confirmLoginOtp, sendResendOtp } from "../api/api";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function OtpPage() {
   const location = useLocation();
@@ -13,6 +15,8 @@ const email = location.state?.email;
   const [resendLoading, setResendLoading] = useState(false);
 
   const inputsRef = useRef<HTMLInputElement[]>([]);
+const { setProfile } = useAuth();
+const navigate = useNavigate();
 
 
 
@@ -71,7 +75,8 @@ const email = location.state?.email;
     }
   };
 
-  const handleVerify = async () => {
+  
+const handleVerify = async () => {
   const enteredOtp = otp.join("");
   if (enteredOtp.length !== 6) {
     alert("Enter full 6-digit OTP");
@@ -82,19 +87,23 @@ const email = location.state?.email;
   try {
     const res = await confirmLoginOtp(email, enteredOtp);
 
-    // ✅ SAVE BOTH TOKEN + PROFILE
-    localStorage.setItem("token", res.data.token);
-    localStorage.setItem("profile", JSON.stringify(res.data.profile));
-    localStorage.setItem("roles", JSON.stringify(res.data.roles)); 
-    
+    const profile = res.data.profile;
     const roles: string[] = res.data.roles;
+
+    // ✅ SAVE TO CONTEXT (THIS WAS MISSING)
+    setProfile(profile);
+
+    // ✅ SAVE TO STORAGE (for refresh)
+    localStorage.setItem("token", res.data.token);
+    localStorage.setItem("profile", JSON.stringify(profile));
+    localStorage.setItem("roles", JSON.stringify(roles));
 
     alert("Login successful!");
 
-   if (roles.includes("ADMIN")) {
-      window.location.replace("/admin/dashboard"); //  ADMIN DASHBOARD
+    if (roles.includes("ADMIN")) {
+      navigate("/admin/dashboard", { replace: true });
     } else {
-      window.location.replace("/"); //  NORMAL USER
+      navigate("/", { replace: true });
     }
   } catch {
     alert("Invalid OTP");

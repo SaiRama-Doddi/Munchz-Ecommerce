@@ -3,6 +3,7 @@ package com.yourorg.coupon.service;
 import com.yourorg.coupon.dto.*;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface CouponService {
 
@@ -15,5 +16,7 @@ public interface CouponService {
     List<CouponResponse> getAllCoupons();
 
     // ✅ FIXED
-    CouponResponse applyCoupon(String couponCode, Double orderAmount);
+    CouponResponse applyCoupon(String couponCode, Double orderAmount,UUID userId);
+
+    void markUsed(Long couponId, UUID userId);
 }

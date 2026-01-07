@@ -4,6 +4,6 @@ public record AuthProfileResponse(
         String firstName,
         String lastName,
         String mobile,
-        String email
-) {}
+        String email,
+        java.util.UUID id) {}
 

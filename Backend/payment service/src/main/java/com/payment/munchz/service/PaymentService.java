@@ -1,6 +1,7 @@
 package com.payment.munchz.service;
 
 
+import com.payment.munchz.client.OrderClient;
 import com.payment.munchz.dto.CreatePaymentRequest;
 import com.payment.munchz.dto.CreatePaymentResponse;
 import com.payment.munchz.dto.VerifyPaymentRequest;
@@ -22,6 +23,7 @@ public class PaymentService {
 
     private final RazorpayClient razorpayClient;
     private final PaymentRepository paymentRepo;
+    private final OrderClient orderClient;
 
     @Value("${razorpay.key}")
     private String razorpayKey;
@@ -64,6 +66,12 @@ public class PaymentService {
         payment.setStatus("SUCCESS");
 
         paymentRepo.save(payment);
+
+// 🔥 Notify Order Service
+        orderClient.markPaymentSuccess(
+                payment.getOrderId(),
+                payment.getId()
+        );
 
         // TODO: Call Order Service → mark order as PAID
     }

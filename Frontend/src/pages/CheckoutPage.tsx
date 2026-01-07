@@ -4,16 +4,20 @@ import orderApi from "../api/orderApi";
 import { listAddressesApi, addAddressApi } from "../api/api";
 import { useAuth } from "../context/AuthContext";
 import type { CartItem, Address } from "../types/checkout";
+import paymentApi from "../api/paymentApi";
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { profile } = useAuth();
   const { state } = useLocation();
 
-  const { items, totalAmount } = state as {
-    items: CartItem[];
-    totalAmount: number;
-  };
+ const { items, totalAmount, discount, appliedCoupon } = state as {
+  items: CartItem[];
+  totalAmount: number;
+  discount: number;
+  appliedCoupon?: string;
+};
+
 
   /* ================= ADDRESSES ================= */
   const [addresses, setAddresses] = useState<Address[]>([]);
@@ -51,37 +55,94 @@ export default function CheckoutPage() {
     setSelectedAddress(res.data.find((a: Address) => a.isDefault));
     setShowNewAddress(false);
   };
+
+
+
+
+  const openRazorpay = (paymentData: any, orderId: string) => {
+  const options = {
+    key: paymentData.key,
+    amount: paymentData.amount,
+    currency: paymentData.currency,
+    name: "Munchz",
+    description: "Order Payment",
+    order_id: paymentData.razorpayOrderId,
+
+    handler: async function (response: any) {
+      try {
+        // 3️⃣ VERIFY PAYMENT (BACKEND)
+        await paymentApi.post("/api/payments/verify", {
+          razorpayOrderId: response.razorpay_order_id,
+          razorpayPaymentId: response.razorpay_payment_id,
+          razorpaySignature: response.razorpay_signature,
+        });
+
+        alert("Payment successful 🎉");
+        navigate("/order-success", { state: { orderId } });
+      } catch (err) {
+        console.error(err);
+        alert("Payment verification failed");
+      }
+    },
+
+    prefill: {
+      name: profile?.firstName + " " + profile?.lastName,
+      email: profile?.email,
+    },
+
+    theme: {
+      color: "#15803d",
+    },
+  };
+
+  const rzp = new (window as any).Razorpay(options);
+  rzp.open();
+};
+
 /* ================= PLACE ORDER ================= */
+
+
+
 const placeOrder = async () => {
   if (!selectedAddress) {
     alert("Please select a shipping address");
     return;
   }
 
-  const payload = {
-    shippingAddress: JSON.stringify(selectedAddress),
-    billingAddress: JSON.stringify(selectedAddress),
-    items: items.map((item) => {
-      const v = item.variants[item.selectedVariantIndex];
-      return {
-        productId: item.productId,
-        variantId: v.id,
-        quantity: item.qty,
-      };
-    }),
-  };
-
-  console.log("ORDER PAYLOAD", payload);
-
   try {
-    const res = await orderApi.post("/api/orders", payload); // JWT goes in header
-    navigate("/", { state: res.data });
-  } catch (err: any) {
-  console.error("ORDER ERROR", err.response?.data || err.message);
-  alert(err.response?.data?.message || "Order failed");
-}
+    // 1️⃣ CREATE ORDER
+    const orderRes = await orderApi.post("/api/orders", {
+      shippingAddress: JSON.stringify(selectedAddress),
+      billingAddress: JSON.stringify(selectedAddress),
+      totalAmount,
+  discount,
+  couponCode: appliedCoupon,
+      items: items.map((item) => {
+        const v = item.variants[item.selectedVariantIndex];
+        return {
+          productId: item.productId,
+          variantId: v.id,
+          quantity: item.qty,
+        };
+      }),
+    });
 
+    const orderId = orderRes.data.orderId;
+
+    // 2️⃣ CREATE PAYMENT (BACKEND)
+    const paymentRes = await paymentApi.post("/api/payments/create", {
+      orderId,
+      amount: totalAmount * 100, // Razorpay needs paise
+      currency: "INR",
+    });
+
+    openRazorpay(paymentRes.data, orderId);
+  } catch (err: any) {
+    console.error(err);
+    alert("Order or payment failed");
+  }
 };
+
 
 
   return (
@@ -197,20 +258,39 @@ const placeOrder = async () => {
         </div>
 
         {/* ================= RIGHT ================= */}
-        <div className="bg-white p-6 rounded-xl shadow h-fit">
-          <h3 className="font-semibold mb-4">Price Summary</h3>
-          <div className="flex justify-between mb-2">
-            <span>Total</span>
-            <span>₹{totalAmount}</span>
-          </div>
-          <hr className="my-4" />
-          <button
-            onClick={placeOrder}
-            className="w-full bg-green-700 text-white py-3 rounded-lg"
-          >
-            Confirm Order
-          </button>
-        </div>
+       <div className="bg-white p-6 rounded-xl shadow h-fit">
+  <h3 className="font-semibold mb-4">Price Summary</h3>
+
+  <div className="flex justify-between mb-2">
+    <span>Subtotal</span>
+    <span>₹{items.reduce((sum, item) => {
+      const v = item.variants[item.selectedVariantIndex];
+      return sum + v.offerPrice * item.qty;
+    }, 0)}</span>
+  </div>
+
+  {discount > 0 && (
+    <div className="flex justify-between mb-2 text-green-700">
+      <span>Discount</span>
+      <span>-₹{discount}</span>
+    </div>
+  )}
+
+  <hr className="my-4" />
+
+  <div className="flex justify-between font-semibold text-lg">
+    <span>Total Payable</span>
+    <span>₹{totalAmount}</span> {/* ✅ FINAL AMOUNT */}
+  </div>
+
+  <button
+    onClick={placeOrder}
+    className="w-full bg-green-700 text-white py-3 rounded-lg mt-4"
+  >
+    Confirm Order
+  </button>
+</div>
+
       </div>
     </div>
   );
