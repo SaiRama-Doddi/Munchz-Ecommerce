@@ -88,15 +88,29 @@ export default function Cart() {
     <div className="bg-[#f6fff4] min-h-screen py-12 -mt-10">
 
       {/* BACK BUTTON */}
-      <button
-        onClick={() => navigate(-1)}
-        className="ml-20 inline-flex items-center gap-3 bg-white px-4 py-2 rounded-full shadow-md border border-green-100 text-green-700 font-medium hover:bg-green-50"
-      >
-        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-green-700 text-white">
-          ←
-        </span>
-        Back
-      </button>
+     <button
+            onClick={() => navigate(-1)}
+            className="mt-10 mb-8 ml-[136px]
+      inline-flex items-center gap-3
+      bg-white px-4 py-2 rounded-full
+      shadow-md border border-green-100
+      text-green-700 font-medium
+      hover:bg-green-50 hover:shadow-lg
+      active:scale-95
+      transition-all duration-200
+      cursor-pointer
+    "
+          >
+            <span className="
+      flex items-center justify-center
+      w-8 h-8 rounded-full
+      bg-green-700 text-white
+      text-lg
+    ">
+              ←
+            </span>
+            Back
+          </button>
 
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-10 mt-2">
 
@@ -173,24 +187,46 @@ export default function Cart() {
         <div className="bg-white p-6 rounded-xl shadow h-fit">
           <h3 className="text-lg font-semibold mb-4">Price details</h3>
 
-          <div className="space-y-3 text-sm">
-            <div className="flex justify-between">
-              <span>Product price</span>
-              <span>₹{totalMrp}</span>
-            </div>
+         <div className="space-y-3 text-sm">
 
-            <div className="flex justify-between text-green-700">
-              <span>Discount</span>
-              <span>-₹{discount}</span>
-            </div>
+  {/* PRODUCT LIST */}
+  {items.map((item, i) => {
+    const v = item.variants[item.selectedVariantIndex];
+    const lineTotal = v.offerPrice * item.qty;
 
-            <hr />
+    return (
+      <div key={i} className="flex justify-between gap-4">
+        <span className="text-gray-700">
+          {item.name} ({item.qty} × ₹{v.offerPrice})
+        </span>
+        <span className="font-medium">₹{lineTotal}</span>
+      </div>
+    );
+  })}
 
-            <div className="flex justify-between font-semibold text-lg">
-              <span>Total amount</span>
-              <span>₹{finalAmount}</span>
-            </div>
-          </div>
+  <hr />
+
+  {/* TOTAL MRP */}
+  <div className="flex justify-between">
+    <span>Total MRP</span>
+    <span>₹{totalMrp}</span>
+  </div>
+
+  {/* DISCOUNT */}
+  <div className="flex justify-between text-green-700">
+    <span>Discount</span>
+    <span>-₹{discount}</span>
+  </div>
+
+  <hr />
+
+  {/* FINAL */}
+  <div className="flex justify-between font-semibold text-lg">
+    <span>Total amount</span>
+    <span>₹{finalAmount}</span>
+  </div>
+</div>
+
 
           {/* COUPONS */}
           <div className="mt-6">
