@@ -144,4 +144,41 @@ public class InventoryService {
     public List<StockTransaction> getStockHistory(Long productId) {
         return transactionRepo.findByProductId(productId);
     }
+
+
+
+    // ================= REDUCE STOCK ON ORDER =================
+    @Transactional
+    public void reduceStockOnOrder(Long productId, String sku, int quantity) {
+
+        String normalizedSku = sku.trim().toLowerCase();
+
+        StockInventory stock = inventoryRepo
+                .findByProductIdAndVariantLabel(productId, normalizedSku)
+                .orElseThrow(() ->
+                        new RuntimeException("Stock not found for SKU: " + sku)
+                );
+
+        if (stock.getQuantity() < quantity) {
+            throw new RuntimeException(
+                    "Insufficient stock for SKU: " + sku +
+                            ", available=" + stock.getQuantity()
+            );
+        }
+
+        // 🔽 Reduce stock
+        stock.setQuantity(stock.getQuantity() - quantity);
+        inventoryRepo.save(stock);
+
+        // 🧾 Transaction log
+        StockTransaction tx = new StockTransaction();
+        tx.setProductId(productId);
+        tx.setProductName(stock.getProductName());
+        tx.setVariantLabel(normalizedSku);
+        tx.setQuantity(quantity);
+        tx.setTransactionType("ORDER_OUT");
+
+        transactionRepo.save(tx);
+    }
+
 }
