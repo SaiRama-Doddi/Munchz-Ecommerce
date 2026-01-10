@@ -1,5 +1,6 @@
 package com.example.inventory.controller;
 
+import com.example.inventory.dto.InventoryReduceRequest;
 import com.example.inventory.dto.StockRequest;
 import com.example.inventory.entity.StockInventory;
 import com.example.inventory.entity.StockTransaction;
@@ -7,6 +8,7 @@ import com.example.inventory.service.InventoryService;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -89,5 +91,19 @@ public class InventoryController {
     ) {
         return inventoryService.updateStock(id, request);
     }
+
+
+    @PostMapping("/order/reduce")
+    public ResponseEntity<Void> reduceStockOnOrder(
+            @RequestBody InventoryReduceRequest request
+    ) {
+        inventoryService.reduceStock(
+                request.getProductId(),
+                request.getVariant(),
+                request.getQuantity()
+        );
+        return ResponseEntity.ok().build();
+    }
+
 
 }
