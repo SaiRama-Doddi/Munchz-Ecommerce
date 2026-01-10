@@ -23,7 +23,12 @@ public class OrderItemEntity {
 
 
     private Long productId;
-    private String skuId;
+    private String skuId;           // internal SKU
+
+
+    @Column(name = "variant_label")
+    private String variantLabel;   //  INVENTORY USES THIS
+
     private String productName;
 
     private BigDecimal unitPrice;

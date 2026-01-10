@@ -1,6 +1,7 @@
 package com.yourorg.service.service;
 
 import com.yourorg.service.client.CouponClient;
+import com.yourorg.service.client.InventoryClient;
 import com.yourorg.service.client.ProductClient;
 import com.yourorg.service.client.UserProfileClient;
 import com.yourorg.service.dto.*;
@@ -27,19 +28,22 @@ public class OrderService {
     private final OrderEventRepository orderEventRepository;
     private final ProductClient productClient;
     private final CouponClient couponClient;
+    private  final InventoryClient inventoryClient;
 
     public OrderService(
             UserProfileClient userProfileClient,
             OrderRepository orderRepository,
             OrderEventRepository orderEventRepository,
             ProductClient productClient,
-            CouponClient couponClient
+            CouponClient couponClient,
+            InventoryClient inventoryClient
     ) {
         this.userProfileClient = userProfileClient;
         this.orderRepository = orderRepository;
         this.orderEventRepository = orderEventRepository;
         this.productClient = productClient;
         this.couponClient=couponClient;
+        this.inventoryClient=inventoryClient;
     }
 
     /* ===========================
@@ -212,6 +216,7 @@ public class OrderService {
                 .order(order)
                 .productId(product.getId())
                 .skuId(variant.getSkuId())
+                .variantLabel(variant.getWeightLabel())
                 .productName(product.getName())
                 .unitPrice(price)
                 .quantity(qty)
@@ -225,10 +230,32 @@ public class OrderService {
         OrderEntity order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
+        // prevent double stock deduction
+        if ("PAID".equals(order.getOrderStatus())) {
+            return;
+        }
         order.setOrderStatus("PAID");
 
         if (paymentId != null) {
             order.setPaymentId(paymentId);
+        }
+
+        // 🔽 CALL INVENTORY SERVICE
+        try {
+            order.getItems().forEach(item -> {
+
+                InventoryReduceRequest req = new InventoryReduceRequest();
+                req.setProductId(item.getProductId());
+                req.setVariant(item.getVariantLabel());     // variant label
+                req.setQuantity(item.getQuantity().intValue());
+
+                inventoryClient.reduceStockOnOrder(req);
+            });
+
+        } catch (FeignException ex) {
+            throw new RuntimeException(
+                    "Inventory update failed. Payment must be reconciled.", ex
+            );
         }
 
         orderRepository.save(order);
