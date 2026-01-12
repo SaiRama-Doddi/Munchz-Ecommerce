@@ -52,4 +52,20 @@ public interface UserProfileClient {
     List<AddressResponse> listAddresses(
             @RequestHeader("Authorization") String token
     );
+
+
+    /* ✅ UPDATE ADDRESS */
+    @PutMapping("/address/update/{addressId}")
+    AddressResponse updateAddress(
+            @RequestHeader("Authorization") String token,
+            @PathVariable("addressId") String addressId,
+            @RequestBody CreateAddressRequest request
+    );
+
+    /* ✅ DELETE ADDRESS */
+    @DeleteMapping("/address/delete/{addressId}")
+    String deleteAddress(
+            @RequestHeader("Authorization") String token,
+            @PathVariable("addressId") String addressId
+    );
 }

@@ -43,4 +43,65 @@ public class AddressService {
     public List<Address> listAddresses(UUID userId) {
         return addressRepository.findByUserId(userId);
     }
+
+
+    /* UPDATE */
+    public Address updateAddress(
+            UUID userId,
+            UUID addressId,
+            CreateAddressRequest req
+    ) {
+        Address existing = addressRepository.findById(addressId)
+                .orElseThrow(() -> new RuntimeException("Address not found"));
+
+        // Ownership check
+        if (!existing.getUserId().equals(userId)) {
+            throw new RuntimeException("Unauthorized");
+        }
+
+        // Handle default address logic
+        if (req.isDefault()) {
+            addressRepository.findByUserIdAndDefaultAddress(userId, true)
+                    .ifPresent(addr -> {
+                        if (!addr.getId().equals(addressId)) {
+                            addr.setDefaultAddress(false);
+                            addressRepository.save(addr);
+                        }
+                    });
+        }
+
+        existing.setLabel(req.label());
+        existing.setAddressLine1(req.addressLine1());
+        existing.setAddressLine2(req.addressLine2());
+        existing.setCity(req.city());
+        existing.setState(req.state());
+        existing.setCountry(req.country());
+        existing.setPincode(req.pincode());
+        existing.setPhone(req.phone());
+
+        existing.setDefaultAddress(req.isDefault());
+        System.out.println("PHONE = " + req.phone());
+
+
+        return addressRepository.save(existing);
+    }
+
+    /* DELETE */
+    public void deleteAddress(UUID userId, UUID addressId) {
+        Address existing = addressRepository.findById(addressId)
+                .orElseThrow(() -> new RuntimeException("Address not found"));
+
+        // Ownership check
+        if (!existing.getUserId().equals(userId)) {
+            throw new RuntimeException("Unauthorized");
+        }
+
+        addressRepository.delete(existing);
+    }
+
+
+
+
+
+
 }

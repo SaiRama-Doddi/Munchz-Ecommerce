@@ -14,7 +14,6 @@ import com.yourorg.service.dto.ProductResponse;
 public interface ProductClient {
 
 
-
     @GetMapping("/api/products/{id}")
     ProductResponse getProductById(@PathVariable("id") Long id);
 

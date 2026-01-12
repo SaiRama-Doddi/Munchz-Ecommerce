@@ -1,4 +1,4 @@
-import { ShoppingCart, User, Search, X } from "lucide-react";
+import { ShoppingCart, User, Search, X, ShoppingBag } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../state/CartContext";
 import { useState } from "react";
@@ -22,8 +22,8 @@ export default function Header() {
 
           {/* Logo */}
           <Link to="/">
-  <img src="/munchz.png" className="h-12 cursor-pointer" />
-</Link>
+            <img src="/munchz.png" className="h-12 cursor-pointer" />
+          </Link>
 
           {/* Menu */}
           <nav className="hidden md:flex gap-8 text-gray-900 text-md">
@@ -35,9 +35,9 @@ export default function Header() {
           </nav>
 
           {/* Right Section */}
-          <div className="flex items-center gap-5 relative">
+          <div className="flex items-center gap-5">
 
-            {/* 🔍 Search */}
+            {/* Search */}
             {!showSearch ? (
               <button onClick={() => setShowSearch(true)}>
                 <Search size={22} />
@@ -45,7 +45,6 @@ export default function Header() {
             ) : (
               <div className="flex items-center gap-2 border rounded-full px-3 py-1 bg-white shadow-sm">
                 <input
-                  type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search products..."
@@ -58,7 +57,14 @@ export default function Header() {
               </div>
             )}
 
-            {/* 🛒 Cart with Count */}
+            {/* Orders Icon */}
+            {profile && (
+              <Link to="/user-orders" title="My Orders">
+                <ShoppingBag size={24} />
+              </Link>
+            )}
+
+            {/* Cart */}
             <Link to="/cart" className="relative">
               <ShoppingCart size={26} />
               {cartCount > 0 && (
@@ -68,7 +74,7 @@ export default function Header() {
               )}
             </Link>
 
-            {/* 👤 Profile / Login */}
+            {/* Profile */}
             {profile ? (
               <span
                 onClick={() => setOpenProfile(true)}
@@ -85,11 +91,7 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Profile Sidebar */}
-      <ProfileDashboard
-        open={openProfile}
-        onClose={() => setOpenProfile(false)}
-      />
+      <ProfileDashboard open={openProfile} onClose={() => setOpenProfile(false)} />
     </>
   );
 }

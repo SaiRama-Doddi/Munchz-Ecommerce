@@ -43,6 +43,7 @@ import OfflineInventoryList from "./pages/OfflineInventoryList";
 import AdminCompleteStock from "./pages/AdminCompleteStock";
 
 import OrderSuccessPage from "./pages/OrderSuccessPage";
+import UserOrders from "./pages/UserOrders";
 
 
 
@@ -250,7 +251,20 @@ export default function App() {
   <Route path="/offline-inventorys/add" element={<Layout><AddOfflineStock /></Layout>} />
   <Route path="/AdminCompleteStock" element={<Layout><AdminCompleteStock /></Layout>} />
 
+<Route path="/user-orders" element={
 
+        <>
+          <TopHeader />
+          <Header />
+
+          <UserOrders/>
+
+          <Footer/>
+        
+        </>
+
+      } />
+ 
     </Routes>
 
   );

@@ -34,5 +34,31 @@ public class AddressController {
         UUID userId = jwtUtil.extractUserId(token);
         return addressService.listAddresses(userId);
     }
+
+
+    /* UPDATE */
+    @PutMapping("/update/{addressId}")
+    public Address update(
+            @RequestHeader("Authorization") String token,
+            @PathVariable UUID addressId,
+            @RequestBody CreateAddressRequest req
+    ) {
+        UUID userId = jwtUtil.extractUserId(token);
+        return addressService.updateAddress(userId, addressId, req);
+    }
+
+    /* DELETE */
+    @DeleteMapping("/delete/{addressId}")
+    public String delete(
+            @RequestHeader("Authorization") String token,
+            @PathVariable UUID addressId
+    ) {
+        UUID userId = jwtUtil.extractUserId(token);
+        addressService.deleteAddress(userId, addressId);
+        return "Address deleted successfully";
+    }
+
+
+
 }
 

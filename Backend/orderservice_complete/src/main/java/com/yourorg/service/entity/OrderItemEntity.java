@@ -43,4 +43,6 @@ public class OrderItemEntity {
     @JoinColumn(name = "order_id", nullable = false)
     @JsonIgnore
     private OrderEntity order;
+
+
 }
