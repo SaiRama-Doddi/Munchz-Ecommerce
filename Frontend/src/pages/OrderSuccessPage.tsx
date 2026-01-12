@@ -41,14 +41,14 @@ export default function OrderSuccessPage() {
         {/* ✅ ACTIONS */}
         <div className="mt-8 flex flex-col gap-3">
           <button
-            onClick={() => navigate("/orders")}
+            onClick={() => navigate("/user-orders")}
             className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium transition"
           >
             View My Orders
           </button>
 
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/productpage")}
             className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-50 transition"
           >
             Continue Shopping

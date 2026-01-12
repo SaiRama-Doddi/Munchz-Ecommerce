@@ -71,9 +71,11 @@ public class OrderController {
     @GetMapping
     public ResponseEntity<Page<OrderResponse>> listOrders(Pageable pageable) {
         return ResponseEntity.ok(
-                service.listOrders(pageable).map(this::toResponse)
+                service.listUserOrders(pageable)
+                        .map(this::toResponse)
         );
     }
+
 
     /* ===========================
        UPDATE ORDER
@@ -124,6 +126,11 @@ public class OrderController {
                             ir.setUnitPrice(item.getUnitPrice());
                             ir.setQuantity(item.getQuantity());
                             ir.setLineTotal(item.getLineTotal());
+
+                            // ✅ IMAGE FROM PRODUCT SERVICE (NOT STORED)
+                            ir.setImageUrl(
+                                    service.resolveProductImage(item.getProductId())
+                            );
                             return ir;
                         })
                         .collect(Collectors.toList())
@@ -145,5 +152,9 @@ public class OrderController {
         service.markPaymentSuccess(orderId, paymentId);
         return ResponseEntity.ok().build();
     }
+
+
+
+
 
 }

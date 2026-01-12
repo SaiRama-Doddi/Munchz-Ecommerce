@@ -8,6 +8,6 @@ public record CreateAddressRequest(
         String state,
         String country,
         String pincode,
-        String mobile,           // optional delivery mobile
+        String phone,           // optional delivery mobile
         boolean isDefault
 ) {}

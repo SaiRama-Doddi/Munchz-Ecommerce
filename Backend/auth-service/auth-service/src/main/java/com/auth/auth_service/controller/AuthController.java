@@ -360,4 +360,21 @@ public class AuthController {
         return userProfileClient.listAddresses(token);
     }
 
+
+    @PutMapping("/address/{addressId}")
+    public AddressResponse update(
+            @RequestHeader("Authorization") String token,
+            @PathVariable String addressId,
+            @RequestBody CreateAddressRequest req
+    ) {
+        return userProfileClient.updateAddress(token, addressId, req);
+    }
+
+    @DeleteMapping("/address/{addressId}")
+    public String delete(
+            @RequestHeader("Authorization") String token,
+            @PathVariable String addressId
+    ) {
+        return userProfileClient.deleteAddress(token, addressId);
+    }
 }

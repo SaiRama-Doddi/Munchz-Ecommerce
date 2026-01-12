@@ -21,11 +21,14 @@ import java.util.UUID;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Autowired
-    JwtProvider jwtProvider;
+    private JwtProvider jwtProvider;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
 
         String header = request.getHeader("Authorization");
 
@@ -36,7 +39,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 DecodedJWT jwt = jwtProvider.validate(token);
 
                 UUID userId = UUID.fromString(jwt.getSubject());
-                String email = jwt.getClaim("email").asString();
                 List<String> roles = jwt.getClaim("roles").asList(String.class);
 
                 List<SimpleGrantedAuthority> authorities =
@@ -44,20 +46,23 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                 .map(r -> new SimpleGrantedAuthority("ROLE_" + r))
                                 .toList();
 
-                UsernamePasswordAuthenticationToken auth =
+                // ✅ credentials MUST be null
+                UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
                                 userId,
-                                email,
+                                null,
                                 authorities
                         );
 
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
 
             } catch (Exception ex) {
-                System.out.println("Invalid JWT: " + ex.getMessage());
+                // ✅ Clear context but DO NOT send 403
+                SecurityContextHolder.clearContext();
             }
         }
 
+        // ✅ ALWAYS continue filter chain
         filterChain.doFilter(request, response);
     }
 }

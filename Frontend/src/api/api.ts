@@ -101,3 +101,35 @@ export const addAddressApi = (data: any) =>
   });
 
 
+  /* ---------- ADDRESS : UPDATE ---------- */
+
+export const updateAddressApi = (addressId: string, data: any) => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return Promise.reject("No token found");
+  }
+
+  return API.put(`/auth/address/${addressId}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+
+/* ---------- ADDRESS : DELETE ---------- */
+
+export const deleteAddressApi = (addressId: string) => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    return Promise.reject("No token found");
+  }
+
+  return API.delete(`/auth/address/${addressId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+

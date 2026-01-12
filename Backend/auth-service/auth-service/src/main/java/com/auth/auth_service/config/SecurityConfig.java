@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
@@ -23,11 +22,29 @@ public class SecurityConfig {
 
         http
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> {}) // ✅ THIS WAS MISSING
+                .cors(cors -> {})
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // ✅ IMPORTANT
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                        // ✅ PUBLIC ENDPOINTS
+                        .requestMatchers(
+                                "/auth/login",
+                                "/auth/register",
+                                "/auth/verify-otp",
+                                "/auth/login-otp",
+                                "/auth/login-otp/confirm",
+                                "/auth/resend-otp",
+                                "/auth/resend-otp/confirm",
+                                "/auth/login/google",
+                                "/auth/register/google"
+                        ).permitAll()
+
+                        // ✅ PROTECTED ADDRESS APIs
+                        .requestMatchers("/auth/address/**").authenticated()
+
+                        // ✅ ADMIN
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess ->

@@ -262,4 +262,41 @@ public class OrderService {
 
     }
 
+
+    @Transactional(readOnly = true)
+    public Page<OrderEntity> listUserOrders(Pageable pageable) {
+
+        UUID userId = (UUID) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        return orderRepository.findOrdersWithItems(userId, pageable);
+    }
+
+
+    @Transactional(readOnly = true)
+    public String resolveProductImage(Long productId) {
+        try {
+            ProductResponse product = productClient.getProductById(productId);
+
+            // Prefer main image
+            if (product.getImageUrl() != null && !product.getImageUrl().isBlank()) {
+                return product.getImageUrl();
+            }
+
+            // Fallback to first imageUrls
+            if (product.getImageUrls() != null && !product.getImageUrls().isEmpty()) {
+                return product.getImageUrls().get(0);
+            }
+
+        } catch (FeignException ex) {
+            // Fail silently → UI will show placeholder
+            return null;
+        }
+        return null;
+    }
+
+
+
 }

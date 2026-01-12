@@ -18,4 +18,5 @@ public class OrderItemResponse {
     private BigDecimal quantity;
 
     private BigDecimal lineTotal;
+    private String imageUrl;
 }

@@ -46,9 +46,9 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 ====================== */
 
 // 🔥 PRODUCT IMAGE FROM PRODUCT ID
-const getProductImageUrl = (productId: string) => {
+/* const getProductImageUrl = (productId: string) => {
   return `${API_BASE_URL}/api/products/${productId}/image`;
-};
+}; */
 
 const statusStyle = (status: string) => {
   switch (status) {
@@ -147,8 +147,6 @@ export default function MyOrders() {
     e.currentTarget.src = FALLBACK_IMAGE;
   }}
 />
-
-
                   <div>
                     <p className="font-semibold text-lg">
                       {item.productName}

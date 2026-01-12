@@ -12,7 +12,7 @@ public record AddressResponse(
         String state,
         String country,
         String pincode,
-        String mobile,        // delivery phone
+        String phone,        // delivery phone
         boolean isDefault,
         Instant createdAt,
         Instant updatedAt
