@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.UUID;
 
-@FeignClient(name = "coupon-service", url = "http://localhost:8060")
+@FeignClient(name = "coupon-service", url = "https://coupon-service-hsun.onrender.com")
 public interface CouponClient {
 
     @PostMapping("/api/coupons/apply")
