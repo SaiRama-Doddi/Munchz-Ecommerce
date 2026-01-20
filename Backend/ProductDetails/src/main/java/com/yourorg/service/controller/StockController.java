@@ -11,7 +11,7 @@ import com.yourorg.service.dto.ReduceStockRequest;
 import com.yourorg.service.service.StockService;
 
 @RestController
-@RequestMapping("/api/stock")
+@RequestMapping("product/api/stock")
 public class StockController {
 
     @Autowired
