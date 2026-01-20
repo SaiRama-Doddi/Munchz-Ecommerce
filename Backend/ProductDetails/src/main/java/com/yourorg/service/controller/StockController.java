@@ -4,14 +4,21 @@ import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.yourorg.service.dto.AddStockRequest;
 import com.yourorg.service.dto.ReduceStockRequest;
 import com.yourorg.service.service.StockService;
 
 @RestController
-@RequestMapping("product/api/stock")
+@RequestMapping("/api/stock")
 public class StockController {
 
     @Autowired
