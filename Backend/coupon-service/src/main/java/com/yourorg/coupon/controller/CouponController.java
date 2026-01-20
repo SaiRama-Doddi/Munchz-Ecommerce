@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/coupons")
+@RequestMapping("/coupon/api/coupons")
 @RequiredArgsConstructor
 public class CouponController {
 
