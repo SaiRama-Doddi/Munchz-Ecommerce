@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const paymentApi = axios.create({
-  baseURL: "http://localhost:9092", // PAYMENT SERVICE
+  baseURL: import.meta.env.VITE_API_BASE_URL||"http://localhost:9092", // PAYMENT SERVICE
   headers: {
     "Content-Type": "application/json",
   },
