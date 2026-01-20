@@ -8,7 +8,7 @@ export function useCategories() {
   return useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
-      const res = await api.get("/categories");
+      const res = await api.get("/product/api/categories");
       return res.data;
     },
   });
@@ -21,7 +21,7 @@ export function useProducts() {
   return useQuery({
     queryKey: ["products"],
     queryFn: async () => {
-      const res = await api.get("/products");
+      const res = await api.get("/product/api/products");
       return res.data;
    },
   });

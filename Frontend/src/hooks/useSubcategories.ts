@@ -10,9 +10,7 @@ export function useSubcategories() {
     queryKey: ["subcategories", categoryId],
     enabled: categoryId !== null,
     queryFn: async () => {
-      const res = await api.get(
-        `/subcategories/by-category/${categoryId}`
-      );
+      const res = await api.get(`/product/api/subcategories/by-category/${categoryId}`);
       return res.data;
     },
   });

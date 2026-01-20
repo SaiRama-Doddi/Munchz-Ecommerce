@@ -30,7 +30,7 @@ function useFeaturedProducts() {
   return useQuery({
     queryKey: ["featured-products"],
     queryFn: async () => {
-      const res = await api.get("/products");
+      const res = await api.get("/product/api/products");
       return res.data as Product[];
     },
   });
