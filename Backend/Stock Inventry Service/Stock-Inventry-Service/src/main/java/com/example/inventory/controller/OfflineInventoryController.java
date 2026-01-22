@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/stock/api/admin/offline-inventory")
+@RequestMapping("/api/admin/offline-inventory")
 public class OfflineInventoryController {
 
     private final OfflineInventoryService service;
