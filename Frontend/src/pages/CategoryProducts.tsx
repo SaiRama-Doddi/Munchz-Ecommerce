@@ -31,7 +31,7 @@ function useCategoryProducts(categoryId: number) {
     queryKey: ["products", categoryId],
     enabled: !!categoryId,
     queryFn: async () => {
-      const res = await api.get(`/products/category/${categoryId}`);
+      const res = await api.get(`/product/api/products/category/${categoryId}`);
       return res.data as Product[];
     },
   });

@@ -20,7 +20,7 @@ function useCategories() {
     return useQuery({
         queryKey: ["categories"],
         queryFn: async () => {
-            const res = await api.get("/categories");
+            const res = await api.get("/product/api/categories");
             return res.data as Category[];
         }
     });
@@ -52,10 +52,10 @@ export default function Categories() {
 
         if (editId) {
             // UPDATE
-            await api.put(`/categories/${editId}`, form);
+            await api.put(`/product/api/categories/${editId}`, form);
         } else {
             // CREATE
-            await api.post("/categories", form);
+            await api.post("/product/api/categories", form);
         }
 
         setForm({ name: "", description: "", thumbnailImage: "" });
@@ -66,7 +66,7 @@ export default function Categories() {
     // DELETE
     const deleteCategory = async (id: number) => {
         if (!window.confirm("Are you sure you want to delete this category?")) return;
-        await api.delete(`/categories/${id}`);
+        await api.delete(`/product/api/categories/${id}`);
         refetch();
     };
 

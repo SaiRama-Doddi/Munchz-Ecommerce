@@ -8,16 +8,16 @@ export default function Subcategories() {
   const [form, setForm] = useState({ name: '', categoryId: '' })
 
   useEffect(() => {
-    api.get('/subcategories').then(r => setList(r.data)).catch(() => {})
+    api.get('/product/api/subcategories').then(r => setList(r.data)).catch(() => {})
   }, [])
 
   const create = async () => {
-    await api.post('/subcategories', {
+    await api.post('/product/api/subcategories', {
       name: form.name,
       categoryId: Number(form.categoryId),
     })
     setForm({ name: '', categoryId: '' })
-    const res = await api.get('/subcategories')
+    const res = await api.get('/product/api/subcategories')
     setList(res.data)
   }
 
