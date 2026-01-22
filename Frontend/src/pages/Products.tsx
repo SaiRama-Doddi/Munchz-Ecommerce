@@ -40,7 +40,7 @@ export default function Products() {
   ===================== */
   const deleteProduct = async (id: number) => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
-    await api.delete(`/products/${id}`);
+    await api.delete(`/product/api/products/${id}`);
     refetch();
   };
 

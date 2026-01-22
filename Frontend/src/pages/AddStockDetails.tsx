@@ -37,7 +37,7 @@ export default function AddStockEntry() {
   /* ================= LOAD MASTER DATA ================= */
 
   useEffect(() => {
-    api.get("/categories").then(res => setCategories(res.data));
+    api.get("/product/api/categories").then(res => setCategories(res.data));
   }, []);
 
   useEffect(() => {

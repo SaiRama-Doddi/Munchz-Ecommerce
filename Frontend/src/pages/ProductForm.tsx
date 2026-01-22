@@ -95,7 +95,7 @@ export default function ProductForm() {
 
     console.log("FINAL PAYLOAD:", payload); // DEBUG
 
-    await api.post("/products", payload);
+    await api.post("/product/api/products", payload);
     alert("Product created successfully");
   };
 

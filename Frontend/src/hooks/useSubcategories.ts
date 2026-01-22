@@ -8,10 +8,13 @@ export function useSubcategories() {
 
   const query = useQuery({
     queryKey: ["subcategories", categoryId],
-    enabled: categoryId !== null,
+    enabled: !!categoryId,
+    staleTime: 5 * 60 * 1000,
     queryFn: async () => {
-      const res = await api.get(`/product/api/subcategories/by-category/${categoryId}`);
-      return res.data;
+      const res = await api.get(
+        `/product/api/subcategories/by-category/${categoryId}`
+      );
+      return res.data?.data ?? res.data;
     },
   });
 
@@ -19,6 +22,6 @@ export function useSubcategories() {
     subcategories: query.data ?? [],
     isLoading: query.isLoading,
     isError: query.isError,
-    fetchSubcats: (id: number) => setCategoryId(id),
+    fetchSubcats: setCategoryId,
   };
 }

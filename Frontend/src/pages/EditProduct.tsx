@@ -37,7 +37,7 @@ export default function EditProduct() {
 
   const loadProduct = async () => {
     try {
-      const res = await api.get(`/products/${id}`);
+      const res = await api.get(`/product/api/products/${id}`);
       const p = res.data || {};
 
       const images =
