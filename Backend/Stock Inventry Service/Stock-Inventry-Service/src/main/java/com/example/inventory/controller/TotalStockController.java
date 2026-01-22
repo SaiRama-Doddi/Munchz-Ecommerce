@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/stock/api/admin/total-stock")
+@RequestMapping("/api/admin/total-stock")
 public class TotalStockController {
 
     private final TotalStockService service;
