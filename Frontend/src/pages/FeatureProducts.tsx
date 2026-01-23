@@ -48,10 +48,7 @@ export default function FeaturedProducts() {
   const { data: products = [], isLoading, isError } =
     useFeaturedProducts();
 
-  /* SLIDER STATE */
   const [page, setPage] = useState(0);
-
-  /* PRODUCT STATE */
   const [qtyMap, setQtyMap] = useState<Record<number, number>>({});
   const [variantMap, setVariantMap] = useState<Record<number, number>>({});
 
@@ -82,13 +79,12 @@ export default function FeaturedProducts() {
     <div className="bg-[#f3fff1] py-14">
       <div className="max-w-7xl mx-auto px-6">
 
-        {/* HEADING */}
         <h2 className="text-3xl font-semibold mb-10 text-center">
           Bestseller Products
         </h2>
 
         {/* PRODUCTS GRID */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {visibleProducts.map((p) => {
             const base100g = p.variants.find(
               (v) => v.weightInGrams === 100
@@ -117,9 +113,8 @@ export default function FeaturedProducts() {
               <div
                 key={p.id}
                 onClick={() => navigate(`/product/${p.id}`)}
-                className="bg-[#eaffea] rounded-xl shadow hover:shadow-lg transition p-4 relative cursor-pointer flex flex-col"
+                className="bg-[#eaffea] rounded-xl shadow hover:shadow-lg transition p-3 sm:p-4 relative cursor-pointer flex flex-col"
               >
-                {/* SAVE BADGE */}
                 {discount > 0 && (
                   <span className="absolute top-3 right-3 bg-green-600 text-white text-xs px-2 py-1 rounded">
                     Save {discount}%
@@ -130,7 +125,7 @@ export default function FeaturedProducts() {
                 <img
                   src={p.imageUrl}
                   alt={p.name}
-                  className="w-full h-44 object-contain mb-4"
+                  className="w-full h-32 sm:h-40 lg:h-44 object-contain mb-3 sm:mb-4"
                 />
 
                 {/* WEIGHT */}
@@ -165,15 +160,15 @@ export default function FeaturedProducts() {
                 </div>
 
                 {/* DESCRIPTION */}
-               <div className="mt-1 h-[40px] overflow-hidden">
-  <p className="text-sm text-gray-600 line-clamp-2">
-    {p.description}
-  </p>
-</div>
+                <div className="mt-1 h-[40px] overflow-hidden">
+                  <p className="text-sm text-gray-600 line-clamp-2">
+                    {p.description}
+                  </p>
+                </div>
 
-                {/* VARIANTS – 3 PER ROW */}
+                {/* VARIANTS — FIXED FOR MOBILE */}
                 <div
-                  className="grid grid-cols-3 gap-2 mt-3"
+                  className="flex flex-wrap gap-2 mt-3"
                   onClick={(e) => e.stopPropagation()}
                 >
                   {sellVariants.map((v, i) => (
@@ -185,7 +180,7 @@ export default function FeaturedProducts() {
                           [p.id]: i,
                         }))
                       }
-                      className={`px-2 py-1 border rounded text-xs ${
+                      className={`px-2 py-1 border rounded text-[10px] sm:text-xs ${
                         selectedVariantIndex === i
                           ? "bg-green-700 text-white"
                           : ""
@@ -203,20 +198,20 @@ export default function FeaturedProducts() {
                 >
                   <button
                     onClick={() => decQty(p.id)}
-                    className="border px-3 rounded"
+                    className="border px-2 sm:px-3 rounded"
                   >
                     −
                   </button>
                   <span>{qty}</span>
                   <button
                     onClick={() => incQty(p.id)}
-                    className="border px-3 rounded"
+                    className="border px-2 sm:px-3 rounded"
                   >
                     +
                   </button>
                 </div>
 
-                {/* ADD TO CART – FIXED BOTTOM */}
+                {/* ADD TO CART */}
                 <div className="mt-auto pt-4">
                   <button
                     onClick={(e) => {
@@ -231,7 +226,7 @@ export default function FeaturedProducts() {
                         qty,
                       });
                     }}
-                    className="w-full bg-green-700 text-white py-2  rounded-lg hover:bg-green-800"
+                    className="w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-800"
                   >
                     Add to cart
                   </button>
@@ -241,7 +236,7 @@ export default function FeaturedProducts() {
           })}
         </div>
 
-        {/* BOTTOM CENTER ARROWS */}
+        {/* ARROWS */}
         <div className="flex justify-center items-center gap-6 mt-10">
           <button
             onClick={() => setPage((p) => Math.max(0, p - 1))}

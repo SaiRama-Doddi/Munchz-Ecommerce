@@ -44,7 +44,7 @@
     return useQuery({
       queryKey: ["all-products"],
       queryFn: async () => {
-        const res = await api.get("/products");
+        const res = await api.get("/product/api//products");
         return res.data as Product[];
       },
     });
@@ -303,12 +303,14 @@ const discount =
                     <div
                       key={p.id}
                       onClick={() => navigate(`/product/${p.id}`)}
-                      className="bg-[#eaffea] rounded-xl shadow hover:shadow-lg transition p-4 relative cursor-pointer flex flex-col"
+                     className="bg-[#eaffea] rounded-xl shadow hover:shadow-lg transition p-3 sm:p-4 relative cursor-pointer flex flex-col"
+
                     >
                       <img
                         src={p.imageUrl}
                         alt={p.name}
-                        className="w-full h-40 object-contain mb-3"
+                       className="w-full h-32 sm:h-36 lg:h-40 object-contain mb-3"
+
                       />
 
                       <span className="inline-block bg-green-700 text-white text-xs px-2 py-1 rounded mb-2 w-fit">
@@ -355,9 +357,10 @@ const discount =
 
                       {/* VARIANTS */}
                       <div
-                        className="grid grid-cols-3 gap-2 mt-3"
-                        onClick={(e) => e.stopPropagation()}
-                      >
+  className="flex flex-wrap gap-2 mt-3"
+  onClick={(e) => e.stopPropagation()}
+>
+
                         {sellVariants.map((v, i) => (
                           <button
                             key={i}
@@ -367,7 +370,7 @@ const discount =
                                 [p.id]: i,
                               }))
                             }
-                            className={`px-2 py-1 border rounded text-xs ${selectedVariantIndex === i
+                         className={`px-2 py-1 border rounded text-[10px] sm:text-xs ${selectedVariantIndex === i
                                 ? "bg-green-700 text-white"
                                 : ""
                               }`}
@@ -382,11 +385,12 @@ const discount =
                         className="flex items-center gap-3 mt-3"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <button onClick={() => decQty(p.id)} className="border px-3 rounded">
+                        <button onClick={() => decQty(p.id)} className="border px-2 sm:px-3 rounded">
                           −
                         </button>
                         <span>{qty}</span>
-                        <button onClick={() => incQty(p.id)} className="border px-3 rounded">
+                        <button onClick={() => incQty(p.id)} className="border px-2 sm:px-3 rounded"
+>
                           +
                         </button>
                       </div>
