@@ -134,87 +134,142 @@ export default function AddStockEntry() {
     }
   };
 
-  return (
-    <div className="max-w-5xl mx-auto p-6 bg-white rounded-xl shadow mt-8">
+ return (
+  <div className="max-w-6xl mx-auto mt-10 bg-white rounded-2xl shadow-md px-10 py-8">
 
-      <h2 className="text-2xl font-semibold mb-6 border-b pb-3">
-        {isEdit ? "Update Stock Entry" : "Add Stock Entry"}
-      </h2>
+    <h2 className="text-2xl font-semibold mb-8 border-b pb-4">
+      {isEdit ? "Update Stock Entry" : "Add Stock Entry"}
+    </h2>
 
-      <form onSubmit={submit} className="space-y-6">
+    <form onSubmit={submit} className="space-y-10">
 
-        {/* Category */}
-        <select className="input" value={form.categoryId}
+      {/* ROW 1 */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <select
+          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600"
+          value={form.categoryId}
           onChange={(e) => {
             const sel = categories.find(c => c.id === Number(e.target.value));
             setSelectedCategory(sel);
             setForm({ ...form, categoryId: e.target.value, subCategoryId: "", productId: "" });
-          }}>
+          }}
+        >
           <option value="">Select Category</option>
-          {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+          {categories.map(c => (
+            <option key={c.id} value={c.id}>{c.name}</option>
+          ))}
         </select>
 
-        {/* Subcategory */}
-        <select className="input" value={form.subCategoryId}
+        <select
+          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600"
+          value={form.subCategoryId}
           onChange={(e) => {
             const sel = subcategories.find(s => s.id === Number(e.target.value));
             setSelectedSubCategory(sel);
             setForm({ ...form, subCategoryId: e.target.value, productId: "" });
-          }}>
+          }}
+        >
           <option value="">Select Subcategory</option>
-          {subcategories.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+          {subcategories.map(s => (
+            <option key={s.id} value={s.id}>{s.name}</option>
+          ))}
         </select>
 
-        {/* Product */}
-        <select className="input" value={form.productId}
+        <select
+          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600"
+          value={form.productId}
           onChange={(e) => {
             const sel = products.find(p => p.id === Number(e.target.value));
             setSelectedProduct(sel);
             setForm({ ...form, productId: e.target.value });
-          }}>
+          }}
+        >
           <option value="">Select Product</option>
-          {products.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+          {products.map(p => (
+            <option key={p.id} value={p.id}>{p.name}</option>
+          ))}
         </select>
+      </div>
 
-        <input className="input" placeholder="Supplier Name"
+      {/* ROW 2 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <input
+          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600 placeholder-gray-400"
+          placeholder="Supplier Name"
           value={form.supplierName}
-          onChange={e => setForm({ ...form, supplierName: e.target.value })} />
-
-        <input className="input" placeholder="Supplier GST"
-          value={form.supplierGst}
-          onChange={e => setForm({ ...form, supplierGst: e.target.value })} />
-
-        <input className="input" type="number" placeholder="Quantity"
-          value={form.quantity}
-          onChange={e => setForm({ ...form, quantity: e.target.value })} />
-
-        <input className="input" type="number" placeholder="Purchase Price"
-          value={form.purchasePrice}
-          onChange={e => setForm({ ...form, purchasePrice: e.target.value })} />
-
-        <input className="input" type="number" placeholder="Selling Price"
-          value={form.sellingPrice}
-          onChange={e => setForm({ ...form, sellingPrice: e.target.value })} />
-
-        <input className="input" type="date"
-          value={form.stockInDate}
-          onChange={e => setForm({ ...form, stockInDate: e.target.value })} />
-
-        <input className="input" type="date"
-          value={form.expiryDate}
-          onChange={e => setForm({ ...form, expiryDate: e.target.value })} />
-
-        <textarea
-          className="input"
-          placeholder="Remarks"
-          value={form.remarks}
-          onChange={e => setForm({ ...form, remarks: e.target.value })}
+          onChange={e => setForm({ ...form, supplierName: e.target.value })}
         />
 
-        <button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded">
-          {isEdit ? "Update Stock" : "Save Stock"}
-        </button>
-      </form>
-    </div>
-  );
+        <input
+          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600 placeholder-gray-400"
+          placeholder="Supplier GST"
+          value={form.supplierGst}
+          onChange={e => setForm({ ...form, supplierGst: e.target.value })}
+        />
+      </div>
+
+      {/* ROW 3 */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <input
+          type="number"
+          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600 placeholder-gray-400"
+          placeholder="Quantity"
+          value={form.quantity}
+          onChange={e => setForm({ ...form, quantity: e.target.value })}
+        />
+
+        <input
+          type="number"
+          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600 placeholder-gray-400"
+          placeholder="Purchase Price"
+          value={form.purchasePrice}
+          onChange={e => setForm({ ...form, purchasePrice: e.target.value })}
+        />
+
+        <input
+          type="number"
+          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600 placeholder-gray-400"
+          placeholder="Selling Price"
+          value={form.sellingPrice}
+          onChange={e => setForm({ ...form, sellingPrice: e.target.value })}
+        />
+      </div>
+
+      {/* ROW 4 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <input
+          type="date"
+          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600"
+          value={form.stockInDate}
+          onChange={e => setForm({ ...form, stockInDate: e.target.value })}
+        />
+
+        <input
+          type="date"
+          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600"
+          value={form.expiryDate}
+          onChange={e => setForm({ ...form, expiryDate: e.target.value })}
+        />
+      </div>
+
+      {/* REMARKS */}
+      <textarea
+        className="w-full border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600 placeholder-gray-400 resize-none"
+        placeholder="Remarks"
+        value={form.remarks}
+        onChange={e => setForm({ ...form, remarks: e.target.value })}
+      />
+
+      {/* BUTTON */}
+      <button
+        type="submit"
+        className="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-lg font-semibold transition"
+      >
+        {isEdit ? "Update Stock" : "Save Stock"}
+      </button>
+
+    </form>
+  </div>
+);
+
 }
