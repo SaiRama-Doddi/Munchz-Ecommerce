@@ -1,4 +1,12 @@
-import { ShoppingCart, User, Search, X, ShoppingBag } from "lucide-react";
+import {
+  ShoppingCart,
+  User,
+  Search,
+  X,
+  ShoppingBag,
+  Menu,
+  Home,
+} from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../state/CartContext";
 import { useState } from "react";
@@ -14,18 +22,28 @@ export default function Header() {
   const [openProfile, setOpenProfile] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [mobileMenu, setMobileMenu] = useState(false);
 
   return (
     <>
+      {/* HEADER */}
       <header className="w-full bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
 
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden"
+            onClick={() => setMobileMenu(true)}
+          >
+            <Menu size={26} />
+          </button>
+
           {/* Logo */}
           <Link to="/">
-            <img src="/munchz.png" className="h-12 cursor-pointer" />
+            <img src="/munchz.png" className="h-10 md:h-12 cursor-pointer" />
           </Link>
 
-          {/* Menu */}
+          {/* Desktop Menu */}
           <nav className="hidden md:flex gap-8 text-gray-900 text-md">
             <Link to="/">Home</Link>
             <Link to="/productpage">Shop</Link>
@@ -48,7 +66,7 @@ export default function Header() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search products..."
-                  className="outline-none text-sm w-40"
+                  className="outline-none text-sm w-32 md:w-40"
                   autoFocus
                 />
                 <button onClick={() => setShowSearch(false)}>
@@ -78,12 +96,12 @@ export default function Header() {
             {profile ? (
               <span
                 onClick={() => setOpenProfile(true)}
-                className="cursor-pointer font-medium"
+                className="cursor-pointer font-medium hidden md:block"
               >
                 Hi, {profile.firstName}
               </span>
             ) : (
-              <Link to="/login">
+              <Link to="/login" className="hidden md:block">
                 <User />
               </Link>
             )}
@@ -91,7 +109,80 @@ export default function Header() {
         </div>
       </header>
 
-      <ProfileDashboard open={openProfile} onClose={() => setOpenProfile(false)} />
+      {/* MOBILE SIDE MENU */}
+      {mobileMenu && (
+        <div className="fixed inset-0 bg-black/40 z-50">
+          <div className="w-64 bg-white h-full p-6 shadow-lg">
+            <div className="flex justify-end">
+              <button onClick={() => setMobileMenu(false)}>
+                <X />
+              </button>
+            </div>
+
+            <nav className="flex flex-col gap-6 mt-6 text-lg">
+              <Link to="/" onClick={() => setMobileMenu(false)}>Home</Link>
+              <Link to="/productpage" onClick={() => setMobileMenu(false)}>Shop</Link>
+              <Link to="/Aboutmain" onClick={() => setMobileMenu(false)}>About</Link>
+              <Link to="/track" onClick={() => setMobileMenu(false)}>Track</Link>
+              <Link to="/contact" onClick={() => setMobileMenu(false)}>Contact</Link>
+            </nav>
+          </div>
+        </div>
+      )}
+
+      {/* MOBILE BOTTOM ICON BAR */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white shadow-inner border-t md:hidden z-50">
+        <div className="flex justify-around items-center py-2">
+
+          <Link to="/" className="flex flex-col items-center text-xs">
+            <Home size={22} />
+            Home
+          </Link>
+
+          <Link to="/productpage" className="flex flex-col items-center text-xs">
+            <ShoppingBag size={22} />
+            Shop
+          </Link>
+
+          <button
+            onClick={() => setShowSearch(true)}
+            className="flex flex-col items-center text-xs"
+          >
+            <Search size={22} />
+            Search
+          </button>
+
+          <Link to="/cart" className="relative flex flex-col items-center text-xs">
+            <ShoppingCart size={22} />
+            Cart
+            {cartCount > 0 && (
+              <span className="absolute top-0 right-2 bg-red-500 text-white text-[10px] rounded-full px-1">
+                {cartCount}
+              </span>
+            )}
+          </Link>
+
+          {profile ? (
+            <button
+              onClick={() => setOpenProfile(true)}
+              className="flex flex-col items-center text-xs"
+            >
+              <User size={22} />
+              Profile
+            </button>
+          ) : (
+            <Link to="/login" className="flex flex-col items-center text-xs">
+              <User size={22} />
+              Login
+            </Link>
+          )}
+        </div>
+      </div>
+
+      <ProfileDashboard
+        open={openProfile}
+        onClose={() => setOpenProfile(false)}
+      />
     </>
   );
 }

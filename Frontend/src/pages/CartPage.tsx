@@ -109,34 +109,28 @@ const userId = profile?.id;
 
 
   return (
-    <div className="bg-[#f6fff4] min-h-screen py-12 -mt-10">
+    <div className="bg-[#f6fff4] min-h-screen py-8 sm:py-12">
+
 
       {/* BACK BUTTON */}
-     <button
-            onClick={() => navigate(-1)}
-            className="mt-10 mb-8 ml-[136px]
-      inline-flex items-center gap-3
-      bg-white px-4 py-2 rounded-full
-      shadow-md border border-green-100
-      text-green-700 font-medium
-      hover:bg-green-50 hover:shadow-lg
-      active:scale-95
-      transition-all duration-200
-      cursor-pointer
-    "
-          >
-            <span className="
-      flex items-center justify-center
-      w-8 h-8 rounded-full
-      bg-green-700 text-white
-      text-lg
-    ">
-              ←
-            </span>
-            Back
-          </button>
+   <div className="max-w-7xl mx-auto px-4 sm:px-6">
+  <button
+    onClick={() => navigate(-1)}
+    className="mt-6 mb-6 inline-flex items-center gap-3
+    bg-white px-4 py-2 rounded-full shadow-md border border-green-100
+    text-green-700 font-medium hover:bg-green-50 hover:shadow-lg
+    active:scale-95 transition-all duration-200"
+  >
+    <span className="w-8 h-8 flex items-center justify-center rounded-full bg-green-700 text-white">
+      ←
+    </span>
+    Back
+  </button>
+</div>
 
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-10 mt-2">
+
+     <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10">
+
 
         {/* LEFT SIDE */}
         <div className="lg:col-span-2 space-y-6">
@@ -146,9 +140,14 @@ const userId = profile?.id;
             const v = item.variants[item.selectedVariantIndex];
 
             return (
-              <div key={i} className="bg-[#eaffea] p-6 rounded-xl relative">
-                <div className="flex gap-6">
-                  <img src={item.imageUrl} className="w-24 h-24 object-contain" />
+             <div key={i} className="bg-[#eaffea] p-4 sm:p-6 rounded-xl relative shadow-sm">
+  <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+
+<img
+  src={item.imageUrl}
+  className="w-20 h-20 sm:w-24 sm:h-24 object-contain mx-auto sm:mx-0"
+/>
+
 
                   <div className="flex-1">
                     <h3 className="font-semibold text-lg">{item.name}</h3>
@@ -162,7 +161,8 @@ const userId = profile?.id;
                       </span>
                     </div>
 
-                    <div className="mt-4 flex gap-3 flex-wrap">
+                   <div className="mt-4 flex gap-2 sm:gap-3 flex-wrap">
+
                       {item.variants.map((variant, idx) => (
                         <button
                           key={idx}
@@ -181,14 +181,16 @@ const userId = profile?.id;
                     <div className="mt-4 flex items-center gap-4">
                       <button
                         onClick={() => updateQty(i, item.qty - 1)}
-                        className="border px-3 rounded"
+                        className="border px-2 sm:px-3 py-1 rounded"
+
                       >
                         −
                       </button>
                       <span>{item.qty}</span>
                       <button
                         onClick={() => updateQty(i, item.qty + 1)}
-                        className="border px-3 rounded"
+                        className="border px-2 sm:px-3 py-1 rounded"
+
                       >
                         +
                       </button>
@@ -198,7 +200,8 @@ const userId = profile?.id;
 
                 <button
                   onClick={() => removeItem(i)}
-                  className="absolute top-4 right-4 text-red-600"
+                 className="absolute top-3 right-3 text-red-600 text-sm"
+
                 >
                   Remove
                 </button>
@@ -214,7 +217,8 @@ const userId = profile?.id;
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="bg-white p-6 rounded-xl shadow h-fit">
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow h-fit sticky top-24">
+
           <h3 className="text-lg font-semibold mb-4">Price details</h3>
 
          <div className="space-y-3 text-sm">
@@ -270,7 +274,8 @@ const userId = profile?.id;
                   totalPrice >= (c.minAmount || 0)
               )
               .map(c => (
-                <div key={c.id} className="border p-2 rounded mb-2">
+               <div key={c.id} className="border p-3 rounded mb-3 bg-green-50">
+
                   <div className="flex justify-between items-center">
                     <div>
                       <p className="font-semibold">{c.code}</p>
@@ -322,7 +327,8 @@ const userId = profile?.id;
               })
 
             }
-            className="mt-6 w-full bg-green-700 text-white py-3 rounded-lg hover:bg-green-800"
+className="mt-6 w-full bg-green-700 text-white py-3 rounded-lg hover:bg-green-800 shadow-md hover:shadow-lg transition"
+
           >
             Place order
           </button>
