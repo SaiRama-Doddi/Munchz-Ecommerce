@@ -24,7 +24,7 @@ export default function AdminCoupons() {
 
   /* ================= FETCH COUPONS ================= */
   const fetchCoupons = async () => {
-    const res = await api.get("/coupons");
+    const res = await api.get("/coupon/api/coupons");
     setCoupons(res.data);
   };
 
@@ -48,9 +48,9 @@ export default function AdminCoupons() {
     };
 
     if (editingId) {
-      await api.put(`/coupons/${editingId}`, payload);
+      await api.put(`/coupon/api/coupons/${editingId}`, payload);
     } else {
-      await api.post("/coupons", payload);
+      await api.post("/coupon/api/coupons", payload);
     }
 
     resetForm();
@@ -72,7 +72,7 @@ export default function AdminCoupons() {
   /* ================= DELETE ================= */
   const handleDelete = async (id: number) => {
     if (!window.confirm("Delete this coupon?")) return;
-    await api.delete(`/coupons/${id}`);
+    await api.delete(`/coupon/api/coupons/${id}`);
     fetchCoupons();
   };
 

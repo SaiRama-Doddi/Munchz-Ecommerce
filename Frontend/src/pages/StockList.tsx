@@ -7,7 +7,7 @@ export default function StockList() {
   const navigate = useNavigate();
 
   const fetchStock = async () => {
-    const res = await inventoryApi.get("/inventory");
+    const res = await inventoryApi.get("/stock/api/inventory");
     setStocks(res.data);
   };
 
@@ -17,7 +17,7 @@ export default function StockList() {
 
   const deleteStock = async (id: number) => {
     if (!window.confirm("Delete this stock?")) return;
-    await inventoryApi.delete(`/inventory/${id}`);
+    await inventoryApi.delete(`/stock/api/inventory/${id}`);
     fetchStock();
   };
 

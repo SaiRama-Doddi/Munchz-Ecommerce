@@ -5,7 +5,7 @@ export default function StockHistory({ productId }: { productId: number }) {
   const [history, setHistory] = useState<any[]>([]);
 
   useEffect(() => {
-    inventoryApi.get(`/inventory/history/${productId}`)
+    inventoryApi.get(`/stock/api/inventory/history/${productId}`)
       .then(res => setHistory(res.data));
   }, [productId]);
 

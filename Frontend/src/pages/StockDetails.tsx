@@ -7,7 +7,7 @@ export default function AdminStockDetails() {
   const navigate = useNavigate();
 
   const loadData = async () => {
-    const res = await inventoryApi.get("/inventory/entries");
+    const res = await inventoryApi.get("/stock/api/inventory/entries");
     setStocks(res.data);
   };
 
@@ -17,7 +17,7 @@ export default function AdminStockDetails() {
 
   const deleteStock = async (id: number) => {
     if (!window.confirm("Are you sure you want to delete this stock?")) return;
-    await inventoryApi.delete(`/inventory/entries/${id}`);
+    await inventoryApi.delete(`/stock/api/inventory/entries/${id}`);
     loadData();
   };
 

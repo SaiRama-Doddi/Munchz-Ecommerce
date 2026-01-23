@@ -42,14 +42,14 @@ export default function AddStockEntry() {
 
   useEffect(() => {
     if (!form.categoryId) return;
-    api.get(`/subcategories/by-category/${form.categoryId}`)
+    api.get(`/product/api/subcategories/by-category/${form.categoryId}`)
       .then(res => setSubcategories(res.data));
   }, [form.categoryId]);
 
   useEffect(() => {
     if (!form.categoryId) return;
-    let url = `/products/category/${form.categoryId}`;
-    if (form.subCategoryId) url += `/subcategory/${form.subCategoryId}`;
+    let url = `/product/api/products/category/${form.categoryId}`;
+    if (form.subCategoryId) url += `/product/api/subcategory/${form.subCategoryId}`;
     api.get(url).then(res => setProducts(res.data));
   }, [form.categoryId, form.subCategoryId]);
 
@@ -121,10 +121,10 @@ export default function AddStockEntry() {
 
     try {
       if (isEdit) {
-        await inventoryApi.put(`/inventory/entries/${editData.id}`, payload);
+        await inventoryApi.put(`/stock/api/inventory/entries/${editData.id}`, payload);
         alert("Stock updated successfully");
       } else {
-        await inventoryApi.post("/inventory/entries", payload);
+        await inventoryApi.post("/stock/api/inventory/entries", payload);
         alert("Stock added successfully");
       }
 
