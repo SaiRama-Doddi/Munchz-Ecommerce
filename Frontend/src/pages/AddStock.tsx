@@ -64,7 +64,7 @@ export default function AddStock() {
   useEffect(() => {
     if (!form.categoryId) return;
 
-    api.get(`/subcategories/by-category/${form.categoryId}`)
+    api.get(`/product/api/subcategories/by-category/${form.categoryId}`)
       .then(res => setSubcategories(res.data));
   }, [form.categoryId]);
 
@@ -72,8 +72,8 @@ export default function AddStock() {
   useEffect(() => {
     if (!form.categoryId) return;
 
-    let url = `/products/category/${form.categoryId}`;
-    if (form.subCategoryId) url += `/subcategory/${form.subCategoryId}`;
+    let url = `/product/api/products/category/${form.categoryId}`;
+    if (form.subCategoryId) url += `/product/api/subcategory/${form.subCategoryId}`;
 
     api.get(url).then(res => setProducts(res.data));
   }, [form.categoryId, form.subCategoryId]);
@@ -82,7 +82,7 @@ export default function AddStock() {
   useEffect(() => {
     if (!form.productId) return;
 
-    api.get(`/products/${form.productId}`)
+    api.get(`/product/api/products/${form.productId}`)
       .then(res => setVariants(res.data?.variants || []));
   }, [form.productId]);
 
@@ -108,9 +108,9 @@ export default function AddStock() {
 
     try {
       if (isEdit) {
-        await inventoryApi.put(`/inventory/${editStock.id}`, payload);
+        await inventoryApi.put(`/stock/api/inventory/${editStock.id}`, payload);
       } else {
-        await inventoryApi.post("/inventory/add", payload);
+        await inventoryApi.post("/stock/api/inventory", payload);
       }
 
       navigate("/inventory");

@@ -29,7 +29,7 @@ export default function AddOfflineStock() {
 
   /* ================= LOAD CATEGORIES ================= */
   useEffect(() => {
-    api.get("/categories").then(res => setCategories(res.data));
+    api.get("/product/api/categories").then(res => setCategories(res.data));
   }, []);
 
   /* ================= PREFILL (EDIT MODE) ================= */
@@ -109,12 +109,12 @@ export default function AddOfflineStock() {
     try {
       if (isEdit) {
         await offlineInventoryApi.put(
-          `offline-inventory/${editStock.id}`,
+          `/stock/api/admin/offline-inventory/${editStock.id}`,
           payload
         );
       } else {
         await offlineInventoryApi.post(
-          "/offline-inventory",
+          "/stock/api/admin/offline-inventory",
           payload
         );
       }

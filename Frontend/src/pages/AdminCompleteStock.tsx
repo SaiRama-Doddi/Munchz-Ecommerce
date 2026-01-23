@@ -20,8 +20,8 @@ export default function AdminCompleteStock() {
 
     try {
       const [onlineRes, offlineRes] = await Promise.all([
-        inventoryApi.get("/inventory"),
-        offlineInventoryApi.get("/offline-inventory"),
+        inventoryApi.get("/stock/api/inventory"),
+        offlineInventoryApi.get("/stock/api/admin/offline-inventory"),
       ]);
 
       const online = onlineRes.data;

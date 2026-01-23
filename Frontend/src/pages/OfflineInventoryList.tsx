@@ -11,7 +11,7 @@ export default function OfflineInventoryList() {
   const loadStocks = async () => {
     setLoading(true);
     try {
-      const res = await offlineInventoryApi.get("/offline-inventory");
+      const res = await offlineInventoryApi.get("/stock/api/admin/offline-inventory");
       setStocks(res.data);
     } catch (err) {
       console.error(err);
@@ -30,7 +30,7 @@ export default function OfflineInventoryList() {
     if (!window.confirm("Are you sure you want to delete this stock?")) return;
 
     try {
-      await offlineInventoryApi.delete(`/offline-inventory/${id}`);
+      await offlineInventoryApi.delete(`/stock/api/admin/offline-inventory/${id}`);
       loadStocks();
     } catch (err) {
       console.error(err);

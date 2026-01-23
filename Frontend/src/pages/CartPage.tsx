@@ -41,7 +41,7 @@ const userId = profile?.id;
   useEffect(() => {
     const fetchCoupons = async () => {
       try {
-        const res = await api.get("/coupons");
+        const res = await api.get("/coupon/api/coupons");
         setAvailableCoupons(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
         console.error("Failed to fetch coupons", err);
@@ -65,7 +65,7 @@ const userId = profile?.id;
     setLoadingCoupon(true);
 
     const res = await api.post(
-      "/coupons/apply",
+      "/coupon/api/coupons/apply",
       {
         couponCode: code,
         orderAmount: totalPrice,

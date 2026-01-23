@@ -117,7 +117,7 @@ export default function EditProduct() {
     };
 
     try {
-      await api.put(`/products/${id}`, payload);
+      await api.put(`/product/api/products/${id}`, payload);
       alert("Product Updated");
       navigate("/products");
     } catch (err) {
