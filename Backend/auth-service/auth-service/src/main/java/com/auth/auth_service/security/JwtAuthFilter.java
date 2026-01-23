@@ -17,6 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
@@ -32,7 +33,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String header = request.getHeader("Authorization");
 
+        // 🔓 NO TOKEN → SKIP JWT CHECK
         if (header != null && header.startsWith("Bearer ")) {
+
             String token = header.substring(7);
 
             try {
@@ -43,10 +46,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
                 List<SimpleGrantedAuthority> authorities =
                         roles.stream()
-                                .map(r -> new SimpleGrantedAuthority("ROLE_" + r))
-                                .toList();
+                             .map(r -> new SimpleGrantedAuthority("ROLE_" + r))
+                             .toList();
 
-                // ✅ credentials MUST be null
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
                                 userId,
@@ -57,12 +59,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
             } catch (Exception ex) {
-                // ✅ Clear context but DO NOT send 403
                 SecurityContextHolder.clearContext();
             }
         }
 
-        // ✅ ALWAYS continue filter chain
+        // 🔴 THIS LINE IS MANDATORY
         filterChain.doFilter(request, response);
     }
 }
