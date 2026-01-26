@@ -3,6 +3,7 @@ import { confirmLoginOtp, sendResendOtp } from "../api/api";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { getProfileApi } from "../api/api";
 
 export default function OtpPage() {
   const location = useLocation();
@@ -75,8 +76,7 @@ const navigate = useNavigate();
     }
   };
 
-  
-const handleVerify = async () => {
+ const handleVerify = async () => {
   const enteredOtp = otp.join("");
   if (enteredOtp.length !== 6) {
     alert("Enter full 6-digit OTP");
@@ -87,16 +87,19 @@ const handleVerify = async () => {
   try {
     const res = await confirmLoginOtp(email, enteredOtp);
 
-    const profile = res.data.profile;
+    const token = res.data.token;
     const roles: string[] = res.data.roles;
 
-    // ✅ SAVE TO CONTEXT (THIS WAS MISSING)
-    setProfile(profile);
-
-    // ✅ SAVE TO STORAGE (for refresh)
-    localStorage.setItem("token", res.data.token);
-    localStorage.setItem("profile", JSON.stringify(profile));
+    // ✅ Save token FIRST
+    localStorage.setItem("token", token);
     localStorage.setItem("roles", JSON.stringify(roles));
+
+    // ✅ NOW fetch profile
+    const profileRes = await getProfileApi();
+    const profile = profileRes.data;
+
+    setProfile(profile);
+    localStorage.setItem("profile", JSON.stringify(profile));
 
     alert("Login successful!");
 
@@ -105,12 +108,13 @@ const handleVerify = async () => {
     } else {
       navigate("/", { replace: true });
     }
-  } catch {
-    alert("Invalid OTP");
+  } catch (err) {
+    alert("Login failed");
   } finally {
     setLoading(false);
   }
 };
+
 
 
   const handleResendOtp = async () => {

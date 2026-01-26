@@ -132,4 +132,10 @@ export const deleteAddressApi = (addressId: string) => {
   });
 };
 
+export const getProfileApi = () =>
+  API.get("/auth/profile", {
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+  });
 
