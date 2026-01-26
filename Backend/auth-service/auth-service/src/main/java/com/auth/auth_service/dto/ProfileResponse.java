@@ -12,4 +12,7 @@ public class ProfileResponse {
     private String lastName;
   /*  private String email;*/
     private String phone;
+
+    public ProfileResponse(Object o, Object o1) {
+    }
 }

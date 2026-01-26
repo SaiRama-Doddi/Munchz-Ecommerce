@@ -125,7 +125,14 @@ public class AuthController {
         String token = jwtProvider.generateToken(user.getId(), user.getEmail(), roles);
 
         // Step 4: Call User Profile Service via Feign
-        ProfileResponse profile = userProfileClient.getProfile("Bearer " + token);
+        ProfileResponse profile;
+        try {
+            profile = userProfileClient.getProfile("Bearer " + token);
+        } catch (Exception e) {
+            System.out.println("⚠ Profile service down, returning empty profile");
+            profile = new ProfileResponse(null, null);
+        }
+
 
         // MERGE AUTH + PROFILE DATA
         AuthProfileResponse mergedProfile =
