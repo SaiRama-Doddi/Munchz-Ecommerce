@@ -51,12 +51,18 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
-                                userId,
+                                userId.toString(),   // 🔥 use String principal
                                 null,
                                 authorities
                         );
 
+                authentication.setDetails(
+                        new org.springframework.security.web.authentication.WebAuthenticationDetailsSource()
+                                .buildDetails(request)
+                );
+
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+
 
             } catch (Exception ex) {
                 SecurityContextHolder.clearContext();
