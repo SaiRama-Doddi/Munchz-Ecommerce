@@ -18,6 +18,7 @@ export default function CheckoutPage() {
     navigate("/", { replace: true });
     return null;
   }
+const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
   const { items, totalAmount, discount, appliedCoupon } = state as {
     items: CartItem[];
@@ -101,82 +102,88 @@ export default function CheckoutPage() {
       theme: { color: "#15803d" },
     };
 
-    const rzp = new (window as any).Razorpay(options);
-    rzp.open();
+ const rzp = new (window as any).Razorpay(options);
+setIsPlacingOrder(false); // stop spinner when popup opens
+rzp.open();
+
   };
 
   /* ================= PLACE ORDER ================= */
-  const placeOrder = async () => {
-    if (!selectedAddress) {
-      alert("Please select a shipping address");
-      return;
-    }
+const placeOrder = async () => {
+  if (!selectedAddress) {
+    alert("Please select a shipping address");
+    return;
+  }
 
-    try {
-      /* 1️⃣ CREATE ORDER */
-      const orderRes = await orderApi.post("/api/orders", {
-        shippingAddress: JSON.stringify(selectedAddress),
-        billingAddress: JSON.stringify(selectedAddress),
-        totalAmount,
-        discount,
-        couponCode: appliedCoupon,
-        items: items.map((item) => {
-          const v = item.variants[item.selectedVariantIndex];
-          return {
-            productId: item.productId,
-            variantId: v.id,
-            quantity: item.qty,
-          };
-        }),
-      });
+  try {
+    setIsPlacingOrder(true); // 🔥 START LOADING
 
-      const orderId = orderRes.data.orderId;
+    /* 1️⃣ CREATE ORDER */
+    const orderRes = await orderApi.post("/api/orders", {
+      shippingAddress: JSON.stringify(selectedAddress),
+      billingAddress: JSON.stringify(selectedAddress),
+      totalAmount,
+      discount,
+      couponCode: appliedCoupon,
+      items: items.map((item) => {
+        const v = item.variants[item.selectedVariantIndex];
+        return {
+          productId: item.productId,
+          variantId: v.id,
+          quantity: item.qty,
+        };
+      }),
+    });
 
-      /* 2️⃣ CREATE PAYMENT */
-      const paymentRes = await paymentApi.post("/api/payments/create", {
-        orderId,
-        amount: totalAmount * 100,
-        currency: "INR",
-      });
+    const orderId = orderRes.data.orderId;
 
-      /* 3️⃣ OPEN RAZORPAY */
-      openRazorpay(paymentRes.data, orderId);
-    } catch (err) {
-      console.error(err);
-      alert("Order or payment failed");
-    }
-  };
+    /* 2️⃣ CREATE PAYMENT */
+    const paymentRes = await paymentApi.post("/api/payments/create", {
+      orderId,
+      amount: totalAmount * 100,
+      currency: "INR",
+    });
+
+    /* 3️⃣ OPEN RAZORPAY */
+    openRazorpay(paymentRes.data, orderId);
+  } catch (err) {
+    console.error(err);
+    alert("Order or payment failed");
+    setIsPlacingOrder(false); // ❌ stop if error
+  }
+};
+{isPlacingOrder && (
+  <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
+    <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+    <p className="mt-4 text-green-700 font-medium">
+      Processing your order...
+    </p>
+    <p className="text-sm text-gray-600">
+      Please wait while we connect to secure payment
+    </p>
+  </div>
+)}
+
 
   return (
-<div className="min-h-screen bg-[#f6fff4] py-6 sm:py-10">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6">
-  <button
-    onClick={() => navigate(-1)}
-    className="mb-6 inline-flex items-center gap-3
-    bg-white px-4 py-2 rounded-full shadow border border-green-100
-    text-green-700 font-medium hover:bg-green-50"
-  >
-    ← Back
-  </button>
-</div>
+    <div className="min-h-screen bg-[#f6fff4] py-10">
+      <button
+        onClick={() => navigate(-1)}
+        className="ml-[136px] mb-6 inline-flex items-center gap-3 bg-white px-4 py-2 rounded-full shadow border border-green-100 text-green-700"
+      >
+        ← Back
+      </button>
 
-
-     <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10 px-4 sm:px-6">
-
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10 px-6">
         {/* LEFT */}
         <div className="lg:col-span-2 space-y-6">
-<div className="bg-white p-4 sm:p-6 rounded-xl shadow">
+          <div className="bg-white p-6 rounded-xl shadow">
             <h3 className="font-semibold mb-4">Order Items</h3>
             {items.map((item, idx) => {
               const v = item.variants[item.selectedVariantIndex];
               return (
-              <div key={idx} className="flex flex-col sm:flex-row gap-4 mb-4 items-center sm:items-start">
-
-                  <img
-  src={item.imageUrl}
-  className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
-/>
-
+                <div key={idx} className="flex gap-4 mb-4">
+                  <img src={item.imageUrl} className="w-20 h-20 object-contain" />
                   <div>
                     <p className="font-medium">{item.name}</p>
                     <p className="text-sm text-gray-600">
@@ -195,11 +202,10 @@ export default function CheckoutPage() {
             <h3 className="font-semibold mb-4">Shipping Address</h3>
 
             {addresses.map((addr) => (
-             <div
-  key={addr.id}
-  onClick={() => setSelectedAddress(addr)}
-  className={`border rounded-lg p-3 sm:p-4 mb-3 cursor-pointer transition ${
-
+              <div
+                key={addr.id}
+                onClick={() => setSelectedAddress(addr)}
+                className={`border rounded-lg p-3 mb-2 cursor-pointer ${
                   selectedAddress?.id === addr.id
                     ? "border-green-600 bg-green-50"
                     : ""
@@ -220,8 +226,7 @@ export default function CheckoutPage() {
             </button>
 
             {showNewAddress && (
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-
+              <div className="mt-4 grid gap-3">
                 {Object.keys(newAddress).map((k) => (
                   <input
                     key={k}
@@ -244,8 +249,7 @@ export default function CheckoutPage() {
         </div>
 
         {/* RIGHT */}
-        <div className="bg-white p-4 sm:p-6 rounded-xl shadow h-fit lg:sticky lg:top-24">
-
+        <div className="bg-white p-6 rounded-xl shadow h-fit">
           <h3 className="font-semibold mb-4">Price Summary</h3>
 
           <div className="flex justify-between mb-2">
@@ -267,14 +271,14 @@ export default function CheckoutPage() {
             <span>₹{totalAmount}</span>
           </div>
 
-          <button
-            onClick={placeOrder}
-           className="w-full bg-green-700 text-white py-3 rounded-lg mt-4
-shadow-md hover:shadow-lg transition"
+         <button
+  onClick={placeOrder}
+  disabled={isPlacingOrder}
+  className="w-full bg-green-700 text-white py-3 rounded-lg mt-4 disabled:opacity-60"
+>
+  {isPlacingOrder ? "Processing..." : "Confirm Order"}
+</button>
 
-          >
-            Confirm Order
-          </button>
         </div>
       </div>
     </div>

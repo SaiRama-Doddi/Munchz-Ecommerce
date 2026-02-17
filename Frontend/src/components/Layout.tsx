@@ -23,7 +23,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="flex-1 flex flex-col min-w-0">
 
           {/* TOP NAVBAR */}
-          <AdminNavbar />
+      
 
           {/* PAGE CONTENT */}
           <main className="flex-1 p-6 overflow-y-auto overflow-x-hidden">
@@ -34,7 +34,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </div>
 
       {/* FOOTER */}
-      <Footer />
+      
     </div>
   );
 };

@@ -8,15 +8,17 @@ import java.math.BigDecimal;
 public class OrderItemResponse {
 
     private Long productId;
-
     private String skuId;
-
     private String productName;
 
     private BigDecimal unitPrice;
-
     private BigDecimal quantity;
-
     private BigDecimal lineTotal;
+
+    private BigDecimal taxAmount;
+    private BigDecimal discountAmount;
+
+    private String variantLabel;
+
     private String imageUrl;
 }

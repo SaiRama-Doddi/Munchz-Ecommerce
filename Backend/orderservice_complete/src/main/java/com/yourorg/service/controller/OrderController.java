@@ -14,10 +14,25 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping("/api/orders")
-
+@CrossOrigin(
+        origins = "http://localhost:5173",
+        allowedHeaders = "*",
+        methods = {
+                RequestMethod.GET,
+                RequestMethod.POST,
+                RequestMethod.PUT,
+                RequestMethod.DELETE,
+                RequestMethod.OPTIONS
+        }
+)
 public class OrderController {
 
     private final OrderService service;
@@ -94,40 +109,66 @@ public class OrderController {
        ENTITY → RESPONSE
     =========================== */
     private OrderResponse toResponse(OrderEntity order) {
+        OrderResponse r = new OrderResponse();
 
-        OrderResponse response = new OrderResponse();
-        response.setOrderId(order.getId());
-        response.setUserId(order.getUserId());
-        response.setOrderStatus(order.getOrderStatus());
-        response.setTotalAmount(order.getTotalAmount());
-        response.setCurrency(order.getCurrency());
-        response.setPlacedAt(order.getPlacedAt());
+        r.setOrderId(order.getId());
+        r.setUserId(order.getUserId());
+        r.setUserName(order.getUserName());
+        r.setUserEmail(order.getUserEmail());
+        r.setOrderStatus(order.getOrderStatus());
 
-        response.setShippingAddress(order.getShippingAddress());
-        response.setBillingAddress(order.getBillingAddress());
+        r.setTotalAmount(order.getTotalAmount());
+        r.setTotalTax(order.getTotalTax());
+        r.setTotalDiscount(order.getTotalDiscount());
 
-        response.setItems(
-                order.getItems().stream()
-                        .map(item -> {
-                            OrderItemResponse ir = new OrderItemResponse();
-                            ir.setProductId(item.getProductId());
-                            ir.setSkuId(item.getSkuId());
-                            ir.setProductName(item.getProductName());
-                            ir.setUnitPrice(item.getUnitPrice());
-                            ir.setQuantity(item.getQuantity());
-                            ir.setLineTotal(item.getLineTotal());
+        r.setPaymentId(order.getPaymentId());
+        r.setCouponCode(order.getCouponCode());
+        r.setCouponId(order.getCouponId());
 
-                            // ✅ IMAGE FROM PRODUCT SERVICE (NOT STORED)
-                            ir.setImageUrl(
-                                    service.resolveProductImage(item.getProductId())
-                            );
-                            return ir;
-                        })
-                        .collect(Collectors.toList())
+        r.setCurrency(order.getCurrency());
+        r.setShippingAddress(order.getShippingAddress());
+        r.setBillingAddress(order.getBillingAddress());
+        Instant placed = order.getPlacedAt();
+        Instant updated = order.getUpdatedAt();
+
+        DateTimeFormatter fmt =
+                DateTimeFormatter.ofPattern("dd MMM yyyy, hh:mm a");
+
+
+
+        r.setPlacedAt(
+                placed == null ? null :
+                        LocalDateTime.ofInstant(placed, ZoneId.systemDefault()).format(fmt)
         );
 
-        return response;
+        r.setUpdatedAt(
+                updated == null ? null :
+                        LocalDateTime.ofInstant(updated, ZoneId.systemDefault()).format(fmt)
+        );
+
+
+
+
+        r.setItems(
+                order.getItems().stream().map(i -> {
+                    OrderItemResponse ir = new OrderItemResponse();
+                    ir.setProductId(i.getProductId());
+                    ir.setSkuId(i.getSkuId());
+                    ir.setProductName(i.getProductName());
+                    ir.setUnitPrice(i.getUnitPrice());
+                    ir.setQuantity(i.getQuantity());
+                    ir.setLineTotal(i.getLineTotal());
+                    ir.setTaxAmount(i.getTaxAmount());
+                    ir.setDiscountAmount(i.getDiscountAmount());
+                    ir.setVariantLabel(i.getVariantLabel());
+                    ir.setImageUrl(service.resolveProductImage(i.getProductId()));
+                    return ir;
+                }).toList()
+        );
+
+        return r;
     }
+
 
 
 
@@ -144,6 +185,16 @@ public class OrderController {
     }
 
 
+    /* ===========================
+       ADMIN — LIST ALL ORDERS
+    =========================== */
+    @GetMapping("/adminallorders")
+    public ResponseEntity<Page<OrderResponse>> listAllOrdersForAdmin(Pageable pageable) {
+        return ResponseEntity.ok(
+                service.listAllOrders(pageable)
+                        .map(this::toResponse)
+        );
+    }
 
 
 

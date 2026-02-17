@@ -27,12 +27,12 @@ export default function AddStock() {
     quantity: ""
   });
 
-  /* ================= LOAD CATEGORIES ================= */
+  /* ================= LOAD DATA ================= */
+
   useEffect(() => {
-    api.get("/product/api/categories").then(res => setCategories(res.data));
+    api.get("/categories").then(res => setCategories(res.data));
   }, []);
 
-  /* ================= PREFILL (EDIT MODE) ================= */
   useEffect(() => {
     if (!editStock) return;
 
@@ -60,33 +60,27 @@ export default function AddStock() {
     });
   }, [editStock]);
 
-  /* ================= LOAD SUBCATEGORIES ================= */
   useEffect(() => {
     if (!form.categoryId) return;
-
-    api.get(`/product/api/subcategories/by-category/${form.categoryId}`)
+    api.get(`/subcategories/by-category/${form.categoryId}`)
       .then(res => setSubcategories(res.data));
   }, [form.categoryId]);
 
-  /* ================= LOAD PRODUCTS ================= */
   useEffect(() => {
     if (!form.categoryId) return;
-
-    let url = `/product/api/products/category/${form.categoryId}`;
-    if (form.subCategoryId) url += `/product/api/subcategory/${form.subCategoryId}`;
-
+    let url = `/products/category/${form.categoryId}`;
+    if (form.subCategoryId) url += `/subcategory/${form.subCategoryId}`;
     api.get(url).then(res => setProducts(res.data));
   }, [form.categoryId, form.subCategoryId]);
 
-  /* ================= LOAD VARIANTS ================= */
   useEffect(() => {
     if (!form.productId) return;
-
-    api.get(`/product/api/products/${form.productId}`)
+    api.get(`/products/${form.productId}`)
       .then(res => setVariants(res.data?.variants || []));
   }, [form.productId]);
 
   /* ================= SUBMIT ================= */
+
   const submit = async (e: any) => {
     e.preventDefault();
 
@@ -108,75 +102,155 @@ export default function AddStock() {
 
     try {
       if (isEdit) {
-        await inventoryApi.put(`/stock/api/inventory/${editStock.id}`, payload);
+        await inventoryApi.put(`/inventory/${editStock.id}`, payload);
       } else {
-        await inventoryApi.post("/stock/api/inventory", payload);
+        await inventoryApi.post("/inventory/add", payload);
       }
-
       navigate("/inventory");
     } catch (err) {
-      console.error(err);
       alert("Failed to save stock");
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto bg-white p-6 rounded shadow mt-6">
-      <h1 className="text-2xl font-semibold mb-6">
-        {isEdit ? "Update Stock" : "Add Stock"}
-      </h1>
+  <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 py-12">
+    <div className="max-w-5xl mx-auto bg-white/80 backdrop-blur-xl border border-gray-200 shadow-2xl rounded-3xl p-12">
 
-      <form onSubmit={submit} className="space-y-4">
+      {/* HEADER */}
+      <div className="mb-12">
+        <h1 className="text-4xl font-bold text-gray-900">
+          {isEdit ? "Update Inventory Stock" : "Add Inventory Stock"}
+        </h1>
+        <p className="text-gray-500 mt-2 text-sm">
+          Manage stock by selecting category, product and variant
+        </p>
+      </div>
 
-        <select value={form.categoryId} className="border p-2 rounded w-full"
-          onChange={(e) => {
-            const val = e.target.value;
-            setSelectedCategory(categories.find(c => c.id === Number(val)));
-            setForm({ ...form, categoryId: val, subCategoryId: "", productId: "" });
-          }}>
-          <option value="">Select Category</option>
-          {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-        </select>
+      <form onSubmit={submit} className="space-y-10">
 
-        <select value={form.subCategoryId} className="border p-2 rounded w-full"
-          onChange={(e) => {
-            const val = e.target.value;
-            setSelectedSubCategory(subcategories.find(s => s.id === Number(val)));
-            setForm({ ...form, subCategoryId: val, productId: "" });
-          }}>
-          <option value="">Select Subcategory</option>
-          {subcategories.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
-        </select>
+        {/* GRID */}
+        <div className="grid md:grid-cols-2 gap-10">
 
-        <select value={form.productId} className="border p-2 rounded w-full"
-          onChange={(e) => {
-            const val = e.target.value;
-            setSelectedProduct(products.find(p => p.id === Number(val)));
-            setForm({ ...form, productId: val });
-          }}>
-          <option value="">Select Product</option>
-          {products.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
-        </select>
+          {/* CATEGORY */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-600 mb-2">
+              Category
+            </label>
+            <select
+              value={form.categoryId}
+              onChange={(e) => {
+                const val = e.target.value;
+                setSelectedCategory(categories.find(c => c.id === Number(val)));
+                setForm({ ...form, categoryId: val, subCategoryId: "", productId: "" });
+              }}
+              className="w-full rounded-xl border border-gray-300 px-4 py-3
+                         focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600
+                         outline-none transition shadow-sm"
+            >
+              <option value="">Select Category</option>
+              {categories.map(c => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
+          </div>
 
-        <select value={form.variant} className="border p-2 rounded w-full"
-          onChange={(e) => setForm({ ...form, variant: e.target.value })}>
-          <option value="">Select Variant</option>
-          {variants.map((v: any) => (
-            <option key={v.id} value={v.weightLabel}>{v.weightLabel}</option>
-          ))}
-        </select>
+          {/* SUBCATEGORY */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-600 mb-2">
+              Subcategory
+            </label>
+            <select
+              value={form.subCategoryId}
+              onChange={(e) => {
+                const val = e.target.value;
+                setSelectedSubCategory(subcategories.find(s => s.id === Number(val)));
+                setForm({ ...form, subCategoryId: val, productId: "" });
+              }}
+              className="w-full rounded-xl border border-gray-300 px-4 py-3
+                         focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600
+                         outline-none transition shadow-sm"
+            >
+              <option value="">Select Subcategory</option>
+              {subcategories.map(s => (
+                <option key={s.id} value={s.id}>{s.name}</option>
+              ))}
+            </select>
+          </div>
 
-        <input
-          type="number"
-          className="border p-2 rounded w-full"
-          value={form.quantity}
-          onChange={(e) => setForm({ ...form, quantity: e.target.value })}
-        />
+          {/* PRODUCT */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-600 mb-2">
+              Product
+            </label>
+            <select
+              value={form.productId}
+              onChange={(e) => {
+                const val = e.target.value;
+                setSelectedProduct(products.find(p => p.id === Number(val)));
+                setForm({ ...form, productId: val });
+              }}
+              className="w-full rounded-xl border border-gray-300 px-4 py-3
+                         focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600
+                         outline-none transition shadow-sm"
+            >
+              <option value="">Select Product</option>
+              {products.map(p => (
+                <option key={p.id} value={p.id}>{p.name}</option>
+              ))}
+            </select>
+          </div>
 
-        <button className="bg-green-600 hover:bg-green-700 text-white py-2 rounded w-full">
+          {/* VARIANT */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-600 mb-2">
+              Variant
+            </label>
+            <select
+              value={form.variant}
+              onChange={(e) => setForm({ ...form, variant: e.target.value })}
+              className="w-full rounded-xl border border-gray-300 px-4 py-3
+                         focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600
+                         outline-none transition shadow-sm"
+            >
+              <option value="">Select Variant</option>
+              {variants.map((v: any) => (
+                <option key={v.id} value={v.weightLabel}>
+                  {v.weightLabel}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* QUANTITY */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-600 mb-2">
+            Quantity
+          </label>
+          <input
+            type="number"
+            value={form.quantity}
+            onChange={(e) => setForm({ ...form, quantity: e.target.value })}
+            placeholder="Enter stock quantity"
+            className="w-full rounded-xl border border-gray-300 px-4 py-3
+                       focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600
+                       outline-none transition shadow-sm"
+          />
+        </div>
+
+        {/* BUTTON */}
+        <button
+          type="submit"
+          className="w-full rounded-2xl bg-gradient-to-r from-green-600 to-emerald-600
+                     text-white font-semibold py-4 text-lg shadow-lg
+                     hover:scale-[1.02] transition"
+        >
           {isEdit ? "Update Stock" : "Add Stock"}
         </button>
+
       </form>
     </div>
-  );
+  </div>
+);
+
 }

@@ -9,7 +9,7 @@ export function useCategories() {
     queryKey: ["categories"],
     staleTime: 5 * 60 * 1000, // 5 minutes cache
     queryFn: async () => {
-      const res = await api.get("/product/api/categories");
+      const res = await api.get("/categories");
 
       // 🔥 SAFE RETURN (supports wrapped & non-wrapped)
       return res.data?.data ?? res.data;
@@ -26,7 +26,7 @@ export function useProducts() {
     queryKey: ["products"],
     staleTime: 5 * 60 * 1000,
     queryFn: async () => {
-      const res = await api.get("/product/api/products");
+      const res = await api.get("/products");
       return res.data?.data ?? res.data;
     },
   });

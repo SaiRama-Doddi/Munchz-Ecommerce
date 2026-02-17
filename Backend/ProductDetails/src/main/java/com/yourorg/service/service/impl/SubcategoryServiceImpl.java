@@ -1,5 +1,11 @@
 package com.yourorg.service.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.yourorg.service.dto.SubcategoryRequest;
 import com.yourorg.service.dto.SubcategoryResponse;
 import com.yourorg.service.entity.Category;
@@ -9,11 +15,6 @@ import com.yourorg.service.repository.CategoryRepository;
 import com.yourorg.service.repository.SubcategoryRepository;
 import com.yourorg.service.service.SubcategoryService;
 import com.yourorg.service.util.IdGenerator;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -32,7 +33,8 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     public SubcategoryResponse create(SubcategoryRequest request) {
 
         Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found: " + request.getCategoryId()));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Category not found: " + request.getCategoryId()));
 
         Subcategory subcategory = new Subcategory(
                 request.getName(),
@@ -58,10 +60,12 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     public SubcategoryResponse update(Long id, SubcategoryRequest request) {
 
         Subcategory subcategory = subcategoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Subcategory not found: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Subcategory not found: " + id));
 
         Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found: " + request.getCategoryId()));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Category not found: " + request.getCategoryId()));
 
         subcategory.setName(request.getName());
         subcategory.setDescription(request.getDescription());
@@ -84,7 +88,8 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     @Transactional(readOnly = true)
     public SubcategoryResponse getById(Long id) {
         Subcategory subcategory = subcategoryRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Subcategory not found: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Subcategory not found: " + id));
         return toResponse(subcategory);
     }
 
@@ -97,13 +102,23 @@ public class SubcategoryServiceImpl implements SubcategoryService {
                 .collect(Collectors.toList());
     }
 
+    // ✅ THIS IS THE IMPORTANT METHOD FOR YOUR REACT PAGE
+    @Override
+    @Transactional(readOnly = true)
+    public List<SubcategoryResponse> getAll() {
+        return subcategoryRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
     private SubcategoryResponse toResponse(Subcategory subcategory) {
         return new SubcategoryResponse(
                 subcategory.getId(),
                 subcategory.getName(),
                 subcategory.getDescription(),
                 subcategory.getCategory().getId(),
-                subcategory.getCustomId()   // IMPORTANT
+                subcategory.getCustomId()
         );
     }
 }

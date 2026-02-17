@@ -1,4 +1,4 @@
-  import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect } from "react";
   import { useNavigate } from "react-router-dom";
   import { useQuery } from "@tanstack/react-query";
   import api from "../api/client";
@@ -31,7 +31,7 @@
     return useQuery({
       queryKey: ["categories"],
       queryFn: async () => {
-        const res = await api.get("/product/api/categories");
+        const res = await api.get("/categories");
         return res.data as Category[];
       },
     });
@@ -44,11 +44,58 @@
     return useQuery({
       queryKey: ["all-products"],
       queryFn: async () => {
-        const res = await api.get("/product/api//products");
+        const res = await api.get("/products");
         return res.data as Product[];
       },
     });
   }
+
+
+  import axios from "../api/axios";
+
+function ProductReviewStats({ productId }: { productId: number }) {
+  const { data: reviews = [] } = useQuery({
+    queryKey: ["product-reviews", productId],
+    enabled: !!productId,
+    queryFn: async () => {
+      const res = await axios.get(
+        `http://localhost:9095/reviews/product/${productId}`
+      );
+      return res.data as { rating: number }[];
+    },
+  });
+
+  const total = reviews.length;
+
+  const avg =
+    total > 0
+      ? reviews.reduce((s, r) => s + r.rating, 0) / total
+      : 0;
+
+  const renderStars = (rating: number) =>
+    [1, 2, 3, 4, 5].map((s) => (
+      <span
+        key={s}
+        className={
+          s <= Math.round(rating)
+            ? "text-yellow-500"
+            : "text-gray-300"
+        }
+      >
+        ★
+      </span>
+    ));
+
+  return (
+    <div className="flex items-center text-sm mt-1">
+      <div className="flex">{renderStars(avg)}</div>
+      <span className="text-gray-600 text-xs ml-2">
+        {avg.toFixed(1)} ({total} reviews)
+      </span>
+    </div>
+  );
+}
+
 
   /* =========================
     COMPONENT
@@ -154,8 +201,17 @@
 
     const { data: categories = [] } = useCategories();
 
-    if (isLoading)
-      return <div className="p-10 text-center">Loading products...</div>;
+  if (isLoading) {
+  return (
+    <div className="bg-[#f6fff4] min-h-screen flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <div className="h-12 w-12 border-4 border-green-700 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-gray-600 font-medium">Fetching your orders...</p>
+      </div>
+    </div>
+  );
+}
+
 
     if (isError)
       return (
@@ -303,14 +359,12 @@ const discount =
                     <div
                       key={p.id}
                       onClick={() => navigate(`/product/${p.id}`)}
-                     className="bg-[#eaffea] rounded-xl shadow hover:shadow-lg transition p-3 sm:p-4 relative cursor-pointer flex flex-col"
-
+                      className="bg-[#eaffea] rounded-xl shadow hover:shadow-lg transition p-4 relative cursor-pointer flex flex-col"
                     >
                       <img
                         src={p.imageUrl}
                         alt={p.name}
-                       className="w-full h-32 sm:h-36 lg:h-40 object-contain mb-3"
-
+                        className="w-full h-40 object-contain mb-3"
                       />
 
                       <span className="inline-block bg-green-700 text-white text-xs px-2 py-1 rounded mb-2 w-fit">
@@ -318,6 +372,8 @@ const discount =
                       </span>
 
                       <h3 className="font-semibold">{p.name}</h3>
+                      <ProductReviewStats productId={p.id} />
+
 
                       {/* PRICE + 100g REFERENCE */}
                      <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -357,10 +413,9 @@ const discount =
 
                       {/* VARIANTS */}
                       <div
-  className="flex flex-wrap gap-2 mt-3"
-  onClick={(e) => e.stopPropagation()}
->
-
+                        className="grid grid-cols-3 gap-2 mt-3"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         {sellVariants.map((v, i) => (
                           <button
                             key={i}
@@ -370,7 +425,7 @@ const discount =
                                 [p.id]: i,
                               }))
                             }
-                         className={`px-2 py-1 border rounded text-[10px] sm:text-xs ${selectedVariantIndex === i
+                            className={`px-2 py-1 border rounded text-xs ${selectedVariantIndex === i
                                 ? "bg-green-700 text-white"
                                 : ""
                               }`}
@@ -385,12 +440,11 @@ const discount =
                         className="flex items-center gap-3 mt-3"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <button onClick={() => decQty(p.id)} className="border px-2 sm:px-3 rounded">
+                        <button onClick={() => decQty(p.id)} className="border px-3 rounded">
                           −
                         </button>
                         <span>{qty}</span>
-                        <button onClick={() => incQty(p.id)} className="border px-2 sm:px-3 rounded"
->
+                        <button onClick={() => incQty(p.id)} className="border px-3 rounded">
                           +
                         </button>
                       </div>

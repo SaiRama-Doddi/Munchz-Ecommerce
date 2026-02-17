@@ -1,9 +1,9 @@
 package com.yourorg.service.service;
 
+import java.util.List;
+
 import com.yourorg.service.dto.SubcategoryRequest;
 import com.yourorg.service.dto.SubcategoryResponse;
-
-import java.util.List;
 
 public interface SubcategoryService {
 
@@ -16,4 +16,7 @@ public interface SubcategoryService {
     SubcategoryResponse getById(Long id);
 
     List<SubcategoryResponse> getByCategory(Long categoryId);
+
+    // ✅ ADD THIS
+    List<SubcategoryResponse> getAll();
 }

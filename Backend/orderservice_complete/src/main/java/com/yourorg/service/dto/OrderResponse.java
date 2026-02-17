@@ -10,34 +10,29 @@ import java.util.UUID;
 @Data
 public class OrderResponse {
 
-    /* =======================
-       ORDER INFO
-    ======================= */
     private UUID orderId;
+
     private UUID userId;
+    private String userName;
+    private String userEmail;
+
     private String orderStatus;
 
-    /* =======================
-       AMOUNTS
-    ======================= */
     private BigDecimal totalAmount;
-    private BigDecimal totalTax;        // nullable
-    private BigDecimal totalDiscount;   // nullable
+    private BigDecimal totalTax;
+    private BigDecimal totalDiscount;
+
+    private UUID paymentId;
+    private String couponCode;
+    private Integer couponId;
+
     private String currency;
 
-    /* =======================
-       ADDRESSES (JSON STRING)
-    ======================= */
-    private String shippingAddress;
-    private String billingAddress;
+    private Object shippingAddress;
+    private Object billingAddress;
+    private String placedAt;
+    private String updatedAt;
 
-    /* =======================
-       AUDIT
-    ======================= */
-    private Instant placedAt;
 
-    /* =======================
-       ITEMS
-    ======================= */
     private List<OrderItemResponse> items;
 }

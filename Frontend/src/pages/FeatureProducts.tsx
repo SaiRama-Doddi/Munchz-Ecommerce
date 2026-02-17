@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import api from "../api/client";
 import { useCart } from "../state/CartContext";
+import axios from "../api/axios";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 /* =========================
    TYPES
@@ -30,13 +31,59 @@ function useFeaturedProducts() {
   return useQuery({
     queryKey: ["featured-products"],
     queryFn: async () => {
-      const res = await api.get("/product/api/products");
+      const res = await api.get("/products");
       return res.data as Product[];
     },
   });
 }
 
 const ITEMS_PER_PAGE = 4;
+
+function ProductReviewStats({ productId }: { productId: number }) {
+  const { data: reviews = [] } = useQuery({
+    queryKey: ["product-reviews", productId],
+    enabled: !!productId,
+    queryFn: async () => {
+      const res = await axios.get(
+        `http://localhost:9095/reviews/product/${productId}`
+      );
+      return res.data as { rating: number }[];
+    },
+  });
+
+  const total = reviews.length;
+
+  const avg =
+    total > 0
+      ? reviews.reduce((s, r) => s + r.rating, 0) / total
+      : 0;
+
+  const renderStars = (rating: number) =>
+    [1, 2, 3, 4, 5].map((s) => (
+      <span
+        key={s}
+        className={
+          s <= Math.round(rating)
+            ? "text-yellow-500"
+            : "text-gray-300"
+        }
+      >
+        ★
+      </span>
+    ));
+
+  return (
+    <div className="flex items-center text-sm mt-1">
+      <div className="flex">{renderStars(avg)}</div>
+      <span className="text-gray-600 text-xs ml-2">
+        {avg.toFixed(1)} ({total} reviews)
+      </span>
+    </div>
+  );
+}
+
+
+
 
 /* =========================
    COMPONENT
@@ -45,10 +92,16 @@ export default function FeaturedProducts() {
   const navigate = useNavigate();
   const { addToCart } = useCart();
 
+  
+
+
   const { data: products = [], isLoading, isError } =
     useFeaturedProducts();
 
+  /* SLIDER STATE */
   const [page, setPage] = useState(0);
+
+  /* PRODUCT STATE */
   const [qtyMap, setQtyMap] = useState<Record<number, number>>({});
   const [variantMap, setVariantMap] = useState<Record<number, number>>({});
 
@@ -65,8 +118,17 @@ export default function FeaturedProducts() {
     page * ITEMS_PER_PAGE + ITEMS_PER_PAGE
   );
 
-  if (isLoading)
-    return <div className="p-10 text-center">Loading products...</div>;
+  if (isLoading) {
+  return (
+    <div className="bg-[#f6fff4] min-h-screen flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <div className="h-12 w-12 border-4 border-green-700 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-gray-600 font-medium">Fetching your orders...</p>
+      </div>
+    </div>
+  );
+}
+
 
   if (isError)
     return (
@@ -75,17 +137,27 @@ export default function FeaturedProducts() {
       </div>
     );
 
+
+
+
+
+
   return (
     <div className="bg-[#f3fff1] py-14">
       <div className="max-w-7xl mx-auto px-6">
 
+        {/* HEADING */}
         <h2 className="text-3xl font-semibold mb-10 text-center">
           Bestseller Products
         </h2>
 
         {/* PRODUCTS GRID */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
           {visibleProducts.map((p) => {
+       
+
+           
+
             const base100g = p.variants.find(
               (v) => v.weightInGrams === 100
             );
@@ -113,8 +185,9 @@ export default function FeaturedProducts() {
               <div
                 key={p.id}
                 onClick={() => navigate(`/product/${p.id}`)}
-                className="bg-[#eaffea] rounded-xl shadow hover:shadow-lg transition p-3 sm:p-4 relative cursor-pointer flex flex-col"
+                className="bg-[#eaffea] rounded-xl shadow hover:shadow-lg transition p-4 relative cursor-pointer flex flex-col"
               >
+                {/* SAVE BADGE */}
                 {discount > 0 && (
                   <span className="absolute top-3 right-3 bg-green-600 text-white text-xs px-2 py-1 rounded">
                     Save {discount}%
@@ -125,7 +198,7 @@ export default function FeaturedProducts() {
                 <img
                   src={p.imageUrl}
                   alt={p.name}
-                  className="w-full h-32 sm:h-40 lg:h-44 object-contain mb-3 sm:mb-4"
+                  className="w-full h-44 object-contain mb-4"
                 />
 
                 {/* WEIGHT */}
@@ -134,15 +207,24 @@ export default function FeaturedProducts() {
                 </span>
 
                 {/* NAME */}
-                <h3 className="font-semibold text-lg">{p.name}</h3>
+               {/* NAME – RESPONSIVE CLAMP */}
+<h3
+  className="
+    font-semibold
+    text-sm md:text-base lg:text-lg
+    leading-tight
+    line-clamp-1 md:line-clamp-2
+    min-h-[20px] md:min-h-[40px]
+  "
+>
+  {p.name}
+</h3>
+<ProductReviewStats productId={p.id} />
+
 
                 {/* REVIEWS */}
-                <div className="flex items-center text-yellow-500 text-sm mt-1">
-                  ★★★★☆
-                  <span className="text-gray-600 text-xs ml-2">
-                    500 reviews
-                  </span>
-                </div>
+
+
 
                 {/* PRICE */}
                 <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -160,58 +242,74 @@ export default function FeaturedProducts() {
                 </div>
 
                 {/* DESCRIPTION */}
-                <div className="mt-1 h-[40px] overflow-hidden">
-                  <p className="text-sm text-gray-600 line-clamp-2">
-                    {p.description}
-                  </p>
-                </div>
+              {/* DESCRIPTION – RESPONSIVE WITHOUT AFFECTING DESKTOP */}
+<div className="mt-1 overflow-hidden h-[22px] md:h-[36px] lg:h-[40px]">
+  <p className="
+    text-gray-600
+    text-xs md:text-sm
+    leading-tight
+    line-clamp-1 md:line-clamp-2
+  ">
+    {p.description}
+  </p>
+</div>
 
-                {/* VARIANTS — FIXED FOR MOBILE */}
-                <div
-                  className="flex flex-wrap gap-2 mt-3"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {sellVariants.map((v, i) => (
-                    <button
-                      key={i}
-                      onClick={() =>
-                        setVariantMap((prev) => ({
-                          ...prev,
-                          [p.id]: i,
-                        }))
-                      }
-                      className={`px-2 py-1 border rounded text-[10px] sm:text-xs ${
-                        selectedVariantIndex === i
-                          ? "bg-green-700 text-white"
-                          : ""
-                      }`}
-                    >
-                      {v.weightLabel}
-                    </button>
-                  ))}
-                </div>
+
+                {/* VARIANTS – 3 PER ROW */}
+              {/* VARIANTS – RESPONSIVE SIZES */}
+<div
+  className="grid grid-cols-3 gap-1 mt-2 md:mt-3"
+  onClick={(e) => e.stopPropagation()}
+>
+
+  {sellVariants.map((v, i) => (
+    <button
+      key={i}
+      onClick={() =>
+        setVariantMap((prev) => ({
+          ...prev,
+          [p.id]: i,
+        }))
+      }
+      className={`
+        border rounded
+        text-[10px] px-1 py-1 leading-none
+        md:text-xs md:px-2 md:py-1.5   /* your OLD size on desktop */
+        ${
+          selectedVariantIndex === i
+            ? "bg-green-700 text-white border-green-700"
+            : "bg-white"
+        }
+      `}
+    >
+      {v.weightLabel}
+    </button>
+  ))}
+</div>
+
 
                 {/* QTY */}
-                <div
-                  className="flex items-center gap-3 mt-3"
+               <div
+  className="flex items-center gap-2 mt-2 md:mt-3"
+
                   onClick={(e) => e.stopPropagation()}
                 >
                   <button
                     onClick={() => decQty(p.id)}
-                    className="border px-2 sm:px-3 rounded"
+                    className="border px-3 rounded"
                   >
                     −
                   </button>
                   <span>{qty}</span>
                   <button
                     onClick={() => incQty(p.id)}
-                    className="border px-2 sm:px-3 rounded"
+                    className="border px-3 rounded"
                   >
                     +
                   </button>
                 </div>
 
-                {/* ADD TO CART */}
+                {/* ADD TO CART – FIXED BOTTOM */}
                 <div className="mt-auto pt-4">
                   <button
                     onClick={(e) => {
@@ -226,7 +324,7 @@ export default function FeaturedProducts() {
                         qty,
                       });
                     }}
-                    className="w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-800"
+                    className="w-full bg-green-700 text-white py-2  rounded-lg hover:bg-green-800"
                   >
                     Add to cart
                   </button>
@@ -236,7 +334,7 @@ export default function FeaturedProducts() {
           })}
         </div>
 
-        {/* ARROWS */}
+        {/* BOTTOM CENTER ARROWS */}
         <div className="flex justify-center items-center gap-6 mt-10">
           <button
             onClick={() => setPage((p) => Math.max(0, p - 1))}
