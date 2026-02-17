@@ -1,5 +1,12 @@
 package com.yourorg.service.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.yourorg.service.dto.ProductRequest;
 import com.yourorg.service.dto.ProductResponse;
 import com.yourorg.service.dto.ProductVariantRequest;
@@ -15,13 +22,6 @@ import com.yourorg.service.repository.ProductRepository;
 import com.yourorg.service.repository.SubcategoryRepository;
 import com.yourorg.service.service.ProductService;
 import com.yourorg.service.util.IdGenerator;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -261,7 +261,8 @@ public class ProductServiceImpl implements ProductService {
             product.getImageUrl(),
             imageUrls,
             variantResponses,
-            product.getCustomId() // VERY IMPORTANT
+            product.getCustomId(), // VERY IMPORTANT,
+            product.getCreatedAt()
     );
 }
 

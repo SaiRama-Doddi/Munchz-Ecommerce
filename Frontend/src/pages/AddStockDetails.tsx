@@ -21,255 +21,228 @@ export default function AddStockEntry() {
     categoryId: "",
     subCategoryId: "",
     productId: "",
-
     supplierName: "",
     supplierGst: "",
-
     quantity: "",
     purchasePrice: "",
     sellingPrice: "",
-
     stockInDate: "",
     expiryDate: "",
     remarks: ""
   });
 
-  /* ================= LOAD MASTER DATA ================= */
-
+  /* ================= LOAD DATA ================= */
   useEffect(() => {
-    api.get("/product/api/categories").then(res => setCategories(res.data));
+    api.get("/categories").then(res => setCategories(res.data));
   }, []);
 
   useEffect(() => {
     if (!form.categoryId) return;
-    api.get(`/product/api/subcategories/by-category/${form.categoryId}`)
+    api.get(`/subcategories/by-category/${form.categoryId}`)
       .then(res => setSubcategories(res.data));
   }, [form.categoryId]);
 
   useEffect(() => {
     if (!form.categoryId) return;
-    let url = `/product/api/products/category/${form.categoryId}`;
-    if (form.subCategoryId) url += `/product/api/subcategory/${form.subCategoryId}`;
+    let url = `/products/category/${form.categoryId}`;
+    if (form.subCategoryId) url += `/subcategory/${form.subCategoryId}`;
     api.get(url).then(res => setProducts(res.data));
   }, [form.categoryId, form.subCategoryId]);
 
-  /* ================= PREFILL EDIT DATA ================= */
-
+  /* ================= PREFILL EDIT ================= */
   useEffect(() => {
     if (!editData) return;
 
-    setForm({
-      categoryId: editData.categoryId,
-      subCategoryId: editData.subCategoryId,
-      productId: editData.productId,
-
-      supplierName: editData.supplierName,
-      supplierGst: editData.supplierGst,
-
-      quantity: editData.quantity,
-      purchasePrice: editData.purchasePrice,
-      sellingPrice: editData.sellingPrice,
-
-      stockInDate: editData.stockInDate,
-      expiryDate: editData.expiryDate,
-      remarks: editData.remarks
-    });
-
-    setSelectedCategory({
-      id: editData.categoryId,
-      name: editData.categoryName
-    });
-
-    setSelectedSubCategory({
-      id: editData.subCategoryId,
-      name: editData.subCategoryName
-    });
-
-    setSelectedProduct({
-      id: editData.productId,
-      name: editData.productName
-    });
+    setForm(editData);
+    setSelectedCategory({ id: editData.categoryId, name: editData.categoryName });
+    setSelectedSubCategory({ id: editData.subCategoryId, name: editData.subCategoryName });
+    setSelectedProduct({ id: editData.productId, name: editData.productName });
   }, [editData]);
 
   /* ================= SUBMIT ================= */
-
   const submit = async (e: any) => {
     e.preventDefault();
+const payload = {
+  ...form,   // spread first
 
-    const payload = {
-      categoryId: selectedCategory?.id,
-      categoryName: selectedCategory?.name,
+  categoryId: selectedCategory?.id,
+  categoryName: selectedCategory?.name,
 
-      subCategoryId: selectedSubCategory?.id,
-      subCategoryName: selectedSubCategory?.name,
+  subCategoryId: selectedSubCategory?.id,
+  subCategoryName: selectedSubCategory?.name,
 
-      productId: selectedProduct?.id,
-      productName: selectedProduct?.name,
+  productId: selectedProduct?.id,
+  productName: selectedProduct?.name,
 
-      supplierName: form.supplierName,
-      supplierGst: form.supplierGst,
+  quantity: Number(form.quantity),
+  purchasePrice: Number(form.purchasePrice),
+  sellingPrice: Number(form.sellingPrice),
+};
 
-      quantity: Number(form.quantity),
-      purchasePrice: Number(form.purchasePrice),
-      sellingPrice: Number(form.sellingPrice),
-
-      stockInDate: form.stockInDate,
-      expiryDate: form.expiryDate,
-
-      remarks: form.remarks
-    };
 
     try {
       if (isEdit) {
-        await inventoryApi.put(`/stock/api/inventory/entries/${editData.id}`, payload);
-        alert("Stock updated successfully");
+        await inventoryApi.put(`/inventory/entries/${editData.id}`, payload);
       } else {
-        await inventoryApi.post("/stock/api/inventory/entries", payload);
-        alert("Stock added successfully");
+        await inventoryApi.post("/inventory/entries", payload);
       }
-
       navigate("/adminStockDetails");
-    } catch (err) {
+    } catch {
       alert("Failed to save stock");
     }
   };
 
- return (
-  <div className="max-w-6xl mx-auto mt-10 bg-white rounded-2xl shadow-md px-10 py-8">
+  const inputStyle =
+    "w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500 outline-none";
 
-    <h2 className="text-2xl font-semibold mb-8 border-b pb-4">
-      {isEdit ? "Update Stock Entry" : "Add Stock Entry"}
-    </h2>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 py-10">
+      <div className="max-w-6xl mx-auto bg-white/80 backdrop-blur-xl border border-gray-200 shadow-2xl rounded-3xl p-10">
 
-    <form onSubmit={submit} className="space-y-10">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b pb-4">
+          {isEdit ? "Update Stock Entry" : "Add Stock Entry"}
+        </h2>
 
-      {/* ROW 1 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-        <select
-          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600"
-          value={form.categoryId}
-          onChange={(e) => {
-            const sel = categories.find(c => c.id === Number(e.target.value));
-            setSelectedCategory(sel);
-            setForm({ ...form, categoryId: e.target.value, subCategoryId: "", productId: "" });
-          }}
-        >
-          <option value="">Select Category</option>
-          {categories.map(c => (
-            <option key={c.id} value={c.id}>{c.name}</option>
-          ))}
-        </select>
+        <form onSubmit={submit} className="grid md:grid-cols-2 gap-6">
 
-        <select
-          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600"
-          value={form.subCategoryId}
-          onChange={(e) => {
-            const sel = subcategories.find(s => s.id === Number(e.target.value));
-            setSelectedSubCategory(sel);
-            setForm({ ...form, subCategoryId: e.target.value, productId: "" });
-          }}
-        >
-          <option value="">Select Subcategory</option>
-          {subcategories.map(s => (
-            <option key={s.id} value={s.id}>{s.name}</option>
-          ))}
-        </select>
+          {/* CATEGORY */}
+          <select
+            className={inputStyle}
+            value={form.categoryId}
+            onChange={(e) => {
+              const sel = categories.find(c => c.id === Number(e.target.value));
+              setSelectedCategory(sel);
+              setForm({ ...form, categoryId: e.target.value, subCategoryId: "", productId: "" });
+            }}
+          >
+            <option value="">Select Category</option>
+            {categories.map(c => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
 
-        <select
-          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600"
-          value={form.productId}
-          onChange={(e) => {
-            const sel = products.find(p => p.id === Number(e.target.value));
-            setSelectedProduct(sel);
-            setForm({ ...form, productId: e.target.value });
-          }}
-        >
-          <option value="">Select Product</option>
-          {products.map(p => (
-            <option key={p.id} value={p.id}>{p.name}</option>
-          ))}
-        </select>
-      </div>
+          {/* SUBCATEGORY */}
+          <select
+            className={inputStyle}
+            value={form.subCategoryId}
+            onChange={(e) => {
+              const sel = subcategories.find(s => s.id === Number(e.target.value));
+              setSelectedSubCategory(sel);
+              setForm({ ...form, subCategoryId: e.target.value, productId: "" });
+            }}
+          >
+            <option value="">Select Subcategory</option>
+            {subcategories.map(s => (
+              <option key={s.id} value={s.id}>{s.name}</option>
+            ))}
+          </select>
 
-      {/* ROW 2 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        <input
-          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600 placeholder-gray-400"
-          placeholder="Supplier Name"
-          value={form.supplierName}
-          onChange={e => setForm({ ...form, supplierName: e.target.value })}
-        />
+          {/* PRODUCT */}
+          <select
+            className={inputStyle}
+            value={form.productId}
+            onChange={(e) => {
+              const sel = products.find(p => p.id === Number(e.target.value));
+              setSelectedProduct(sel);
+              setForm({ ...form, productId: e.target.value });
+            }}
+          >
+            <option value="">Select Product</option>
+            {products.map(p => (
+              <option key={p.id} value={p.id}>{p.name}</option>
+            ))}
+          </select>
 
-        <input
-          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600 placeholder-gray-400"
-          placeholder="Supplier GST"
-          value={form.supplierGst}
-          onChange={e => setForm({ ...form, supplierGst: e.target.value })}
-        />
-      </div>
+          <input
+            className={inputStyle}
+            placeholder="Supplier Name"
+            value={form.supplierName}
+            onChange={e => setForm({ ...form, supplierName: e.target.value })}
+          />
 
-      {/* ROW 3 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-        <input
-          type="number"
-          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600 placeholder-gray-400"
-          placeholder="Quantity"
-          value={form.quantity}
-          onChange={e => setForm({ ...form, quantity: e.target.value })}
-        />
+          <input
+            className={inputStyle}
+            placeholder="Supplier GST"
+            value={form.supplierGst}
+            onChange={e => setForm({ ...form, supplierGst: e.target.value })}
+          />
 
-        <input
-          type="number"
-          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600 placeholder-gray-400"
-          placeholder="Purchase Price"
-          value={form.purchasePrice}
-          onChange={e => setForm({ ...form, purchasePrice: e.target.value })}
-        />
+          <input
+            type="number"
+            className={inputStyle}
+            placeholder="Quantity"
+            value={form.quantity}
+            onChange={e => setForm({ ...form, quantity: e.target.value })}
+          />
 
-        <input
-          type="number"
-          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600 placeholder-gray-400"
-          placeholder="Selling Price"
-          value={form.sellingPrice}
-          onChange={e => setForm({ ...form, sellingPrice: e.target.value })}
-        />
-      </div>
+          <input
+            type="number"
+            className={inputStyle}
+            placeholder="Purchase Price"
+            value={form.purchasePrice}
+            onChange={e => setForm({ ...form, purchasePrice: e.target.value })}
+          />
 
-      {/* ROW 4 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-        <input
-          type="date"
-          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600"
-          value={form.stockInDate}
-          onChange={e => setForm({ ...form, stockInDate: e.target.value })}
-        />
+          <input
+            type="number"
+            className={inputStyle}
+            placeholder="Selling Price"
+            value={form.sellingPrice}
+            onChange={e => setForm({ ...form, sellingPrice: e.target.value })}
+          />
 
-        <input
-          type="date"
-          className="border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600"
-          value={form.expiryDate}
-          onChange={e => setForm({ ...form, expiryDate: e.target.value })}
-        />
-      </div>
+        {/* DATE SECTION */}
+<div className="grid md:grid-cols-2 gap-6">
 
-      {/* REMARKS */}
-      <textarea
-        className="w-full border-b border-gray-300 pb-2 focus:outline-none focus:border-green-600 placeholder-gray-400 resize-none"
-        placeholder="Remarks"
-        value={form.remarks}
-        onChange={e => setForm({ ...form, remarks: e.target.value })}
-      />
-
-      {/* BUTTON */}
-      <button
-        type="submit"
-        className="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-lg font-semibold transition"
-      >
-        {isEdit ? "Update Stock" : "Save Stock"}
-      </button>
-
-    </form>
+  {/* STOCK IN DATE */}
+  <div className="space-y-2">
+    <label className="block text-sm font-semibold text-gray-700">
+      Stock In Date (Purchase Date)
+    </label>
+    <input
+      type="date"
+      value={form.stockInDate}
+      onChange={e => setForm({ ...form, stockInDate: e.target.value })}
+      className="w-full rounded-xl border border-gray-300 px-4 py-3
+                 focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 outline-none"
+    />
+    <p className="text-xs text-gray-400">
+      Date when stock entered into inventory
+    </p>
   </div>
-);
 
+  {/* EXPIRY DATE */}
+  <div className="space-y-2">
+    <label className="block text-sm font-semibold text-gray-700">
+      Expiry Date (Product Valid Until)
+    </label>
+    <input
+      type="date"
+      value={form.expiryDate}
+      onChange={e => setForm({ ...form, expiryDate: e.target.value })}
+      className="w-full rounded-xl border border-gray-300 px-4 py-3
+                 focus:ring-4 focus:ring-red-600/10 focus:border-red-600 outline-none"
+    />
+    <p className="text-xs text-gray-400">
+      Last usable date of the product
+    </p>
+  </div>
+
+</div>
+
+
+          <textarea
+            className={`${inputStyle} md:col-span-2`}
+            placeholder="Remarks"
+            value={form.remarks}
+            onChange={e => setForm({ ...form, remarks: e.target.value })}
+          />
+
+          <button className="md:col-span-2 bg-gradient-to-r from-indigo-600 to-blue-600 text-white py-3 rounded-xl text-lg font-semibold shadow-lg hover:scale-[1.02] transition">
+            {isEdit ? "Update Stock Entry" : "Save Stock Entry"}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 }

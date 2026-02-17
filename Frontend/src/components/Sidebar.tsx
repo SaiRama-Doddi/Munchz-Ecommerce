@@ -16,34 +16,26 @@ import {
 
 const items = [
   { to: "/", label: "Home", icon: Home },
-
   { to: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
-
   { to: "/admin/category", label: "Categories", icon: Layers },
   { to: "/sub-category", label: "Subcategories", icon: Layers },
-
   { to: "/admin/products", label: "Products", icon: ShoppingBag },
-
   { to: "/admin/orders", label: "Orders", icon: ClipboardList },
-
   { to: "/addstock", label: "Add Stock", icon: PackagePlus },
   { to: "/inventory", label: "Stock List", icon: Warehouse },
   { to: "/Stockhistory", label: "Stock History", icon: History },
-
   { to: "/adminStockEntry", label: "Stock Entry", icon: PackagePlus },
   { to: "/adminStockDetails", label: "Stock Details", icon: PackageSearch },
-
   { to: "/offline-inventorys/add", label: "Add Offline Stock", icon: Store },
   { to: "/offline-inventory", label: "Offline Inventory", icon: Store },
-
   { to: "/AdminCompleteStock", label: "Complete Stock", icon: Boxes },
-
   { to: "/admincoupons", label: "Coupons", icon: TicketPercent },
+  { to: "/adminreviews", label: "Reviews", icon: ClipboardList },
 ];
 
 export default function Sidebar() {
   return (
-    <aside className="w-72 bg-gradient-to-b from-slate-900 to-slate-800 text-white min-h-screen px-4 py-6 shadow-xl">
+    <aside className="fixed left-0 top-0 w-72 h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-white px-4 py-6 shadow-xl overflow-y-auto">
 
       {/* BRAND */}
       <div className="flex items-center gap-3 mb-8 px-2">
@@ -66,15 +58,11 @@ export default function Sidebar() {
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `
-                flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm
-                transition-all duration-200
-                ${
+                `flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all duration-200 ${
                   isActive
                     ? "bg-green-600 text-white shadow-md"
                     : "text-gray-300 hover:bg-slate-700 hover:text-white"
-                }
-              `
+                }`
               }
             >
               <Icon size={18} />
@@ -83,9 +71,6 @@ export default function Sidebar() {
           );
         })}
       </nav>
-
-      {/* FOOTER */}
-     
     </aside>
   );
 }

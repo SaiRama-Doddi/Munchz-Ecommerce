@@ -1,4 +1,4 @@
-    package com.yourorg.service.entity;
+package com.yourorg.service.entity;
 
     import com.fasterxml.jackson.annotation.JsonIgnore;
     import jakarta.persistence.*;
@@ -97,6 +97,7 @@
         private List<OrderItemEntity> items = new ArrayList<>();
 
         @Column(name = "coupon_id")
-        private Long couponId;
+        private Integer couponId;   // ✅ CORRECT
+
 
     }

@@ -3,8 +3,22 @@ import { useNavigate, useParams } from "react-router-dom";
 import api from "../api/client";
 import { useCategories } from "../hooks/useQueryHelpers";
 import { useSubcategories } from "../hooks/useSubcategories";
+import { ArrowLeft } from "lucide-react";
 
 export default function EditProduct() {
+
+const removeImage = (index: number) => {
+  const arr = [...form.imageUrls];
+  arr.splice(index, 1);
+  setForm({ ...form, imageUrls: arr.length ? arr : [""] });
+};
+
+
+const clearMainImage = () => {
+  setForm({ ...form, imageUrl: "" });
+};
+
+
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -37,7 +51,7 @@ export default function EditProduct() {
 
   const loadProduct = async () => {
     try {
-      const res = await api.get(`/product/api/products/${id}`);
+      const res = await api.get(`/products/${id}`);
       const p = res.data || {};
 
       const images =
@@ -117,7 +131,7 @@ export default function EditProduct() {
     };
 
     try {
-      await api.put(`/product/api/products/${id}`, payload);
+      await api.put(`/products/${id}`, payload);
       alert("Product Updated");
       navigate("/products");
     } catch (err) {
@@ -128,130 +142,244 @@ export default function EditProduct() {
 
   if (loading) return <div className="p-6 text-lg">Loading product...</div>;
 
-  return (
-    <div className="max-w-4xl mx-auto bg-white p-6 rounded shadow mt-6">
-      <h1 className="text-2xl font-semibold mb-4">Edit Product</h1>
+return (
+  <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
+    <div className="max-w-6xl mx-auto px-8 py-12">
 
-      <form onSubmit={submit} className="space-y-4">
-
-        {/* CATEGORY */}
-        <select
-          value={form.categoryId}
-          onChange={(e) => updateField("categoryId", e.target.value)}
-          className="border p-2 rounded w-full"
+      {/* HEADER WITH BACK */}
+      <div className="mb-10 flex items-start gap-4">
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className="mt-1 p-3 rounded-xl border border-gray-300
+                     hover:bg-gray-100 transition shadow-sm"
         >
-          <option value="">Select Category</option>
-          {categories?.map((c: any) => (
-            <option key={c.id} value={c.id}>{c.name}</option>
-          ))}
-        </select>
+          <ArrowLeft size={22} />
+        </button>
 
-        {/* SUBCATEGORY */}
-        <select
-          value={form.subcategoryId}
-          onChange={(e) => updateField("subcategoryId", e.target.value)}
-          className="border p-2 rounded w-full"
-        >
-          <option value="">No Subcategory</option>
-          {subcategories?.map((s: any) => (
-            <option key={s.id} value={s.id}>{s.name}</option>
-          ))}
-        </select>
+        <div>
+          <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+            Edit Product
+          </h1>
+          <p className="text-gray-500 mt-2 text-sm">
+            Update product details, images and variants
+          </p>
+        </div>
+      </div>
 
+      <form
+        onSubmit={submit}
+        className="bg-white/80 backdrop-blur-xl border border-gray-200
+                   shadow-2xl rounded-3xl p-10 space-y-8"
+      >
+
+        {/* CATEGORY + SUBCATEGORY */}
+        <div className="grid md:grid-cols-2 gap-8">
+          <select
+            value={form.categoryId}
+            onChange={(e) => updateField("categoryId", e.target.value)}
+            className="w-full rounded-2xl border border-gray-300 px-5 py-3"
+          >
+            <option value="">Select Category</option>
+            {categories?.map((c: any) => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
+
+          <select
+            value={form.subcategoryId}
+            onChange={(e) => updateField("subcategoryId", e.target.value)}
+            className="w-full rounded-2xl border border-gray-300 px-5 py-3"
+          >
+            <option value="">No Subcategory</option>
+            {subcategories?.map((s: any) => (
+              <option key={s.id} value={s.id}>{s.name}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* BASIC INFO */}
         <input
           value={form.name}
           onChange={(e) => updateField("name", e.target.value)}
-          className="border p-2 rounded w-full"
+          placeholder="Product Name"
+          className="w-full rounded-2xl border border-gray-300 px-5 py-3"
         />
 
         <textarea
           value={form.description}
           onChange={(e) => updateField("description", e.target.value)}
-          className="border p-2 rounded w-full"
+          rows={3}
+          placeholder="Description"
+          className="w-full rounded-2xl border border-gray-300 px-5 py-3 resize-none"
         />
 
-        <input
-          value={form.imageUrl}
-          onChange={(e) => updateField("imageUrl", e.target.value)}
-          className="border p-2 rounded w-full"
-        />
+     <div className="relative">
+  <input
+    value={form.imageUrl}
+    onChange={(e) => updateField("imageUrl", e.target.value)}
+    placeholder="Main Image URL"
+    className="w-full rounded-2xl border border-gray-300 px-5 py-3 pr-10"
+  />
+
+  {/* CLEAR BUTTON */}
+  {form.imageUrl && (
+    <button
+      type="button"
+      onClick={clearMainImage}
+      className="absolute right-3 top-1/2 -translate-y-1/2
+                 text-red-500 hover:text-red-700 text-lg font-bold"
+    >
+      ✕
+    </button>
+  )}
+</div>
+
 
         {/* MULTI IMAGES */}
+        <div className="space-y-3">
+          <h3 className="font-semibold text-gray-700">Additional Images</h3>
         {form.imageUrls.map((img, idx) => (
-          <input
-            key={idx}
-            value={img}
-            onChange={(e) => updateImage(idx, e.target.value)}
-            className="border p-2 rounded w-full"
-          />
-        ))}
+  <div key={idx} className="relative">
+    <input
+      value={img}
+      onChange={(e) => updateImage(idx, e.target.value)}
+      placeholder={`Image URL ${idx + 1}`}
+      className="w-full rounded-xl border border-gray-300 px-4 py-2 pr-10"
+    />
 
-        <button
-          type="button"
-          onClick={addImage}
-          className="bg-gray-600 text-white px-3 py-1 rounded"
-        >
-          + Add Image
-        </button>
+    {/* REMOVE BUTTON */}
+    <button
+      type="button"
+      onClick={() => removeImage(idx)}
+      className="absolute right-2 top-1/2 -translate-y-1/2
+                 text-red-500 hover:text-red-700 text-lg font-bold"
+    >
+      ✕
+    </button>
+  </div>
+))}
+
+
+          <button
+            type="button"
+            onClick={addImage}
+            className="bg-gray-700 text-white px-5 py-2 rounded-xl"
+          >
+            + Add Image
+          </button>
+        </div>
 
         {/* VARIANTS */}
-        {form.variants.map((v, idx) => (
-          <div key={idx} className="grid grid-cols-4 gap-2">
-            <input
-              value={v.weightLabel}
-              onChange={(e) =>
-                updateVariant(idx, "weightLabel", e.target.value)
-              }
-              className="border p-2 rounded"
-            />
+        {/* VARIANTS */}
+<div className="space-y-6">
+  <h3 className="text-2xl font-semibold text-gray-800">Variants Pricing</h3>
 
-            {/* WEIGHT (TEXT INPUT – NUMBERS ONLY) */}
-            <input
-              type="text"
-              value={v.weightInGrams}
-              onChange={(e) => {
-                const val = e.target.value.replace(/\D/g, "");
-                updateVariant(idx, "weightInGrams", Number(val));
-              }}
-              className="border p-2 rounded"
-            />
+  {/* COLUMN HEADERS */}
+  <div className="grid grid-cols-4 gap-4 px-6 text-sm font-semibold text-gray-600">
+    <div>Variant Label</div>
+    <div>Weight (grams)</div>
+    <div>MRP (₹)</div>
+    <div>Offer Price (₹)</div>
+  </div>
 
-            {/* MRP */}
-            <input
-              type="text"
-              value={v.mrp}
-              onChange={(e) => {
-                const val = e.target.value.replace(/\D/g, "");
-                updateVariant(idx, "mrp", Number(val));
-              }}
-              className="border p-2 rounded"
-            />
+  {form.variants.map((v, idx) => (
+    <div
+      key={idx}
+      className="grid grid-cols-4 gap-4 bg-white border border-gray-200
+                 p-6 rounded-2xl shadow-sm"
+    >
+      {/* LABEL */}
+      <input
+        value={v.weightLabel}
+        onChange={(e) =>
+          updateVariant(idx, "weightLabel", e.target.value)
+        }
+        placeholder="Ex: 250g / 1kg"
+        className="rounded-xl border border-gray-300 px-4 py-2.5"
+      />
 
-            {/* OFFER PRICE */}
-            <input
-              type="text"
-              value={v.offerPrice}
-              onChange={(e) => {
-                const val = e.target.value.replace(/\D/g, "");
-                updateVariant(idx, "offerPrice", Number(val));
-              }}
-              className="border p-2 rounded"
-            />
-          </div>
-        ))}
+      {/* WEIGHT */}
+      <input
+        value={v.weightInGrams}
+        onChange={(e) =>
+          updateVariant(
+            idx,
+            "weightInGrams",
+            e.target.value.replace(/\D/g, "")
+          )
+        }
+        placeholder="350"
+        className="rounded-xl border border-gray-300 px-4 py-2.5"
+      />
 
-        <button
-          type="button"
-          onClick={addVariant}
-          className="bg-green-600 text-white px-3 py-1 rounded"
-        >
-          + Add Variant
-        </button>
+      {/* MRP */}
+      <input
+        value={v.mrp}
+        onChange={(e) =>
+          updateVariant(
+            idx,
+            "mrp",
+            e.target.value.replace(/\D/g, "")
+          )
+        }
+        placeholder="500"
+        className="rounded-xl border border-gray-300 px-4 py-2.5"
+      />
 
-        <button className="bg-blue-600 text-white px-4 py-2 rounded">
-          Update
-        </button>
+      {/* OFFER */}
+      <input
+        value={v.offerPrice}
+        onChange={(e) =>
+          updateVariant(
+            idx,
+            "offerPrice",
+            e.target.value.replace(/\D/g, "")
+          )
+        }
+        placeholder="450"
+        className="rounded-xl border border-gray-300 px-4 py-2.5"
+      />
+    </div>
+  ))}
+
+  <button
+    type="button"
+    onClick={addVariant}
+    className="bg-green-600 text-white px-6 py-2.5 rounded-xl shadow"
+  >
+    + Add Variant
+  </button>
+</div>
+
+
+        {/* SUBMIT */}
+       <div className="flex gap-4 pt-4">
+  {/* CANCEL */}
+  <button
+    type="button"
+    onClick={() => navigate(-1)}
+    className="w-1/2 rounded-2xl border border-gray-300
+               px-10 py-3 font-semibold text-lg
+               hover:bg-gray-100 transition"
+  >
+    Cancel
+  </button>
+
+  {/* UPDATE */}
+  <button
+    type="submit"
+    className="w-1/2 rounded-2xl bg-gradient-to-r from-blue-600 to-blue-700
+               px-10 py-3 text-white font-semibold text-lg
+               shadow hover:shadow-lg transition"
+  >
+    Update Product
+  </button>
+</div>
+
       </form>
     </div>
-  );
+  </div>
+);
+
 }

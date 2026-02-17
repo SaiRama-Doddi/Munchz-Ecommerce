@@ -23,4 +23,19 @@ public interface OrderRepository extends JpaRepository<OrderEntity, UUID> {
             @Param("userId") UUID userId,
             Pageable pageable
     );
+
+
+    @Query(
+            value = """
+        SELECT DISTINCT o
+        FROM OrderEntity o
+        LEFT JOIN FETCH o.items
+        """,
+            countQuery = """
+        SELECT COUNT(o)
+        FROM OrderEntity o
+        """
+    )
+    Page<OrderEntity> findAllWithItems(Pageable pageable);
+
 }

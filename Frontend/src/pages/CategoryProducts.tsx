@@ -31,11 +31,56 @@ function useCategoryProducts(categoryId: number) {
     queryKey: ["products", categoryId],
     enabled: !!categoryId,
     queryFn: async () => {
-      const res = await api.get(`/product/api/products/category/${categoryId}`);
+      const res = await api.get(`/products/category/${categoryId}`);
       return res.data as Product[];
     },
   });
 }
+import axios from "../api/axios";
+
+function ProductReviewStats({ productId }: { productId: number }) {
+  const { data: reviews = [] } = useQuery({
+    queryKey: ["product-reviews", productId],
+    enabled: !!productId,
+    queryFn: async () => {
+      const res = await axios.get(
+        `http://localhost:9095/reviews/product/${productId}`
+      );
+      return res.data as { rating: number }[];
+    },
+  });
+
+  const total = reviews.length;
+
+  const avg =
+    total > 0
+      ? reviews.reduce((s, r) => s + r.rating, 0) / total
+      : 0;
+
+  const renderStars = (rating: number) =>
+    [1, 2, 3, 4, 5].map((s) => (
+      <span
+        key={s}
+        className={
+          s <= Math.round(rating)
+            ? "text-yellow-500"
+            : "text-gray-300"
+        }
+      >
+        ★
+      </span>
+    ));
+
+  return (
+    <div className="flex items-center text-sm mt-1">
+      <div className="flex">{renderStars(avg)}</div>
+      <span className="text-gray-600 text-xs ml-2">
+        {avg.toFixed(1)} ({total} reviews)
+      </span>
+    </div>
+  );
+}
+
 
 /* =========================
    COMPONENT
@@ -122,8 +167,16 @@ export default function CategoryProducts() {
     });
   }, [weights, products]);
 
-  if (isLoading)
-    return <div className="p-10 text-center">Loading products...</div>;
+  if (isLoading) {
+  return (
+    <div className="bg-[#f6fff4] min-h-screen flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <div className="h-12 w-12 border-4 border-green-700 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-gray-600 font-medium">Fetching your orders...</p>
+      </div>
+    </div>
+  );
+}
 
   if (isError)
     return (
@@ -258,14 +311,10 @@ export default function CategoryProducts() {
                     </span>
 
                     <h3 className="font-semibold text-lg">{p.name}</h3>
+                    <ProductReviewStats productId={p.id} />
 
-                    <div className="flex items-center text-yellow-500 text-sm mt-1">
-                      ★★★★☆
-                      <span className="text-gray-500 text-xs ml-2">
-                        500 reviews
-                      </span>
-                    </div>
 
+                    
                     <div className="mt-2 flex flex-wrap items-center gap-2">
                       <span className="text-xl font-semibold">
                         ₹{selectedVariant.offerPrice * qty}

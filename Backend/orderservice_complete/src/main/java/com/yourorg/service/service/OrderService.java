@@ -105,7 +105,8 @@ public class OrderService {
                 throw new RuntimeException("Invalid coupon");
             }
 
-            order.setCouponId(coupon.id());
+            order.setCouponId(Math.toIntExact(coupon.id()));  // ✅ convert Long → Integer
+
             order.setCouponCode(coupon.code());
 
             order.setTotalDiscount(
@@ -296,6 +297,10 @@ public class OrderService {
         }
         return null;
     }
+    public Page<OrderEntity> listAllOrders(Pageable pageable) {
+        return orderRepository.findAllWithItems(pageable);  // ✅
+    }
+
 
 
 

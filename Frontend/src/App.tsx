@@ -44,13 +44,14 @@ import AdminCompleteStock from "./pages/AdminCompleteStock";
 
 import OrderSuccessPage from "./pages/OrderSuccessPage";
 import UserOrders from "./pages/UserOrders";
+import AdminReviews from "./pages/AdminReviews";
 
 
 
 
 export default function App() {
   return (
-
+ <div className="pb-[70px] md:pb-0">
     <Routes>
       <Route
         path="/"
@@ -135,7 +136,8 @@ export default function App() {
         </Layout>
 
       } />
-      <Route path="/edit-product/:id" element={<EditProduct />} />
+      
+      <Route path="/edit-product/:id" element ={<Layout><EditProduct /></Layout>}/>
       <Route path="/product/:id" element={<ProductDetails />} />
 
       <Route path="/dashboard" element={
@@ -235,6 +237,7 @@ export default function App() {
       </Route>
 <Route path="/addstock" element ={<Layout><AddStock /></Layout>}/>
 <Route path="/inventory" element={<Layout><StockList /></Layout>} />
+<Route path="/adminreviews" element={<Layout><AdminReviews /></Layout>} />
 <Route path="/StockHistory" element ={<Layout><StockHistory productId={0} /></Layout>}/>
 <Route path="/AboutMain" element ={<>
             <TopHeader />
@@ -267,5 +270,5 @@ export default function App() {
  
     </Routes>
 
-  );
+ </div> );
 }

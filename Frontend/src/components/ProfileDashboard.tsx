@@ -161,9 +161,14 @@ export default function ProfileDashboard({ open, onClose }: Props) {
             {addresses.map(addr => (
               <div
                 key={addr.id}
-                className={`border rounded-lg p-3 mb-3 relative ${
-                  addr.isDefault ? "border-green-500 bg-green-50" : ""
-                }`}
+                className={`border rounded-lg p-3 mb-3 relative transition ${
+  editingId === addr.id
+    ? "border-green-600 bg-green-50 shadow-lg"
+    : addr.isDefault
+    ? "border-green-500 bg-green-50"
+    : ""
+}`}
+
               >
                 {editingId === addr.id ? (
                   <>
@@ -196,11 +201,12 @@ export default function ProfileDashboard({ open, onClose }: Props) {
 
                       <div className="flex gap-2">
                         <button
-                          onClick={() => handleUpdateAddress(addr.id)}
-                          className="flex-1 bg-green-600 text-white py-1.5 rounded-lg"
-                        >
-                          Save
-                        </button>
+  onClick={() => handleUpdateAddress(addr.id)}
+  className="flex-1 bg-green-700 text-white py-2 rounded-lg font-medium shadow"
+>
+  Update Address
+</button>
+
                         <button
                           onClick={() => {
                             setEditingId(null);
@@ -311,24 +317,28 @@ export default function ProfileDashboard({ open, onClose }: Props) {
         </div>
 
         {/* Footer */}
-        <div className="border-t px-6 py-4 space-y-2">
-          <button
-            onClick={handleSaveProfile}
-            disabled={loading}
-            className="w-full bg-green-600 text-white py-2.5 rounded-lg flex items-center justify-center gap-2"
-          >
-            <Save size={18} />
-            Save Changes
-          </button>
+       {/* Footer */}
+{!editingId && (
+  <div className="border-t px-6 py-4 space-y-2">
+    <button
+      onClick={handleSaveProfile}
+      disabled={loading}
+      className="w-full bg-green-600 text-white py-2.5 rounded-lg flex items-center justify-center gap-2"
+    >
+      <Save size={18} />
+      Save Changes
+    </button>
 
-          <button
-            onClick={logout}
-            className="w-full flex items-center justify-center gap-2 text-red-600 py-2 rounded-lg"
-          >
-            <LogOut size={18} />
-            Logout
-          </button>
-        </div>
+    <button
+      onClick={logout}
+      className="w-full flex items-center justify-center gap-2 text-red-600 py-2 rounded-lg"
+    >
+      <LogOut size={18} />
+      Logout
+    </button>
+  </div>
+)}
+
       </div>
     </>
   );

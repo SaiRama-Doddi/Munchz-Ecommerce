@@ -6,6 +6,7 @@ import com.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,9 +28,13 @@ public class ReviewController {
     // ✅ Image review (multipart)
     @PostMapping("/form")
     public Review addReviewWithImage(
-            @RequestPart("request") ReviewRequest request,
+            @RequestPart("request") String requestJson,
             @RequestPart(value = "file", required = false) MultipartFile file
     ) throws IOException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        ReviewRequest request = mapper.readValue(requestJson, ReviewRequest.class);
+
         return service.saveReview(request, file);
     }
 

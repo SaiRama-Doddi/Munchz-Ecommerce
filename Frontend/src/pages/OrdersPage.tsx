@@ -2,66 +2,64 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 /* =========================
-   BACKEND RESPONSE TYPES
+   BACKEND TYPES (match API)
 ========================= */
 
 interface BackendOrderItem {
+  productId: number;
+  skuId: string;
   productName: string;
-  quantity: number;
   unitPrice: number;
+  quantity: number;
   lineTotal: number;
+  taxAmount: number;
+  discountAmount: number;
+  variantLabel: string;
+  imageUrl: string;
 }
 
 interface BackendOrder {
-  orderId: string;            // ✅ MUST MATCH BACKEND
-  userId: string;
-  orderStatus: string;
-  totalAmount: number;
-  shippingAddress?: string;   // JSON STRING
-  billingAddress?: string;    // JSON STRING
-  items: BackendOrderItem[];
-}
-
-/* =========================
-   UI TYPES
-========================= */
-
-interface OrderItem {
-  productName: string;
-  quantity: number;
-  unitPrice: number;
-  lineTotal: number;
-}
-
-interface Order {
   orderId: string;
   userId: string;
-  address: string;
-  totalAmount: number;
+  userName: string;
+  userEmail: string;
+
   orderStatus: string;
-  items: OrderItem[];
+
+  totalAmount: number;
+  totalTax: number;
+  totalDiscount: number;
+
+  paymentId: string;
+  couponCode: string;
+  couponId: number;
+
+  currency: string;
+
+  shippingAddress: any;
+  billingAddress: any;
+
+  placedAt: string;
+  updatedAt: string;
+
+  items: BackendOrderItem[];
 }
 
 /* =========================
    HELPERS
 ========================= */
 
-const parseAddress = (json?: string): string => {
-  if (!json) return "—";
-  try {
-    const a = JSON.parse(json);
-    return [
-      a.addressLine1,
-      a.addressLine2,
-      a.city,
-      a.state,
-      a.pincode,
-    ]
-      .filter(Boolean)
-      .join(", ");
-  } catch {
-    return "—";
-  }
+const parseAddress = (addr: any): string => {
+  if (!addr) return "—";
+  return [
+    addr.addressLine1,
+    addr.addressLine2,
+    addr.city,
+    addr.state,
+    addr.pincode,
+  ]
+    .filter(Boolean)
+    .join(", ");
 };
 
 /* =========================
@@ -69,41 +67,24 @@ const parseAddress = (json?: string): string => {
 ========================= */
 
 const OrdersPage: React.FC = () => {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<BackendOrder[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [selectedOrder, setSelectedOrder] =
+    useState<BackendOrder | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
 
     axios
-      .get("http://localhost:9090/api/orders", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      .get("http://localhost:9090/api/orders/adminallorders?page=0&size=200", {
+        headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        const mapped: Order[] = res.data.content.map(
-          (o: BackendOrder) => ({
-            orderId: o.orderId, // ✅ FIXED
-            userId: o.userId,
-            orderStatus: o.orderStatus,
-            totalAmount: o.totalAmount,
-            address: parseAddress(o.shippingAddress), // ✅ FIXED
-            items: (o.items ?? []).map((i) => ({
-              productName: i.productName,
-              quantity: i.quantity,
-              unitPrice: i.unitPrice,
-              lineTotal: i.lineTotal,
-            })),
-          })
-        );
-
-        setOrders(mapped);
+        setOrders(res.data.content);
         setLoading(false);
       })
       .catch((err) => {
-        console.error("ORDERS ERROR:", err.response?.data || err);
+        console.error(err);
         setLoading(false);
       });
   }, []);
@@ -117,17 +98,21 @@ const OrdersPage: React.FC = () => {
       <h1 className="text-3xl font-bold mb-6">Admin – All Orders</h1>
 
       {/* TABLE */}
-      <div className="bg-white border shadow rounded">
-        <table className="w-full border-collapse">
+      <div className="bg-white border shadow rounded overflow-auto">
+        <table className="w-full border-collapse text-sm">
           <thead>
             <tr className="bg-gray-100">
-              <th className="p-3 border">Order ID</th>
-              <th className="p-3 border">User ID</th>
-              <th className="p-3 border">Address</th>
+              <th className="p-3 border">Order</th>
+              <th className="p-3 border">User</th>
+              <th className="p-3 border">Email</th>
+              <th className="p-3 border">Date</th>
               <th className="p-3 border">Amount</th>
+              <th className="p-3 border">Tax</th>
+              <th className="p-3 border">Discount</th>
+              <th className="p-3 border">Coupon</th>
               <th className="p-3 border">Status</th>
               <th className="p-3 border">Items</th>
-              <th className="p-3 border text-center">Action</th>
+              <th className="p-3 border">Action</th>
             </tr>
           </thead>
 
@@ -135,11 +120,15 @@ const OrdersPage: React.FC = () => {
             {orders.map((o) => (
               <tr key={o.orderId} className="hover:bg-gray-50">
                 <td className="p-3 border">{o.orderId}</td>
-                <td className="p-3 border">{o.userId}</td>
-                <td className="p-3 border">{o.address}</td>
-                <td className="p-3 border text-green-700 font-semibold">
-                  ₹{o.totalAmount}
+                <td className="p-3 border">{o.userName}</td>
+                <td className="p-3 border">{o.userEmail}</td>
+                <td className="p-3 border">{o.placedAt}</td>
+                <td className="p-3 border font-semibold text-green-700">
+                  ₹{o.totalAmount} {o.currency}
                 </td>
+                <td className="p-3 border">₹{o.totalTax}</td>
+                <td className="p-3 border">₹{o.totalDiscount}</td>
+                <td className="p-3 border">{o.couponCode || "—"}</td>
                 <td className="p-3 border">{o.orderStatus}</td>
                 <td className="p-3 border">{o.items.length}</td>
                 <td className="p-3 border text-center">
@@ -156,36 +145,54 @@ const OrdersPage: React.FC = () => {
         </table>
       </div>
 
-      {/* DETAILS POPUP */}
+      {/* POPUP */}
       {selectedOrder && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center">
-          <div className="bg-white p-6 rounded shadow-xl w-2/3 max-h-[80vh] overflow-auto">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
+          <div className="bg-white w-3/4 max-h-[85vh] overflow-auto p-6 rounded shadow-xl">
             <h2 className="text-2xl font-bold mb-4">
               Order #{selectedOrder.orderId}
             </h2>
 
-            <p><b>User:</b> {selectedOrder.userId}</p>
-            <p><b>Shipping Address:</b> {selectedOrder.address}</p>
+            <p><b>User:</b> {selectedOrder.userName}</p>
+            <p><b>Email:</b> {selectedOrder.userEmail}</p>
+            <p><b>Placed At:</b> {selectedOrder.placedAt}</p>
             <p><b>Status:</b> {selectedOrder.orderStatus}</p>
+            <p><b>Shipping:</b> {parseAddress(selectedOrder.shippingAddress)}</p>
 
-            <h3 className="text-xl font-semibold mt-4">Items</h3>
+            <h3 className="text-xl font-semibold mt-4 mb-2">Items</h3>
 
-            <table className="w-full mt-2 border-collapse">
+            <table className="w-full border-collapse text-sm">
               <thead>
                 <tr className="bg-gray-100">
                   <th className="p-2 border">Product</th>
                   <th className="p-2 border">Qty</th>
                   <th className="p-2 border">Price</th>
+                  <th className="p-2 border">Tax</th>
+                  <th className="p-2 border">Discount</th>
                   <th className="p-2 border">Total</th>
                 </tr>
               </thead>
+
               <tbody>
                 {selectedOrder.items.map((i, idx) => (
                   <tr key={idx}>
-                    <td className="p-2 border">{i.productName}</td>
+                    <td className="p-2 border flex gap-2 items-center">
+                      <img
+                        src={i.imageUrl}
+                        className="w-10 h-10 object-cover"
+                      />
+                      <div>
+                        <div>{i.productName}</div>
+                        <div className="text-xs text-gray-500">
+                          {i.variantLabel}
+                        </div>
+                      </div>
+                    </td>
                     <td className="p-2 border">{i.quantity}</td>
                     <td className="p-2 border">₹{i.unitPrice}</td>
-                    <td className="p-2 border text-green-700 font-semibold">
+                    <td className="p-2 border">₹{i.taxAmount}</td>
+                    <td className="p-2 border">₹{i.discountAmount}</td>
+                    <td className="p-2 border font-semibold text-green-700">
                       ₹{i.lineTotal}
                     </td>
                   </tr>

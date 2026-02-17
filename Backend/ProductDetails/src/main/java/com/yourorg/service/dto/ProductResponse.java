@@ -1,5 +1,6 @@
 package com.yourorg.service.dto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ProductResponse {
@@ -12,7 +13,8 @@ public class ProductResponse {
     private String imageUrl;
     private List<String> imageUrls;
     private List<ProductVariantResponse> variants;
-    private String customId;  // MUST BE HERE
+    private String customId;
+    private LocalDateTime createdAt; // IMPORTANT
 
     public ProductResponse() {}
 
@@ -24,7 +26,8 @@ public class ProductResponse {
                            String imageUrl,
                            List<String> imageUrls,
                            List<ProductVariantResponse> variants,
-                           String customId) {
+                           String customId,
+                           LocalDateTime createdAt) {   // ADD HERE
         this.id = id;
         this.categoryId = categoryId;
         this.subcategoryId = subcategoryId;
@@ -33,7 +36,8 @@ public class ProductResponse {
         this.imageUrl = imageUrl;
         this.imageUrls = imageUrls;
         this.variants = variants;
-        this.customId = customId;  // IMPORTANT
+        this.customId = customId;
+        this.createdAt = createdAt; // ADD HERE
     }
 
     public Long getId() { return id; }
@@ -45,6 +49,8 @@ public class ProductResponse {
     public List<String> getImageUrls() { return imageUrls; }
     public List<ProductVariantResponse> getVariants() { return variants; }
     public String getCustomId() { return customId; }
+    public LocalDateTime getCreatedAt() { return createdAt; } // ADD
 
     public void setCustomId(String customId) { this.customId = customId; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; } // ADD
 }

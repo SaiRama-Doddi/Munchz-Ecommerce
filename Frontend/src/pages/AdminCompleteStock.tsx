@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import inventoryApi from "../api/inventoryApi";
 import offlineInventoryApi from "../api/offlineInventoryApi";
+import api from "../api/client";
 
 interface StockRow {
   productName: string;
@@ -15,13 +16,21 @@ export default function AdminCompleteStock() {
   const [rows, setRows] = useState<StockRow[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const [categories, setCategories] = useState<any[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
+
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
+  const [selectedProductId, setSelectedProductId] = useState("");
+  const [selectedVariant, setSelectedVariant] = useState("");
+  const [search, setSearch] = useState("");
+
+  /* ================= LOAD ALL STOCK ================= */
   const loadAllStock = async () => {
     setLoading(true);
-
     try {
       const [onlineRes, offlineRes] = await Promise.all([
-        inventoryApi.get("/stock/api/inventory"),
-        offlineInventoryApi.get("/stock/api/admin/offline-inventory"),
+        inventoryApi.get("/inventory"),
+        offlineInventoryApi.get("/offline-inventory"),
       ]);
 
       const online = onlineRes.data;
@@ -29,10 +38,8 @@ export default function AdminCompleteStock() {
 
       const map = new Map<string, StockRow>();
 
-      /* ================= ONLINE STOCK ================= */
       online.forEach((o: any) => {
         const key = `${o.productName}__${o.variantLabel}`;
-
         map.set(key, {
           productName: o.productName,
           variantLabel: o.variantLabel,
@@ -43,10 +50,8 @@ export default function AdminCompleteStock() {
         });
       });
 
-      /* ================= OFFLINE STOCK ================= */
       offline.forEach((o: any) => {
         const key = `${o.productName}__${o.variantLabel}`;
-
         if (map.has(key)) {
           map.get(key)!.offlineQty = Number(o.quantity) || 0;
         } else {
@@ -61,15 +66,11 @@ export default function AdminCompleteStock() {
         }
       });
 
-      /* ================= CALCULATE TOTAL ================= */
-      map.forEach((row) => {
-        row.totalQty = row.onlineQty + row.offlineQty;
+      map.forEach((r) => {
+        r.totalQty = r.onlineQty + r.offlineQty;
       });
 
       setRows(Array.from(map.values()));
-    } catch (error) {
-      console.error("Failed to load complete stock", error);
-      alert("Failed to load complete stock");
     } finally {
       setLoading(false);
     }
@@ -77,49 +78,185 @@ export default function AdminCompleteStock() {
 
   useEffect(() => {
     loadAllStock();
+    api.get("/categories").then((res) => setCategories(res.data));
   }, []);
 
-  return (
-    <div className="max-w-7xl mx-auto mt-8 bg-white p-6 rounded shadow">
-      <h2 className="text-2xl font-bold mb-6">
-        Complete Stock (Offline + Online + Total)
-      </h2>
+  /* ================= PRODUCTS FROM CATEGORY ================= */
+  useEffect(() => {
+    if (!selectedCategoryId) {
+      setProducts([]);
+      return;
+    }
+    api
+      .get(`/products/category/${selectedCategoryId}`)
+      .then((res) => setProducts(res.data));
+  }, [selectedCategoryId]);
 
-      {loading ? (
-        <p className="text-center">Loading...</p>
-      ) : rows.length === 0 ? (
-        <p className="text-gray-500 text-center">No stock available</p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full border border-gray-300 text-center text-sm">
+  /* ================= VARIANTS FROM DB ROWS ================= */
+  const variants = useMemo(() => {
+    const set = new Set<string>();
+
+    rows.forEach((r) => {
+      const categoryMatch = selectedCategoryId
+        ? r.categoryName ===
+          categories.find((c) => c.id === Number(selectedCategoryId))?.name
+        : true;
+
+      const productMatch = selectedProductId
+        ? r.productName ===
+          products.find((p) => p.id === Number(selectedProductId))?.name
+        : true;
+
+      if (categoryMatch && productMatch) {
+        set.add(r.variantLabel);
+      }
+    });
+
+    return Array.from(set);
+  }, [rows, selectedCategoryId, selectedProductId, categories, products]);
+
+  /* ================= FILTERED ROWS ================= */
+  const filteredRows = useMemo(() => {
+    return rows.filter((r) => {
+      const matchesSearch = r.productName
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+      const matchesCategory = selectedCategoryId
+        ? r.categoryName ===
+          categories.find((c) => c.id === Number(selectedCategoryId))?.name
+        : true;
+
+      const matchesProduct = selectedProductId
+        ? r.productName ===
+          products.find((p) => p.id === Number(selectedProductId))?.name
+        : true;
+
+      const matchesVariant = selectedVariant
+        ? r.variantLabel === selectedVariant
+        : true;
+
+      return (
+        matchesSearch &&
+        matchesCategory &&
+        matchesProduct &&
+        matchesVariant
+      );
+    });
+  }, [
+    rows,
+    search,
+    selectedCategoryId,
+    selectedProductId,
+    selectedVariant,
+    categories,
+    products,
+  ]);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 py-10">
+      <div className="max-w-7xl mx-auto bg-white/80 backdrop-blur-xl border border-gray-200 shadow-2xl rounded-3xl p-10">
+
+        <h2 className="text-4xl font-bold mb-8">Complete Stock Overview</h2>
+
+        {/* FILTER BAR */}
+        <div className="grid md:grid-cols-5 gap-4 mb-8">
+
+          <input
+            placeholder="Search product..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="border rounded-xl px-4 py-2"
+          />
+
+          <select
+            value={selectedCategoryId}
+            onChange={(e) => {
+              setSelectedCategoryId(e.target.value);
+              setSelectedProductId("");
+              setSelectedVariant("");
+            }}
+            className="border rounded-xl px-4 py-2"
+          >
+            <option value="">All Categories</option>
+            {categories.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={selectedProductId}
+            onChange={(e) => {
+              setSelectedProductId(e.target.value);
+              setSelectedVariant("");
+            }}
+            className="border rounded-xl px-4 py-2"
+          >
+            <option value="">All Products</option>
+            {products.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={selectedVariant}
+            onChange={(e) => setSelectedVariant(e.target.value)}
+            className="border rounded-xl px-4 py-2"
+          >
+            <option value="">All Variants</option>
+            {variants.map((v, i) => (
+              <option key={i} value={v}>
+                {v}
+              </option>
+            ))}
+          </select>
+
+          <button
+            onClick={() => {
+              setSearch("");
+              setSelectedCategoryId("");
+              setSelectedProductId("");
+              setSelectedVariant("");
+            }}
+            className="bg-gray-200 rounded-xl px-4 py-2"
+          >
+            Clear
+          </button>
+        </div>
+
+        {/* TABLE */}
+        <div className="overflow-x-auto rounded-xl border">
+          <table className="w-full text-sm">
             <thead className="bg-gray-100">
               <tr>
-                <th className="border px-3 py-2">Product</th>
-                <th className="border px-3 py-2">Variant</th>
-                <th className="border px-3 py-2">Category</th>
-                <th className="border px-3 py-2">Offline Qty</th>
-                <th className="border px-3 py-2">Online Qty</th>
-                <th className="border px-3 py-2 font-semibold">Total Qty</th>
+                <th className="p-4">Product</th>
+                <th className="p-4">Variant</th>
+                <th className="p-4">Category</th>
+                <th className="p-4 text-center">Offline</th>
+                <th className="p-4 text-center">Online</th>
+                <th className="p-4 text-center">Total</th>
               </tr>
             </thead>
-
             <tbody>
-              {rows.map((r, index) => (
-                <tr key={index} className="border-t hover:bg-gray-50">
-                  <td className="border px-3 py-2">{r.productName}</td>
-                  <td className="border px-3 py-2">{r.variantLabel}</td>
-                  <td className="border px-3 py-2">{r.categoryName || "-"}</td>
-                  <td className="border px-3 py-2">{r.offlineQty}</td>
-                  <td className="border px-3 py-2">{r.onlineQty}</td>
-                  <td className="border px-3 py-2 font-bold text-green-700">
-                    {r.totalQty}
-                  </td>
+              {filteredRows.map((r, i) => (
+                <tr key={i} className="border-t text-center">
+                  <td className="p-4">{r.productName}</td>
+                  <td className="p-4">{r.variantLabel}</td>
+                  <td className="p-4">{r.categoryName}</td>
+                  <td className="p-4 text-red-600">{r.offlineQty}</td>
+                  <td className="p-4 text-indigo-600">{r.onlineQty}</td>
+                  <td className="p-4 font-bold text-green-700">{r.totalQty}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-      )}
+
+      </div>
     </div>
   );
 }

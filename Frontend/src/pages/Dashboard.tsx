@@ -1,22 +1,22 @@
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
+  PieChart,
+  Pie,
+  Cell,
   Tooltip,
   ResponsiveContainer,
   BarChart,
   Bar,
-  PieChart,
-  Pie,
-  Cell,
+  XAxis,
+  YAxis,
+  Legend,
 } from "recharts";
 
+import { useEffect, useMemo, useState } from "react";
+import inventoryApi from "../api/inventoryApi";
 import { useCategories, useProducts } from "../hooks/useQueryHelpers";
 
-/* =========================
-   TYPES
-========================= */
+/* ================= TYPES ================= */
+
 interface Category {
   id: number;
   name: string;
@@ -26,11 +26,18 @@ interface Product {
   id: number;
   name: string;
   imageUrl: string;
+  createdAt: string; // IMPORTANT
 }
 
-/* =========================
-   CONSTANTS
-========================= */
+interface Stock {
+  id: number;
+  productId: number;
+  productName: string;
+  categoryName: string;
+  variantLabel: string;
+  quantity: number; // grams
+}
+
 const COLORS: string[] = [
   "#16a34a",
   "#22c55e",
@@ -38,150 +45,193 @@ const COLORS: string[] = [
   "#86efac",
 ];
 
-/* =========================
-   COMPONENT
-========================= */
+/* ================= COMPONENT ================= */
+
 export default function Dashboard() {
   const { data: cats = [] } = useCategories();
-  const { data: products = [] } = useProducts();
+  const { data: prods = [] } = useProducts();
 
-  /* =========================
-     MOCK ANALYTICS DATA
-     (Replace with API later)
-  ========================= */
-  const productGrowth: { month: string; count: number }[] = [
-    { month: "Jan", count: 12 },
-    { month: "Feb", count: 18 },
-    { month: "Mar", count: 25 },
-    { month: "Apr", count: 32 },
-    { month: "May", count: 40 },
-  ];
+  // locally type them (fixes TS errors)
+  const categories: Category[] = cats;
+  const products: Product[] = prods;
 
+  const [stocks, setStocks] = useState<Stock[]>([]);
+
+  /* ===== LOAD INVENTORY ===== */
+  useEffect(() => {
+    inventoryApi.get("/inventory").then((res) => {
+      setStocks(res.data);
+    });
+  }, []);
+
+  /* ===== TOTAL STOCK ===== */
+  const totalStockGrams = useMemo(() => {
+    return stocks.reduce(
+      (sum: number, s: Stock) => sum + s.quantity,
+      0
+    );
+  }, [stocks]);
+
+  const totalStockKg = (totalStockGrams / 1000).toFixed(2);
+
+  /* ===== LOW STOCK ===== */
+  const lowStockItems = useMemo(() => {
+    return stocks.filter(
+      (s: Stock) => s.quantity < 100
+    ).length;
+  }, [stocks]);
+
+  /* ===== STOCK BY CATEGORY ===== */
   const stockByCategory: { name: string; value: number }[] =
-    cats.map((c: Category) => ({
-      name: c.name,
-      value: Math.floor(Math.random() * 500) + 100,
-    }));
+    useMemo(() => {
+      return categories.map((c: Category) => {
+        const total = stocks
+          .filter(
+            (s: Stock) =>
+              s.categoryName === c.name
+          )
+          .reduce(
+            (sum: number, s: Stock) =>
+              sum + s.quantity,
+            0
+          );
+
+        return {
+          name: c.name,
+          value: +(total / 1000).toFixed(2),
+        };
+      });
+    }, [categories, stocks]);
+
+    console.log(products.map(p => ({
+  name: p.name,
+  createdAt: p.createdAt
+})));
+
+const recentProducts: Product[] = [...products]
+  .sort((a, b) => {
+    const da = a.createdAt
+      ? new Date(a.createdAt).getTime()
+      : 0;
+
+    const db = b.createdAt
+      ? new Date(b.createdAt).getTime()
+      : 0;
+
+    return db - da;
+  })
+  .slice(0, 6);
+
 
   return (
     <div className="space-y-8">
-
-      {/* HEADER */}
-      <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+      <h1 className="text-3xl font-bold">
+        Admin Dashboard
+      </h1>
 
       {/* KPI CARDS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card title="Categories" value={cats.length} />
-        <Card title="Products" value={products.length} />
-        <Card title="Total Stock (KG)" value="1,240" />
-        <Card title="Low Stock Items" value="7" danger />
+        <Card
+          title="Categories"
+          value={categories.length}
+        />
+        <Card
+          title="Products"
+          value={products.length}
+        />
+        <Card
+          title="Total Stock (KG)"
+          value={totalStockKg}
+        />
+        <Card
+          title="Low Stock Items"
+          value={lowStockItems}
+          danger
+        />
       </div>
 
-      {/* ANALYTICS */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-        {/* LINE CHART */}
-        <div className="bg-white p-5 rounded-xl shadow lg:col-span-2">
-          <h2 className="font-semibold mb-4">
-            Product Growth
-          </h2>
-
-          <ResponsiveContainer width="100%" height={280}>
-            <LineChart data={productGrowth}>
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Line
-                type="monotone"
-                dataKey="count"
-                stroke="#16a34a"
-                strokeWidth={3}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* PIE CHART */}
-        <div className="bg-white p-5 rounded-xl shadow">
-          <h2 className="font-semibold mb-4">
-            Stock Distribution
-          </h2>
-
-          <ResponsiveContainer width="100%" height={280}>
-            <PieChart>
-              <Pie
-                data={stockByCategory}
-                dataKey="value"
-                nameKey="name"
-                outerRadius={90}
-                label
-              >
-                {stockByCategory.map(
-                  (
-                    _item: { name: string; value: number },
-                    index: number
-                  ) => (
-                    <Cell
-                      key={index}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  )
-                )}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
+      {/* PIE CHART */}
+      <ChartCard title="Stock Distribution">
+        <ResponsiveContainer width="100%" height={300}>
+          <PieChart>
+            <Pie
+              data={stockByCategory}
+              dataKey="value"
+              nameKey="name"
+              outerRadius={100}
+              label
+            >
+              {stockByCategory.map(
+                (
+                  _: {
+                    name: string;
+                    value: number;
+                  },
+                  i: number
+                ) => (
+                  <Cell
+                    key={i}
+                    fill={
+                      COLORS[
+                        i % COLORS.length
+                      ]
+                    }
+                  />
+                )
+              )}
+            </Pie>
+            <Legend />
+            <Tooltip />
+          </PieChart>
+        </ResponsiveContainer>
+      </ChartCard>
 
       {/* BAR CHART */}
-      <div className="bg-white p-5 rounded-xl shadow">
-        <h2 className="font-semibold mb-4">
-          Stock by Category
-        </h2>
-
+      <ChartCard title="Stock by Category">
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={stockByCategory}>
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <Bar dataKey="value" fill="#22c55e" />
+            <Bar
+              dataKey="value"
+              fill="#22c55e"
+            />
           </BarChart>
         </ResponsiveContainer>
-      </div>
+      </ChartCard>
 
       {/* RECENT PRODUCTS */}
-      <section className="bg-white p-5 rounded-xl shadow">
-        <h2 className="font-semibold mb-4">
-          Recent Products
-        </h2>
+     <section className="bg-white p-5 rounded-xl shadow">
+  <h2 className="font-semibold mb-4">
+    Recent Products
+  </h2>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-          {products.slice(0, 6).map((p: Product) => (
-            <div
-              key={p.id}
-              className="border rounded-lg p-3 hover:shadow transition"
-            >
-              <img
-                src={p.imageUrl}
-                alt={p.name}
-                className="h-28 w-full object-contain mb-2"
-              />
-              <div className="text-sm font-medium truncate">
-                {p.name}
-              </div>
-            </div>
-          ))}
+  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+    {recentProducts.map((p: Product) => (
+      <div
+        key={p.id}
+        className="border rounded-lg p-3 hover:shadow transition"
+      >
+        <img
+          src={p.imageUrl}
+          alt={p.name}
+          className="h-28 w-full object-contain mb-2"
+        />
+        <div className="text-sm font-medium truncate">
+          {p.name}
         </div>
-      </section>
+      </div>
+    ))}
+  </div>
+</section>
 
     </div>
   );
 }
 
-/* =========================
-   CARD COMPONENT
-========================= */
+/* ================= UI ================= */
+
 function Card({
   title,
   value,
@@ -198,11 +248,30 @@ function Card({
       </div>
       <div
         className={`text-3xl font-bold ${
-          danger ? "text-red-600" : "text-green-700"
+          danger
+            ? "text-red-600"
+            : "text-green-700"
         }`}
       >
         {value}
       </div>
+    </div>
+  );
+}
+
+function ChartCard({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="bg-white p-5 rounded-xl shadow">
+      <h2 className="font-semibold mb-4">
+        {title}
+      </h2>
+      {children}
     </div>
   );
 }
