@@ -41,7 +41,7 @@ export default function OfflineInventoryList() {
 
   /* ================= EDIT ================= */
   const editStock = (stock: any) => {
-    navigate("/offline-inventorys/add", {
+    navigate("/admin/offline-add", {
       state: { stock }
     });
   };
@@ -73,7 +73,7 @@ export default function OfflineInventoryList() {
           </div>
 
           <button
-            onClick={() => navigate("/offline-inventorys/add")}
+            onClick={() => navigate("/admin/offline-add")}
             className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-xl shadow-lg hover:scale-[1.03]"
           >
             + Add Offline Stock

@@ -241,34 +241,31 @@ const handleViewMoreReviews = () => {
 
 
 
-      <div className="bg-[#f6fff4] min-h-screen py-12 ">
+      <div className="bg-[#f6fff4]  py-10 ">
 
-        <button
-          onClick={() => navigate(-1)}
-          className="mt-0 mb-8 ml-[136px]
-      inline-flex items-center gap-3
-      bg-white px-4 py-2 rounded-full
-      shadow-md border border-green-100
-      text-green-700 font-medium
-      hover:bg-green-50 hover:shadow-lg
-      active:scale-95
-      transition-all duration-200
-      cursor-pointer
-    "
-        >
-          <span className="
-      flex items-center justify-center
-      w-8 h-8 rounded-full
-      bg-green-700 text-white
-      text-lg
-    ">
-            ←
-          </span>
-          Back
-        </button>
+    <button
+  onClick={() => navigate(-1)}
+  className="
+    mt-0 mb-8 ml-[136px]
+    w-10 h-10
+    flex items-center justify-center
+    rounded-full
+    bg-white
+    shadow-md
+    border border-green-100
+    text-green-700
+    hover:bg-green-50
+    hover:shadow-lg
+    active:scale-95
+    transition-all duration-200
+  "
+>
+  <ArrowLeft size={20} />
+</button>
 
 
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+        <div className="max-w-7xl  mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12">
 
           {/* ================= LEFT IMAGE (AMAZON OVERLAY ZOOM) ================= */}
           <div className="relative">
@@ -374,7 +371,7 @@ const handleViewMoreReviews = () => {
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setQty(Math.max(1, qty - 1))}
-                  className="border px-3 py-1 rounded"
+                  className="border px-3 py-1 rounded cursor-pointer"
                 >
                   −
                 </button>
@@ -383,7 +380,7 @@ const handleViewMoreReviews = () => {
 
                 <button
                   onClick={() => setQty(qty + 1)}
-                  className="border px-3 py-1 rounded"
+                  className="border px-3 py-1 rounded cursor-pointer"
                 >
                   +
                 </button>
@@ -396,7 +393,7 @@ const handleViewMoreReviews = () => {
                 <button
                   key={i}
                   onClick={() => setSelectedVariantIndex(i)}
-                  className={`px-4 py-1 rounded border ${selectedVariantIndex === i
+                  className={`px-4 py-1 rounded border cursor-pointer ${selectedVariantIndex === i
                       ? "bg-green-700 text-white"
                       : ""
                     }`}
@@ -471,7 +468,7 @@ const handleViewMoreReviews = () => {
 {/* ================= REVIEWS SECTION ================= */}
 
 {/* ================= REVIEWS SECTION ================= */}
-<div className="max-w-7xl mx-auto px-6 mt-20">
+<div className="max-w-7xl mx-auto px-6 mt-8">
   <h2 className="text-2xl font-semibold mb-10">
     Customer Reviews ({reviews?.length || 0})
   </h2>
@@ -533,7 +530,7 @@ const handleViewMoreReviews = () => {
 
 
       {/* ================= RELATED PRODUCTS ================= */}
-     <div className="max-w-7xl mx-auto px-6 mt-16 mb-10">
+     <div className="max-w-7xl mx-auto px-6 mt-12 mb-10">
   <h2 className="text-2xl font-semibold mb-8">Related Products</h2>
 
   <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">

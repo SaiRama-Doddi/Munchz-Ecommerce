@@ -1,10 +1,32 @@
-
-
 export default function TopHeader() {
+  const messages = [
+    'Get 5% Discount on Purchase of 599 and Above With Code "SAVER0"',
+    "Free Shipping on Orders Above ₹799",
+    "100% Natural & Premium Quality Products",
+    "Cash on Delivery Available Across India",
+    "Freshly Packed & Delivered to Your Doorstep",
+  ];
+
   return (
-    <div className="w-full bg-[#e3f0e8] text-center py-2 text-sm font-medium text-gray-800">  {/*  #f3efe4 */}   {/* #d1ddc7 */} {/*  #abbfa6 */}
-      Get 5% Discount on Purchase of 599 and Above With Code
-      <span className="font-bold"> "SAVER0"</span>
+    <div className="w-full bg-green-200 overflow-hidden py-2">
+      <div className="marquee">
+        <div className="marquee-content">
+          {messages.map((msg, i) => (
+            <span key={i} className="mx-8">
+              ✦ {msg}
+            </span>
+          ))}
+        </div>
+
+        {/* duplicate for seamless loop */}
+        <div className="marquee-content">
+          {messages.map((msg, i) => (
+            <span key={i} className="mx-8">
+              ✦ {msg}
+            </span>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

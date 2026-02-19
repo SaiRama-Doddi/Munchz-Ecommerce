@@ -11,8 +11,10 @@ import com.auth.auth_service.service.GoogleTokenVerifier;
 import com.auth.auth_service.service.OtpService;
 import com.auth.auth_service.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
@@ -47,7 +49,7 @@ public class AuthController {
     public Map<String, Object> register(@RequestBody RegisterRequest req) {
 
         if (userRepo.existsByEmail(req.email())) {
-            throw new RuntimeException("Email already registered");
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Email already registered");
         }
 
         // Save user in Auth DB
@@ -346,6 +348,16 @@ public class AuthController {
     ) {
         ProfileResponse profile =
                 userProfileClient.patchProfile(token, req);
+
+        return ResponseEntity.ok(profile);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<ProfileResponse> getProfile(
+            @RequestHeader("Authorization") String token
+    ) {
+        ProfileResponse profile =
+                userProfileClient.getProfile(token);
 
         return ResponseEntity.ok(profile);
     }

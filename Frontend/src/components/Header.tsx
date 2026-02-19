@@ -16,6 +16,14 @@ import { useCart } from "../state/CartContext";
 import { useState } from "react";
 import ProfileDashboard from "./ProfileDashboard";
 import { Link, NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+
+import { useQuery } from "@tanstack/react-query";
+import api from "../api/client";
+
+
+
 
 export default function Header() {
   const { profile } = useAuth();
@@ -25,6 +33,24 @@ export default function Header() {
   const [openProfile, setOpenProfile] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [openMenu, setOpenMenu] = useState(false);
+const navigate = useNavigate();
+
+const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (e.key === "Enter" && searchTerm.trim()) {
+    navigate(`/search?keyword=${searchTerm}`);
+  }
+};
+
+
+
+const { data: suggestions = [] } = useQuery({
+  queryKey: ["search-suggestions", searchTerm],
+  enabled: searchTerm.length > 1,
+  queryFn: async () => {
+    const res = await api.get(`/products/search?keyword=${searchTerm}`);
+    return res.data.slice(0, 5); // limit 5 results
+  },
+});
 
   return (
     <>
@@ -68,17 +94,56 @@ export default function Header() {
 
 
           {/* Search (desktop) */}
-          <div className="hidden md:flex flex-1 mx-10 max-w-md">
-            <div className="flex items-center w-full bg-gray-50 border rounded-full px-4 py-2">
-              <Search size={18} className="text-gray-500" />
-              <input
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search products..."
-                className="bg-transparent outline-none px-3 w-full text-sm"
-              />
-            </div>
+          <div className="hidden md:flex flex-1 mx-10 max-w-md relative">
+  <div className="flex items-center w-full bg-gray-50 border rounded-full px-4 py-2">
+    <Search size={18} className="text-gray-500" />
+    <input
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+      onKeyDown={handleSearch}
+      placeholder="Search products..."
+      className="bg-transparent outline-none px-3 w-full text-sm"
+    />
+  </div>
+
+  {/* Suggestions Dropdown */}
+  {searchTerm.length > 1 && suggestions.length > 0 && (
+    <div className="absolute top-full mt-2 w-full bg-white shadow-xl rounded-xl border z-50 overflow-hidden">
+      {suggestions.map((p: any) => (
+        <div
+          key={p.id}
+          onClick={() => {
+            navigate(`/product/${p.id}`);
+            setSearchTerm("");
+          }}
+          className="flex items-center gap-3 px-4 py-3 hover:bg-green-50 cursor-pointer transition"
+        >
+          <img
+            src={p.imageUrl}
+            className="w-10 h-10 object-contain rounded"
+          />
+          <div>
+            <p className="text-sm font-medium">{p.name}</p>
+            <p className="text-xs text-gray-500">
+              {p.categoryName}
+            </p>
           </div>
+        </div>
+      ))}
+
+      <div
+        onClick={() => {
+          navigate(`/search?keyword=${searchTerm}`);
+          setSearchTerm("");
+        }}
+        className="px-4 py-3 text-sm text-green-700 hover:bg-green-100 cursor-pointer"
+      >
+        View all results →
+      </div>
+    </div>
+  )}
+</div>
+
 
           {/* Right Icons */}
           <div className="flex items-center gap-6 text-gray-700">
@@ -113,7 +178,7 @@ export default function Header() {
             {profile ? (
   <button
     onClick={() => setOpenProfile(true)}
-    className="text-sm font-medium text-gray-700"
+    className="text-sm font-medium text-gray-700 cursor-pointer"
   >
     Hi, {profile.firstName}
   </button>
@@ -133,17 +198,55 @@ export default function Header() {
       </header>
 
       {/* ================= MOBILE SEARCH ================= */}
-      <div className="md:hidden px-4 py-3 bg-white border-b">
-        <div className="flex items-center bg-gray-50 border rounded-full px-4 py-2">
-          <Search size={18} className="text-gray-500" />
-          <input
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search products..."
-            className="bg-transparent outline-none px-3 w-full text-sm"
+      <div className="md:hidden px-4 py-3 bg-white border-b relative">
+  <div className="flex items-center bg-gray-50 border rounded-full px-4 py-2">
+    <Search size={18} className="text-gray-500" />
+    <input
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+      onKeyDown={handleSearch}
+      placeholder="Search products..."
+      className="bg-transparent outline-none px-3 w-full text-sm"
+    />
+  </div>
+
+  {searchTerm.length > 1 && suggestions.length > 0 && (
+    <div className="absolute left-4 right-4 mt-2 bg-white shadow-xl rounded-xl border z-50 overflow-hidden">
+      {suggestions.map((p: any) => (
+        <div
+          key={p.id}
+          onClick={() => {
+            navigate(`/product/${p.id}`);
+            setSearchTerm("");
+          }}
+          className="flex items-center gap-3 px-4 py-3 hover:bg-green-50 cursor-pointer"
+        >
+          <img
+            src={p.imageUrl}
+            className="w-10 h-10 object-contain rounded"
           />
+          <div>
+            <p className="text-sm font-medium">{p.name}</p>
+            <p className="text-xs text-gray-500">
+              {p.categoryName}
+            </p>
+          </div>
         </div>
+      ))}
+
+      <div
+        onClick={() => {
+          navigate(`/search?keyword=${searchTerm}`);
+          setSearchTerm("");
+        }}
+        className="px-4 py-3 text-sm text-green-700 hover:bg-green-100 cursor-pointer"
+      >
+        View all results →
       </div>
+    </div>
+  )}
+</div>
+
 
       {/* ================= LEFT SIDEBAR MENU ================= */}
       {openMenu && (
@@ -250,7 +353,7 @@ export default function Header() {
     {profile ? (
       <button
         onClick={() => setOpenProfile(true)}
-        className="flex flex-col items-center text-[11px] gap-1 text-gray-700"
+        className="flex flex-col items-center text-[11px] gap-1 text-gray-700 cursor-pointer"
       >
         <User size={22} />
         Profile

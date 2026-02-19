@@ -14,7 +14,7 @@ import {
   Home,
 } from "lucide-react";
 
-const items = [
+/* const items = [
   { to: "/", label: "Home", icon: Home },
   { to: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/admin/category", label: "Categories", icon: Layers },
@@ -31,7 +31,33 @@ const items = [
   { to: "/AdminCompleteStock", label: "Complete Stock", icon: Boxes },
   { to: "/admincoupons", label: "Coupons", icon: TicketPercent },
   { to: "/adminreviews", label: "Reviews", icon: ClipboardList },
+]; */
+
+
+
+const items = [
+  { to: "/", label: "Home", icon: Home },
+  { to: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/admin/category", label: "Categories", icon: Layers },
+  { to: "/admin/sub-category", label: "Subcategories", icon: Layers },
+  { to: "/admin/products", label: "Products", icon: ShoppingBag },
+  { to: "/admin/orders", label: "Orders", icon: ClipboardList },
+
+  { to: "/admin/addstock", label: "Add Stock", icon: PackagePlus },
+  { to: "/admin/inventory", label: "Stock List", icon: Warehouse },
+ /*  { to: "/admin/history", label: "Stock History", icon: History }, */
+
+  { to: "/admin/stock-entry", label: "Stock Entry", icon: PackagePlus },
+  { to: "/admin/stock-details", label: "Stock Details", icon: PackageSearch },
+
+  { to: "/admin/offline-add", label: "Add Offline Stock", icon: Store },
+  { to: "/admin/offline-inventory", label: "Offline Inventory", icon: Store },
+  { to: "/admin/complete-stock", label: "Complete Stock", icon: Boxes },
+
+  { to: "/admin/coupons", label: "Coupons", icon: TicketPercent },
+  { to: "/admin/reviews", label: "Reviews", icon: ClipboardList },
 ];
+
 
 export default function Sidebar() {
   return (

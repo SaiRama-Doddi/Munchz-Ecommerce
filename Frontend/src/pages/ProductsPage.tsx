@@ -3,6 +3,8 @@ import React, { useState, useMemo, useEffect } from "react";
   import { useQuery } from "@tanstack/react-query";
   import api from "../api/client";
   import { useCart } from "../state/CartContext";
+  import { ArrowLeft } from "lucide-react";
+
 
   /* =========================
     TYPES
@@ -105,6 +107,8 @@ function ProductReviewStats({ productId }: { productId: number }) {
     const { addToCart } = useCart();
 
     const { data: products = [], isLoading, isError } = useAllProducts();
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
+
 
     /* PRODUCT STATE */
     const [qtyMap, setQtyMap] = useState<Record<number, number>>({});
@@ -206,7 +210,7 @@ function ProductReviewStats({ productId }: { productId: number }) {
     <div className="bg-[#f6fff4] min-h-screen flex items-center justify-center">
       <div className="flex flex-col items-center gap-4">
         <div className="h-12 w-12 border-4 border-green-700 border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-gray-600 font-medium">Fetching your orders...</p>
+        <p className="text-gray-600 font-medium">Fetching your products...</p>
       </div>
     </div>
   );
@@ -223,29 +227,43 @@ function ProductReviewStats({ productId }: { productId: number }) {
     return (
       <div className="bg-[#f3fff1] min-h-screen py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <button
-            onClick={() => navigate(-1)}
-            className="mt-0 mb-8
-      inline-flex items-center gap-3
-      bg-white px-4 py-2 rounded-full
-      shadow-md border border-green-100
-      text-green-700 font-medium
-      hover:bg-green-50 hover:shadow-lg
-      active:scale-95
-      transition-all duration-200
-      cursor-pointer
-    "
-          >
-            <span className="
-      flex items-center justify-center
-      w-8 h-8 rounded-full
-      bg-green-700 text-white
-      text-lg
-    ">
-              ←
-            </span>
-            Back
-          </button>
+      <button
+  onClick={() => navigate(-1)}
+  className="
+    mt-0 mb-8 -ml-[180px]
+    w-10 h-10
+    flex items-center justify-center
+    rounded-full
+    bg-white
+    shadow-md
+    border border-green-100
+    text-green-700
+    hover:bg-green-50
+    hover:shadow-lg
+    active:scale-95
+    transition-all duration-200 cursor-pointer
+  "
+>
+  <ArrowLeft size={20} />
+</button>
+
+
+
+
+
+
+
+{/* MOBILE FILTER BUTTON */}
+<div className="flex justify-between items-center mb-6 lg:hidden">
+  <h2 className="text-2xl font-semibold">All Products</h2>
+
+  <button
+    onClick={() => setIsFilterOpen(true)}
+    className="bg-green-700 text-white px-4 py-2 rounded-lg"
+  >
+    ☰ Filters
+  </button>
+</div>
 
 
           <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8">
@@ -286,6 +304,73 @@ function ProductReviewStats({ productId }: { productId: number }) {
                 ))}
               </div>
             </aside>
+
+
+            {/* ================= MOBILE FILTER DRAWER ================= */}
+{isFilterOpen && (
+  <div className="fixed inset-0 z-50 flex">
+    {/* BACKDROP */}
+    <div
+      className="absolute inset-0 bg-black/40"
+      onClick={() => setIsFilterOpen(false)}
+    />
+
+    {/* DRAWER */}
+    <div className="relative bg-white w-80 h-full p-6 shadow-xl animate-slideIn">
+      <div className="flex justify-between items-center mb-6">
+        <h3 className="font-semibold text-lg">☰ Filters</h3>
+        <button
+          onClick={() => setIsFilterOpen(false)}
+          className="text-gray-500 text-xl"
+        >
+          ✕
+        </button>
+      </div>
+
+      {/* ===== COPY YOUR FILTER CONTENT HERE ===== */}
+      <div className="mb-6">
+        <p className="font-medium mb-2">Price</p>
+        <p className="text-sm mb-2">₹0 to ₹{price}</p>
+        <input
+          type="range"
+          min={0}
+          max={5000}
+          step={50}
+          value={price}
+          onChange={(e) => setPrice(Number(e.target.value))}
+          className="w-full accent-green-600"
+        />
+      </div>
+
+      <div>
+        <p className="font-medium mb-3">Weight</p>
+        {[250, 500, 750, 1000].map((w) => (
+          <label
+            key={w}
+            className="flex items-center gap-2 text-sm mb-2"
+          >
+            <input
+              type="checkbox"
+              checked={weights.includes(w)}
+              onChange={() => toggleWeight(w)}
+              className="accent-green-600"
+            />
+            {w === 1000 ? "1kg" : `${w}gm`}
+          </label>
+        ))}
+      </div>
+
+      {/* APPLY BUTTON */}
+      <button
+        onClick={() => setIsFilterOpen(false)}
+        className="w-full mt-6 bg-green-700 text-white py-2 rounded-lg"
+      >
+        Apply Filters
+      </button>
+    </div>
+  </div>
+)}
+
 
             {/* ================= PRODUCTS ================= */}
             <div>
@@ -440,11 +525,11 @@ const discount =
                         className="flex items-center gap-3 mt-3"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <button onClick={() => decQty(p.id)} className="border px-3 rounded">
+                        <button onClick={() => decQty(p.id)} className="border px-3 rounded cursor-pointer">
                           −
                         </button>
                         <span>{qty}</span>
-                        <button onClick={() => incQty(p.id)} className="border px-3 rounded">
+                        <button onClick={() => incQty(p.id)} className="border px-3 rounded cursor-pointer">
                           +
                         </button>
                       </div>
@@ -464,7 +549,7 @@ const discount =
                               qty,
                             });
                           }}
-                          className="w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-800"
+                          className="w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-800 cursor-pointer transition"
                         >
                           Add to cart
                         </button>

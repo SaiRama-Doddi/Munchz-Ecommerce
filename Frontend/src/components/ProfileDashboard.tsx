@@ -322,8 +322,8 @@ export default function ProfileDashboard({ open, onClose }: Props) {
   <div className="border-t px-6 py-4 space-y-2">
     <button
       onClick={handleSaveProfile}
-      disabled={loading}
-      className="w-full bg-green-600 text-white py-2.5 rounded-lg flex items-center justify-center gap-2"
+      disabled={loading} 
+      className="w-full bg-green-600 text-white py-2.5 rounded-lg flex items-center justify-center gap-2 cursor-pointer transition disabled:opacity-70"
     >
       <Save size={18} />
       Save Changes
@@ -331,7 +331,7 @@ export default function ProfileDashboard({ open, onClose }: Props) {
 
     <button
       onClick={logout}
-      className="w-full flex items-center justify-center gap-2 text-red-600 py-2 rounded-lg"
+      className="w-full flex items-center justify-center gap-2 text-red-600 py-2 rounded-lg cursor-pointer border border-red-600 hover:bg-red-50 transition"
     >
       <LogOut size={18} />
       Logout

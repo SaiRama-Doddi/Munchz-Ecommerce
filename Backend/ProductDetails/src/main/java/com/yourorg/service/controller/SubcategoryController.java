@@ -52,4 +52,5 @@ public class SubcategoryController {
         return subcategoryService.getAll();
     }
 
+
 }

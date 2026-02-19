@@ -91,7 +91,7 @@ export default function AdminStockDetails() {
         </div>
 
         <button
-          onClick={() => navigate("/adminStockEntry")}
+          onClick={() => navigate("/admin/stock-entry")}
           className="bg-indigo-600 text-white px-6 py-3 rounded-xl shadow hover:scale-[1.02] transition"
         >
           + Add Entry

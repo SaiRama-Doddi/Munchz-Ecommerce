@@ -3,7 +3,6 @@ import { confirmLoginOtp, sendResendOtp } from "../api/api";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { getProfileApi } from "../api/api";
 
 export default function OtpPage() {
   const location = useLocation();
@@ -76,7 +75,8 @@ const navigate = useNavigate();
     }
   };
 
- const handleVerify = async () => {
+  
+const handleVerify = async () => {
   const enteredOtp = otp.join("");
   if (enteredOtp.length !== 6) {
     alert("Enter full 6-digit OTP");
@@ -87,19 +87,16 @@ const navigate = useNavigate();
   try {
     const res = await confirmLoginOtp(email, enteredOtp);
 
-    const token = res.data.token;
+    const profile = res.data.profile;
     const roles: string[] = res.data.roles;
 
-    // ✅ Save token FIRST
-    localStorage.setItem("token", token);
-    localStorage.setItem("roles", JSON.stringify(roles));
-
-    // ✅ NOW fetch profile
-    const profileRes = await getProfileApi();
-    const profile = profileRes.data;
-
+    // ✅ SAVE TO CONTEXT (THIS WAS MISSING)
     setProfile(profile);
+
+    // ✅ SAVE TO STORAGE (for refresh)
+    localStorage.setItem("token", res.data.token);
     localStorage.setItem("profile", JSON.stringify(profile));
+    localStorage.setItem("roles", JSON.stringify(roles));
 
     alert("Login successful!");
 
@@ -108,13 +105,12 @@ const navigate = useNavigate();
     } else {
       navigate("/", { replace: true });
     }
-  } catch (err) {
-    alert("Login failed");
+  } catch {
+    alert("Invalid OTP");
   } finally {
     setLoading(false);
   }
 };
-
 
 
   const handleResendOtp = async () => {
@@ -182,14 +178,49 @@ const navigate = useNavigate();
     ? `Resend OTP in ${timer}s`
     : "Resend OTP"}
 </button>
+<button
+  onClick={handleVerify}
+  disabled={loading}
+  className={`w-full py-3 rounded-lg mt-8 font-semibold flex items-center justify-center gap-2 transition
+    ${
+      loading
+        ? "bg-green-500 cursor-not-allowed"
+        : "bg-green-600 hover:bg-green-700"
+    }
+    text-white
+  `}
+>
+  {loading ? (
+    <>
+      {/* Spinner */}
+      <svg
+        className="animate-spin h-5 w-5 text-white"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          className="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          strokeWidth="4"
+        ></circle>
+        <path
+          className="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+        ></path>
+      </svg>
 
-        <button
-          onClick={handleVerify}
-          disabled={loading}
-          className="bg-green-600 text-white w-full py-3 rounded-lg mt-8 font-semibold"
-        >
-          {loading ? "Verifying..." : "Login"}
-        </button>
+      <span className="animate-pulse">Verifying...</span>
+    </>
+  ) : (
+    "Login"
+  )}
+</button>
+
 
         <a href="/signup" className="text-green-600 block mt-4 underline">
           Sign up

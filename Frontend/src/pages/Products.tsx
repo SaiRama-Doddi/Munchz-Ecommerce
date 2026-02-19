@@ -77,7 +77,7 @@ export default function Products() {
         </div>
 
         <button
-          onClick={() => navigate("/add-product")}
+          onClick={() => navigate("/admin/add-product")}
           className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-700
                      px-8 py-3 text-white font-semibold shadow-lg
                      hover:shadow-xl hover:scale-[1.03] active:scale-95 transition"
@@ -195,7 +195,7 @@ export default function Products() {
               {/* ACTIONS */}
               <div className="mt-6 flex gap-3">
                 <button
-                  onClick={() => navigate(`/edit-product/${p.id}`)}
+                  onClick={() => navigate(`/admin/edit-product/${p.id}`)}
                   className="flex-1 rounded-xl bg-emerald-600 text-white py-2.5 text-sm font-medium
                              hover:bg-emerald-700 shadow active:scale-95 transition"
                 >

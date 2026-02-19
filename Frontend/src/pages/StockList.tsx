@@ -35,7 +35,7 @@ export default function StockList() {
           </div>
 
           <button
-            onClick={() => navigate("/addstock")}
+            onClick={() => navigate("/admin/addstock")}
             className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white px-6 py-3 rounded-xl shadow-lg hover:scale-[1.03] transition"
           >
             + Add Stock
@@ -79,7 +79,7 @@ export default function StockList() {
                   <td className="px-6 py-4 text-center space-x-3">
                     <button
                       onClick={() =>
-                        navigate("/addstock", { state: { stock: s } })
+                        navigate("/admin/addstock", { state: { stock: s } })
                       }
                       className="px-4 py-1.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 transition text-xs font-semibold"
                     >

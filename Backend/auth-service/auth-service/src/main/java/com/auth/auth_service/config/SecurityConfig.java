@@ -41,6 +41,7 @@ public class SecurityConfig {
 
                         // ✅ PROTECTED ADDRESS APIs
                         .requestMatchers("/auth/address/**").authenticated()
+                        .requestMatchers("/auth/profile/**").authenticated()
 
                         // ✅ ADMIN
                         .requestMatchers("/admin/**").hasRole("ADMIN")

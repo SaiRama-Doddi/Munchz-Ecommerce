@@ -13,7 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
+import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -74,5 +75,16 @@ public class PaymentService {
         );
 
         // TODO: Call Order Service → mark order as PAID
+    }
+
+
+
+
+    public List<PaymentEntity> getTodayPayments() {
+
+        Instant startOfDay = Instant.now()
+                .minusSeconds(Instant.now().getEpochSecond() % 86400);
+
+        return paymentRepo.findByCreatedAtAfter(startOfDay);
     }
 }

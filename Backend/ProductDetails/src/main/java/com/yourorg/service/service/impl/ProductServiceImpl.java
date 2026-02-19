@@ -226,6 +226,14 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<ProductResponse> search(String keyword) {
+        return productRepository.search(keyword)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
     // ============================================================
     // ENTITY → DTO MAPPER
     // ============================================================

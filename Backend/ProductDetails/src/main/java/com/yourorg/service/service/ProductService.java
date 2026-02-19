@@ -20,4 +20,6 @@ public interface ProductService {
     List<ProductResponse> getByCategory(Long categoryId);
 
     List<ProductResponse> getByCategoryAndSubcategory(Long categoryId, Long subcategoryId);
+
+    List<ProductResponse> search(String keyword);
 }

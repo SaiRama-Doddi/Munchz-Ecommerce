@@ -5,6 +5,8 @@ import { useAuth } from "../context/AuthContext";
 import { Mail, User, LayoutGrid, List, Eye } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { FaTimes } from "react-icons/fa";
+
 
 /* ================= TYPES ================= */
 
@@ -88,14 +90,26 @@ const [file, setFile] = useState<File | null>(null);
   }, []);
 
   /* ================= FILTER ================= */
-  const filteredOrders = useMemo(() => {
-    if (filterDays === "ALL") return orders;
+const filteredOrders = useMemo(() => {
+  let filtered = orders;
+
+  if (filterDays !== "ALL") {
     const limit = new Date();
     limit.setDate(limit.getDate() - filterDays);
-    return orders.filter(
+
+    filtered = orders.filter(
       (o) => new Date(o.placedAt) >= limit
     );
-  }, [orders, filterDays]);
+  }
+
+  // 🔥 SORT DESCENDING (Latest first)
+  return [...filtered].sort(
+    (a, b) =>
+      new Date(b.placedAt).getTime() -
+      new Date(a.placedAt).getTime()
+  );
+}, [orders, filterDays]);
+
 
   /* ================= PROFESSIONAL INVOICE ================= */
 
@@ -185,7 +199,8 @@ ${order.totalAmount}`,
 
 
   return (
-    <div className="bg-[#f6fff4] min-h-screen py-10">
+   <div className="bg-[#f6fff4] min-h-screen py-12">
+
       <div className="max-w-6xl mx-auto px-4 space-y-8">
 
         {/* USER SUMMARY */}
@@ -239,17 +254,29 @@ ${order.totalAmount}`,
         </div>
 
         {/* ORDERS */}
-        <div className={gridView ? "grid md:grid-cols-2 gap-6" : "space-y-6"}>
+<div className={gridView ? "grid sm:grid-cols-2 lg:grid-cols-3 gap-8" : "space-y-6"}>
+
           {filteredOrders.map((order) => (
             <div
               key={order.orderId}
-              className="bg-white rounded-xl shadow border p-6 space-y-4"
+           className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-100 p-6 space-y-5"
+
             >
               <div className="flex justify-between text-sm text-gray-500">
                 <span>
                   {new Date(order.placedAt).toLocaleDateString()}
                 </span>
-                <span>{order.orderStatus}</span>
+               <span className={`px-3 py-1 rounded-full text-xs font-medium
+  ${
+    order.orderStatus === "DELIVERED"
+      ? "bg-green-100 text-green-700"
+      : order.orderStatus === "PENDING"
+      ? "bg-yellow-100 text-yellow-700"
+      : "bg-gray-100 text-gray-700"
+  }`}>
+  {order.orderStatus}
+</span>
+
               </div>
 
               {order.items.map((item, idx) => (
@@ -260,9 +287,12 @@ ${order.totalAmount}`,
                   <img
                     src={item.imageUrl || "/placeholder.png"}
                     className="w-16 h-16 object-contain border rounded"
+                    
+                      onClick={() => navigate(`/product/${item.productId}`)}
                   />
                   <div className="flex-1">
-                    <p className="font-semibold">{item.productName}</p>
+                    <p className="font-semibold" 
+                      onClick={() => navigate(`/product/${item.productId}`)}>{item.productName}</p>
                     <p className="text-sm text-gray-600">
                       Rs. {item.unitPrice} × {item.quantity}
                     </p>
@@ -322,16 +352,27 @@ ${order.totalAmount}`,
 
 
       {selectedOrder && (
-        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-2xl rounded-xl shadow-xl p-6 relative overflow-y-auto max-h-[90vh]">
+       <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end md:items-center justify-center p-4">
+  <div className="relative bg-white w-full md:max-w-2xl rounded-t-2xl md:rounded-2xl shadow-xl p-6 overflow-y-auto max-h-[90vh] animate-slideUp">
+
 
             {/* Close */}
-            <button
-              onClick={() => setSelectedOrder(null)}
-              className="absolute top-3 right-4 text-xl font-bold"
-            >
-              ×
-            </button>
+     <button
+  onClick={() => setSelectedOrder(null)}
+  className="
+    absolute top-4 right-4
+    w-9 h-9
+    flex items-center justify-center
+    rounded-full
+    bg-green-400 hover:bg-red-600
+    text-white hover:text-white
+    transition
+    shadow-sm
+  "
+>
+    <FaTimes size={14} />
+</button>
+
 
             <h2 className="text-xl font-semibold mb-4">Order Details</h2>
 
@@ -386,23 +427,23 @@ ${order.totalAmount}`,
         </div>
       )}{reviewItem && selectedOrder && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
-          <div className="bg-white w-full max-w-md rounded-xl shadow-xl p-6 space-y-4">
+          <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 space-y-5 animate-slideUp">
 
             <h3 className="text-lg font-semibold">Review {reviewItem.productName}</h3>
 
             {/* Rating */}
-            <div className="flex gap-2">
-              {[1, 2, 3, 4, 5].map((r) => (
-                <button
-                  key={r}
-                  onClick={() => setRating(r)}
-                  className={`w-8 h-8 rounded-full border ${rating >= r ? "bg-green-700 text-white" : ""
-                    }`}
-                >
-                  {r}
-                </button>
-              ))}
-            </div>
+        <div className="flex gap-2 text-2xl">
+  {[1,2,3,4,5].map((r) => (
+    <button
+      key={r}
+      onClick={() => setRating(r)}
+      className={rating >= r ? "text-yellow-500" : "text-gray-300"}
+    >
+      ★
+    </button>
+  ))}
+</div>
+
 
             {/* Comment */}
             <textarea
@@ -434,52 +475,57 @@ ${order.totalAmount}`,
                 Cancel
               </button>
 
-              <button
-                disabled={submitting}
-                onClick={async () => {
-                  try {
-                    setSubmitting(true);
-                    const token = localStorage.getItem("token")!;
-                    const payload: any = JSON.parse(atob(token.split(".")[1]));
+         <button
+  disabled={submitting}
+  onClick={async () => {
+    try {
+      setSubmitting(true);
 
-                   const formData = new FormData();
+      const token = localStorage.getItem("token")!;
+      const payload: any = JSON.parse(atob(token.split(".")[1]));
 
-const reviewJson = {
-  orderId: selectedOrder.orderId,
-  productId: reviewItem.productId,
-  productName: reviewItem.productName,
-  userId: payload.sub,
-  userName: payload.name,
-  rating,
-  comment
-};
+      const formData = new FormData();
 
-formData.append("request", JSON.stringify(reviewJson));
+      const reviewJson = {
+        orderId: selectedOrder.orderId,
+        productId: reviewItem.productId,
+        productName: reviewItem.productName,
+        userId: payload.sub,
+        userName: payload.name,
+        rating,
+        comment,
+      };
 
+      formData.append("request", JSON.stringify(reviewJson));
 
-if (file) {
-  formData.append("file", file);
-}
-await axios.post("http://localhost:9095/reviews/form", formData);
+      if (file) {
+        formData.append("file", file);
+      }
 
+      await axios.post(
+        "http://localhost:9095/reviews/form",
+        formData
+      );
 
-                    alert("Review submitted!");
-                    setReviewItem(null);
-                    setComment("");
-                    setRating(5);
-                   setFile(null)
+      alert("Review submitted!");
+      setReviewItem(null);
+      setComment("");
+      setRating(5);
+      setFile(null);
+    } catch (e: any) {
+      alert(e.response?.data?.message || "Already reviewed");
+    } finally {
+      setSubmitting(false);
+    }
+  }}
+  className="px-5 py-2 bg-green-700 text-white rounded-lg flex items-center justify-center gap-2 disabled:opacity-60"
+>
+  {submitting && (
+    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+  )}
+  {submitting ? "Submitting..." : "Submit Review"}
+</button>
 
-
-                  } catch (e: any) {
-                    alert(e.response?.data?.message || "Already reviewed");
-                  } finally {
-                    setSubmitting(false);
-                  }
-                }}
-                className="px-4 py-1 bg-green-700 text-white rounded"
-              >
-                Submit
-              </button>
             </div>
           </div>
         </div>

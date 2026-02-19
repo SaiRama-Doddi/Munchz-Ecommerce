@@ -45,6 +45,7 @@ import AdminCompleteStock from "./pages/AdminCompleteStock";
 import OrderSuccessPage from "./pages/OrderSuccessPage";
 import UserOrders from "./pages/UserOrders";
 import AdminReviews from "./pages/AdminReviews";
+import SearchProducts from "./pages/SearchProducts";
 
 
 
@@ -106,45 +107,27 @@ export default function App() {
         }
       />
 
-      <Route path="/category" element={
-        <Layout>
-          <Categories />
-        </Layout>
-      } />
-      <Route path="/sub-category" element={<>
-        <Layout>
-          <Subcategories />
-        </Layout>
-      </>} />
-
-      <Route path="/products" element={
-        <Layout>
-          <Products />
-        </Layout>
-
-      } />
-      <Route path="/products/new" element={<ProductForm />} />
+     
+     
       <Route path="/product" element={
         <Layout>
           <ProductsPage />
         </Layout>
 
       } />
-      <Route path="/add-product" element={
-        <Layout>
-          <ProductForm />
-        </Layout>
-
-      } />
       
-      <Route path="/edit-product/:id" element ={<Layout><EditProduct /></Layout>}/>
       <Route path="/product/:id" element={<ProductDetails />} />
 
-      <Route path="/dashboard" element={
+      <Route path="/search" element={<SearchProducts />} />
+
+      {/* <Route path="/dashboard" element={
         <AdminRoute>
-          <Dashboard />
+          <Dashboard orders={[]} />
+
+
+          
         </AdminRoute>
-      } />
+      } /> */}
 
 
       <Route path="/cart" element={
@@ -229,31 +212,6 @@ export default function App() {
           </>
         }
       />
- <Route path="/admin" element={<AdminLayout />}>
-        <Route path="dashboard" element={ <Dashboard />} />
-        <Route path="category" element={<Categories />} />
-        <Route path="products" element={<Products />} />
-        <Route path="orders" element={<OrdersPage />} />
-      </Route>
-<Route path="/addstock" element ={<Layout><AddStock /></Layout>}/>
-<Route path="/inventory" element={<Layout><StockList /></Layout>} />
-<Route path="/adminreviews" element={<Layout><AdminReviews /></Layout>} />
-<Route path="/StockHistory" element ={<Layout><StockHistory productId={0} /></Layout>}/>
-<Route path="/AboutMain" element ={<>
-            <TopHeader />
-            <Header />
-            <AboutMain />
-            <Footer />
-          </>}/>
-<Route path="/admincoupons" element ={<Layout><AdminCoupons /></Layout>}/>
-<Route path="/adminStockEntry" element ={<Layout><AddStockDetails /></Layout>}/>
-<Route path="/adminStockDetails" element ={<Layout><StockDetails /></Layout>} />
-
-
- <Route path="/offline-inventory" element={<Layout><OfflineInventoryList /></Layout>} />
-  <Route path="/offline-inventorys/add" element={<Layout><AddOfflineStock /></Layout>} />
-  <Route path="/AdminCompleteStock" element={<Layout><AdminCompleteStock /></Layout>} />
-
 <Route path="/user-orders" element={
 
         <>
@@ -267,7 +225,81 @@ export default function App() {
         </>
 
       } />
- 
+
+      <Route path="/AboutMain" element ={<>
+            <TopHeader />
+            <Header />
+            <AboutMain />
+            <Footer />
+          </>}/>
+
+{/* ADMIN ROUTES  */}
+
+
+{/* ADMIN ROUTES */}
+<Route element={<AdminRoute />}>
+  <Route path="/admin" element={<AdminLayout />}>
+
+    <Route path="dashboard" element={<Dashboard orders={[]} />} />
+
+    <Route path="category" element={<Categories />} />
+    <Route path="sub-category" element={<Subcategories />} />
+
+    <Route path="products" element={<Products />} />
+    <Route path="products/new" element={<ProductForm />} />
+    <Route path="add-product" element={<ProductForm />} />
+    <Route path="edit-product/:id" element={<EditProduct />} />
+
+    <Route path="orders" element={<OrdersPage />} />
+    <Route path="coupons" element={<AdminCoupons />} />
+    <Route path="reviews" element={<AdminReviews />} />
+
+    <Route path="stock-entry" element={<AddStockDetails />} />
+    <Route path="stock-details" element={<StockDetails />} />
+    <Route path="addstock" element={<AddStock />} />
+    <Route path="inventory" element={<StockList />} />
+    <Route path="history" element={<StockHistory productId={0} />} />
+
+    <Route path="offline-add" element={<AddOfflineStock />} />
+    <Route path="offline-inventory" element={<OfflineInventoryList />} />
+    <Route path="complete-stock" element={<AdminCompleteStock />} />
+
+  </Route>
+</Route>
+
+
+
+{/*  <Route path="/category" element={
+        <Layout>
+          <Categories />
+        </Layout>
+      } /> */}
+
+{/*  <Route path="/sub-category" element={<>
+        <Layout>
+          <Subcategories />
+        </Layout>
+      </>} /> */}
+{/* 
+      <Route path="/products" element={
+        <Layout>
+          <Products />
+        </Layout>
+
+      } /> */}
+     {/*  <Route path="/products/new" element={<ProductForm />} /> */}
+
+
+{/* 
+<Route path="/add-product" element={
+        <Layout>
+          <ProductForm />
+        </Layout>
+
+      } /> */}
+      
+     {/*  <Route path="/edit-product/:id" element ={<Layout><EditProduct /></Layout>}/> */}
+
     </Routes>
 
  </div> );

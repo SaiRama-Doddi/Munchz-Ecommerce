@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Dashboard from "./Dashboard";
 
 /* =========================
    BACKEND TYPES (match API)
@@ -45,6 +46,9 @@ interface BackendOrder {
   items: BackendOrderItem[];
 }
 
+
+
+
 /* =========================
    HELPERS
 ========================= */
@@ -69,33 +73,102 @@ const parseAddress = (addr: any): string => {
 const OrdersPage: React.FC = () => {
   const [orders, setOrders] = useState<BackendOrder[]>([]);
   const [loading, setLoading] = useState(true);
+  
   const [selectedOrder, setSelectedOrder] =
     useState<BackendOrder | null>(null);
+const [filterDays, setFilterDays] = useState<number | "ALL">("ALL");
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
 
-    axios
-      .get("http://localhost:9090/api/orders/adminallorders?page=0&size=200", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => {
+const todayOrders = orders.filter((o) => {
+  const today = new Date();
+  const orderDate = new Date(o.placedAt);
+
+  return (
+    orderDate.getDate() === today.getDate() &&
+    orderDate.getMonth() === today.getMonth() &&
+    orderDate.getFullYear() === today.getFullYear()
+  );
+});
+
+useEffect(() => {
+  const token = localStorage.getItem("token");
+
+  axios
+    .get("http://localhost:9090/api/orders/adminallorders?page=0&size=200", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then((res) => {
+      console.log("ORDER API RESPONSE:", res.data);
+
+      // handle both pageable and non-pageable responses
+      if (Array.isArray(res.data)) {
+        setOrders(res.data);
+      } else if (res.data.content) {
         setOrders(res.data.content);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
-      });
-  }, []);
+      } else {
+        setOrders([]);
+      }
+
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.error(err);
+      setLoading(false);
+    });
+}, []);
+
 
   if (loading) {
     return <div className="p-10 text-center">Loading orders…</div>;
   }
 
+
+  const filteredOrders = [...orders]
+  // sort newest first
+  .sort(
+    (a, b) =>
+      new Date(b.placedAt).getTime() -
+      new Date(a.placedAt).getTime()
+  )
+  // apply date filter
+  .filter((o) => {
+    if (filterDays === "ALL") return true;
+
+    const limit = new Date();
+    limit.setDate(limit.getDate() - filterDays);
+
+    return new Date(o.placedAt) >= limit;
+  });
+
+
+
   return (
     <div className="max-w-7xl mx-auto p-6">
+ 
       <h1 className="text-3xl font-bold mb-6">Admin – All Orders</h1>
+
+
+      
+      <div className="flex gap-3 mb-4">
+  {[
+    { label: "All", value: "ALL" },
+    { label: "Today", value: 1 },
+    { label: "Last 7 days", value: 7 },
+    { label: "Last 30 days", value: 30 },
+  ].map((f) => (
+    <button
+      key={f.label}
+      onClick={() => setFilterDays(f.value as any)}
+      className={`px-4 py-1.5 rounded border text-sm ${
+        filterDays === f.value
+          ? "bg-blue-600 text-white"
+          : "bg-white"
+      }`}
+    >
+      {f.label}
+    </button>
+  ))}
+</div>
 
       {/* TABLE */}
       <div className="bg-white border shadow rounded overflow-auto">
@@ -105,6 +178,7 @@ const OrdersPage: React.FC = () => {
               <th className="p-3 border">Order</th>
               <th className="p-3 border">User</th>
               <th className="p-3 border">Email</th>
+               <th className="p-3 border">Shipping Address</th>
               <th className="p-3 border">Date</th>
               <th className="p-3 border">Amount</th>
               <th className="p-3 border">Tax</th>
@@ -117,11 +191,13 @@ const OrdersPage: React.FC = () => {
           </thead>
 
           <tbody>
-            {orders.map((o) => (
+           {filteredOrders.map((o) => (
+
               <tr key={o.orderId} className="hover:bg-gray-50">
                 <td className="p-3 border">{o.orderId}</td>
                 <td className="p-3 border">{o.userName}</td>
                 <td className="p-3 border">{o.userEmail}</td>
+                  <td className="p-3 border">{o.shippingAddress}</td>
                 <td className="p-3 border">{o.placedAt}</td>
                 <td className="p-3 border font-semibold text-green-700">
                   ₹{o.totalAmount} {o.currency}
@@ -209,6 +285,9 @@ const OrdersPage: React.FC = () => {
           </div>
         </div>
       )}
+
+
+
     </div>
   );
 };

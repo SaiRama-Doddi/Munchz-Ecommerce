@@ -6,6 +6,7 @@ import { listAddressesApi, addAddressApi } from "../api/api";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../state/CartContext";
 import type { CartItem, Address } from "../types/checkout";
+import { ArrowLeft } from "lucide-react";
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
@@ -31,6 +32,8 @@ const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
   const [showNewAddress, setShowNewAddress] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
 
   const [newAddress, setNewAddress] = useState({
     label: "",
@@ -85,10 +88,14 @@ const [isPlacingOrder, setIsPlacingOrder] = useState(false);
           /* ✅ CLEAR CART ONLY AFTER PAYMENT SUCCESS */
           clearCart();
 
-          navigate("/order-success", {
-            replace: true,
-            state: { orderId },
-          });
+            setIsRedirecting(true);
+
+        setTimeout(() => {
+      navigate("/order-success", {
+        replace: true,
+        state: { orderId },
+      });
+    }, 1500); // 1.5 second smooth delay
         } catch {
           alert("Payment verification failed");
         }
@@ -152,7 +159,11 @@ const placeOrder = async () => {
     setIsPlacingOrder(false); // ❌ stop if error
   }
 };
-{isPlacingOrder && (
+
+
+  return (
+    <>
+    {isPlacingOrder && (
   <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
     <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
     <p className="mt-4 text-green-700 font-medium">
@@ -165,14 +176,43 @@ const placeOrder = async () => {
 )}
 
 
-  return (
+{isRedirecting && (
+  <div className="fixed inset-0 bg-white/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
+    <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+    <p className="mt-4 text-green-700 font-semibold text-lg">
+      Payment Successful 🎉
+    </p>
+    <p className="text-gray-600 text-sm">
+      Redirecting to order confirmation...
+    </p>
+  </div>
+)}
+
+
     <div className="min-h-screen bg-[#f6fff4] py-10">
-      <button
-        onClick={() => navigate(-1)}
-        className="ml-[136px] mb-6 inline-flex items-center gap-3 bg-white px-4 py-2 rounded-full shadow border border-green-100 text-green-700"
-      >
-        ← Back
-      </button>
+
+
+
+     <button
+  onClick={() => navigate(-1)}
+  className="
+    mt-0 mb-8 ml-[136px]
+    w-10 h-10
+    flex items-center justify-center
+    rounded-full
+    bg-white
+    shadow-md
+    border border-green-100
+    text-green-700
+    hover:bg-green-50
+    hover:shadow-lg
+    active:scale-95
+    transition-all duration-200 cusror-pointer
+    cursor-pointer
+  "
+>
+  <ArrowLeft size={20} />
+</button>
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10 px-6">
         {/* LEFT */}
@@ -183,9 +223,11 @@ const placeOrder = async () => {
               const v = item.variants[item.selectedVariantIndex];
               return (
                 <div key={idx} className="flex gap-4 mb-4">
-                  <img src={item.imageUrl} className="w-20 h-20 object-contain" />
+                  <img src={item.imageUrl} className="w-20 h-20 object-contain cursor-pointer" 
+                      onClick={() => navigate(`/product/${item.productId}`)}/>
                   <div>
-                    <p className="font-medium">{item.name}</p>
+                    <p className="font-medium cursor-pointer" 
+                      onClick={() => navigate(`/product/${item.productId}`)}>{item.name}</p>
                     <p className="text-sm text-gray-600">
                       {v.weightLabel} × {item.qty}
                     </p>
@@ -274,7 +316,7 @@ const placeOrder = async () => {
          <button
   onClick={placeOrder}
   disabled={isPlacingOrder}
-  className="w-full bg-green-700 text-white py-3 rounded-lg mt-4 disabled:opacity-60"
+  className="w-full bg-green-700 text-white py-3 rounded-lg mt-4 disabled:opacity-60 cursor-pointer"
 >
   {isPlacingOrder ? "Processing..." : "Confirm Order"}
 </button>
@@ -282,5 +324,6 @@ const placeOrder = async () => {
         </div>
       </div>
     </div>
+    </>
   );
 }

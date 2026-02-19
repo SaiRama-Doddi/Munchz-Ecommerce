@@ -81,6 +81,16 @@ function ProductReviewStats({ productId }: { productId: number }) {
   );
 }
 
+function useCategory(categoryId: number) {
+  return useQuery({
+    queryKey: ["category", categoryId],
+    enabled: !!categoryId,
+    queryFn: async () => {
+      const res = await api.get(`/categories/${categoryId}`);
+      return res.data as { id: number; name: string };
+    },
+  });
+}
 
 /* =========================
    COMPONENT
@@ -90,6 +100,7 @@ export default function CategoryProducts() {
   const navigate = useNavigate();
   const categoryId = Number(id);
   const { addToCart } = useCart();
+  const { data: category } = useCategory(categoryId);
 
   const { data: products = [], isLoading, isError } =
     useCategoryProducts(categoryId);
@@ -185,6 +196,8 @@ export default function CategoryProducts() {
       </div>
     );
 
+
+    
   return (
     <div className="bg-[#f2ffef] min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-6">
@@ -259,9 +272,12 @@ export default function CategoryProducts() {
 
           {/* ================= PRODUCTS ================= */}
           <div>
-            <h2 className="text-3xl font-semibold mb-8">
-              Category Products
-            </h2>
+       <h2 className="text-3xl font-semibold mb-8">
+  {category?.name
+    ? `${category.name} Products`
+    : "Products"}
+</h2>
+
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
               {filteredProducts.map((p) => {

@@ -14,7 +14,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import inventoryApi from "../api/inventoryApi";
 import { useCategories, useProducts } from "../hooks/useQueryHelpers";
-
+import paymentApi from "../api/paymentApi";
 /* ================= TYPES ================= */
 
 interface Category {
@@ -45,17 +45,47 @@ const COLORS: string[] = [
   "#86efac",
 ];
 
+interface Order {
+  orderId: string;
+  userName: string;
+  totalAmount: number;
+  placedAt: string;
+   orderStatus: string; 
+}
+interface DashboardProps {
+  orders: Order[];
+}
+
 /* ================= COMPONENT ================= */
 
-export default function Dashboard() {
+export default function Dashboard({ orders }: DashboardProps) {
+
+
+
+  
   const { data: cats = [] } = useCategories();
   const { data: prods = [] } = useProducts();
+
 
   // locally type them (fixes TS errors)
   const categories: Category[] = cats;
   const products: Product[] = prods;
 
   const [stocks, setStocks] = useState<Stock[]>([]);
+  const [todayPayments, setTodayPayments] = useState<any[]>([]);
+
+
+
+
+
+useEffect(() => {
+  paymentApi
+    .get("/api/payments/today")
+    .then((res) => setTodayPayments(res.data))
+    .catch(console.error);
+}, []);
+
+
 
   /* ===== LOAD INVENTORY ===== */
   useEffect(() => {
@@ -121,6 +151,32 @@ const recentProducts: Product[] = [...products]
     return db - da;
   })
   .slice(0, 6);
+
+const todayOrders = useMemo(() => {
+  return orders.filter((o) => {
+    if (!o.placedAt) return false;
+
+    // Convert backend format safely
+    const formatted = o.placedAt
+      .replace(" ", "T")
+      .split("+")[0];
+
+    const orderDate = new Date(formatted);
+    const now = new Date();
+
+    return (
+      orderDate.getFullYear() === now.getFullYear() &&
+      orderDate.getMonth() === now.getMonth() &&
+      orderDate.getDate() === now.getDate()
+    );
+  });
+}, [orders]);
+
+console.log("Today:", new Date());
+console.log("Orders:", orders);
+console.log("Today Orders:", todayOrders);
+
+console.log("Orders object:", orders);
 
 
   return (
@@ -226,6 +282,103 @@ const recentProducts: Product[] = [...products]
   </div>
 </section>
 
+
+<div className="bg-white border rounded-xl p-6 mt-6 shadow-sm">
+  <h2 className="text-2xl font-semibold mb-6">Today's Orders</h2>
+
+  {todayOrders.length === 0 ? (
+    <div className="text-gray-500 text-center py-6">
+      No orders today
+    </div>
+  ) : (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {todayOrders.map((o) => (
+        <div
+          key={o.orderId}
+          className="bg-gray-50 rounded-xl p-5 border hover:shadow-md transition"
+        >
+          <div className="flex justify-between mb-3">
+            <div>
+              <p className="text-sm text-gray-500">Order ID</p>
+              <p className="font-semibold text-gray-800">
+                {o.orderId}
+              </p>
+            </div>
+
+            <span className="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-700">
+              {o.orderStatus}
+            </span>
+          </div>
+
+          <p className="text-sm text-gray-500">Customer</p>
+          <p className="font-medium">{o.userName}</p>
+
+          <div className="mt-4">
+            <p className="text-sm text-gray-500">Amount</p>
+            <p className="text-xl font-bold text-green-600">
+              ₹{o.totalAmount}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
+
+
+   <section className="bg-white border rounded-xl p-6 mt-6 shadow-sm">
+  <h2 className="text-2xl font-semibold mb-6">Today's Payments</h2>
+
+  {todayPayments.length === 0 ? (
+    <div className="text-gray-500 text-center py-10">
+      No payments recorded today
+    </div>
+  ) : (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {todayPayments.map((p: any) => (
+        <div
+          key={p.id}
+          className="bg-gray-50 rounded-xl p-5 border hover:shadow-md transition duration-200"
+        >
+          {/* Top Section */}
+          <div className="flex justify-between items-start mb-4">
+            <div>
+              <p className="text-sm text-gray-500">Order ID</p>
+              <p className="font-semibold text-lg text-gray-800">
+                {p.orderId}
+              </p>
+            </div>
+
+            {/* Status Badge */}
+            <span
+              className={`px-3 py-1 text-xs rounded-full font-medium ${
+                p.status === "paid"
+                  ? "bg-green-100 text-green-700"
+                  : p.status === "pending"
+                  ? "bg-yellow-100 text-yellow-700"
+                  : "bg-red-100 text-red-700"
+              }`}
+            >
+              {p.status}
+            </span>
+          </div>
+
+          {/* Amount */}
+          <div className="mt-4">
+            <p className="text-sm text-gray-500">Amount</p>
+            <p className="text-2xl font-bold text-green-600">
+              ₹{(p.amount / 100).toLocaleString()}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+</section>
+
+
+
     </div>
   );
 }
@@ -255,6 +408,8 @@ function Card({
       >
         {value}
       </div>
+
+      
     </div>
   );
 }
@@ -272,6 +427,8 @@ function ChartCard({
         {title}
       </h2>
       {children}
+
+      
     </div>
   );
 }

@@ -22,7 +22,7 @@ function useCategories() {
 
 export default function UserCategories() {
   const navigate = useNavigate();
-  const { data: categories = [] } = useCategories();
+  const { data: categories = [], isLoading } = useCategories();
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -35,6 +35,17 @@ export default function UserCategories() {
     });
   };
 
+
+    if (isLoading) {
+  return (
+    <div className="bg-[#f6fff4] min-h-screen flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <div className="h-12 w-12 border-4 border-green-700 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-gray-600 font-medium">Fetching your categories...</p>
+      </div>
+    </div>
+  );
+}
   return (
     <div className="bg-[#fafaf6] py-14 relative">
       <h2 className="text-3xl font-semibold text-center mb-10">

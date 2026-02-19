@@ -30,4 +30,9 @@ public class PaymentController {
         paymentService.verifyPayment(request);
         return ResponseEntity.ok("Payment verified successfully");
     }
+
+    @GetMapping("/today")
+    public ResponseEntity<?> getTodayPayments() {
+        return ResponseEntity.ok(paymentService.getTodayPayments());
+    }
 }

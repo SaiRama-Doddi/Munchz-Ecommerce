@@ -58,4 +58,9 @@ public class ProfileController {
         UUID userId = jwtUtil.extractUserId(token);
         return profileService.patchProfile(userId, req);
     }
+
+    @GetMapping("/users/{userId}")
+    public Profile getProfileByUserId(@PathVariable UUID userId) {
+        return profileService.getProfile(userId);
+    }
 }

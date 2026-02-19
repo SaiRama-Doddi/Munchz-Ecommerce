@@ -50,11 +50,21 @@ export default function Signup() {
       setLastName("");
       setEmail("");
       setPhone("");
-    } catch (err: any) {
-      setError(
-        err.response?.data?.message || "Registration failed. Try again."
-      );
-    } finally {
+    }
+    catch (err: any) {
+  console.log("Error:", err.response);
+
+  if (err.response?.status === 409) {
+    setError(err.response.data.message);
+  } else if (err.response?.data?.message) {
+    setError(err.response.data.message);
+  } else {
+    setError("Something went wrong. Please try again.");
+  }
+}
+
+
+ finally {
       setLoading(false);
     }
   };
