@@ -1,7 +1,5 @@
 package com.auth.auth_service.config;
 
-
-
 import feign.Client;
 import feign.httpclient.ApacheHttpClient;
 import org.springframework.context.annotation.Bean;

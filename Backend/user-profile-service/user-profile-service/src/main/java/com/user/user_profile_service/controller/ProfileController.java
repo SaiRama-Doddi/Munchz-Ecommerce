@@ -6,7 +6,7 @@ import com.user.user_profile_service.service.ProfileService;
 import com.user.user_profile_service.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.security.core.Authentication;
 import java.util.UUID;
 
 
@@ -31,14 +31,20 @@ public class ProfileController {
     }
 
     /* ===================== GET ===================== */
-    @GetMapping
+   /*  @GetMapping
     public Profile getProfile(
             @RequestHeader("Authorization") String token
     ) {
         UUID userId = jwtUtil.extractUserId(token);
         return profileService.getProfile(userId);
     }
+ */
 
+    @GetMapping
+public Profile getProfile(Authentication authentication) {
+    UUID userId = UUID.fromString(authentication.getName());
+    return profileService.getProfile(userId);
+}
     /* ===================== PUT ===================== */
     @PutMapping
     public Profile putProfile(

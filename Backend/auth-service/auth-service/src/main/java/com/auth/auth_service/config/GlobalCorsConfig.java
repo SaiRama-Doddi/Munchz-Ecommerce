@@ -1,4 +1,4 @@
-package com.auth.auth_service.config;
+/* package com.auth.auth_service.config;
 
 
 
@@ -24,4 +24,4 @@ public class GlobalCorsConfig {
             }
         };
     }
-}
+} */

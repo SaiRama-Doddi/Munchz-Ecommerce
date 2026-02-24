@@ -60,7 +60,7 @@ const PageSpinner = () => (
 
 export default function UserOrders() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-
+const [productImages, setProductImages] = useState<Record<number, string>>({});
 
   const [reviewItem, setReviewItem] = useState<OrderItem | null>(null);
   const [rating, setRating] = useState(5);
@@ -80,7 +80,7 @@ const [file, setFile] = useState<File | null>(null);
   /* ================= FETCH ================= */
   useEffect(() => {
     axios
-      .get("http://localhost:9090/api/orders", {
+      .get("http://localhost:8080/order/api/orders", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -88,6 +88,32 @@ const [file, setFile] = useState<File | null>(null);
       .then((res) => setOrders(res.data.content || []))
       .finally(() => setLoading(false));
   }, []);
+
+
+
+  useEffect(() => {
+  const fetchImages = async () => {
+    const imageMap: Record<number, string> = {};
+
+    for (const order of orders) {
+      for (const item of order.items) {
+        if (!imageMap[item.productId]) {
+          const res = await axios.get(
+            `http://localhost:8080/product/api/products/${item.productId}`
+          );
+          imageMap[item.productId] =
+            res.data.imageUrls?.[0] || res.data.imageUrl || "/placeholder.png";
+        }
+      }
+    }
+
+    setProductImages(imageMap);
+  };
+
+  if (orders.length > 0) {
+    fetchImages();
+  }
+}, [orders]);
 
   /* ================= FILTER ================= */
 const filteredOrders = useMemo(() => {
@@ -285,7 +311,7 @@ ${order.totalAmount}`,
                   className="flex gap-4 items-center border-b pb-3"
                 >
                   <img
-                    src={item.imageUrl || "/placeholder.png"}
+                    src={productImages[item.productId] || "/placeholder.png"}
                     className="w-16 h-16 object-contain border rounded"
                     
                       onClick={() => navigate(`/product/${item.productId}`)}

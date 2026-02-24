@@ -109,24 +109,22 @@ public class AuthController {
         return "OTP sent for the login";
     }
 
-    @PostMapping("/login-otp/confirm")
+   /*  @PostMapping("/login-otp/confirm")
     public Map<String, Object> confirmLoginOtp(@RequestBody OtpVerifyRequest req) {
 
-        // Step 1: Validate OTP & get User
+     
         User user = otpService.verifyOtp(req.email(), req.otp(), "login");
-        //  Verify email ONLY after OTP success
+     
         if (!user.isEmailVerified()) {
             user.setEmailVerified(true);
             userRepo.save(user);
         }
 
-        // Step 2: Get user roles
         List<String> roles = roleService.getUserRoleNames(user.getId());
 
-        // Step 3: Generate JWT token
+     
         String token = jwtProvider.generateToken(user.getId(), user.getEmail(), roles);
 
-        // Step 4: Call User Profile Service via Feign
         ProfileResponse profile;
         try {
             profile = userProfileClient.getProfile("Bearer " + token);
@@ -136,24 +134,61 @@ public class AuthController {
         }
 
 
-        // MERGE AUTH + PROFILE DATA
         AuthProfileResponse mergedProfile =
                 new AuthProfileResponse(
                         profile.getFirstName(),
                         profile.getLastName(),
-                        user.getPhone(),   // mobile
-                        user.getEmail(),        //  email from auth service
+                        user.getPhone(),   
+                        user.getEmail(),        
                         user.getId()
                 );
       System.out.println(mergedProfile.mobile());
 
-        // Step 5: Return both token + profile
         return Map.of(
                 "token", token,
                 "roles", roles,
                 "profile", mergedProfile
         );
+    } */
+
+@PostMapping("/login-otp/confirm")
+public Map<String, Object> confirmLoginOtp(@RequestBody OtpVerifyRequest req) {
+
+    User user = otpService.verifyOtp(req.email(), req.otp(), "login");
+
+    if (!user.isEmailVerified()) {
+        user.setEmailVerified(true);
+        userRepo.save(user);
     }
+
+    List<String> roles = roleService.getUserRoleNames(user.getId());
+
+    String token = jwtProvider.generateToken(user.getId(), user.getEmail(), roles);
+
+    // 🔥 FETCH PROFILE
+    ProfileResponse profile =
+            userProfileClient.getProfile("Bearer " + token);
+
+    // 🔥 FETCH ADDRESSES
+    List<AddressResponse> addresses =
+            userProfileClient.listAddresses("Bearer " + token);
+
+    AuthProfileResponse mergedProfile =
+            new AuthProfileResponse(
+                    profile.getFirstName(),
+                    profile.getLastName(),
+                    user.getPhone(),
+                    user.getEmail(),
+                    user.getId()
+            );
+
+    return Map.of(
+            "token", token,
+            "roles", roles,
+            "profile", mergedProfile,
+            "addresses", addresses   // 🔥 ADD THIS
+    );
+}
 
 
     @PostMapping("/resend-otp")

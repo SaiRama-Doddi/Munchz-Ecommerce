@@ -1,0 +1,117 @@
+version: '3.8'
+
+services:
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ecommerce
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  api-gateway:
+    build: ./Backend/api-gateway/api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - auth-service
+      - user-profile-service
+      - product-service
+      - order-service
+      - stock-service
+      - review-service
+      - coupon-service
+      - payment-service
+
+  auth-service:
+    build: ./Backend/auth-service/auth-service
+    container_name: auth-service
+    depends_on:
+      - postgres
+    expose:
+      - "8081"
+    env_file:
+    - .env
+
+  user-profile-service:
+    build: ./Backend/user-profile-service/user-profile-service
+    container_name: user-profile-service
+    depends_on:
+      - postgres
+    expose:
+      - "8082"
+    env_file:
+    - .env
+
+  product-service:
+    build: ./Backend/product-service
+    container_name: product-service
+    depends_on:
+      - postgres
+    expose:
+      - "8083"
+    env_file:
+    - .env
+
+  order-service:
+    build: ./Backend/order-service
+    container_name: order-service
+    depends_on:
+      - postgres
+    expose:
+      - "9090"
+    env_file:
+    - .env
+
+  stock-service:
+    build: ./Backend/stock-service/stock-inventry-service
+    container_name: stock-service
+    depends_on:
+      - postgres
+    expose:
+      - "8050"
+    env_file:
+    - .env
+
+  coupon-service:
+    build: ./Backend/coupon-service
+    container_name: coupon-service
+    depends_on:
+      - postgres
+    expose:
+      - "8060"
+    env_file:
+    - .env
+
+  payment-service:
+    build: ./Backend/payment-service
+    container_name: payment-service
+    depends_on:
+      - postgres
+    expose:
+      - "9092"
+    environment:
+        RAZOR_KEY : rzp_test_SHv6uwtHO2C5MS
+        RAZOR_SECRET: QSBH4PXorL3xLcqH8Q0MIWfE
+    env_file:
+    - .env
+
+  review-service:
+    build: ./Backend/review-service
+    container_name: review-service
+    depends_on:
+      - postgres
+    expose:
+      - "9095"
+    env_file:
+    - .env
+
+volumes:
+  postgres-data:

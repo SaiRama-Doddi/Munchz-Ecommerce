@@ -94,7 +94,7 @@ useEffect(() => {
   const token = localStorage.getItem("token");
 
   axios
-    .get("http://localhost:9090/api/orders/adminallorders?page=0&size=200", {
+    .get("http://localhost:8080/order/api/orders/adminallorders?page=0&size=200", {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((res) => {
