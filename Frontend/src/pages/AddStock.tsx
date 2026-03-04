@@ -102,7 +102,7 @@ export default function AddStock() {
 
     try {
       if (isEdit) {
-        await inventoryApi.put(`/inventory/${editStock.id}`, payload);
+        await inventoryApi.put(`/admin/inventory/${editStock.id}`, payload);
       } else {
         await inventoryApi.post("/inventory/add", payload);
       }

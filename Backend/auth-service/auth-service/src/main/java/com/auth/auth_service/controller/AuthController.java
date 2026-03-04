@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/auth")
@@ -45,7 +46,7 @@ public class AuthController {
     GoogleTokenVerifier googleTokenVerifier;
 
 
-    @PostMapping("/register")
+/*    @PostMapping("/register")
     public Map<String, Object> register(@RequestBody RegisterRequest req) {
 
         if (userRepo.existsByEmail(req.email())) {
@@ -70,10 +71,10 @@ public class AuthController {
         CreateProfileRequest profileReq =
                 new CreateProfileRequest(req.firstName(), req.lastName(),req.phone());
 
-        userProfileClient.createProfile(
-                "Bearer " + token,
-                profileReq
-        );
+       // userProfileClient.createProfile(
+         //       "Bearer " + token,
+           //     profileReq
+        //);
 
         //  Send welcome email
         emailService.sendWelcomeMail(req.email());
@@ -82,7 +83,61 @@ public class AuthController {
                 "message", "Thank you for registering 🎉",
                 "email", user.getEmail()
         );
+    }*/
+@PostMapping("/register")
+public Map<String, Object> register(@RequestBody RegisterRequest req) {
+
+    if (userRepo.existsByEmail(req.email())) {
+        throw new ResponseStatusException(
+                HttpStatus.CONFLICT,
+                "Email already registered"
+        );
     }
+
+    // Save user
+    User user = new User();
+    user.setEmail(req.email());
+    user.setPhone(req.phone());
+    user.setEmailVerified(false);
+    userRepo.save(user);
+
+    // Generate internal JWT
+    String token = jwtProvider.generateToken(
+            user.getId(),
+            user.getEmail(),
+            List.of("USER")
+    );
+
+    // 🔥 SAFE CALL to user-profile-service
+    try {
+        CreateProfileRequest profileReq =
+                new CreateProfileRequest(
+                        req.firstName(),
+                        req.lastName(),
+                        req.phone()
+                );
+
+        userProfileClient.createProfile(
+                "Bearer " + token,
+                profileReq
+        );
+
+    } catch (Exception e) {
+        System.out.println("⚠ Profile service failed: " + e.getMessage());
+    }
+
+    // 🔥 SAFE email sending
+    try {
+        emailService.sendWelcomeMail(req.email());
+    } catch (Exception e) {
+        System.out.println("⚠ Email sending failed");
+    }
+
+    return Map.of(
+            "message", "Registered successfully",
+            "email", user.getEmail()
+    );
+}
 
 
     @PostMapping("/verify-otp")
@@ -151,8 +206,15 @@ public class AuthController {
         );
     } */
 
-@PostMapping("/login-otp/confirm")
-public Map<String, Object> confirmLoginOtp(@RequestBody OtpVerifyRequest req) {
+
+
+
+
+
+
+
+    @PostMapping("/login-otp/confirm")
+    public Map<String, Object> confirmLoginOtp(@RequestBody OtpVerifyRequest req) {
 
     User user = otpService.verifyOtp(req.email(), req.otp(), "login");
 
@@ -165,31 +227,40 @@ public Map<String, Object> confirmLoginOtp(@RequestBody OtpVerifyRequest req) {
 
     String token = jwtProvider.generateToken(user.getId(), user.getEmail(), roles);
 
-    // 🔥 FETCH PROFILE
-    ProfileResponse profile =
-            userProfileClient.getProfile("Bearer " + token);
+    AuthProfileResponse mergedProfile = null;
+    List<AddressResponse> addresses = List.of();
 
-    // 🔥 FETCH ADDRESSES
-    List<AddressResponse> addresses =
-            userProfileClient.listAddresses("Bearer " + token);
+    // ✅ ONLY FETCH PROFILE FOR NORMAL USERS
+    if (!roles.contains("ADMIN")) {
+    try {
 
-    AuthProfileResponse mergedProfile =
-            new AuthProfileResponse(
-                    profile.getFirstName(),
-                    profile.getLastName(),
-                    user.getPhone(),
-                    user.getEmail(),
-                    user.getId()
-            );
+        ProfileResponse profile =
+                userProfileClient.getProfile("Bearer " + token);
 
-    return Map.of(
-            "token", token,
-            "roles", roles,
-            "profile", mergedProfile,
-            "addresses", addresses   // 🔥 ADD THIS
-    );
+        addresses =
+                userProfileClient.listAddresses("Bearer " + token);
+
+        mergedProfile = new AuthProfileResponse(
+                profile.getFirstName(),
+                profile.getLastName(),
+                user.getPhone(),
+                user.getEmail(),
+                user.getId()
+        );
+
+    } catch (Exception e) {
+        System.out.println("⚠ Profile service failed: " + e.getMessage());
+    }
 }
 
+    Map<String, Object> response = new HashMap<>();
+    response.put("token", token);
+    response.put("roles", roles);
+    response.put("profile", mergedProfile);
+    response.put("addresses", addresses);
+
+    return response;
+}
 
     @PostMapping("/resend-otp")
     public String resendOtp(@RequestBody ResendOtpRequest req) {

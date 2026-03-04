@@ -61,7 +61,7 @@ function ProductReviewStats({ productId }: { productId: number }) {
     enabled: !!productId,
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:8080/reviews/reviews/product/${productId}`
+        `/reviews/product/${productId}`
       );
       return res.data as { rating: number }[];
     },

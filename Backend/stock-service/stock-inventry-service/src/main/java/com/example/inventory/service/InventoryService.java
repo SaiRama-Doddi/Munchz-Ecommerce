@@ -103,6 +103,7 @@ public class InventoryService {
 
         StockTransaction tx = new StockTransaction();
         tx.setProductId(productId);
+        tx.setProductName(stock.getProductName());
         tx.setVariantLabel(normalizedVariant);
         tx.setQuantity(quantity);
         tx.setTransactionType("REMOVE");

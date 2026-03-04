@@ -67,6 +67,17 @@ const [isPlacingOrder, setIsPlacingOrder] = useState(false);
     setShowNewAddress(false);
   };
 
+
+const loadRazorpay = () => {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+};
+
   /* ================= RAZORPAY ================= */
   const openRazorpay = (paymentData: any, orderId: string) => {
     const options = {
@@ -152,7 +163,18 @@ const placeOrder = async () => {
     });
 
     /* 3️⃣ OPEN RAZORPAY */
-    openRazorpay(paymentRes.data, orderId);
+    /*openRazorpay(paymentRes.data, orderId);*/
+/* 3️⃣ LOAD RAZORPAY SDK */
+const loaded = await loadRazorpay();
+
+if (!loaded) {
+  alert("Razorpay SDK failed to load");
+  setIsPlacingOrder(false);
+  return;
+}
+
+/* 4️⃣ OPEN RAZORPAY */
+openRazorpay(paymentRes.data, orderId);
   } catch (err) {
     console.error(err);
     alert("Order or payment failed");

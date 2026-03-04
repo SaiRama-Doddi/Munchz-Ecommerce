@@ -15,7 +15,7 @@ export default function ProductReviewStats({
     enabled: !!productId,
     queryFn: async () => {
       const res = await axios.get(
-        `http://localhost:9095/reviews/product/${productId}`
+        `/reviews/product/${productId}`
       );
       return res.data as Review[];
     },

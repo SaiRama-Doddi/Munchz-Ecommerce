@@ -97,7 +97,7 @@ public class InventoryController {
     public ResponseEntity<Void> reduceStockOnOrder(
             @RequestBody InventoryReduceRequest request
     ) {
-        inventoryService.reduceStock(
+        inventoryService.reduceStockOnOrder(
                 request.getProductId(),
                 request.getVariant(),
                 request.getQuantity()

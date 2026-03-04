@@ -4,14 +4,13 @@ services:
 
   postgres:
     image: postgres:15
-    container_name: postgres
+    container_name: postgresql
     restart: always
     environment:
-      POSTGRES_DB: ecommerce
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
+      POSTGRES_USER: munchzuser
+      POSTGRES_PASSWORD: HelloMunchz@123
+    expose:
+      - "5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
@@ -39,6 +38,9 @@ services:
       - "8081"
     env_file:
     - .env
+    environment:
+     - MAIL_USERNAME=sairamadoddi@gmail.com
+     - MAIL_PASSWORD=fcxl alrt wwwx mkrc
 
   user-profile-service:
     build: ./Backend/user-profile-service/user-profile-service
@@ -95,7 +97,7 @@ services:
     container_name: payment-service
     depends_on:
       - postgres
-    expose:
+    expose:  
       - "9092"
     environment:
         RAZOR_KEY : rzp_test_SHv6uwtHO2C5MS

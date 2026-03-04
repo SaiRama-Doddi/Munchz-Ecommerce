@@ -69,10 +69,17 @@ public class PaymentService {
         paymentRepo.save(payment);
 
 // 🔥 Notify Order Service
+       try {
         orderClient.markPaymentSuccess(
                 payment.getOrderId(),
                 payment.getId()
         );
+    } catch (Exception e) {
+        System.out.println("Order update failed: " + e.getMessage());
+
+        payment.setStatus("REQUIRES_MANUAL_REVIEW");
+        paymentRepo.save(payment);
+    }
 
         // TODO: Call Order Service → mark order as PAID
     }

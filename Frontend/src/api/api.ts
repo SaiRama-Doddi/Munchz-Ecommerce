@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL:"http://localhost:8080/",
+  baseURL: "/",
   headers: {
     "Content-Type": "application/json",
   },
@@ -23,7 +23,7 @@ export const sendLoginOtp = (email: string) =>
   API.post("/auth/login-otp", { email });
 
 export const confirmLoginOtp = (email: string, otp: string) =>
-  API.post("/auth/login-otp/confirm", { email, otp });
+  API.post("/auth/login-otp/confirm", { email, otp , purpose: "login" });
 
 export const sendResendOtp = (email: string) =>
   API.post("/auth/resend-otp", {

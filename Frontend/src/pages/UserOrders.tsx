@@ -80,7 +80,7 @@ const [file, setFile] = useState<File | null>(null);
   /* ================= FETCH ================= */
   useEffect(() => {
     axios
-      .get("http://localhost:8080/order/api/orders", {
+      .get("/order/api/orders", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -99,7 +99,7 @@ const [file, setFile] = useState<File | null>(null);
       for (const item of order.items) {
         if (!imageMap[item.productId]) {
           const res = await axios.get(
-            `http://localhost:8080/product/api/products/${item.productId}`
+            `/product/api/products/${item.productId}`
           );
           imageMap[item.productId] =
             res.data.imageUrls?.[0] || res.data.imageUrl || "/placeholder.png";
@@ -529,7 +529,7 @@ ${order.totalAmount}`,
       }
 
       await axios.post(
-        "http://localhost:9095/reviews/form",
+        "/reviews/form",
         formData
       );
 

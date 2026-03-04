@@ -33,7 +33,7 @@ export default function AdminReviews() {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        `http://localhost:8082/profile/users/${userId}`,
+        `/profile/users/${userId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       return `${res.data.firstName} ${res.data.lastName}`;
@@ -53,7 +53,7 @@ export default function AdminReviews() {
     const loadReviews = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:8080/reviews/reviews/all"
+          "/reviews/all"
         );
         const data: Review[] = res.data;
 

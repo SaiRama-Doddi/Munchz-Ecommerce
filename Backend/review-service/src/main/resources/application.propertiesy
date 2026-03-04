@@ -6,7 +6,7 @@ server.port=9095
 #spring.datasource.username=neondb_owner
 #spring.datasource.password=${DB_PASSWORD}
 
-spring.datasource.url=jdbc:postgresql://postgres:5432/reviewdb
+spring.datasource.url=jdbc:postgresql://postgres:5432/munchzdb
 spring.datasource.username=munchzuser
 spring.datasource.password=HelloMunchz@123
 spring.datasource.driver-class-name=org.postgresql.Driver

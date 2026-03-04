@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const inventoryApi = axios.create({
-  baseURL: "http://localhost:8080/stock/api",
+  baseURL: "/stock/api",
   timeout: 10000,
 });
 

@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Boxes,
@@ -6,34 +6,13 @@ import {
   ShoppingBag,
   ClipboardList,
   Warehouse,
-  History,
   TicketPercent,
   PackagePlus,
   PackageSearch,
   Store,
   Home,
+  LogOut,
 } from "lucide-react";
-
-/* const items = [
-  { to: "/", label: "Home", icon: Home },
-  { to: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/admin/category", label: "Categories", icon: Layers },
-  { to: "/sub-category", label: "Subcategories", icon: Layers },
-  { to: "/admin/products", label: "Products", icon: ShoppingBag },
-  { to: "/admin/orders", label: "Orders", icon: ClipboardList },
-  { to: "/addstock", label: "Add Stock", icon: PackagePlus },
-  { to: "/inventory", label: "Stock List", icon: Warehouse },
-  { to: "/Stockhistory", label: "Stock History", icon: History },
-  { to: "/adminStockEntry", label: "Stock Entry", icon: PackagePlus },
-  { to: "/adminStockDetails", label: "Stock Details", icon: PackageSearch },
-  { to: "/offline-inventorys/add", label: "Add Offline Stock", icon: Store },
-  { to: "/offline-inventory", label: "Offline Inventory", icon: Store },
-  { to: "/AdminCompleteStock", label: "Complete Stock", icon: Boxes },
-  { to: "/admincoupons", label: "Coupons", icon: TicketPercent },
-  { to: "/adminreviews", label: "Reviews", icon: ClipboardList },
-]; */
-
-
 
 const items = [
   { to: "/", label: "Home", icon: Home },
@@ -42,26 +21,35 @@ const items = [
   { to: "/admin/sub-category", label: "Subcategories", icon: Layers },
   { to: "/admin/products", label: "Products", icon: ShoppingBag },
   { to: "/admin/orders", label: "Orders", icon: ClipboardList },
-
   { to: "/admin/addstock", label: "Add Stock", icon: PackagePlus },
   { to: "/admin/inventory", label: "Stock List", icon: Warehouse },
- /*  { to: "/admin/history", label: "Stock History", icon: History }, */
-
   { to: "/admin/stock-entry", label: "Stock Entry", icon: PackagePlus },
   { to: "/admin/stock-details", label: "Stock Details", icon: PackageSearch },
-
   { to: "/admin/offline-add", label: "Add Offline Stock", icon: Store },
   { to: "/admin/offline-inventory", label: "Offline Inventory", icon: Store },
   { to: "/admin/complete-stock", label: "Complete Stock", icon: Boxes },
-
   { to: "/admin/coupons", label: "Coupons", icon: TicketPercent },
   { to: "/admin/reviews", label: "Reviews", icon: ClipboardList },
 ];
 
-
 export default function Sidebar() {
+  const navigate = useNavigate();
+
+  // 🔹 Get profile safely
+  const storedProfile = localStorage.getItem("profile");
+  const profile = storedProfile ? JSON.parse(storedProfile) : null;
+  const email = profile?.email || "Admin";
+
+  // 🔹 Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("profile");
+    localStorage.removeItem("roles");
+    navigate("/login", { replace: true });
+  };
+
   return (
-    <aside className="fixed left-0 top-0 w-72 h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-white px-4 py-6 shadow-xl overflow-y-auto">
+    <aside className="fixed left-0 top-0 w-72 h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-white px-4 py-6 shadow-xl flex flex-col">
 
       {/* BRAND */}
       <div className="flex items-center gap-3 mb-8 px-2">
@@ -74,8 +62,14 @@ export default function Sidebar() {
         </div>
       </div>
 
-      {/* NAV */}
-      <nav className="flex flex-col gap-1">
+      {/* ADMIN INFO */}
+      <div className="bg-slate-700/40 rounded-lg p-3 mb-6">
+        <p className="text-xs text-gray-400">Logged in as</p>
+        <p className="text-sm font-semibold truncate">{email}</p>
+      </div>
+
+      {/* NAVIGATION */}
+      <nav className="flex flex-col gap-1 flex-1 overflow-y-auto">
         {items.map((item) => {
           const Icon = item.icon;
 
@@ -97,6 +91,17 @@ export default function Sidebar() {
           );
         })}
       </nav>
+
+      {/* LOGOUT BUTTON */}
+      <div className="mt-6">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm text-red-400 hover:bg-red-600 hover:text-white transition-all duration-200"
+        >
+          <LogOut size={18} />
+          Logout
+        </button>
+      </div>
     </aside>
   );
 }

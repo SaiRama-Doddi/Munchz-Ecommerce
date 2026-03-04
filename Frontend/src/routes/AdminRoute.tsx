@@ -8,13 +8,20 @@ const AdminRoute = () => {
   }
 
   try {
-    const payload = JSON.parse(atob(token.split(".")[1]));
-    const roles = payload.roles || [];
+    const base64Payload = token.split(".")[1];
+    if (!base64Payload) {
+      return <Navigate to="/login" replace />;
+    }
 
-    const isAdmin = roles.includes("ADMIN");
+    const payload = JSON.parse(atob(base64Payload));
+    const roles: string[] = payload?.roles || [];
 
-    return isAdmin ? <Outlet /> : <Navigate to="/" replace />;
-  } catch (err) {
+    if (!roles.includes("ADMIN")) {
+      return <Navigate to="/" replace />;
+    }
+
+    return <Outlet />;
+  } catch (error) {
     return <Navigate to="/login" replace />;
   }
 };
