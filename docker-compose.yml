@@ -116,7 +116,10 @@ services:
     env_file:
     - .env
 
-shipping-service:
+
+
+  shipping-service:
+
     build: ./Backend/shiprocket-shipping-service
     container_name: shipping-service
     restart: always
