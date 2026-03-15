@@ -73,7 +73,7 @@ const { data: suggestions = [] } = useQuery({
           <nav className="hidden md:flex items-center gap-8 font-medium">
   {[
     { to: "/", label: "Home" },
-    { to: "/productpage", label: "Shops" },
+    { to: "/productpage", label: "Shopssss" },
     { to: "/Aboutmain", label: "About" },
     { to: "/track", label: "Track" },
     { to: "/contact", label: "Contact" },
