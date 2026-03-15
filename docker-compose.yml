@@ -101,8 +101,8 @@ services:
     expose:  
       - "9092"
     environment:
-        RAZOR_KEY : rzp_test_SHv6uwtHO2C5MS
-        RAZOR_SECRET: QSBH4PXorL3xLcqH8Q0MIWfE
+        RAZOR_KEY: ${RAZORPAY_KEY}
+        RAZOR_SECRET: ${RAZOR_SECRET}
     env_file:
     - .env
 
