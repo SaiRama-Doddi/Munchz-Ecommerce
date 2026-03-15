@@ -15,6 +15,6 @@ public interface PaymentRepository extends JpaRepository<PaymentEntity, UUID> {
 
     Optional<PaymentEntity> findByRazorpayOrderId(String razorpayOrderId);
 
-
+    Optional<PaymentEntity> findByOrderId(UUID orderId);
     List<PaymentEntity> findByCreatedAtAfter(Instant startOfDay);
 }

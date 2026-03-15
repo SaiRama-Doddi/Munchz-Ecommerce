@@ -24,7 +24,8 @@ export interface Address {
   state: string;
   country: string;
   pincode: string;
-  mobile?: string;
+  
+  phone?: string;
   isDefault: boolean;
 
 }

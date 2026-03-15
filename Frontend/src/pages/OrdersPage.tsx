@@ -43,6 +43,9 @@ interface BackendOrder {
   placedAt: string;
   updatedAt: string;
 
+  shiprocketOrderId?: string;
+  shiprocketShipmentId?: string;
+
   items: BackendOrderItem[];
 }
 
@@ -186,6 +189,7 @@ useEffect(() => {
               <th className="p-3 border">Coupon</th>
               <th className="p-3 border">Status</th>
               <th className="p-3 border">Items</th>
+              <th className="p-3 border">Shiprocket</th>
               <th className="p-3 border">Action</th>
             </tr>
           </thead>
@@ -207,6 +211,11 @@ useEffect(() => {
                 <td className="p-3 border">{o.couponCode || "—"}</td>
                 <td className="p-3 border">{o.orderStatus}</td>
                 <td className="p-3 border">{o.items.length}</td>
+                <td className="p-3 border text-xs">
+                  {o.shiprocketOrderId && <div>ID: {o.shiprocketOrderId}</div>}
+                  {o.shiprocketShipmentId && <div>Ship: {o.shiprocketShipmentId}</div>}
+                  {!o.shiprocketOrderId && "—"}
+                </td>
                 <td className="p-3 border text-center">
                   <button
                     onClick={() => setSelectedOrder(o)}
@@ -234,6 +243,12 @@ useEffect(() => {
             <p><b>Placed At:</b> {selectedOrder.placedAt}</p>
             <p><b>Status:</b> {selectedOrder.orderStatus}</p>
             <p><b>Shipping:</b> {parseAddress(selectedOrder.shippingAddress)}</p>
+            {selectedOrder.shiprocketOrderId && (
+              <p><b>Shiprocket Order:</b> {selectedOrder.shiprocketOrderId}</p>
+            )}
+            {selectedOrder.shiprocketShipmentId && (
+              <p><b>Shiprocket Shipment:</b> {selectedOrder.shiprocketShipmentId}</p>
+            )}
 
             <h3 className="text-xl font-semibold mt-4 mb-2">Items</h3>
 

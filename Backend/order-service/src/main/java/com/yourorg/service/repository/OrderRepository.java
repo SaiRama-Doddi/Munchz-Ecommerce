@@ -38,4 +38,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, UUID> {
     )
     Page<OrderEntity> findAllWithItems(Pageable pageable);
 
+    @Query("SELECT o FROM OrderEntity o LEFT JOIN FETCH o.items WHERE o.id = :id")
+    java.util.Optional<OrderEntity> findByIdWithItems(@Param("id") UUID id);
+
 }

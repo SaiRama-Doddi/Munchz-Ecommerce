@@ -97,7 +97,13 @@ package com.yourorg.service.entity;
         private List<OrderItemEntity> items = new ArrayList<>();
 
         @Column(name = "coupon_id")
-        private Integer couponId;   // ✅ CORRECT
+        private Integer couponId;
+
+        @Column(name = "shiprocket_order_id")
+        private String shiprocketOrderId;
+
+        @Column(name = "shiprocket_shipment_id")
+        private String shiprocketShipmentId;
 
 
     }

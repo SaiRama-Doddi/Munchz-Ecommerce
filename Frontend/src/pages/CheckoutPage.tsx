@@ -42,7 +42,7 @@ export default function CheckoutPage() {
     city: "",
     state: "",
     pincode: "",
-    mobile: "",
+    phone: "",
   });
 
   /* ================= LOAD ADDRESSES ================= */
@@ -58,6 +58,7 @@ export default function CheckoutPage() {
   const saveNewAddress = async () => {
     await addAddressApi({
       ...newAddress,
+      phone: newAddress.phone?.trim() || "",
       country: "India",
       isDefault: true,
     });
@@ -70,7 +71,7 @@ export default function CheckoutPage() {
   const handleUpdateAddress = async (id: string) => {
     const payload = {
       ...form,
-      phone: form.phone?.trim() || null,
+      phone: form.phone?.trim() || "",
     };
 
     await updateAddressApi(id, payload);
@@ -106,7 +107,7 @@ export default function CheckoutPage() {
       key: paymentData.key,
       amount: paymentData.amount,
       currency: paymentData.currency,
-      name: "Munchz",
+      name: "GoMunchz",
       description: "Order Payment",
       order_id: paymentData.razorpayOrderId,
 
@@ -346,7 +347,14 @@ value={form.pincode || ""}
 onChange={(e)=>setForm({...form,pincode:e.target.value})}
 />
 
-<div className="flex gap-2">
+<input
+placeholder="Phone Number"
+className="border p-2 rounded-lg w-full mt-2"
+value={form.phone || ""}
+onChange={(e)=>setForm({...form,phone:e.target.value})}
+/>
+
+<div className="flex gap-2 mt-2">
 
 <button
 onClick={()=>handleUpdateAddress(addr.id)}
@@ -392,6 +400,12 @@ Default
 <p className="text-sm text-gray-600">
 {addr.city}, {addr.state} - {addr.pincode}
 </p>
+
+{addr.phone && (
+<p className="text-sm text-gray-600 mt-1">
+📞 {addr.phone}
+</p>
+)}
 
 </div>
 
@@ -472,6 +486,12 @@ className="border p-2 rounded-lg"
 onChange={(e)=>setNewAddress({...newAddress,pincode:e.target.value})}
 />
 
+<input
+placeholder="Phone Number"
+className="border p-2 rounded-lg"
+onChange={(e)=>setNewAddress({...newAddress,phone:e.target.value})}
+/>
+
 <button
 onClick={saveNewAddress}
 className="bg-green-700 text-white py-2 rounded-lg"
@@ -544,4 +564,3 @@ Save Address
     </>
   );
 }
-

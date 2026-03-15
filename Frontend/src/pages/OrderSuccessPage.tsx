@@ -1,9 +1,12 @@
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Truck } from "lucide-react";
+import orderApi from "../api/orderApi";
 
 export default function OrderSuccessPage() {
   const navigate = useNavigate();
   const { state } = useLocation();
+  const [order, setOrder] = useState<any>(null);
 
   // 🔒 Handle direct refresh / invalid access
   if (!state || !state.orderId) {
@@ -12,6 +15,12 @@ export default function OrderSuccessPage() {
   }
 
   const { orderId } = state as { orderId: string };
+
+  useEffect(() => {
+    orderApi.get(`/api/orders/${orderId}`)
+      .then(res => setOrder(res.data))
+      .catch(err => console.error("Failed to fetch order details", err));
+  }, [orderId]);
 
   return (
     <div className="min-h-screen bg-[#f6fff4] flex items-center justify-center px-4">
@@ -30,10 +39,28 @@ export default function OrderSuccessPage() {
           Thank you for your order! Your payment has been processed successfully.
         </p>
 
+        {/* ✅ TRACKING (IF SHIPROCKET READY) */}
+        {order?.shiprocketShipmentId && (
+          <div className="mt-6 p-4 bg-green-50 border border-green-100 rounded-xl flex items-center gap-4">
+            <div className="p-3 bg-white rounded-lg shadow-sm">
+              <Truck className="text-green-600" size={24} />
+            </div>
+            <div className="text-left">
+              <p className="text-xs text-green-700 font-semibold uppercase tracking-wider">Shiprocket Tracking</p>
+              <button 
+                onClick={() => navigate(`/track/${order.shiprocketShipmentId}`)}
+                className="text-sm font-bold text-gray-800 hover:text-green-700 underline underline-offset-4 decoration-2 decoration-green-300"
+              >
+                Track Your Shipment
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* ✅ ORDER ID */}
         <div className="mt-6 bg-gray-50 border rounded-lg p-4">
           <p className="text-sm text-gray-500">Order ID</p>
-          <p className="font-mono text-sm text-gray-800 break-all">
+          <p className="font-mono text-xs text-gray-800 break-all">
             {orderId}
           </p>
         </div>
@@ -48,7 +75,7 @@ export default function OrderSuccessPage() {
           </button>
 
           <button
-            onClick={() => navigate("/productpage")}
+            onClick={() => navigate("/")}
             className="w-full border border-gray-300 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-50 transition"
           >
             Continue Shopping

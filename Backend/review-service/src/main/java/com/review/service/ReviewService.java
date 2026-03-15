@@ -93,6 +93,10 @@ public class ReviewService {
         return repo.findAllByOrderByCreatedAtDesc();
     }
 
+    public List<Review> getReviewsByUserId(String userId) {
+        return repo.findByUserId(userId);
+    }
+
     // ✅ One-time fix for old data
     public void backfillUserNames() {
         List<Review> reviews = repo.findAll();

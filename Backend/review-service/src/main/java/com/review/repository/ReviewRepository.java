@@ -5,12 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-
-public interface ReviewRepository extends JpaRepository<Review, Long>
-{
+public interface ReviewRepository extends JpaRepository<Review, UUID> {
 
     List<Review> findByProductId(Long productId);
+
     List<Review> findAllByOrderByCreatedAtDesc();
 
     Optional<Review> findByOrderIdAndProductIdAndUserId(
@@ -19,4 +19,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long>
             String userId
     );
 
+    List<Review> findByUserId(String userId);
 }

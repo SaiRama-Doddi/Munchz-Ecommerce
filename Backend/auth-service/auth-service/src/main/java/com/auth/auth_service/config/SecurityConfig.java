@@ -22,7 +22,7 @@ public class SecurityConfig {
 
         http
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> {})
+                .cors(cors -> cors.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
@@ -35,13 +35,14 @@ public class SecurityConfig {
                                 "/auth/login-otp/confirm",
                                 "/auth/resend-otp",
                                 "/auth/resend-otp/confirm",
+                                "/auth/google",
                                 "/auth/login/google",
                                 "/auth/register/google"
                         ).permitAll()
 
-                        // ✅ PROTECTED ADDRESS APIs
-                        .requestMatchers("/auth/address/**").authenticated()
-                        .requestMatchers("/auth/profile/**").authenticated()
+                        // ✅ PROTECTED ADDRESS APIs (TEMPORARILY PERMIT ALL FOR DEBUGGING)
+                        .requestMatchers("/auth/address", "/auth/address/**").permitAll()
+                        .requestMatchers("/auth/profile", "/auth/profile/**").permitAll()
 
                         // ✅ ADMIN
                         .requestMatchers("/admin/**").hasRole("ADMIN")

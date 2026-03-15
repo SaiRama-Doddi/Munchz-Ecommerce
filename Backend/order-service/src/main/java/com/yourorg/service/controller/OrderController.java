@@ -128,6 +128,10 @@ public class OrderController {
         r.setCurrency(order.getCurrency());
         r.setShippingAddress(order.getShippingAddress());
         r.setBillingAddress(order.getBillingAddress());
+
+        r.setShiprocketOrderId(order.getShiprocketOrderId());
+        r.setShiprocketShipmentId(order.getShiprocketShipmentId());
+
         Instant placed = order.getPlacedAt();
         Instant updated = order.getUpdatedAt();
 

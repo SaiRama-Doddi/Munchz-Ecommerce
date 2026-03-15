@@ -368,57 +368,94 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
 
 
 
-    @PostMapping("/login/google")
-    public ResponseEntity<Map<String, Object>> googleLogin(
+    @PostMapping("/google")
+    public ResponseEntity<Map<String, Object>> unifiedGoogleAuth(
             @RequestBody GoogleLoginRequest req
     ) {
-
         // 1️⃣ Verify Google token
         GoogleUserPayload googleUser =
                 googleTokenVerifier.verify(req.idToken());
 
-        // 2️⃣ Fetch user
+        // 2️⃣ Fetch user by email
         User user = userRepo.findByEmail(googleUser.email())
                 .orElse(null);
 
+        boolean isNewUser = false;
+
         if (user == null) {
-            return ResponseEntity.status(404).body(
-                    Map.of("message", "User not registered. Please signup.")
-            );
+            // 3️⃣ Auto-register if not found
+            user = new User();
+            user.setEmail(googleUser.email());
+            user.setProvider("GOOGLE");
+            user.setProviderId(googleUser.googleId());
+            user.setEmailVerified(true);
+            userRepo.save(user);
+            isNewUser = true;
+        } else {
+            // 4️⃣ Link account if it was LOCAL/OTP but now using Google
+            if (!"GOOGLE".equals(user.getProvider())) {
+                user.setProvider("GOOGLE");
+                user.setProviderId(googleUser.googleId());
+                user.setEmailVerified(true);
+                userRepo.save(user);
+            }
         }
 
-        // 3️⃣ Provider check (SAFE)
-        if (user.getProvider() == null || !"GOOGLE".equals(user.getProvider())) {
-            return ResponseEntity.status(400).body(
-                    Map.of("message", "This email is registered using OTP login.")
-            );
-        }
+        // 5️⃣ Generate Internal JWT for profile check/creation
+        String internalToken = jwtProvider.generateToken(
+                user.getId(),
+                user.getEmail(),
+                List.of()
+        );
 
-
-        // 4️⃣ Generate JWT (no roles)
-        String token =
-                jwtProvider.generateToken(
-                        user.getId(),
-                        user.getEmail(),
-                        List.of()
+        if (isNewUser) {
+            // 6️⃣ Create profile for new users
+            try {
+                userProfileClient.createProfile(
+                        "Bearer " + internalToken,
+                        new CreateProfileRequest(
+                                googleUser.firstName(),
+                                googleUser.lastName(),
+                                null
+                        )
                 );
+            } catch (Exception e) {
+                System.out.println("⚠ Unified Google Auth: Profile creation failed (existing?): " + e.getMessage());
+            }
+        }
 
-        // 5️⃣ Fetch profile
-        ProfileResponse profile =
-                userProfileClient.getProfile("Bearer " + token);
+        // 7️⃣ Generate final JWT with roles
+        List<String> roles = roleService.getUserRoleNames(user.getId());
+        if (roles.isEmpty()) {
+            roles = List.of("USER");
+        }
+        
+        String token = jwtProvider.generateToken(
+                user.getId(),
+                user.getEmail(),
+                roles
+        );
 
-        AuthProfileResponse mergedProfile =
-                new AuthProfileResponse(
-                        profile.getFirstName(),
-                        profile.getLastName(),
-                        user.getPhone(),
-                        user.getEmail(),
-                        user.getId());
+        // 8️⃣ Fetch full merged profile
+        ProfileResponse profile;
+        try {
+             profile = userProfileClient.getProfile("Bearer " + token);
+        } catch (Exception e) {
+            profile = new ProfileResponse(googleUser.firstName(), googleUser.lastName());
+        }
+
+        AuthProfileResponse mergedProfile = new AuthProfileResponse(
+                profile.getFirstName(),
+                profile.getLastName(),
+                user.getPhone(),
+                user.getEmail(),
+                user.getId());
 
         return ResponseEntity.ok(
                 Map.of(
                         "token", token,
-                        "profile", mergedProfile
+                        "profile", mergedProfile,
+                        "roles", roles
                 )
         );
     }

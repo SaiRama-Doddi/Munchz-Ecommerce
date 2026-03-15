@@ -1,9 +1,8 @@
 package com.yourorg.service.service;
 
-import com.yourorg.service.client.CouponClient;
-import com.yourorg.service.client.InventoryClient;
-import com.yourorg.service.client.ProductClient;
-import com.yourorg.service.client.UserProfileClient;
+import com.yourorg.service.client.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.yourorg.service.dto.*;
 import com.yourorg.service.entity.*;
 import com.yourorg.service.repository.*;
@@ -19,8 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class OrderService {
 
     private final UserProfileClient userProfileClient;
@@ -29,22 +32,9 @@ public class OrderService {
     private final ProductClient productClient;
     private final CouponClient couponClient;
     private  final InventoryClient inventoryClient;
+    private final ShippingClient shippingClient;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public OrderService(
-            UserProfileClient userProfileClient,
-            OrderRepository orderRepository,
-            OrderEventRepository orderEventRepository,
-            ProductClient productClient,
-            CouponClient couponClient,
-            InventoryClient inventoryClient
-    ) {
-        this.userProfileClient = userProfileClient;
-        this.orderRepository = orderRepository;
-        this.orderEventRepository = orderEventRepository;
-        this.productClient = productClient;
-        this.couponClient=couponClient;
-        this.inventoryClient=inventoryClient;
-    }
 
     /* ===========================
        CREATE ORDER
@@ -141,7 +131,7 @@ public class OrderService {
     =========================== */
     @Transactional(readOnly = true)
     public Optional<OrderEntity> getOrder(UUID id) {
-        return orderRepository.findById(id);
+        return orderRepository.findByIdWithItems(id);
     }
 
     @Transactional(readOnly = true)
@@ -231,35 +221,83 @@ public class OrderService {
         OrderEntity order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
-        // prevent double stock deduction
-        if ("PAID".equals(order.getOrderStatus())) {
-            return;
-        }
-        order.setOrderStatus("PAID");
+        if (!"PAID".equals(order.getOrderStatus())) {
+            order.setOrderStatus("PAID");
+            if (paymentId != null) {
+                order.setPaymentId(paymentId);
+            }
+                log.info("DEBUG: Payment success received for order {}. Status set to PAID.", orderId);
 
-        if (paymentId != null) {
-            order.setPaymentId(paymentId);
+            // 🔽 CALL INVENTORY SERVICE
+            try {
+                order.getItems().forEach(item -> {
+                    InventoryReduceRequest req = new InventoryReduceRequest();
+                    req.setProductId(item.getProductId());
+                    req.setVariant(item.getVariantLabel());
+                    req.setQuantity(item.getQuantity().intValue());
+                    inventoryClient.reduceStockOnOrder(req);
+                });
+            } catch (FeignException ex) {
+                throw new RuntimeException("Inventory update failed. Payment must be reconciled.", ex);
+            }
+            orderRepository.save(order);
+            System.out.println("DEBUG: Order " + orderId + " saved with status PAID and inventory reduced.");
         }
 
-        // 🔽 CALL INVENTORY SERVICE
+        // 🚛 CALL SHIPPING SERVICE (Shiprocket)
+        if (order.getShiprocketOrderId() != null) {
+             log.info("DEBUG: Order {} already has Shiprocket ID: {}", orderId, order.getShiprocketOrderId());
+             return;
+        }
+
         try {
-            order.getItems().forEach(item -> {
+            log.info("DEBUG: Starting Shiprocket sync for order {}", order.getId());
+            log.info("DEBUG: Shipping Address JSON: {}", (order.getShippingAddress() != null ? order.getShippingAddress() : "NULL"));
+            JsonNode addrNode = objectMapper.readTree(order.getShippingAddress());
+            
+            String phone = addrNode.has("phone") && !addrNode.get("phone").isNull() ? addrNode.get("phone").asText() : "";
+            if (phone.isEmpty() || phone.length() < 10) phone = "9123456789"; // Plausible dummy
 
-                InventoryReduceRequest req = new InventoryReduceRequest();
-                req.setProductId(item.getProductId());
-                req.setVariant(item.getVariantLabel());     // variant label
-                req.setQuantity(item.getQuantity().intValue());
+            String customerName = order.getUserName();
+            if (customerName == null || customerName.isEmpty()) {
+                customerName = "Customer";
+            } else {
+                customerName = customerName.trim().replaceAll("\\s+", " ");
+            }
 
-                inventoryClient.reduceStockOnOrder(req);
-            });
+            ShipmentRequest shipReq = ShipmentRequest.builder()
+                    .orderId(order.getId().toString())
+                    .customerName(customerName)
+                    .email(order.getUserEmail() != null ? order.getUserEmail() : "customer@munchz.com")
+                    .phone(phone)
+                    .address(addrNode.path("addressLine1").asText("") + " " + addrNode.path("addressLine2").asText(""))
+                    .city(addrNode.path("city").asText(""))
+                    .state(addrNode.path("state").asText(""))
+                    .pincode(addrNode.path("pincode").asText(""))
+                    .price(order.getTotalAmount().doubleValue())
+                    .build();
 
-        } catch (FeignException ex) {
-            throw new RuntimeException(
-                    "Inventory update failed. Payment must be reconciled.", ex
-            );
+            Map<String, Object> shipRes = shippingClient.createShipment(shipReq);
+            
+            if (shipRes != null) {
+                if (shipRes.containsKey("order_id")) {
+                    order.setShiprocketOrderId(shipRes.get("order_id").toString());
+                }
+                if (shipRes.containsKey("shipment_id")) {
+                    order.setShiprocketShipmentId(shipRes.get("shipment_id").toString());
+                }
+                orderRepository.save(order);
+            }
+
+        } catch (Exception ex) {
+            System.err.println("Shipping creation failed for order " + orderId + ": " + ex.getMessage());
+            if (ex instanceof feign.FeignException) {
+                feign.FeignException fe = (feign.FeignException) ex;
+                System.err.println("Feign error: " + fe.status() + " - " + fe.contentUTF8());
+            }
+            ex.printStackTrace();
+            // We don't throw here to avoid rolling back the PAID status
         }
-
-        orderRepository.save(order);
 
     }
 

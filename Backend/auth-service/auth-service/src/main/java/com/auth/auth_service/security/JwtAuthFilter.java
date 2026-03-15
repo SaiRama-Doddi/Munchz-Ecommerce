@@ -106,14 +106,18 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
 
         String header = request.getHeader("Authorization");
+        System.out.println("DEBUG: Request is " + request.getMethod() + " " + request.getRequestURI());
+        System.out.println("DEBUG: Authorization Header: " + (header != null ? "PRESENT" : "MISSING"));
 
         // ✅ If no token → just continue
         if (header == null || !header.startsWith("Bearer ")) {
+            System.out.println("DEBUG: No Bearer token found in header.");
             filterChain.doFilter(request, response);
             return;
         }
 
         String token = header.substring(7);
+        System.out.println("DEBUG: Token found, validating...");
 
         try {
             DecodedJWT jwt = jwtProvider.validate(token);
@@ -133,9 +137,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                             authorities
                     );
 
+            System.out.println("DEBUG: Token valid for user: " + userId + " with roles: " + roles);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
         } catch (Exception ex) {
+            System.out.println("DEBUG: Token validation failed: " + ex.getMessage());
             SecurityContextHolder.clearContext();
         }
 

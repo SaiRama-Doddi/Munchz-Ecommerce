@@ -47,7 +47,8 @@ import UserOrders from "./pages/UserOrders";
 import AdminReviews from "./pages/AdminReviews";
 import SearchProducts from "./pages/SearchProducts";
 
-
+import TrackingPage from "./pages/TrackingPage";
+import TrackOrderPage from "./pages/TrackOrderPage";
 
 
 export default function App() {
@@ -226,6 +227,14 @@ export default function App() {
 
       } />
 
+      <Route path="/track" element={
+        <TrackOrderPage />
+      } />
+
+      <Route path="/track/:shipmentId" element={
+        <TrackingPage />
+      } />
+      
       <Route path="/AboutMain" element ={<>
             <TopHeader />
             <Header />

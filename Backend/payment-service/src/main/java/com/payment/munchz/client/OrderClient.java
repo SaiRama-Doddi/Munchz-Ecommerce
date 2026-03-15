@@ -12,7 +12,7 @@ public interface OrderClient {
 
     @PutMapping("/api/orders/{orderId}/payment-success")
     void markPaymentSuccess(
-            @PathVariable UUID orderId,
-            @RequestParam(required = false) UUID paymentId
+            @PathVariable("orderId") UUID orderId,
+            @RequestParam(value = "paymentId", required = false) UUID paymentId
     );
 }

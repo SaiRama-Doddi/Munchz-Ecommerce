@@ -27,7 +27,7 @@ public class PaymentEntity {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private UUID orderId;
 
     @Column(nullable = false)

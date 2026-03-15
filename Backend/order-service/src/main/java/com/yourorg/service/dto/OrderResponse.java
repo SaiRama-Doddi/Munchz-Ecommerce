@@ -33,6 +33,8 @@ public class OrderResponse {
     private String placedAt;
     private String updatedAt;
 
+    private String shiprocketOrderId;
+    private String shiprocketShipmentId;
 
     private List<OrderItemResponse> items;
 }

@@ -16,8 +16,9 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
-
+import com.razorpay.Utils;
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
@@ -29,8 +30,26 @@ public class PaymentService {
     @Value("${razorpay.key}")
     private String razorpayKey;
 
+
+    @Value("${razorpay.secret}")
+    private String razorpaySecret;
+
     public CreatePaymentResponse createPayment(CreatePaymentRequest req) throws Exception {
 
+         Optional<PaymentEntity> existingPayment =
+            paymentRepo.findByOrderId(req.orderId());
+
+    if(existingPayment.isPresent()) {
+
+        PaymentEntity payment = existingPayment.get();
+
+        return new CreatePaymentResponse(
+                payment.getRazorpayOrderId(),
+                payment.getAmount(),
+                payment.getCurrency(),
+                razorpayKey
+        );
+    } 
         JSONObject orderReq = new JSONObject();
         orderReq.put("amount", req.amount());
         orderReq.put("currency", req.currency());
@@ -57,32 +76,59 @@ public class PaymentService {
         );
     }
 
-    public void verifyPayment(VerifyPaymentRequest req) {
 
-        PaymentEntity payment = paymentRepo.findByRazorpayOrderId(req.razorpayOrderId())
-                .orElseThrow(() -> new RuntimeException("Payment not found"));
+    
+ public void verifyPayment(VerifyPaymentRequest req) {
 
-        payment.setRazorpayPaymentId(req.razorpayPaymentId());
-        payment.setRazorpaySignature(req.razorpaySignature());
-        payment.setStatus("SUCCESS");
+    PaymentEntity payment = paymentRepo
+            .findByRazorpayOrderId(req.razorpayOrderId())
+            .orElseThrow(() -> new RuntimeException("Payment not found"));
 
-        paymentRepo.save(payment);
+    // Prevent duplicate verification (idempotency)
+    if ("SUCCESS".equals(payment.getStatus())) {
+        return;
+    }
 
-// 🔥 Notify Order Service
-       try {
+    try {
+
+        String payload = req.razorpayOrderId() + "|" + req.razorpayPaymentId();
+
+        boolean valid = Utils.verifySignature(
+                payload,
+                req.razorpaySignature(),
+                razorpaySecret
+        );
+
+        if (!valid) {
+            throw new RuntimeException("Invalid Razorpay Signature");
+        }
+
+    } catch (Exception e) {
+        throw new RuntimeException("Payment verification failed");
+    }
+
+    payment.setRazorpayPaymentId(req.razorpayPaymentId());
+    payment.setRazorpaySignature(req.razorpaySignature());
+    payment.setStatus("SUCCESS");
+
+    paymentRepo.save(payment);
+
+    // Notify Order Service
+    try {
+
         orderClient.markPaymentSuccess(
                 payment.getOrderId(),
                 payment.getId()
         );
+
     } catch (Exception e) {
-        System.out.println("Order update failed: " + e.getMessage());
+        System.out.println("CRITICAL ERROR: Order update failed for payment " + payment.getId() + " / order " + payment.getOrderId() + ": " + e.getMessage());
+        e.printStackTrace();
 
         payment.setStatus("REQUIRES_MANUAL_REVIEW");
         paymentRepo.save(payment);
     }
-
-        // TODO: Call Order Service → mark order as PAID
-    }
+}
 
 
 

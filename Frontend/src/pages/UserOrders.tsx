@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Mail, User, LayoutGrid, List, Eye } from "lucide-react";
+import { Mail, User, LayoutGrid, List, Eye, Upload, Image as ImageIcon, Star, Trash2 } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { FaTimes } from "react-icons/fa";
@@ -24,6 +24,8 @@ interface Order {
   placedAt: string;
   totalAmount: number;
   shippingAddress: any;
+  shiprocketOrderId?: string;
+  shiprocketShipmentId?: string;
   items: OrderItem[];
 }
 
@@ -61,13 +63,14 @@ const PageSpinner = () => (
 export default function UserOrders() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 const [productImages, setProductImages] = useState<Record<number, string>>({});
-const [reviewedProducts, setReviewedProducts] = useState<Set<number>>(new Set());
+const [reviewedItems, setReviewedItems] = useState<Set<string>>(new Set());
   const [reviewItem, setReviewItem] = useState<OrderItem | null>(null);
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
  
   const [submitting, setSubmitting] = useState(false);
 const [file, setFile] = useState<File | null>(null);
+const [preview, setPreview] = useState<string | null>(null);
 
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -114,6 +117,28 @@ const [file, setFile] = useState<File | null>(null);
     fetchImages();
   }
 }, [orders]);
+
+/* ================= FETCH REVIEWS ================= */
+useEffect(() => {
+  const fetchReviews = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const payload: any = JSON.parse(atob(token.split(".")[1]));
+      const userId = payload.sub;
+
+      const res = await axios.get(`/reviews/user/${userId}`);
+      const reviewList = res.data || [];
+      const itemKeys = new Set<string>(reviewList.map((r: any) => `${r.orderId}:${r.productId}`));
+      setReviewedItems(itemKeys);
+    } catch (err) {
+      console.error("Failed to fetch user reviews", err);
+    }
+  };
+
+  fetchReviews();
+}, []);
 
   /* ================= FILTER ================= */
 const filteredOrders = useMemo(() => {
@@ -332,9 +357,9 @@ ${order.totalAmount}`,
                       Reorder
                     </button>
 
-                   {reviewedProducts.has(item.productId) ? (
+                   {reviewedItems.has(`${order.orderId}:${item.productId}`) ? (
   <span className="px-3 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">
-    Reviewed
+    Submited the Review
   </span>
 ) : (
   <button
@@ -412,6 +437,17 @@ ${order.totalAmount}`,
               <p><strong>Order ID:</strong> {selectedOrder.orderId}</p>
               <p><strong>Date:</strong> {new Date(selectedOrder.placedAt).toLocaleDateString()}</p>
               <p><strong>Status:</strong> {selectedOrder.orderStatus}</p>
+              {(selectedOrder as any).shiprocketOrderId && (
+                <p>
+                  <strong>Tracking:</strong>{" "}
+                  <button 
+                    onClick={() => navigate(`/track/${(selectedOrder as any).shiprocketShipmentId}`)} 
+                    className="text-green-700 font-bold hover:underline bg-transparent border-none p-0 cursor-pointer"
+                  >
+                    Track Shipment 🚚
+                  </button>
+                </p>
+              )}
             </div>
 
             {/* Address */}
@@ -458,112 +494,145 @@ ${order.totalAmount}`,
             </div>
           </div>
         </div>
-      )}{reviewItem && selectedOrder && (
-        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
-          <div className="bg-white w-[92%] sm:w-full max-w-md rounded-2xl shadow-xl p-6 space-y-5 animate-slideUp">
+      )}
 
-            <h3 className="text-lg font-semibold">Review {reviewItem.productName}</h3>
+      {reviewItem && selectedOrder && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+          <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 space-y-6 animate-slideUp border border-gray-100">
+            <div className="flex justify-between items-center">
+              <h3 className="text-xl font-bold text-gray-800">Review Product</h3>
+              <button onClick={() => setReviewItem(null)} className="text-gray-400 hover:text-gray-600 transition">
+                <FaTimes size={18} />
+              </button>
+            </div>
+            
+            <div className="flex gap-4 items-center p-3 bg-gray-50 rounded-xl">
+               <img
+                src={productImages[reviewItem.productId] || "/placeholder.png"}
+                className="w-12 h-12 object-contain bg-white rounded-lg border"
+              />
+              <p className="font-semibold text-gray-700 truncate">{reviewItem.productName}</p>
+            </div>
 
             {/* Rating */}
-        <div className="flex gap-2 text-2xl">
-  {[1,2,3,4,5].map((r) => (
-    <button
-      key={r}
-      onClick={() => setRating(r)}
-      className={`transition transform hover:scale-110 ${
-  rating >= r ? "text-yellow-500" : "text-gray-300"
-}`}
-    >
-      ★
-    </button>
-  ))}
-</div>
-
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700 flex gap-1">
+                Rating <Star size={12} className="text-red-500 fill-red-500 mt-0.5" />
+              </label>
+              <div className="flex gap-2">
+                {[1, 2, 3, 4, 5].map((r) => (
+                  <button
+                    key={r}
+                    onClick={() => setRating(r)}
+                    className={`transition-all duration-200 transform hover:scale-110 ${rating >= r ? "text-yellow-400 fill-yellow-400" : "text-gray-200"
+                      }`}
+                  >
+                    <Star size={32} />
+                  </button>
+                ))}
+              </div>
+            </div>
 
             {/* Comment */}
-            <textarea
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              placeholder="Write your review..."
-              className="w-full border rounded p-2 text-sm"
-            />
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700">Your Experience <span className="text-red-500">*</span></label>
+              <textarea
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder="What did you like or dislike about this product?"
+                rows={3}
+                className="w-full border border-gray-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition"
+              />
+            </div>
 
-<input
-  type="file"
-  accept="image/*"
-  onChange={(e) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
-    }
-  }}
-/>
-
-
-
+            {/* Image Upload */}
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700 flex justify-between">
+                <span>Add Photo</span>
+                <span className="text-gray-400 font-normal text-xs italic">Optional</span>
+              </label>
+              {!preview ? (
+                <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-green-400 hover:bg-green-50/30 transition group">
+                  <div className="flex flex-col items-center justify-center">
+                    <Upload className="w-5 h-5 text-gray-400 mb-1 group-hover:text-green-500 transition" />
+                    <p className="text-xs text-gray-500">Tap to upload</p>
+                  </div>
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept="image/*"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        const f = e.target.files[0];
+                        setFile(f);
+                        setPreview(URL.createObjectURL(f));
+                      }
+                    }}
+                  />
+                </label>
+              ) : (
+                <div className="relative w-full h-32 rounded-xl overflow-hidden border">
+                  <img src={preview} className="w-full h-full object-cover" alt="Preview" />
+                  <button
+                    onClick={() => { setFile(null); setPreview(null); }}
+                    className="absolute top-2 right-2 p-1.5 bg-red-500/80 text-white rounded-full hover:bg-red-600 transition backdrop-blur-sm"
+                  >
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+              )}
+            </div>
 
             {/* Buttons */}
-            <div className="flex justify-end gap-2">
+            <div className="flex gap-3 pt-2">
               <button
                 onClick={() => setReviewItem(null)}
-                className="px-3 py-1 border rounded"
+                className="flex-1 py-3 text-sm font-semibold text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 transition"
               >
                 Cancel
               </button>
 
-         <button
-  disabled={submitting}
-  onClick={async () => {
-    try {
-      setSubmitting(true);
+              <button
+                disabled={submitting || !comment}
+                onClick={async () => {
+                  try {
+                    setSubmitting(true);
+                    const token = localStorage.getItem("token")!;
+                    const payload: any = JSON.parse(atob(token.split(".")[1]));
+                    const formData = new FormData();
+                    const reviewJson = {
+                      orderId: selectedOrder.orderId,
+                      productId: reviewItem.productId,
+                      productName: reviewItem.productName,
+                      userId: payload.sub,
+                      userName: payload.name,
+                      rating,
+                      comment,
+                    };
+                    formData.append("request", JSON.stringify(reviewJson));
+                    if (file) formData.append("file", file);
 
-      const token = localStorage.getItem("token")!;
-      const payload: any = JSON.parse(atob(token.split(".")[1]));
+                    await axios.post("http://localhost:8090/reviews/form", formData);
 
-      const formData = new FormData();
-
-      const reviewJson = {
-        orderId: selectedOrder.orderId,
-        productId: reviewItem.productId,
-        productName: reviewItem.productName,
-        userId: payload.sub,
-        userName: payload.name,
-        rating,
-        comment,
-      };
-
-      formData.append("request", JSON.stringify(reviewJson));
-
-      if (file) {
-        formData.append("file", file);
-      }
-
-      await axios.post(
-        "/reviews/form",
-        formData
-      );
-
-      alert("Review submitted!");
-
-setReviewedProducts(prev => new Set(prev).add(reviewItem.productId));
-
-setReviewItem(null);
-setComment("");
-setRating(5);
-setFile(null);
-    } catch (e: any) {
-      alert(e.response?.data?.message || "Already reviewed");
-    } finally {
-      setSubmitting(false);
-    }
-  }}
-  className="px-5 py-2 bg-green-700 text-white rounded-lg flex items-center justify-center gap-2 disabled:opacity-60"
->
-  {submitting && (
-    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-  )}
-  {submitting ? "Submitting..." : "Submit Review"}
-</button>
-
+                    alert("Review submitted!");
+                    const key = `${selectedOrder.orderId}:${reviewItem.productId}`;
+                    setReviewedItems(prev => new Set(prev).add(key));
+                    setReviewItem(null);
+                    setComment("");
+                    setRating(5);
+                    setFile(null);
+                    setPreview(null);
+                  } catch (e: any) {
+                    alert(e.response?.data?.message || "Error submitting review");
+                  } finally {
+                    setSubmitting(false);
+                  }
+                }}
+                className="flex-[2] py-3 bg-green-700 text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-green-800 transition shadow-lg shadow-green-200"
+              >
+                {submitting && <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
+                {submitting ? "Submitting..." : "Submit Review"}
+              </button>
             </div>
           </div>
         </div>
@@ -573,4 +642,3 @@ setFile(null);
     </div>
   );
 }
-
