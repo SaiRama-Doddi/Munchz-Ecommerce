@@ -98,11 +98,11 @@ services:
     container_name: payment-service
     depends_on:
       - postgres
-    expose:  
+    expose:
       - "9092"
     environment:
-        RAZOR_KEY: ${RAZORPAY_KEY}
-        RAZOR_SECRET: ${RAZOR_SECRET}
+      RAZOR_KEY: ${RAZORPAY_KEY}
+      RAZOR_SECRET: ${RAZOR_SECRET}
     env_file:
     - .env
 
