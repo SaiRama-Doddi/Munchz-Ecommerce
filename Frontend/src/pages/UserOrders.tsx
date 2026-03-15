@@ -61,7 +61,7 @@ const PageSpinner = () => (
 export default function UserOrders() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 const [productImages, setProductImages] = useState<Record<number, string>>({});
-
+const [reviewedProducts, setReviewedProducts] = useState<Set<number>>(new Set());
   const [reviewItem, setReviewItem] = useState<OrderItem | null>(null);
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
@@ -280,12 +280,12 @@ ${order.totalAmount}`,
         </div>
 
         {/* ORDERS */}
-<div className={gridView ? "grid sm:grid-cols-2 lg:grid-cols-3 gap-8" : "space-y-6"}>
+<div className={gridView ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" : "space-y-6"}>
 
           {filteredOrders.map((order) => (
             <div
               key={order.orderId}
-           className="bg-white rounded-2xl shadow-sm hover:shadow-lg transition border border-gray-100 p-6 space-y-5"
+           className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition p-5 flex flex-col gap-4"
 
             >
               <div className="flex justify-between text-sm text-gray-500">
@@ -332,15 +332,21 @@ ${order.totalAmount}`,
                       Reorder
                     </button>
 
-                    <button
-                      onClick={() => {
-                        setSelectedOrder(order);
-                        setReviewItem(item);
-                      }}
-                      className="px-3 py-1 border border-green-700 text-green-700 rounded text-sm"
-                    >
-                      Review
-                    </button>
+                   {reviewedProducts.has(item.productId) ? (
+  <span className="px-3 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">
+    Reviewed
+  </span>
+) : (
+  <button
+    onClick={() => {
+      setSelectedOrder(order);
+      setReviewItem(item);
+    }}
+    className="px-3 py-1 border border-green-700 text-green-700 rounded text-sm hover:bg-green-50 transition"
+  >
+    Review
+  </button>
+)}
                   </div>
                 </div>
               ))}
@@ -379,7 +385,7 @@ ${order.totalAmount}`,
 
       {selectedOrder && (
        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end md:items-center justify-center p-4">
-  <div className="relative bg-white w-full md:max-w-2xl rounded-t-2xl md:rounded-2xl shadow-xl p-6 overflow-y-auto max-h-[90vh] animate-slideUp">
+  <div className="relative bg-white w-full max-w-lg sm:max-w-2xl rounded-t-2xl sm:rounded-2xl shadow-xl p-6 overflow-y-auto max-h-[90vh] animate-slideUp">
 
 
             {/* Close */}
@@ -422,10 +428,11 @@ ${order.totalAmount}`,
 
               {selectedOrder.items.map((item, idx) => (
                 <div key={idx} className="flex gap-4 border-b py-3 items-center">
-                  <img
-                    src={item.imageUrl || "/placeholder.png"}
-                    className="w-16 h-16 object-contain border rounded"
-                  />
+              <img
+  src={productImages[item.productId] || "/placeholder.png"}
+  className="w-14 h-14 sm:w-16 sm:h-16 object-contain border rounded-lg cursor-pointer"
+  onClick={() => navigate(`/product/${item.productId}`)}
+/>
 
                   <div className="flex-1">
                     <p className="font-medium">{item.productName}</p>
@@ -453,7 +460,7 @@ ${order.totalAmount}`,
         </div>
       )}{reviewItem && selectedOrder && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
-          <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 space-y-5 animate-slideUp">
+          <div className="bg-white w-[92%] sm:w-full max-w-md rounded-2xl shadow-xl p-6 space-y-5 animate-slideUp">
 
             <h3 className="text-lg font-semibold">Review {reviewItem.productName}</h3>
 
@@ -463,7 +470,9 @@ ${order.totalAmount}`,
     <button
       key={r}
       onClick={() => setRating(r)}
-      className={rating >= r ? "text-yellow-500" : "text-gray-300"}
+      className={`transition transform hover:scale-110 ${
+  rating >= r ? "text-yellow-500" : "text-gray-300"
+}`}
     >
       ★
     </button>
@@ -534,10 +543,13 @@ ${order.totalAmount}`,
       );
 
       alert("Review submitted!");
-      setReviewItem(null);
-      setComment("");
-      setRating(5);
-      setFile(null);
+
+setReviewedProducts(prev => new Set(prev).add(reviewItem.productId));
+
+setReviewItem(null);
+setComment("");
+setRating(5);
+setFile(null);
     } catch (e: any) {
       alert(e.response?.data?.message || "Already reviewed");
     } finally {
@@ -561,3 +573,4 @@ ${order.totalAmount}`,
     </div>
   );
 }
+

@@ -9,7 +9,6 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // ✅ Email regex
   const isValidEmail = (value: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
@@ -28,10 +27,9 @@ export default function LoginPage() {
         err.response?.status === 404 &&
         err.response?.data?.message?.includes("signup")
       ) {
-        
         setError("Failed to send OTP. Try again.");
       } else {
-     setError("Email not exists. Please signup.");
+        setError("Email not exists. Please signup.");
       }
     } finally {
       setLoading(false);
@@ -39,43 +37,45 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-white w-[450px] rounded-lg shadow-xl p-10 text-center animate-fade-in-up">
+<div className="min-h-[10vh] bg-gray-50 px-4 pt-6 pb-20 flex justify-center">
+      <div className="bg-white w-full max-w-md rounded-xl shadow-lg p-6 sm:p-8">
 
         {/* Logo */}
-        <img src="/munchz.png" className="w-20 mx-auto mb-6" />
+        <img
+          src="/munchz.png"
+          className="w-16 mx-auto mb-4"
+        />
 
         {/* GOOGLE LOGIN */}
-       <GoogleLogin
-  onSuccess={async (res) => {
-    try {
-      const apiRes = await googleLogin(res.credential!);
-      localStorage.setItem("token", apiRes.data.token);
-       localStorage.setItem("userId", apiRes.data.userId);
-      navigate("/");
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Google login failed");
-    }
-  }}
-  onError={() => setError("Google login failed")}
-/>
+        <GoogleLogin
+          onSuccess={async (res) => {
+            try {
+              const apiRes = await googleLogin(res.credential!);
+              localStorage.setItem("token", apiRes.data.token);
+              localStorage.setItem("userId", apiRes.data.userId);
+              navigate("/");
+            } catch (err: any) {
+              setError(err.response?.data?.message || "Google login failed");
+            }
+          }}
+          onError={() => setError("Google login failed")}
+        />
 
-
-        <div className="my-6 text-gray-400 text-sm">OR</div>
+        <div className="my-4 text-gray-400 text-xs text-center">OR</div>
 
         {/* Email Input */}
         <input
           type="email"
           placeholder="Enter your email address"
-          className={`border w-full py-3 px-4 rounded-md outline-none
-            ${error ? "border-red-500" : "border-green-600"}`}
+          className={`border w-full py-2.5 px-3 rounded-md outline-none text-sm
+          ${error ? "border-red-500" : "border-green-600"}`}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
         {/* Error message */}
         {error && (
-          <p className="text-red-600 text-sm mt-2">
+          <p className="text-red-600 text-xs mt-2 text-left">
             {error}
             {error.includes("signup") && (
               <a href="/signup" className="text-green-600 underline ml-1">
@@ -89,12 +89,12 @@ export default function LoginPage() {
         <button
           onClick={handleSendOtp}
           disabled={loading}
-          className="bg-green-600 text-white w-full py-3 rounded-lg mt-6 font-semibold
-                     flex items-center justify-center gap-2 disabled:opacity-60"
+          className="bg-green-600 text-white w-full py-2.5 rounded-md mt-4 font-medium
+          flex items-center justify-center gap-2 disabled:opacity-60"
         >
           {loading ? (
             <>
-              <span className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
               Sending OTP
             </>
           ) : (
@@ -102,7 +102,10 @@ export default function LoginPage() {
           )}
         </button>
 
-        <a href="/signup" className="text-green-600 block mt-4 underline">
+        <a
+          href="/signup"
+          className="text-green-600 text-sm block text-center mt-4 underline"
+        >
           Sign up
         </a>
       </div>

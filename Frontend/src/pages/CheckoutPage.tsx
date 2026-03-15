@@ -6,8 +6,8 @@ import { listAddressesApi, addAddressApi } from "../api/api";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../state/CartContext";
 import type { CartItem, Address } from "../types/checkout";
-import { ArrowLeft } from "lucide-react";
-
+import { ArrowLeft, Pencil, Trash2 } from "lucide-react";
+import { updateAddressApi, deleteAddressApi } from "../api/api";
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { profile } = useAuth();
@@ -19,7 +19,7 @@ export default function CheckoutPage() {
     navigate("/", { replace: true });
     return null;
   }
-const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
   const { items, totalAmount, discount, appliedCoupon } = state as {
     items: CartItem[];
@@ -33,7 +33,8 @@ const [isPlacingOrder, setIsPlacingOrder] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
   const [showNewAddress, setShowNewAddress] = useState(false);
   const [isRedirecting, setIsRedirecting] = useState(false);
-
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [form, setForm] = useState<any>({ country: "India", isDefault: false });
 
   const [newAddress, setNewAddress] = useState({
     label: "",
@@ -66,17 +67,38 @@ const [isPlacingOrder, setIsPlacingOrder] = useState(false);
     setSelectedAddress(res.data.find((a: Address) => a.isDefault));
     setShowNewAddress(false);
   };
+  const handleUpdateAddress = async (id: string) => {
+    const payload = {
+      ...form,
+      phone: form.phone?.trim() || null,
+    };
 
+    await updateAddressApi(id, payload);
 
-const loadRazorpay = () => {
-  return new Promise((resolve) => {
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.onload = () => resolve(true);
-    script.onerror = () => resolve(false);
-    document.body.appendChild(script);
-  });
-};
+    const res = await listAddressesApi();
+    setAddresses(res.data);
+    setEditingId(null);
+    setForm({ country: "India", isDefault: false });
+  };
+
+  const handleDeleteAddress = async (id: string) => {
+    if (!confirm("Delete this address?")) return;
+
+    await deleteAddressApi(id);
+
+    const res = await listAddressesApi();
+    setAddresses(res.data);
+  };
+
+  const loadRazorpay = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
 
   /* ================= RAZORPAY ================= */
   const openRazorpay = (paymentData: any, orderId: string) => {
@@ -99,14 +121,14 @@ const loadRazorpay = () => {
           /* ✅ CLEAR CART ONLY AFTER PAYMENT SUCCESS */
           clearCart();
 
-            setIsRedirecting(true);
+          setIsRedirecting(true);
 
-        setTimeout(() => {
-      navigate("/order-success", {
-        replace: true,
-        state: { orderId },
-      });
-    }, 1500); // 1.5 second smooth delay
+          setTimeout(() => {
+            navigate("/order-success", {
+              replace: true,
+              state: { orderId },
+            });
+          }, 1500); // 1.5 second smooth delay
         } catch {
           alert("Payment verification failed");
         }
@@ -120,232 +142,406 @@ const loadRazorpay = () => {
       theme: { color: "#15803d" },
     };
 
- const rzp = new (window as any).Razorpay(options);
-setIsPlacingOrder(false); // stop spinner when popup opens
-rzp.open();
+    const rzp = new (window as any).Razorpay(options);
+    setIsPlacingOrder(false); // stop spinner when popup opens
+    rzp.open();
 
   };
 
   /* ================= PLACE ORDER ================= */
-const placeOrder = async () => {
-  if (!selectedAddress) {
-    alert("Please select a shipping address");
-    return;
-  }
+  const placeOrder = async () => {
+    if (!selectedAddress) {
+      alert("Please select a shipping address");
+      return;
+    }
 
-  try {
-    setIsPlacingOrder(true); // 🔥 START LOADING
+    try {
+      setIsPlacingOrder(true); // 🔥 START LOADING
 
-    /* 1️⃣ CREATE ORDER */
-    const orderRes = await orderApi.post("/api/orders", {
-      shippingAddress: JSON.stringify(selectedAddress),
-      billingAddress: JSON.stringify(selectedAddress),
-      totalAmount,
-      discount,
-      couponCode: appliedCoupon,
-      items: items.map((item) => {
-        const v = item.variants[item.selectedVariantIndex];
-        return {
-          productId: item.productId,
-          variantId: v.id,
-          quantity: item.qty,
-        };
-      }),
-    });
+      /* 1️⃣ CREATE ORDER */
+      const orderRes = await orderApi.post("/api/orders", {
+        shippingAddress: JSON.stringify(selectedAddress),
+        billingAddress: JSON.stringify(selectedAddress),
+        totalAmount,
+        discount,
+        couponCode: appliedCoupon,
+        items: items.map((item) => {
+          const v = item.variants[item.selectedVariantIndex];
+          return {
+            productId: item.productId,
+            variantId: v.id,
+            quantity: item.qty,
+          };
+        }),
+      });
 
-    const orderId = orderRes.data.orderId;
+      const orderId = orderRes.data.orderId;
 
-    /* 2️⃣ CREATE PAYMENT */
-    const paymentRes = await paymentApi.post("/api/payments/create", {
-      orderId,
-      amount: totalAmount * 100,
-      currency: "INR",
-    });
+      /* 2️⃣ CREATE PAYMENT */
+      const paymentRes = await paymentApi.post("/api/payments/create", {
+        orderId,
+        amount: totalAmount * 100,
+        currency: "INR",
+      });
 
-    /* 3️⃣ OPEN RAZORPAY */
-    /*openRazorpay(paymentRes.data, orderId);*/
-/* 3️⃣ LOAD RAZORPAY SDK */
-const loaded = await loadRazorpay();
+      /* 3️⃣ OPEN RAZORPAY */
+      /*openRazorpay(paymentRes.data, orderId);*/
+      /* 3️⃣ LOAD RAZORPAY SDK */
+      const loaded = await loadRazorpay();
 
-if (!loaded) {
-  alert("Razorpay SDK failed to load");
-  setIsPlacingOrder(false);
-  return;
-}
+      if (!loaded) {
+        alert("Razorpay SDK failed to load");
+        setIsPlacingOrder(false);
+        return;
+      }
 
-/* 4️⃣ OPEN RAZORPAY */
-openRazorpay(paymentRes.data, orderId);
-  } catch (err) {
-    console.error(err);
-    alert("Order or payment failed");
-    setIsPlacingOrder(false); // ❌ stop if error
-  }
-};
+      /* 4️⃣ OPEN RAZORPAY */
+      openRazorpay(paymentRes.data, orderId);
+    } catch (err) {
+      console.error(err);
+      alert("Order or payment failed");
+      setIsPlacingOrder(false); // ❌ stop if error
+    }
+  };
 
 
   return (
     <>
-    {isPlacingOrder && (
-  <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
-    <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
-    <p className="mt-4 text-green-700 font-medium">
-      Processing your order...
-    </p>
-    <p className="text-sm text-gray-600">
-      Please wait while we connect to secure payment
-    </p>
-  </div>
-)}
+      {isPlacingOrder && (
+        <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
+          <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+          <p className="mt-4 text-green-700 font-medium">
+            Processing your order...
+          </p>
+          <p className="text-sm text-gray-600">
+            Please wait while we connect to secure payment
+          </p>
+        </div>
+      )}
+
+      {isRedirecting && (
+        <div className="fixed inset-0 bg-white/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
+          <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+          <p className="mt-4 text-green-700 font-semibold text-lg">
+            Payment Successful 🎉
+          </p>
+          <p className="text-gray-600 text-sm">
+            Redirecting to order confirmation...
+          </p>
+        </div>
+      )}
+
+      <div className="min-h-screen bg-gradient-to-b from-[#f6fff4] to-white py-10">
+
+        {/* HEADER */}
 
 
-{isRedirecting && (
-  <div className="fixed inset-0 bg-white/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
-    <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
-    <p className="mt-4 text-green-700 font-semibold text-lg">
-      Payment Successful 🎉
-    </p>
-    <p className="text-gray-600 text-sm">
-      Redirecting to order confirmation...
-    </p>
-  </div>
-)}
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 px-6">
 
+          {/* LEFT SIDE */}
+          <div className="lg:col-span-2 space-y-6">
 
-    <div className="min-h-screen bg-[#f6fff4] py-10">
+            {/* ORDER ITEMS */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border">
+              <h3 className="font-semibold text-lg mb-5">
+                Order Items
+              </h3>
 
+              <div className="space-y-4">
+                {items.map((item, idx) => {
+                  const v = item.variants[item.selectedVariantIndex];
 
+                  return (
+                    <div key={idx} className="flex gap-4 items-center">
 
-     <button
-  onClick={() => navigate(-1)}
-  className="
-    mt-0 mb-8 ml-[136px]
-    w-10 h-10
-    flex items-center justify-center
-    rounded-full
-    bg-white
-    shadow-md
-    border border-green-100
-    text-green-700
-    hover:bg-green-50
-    hover:shadow-lg
-    active:scale-95
-    transition-all duration-200 cusror-pointer
-    cursor-pointer
-  "
+                      <img
+                        src={item.imageUrl}
+                        className="w-20 h-20 object-contain border rounded-lg cursor-pointer"
+                        onClick={() => navigate(`/product/${item.productId}`)}
+                      />
+
+                      <div className="flex-1">
+                        <p
+                          className="font-medium cursor-pointer"
+                          onClick={() => navigate(`/product/${item.productId}`)}
+                        >
+                          {item.name}
+                        </p>
+
+                        <p className="text-sm text-gray-500">
+                          {v.weightLabel} × {item.qty}
+                        </p>
+                      </div>
+
+                      <p className="font-semibold text-green-700">
+                        ₹{v.offerPrice * item.qty}
+                      </p>
+
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* ADDRESS */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border">
+<h3 className="font-semibold text-lg mb-5">
+Shipping Address
+</h3>
+
+<div className="space-y-3">
+
+{addresses.map((addr) => (
+
+<div
+key={addr.id}
+className={`border rounded-xl p-4 relative transition ${
+selectedAddress?.id === addr.id
+? "border-green-600 bg-green-50"
+: "hover:border-gray-300"
+}`}
 >
-  <ArrowLeft size={20} />
+
+{/* EDIT MODE */}
+{editingId === addr.id ? (
+
+<div className="space-y-2">
+
+<input
+placeholder="Label"
+className="border p-2 rounded-lg w-full"
+value={form.label || ""}
+onChange={(e)=>setForm({...form,label:e.target.value})}
+/>
+
+<input
+placeholder="Address Line"
+className="border p-2 rounded-lg w-full"
+value={form.addressLine1 || ""}
+onChange={(e)=>setForm({...form,addressLine1:e.target.value})}
+/>
+
+<div className="grid grid-cols-2 gap-2">
+
+<input
+placeholder="City"
+className="border p-2 rounded-lg"
+value={form.city || ""}
+onChange={(e)=>setForm({...form,city:e.target.value})}
+/>
+
+<input
+placeholder="State"
+className="border p-2 rounded-lg"
+value={form.state || ""}
+onChange={(e)=>setForm({...form,state:e.target.value})}
+/>
+
+</div>
+
+<input
+placeholder="Pincode"
+className="border p-2 rounded-lg w-full"
+value={form.pincode || ""}
+onChange={(e)=>setForm({...form,pincode:e.target.value})}
+/>
+
+<div className="flex gap-2">
+
+<button
+onClick={()=>handleUpdateAddress(addr.id)}
+className="flex-1 bg-green-700 text-white py-2 rounded-lg"
+>
+Update
 </button>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10 px-6">
-        {/* LEFT */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white p-6 rounded-xl shadow">
-            <h3 className="font-semibold mb-4">Order Items</h3>
-            {items.map((item, idx) => {
-              const v = item.variants[item.selectedVariantIndex];
-              return (
-                <div key={idx} className="flex gap-4 mb-4">
-                  <img src={item.imageUrl} className="w-20 h-20 object-contain cursor-pointer" 
-                      onClick={() => navigate(`/product/${item.productId}`)}/>
-                  <div>
-                    <p className="font-medium cursor-pointer" 
-                      onClick={() => navigate(`/product/${item.productId}`)}>{item.name}</p>
-                    <p className="text-sm text-gray-600">
-                      {v.weightLabel} × {item.qty}
-                    </p>
-                    <p className="text-green-700 font-semibold">
-                      ₹{v.offerPrice * item.qty}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
+<button
+onClick={()=>setEditingId(null)}
+className="flex-1 border py-2 rounded-lg"
+>
+Cancel
+</button>
+
+</div>
+
+</div>
+
+) : (
+
+<>
+<div
+onClick={()=>setSelectedAddress(addr)}
+className="cursor-pointer"
+>
+
+<p className="font-medium flex items-center gap-2">
+{addr.label}
+
+{addr.isDefault && (
+<span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+Default
+</span>
+)}
+
+</p>
+
+<p className="text-sm text-gray-600">
+{addr.addressLine1}
+</p>
+
+<p className="text-sm text-gray-600">
+{addr.city}, {addr.state} - {addr.pincode}
+</p>
+
+</div>
+
+{/* ACTION BUTTONS */}
+<div className="absolute top-3 right-3 flex gap-2">
+
+<button
+onClick={() => {
+  setEditingId(addr.id);
+  setForm(addr);
+}}
+className="p-1.5 rounded-md hover:bg-gray-100 transition"
+>
+<Pencil size={16} />
+</button>
+
+<button
+onClick={() => handleDeleteAddress(addr.id)}
+className="p-1.5 rounded-md hover:bg-red-50 text-red-600 transition"
+>
+<Trash2 size={16} />
+</button>
+
+</div>
+
+</>
+
+)}
+
+</div>
+
+))}
+
+</div>
+
+<button
+onClick={()=>setShowNewAddress(!showNewAddress)}
+className="text-green-700 font-medium text-sm mt-4"
+>
++ Add New Address
+</button>
+
+{showNewAddress && (
+
+<div className="mt-4 grid gap-3">
+
+<input
+placeholder="Label"
+className="border p-2 rounded-lg"
+onChange={(e)=>setNewAddress({...newAddress,label:e.target.value})}
+/>
+
+<input
+placeholder="Address"
+className="border p-2 rounded-lg"
+onChange={(e)=>setNewAddress({...newAddress,addressLine1:e.target.value})}
+/>
+
+<div className="grid grid-cols-2 gap-2">
+
+<input
+placeholder="City"
+className="border p-2 rounded-lg"
+onChange={(e)=>setNewAddress({...newAddress,city:e.target.value})}
+/>
+
+<input
+placeholder="State"
+className="border p-2 rounded-lg"
+onChange={(e)=>setNewAddress({...newAddress,state:e.target.value})}
+/>
+
+</div>
+
+<input
+placeholder="Pincode"
+className="border p-2 rounded-lg"
+onChange={(e)=>setNewAddress({...newAddress,pincode:e.target.value})}
+/>
+
+<button
+onClick={saveNewAddress}
+className="bg-green-700 text-white py-2 rounded-lg"
+>
+Save Address
+</button>
+
+</div>
+
+)}
+
+</div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow">
-            <h3 className="font-semibold mb-4">Shipping Address</h3>
+          {/* RIGHT SIDE */}
+          <div className="bg-white p-6 rounded-2xl shadow-sm border h-fit lg:sticky lg:top-20">
 
-            {addresses.map((addr) => (
-              <div
-                key={addr.id}
-                onClick={() => setSelectedAddress(addr)}
-                className={`border rounded-lg p-3 mb-2 cursor-pointer ${
-                  selectedAddress?.id === addr.id
-                    ? "border-green-600 bg-green-50"
-                    : ""
-                }`}
-              >
-                <p className="font-medium">{addr.label}</p>
-                <p className="text-sm text-gray-600">
-                  {addr.addressLine1}, {addr.city}, {addr.state} - {addr.pincode}
-                </p>
+            <h3 className="font-semibold text-lg mb-5">
+              Price Summary
+            </h3>
+
+            <div className="space-y-3 text-sm">
+
+              <div className="flex justify-between">
+                <span>Subtotal</span>
+                <span>₹{totalAmount + discount}</span>
               </div>
-            ))}
+
+              {discount > 0 && (
+                <div className="flex justify-between text-green-700">
+                  <span>Discount</span>
+                  <span>-₹{discount}</span>
+                </div>
+              )}
+
+              <div className="flex justify-between">
+                <span>Shipping</span>
+                <span className="text-green-700 font-medium">
+                  Free
+                </span>
+              </div>
+
+              <hr />
+
+              <div className="flex justify-between font-semibold text-lg">
+                <span>Total Payable</span>
+                <span>
+                  ₹{totalAmount}
+                </span>
+              </div>
+
+            </div>
 
             <button
-              onClick={() => setShowNewAddress(!showNewAddress)}
-              className="text-green-600 text-sm mt-2"
+              onClick={placeOrder}
+              disabled={isPlacingOrder}
+              className="w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-xl mt-6 disabled:opacity-60 transition"
             >
-              + Add New Address
+              {isPlacingOrder ? "Processing..." : "Confirm Order"}
             </button>
 
-            {showNewAddress && (
-              <div className="mt-4 grid gap-3">
-                {Object.keys(newAddress).map((k) => (
-                  <input
-                    key={k}
-                    placeholder={k}
-                    className="border p-2 rounded"
-                    onChange={(e) =>
-                      setNewAddress({ ...newAddress, [k]: e.target.value })
-                    }
-                  />
-                ))}
-                <button
-                  onClick={saveNewAddress}
-                  className="bg-green-600 text-white py-2 rounded"
-                >
-                  Save Address
-                </button>
-              </div>
-            )}
+            <p className="text-xs text-gray-500 mt-3 text-center">
+              Secure payment powered by Razorpay
+            </p>
+
           </div>
-        </div>
-
-        {/* RIGHT */}
-        <div className="bg-white p-6 rounded-xl shadow h-fit">
-          <h3 className="font-semibold mb-4">Price Summary</h3>
-
-          <div className="flex justify-between mb-2">
-            <span>Subtotal</span>
-            <span>₹{totalAmount + discount}</span>
-          </div>
-
-          {discount > 0 && (
-            <div className="flex justify-between text-green-700 mb-2">
-              <span>Discount</span>
-              <span>-₹{discount}</span>
-            </div>
-          )}
-
-          <hr className="my-4" />
-
-          <div className="flex justify-between font-semibold text-lg">
-            <span>Total Payable</span>
-            <span>₹{totalAmount}</span>
-          </div>
-
-         <button
-  onClick={placeOrder}
-  disabled={isPlacingOrder}
-  className="w-full bg-green-700 text-white py-3 rounded-lg mt-4 disabled:opacity-60 cursor-pointer"
->
-  {isPlacingOrder ? "Processing..." : "Confirm Order"}
-</button>
 
         </div>
       </div>
-    </div>
     </>
   );
 }
+

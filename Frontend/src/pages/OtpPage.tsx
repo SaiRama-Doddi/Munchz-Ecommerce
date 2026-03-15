@@ -1,13 +1,12 @@
+
 import { useState, useEffect, useRef } from "react";
 import { confirmLoginOtp, sendResendOtp } from "../api/api";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 export default function OtpPage() {
   const location = useLocation();
-const email = location.state?.email;
-
+  const email = location.state?.email;
 
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const [timer, setTimer] = useState(50);
@@ -15,21 +14,18 @@ const email = location.state?.email;
   const [resendLoading, setResendLoading] = useState(false);
 
   const inputsRef = useRef<HTMLInputElement[]>([]);
-const { setProfile } = useAuth();
-const navigate = useNavigate();
+  const { setProfile } = useAuth();
+  const navigate = useNavigate();
 
-
-
+  /* redirect if email missing */
   useEffect(() => {
-  if (!email) {
-    alert("Session expired. Please login again.");
-    window.location.replace("/login");
-  }
-}, [email]);
+    if (!email) {
+      alert("Session expired. Please login again.");
+      window.location.replace("/login");
+    }
+  }, [email]);
 
-
-
-  /* Countdown timer */
+  /* countdown timer */
   useEffect(() => {
     if (timer === 0) return;
 
@@ -40,7 +36,7 @@ const navigate = useNavigate();
     return () => clearInterval(interval);
   }, [timer]);
 
-  /* Handle OTP typing */
+  /* OTP typing */
   const handleChange = (value: string, index: number) => {
     if (!/^[0-9]?$/.test(value)) return;
 
@@ -48,22 +44,22 @@ const navigate = useNavigate();
     updated[index] = value;
     setOtp(updated);
 
-    // Move to next input
     if (value && index < 5) {
       inputsRef.current[index + 1]?.focus();
     }
   };
 
-  /* Handle backspace */
+  /* backspace navigation */
   const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
       inputsRef.current[index - 1]?.focus();
     }
   };
 
-  /* Handle paste */
+  /* paste OTP */
   const handlePaste = (e: React.ClipboardEvent) => {
     e.preventDefault();
+
     const pasteData = e.clipboardData
       .getData("text")
       .replace(/\D/g, "")
@@ -75,70 +71,75 @@ const navigate = useNavigate();
     }
   };
 
-  
-const handleVerify = async () => {
-  const enteredOtp = otp.join("");
-  if (enteredOtp.length !== 6) {
-    alert("Enter full 6-digit OTP");
-    return;
-  }
+  /* verify OTP */
+  const handleVerify = async () => {
+    const enteredOtp = otp.join("");
 
-  setLoading(true);
-  try {
-    const res = await confirmLoginOtp(email, enteredOtp);
-
-    const profile = res.data.profile;
-    const roles: string[] = res.data.roles;
-
-    // ✅ SAVE TO CONTEXT (THIS WAS MISSING)
-    setProfile(profile);
-
-    // ✅ SAVE TO STORAGE (for refresh)
-    localStorage.setItem("token", res.data.token);
-    localStorage.setItem("profile", JSON.stringify(profile));
-    localStorage.setItem("roles", JSON.stringify(roles));
-
-    alert("Login successful!");
-
-    if (roles.includes("ADMIN")) {
-      navigate("/admin/dashboard", { replace: true });
-    } else {
-      navigate("/", { replace: true });
+    if (enteredOtp.length !== 6) {
+      alert("Enter full 6-digit OTP");
+      return;
     }
-  } catch {
-    alert("Invalid OTP");
-  } finally {
-    setLoading(false);
-  }
-};
 
+    setLoading(true);
 
+    try {
+      const res = await confirmLoginOtp(email, enteredOtp);
+
+      const profile = res.data.profile;
+      const roles: string[] = res.data.roles;
+
+      setProfile(profile);
+
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("profile", JSON.stringify(profile));
+      localStorage.setItem("roles", JSON.stringify(roles));
+
+      alert("Login successful!");
+
+      if (roles.includes("ADMIN")) {
+        navigate("/admin/dashboard", { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
+    } catch {
+      alert("Invalid OTP");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /* resend OTP */
   const handleResendOtp = async () => {
     setResendLoading(true);
+
     try {
       await sendResendOtp(email);
+
       alert("OTP resent successfully");
+
       setOtp(Array(6).fill(""));
       setTimer(50);
       inputsRef.current[0]?.focus();
     } catch {
       alert("Failed to resend OTP");
     }
+
     setResendLoading(false);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-white w-[450px] rounded-lg shadow-xl p-10 text-center">
+    <div className="min-h-[10vh] bg-gray-50 px-4 pt-6 pb-20 flex justify-center">
 
-        <img src="/logo.png" className="w-20 mx-auto" />
-      
+      <div className="bg-white w-full max-w-md rounded-xl shadow-lg p-6 sm:p-8 text-center">
 
-        <h2 className="text-xl font-medium mt-4">Enter OTP</h2>
+        {/* Logo */}
+        <img src="/logo.png" className="w-16 mx-auto mb-3" />
 
-        {/* OTP Inputs */}
+        <h2 className="text-lg font-semibold">Enter OTP</h2>
+
+        {/* OTP INPUTS */}
         <div
-          className="flex justify-center gap-4 mt-8"
+          className="flex justify-between max-w-xs mx-auto mt-6"
           onPaste={handlePaste}
         >
           {otp.map((digit, i) => (
@@ -148,84 +149,78 @@ const handleVerify = async () => {
                 if (el) inputsRef.current[i] = el;
               }}
               type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
               maxLength={1}
               value={digit}
               onChange={(e) => handleChange(e.target.value, i)}
               onKeyDown={(e) => handleKeyDown(e, i)}
-              className="border-b-2 border-gray-500 w-10 text-center text-xl focus:outline-none"
+              className="
+                w-9 h-11
+                sm:w-11 sm:h-12
+                border rounded-md
+                text-center text-lg
+                focus:outline-none
+                focus:border-green-600
+              "
             />
           ))}
         </div>
 
-        <p className="text-gray-600 mt-4">
-          OTP sent to your registered email or mobile number.
+        <p className="text-gray-500 text-sm mt-4">
+          OTP sent to your registered email
         </p>
 
-<button
-  onClick={handleResendOtp}
-  disabled={timer > 0 || resendLoading}
-  className={`mt-4 text-sm font-semibold underline
-    ${
-      timer > 0
-        ? "text-gray-400 cursor-not-allowed"
-        : "text-green-700"
-    }
-  `}
->
-  {resendLoading
-    ? "Resending..."
-    : timer > 0
-    ? `Resend OTP in ${timer}s`
-    : "Resend OTP"}
-</button>
-<button
-  onClick={handleVerify}
-  disabled={loading}
-  className={`w-full py-3 rounded-lg mt-8 font-semibold flex items-center justify-center gap-2 transition
-    ${
-      loading
-        ? "bg-green-500 cursor-not-allowed"
-        : "bg-green-600 hover:bg-green-700"
-    }
-    text-white
-  `}
->
-  {loading ? (
-    <>
-      {/* Spinner */}
-      <svg
-        className="animate-spin h-5 w-5 text-white"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-      >
-        <circle
-          className="opacity-25"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          strokeWidth="4"
-        ></circle>
-        <path
-          className="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-        ></path>
-      </svg>
+        {/* RESEND OTP */}
+        <button
+          onClick={handleResendOtp}
+          disabled={timer > 0 || resendLoading}
+          className={`mt-3 text-sm font-medium underline
+          ${
+            timer > 0
+              ? "text-gray-400 cursor-not-allowed"
+              : "text-green-700"
+          }`}
+        >
+          {resendLoading
+            ? "Resending..."
+            : timer > 0
+            ? `Resend OTP in ${timer}s`
+            : "Resend OTP"}
+        </button>
 
-      <span className="animate-pulse">Verifying...</span>
-    </>
-  ) : (
-    "Login"
-  )}
-</button>
+        {/* LOGIN BUTTON */}
+        <button
+          onClick={handleVerify}
+          disabled={loading}
+          className={`w-full py-2.5 rounded-md mt-6 font-medium
+          flex items-center justify-center gap-2
+          ${
+            loading
+              ? "bg-green-500 cursor-not-allowed"
+              : "bg-green-600 hover:bg-green-700"
+          }
+          text-white`}
+        >
+          {loading ? (
+            <>
+              <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              Verifying...
+            </>
+          ) : (
+            "Login"
+          )}
+        </button>
 
-
-        <a href="/signup" className="text-green-600 block mt-4 underline">
+        <a
+          href="/signup"
+          className="text-green-600 text-sm block mt-4 underline"
+        >
           Sign up
         </a>
+
       </div>
     </div>
   );
 }
+

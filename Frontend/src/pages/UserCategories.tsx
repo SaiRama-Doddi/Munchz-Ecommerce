@@ -30,89 +30,168 @@ export default function UserCategories() {
     if (!scrollRef.current) return;
 
     scrollRef.current.scrollBy({
-      left: dir === "left" ? -300 : 300,
+      left: dir === "left" ? -350 : 350,
       behavior: "smooth",
     });
   };
 
-
-    if (isLoading) {
-  return (
-    <div className="bg-[#f6fff4] min-h-screen flex items-center justify-center">
-      <div className="flex flex-col items-center gap-4">
-        <div className="h-12 w-12 border-4 border-green-700 border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-gray-600 font-medium">Fetching your categories...</p>
+  if (isLoading) {
+    return (
+      <div className="bg-[#f6fff4] min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 border-4 border-green-700 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-gray-600 font-medium">
+            Fetching your categories...
+          </p>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
+
   return (
-    <div className="bg-[#fafaf6] py-14 relative">
-      <h2 className="text-3xl font-semibold text-center mb-10">
-        Explore our categories
-      </h2>
+    <section className="bg-[#fafaf6] py-10 sm:py-12 lg:py-14">
 
-      {/* LEFT ARROW (desktop only) */}
-      <button
-        onClick={() => scroll("left")}
-        className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-10
-        bg-green-600 text-white shadow-lg p-2 rounded-full hover:scale-110 transition"
-      >
-        <ChevronLeft size={26} />
-      </button>
+      <div className="max-w-7xl mx-auto px-4">
 
-      {/* RIGHT ARROW (desktop only) */}
-      <button
-        onClick={() => scroll("right")}
-        className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-10
-        bg-green-600 text-white shadow-lg p-2 rounded-full hover:scale-110 transition"
-      >
-        <ChevronRight size={26} />
-      </button>
+        {/* HEADER */}
 
-      {/* SCROLL CONTAINER */}
-      <div
-        ref={scrollRef}
-        className="
-          max-w-6xl mx-auto
-          flex gap-8 md:gap-12 lg:gap-16
-          px-4 md:px-6
-          overflow-x-auto scroll-smooth
-          snap-x snap-mandatory
-          no-scrollbar
-        "
-      >
-        {categories.map((c) => (
-          <div
-            key={c.id}
-            onClick={() => navigate(`/category/${c.id}`)}
-            className="flex-shrink-0 snap-start flex flex-col items-center cursor-pointer group"
-          >
-            {/* Circle */}
-            <div
-              className="
-                w-24 h-24
-                sm:w-28 sm:h-28
-                md:w-32 md:h-32
-                lg:w-40 lg:h-40   /* original desktop size */
-                rounded-full bg-gray-200 border border-green-800
-                overflow-hidden transition group-hover:scale-105 mt-2
-              "
+        <div className="flex items-center justify-between mb-10">
+
+          <div>
+            <p className="text-sm tracking-[4px] text-green-600 mb-2">
+              Go MunchZ COLLECTION
+            </p>
+
+            <h2 className="text-3xl font-semibold text-gray-900">
+              Explore Categories
+            </h2>
+          </div>
+
+          {/* ARROWS */}
+
+          <div className="hidden md:flex gap-3">
+
+            <button
+              onClick={() => scroll("left")}
+              className="w-10 h-10 rounded-full border bg-white hover:bg-gray-100 flex items-center justify-center"
             >
-              <img
-                src={c.thumbnailImage}
-                alt={c.name}
-                className="w-full h-full object-cover rounded-full"
-              />
+              <ChevronLeft size={20} />
+            </button>
+
+            <button
+              onClick={() => scroll("right")}
+              className="w-10 h-10 rounded-full border bg-white hover:bg-gray-100 flex items-center justify-center"
+            >
+              <ChevronRight size={20} />
+            </button>
+
+          </div>
+
+        </div>
+
+
+
+        {/* MOBILE SLIDER */}
+
+        <div className="md:hidden flex gap-5 overflow-x-auto pb-2 no-scrollbar">
+
+          {categories.map((c) => (
+
+            <div
+              key={c.id}
+              onClick={() => navigate(`/category/${c.id}`)}
+              className="flex-shrink-0 w-[90px] flex flex-col items-center cursor-pointer"
+            >
+
+              <div className="w-[75px] h-[75px] rounded-2xl overflow-hidden shadow-md bg-white">
+
+                <img
+                  src={c.thumbnailImage}
+                  alt={c.name}
+                  className="w-full h-full object-cover"
+                />
+
+              </div>
+
+              <p className="text-xs text-center mt-2 font-medium">
+                {c.name}
+              </p>
+
             </div>
 
-            {/* Label */}
-            <p className="mt-4 text-lg font-medium text-center">
-              {c.name}
-            </p>
-          </div>
-        ))}
+          ))}
+
+        </div>
+
+
+
+        {/* DESKTOP CATEGORY SLIDER */}
+
+        <div
+          ref={scrollRef}
+          className="
+          hidden md:flex
+          justify-center
+          gap-10
+          overflow-x-auto
+          scroll-smooth
+          no-scrollbar
+          "
+        >
+
+          {categories.map((c) => (
+
+            <div
+              key={c.id}
+              onClick={() => navigate(`/category/${c.id}`)}
+              className="
+              flex-shrink-0
+              w-[200px]
+              group
+              cursor-pointer
+              text-center
+              "
+            >
+
+              {/* IMAGE */}
+
+              <div className="h-[150px] rounded-2xl overflow-hidden">
+
+                <img
+                  src={c.thumbnailImage}
+                  alt={c.name}
+                  className="
+                  w-full h-full object-cover
+                  group-hover:scale-105
+                  transition duration-500
+                  "
+                />
+
+              </div>
+
+
+              {/* CATEGORY NAME */}
+
+              <div className="mt-4">
+
+                <p className="text-[16px] font-medium text-gray-800">
+                  {c.name}
+                </p>
+
+                <div className="flex justify-center mt-2">
+                  <span className="w-10 h-[3px] bg-green-600 rounded-full"></span>
+                </div>
+
+              </div>
+
+            </div>
+
+          ))}
+
+        </div>
+
       </div>
-    </div>
+
+    </section>
   );
 }

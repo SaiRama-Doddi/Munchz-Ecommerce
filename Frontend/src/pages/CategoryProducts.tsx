@@ -37,6 +37,7 @@ function useCategoryProducts(categoryId: number) {
   });
 }
 import axios from "../api/axios";
+import { FiShoppingCart } from "react-icons/fi";
 
 function ProductReviewStats({ productId }: { productId: number }) {
   const { data: reviews = [] } = useQuery({
@@ -101,6 +102,9 @@ export default function CategoryProducts() {
   const categoryId = Number(id);
   const { addToCart } = useCart();
   const { data: category } = useCategory(categoryId);
+
+  const [cartClicked, setCartClicked] =
+    useState<{ [key: number]: boolean }>({});
 
   const { data: products = [], isLoading, isError } =
     useCategoryProducts(categoryId);
@@ -202,30 +206,6 @@ export default function CategoryProducts() {
     <div className="bg-[#f2ffef] min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-6">
 
-        <button
-  onClick={() => navigate(-1)}
-  className=" m-0 mb-8
-    inline-flex items-center gap-3
-    bg-white px-4 py-2 rounded-full
-    shadow-md border border-green-100
-    text-green-700 font-medium
-    hover:bg-green-50 hover:shadow-lg
-    active:scale-95
-    transition-all duration-200
-    cursor-pointer
-  "
->
-  <span className="
-    flex items-center justify-center
-    w-8 h-8 rounded-full
-    bg-green-700 text-white
-    text-lg
-  ">
-    ←
-  </span>
-  Back
-</button>
-
 
         <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8">
 
@@ -279,7 +259,7 @@ export default function CategoryProducts() {
 </h2>
 
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
+         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">
               {filteredProducts.map((p) => {
                 const base100g = p.variants.find(
                   (v) => v.weightInGrams === 100
@@ -305,113 +285,116 @@ export default function CategoryProducts() {
                     : 0;
 
                 return (
-                  <div
-                    key={p.id}
-                    onClick={() => navigate(`/product/${p.id}`)}
-                    className="bg-[#eaffea] rounded-2xl shadow p-5 flex flex-col cursor-pointer"
-                  >
-                    {discount > 0 && (
-                      <span className="absolute bg-green-600 text-white text-xs px-3 py-1 rounded-md self-end">
-                        Save {discount}%
-                      </span>
-                    )}
+                 <div
+  key={p.id}
+  onClick={() => navigate(`/product/${p.id}`)}
+  className="group bg-white rounded-xl shadow-sm hover:shadow-lg border border-gray-100 overflow-hidden cursor-pointer transition flex flex-col"
+>
 
-                    <img
-                      src={p.imageUrl}
-                      alt={p.name}
-                      className="w-full h-44 object-contain mb-4"
-                    />
+  {/* IMAGE */}
+  <div className="relative bg-gray-50 aspect-square flex items-center justify-center">
 
-                    <span className="inline-block bg-green-700 text-white text-xs px-3 py-1 rounded-md w-fit mb-2">
-                      {selectedVariant.weightLabel}
-                    </span>
+    <img
+      src={p.imageUrl}
+      alt={p.name}
+      className="w-full h-full object-contain p-4 group-hover:scale-105 transition"
+    />
 
-                    <h3 className="font-semibold text-lg">{p.name}</h3>
-                    <ProductReviewStats productId={p.id} />
+    {discount > 0 && (
+      <div className="absolute top-2 right-2 bg-green-600 text-white text-xs px-2 py-1 rounded-md font-semibold">
+        {discount}% OFF
+      </div>
+    )}
 
+  </div>
 
-                    
-                    <div className="mt-2 flex flex-wrap items-center gap-2">
-                      <span className="text-xl font-semibold">
-                        ₹{selectedVariant.offerPrice * qty}
-                      </span>
-                      <span className="text-gray-500 line-through">
-                        ₹{selectedVariant.mrp * qty}
-                      </span>
-                      {base100g && (
-                        <span className="text-sm text-gray-600">
-                          (₹{base100g.offerPrice} / 100 g)
-                        </span>
-                      )}
-                    </div>
+  {/* CONTENT */}
+  <div className="p-4 flex flex-col gap-2 flex-grow">
 
-                    <p className="text-sm text-gray-600 mt-2 line-clamp-2">
-                      {p.description}
-                    </p>
+    <h3 className="text-sm font-semibold text-gray-900 line-clamp-2">
+      {p.name}
+    </h3>
 
-                    {/* VARIANTS */}
-                    <div
-                      className="grid grid-cols-3 gap-2 mt-3"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      {sellVariants.map((v, i) => (
-                        <button
-                          key={i}
-                          onClick={() =>
-                            setVariantMap((m) => ({ ...m, [p.id]: i }))
-                          }
-                          className={`px-2 py-1 rounded-md border text-xs ${
-                            selectedIndex === i
-                              ? "bg-green-700 text-white"
-                              : "bg-[#f2fff1] hover:bg-green-100"
-                          }`}
-                        >
-                          {v.weightLabel}
-                        </button>
-                      ))}
-                    </div>
+    <ProductReviewStats productId={p.id} />
 
-                    {/* QTY */}
-                    <div
-                      className="flex items-center gap-4 mt-4"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <button
-                        onClick={() => decQty(p.id)}
-                        className="w-8 h-8 border rounded"
-                      >
-                        −
-                      </button>
-                      <span>{qty}</span>
-                      <button
-                        onClick={() => incQty(p.id)}
-                        className="w-8 h-8 border rounded"
-                      >
-                        +
-                      </button>
-                    </div>
+    {/* PRICE */}
+    <div className="flex items-center gap-2 mt-1">
 
-                    {/* ADD TO CART */}
-                    <div className="mt-auto pt-4">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          addToCart({
-                            productId: p.id,
-                            name: p.name,
-                            imageUrl: p.imageUrl,
-                            variants: sellVariants,
-                            selectedVariantIndex: selectedIndex,
-                            base100gPrice: base100g?.offerPrice,
-                            qty,
-                          });
-                        }}
-                        className="w-full bg-green-700 text-white py-3 rounded-xl hover:bg-green-800"
-                      >
-                        Add to cart
-                      </button>
-                    </div>
-                  </div>
+      <span className="text-lg font-bold text-gray-900">
+        ₹{selectedVariant.offerPrice * qty}
+      </span>
+
+      {selectedVariant.mrp > selectedVariant.offerPrice && (
+        <span className="text-sm text-gray-400 line-through">
+          ₹{selectedVariant.mrp * qty}
+        </span>
+      )}
+
+      {base100g && (
+        <span className="text-xs text-gray-500">
+          (₹{base100g.offerPrice}/100g)
+        </span>
+      )}
+
+    </div>
+
+    {/* VARIANT + CART */}
+    <div
+      className="flex items-center gap-2 mt-auto"
+      onClick={(e) => e.stopPropagation()}
+    >
+
+      <select
+       value={selectedIndex}
+        onChange={(e) =>
+          setVariantMap((prev) => ({
+            ...prev,
+            [p.id]: parseInt(e.target.value),
+          }))
+        }
+        className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg bg-gray-50
+        focus:outline-none focus:ring-2 focus:ring-green-500"
+      >
+        {sellVariants.map((v, i) => (
+          <option key={i} value={i}>
+            {v.weightLabel}
+          </option>
+        ))}
+      </select>
+
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+
+          addToCart({
+            productId: p.id,
+            name: p.name,
+            imageUrl: p.imageUrl,
+            variants: sellVariants,
+            selectedVariantIndex: selectedIndex,
+            base100gPrice: base100g?.offerPrice,
+            qty,
+          });
+
+          setCartClicked((prev) => ({
+            ...prev,
+            [p.id]: true,
+          }));
+        }}
+        className={`w-10 h-10 flex items-center justify-center rounded-lg transition ${
+          cartClicked[p.id]
+            ? "bg-red-100 text-red-600"
+            : "bg-green-600 text-white hover:bg-green-700"
+        }`}
+      >
+        <FiShoppingCart size={18} />
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
                 );
               })}
             </div>

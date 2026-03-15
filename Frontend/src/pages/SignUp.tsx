@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { registerUser, googleRegister } from "../api/api";
 import { GoogleLogin } from "@react-oauth/google";
-
+import { useNavigate } from "react-router-dom";
 export default function Signup() {
+  const navigate = useNavigate(); 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -43,8 +44,11 @@ export default function Signup() {
         phone,
       });
 
-      setSuccess(res.data.message || "Registered successfully 🎉");
+setSuccess(res.data.message || "Registered successfully 🎉");
 
+setTimeout(() => {
+  navigate("/login");
+}, 1500);
       // Reset form
       setFirstName("");
       setLastName("");
@@ -69,106 +73,145 @@ export default function Signup() {
     }
   };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-4">
-      <div className="bg-white w-full max-w-md rounded-xl shadow-xl px-8 py-10 animate-fade-in-up">
+ return (
+<div className="min-h-screen bg-gradient-to-br from-green-50 to-white flex items-center justify-center px-4 py-8">
 
-        {/* Logo */}
-        <div className="flex flex-col items-center mb-6">
-          <img src="/munchz.png" alt="Munchz logo" className="w-24 mb-3" />
-          <h2 className="text-xl font-semibold text-gray-800">
-            Create Account
-          </h2>
-        </div>
+<div className="w-full max-w-md bg-white rounded-2xl shadow-lg px-6 sm:px-8 py-8">
 
-        {/* Alerts */}
-        {error && (
-          <p className="mb-4 text-sm text-red-600 bg-red-50 p-2 rounded">
-            {error}
-          </p>
-        )}
-        {success && (
-          <p className="mb-4 text-sm text-green-700 bg-green-50 p-2 rounded">
-            {success}
-          </p>
-        )}
+{/* LOGO */}
+<div className="flex flex-col items-center mb-6">
+<img
+src="/munchz.png"
+alt="Munchz logo"
+className="w-20 sm:w-24 mb-2"
+/>
 
-        {/* 🔹 GOOGLE SIGNUP */}
-        <GoogleLogin
-          onSuccess={async (res) => {
-            try {
-              const apiRes = await googleRegister(res.credential!);
-              localStorage.setItem("token", apiRes.data.token);
-              setSuccess("Registered successfully 🎉");
-            } catch {
-              setError("Google signup failed");
-            }
-          }}
-          onError={() => setError("Google signup failed")}
-        />
+<h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
+Create Account
+</h2>
 
-        <div className="my-6 text-center text-gray-400 text-sm">OR</div>
+<p className="text-sm text-gray-500">
+Join Munchz and start shopping
+</p>
+</div>
 
-        {/* 🔹 NORMAL SIGNUP FORM */}
-        <form className="space-y-5" onSubmit={handleSubmit}>
+{/* ALERTS */}
+{error && (
+<p className="mb-4 text-sm text-red-600 bg-red-50 p-3 rounded-lg">
+{error}
+</p>
+)}
 
-          {/* First + Last name */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <input
-              type="text"
-              placeholder="First name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              className="w-full border border-green-700 rounded-lg px-4 py-3
-                         focus:outline-none focus:ring-2 focus:ring-green-600"
-            />
+{success && (
+<p className="mb-4 text-sm text-green-700 bg-green-50 p-3 rounded-lg">
+{success}
+</p>
+)}
 
-            <input
-              type="text"
-              placeholder="Last name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              className="w-full border border-green-700 rounded-lg px-4 py-3
-                         focus:outline-none focus:ring-2 focus:ring-green-600"
-            />
-          </div>
+{/* GOOGLE SIGNUP */}
+<div className="flex justify-center mb-4">
+<GoogleLogin
+onSuccess={async (res) => {
+try {
+const apiRes = await googleRegister(res.credential!);
+localStorage.setItem("token", apiRes.data.token);
 
-          {/* Email + Phone */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <input
-              type="email"
-              placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-green-700 rounded-lg px-4 py-3
-                         focus:outline-none focus:ring-2 focus:ring-green-600"
-            />
+setSuccess("Registered successfully 🎉");
 
-            <input
-              type="tel"
-              placeholder="Mobile number"
-              value={phone}
-              onChange={(e) =>
-                setPhone(e.target.value.replace(/\D/g, ""))
-              }
-              maxLength={10}
-              className="w-full border border-green-700 rounded-lg px-4 py-3
-                         focus:outline-none focus:ring-2 focus:ring-green-600"
-            />
-          </div>
+setTimeout(() => {
+navigate("/login");
+}, 1500);
 
-          {/* Submit */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full mt-6 bg-green-700 hover:bg-green-800
-                       text-white font-semibold py-3 rounded-lg transition
-                       disabled:opacity-60"
-          >
-            {loading ? "Signing up..." : "Sign Up"}
-          </button>
-        </form>
-      </div>
-    </div>
-  );
+} catch {
+setError("Google signup failed");
+}
+}}
+onError={() => setError("Google signup failed")}
+/>
+</div>
+
+<div className="my-5 text-center text-gray-400 text-sm">
+OR
+</div>
+
+{/* FORM */}
+<form className="space-y-4" onSubmit={handleSubmit}>
+
+{/* NAMES */}
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+<input
+type="text"
+placeholder="First name"
+value={firstName}
+onChange={(e) => setFirstName(e.target.value)}
+className="border border-gray-300 rounded-lg px-4 py-2.5
+focus:outline-none focus:ring-2 focus:ring-green-600"
+/>
+
+<input
+type="text"
+placeholder="Last name"
+value={lastName}
+onChange={(e) => setLastName(e.target.value)}
+className="border border-gray-300 rounded-lg px-4 py-2.5
+focus:outline-none focus:ring-2 focus:ring-green-600"
+/>
+
+</div>
+
+{/* EMAIL + PHONE */}
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+<input
+type="email"
+placeholder="Email address"
+value={email}
+onChange={(e) => setEmail(e.target.value)}
+className="border border-gray-300 rounded-lg px-4 py-2.5
+focus:outline-none focus:ring-2 focus:ring-green-600"
+/>
+
+<input
+type="tel"
+placeholder="Mobile number"
+value={phone}
+onChange={(e) =>
+setPhone(e.target.value.replace(/\D/g, ""))
+}
+maxLength={10}
+className="border border-gray-300 rounded-lg px-4 py-2.5
+focus:outline-none focus:ring-2 focus:ring-green-600"
+/>
+
+</div>
+
+{/* SUBMIT */}
+<button
+type="submit"
+disabled={loading}
+className="w-full mt-4 bg-green-700 hover:bg-green-800
+text-white font-semibold py-2.5 rounded-lg transition
+disabled:opacity-60"
+>
+{loading ? "Signing up..." : "Sign Up"}
+</button>
+
+</form>
+
+{/* LOGIN LINK */}
+<p className="text-sm text-center text-gray-500 mt-5">
+Already have an account?{" "}
+<span
+onClick={() => navigate("/login")}
+className="text-green-700 font-medium cursor-pointer"
+>
+Login
+</span>
+</p>
+
+</div>
+
+</div>
+);
 }
