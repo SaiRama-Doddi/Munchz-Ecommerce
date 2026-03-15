@@ -28,6 +28,7 @@ services:
       - review-service
       - coupon-service
       - payment-service
+      - shipping-service
 
   auth-service:
     build: ./Backend/auth-service/auth-service
@@ -114,6 +115,16 @@ services:
       - "9095"
     env_file:
     - .env
+
+
+  shipping-service:
+    build: ./Backend/shiprocket-shipping-service
+    container_name: shipping-service
+    restart: always
+    expose:
+      - "8087"
+    env_file:
+      - .env
 
 volumes:
   postgres-data:
