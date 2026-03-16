@@ -79,6 +79,7 @@ export default function Dashboard() {
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [todayPayments, setTodayPayments] = useState<any[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
+  const [chartView, setChartView] = useState<"distribution" | "inventory" | "orders">("distribution");
 
   useEffect(() => {
     paymentApi
@@ -174,78 +175,107 @@ export default function Dashboard() {
       {/* KPI CARDS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <KPICard
-          title="Total Categories"
+          title="Consolidated Catalog"
+          subtitle="Categories"
           value={categories.length}
-          icon={<Layers size={24} className="text-blue-500" />}
-          trend="+2 this month"
-          color="blue"
+          icon={<Layers size={24} />}
+          bgIcon={<Layers size={100} />}
+          color="indigo"
         />
         <KPICard
-          title="Live Products"
+          title="E-Commerce Catalog"
+          subtitle="Live Products"
           value={products.length}
-          icon={<Package size={24} className="text-emerald-500" />}
-          trend="+12% vs last week"
+          icon={<Package size={24} />}
+          bgIcon={<Package size={100} />}
           color="emerald"
         />
         <KPICard
-          title="Stock Available"
-          value={`${totalStockKg} KG`}
-          icon={<ShoppingCart size={24} className="text-violet-500" />}
-          trend="Healthy"
+          title="Global Stock Aggregate"
+          subtitle="Total KG"
+          value={`${totalStockKg}`}
+          icon={<ShoppingCart size={24} />}
+          bgIcon={<ShoppingCart size={100} />}
           color="violet"
         />
         <KPICard
-          title="Low Stock Alerts"
+          title="Inventory Monitor"
+          subtitle="Low Stock Alerts"
           value={lowStockItems}
-          icon={<AlertTriangle size={24} className="text-amber-500" />}
-          trend="Action required"
+          icon={<AlertTriangle size={24} />}
+          bgIcon={<AlertTriangle size={100} />}
           color="amber"
           isDanger={lowStockItems > 3}
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <ChartCard title="Stock Distribution" subtitle="Available stock (KG) per category">
-          <ResponsiveContainer width="100%" height={320}>
-            <PieChart>
-              <Pie
-                data={stockByCategory}
-                dataKey="value"
-                nameKey="name"
-                outerRadius={100}
-                innerRadius={60}
-                paddingAngle={5}
-                stroke="none"
+      <div className="grid grid-cols-1 gap-8">
+        <ChartCard 
+          title="Performance Analytics" 
+          subtitle="Real-time data visualization"
+          action={
+            <div className="relative">
+              <select 
+                value={chartView}
+                onChange={(e) => setChartView(e.target.value as any)}
+                className="appearance-none bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 pr-10 text-xs font-bold text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all cursor-pointer"
               >
-                {stockByCategory.map((_, i) => (
-                  <Cell key={`cell-${i}`} fill={COLORS[i % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip 
-                contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
-              />
-              <Legend verticalAlign="bottom" height={36} iconType="circle" />
-            </PieChart>
-          </ResponsiveContainer>
-        </ChartCard>
-
-        <ChartCard title="Inventory Levels" subtitle="Current kg in warehouse vs category">
-          <ResponsiveContainer width="100%" height={320}>
-            <BarChart data={stockByCategory} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
-              <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dy={10} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
-              <Tooltip 
-                cursor={{ fill: 'rgba(241, 245, 249, 0.5)' }}
-                contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
-              />
-              <Bar dataKey="value" fill="url(#barGradient)" radius={[6, 6, 0, 0]} />
-              <defs>
-                <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#10b981" />
-                  <stop offset="100%" stopColor="#059669" />
-                </linearGradient>
-              </defs>
-            </BarChart>
+                <option value="distribution">Stock Distribution</option>
+                <option value="inventory">Inventory Levels</option>
+                <option value="orders">Daily Order Volume</option>
+              </select>
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                <Plus size={14} className="rotate-45" />
+              </div>
+            </div>
+          }
+        >
+          <ResponsiveContainer width="100%" height={360}>
+            {chartView === "distribution" ? (
+              <PieChart>
+                <Pie
+                  data={stockByCategory}
+                  dataKey="value"
+                  nameKey="name"
+                  outerRadius={120}
+                  innerRadius={80}
+                  paddingAngle={5}
+                  stroke="none"
+                >
+                  {stockByCategory.map((_, i) => (
+                    <Cell key={`cell-${i}`} fill={COLORS[i % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip 
+                  contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}
+                />
+                <Legend verticalAlign="bottom" height={36} iconType="circle" />
+              </PieChart>
+            ) : chartView === "inventory" ? (
+              <BarChart data={stockByCategory} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#8b5cf6" />
+                    <stop offset="100%" stopColor="#6366f1" />
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
+                <Tooltip 
+                  cursor={{ fill: 'rgba(241, 245, 249, 0.5)' }}
+                  contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}
+                />
+                <Bar dataKey="value" fill="url(#barGradient)" radius={[8, 8, 0, 0]} />
+              </BarChart>
+            ) : (
+              <BarChart data={stockByCategory} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+                {/* Fallback or Order Volume chart if data available */}
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
+                <Tooltip contentStyle={{ borderRadius: '16px', border: 'none' }} />
+                <Bar dataKey="value" fill="#10b981" radius={[8, 8, 0, 0]} />
+              </BarChart>
+            )}
           </ResponsiveContainer>
         </ChartCard>
       </div>
@@ -365,47 +395,48 @@ export default function Dashboard() {
 
 function KPICard({
   title,
+  subtitle,
   value,
   icon,
-  trend,
+  bgIcon,
   color,
   isDanger = false
 }: {
   title: string;
+  subtitle: string;
   value: number | string;
   icon: React.ReactNode;
-  trend: string;
+  bgIcon: React.ReactNode;
   color: string;
   isDanger?: boolean;
 }) {
   const colorMap = {
-    blue: "bg-blue-50/50 border-blue-100",
-    emerald: "bg-emerald-50/50 border-emerald-100",
-    violet: "bg-violet-50/50 border-violet-100",
-    amber: "bg-amber-50/50 border-amber-100",
+    blue: "bg-blue-50 text-blue-600",
+    emerald: "bg-emerald-50 text-emerald-600",
+    violet: "bg-violet-50 text-violet-600",
+    amber: "bg-amber-50 text-amber-600",
+    indigo: "bg-indigo-50 text-indigo-600",
   };
 
   return (
-    <div className={`glass-card rounded-3xl p-6 relative overflow-hidden group hover:-translate-y-1 transition-all duration-300`}>
-      <div className="flex justify-between items-start">
-        <div>
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">{title}</p>
-          <h3 className={`text-2xl font-black ${isDanger ? 'text-red-600' : 'text-slate-800'} tracking-tight`}>
-            {value}
-          </h3>
-          <div className="mt-3 flex items-center gap-1.5">
-            <span className={`text-[10px] font-bold ${isDanger ? 'text-red-500' : 'text-emerald-500'}`}>
-              {trend}
-            </span>
-          </div>
-        </div>
-        <div className={`p-3 rounded-2xl ${colorMap[color as keyof typeof colorMap] || 'bg-slate-50'} border`}>
+    <div className="glass-card p-8 rounded-[2.5rem] relative overflow-hidden group hover:-translate-y-1 transition-all duration-500">
+      <div className="absolute top-0 right-0 p-10 opacity-[0.03] text-slate-900 group-hover:scale-110 group-hover:opacity-[0.05] transition-all duration-700">
+        {bgIcon}
+      </div>
+      <div className="flex items-center gap-4 mb-4">
+        <div className={`p-3 rounded-2xl ${colorMap[color as keyof typeof colorMap] || 'bg-slate-50 text-slate-600'}`}>
           {icon}
         </div>
+        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-tight">
+          {title}
+        </span>
       </div>
-      
-      {/* Decorative background shape */}
-      <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-slate-50 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+      <div className="flex items-baseline gap-2">
+        <h3 className={`text-4xl font-black tracking-tight ${isDanger ? 'text-red-600' : 'text-slate-800'}`}>
+          {value}
+        </h3>
+        <span className="text-xs font-bold text-slate-400">{subtitle}</span>
+      </div>
     </div>
   );
 }
@@ -414,22 +445,27 @@ function ChartCard({
   title,
   subtitle,
   children,
+  action
 }: {
   title: string;
   subtitle: string;
   children: React.ReactNode;
+  action?: React.ReactNode;
 }) {
   return (
-    <div className="glass-card rounded-3xl p-8">
-      <div className="mb-8">
-        <h2 className="text-xl font-bold text-slate-800 tracking-tight">
-          {title}
-        </h2>
-        <p className="text-xs text-slate-500 font-medium">{subtitle}</p>
+    <div className="glass-card rounded-[2.5rem] p-8">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h2 className="text-2xl font-black text-slate-800 tracking-tight">
+            {title}
+          </h2>
+          <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">{subtitle}</p>
+        </div>
+        {action}
       </div>
-      <div className="h-[320px]">
+      <div className="min-h-[360px]">
         {children}
       </div>
     </div>
   );
-}
+}
