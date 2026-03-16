@@ -133,7 +133,7 @@ const clearMainImage = () => {
     try {
       await api.put(`/products/${id}`, payload);
       alert("Product Updated");
-      navigate("/products");
+      navigate("/admin/products");
     } catch (err) {
       console.error("UPDATE FAILED:", err);
       alert("Update failed.");

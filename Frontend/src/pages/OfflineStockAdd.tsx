@@ -112,7 +112,7 @@ export default function AddOfflineStock() {
       } else {
         await offlineInventoryApi.post("/offline-inventory", payload);
       }
-      navigate("/offline-inventory");
+      navigate("/admin/offline-inventory");
     } catch {
       alert("Failed to save offline stock");
     }

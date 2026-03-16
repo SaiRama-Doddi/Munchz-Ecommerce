@@ -185,7 +185,7 @@ export default function AdminStockDetails() {
                 <td className="p-4 text-center space-x-2">
                   <button
                     onClick={() =>
-                      navigate("/adminStockEntry", {
+                      navigate("/admin/stock-entry", {
                         state: { stock: s },
                       })
                     }

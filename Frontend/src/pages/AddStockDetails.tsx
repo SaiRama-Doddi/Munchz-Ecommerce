@@ -86,7 +86,7 @@ const payload = {
       } else {
         await inventoryApi.post("/inventory/entries", payload);
       }
-      navigate("/adminStockDetails");
+      navigate("/admin/stock-details");
     } catch {
       alert("Failed to save stock");
     }

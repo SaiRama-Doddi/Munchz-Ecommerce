@@ -112,8 +112,14 @@ const clearMainImage = () => {
 
     console.log("FINAL PAYLOAD:", payload); // DEBUG
 
-    await api.post("/products", payload);
-    alert("Product created successfully");
+    try {
+      await api.post("/products", payload);
+      alert("Product created successfully");
+      navigate("/admin/products");
+    } catch (err) {
+      console.error("CREATE FAILED:", err);
+      alert("Failed to create product.");
+    }
   };
 
  return (
