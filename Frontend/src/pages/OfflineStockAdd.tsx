@@ -100,8 +100,8 @@ export default function AddOfflineStock() {
       categoryName: selectedCategory?.name,
       subCategoryId: selectedSubCategory?.id || null,
       subCategoryName: selectedSubCategory?.name || null,
-      productId: selectedProduct?.id,
-      productName: selectedProduct?.name,
+      productId: selectedProduct?.id || form.productId,
+      productName: selectedProduct?.name || products.find(p => p.id === Number(form.productId))?.name || "",
       variantLabel: form.variantLabel,
       quantity: Number(form.quantity)
     };

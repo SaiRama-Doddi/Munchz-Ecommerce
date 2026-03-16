@@ -37,33 +37,32 @@ export default function AddStock() {
     if (!editStock) return;
 
     setForm({
-      categoryId: String(editStock.categoryId),
+      categoryId: String(editStock.categoryId || ""),
       subCategoryId: editStock.subCategoryId ? String(editStock.subCategoryId) : "",
-      productId: String(editStock.productId),
-      variant: editStock.variantLabel || "",
-      quantity: String(editStock.quantity)
+      productId: String(editStock.productId || ""),
+      variant: editStock.variantLabel || editStock.variant || "",
+      quantity: String(editStock.quantity || 0)
     });
 
-    setSelectedCategory({
-      id: editStock.categoryId,
-      name: editStock.categoryName
-    });
-
-    setSelectedSubCategory(editStock.subCategoryId
+    setSelectedCategory(categories.find(c => c.id === Number(editStock.categoryId)));
+    setSelectedSubCategory(editStock.subCategoryId 
       ? { id: editStock.subCategoryId, name: editStock.subCategoryName }
       : null
     );
-
-    setSelectedProduct({
-      id: editStock.productId,
-      name: editStock.productName
-    });
-  }, [editStock]);
+    setSelectedProduct({ id: editStock.productId, name: editStock.productName });
+  }, [editStock, categories]);
 
   /* ================= AUTO-SELECT VARIANT ON EDIT ================= */
   useEffect(() => {
     if (isEdit && form.variant && variants.length > 0) {
-      // The dropdown is bound to form.variant, so it should show the label automatically if it exists in the list
+      const match = variants.find(v => 
+        v.weightLabel === form.variant || 
+        form.variant.includes(v.weightLabel) ||
+        v.weightLabel.includes(form.variant)
+      );
+      if (match && form.variant !== match.weightLabel) {
+        setForm(prev => ({ ...prev, variant: match.weightLabel }));
+      }
     }
   }, [isEdit, form.variant, variants]);
 
@@ -110,6 +109,8 @@ export default function AddStock() {
     try {
       if (isEdit) {
         await inventoryApi.put(`/admin/inventory/${editStock.id}`, payload);
+      } else {
+        await inventoryApi.post("/inventory/add", payload);
       }
       alert("Stock Saved Successfully");
       navigate("/admin/inventory");

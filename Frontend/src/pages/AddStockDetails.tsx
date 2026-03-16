@@ -74,7 +74,21 @@ export default function AddStockEntry() {
   useEffect(() => {
     if (!editData) return;
 
-    setForm(editData);
+    setForm({
+      categoryId: String(editData.categoryId || ""),
+      subCategoryId: editData.subCategoryId ? String(editData.subCategoryId) : "",
+      productId: String(editData.productId || ""),
+      supplierName: editData.supplierName || "",
+      supplierGst: editData.supplierGst || "",
+      quantity: String(editData.quantity || 0),
+      purchasePrice: String(editData.purchasePrice || 0),
+      sellingPrice: String(editData.sellingPrice || 0),
+      stockInDate: editData.stockInDate || "",
+      expiryDate: editData.expiryDate || "",
+      remarks: editData.remarks || "",
+      variantId: String(editData.variantId || "")
+    });
+
     setSelectedCategory({ id: editData.categoryId, name: editData.categoryName });
     setSelectedSubCategory({ id: editData.subCategoryId, name: editData.subCategoryName });
     setSelectedProduct({ id: editData.productId, name: editData.productName });
@@ -103,8 +117,8 @@ const payload = {
   productId: selectedProduct?.id,
   productName: selectedProduct?.name,
 
-  variantId: selectedVariant?.id,
-  variantLabel: selectedVariant?.weightLabel,
+  variantId: selectedVariant?.id || form.variantId,
+  variantLabel: selectedVariant?.weightLabel || variants.find(v => v.id === Number(form.variantId))?.weightLabel || "",
 
   quantity: Number(form.quantity),
   purchasePrice: Number(form.purchasePrice),
