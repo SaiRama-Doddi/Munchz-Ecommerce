@@ -112,17 +112,14 @@ export default function Dashboard() {
       .catch(console.error);
   }, []);
 
-  const totalStockKg = useMemo(() => {
-    const onlineGrams = stocks.reduce((sum: number, s: Stock) => sum + s.quantity, 0);
-    const offlineUnits = offlineStocks.reduce((sum: number, s: any) => sum + (Number(s.quantity) || 0), 0);
+  const totalStock = useMemo(() => {
+    const online = stocks.reduce((sum: number, s: Stock) => sum + s.quantity, 0);
+    const offline = offlineStocks.reduce((sum: number, s: any) => sum + (Number(s.quantity) || 0), 0);
     
-    // Assuming offline units are also grams or direct units. 
-    // If they represent "units" like 500g, 1kg etc, we should ideally parse them, 
-    // but for "Aggregate" we'll sum the quantities.
     return {
-      total: ((onlineGrams + offlineUnits) / 1000).toFixed(1),
-      online: (onlineGrams / 1000).toFixed(1),
-      offline: (offlineUnits / 1000).toFixed(1)
+      total: online + offline,
+      online,
+      offline
     };
   }, [stocks, offlineStocks]);
 
@@ -206,9 +203,9 @@ export default function Dashboard() {
           color="emerald"
         />
         <KPICard
-          title="Global Stock Aggregate"
-          subtitle={`${totalStockKg.online} ON / ${totalStockKg.offline} OFF`}
-          value={`${totalStockKg.total} KG`}
+          title="Global Aggregate"
+          subtitle="Total Units"
+          value={totalStock.total.toLocaleString()}
           icon={<ShoppingCart size={24} />}
           bgIcon={<ShoppingCart size={100} />}
           color="violet"
