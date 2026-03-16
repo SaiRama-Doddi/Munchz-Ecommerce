@@ -2,6 +2,20 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import api from "../api/client";
 import inventoryApi from "../api/inventoryApi";
+import { 
+  ArrowLeft, 
+  Package, 
+  Truck, 
+  CircleDollarSign, 
+  Calendar, 
+  FileText,
+  ChevronRight,
+  Info,
+  Layers,
+  Hash,
+  Save,
+  Tag
+} from "lucide-react";
 
 export default function AddStockEntry() {
   const navigate = useNavigate();
@@ -105,26 +119,20 @@ export default function AddStockEntry() {
   /* ================= SUBMIT ================= */
   const submit = async (e: any) => {
     e.preventDefault();
-const payload = {
-  ...form,   // spread first
-
-  categoryId: selectedCategory?.id,
-  categoryName: selectedCategory?.name,
-
-  subCategoryId: selectedSubCategory?.id,
-  subCategoryName: selectedSubCategory?.name,
-
-  productId: selectedProduct?.id,
-  productName: selectedProduct?.name,
-
-  variantId: selectedVariant?.id || form.variantId,
-  variantLabel: selectedVariant?.weightLabel || variants.find(v => v.id === Number(form.variantId))?.weightLabel || "",
-
-  quantity: Number(form.quantity),
-  purchasePrice: Number(form.purchasePrice),
-  sellingPrice: Number(form.sellingPrice),
-};
-
+    const payload = {
+      ...form,
+      categoryId: selectedCategory?.id,
+      categoryName: selectedCategory?.name,
+      subCategoryId: selectedSubCategory?.id,
+      subCategoryName: selectedSubCategory?.name,
+      productId: selectedProduct?.id,
+      productName: selectedProduct?.name,
+      variantId: selectedVariant?.id || form.variantId,
+      variantLabel: selectedVariant?.weightLabel || variants.find(v => v.id === Number(form.variantId))?.weightLabel || "",
+      quantity: Number(form.quantity),
+      purchasePrice: Number(form.purchasePrice),
+      sellingPrice: Number(form.sellingPrice),
+    };
 
     try {
       if (isEdit) {
@@ -140,176 +148,276 @@ const payload = {
     }
   };
 
-  const inputStyle =
-    "w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500 outline-none";
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 py-10">
-      <div className="max-w-6xl mx-auto bg-white/80 backdrop-blur-xl border border-gray-200 shadow-2xl rounded-3xl p-10">
-
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b pb-4">
-          {isEdit ? "Update Stock Entry" : "Add Stock Entry"}
-        </h2>
-
-        <form onSubmit={submit} className="grid md:grid-cols-2 gap-6">
-
-          {/* CATEGORY */}
-          <select
-            className={inputStyle}
-            value={form.categoryId}
-            onChange={(e) => {
-              const sel = categories.find(c => c.id === Number(e.target.value));
-              setSelectedCategory(sel);
-              setForm({ ...form, categoryId: e.target.value, subCategoryId: "", productId: "" });
-            }}
-          >
-            <option value="">Select Category</option>
-            {categories.map(c => (
-              <option key={c.id} value={c.id}>{c.name}</option>
-            ))}
-          </select>
-
-          {/* SUBCATEGORY */}
-          <select
-            className={inputStyle}
-            value={form.subCategoryId}
-            onChange={(e) => {
-              const sel = subcategories.find(s => s.id === Number(e.target.value));
-              setSelectedSubCategory(sel);
-              setForm({ ...form, subCategoryId: e.target.value, productId: "" });
-            }}
-          >
-            <option value="">Select Subcategory</option>
-            {subcategories.map(s => (
-              <option key={s.id} value={s.id}>{s.name}</option>
-            ))}
-          </select>
-
-          {/* PRODUCT */}
-          <select
-            className={inputStyle}
-            value={form.productId}
-            onChange={(e) => {
-              const sel = products.find(p => p.id === Number(e.target.value));
-              setSelectedProduct(sel);
-              setForm({ ...form, productId: e.target.value });
-            }}
-          >
-            <option value="">Select Product</option>
-            {products.map(p => (
-              <option key={p.id} value={p.id}>{p.name}</option>
-            ))}
-          </select>
-
-          {/* VARIANT */}
-          <select
-            className={inputStyle}
-            value={form.variantId}
-            onChange={(e) => {
-              const sel = variants.find(v => v.id === Number(e.target.value));
-              setSelectedVariant(sel);
-              setForm({ ...form, variantId: e.target.value });
-            }}
-            disabled={!form.productId}
-          >
-            <option value="">Select Variant (Weight)</option>
-            {variants.map(v => (
-              <option key={v.id} value={v.id}>
-                {v.weightLabel} (Price: ₹{v.offerPrice})
-              </option>
-            ))}
-          </select>
-
-          <input
-            className={inputStyle}
-            placeholder="Supplier Name"
-            value={form.supplierName}
-            onChange={e => setForm({ ...form, supplierName: e.target.value })}
-          />
-
-          <input
-            className={inputStyle}
-            placeholder="Supplier GST"
-            value={form.supplierGst}
-            onChange={e => setForm({ ...form, supplierGst: e.target.value })}
-          />
-
-          <input
-            type="number"
-            className={inputStyle}
-            placeholder="Quantity"
-            value={form.quantity}
-            onChange={e => setForm({ ...form, quantity: e.target.value })}
-          />
-
-          <input
-            type="number"
-            className={inputStyle}
-            placeholder="Purchase Price"
-            value={form.purchasePrice}
-            onChange={e => setForm({ ...form, purchasePrice: e.target.value })}
-          />
-
-          <input
-            type="number"
-            className={inputStyle}
-            placeholder="Selling Price"
-            value={form.sellingPrice}
-            onChange={e => setForm({ ...form, sellingPrice: e.target.value })}
-          />
-
-        {/* DATE SECTION */}
-<div className="grid md:grid-cols-2 gap-6">
-
-  {/* STOCK IN DATE */}
-  <div className="space-y-2">
-    <label className="block text-sm font-semibold text-gray-700">
-      Stock In Date (Purchase Date)
-    </label>
-    <input
-      type="date"
-      value={form.stockInDate}
-      onChange={e => setForm({ ...form, stockInDate: e.target.value })}
-      className="w-full rounded-xl border border-gray-300 px-4 py-3
-                 focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 outline-none"
-    />
-    <p className="text-xs text-gray-400">
-      Date when stock entered into inventory
-    </p>
-  </div>
-
-  {/* EXPIRY DATE */}
-  <div className="space-y-2">
-    <label className="block text-sm font-semibold text-gray-700">
-      Expiry Date (Product Valid Until)
-    </label>
-    <input
-      type="date"
-      value={form.expiryDate}
-      onChange={e => setForm({ ...form, expiryDate: e.target.value })}
-      className="w-full rounded-xl border border-gray-300 px-4 py-3
-                 focus:ring-4 focus:ring-red-600/10 focus:border-red-600 outline-none"
-    />
-    <p className="text-xs text-gray-400">
-      Last usable date of the product
-    </p>
-  </div>
-
-</div>
-
-
-          <textarea
-            className={`${inputStyle} md:col-span-2`}
-            placeholder="Remarks"
-            value={form.remarks}
-            onChange={e => setForm({ ...form, remarks: e.target.value })}
-          />
-
-          <button className="md:col-span-2 bg-gradient-to-r from-indigo-600 to-blue-600 text-white py-3 rounded-xl text-lg font-semibold shadow-lg hover:scale-[1.02] transition">
-            {isEdit ? "Update Stock Entry" : "Save Stock Entry"}
-          </button>
-        </form>
+    <div className="space-y-8 pb-12">
+      {/* HEADER */}
+      <div className="flex items-center justify-between">
+        <button 
+          onClick={() => navigate(-1)}
+          className="p-3 bg-white border border-slate-100 rounded-2xl text-slate-400 hover:text-emerald-500 hover:border-emerald-100 transition-all"
+        >
+          <ArrowLeft size={20} />
+        </button>
+        <div className="text-right">
+          <h1 className="text-2xl font-black text-slate-800 uppercase tracking-tight">
+            {isEdit ? "Update Logistics" : "Logistics Entry"}
+          </h1>
+          <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Batch Record Management</p>
+        </div>
       </div>
+
+      <form onSubmit={submit} className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        
+        {/* LEFT COLUMN: PRODUCT INFO */}
+        <div className="xl:col-span-2 space-y-8">
+          
+          {/* SECTION 1: CORE PRODUCT MAPPING */}
+          <div className="glass-card rounded-[2.5rem] p-8 md:p-10">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="p-2.5 bg-blue-50 text-blue-600 rounded-xl">
+                <Package size={20} />
+              </div>
+              <h2 className="text-xl font-bold text-slate-800 uppercase tracking-tight">Product Selection</h2>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Parent Category</label>
+                <select
+                  className="input h-14 pr-10"
+                  value={form.categoryId}
+                  onChange={(e) => {
+                    const sel = categories.find(c => c.id === Number(e.target.value));
+                    setSelectedCategory(sel);
+                    setForm({ ...form, categoryId: e.target.value, subCategoryId: "", productId: "" });
+                  }}
+                  required
+                >
+                  <option value="">Select Category</option>
+                  {categories.map(c => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Sub Classification</label>
+                <select
+                  className="input h-14 pr-10"
+                  value={form.subCategoryId}
+                  onChange={(e) => {
+                    const sel = subcategories.find(s => s.id === Number(e.target.value));
+                    setSelectedSubCategory(sel);
+                    setForm({ ...form, subCategoryId: e.target.value, productId: "" });
+                  }}
+                >
+                  <option value="">Select Subcategory</option>
+                  {subcategories.map(s => (
+                    <option key={s.id} value={s.id}>{s.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Item Reference</label>
+                <select
+                  className="input h-14 pr-10 font-bold"
+                  value={form.productId}
+                  onChange={(e) => {
+                    const sel = products.find(p => p.id === Number(e.target.value));
+                    setSelectedProduct(sel);
+                    setForm({ ...form, productId: e.target.value });
+                  }}
+                  required
+                >
+                  <option value="">Select Item</option>
+                  {products.map(p => (
+                    <option key={p.id} value={p.id}>{p.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Active Variant</label>
+                <select
+                  className="input h-14 pr-10"
+                  value={form.variantId}
+                  onChange={(e) => {
+                    const sel = variants.find(v => v.id === Number(e.target.value));
+                    setSelectedVariant(sel);
+                    setForm({ ...form, variantId: e.target.value });
+                  }}
+                  disabled={!form.productId}
+                  required
+                >
+                  <option value="">Select Weight/Type</option>
+                  {variants.map(v => (
+                    <option key={v.id} value={v.id}>
+                      {v.weightLabel} (₹{v.offerPrice})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* SECTION 2: SUPPLIER LEDGER */}
+          <div className="glass-card rounded-[2.5rem] p-8 md:p-10">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
+                <Truck size={20} />
+              </div>
+              <h2 className="text-xl font-bold text-slate-800 uppercase tracking-tight">Supply Chain Info</h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Vendor/Supplier Name</label>
+                <input
+                  className="input h-14"
+                  placeholder="e.g. Premium Wholesalers"
+                  value={form.supplierName}
+                  onChange={e => setForm({ ...form, supplierName: e.target.value })}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Business Registration (GST)</label>
+                <input
+                  className="input h-14 uppercase tracking-widest"
+                  placeholder="GSTIN Number"
+                  value={form.supplierGst}
+                  onChange={e => setForm({ ...form, supplierGst: e.target.value })}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* SECTION 3: FINANCIALS & QUANTITY */}
+          <div className="glass-card rounded-[2.5rem] p-8 md:p-10">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="p-2.5 bg-amber-50 text-amber-600 rounded-xl">
+                <CircleDollarSign size={20} />
+              </div>
+              <h2 className="text-xl font-bold text-slate-800 uppercase tracking-tight">Inventory Metrics</h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Receiving Qty</label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    className="input h-14 pl-12 font-black text-xl"
+                    placeholder="0"
+                    value={form.quantity}
+                    onChange={e => setForm({ ...form, quantity: e.target.value })}
+                    required
+                  />
+                  <Layers className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Purchase Cost</label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    className="input h-14 pl-12 font-bold"
+                    placeholder="0.00"
+                    value={form.purchasePrice}
+                    onChange={e => setForm({ ...form, purchasePrice: e.target.value })}
+                    required
+                  />
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-slate-300 text-lg">₹</span>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Market Listing Price</label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    className="input h-14 pl-12 font-bold text-emerald-600"
+                    placeholder="0.00"
+                    value={form.sellingPrice}
+                    onChange={e => setForm({ ...form, sellingPrice: e.target.value })}
+                    required
+                  />
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-emerald-200 text-lg">₹</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT COLUMN: TIMELINE & ACTIONS */}
+        <div className="space-y-8">
+          
+          {/* LOGISTICS TIMELINE */}
+          <div className="glass-card rounded-[2.5rem] p-8">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="p-2.5 bg-rose-50 text-rose-600 rounded-xl">
+                <Calendar size={20} />
+              </div>
+              <h2 className="text-xl font-bold text-slate-800 uppercase tracking-tight">Timeline</h2>
+            </div>
+            
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Stock Inbound Date</label>
+                <input
+                  type="date"
+                  value={form.stockInDate}
+                  onChange={e => setForm({ ...form, stockInDate: e.target.value })}
+                  className="input h-14"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Shelf Life Expiry</label>
+                <input
+                  type="date"
+                  value={form.expiryDate}
+                  onChange={e => setForm({ ...form, expiryDate: e.target.value })}
+                  className="input h-14 border-rose-100 focus:border-rose-500 focus:ring-rose-500/10"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* INTERNAL REMARKS */}
+          <div className="glass-card rounded-[2.5rem] p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-slate-50 text-slate-400 rounded-lg">
+                <FileText size={18} />
+              </div>
+              <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest">Internal Notes</h3>
+            </div>
+            <textarea
+              className="input min-h-[120px] pt-4 resize-none"
+              placeholder="e.g. Batch inspected for quality..."
+              value={form.remarks}
+              onChange={e => setForm({ ...form, remarks: e.target.value })}
+            />
+          </div>
+
+          {/* SUBMIT BUTTON */}
+          <button
+            type="submit"
+            className="w-full bg-accent-gradient text-white py-6 rounded-3xl font-black text-sm uppercase tracking-widest shadow-2xl shadow-emerald-500/30 hover:scale-[1.02] transition-all duration-300 active:scale-95 flex items-center justify-center gap-3"
+          >
+            <Save size={20} />
+            <span>{isEdit ? "Update Logistics Record" : "Finalize Stock Record"}</span>
+          </button>
+          
+          <div className="p-6 bg-slate-50/50 rounded-[2rem] border border-slate-100 flex gap-4">
+            <Info size={20} className="text-blue-400 shrink-0 mt-1" />
+            <p className="text-[11px] text-slate-400 font-medium leading-relaxed">
+              Updating these records will affect your global inventory levels and profit calculations. Ensure data accuracy before finalization.
+            </p>
+          </div>
+        </div>
+      </form>
     </div>
   );
 }

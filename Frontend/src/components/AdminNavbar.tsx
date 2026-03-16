@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../context/AuthContext";
+import { LogOut, User } from "lucide-react";
 
 export default function AdminNavbar() {
   const qc = useQueryClient();
@@ -14,26 +15,33 @@ export default function AdminNavbar() {
   };
 
   return (
-<header className="fixed top-0 left-0 right-0 z-50
-                   h-16 bg-white border-b border-gray-200
-                   flex items-center justify-between px-8 shadow-sm">
-
-
-      <h1 className="text-xl font-bold">Admin Panel</h1>
+    <header className="fixed top-0 left-0 right-0 z-50 glass-effect h-16 flex items-center justify-between px-8 shadow-sm border-b border-slate-200/60">
+      <div className="flex items-center gap-2">
+        <div className="w-8 h-8 bg-accent-gradient rounded-lg flex items-center justify-center shadow-lg">
+          <span className="text-white text-xs font-bold">M</span>
+        </div>
+        <h1 className="text-lg font-bold text-slate-800 tracking-tight">Admin Console</h1>
+      </div>
 
       <div className="flex items-center gap-6">
-        <div className="text-right">
-          <p className="text-xs text-gray-500">Logged in as</p>
-          <p className="font-semibold">
-            {profile ? `${profile.firstName} ${profile.lastName}` : "Admin"}
-          </p>
+        <div className="text-right flex items-center gap-3">
+          <div className="hidden sm:block">
+            <p className="text-xs text-slate-500 font-medium leading-tight">Admin Access</p>
+            <p className="text-sm font-semibold text-slate-800">
+              {profile ? `${profile.firstName} ${profile.lastName}` : "System Admin"}
+            </p>
+          </div>
+          <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 border border-slate-200">
+            <User size={20} />
+          </div>
         </div>
 
         <button
           onClick={logout}
-          className="bg-red-600 text-white px-4 py-2 rounded-lg"
+          className="bg-red-500/10 text-red-600 px-4 py-2 rounded-xl text-sm font-medium hover:bg-red-500 hover:text-white transition-all duration-300 flex items-center gap-2"
         >
-          Logout
+          <LogOut size={16} />
+          <span>Logout</span>
         </button>
       </div>
     </header>

@@ -2,8 +2,18 @@ import React, { useState, useEffect } from "react";
 import api from "../api/client";
 import { useCategories } from "../hooks/useQueryHelpers";
 import { useSubcategories } from "../hooks/useSubcategories";
-
-import { ArrowLeft } from "lucide-react";
+import { 
+  ArrowLeft, 
+  Package, 
+  Layers, 
+  Image as ImageIcon, 
+  Tag, 
+  Plus, 
+  Trash2, 
+  CheckCircle,
+  X,
+  Info
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 
@@ -25,17 +35,6 @@ interface ProductFormState {
 }
 
 export default function ProductForm() {
-
-
-const removeImage = (index: number) => {
-  const arr = [...form.imageUrls];
-  arr.splice(index, 1);
-  updateField("imageUrls", arr.length ? arr : [""]);
-};
-
-const clearMainImage = () => {
-  updateField("imageUrl", "");
-};
 
 
   const navigate = useNavigate();
@@ -77,6 +76,16 @@ const clearMainImage = () => {
     updateField("imageUrls", arr);
   };
 
+  const removeImage = (index: number) => {
+    const arr = [...form.imageUrls];
+    arr.splice(index, 1);
+    updateField("imageUrls", arr.length ? arr : [""]);
+  };
+
+  const clearMainImage = () => {
+    updateField("imageUrl", "");
+  };
+
   const addVariant = () => {
     updateField("variants", [
       ...form.variants,
@@ -90,14 +99,18 @@ const clearMainImage = () => {
     updateField("variants", arr);
   };
 
+  const removeVariant = (index: number) => {
+    if (form.variants.length <= 1) return;
+    const arr = [...form.variants];
+    arr.splice(index, 1);
+    updateField("variants", arr);
+  };
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const payload = {
       categoryId: Number(form.categoryId),
-      subcategoryId: form.subcategoryId
-        ? Number(form.subcategoryId)
-        : null,
+      subcategoryId: form.subcategoryId ? Number(form.subcategoryId) : null,
       name: form.name,
       description: form.description,
       imageUrl: form.imageUrl,
@@ -110,8 +123,6 @@ const clearMainImage = () => {
       })),
     };
 
-    console.log("FINAL PAYLOAD:", payload); // DEBUG
-
     try {
       await api.post("/products", payload);
       alert("Product created successfully");
@@ -122,239 +133,270 @@ const clearMainImage = () => {
     }
   };
 
- return (
-  <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
-    <div className="max-w-6xl mx-auto px-8 py-12">
-
-      <div className="mb-10 flex items-start gap-4">
-  <button
-    type="button"
-    onClick={() => navigate(-1)}
-    className="mt-1 p-3 rounded-xl border border-gray-300
-               hover:bg-gray-100 transition shadow-sm"
-  >
-    <ArrowLeft size={22} />
-  </button>
-
-  <div>
-    <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-      Add Product
-    </h1>
-    <p className="text-gray-500 mt-2 text-sm">
-      Create product, assign category, images and variants
-    </p>
-  </div>
-</div>
-
-
-      <form
-        onSubmit={submit}
-        className="bg-white/80 backdrop-blur-xl border border-gray-200
-                   shadow-2xl rounded-3xl p-10 space-y-8"
-      >
-        {/* CATEGORY + SUBCATEGORY */}
-        <div className="grid md:grid-cols-2 gap-8">
+  return (
+    <div className="space-y-10 pb-12">
+      {/* HEADER */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="p-3 bg-white border border-slate-100 text-slate-400 rounded-2xl hover:text-emerald-500 hover:border-emerald-100 transition-all shadow-sm"
+          >
+            <ArrowLeft size={20} />
+          </button>
           <div>
-            <label className="block text-sm font-semibold text-gray-600 mb-2">
-              Category
-            </label>
-            <select
-              value={form.categoryId}
-              onChange={(e) => updateField("categoryId", e.target.value)}
-              className="w-full rounded-2xl border border-gray-300 px-5 py-3
-                         focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10
-                         transition outline-none shadow-sm"
-              required
-            >
-              <option value="">Select Category</option>
-              {categories.map((c: any) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-gray-600 mb-2">
-              Subcategory
-            </label>
-            <select
-              value={form.subcategoryId}
-              onChange={(e) => updateField("subcategoryId", e.target.value)}
-              disabled={!form.categoryId || isLoading}
-              className="w-full rounded-2xl border border-gray-300 px-5 py-3
-                         focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10
-                         transition outline-none shadow-sm"
-            >
-              <option value="">No Subcategory</option>
-              {subcategories.map((s: any) => (
-                <option key={s.id} value={s.id}>
-                  {s.name}
-                </option>
-              ))}
-            </select>
+            <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Create Product</h1>
+            <p className="text-slate-500 font-medium">Add a new item to your store inventory</p>
           </div>
         </div>
+      </div>
 
-        {/* PRODUCT INFO */}
-        <div className="grid gap-6">
-          <input
-            value={form.name}
-            onChange={(e) => updateField("name", e.target.value)}
-            placeholder="Product Name"
-            className="w-full rounded-2xl border border-gray-300 px-5 py-3
-                       focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10
-                       transition outline-none shadow-sm"
-            required
-          />
+      <form onSubmit={submit} className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        
+        {/* LEFT COLUMN: BASIC INFO & ORGANIZATION */}
+        <div className="xl:col-span-2 space-y-8">
+          
+          {/* GENERAL INFO */}
+          <div className="glass-card rounded-[2.5rem] p-8 md:p-10">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
+                <Package size={20} />
+              </div>
+              <h2 className="text-xl font-bold text-slate-800">General Information</h2>
+            </div>
 
-          <textarea
-            value={form.description}
-            onChange={(e) => updateField("description", e.target.value)}
-            placeholder="Description"
-            rows={3}
-            className="w-full rounded-2xl border border-gray-300 px-5 py-3
-                       focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10
-                       transition outline-none shadow-sm resize-none"
-          />
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Product Name</label>
+                <input
+                  value={form.name}
+                  onChange={(e) => updateField("name", e.target.value)}
+                  className="input"
+                  placeholder="e.g. Premium Atlantic Salmon"
+                  required
+                />
+              </div>
 
-          <div className="relative">
-  <input
-    value={form.imageUrl}
-    onChange={(e) => updateField("imageUrl", e.target.value)}
-    placeholder="Main Image URL"
-    className="w-full rounded-2xl border border-gray-300 px-5 py-3 pr-10"
-  />
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Product Description</label>
+                <textarea
+                  value={form.description}
+                  onChange={(e) => updateField("description", e.target.value)}
+                  className="input min-h-[150px] resize-none"
+                  placeholder="Describe the product details, benefits and origin..."
+                  required
+                />
+              </div>
+            </div>
+          </div>
 
-  {form.imageUrl && (
-    <button
-      type="button"
-      onClick={clearMainImage}
-      className="absolute right-3 top-1/2 -translate-y-1/2
-                 text-red-500 hover:text-red-700 text-lg font-bold"
-    >
-      ✕
-    </button>
-  )}
-</div>
+          {/* PRICING & VARIANTS */}
+          <div className="glass-card rounded-[2.5rem] p-8 md:p-10">
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
+                  <Tag size={20} />
+                </div>
+                <h2 className="text-xl font-bold text-slate-800">Pricing & Variants</h2>
+              </div>
+              <button
+                type="button"
+                onClick={addVariant}
+                className="flex items-center gap-2 text-emerald-600 font-bold text-sm bg-emerald-50 px-4 py-2 rounded-xl hover:bg-emerald-100 transition-colors"
+              >
+                <Plus size={16} />
+                <span>Add Variant</span>
+              </button>
+            </div>
 
+            <div className="space-y-4">
+              <div className="hidden md:grid grid-cols-5 gap-4 px-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                <div className="col-span-1">Label (e.g. 500g)</div>
+                <div>Weight (Grams)</div>
+                <div>MRP (₹)</div>
+                <div>Offer Price (₹)</div>
+                <div className="text-center">Action</div>
+              </div>
+
+              {form.variants.map((v, i) => (
+                <div key={i} className="grid grid-cols-1 md:grid-cols-5 gap-4 bg-slate-50/50 p-4 rounded-3xl border border-slate-100">
+                  <input
+                    value={v.weightLabel}
+                    onChange={(e) => updateVariant(i, "weightLabel", e.target.value)}
+                    className="input h-11 text-sm col-span-1"
+                    placeholder="250g"
+                  />
+                  <input
+                    value={v.weightInGrams}
+                    onChange={(e) => updateVariant(i, "weightInGrams", e.target.value.replace(/\D/g, ""))}
+                    className="input h-11 text-sm"
+                    placeholder="250"
+                  />
+                  <input
+                    value={v.mrp}
+                    onChange={(e) => updateVariant(i, "mrp", e.target.value.replace(/\D/g, ""))}
+                    className="input h-11 text-sm"
+                    placeholder="500"
+                  />
+                  <input
+                    value={v.offerPrice}
+                    onChange={(e) => updateVariant(i, "offerPrice", e.target.value.replace(/\D/g, ""))}
+                    className="input h-11 text-sm"
+                    placeholder="450"
+                  />
+                  <div className="flex items-center justify-center">
+                    <button
+                      type="button"
+                      onClick={() => removeVariant(i)}
+                      disabled={form.variants.length <= 1}
+                      className="w-11 h-11 bg-white border border-slate-200 text-slate-400 rounded-xl flex items-center justify-center hover:text-red-500 hover:border-red-100 hover:bg-red-50 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
-        {/* MULTIPLE IMAGES */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-gray-800">
-            Additional Images
-          </h3>
+        {/* RIGHT COLUMN: ORGANIZATION & MEDIA */}
+        <div className="space-y-8">
+          
+          {/* ORGANIZATION */}
+          <div className="glass-card rounded-[2.5rem] p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
+                <Layers size={18} />
+              </div>
+              <h2 className="text-lg font-bold text-slate-800">Organization</h2>
+            </div>
 
-   {form.imageUrls.map((url, i) => (
-  <div key={i} className="relative">
-    <input
-      value={url}
-      onChange={(e) => updateImageUrl(i, e.target.value)}
-      placeholder={`Image URL ${i + 1}`}
-      className="w-full rounded-2xl border border-gray-300 px-5 py-3 pr-10"
-    />
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Main Category</label>
+                <select
+                  value={form.categoryId}
+                  onChange={(e) => updateField("categoryId", e.target.value)}
+                  className="input h-12"
+                  required
+                >
+                  <option value="">Select Category</option>
+                  {categories.map((c: any) => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
 
-    <button
-      type="button"
-      onClick={() => removeImage(i)}
-      className="absolute right-3 top-1/2 -translate-y-1/2
-                 text-red-500 hover:text-red-700 text-lg font-bold"
-    >
-      ✕
-    </button>
-  </div>
-))}
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Subcategory</label>
+                <select
+                  value={form.subcategoryId}
+                  onChange={(e) => updateField("subcategoryId", e.target.value)}
+                  disabled={!form.categoryId || isLoading}
+                  className="input h-12"
+                >
+                  <option value="">No Subcategory</option>
+                  {subcategories.map((s: any) => (
+                    <option key={s.id} value={s.id}>{s.name}</option>
+                  ))}
+                </select>
+                {!form.categoryId && (
+                  <p className="text-[10px] text-slate-400 font-bold ml-1 flex items-center gap-1">
+                    <Info size={10} /> Select a category first
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
 
+          {/* MEDIA SECTION */}
+          <div className="glass-card rounded-[2.5rem] p-8">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
+                  <ImageIcon size={18} />
+                </div>
+                <h2 className="text-lg font-bold text-slate-800">Media</h2>
+              </div>
+              <button
+                type="button"
+                onClick={addImageField}
+                className="w-8 h-8 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center hover:bg-emerald-100 transition-colors"
+              >
+                <Plus size={16} />
+              </button>
+            </div>
 
-          <button
-            type="button"
-            onClick={addImageField}
-            className="rounded-xl bg-gray-800 text-white px-5 py-2
-                       hover:bg-black active:scale-95 transition shadow"
-          >
-            + Add Image
-          </button>
-        </div>
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1 text-emerald-600 flex items-center gap-1">
+                  Main Thumbnail
+                  <CheckCircle size={10} />
+                </label>
+                <div className="relative group">
+                  <input
+                    value={form.imageUrl}
+                    onChange={(e) => updateField("imageUrl", e.target.value)}
+                    className="input h-12 pr-10"
+                    placeholder="URL for main image..."
+                    required
+                  />
+                  {form.imageUrl && (
+                    <button
+                      type="button"
+                      onClick={clearMainImage}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-red-500 transition-colors"
+                    >
+                      <X size={16} />
+                    </button>
+                  )}
+                </div>
+              </div>
 
-        {/* VARIANTS */}
-        <div className="space-y-6">
-  <h3 className="text-2xl font-semibold text-gray-800">Variants Pricing</h3>
+              <div className="space-y-4 pt-4 border-t border-slate-50">
+                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Gallery Images</label>
+                <div className="space-y-3">
+                  {form.imageUrls.map((url, i) => (
+                    <div key={i} className="relative group">
+                      <input
+                        value={url}
+                        onChange={(e) => updateImageUrl(i, e.target.value)}
+                        className="input h-10 text-xs pr-10 bg-slate-50/50"
+                        placeholder={`Gallery Image #${i + 1} URL`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeImage(i)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
 
-  <div className="grid grid-cols-4 gap-5 px-6 text-sm font-semibold text-gray-600">
-    <div>Variant Label</div>
-    <div>Weight (grams)</div>
-    <div>MRP (₹)</div>
-    <div>Offer Price (₹)</div>
-  </div>
-
-  {form.variants.map((v, i) => (
-    <div
-      key={i}
-      className="grid md:grid-cols-4 gap-5 bg-gray-50 p-6 rounded-2xl border border-gray-200"
-    >
-      <input
-        value={v.weightLabel}
-        onChange={(e) => updateVariant(i, "weightLabel", e.target.value)}
-        placeholder="250g / 1kg"
-        className="rounded-xl border border-gray-300 px-4 py-2.5"
-      />
-
-      <input
-        value={v.weightInGrams}
-        onChange={(e) =>
-          updateVariant(i, "weightInGrams", e.target.value.replace(/\D/g, ""))
-        }
-        placeholder="350"
-        className="rounded-xl border border-gray-300 px-4 py-2.5"
-      />
-
-      <input
-        value={v.mrp}
-        onChange={(e) =>
-          updateVariant(i, "mrp", e.target.value.replace(/\D/g, ""))
-        }
-        placeholder="500"
-        className="rounded-xl border border-gray-300 px-4 py-2.5"
-      />
-
-      <input
-        value={v.offerPrice}
-        onChange={(e) =>
-          updateVariant(i, "offerPrice", e.target.value.replace(/\D/g, ""))
-        }
-        placeholder="450"
-        className="rounded-xl border border-gray-300 px-4 py-2.5"
-      />
-    </div>
-  ))}
-
-  <button
-    type="button"
-    onClick={addVariant}
-    className="rounded-xl bg-green-600 text-white px-5 py-2 shadow"
-  >
-    + Add Variant
-  </button>
-</div>
-
-
-        {/* SUBMIT */}
-        <div className="pt-4">
-          <button
-            type="submit"
-            className="rounded-2xl bg-gradient-to-r from-blue-600 to-blue-700
-                       px-10 py-3 text-white font-semibold text-lg
-                       shadow-lg hover:shadow-xl hover:scale-[1.02]
-                       active:scale-95 transition"
-          >
-            Create Product
-          </button>
+          {/* ACTIONS */}
+          <div className="pt-4 flex flex-col gap-4">
+            <button
+              type="submit"
+              className="w-full bg-accent-gradient text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-emerald-500/20 hover:scale-[1.02] transition-all duration-300"
+            >
+              Confirm & Publish Product
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate(-1)}
+              className="w-full bg-slate-100 text-slate-500 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-200 transition-all duration-300"
+            >
+              Discard Changes
+            </button>
+          </div>
         </div>
       </form>
     </div>
-  </div>
-);
-
+  );
 }

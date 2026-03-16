@@ -1,8 +1,19 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useProducts } from "../hooks/useQueryHelpers";
 import { useQuery } from "@tanstack/react-query";
 import api from "../api/client";
 import { useNavigate } from "react-router-dom";
+import {
+  Package,
+  Plus,
+  Search,
+  Edit3,
+  Trash2,
+  Tag,
+  ChevronRight,
+  Filter,
+  Layers
+} from "lucide-react";
 
 /* =====================
    CATEGORY TYPE
@@ -35,179 +46,198 @@ export default function Products() {
   const [selectedCategoryId, setSelectedCategoryId] =
     useState<number | "ALL">("ALL");
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   /* =====================
      DELETE PRODUCT
   ===================== */
   const deleteProduct = async (id: number) => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
-    await api.delete(`/products/${id}`);
-    refetch();
+    try {
+      await api.delete(`/products/${id}`);
+      refetch();
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      alert("Failed to delete product");
+    }
   };
 
   /* =====================
-     FILTER PRODUCTS (FIXED)
-     Handles:
-     - p.category.id
-     - p.categoryId
+     FILTER PRODUCTS
   ===================== */
   const filteredProducts = useMemo(() => {
-    if (selectedCategoryId === "ALL") return products;
+    let result = products;
 
-    return products.filter((p: any) => {
-      const productCategoryId =
-        p.category?.id ?? p.categoryId ?? null;
+    if (selectedCategoryId !== "ALL") {
+      result = result.filter((p: any) => {
+        const productCategoryId = p.category?.id ?? p.categoryId ?? null;
+        return productCategoryId === selectedCategoryId;
+      });
+    }
 
-      return productCategoryId === selectedCategoryId;
-    });
-  }, [products, selectedCategoryId]);
+    if (searchTerm.trim()) {
+      result = result.filter((p: any) =>
+        p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        p.id.toString().includes(searchTerm)
+      );
+    }
 
- return (
-  <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100">
-    <div className="max-w-7xl mx-auto px-8 py-12 space-y-12">
+    return result;
+  }, [products, selectedCategoryId, searchTerm]);
 
-      {/* ================= HEADER ================= */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+  return (
+    <div className="space-y-10 pb-12">
+      {/* HEADER */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-            Product Management
-          </h1>
-          <p className="text-gray-500 mt-2 text-sm">
-            View and manage products category-wise
-          </p>
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Product Catalog</h1>
+          <p className="text-slate-500 font-medium">Manage your products and their variants</p>
         </div>
 
         <button
           onClick={() => navigate("/admin/add-product")}
-          className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-700
-                     px-8 py-3 text-white font-semibold shadow-lg
-                     hover:shadow-xl hover:scale-[1.03] active:scale-95 transition"
+          className="flex items-center gap-2 bg-accent-gradient text-white px-6 py-3 rounded-2xl font-bold shadow-xl shadow-emerald-500/20 hover:scale-[1.02] transition-all duration-300"
         >
-          + Add Product
+          <Plus size={20} />
+          <span>Add New Product</span>
         </button>
       </div>
 
-      {/* ================= CATEGORY FILTER ================= */}
-      <div className="bg-white/80 backdrop-blur-xl border border-gray-200
-                      shadow-2xl rounded-3xl p-8">
-        <p className="text-sm font-semibold mb-4 text-gray-700">
-          Filter by Category
-        </p>
+      {/* FILTER & SEARCH SECTION */}
+      <div className="glass-card rounded-[2rem] p-8 relative overflow-hidden">
+        <div className="flex flex-col lg:flex-row gap-8 items-start lg:items-center">
+          <div className="w-full lg:w-1/3">
+            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1 mb-2 block">Search Products</label>
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Product name or ID..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="input pl-10 h-12"
+              />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+            </div>
+          </div>
 
-        <div className="flex flex-wrap gap-3">
-          <button
-            onClick={() => setSelectedCategoryId("ALL")}
-            className={`px-5 py-2 rounded-full text-sm font-medium border transition
-              ${
-                selectedCategoryId === "ALL"
-                  ? "bg-indigo-600 text-white border-indigo-600 shadow"
-                  : "bg-white hover:bg-gray-100"
-              }`}
-          >
-            All Categories
-          </button>
-
-          {categories.map((c) => (
-            <button
-              key={c.id}
-              onClick={() => setSelectedCategoryId(c.id)}
-              className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium border transition
-                ${
-                  selectedCategoryId === c.id
-                    ? "bg-indigo-600 text-white border-indigo-600 shadow"
-                    : "bg-white hover:bg-gray-100"
+          <div className="w-full lg:w-2/3">
+            <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1 mb-2 block flex items-center gap-2">
+              <Filter size={12} />
+              Filter by Category
+            </label>
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => setSelectedCategoryId("ALL")}
+                className={`px-4 py-2 rounded-xl text-xs font-bold border transition-all duration-300 ${
+                  selectedCategoryId === "ALL"
+                    ? "bg-emerald-500 text-white border-emerald-500 shadow-md shadow-emerald-500/20"
+                    : "bg-white text-slate-500 border-slate-200 hover:border-emerald-200 hover:text-emerald-500"
                 }`}
-            >
-              {c.thumbnailImage && (
-                <img
-                  src={c.thumbnailImage}
-                  alt={c.name}
-                  className="w-6 h-6 rounded object-cover border"
-                />
-              )}
-              {c.name}
-            </button>
-          ))}
+              >
+                All
+              </button>
+              {categories.map((c) => (
+                <button
+                  key={c.id}
+                  onClick={() => setSelectedCategoryId(c.id)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold border transition-all duration-300 ${
+                    selectedCategoryId === c.id
+                      ? "bg-emerald-500 text-white border-emerald-500 shadow-md shadow-emerald-500/20"
+                      : "bg-white text-slate-500 border-slate-200 hover:border-emerald-200 hover:text-emerald-500"
+                  }`}
+                >
+                  {c.name}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* ================= PRODUCT GRID ================= */}
+      {/* PRODUCT GRID */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
         {filteredProducts.map((p: any) => (
           <div
             key={p.id}
-            className="group bg-white rounded-3xl shadow-md hover:shadow-2xl
-                       border border-gray-200 transition-all duration-300 overflow-hidden
-                       flex flex-col"
+            className="group glass-card rounded-[2.5rem] flex flex-col hover:-translate-y-2 transition-all duration-500 overflow-hidden border border-slate-100"
           >
-            {/* IMAGE */}
-            <div className="relative overflow-hidden">
+            {/* IMAGE SECTION */}
+            <div className="relative h-64 overflow-hidden bg-slate-50 p-6 flex items-center justify-center">
               <img
                 src={p.imageUrl}
                 alt={p.name}
-                className="w-full h-56 object-cover group-hover:scale-105 transition duration-500"
+                className="max-h-full object-contain group-hover:scale-110 transition-transform duration-700"
               />
+              <div className="absolute top-4 left-4 flex gap-2">
+                <span className="bg-white/90 backdrop-blur-md text-slate-800 text-[10px] font-black px-3 py-1.5 rounded-full shadow-sm border border-slate-100">
+                  ID: #{p.id}
+                </span>
+              </div>
 
-              <span className="absolute top-4 right-4 bg-black/70 text-white text-xs px-3 py-1 rounded-full">
-                ID: {p.id}
-              </span>
+              <div className="absolute top-4 right-4 group-hover:translate-x-0 translate-x-12 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <button
+                  onClick={() => deleteProduct(p.id)}
+                  className="w-10 h-10 bg-red-500 text-white rounded-2xl flex items-center justify-center shadow-lg hover:bg-red-600 transition-colors"
+                >
+                  <Trash2 size={18} />
+                </button>
+              </div>
 
               {(p.category?.name || p.categoryName) && (
-                <span className="absolute bottom-4 left-4 bg-indigo-600 text-white text-xs px-3 py-1 rounded-full shadow">
+                <div className="absolute bottom-4 left-4 bg-emerald-500 text-white text-[10px] font-black px-3 py-1.5 rounded-full shadow-lg shadow-emerald-500/20 flex items-center gap-1.5 uppercase tracking-wider">
+                  <Layers size={10} />
                   {p.category?.name || p.categoryName}
-                </span>
+                </div>
               )}
             </div>
 
-            {/* CONTENT */}
-            <div className="p-6 flex flex-col flex-1">
-              <h2 className="text-xl font-semibold text-gray-900">
-                {p.name}
-              </h2>
-
-              <p className="text-sm text-gray-500 mt-2 line-clamp-2">
-                {p.description}
-              </p>
+            {/* CONTENT SECTION */}
+            <div className="p-8 flex flex-col flex-1">
+              <div className="mb-4">
+                <h2 className="text-xl font-black text-slate-800 tracking-tight group-hover:text-emerald-600 transition-colors">
+                  {p.name}
+                </h2>
+                <p className="text-xs text-slate-500 font-medium mt-2 line-clamp-2 leading-relaxed">
+                  {p.description}
+                </p>
+              </div>
 
               {/* VARIANTS */}
-              <div className="mt-5">
-                <p className="text-sm font-semibold mb-2 text-gray-700">
-                  Variants
-                </p>
+              <div className="mt-4 pt-4 border-t border-slate-50">
+                <div className="flex items-center gap-2 mb-3 text-emerald-600">
+                  <Tag size={12} className="font-bold" />
+                  <span className="text-[10px] font-black uppercase tracking-widest">Available Variants</span>
+                </div>
 
-                <div className="space-y-2 text-sm">
-                  {p.variants?.map((v: any) => (
-                    <div
-                      key={v.id}
-                      className="flex justify-between items-center bg-gray-50 px-3 py-2 rounded-lg"
-                    >
-                      <span>{v.weightLabel}</span>
-                      <span className="text-green-600 font-semibold">
-                        ₹{v.offerPrice}
-                        <span className="text-xs text-gray-400 line-through ml-1">
-                          ₹{v.mrp}
-                        </span>
-                      </span>
+                <div className="space-y-2">
+                  {p.variants?.slice(0, 3).map((v: any) => (
+                    <div key={v.id} className="flex justify-between items-center bg-slate-50/50 p-2.5 rounded-xl border border-slate-100/50">
+                      <span className="text-xs font-bold text-slate-600">{v.weightLabel}</span>
+                      <div className="flex items-center gap-2 font-black">
+                        <span className="text-emerald-600 text-sm">₹{v.offerPrice}</span>
+                        {v.offerPrice < v.mrp && (
+                          <span className="text-slate-400 text-[10px] line-through">₹{v.mrp}</span>
+                        )}
+                      </div>
                     </div>
                   ))}
+                  {p.variants?.length > 3 && (
+                    <p className="text-[10px] text-center text-slate-400 font-bold uppercase tracking-widest mt-2">
+                      + {p.variants.length - 3} more variants
+                    </p>
+                  )}
                 </div>
               </div>
 
               {/* ACTIONS */}
-              <div className="mt-6 flex gap-3">
+              <div className="mt-8">
                 <button
                   onClick={() => navigate(`/admin/edit-product/${p.id}`)}
-                  className="flex-1 rounded-xl bg-emerald-600 text-white py-2.5 text-sm font-medium
-                             hover:bg-emerald-700 shadow active:scale-95 transition"
+                  className="w-full flex items-center justify-center gap-2 bg-slate-900 text-white py-3.5 rounded-2xl font-bold shadow-lg shadow-slate-900/10 hover:bg-emerald-600 hover:shadow-emerald-500/20 transition-all duration-300 group/btn"
                 >
-                  Edit
-                </button>
-
-                <button
-                  onClick={() => deleteProduct(p.id)}
-                  className="flex-1 rounded-xl bg-red-600 text-white py-2.5 text-sm font-medium
-                             hover:bg-red-700 shadow active:scale-95 transition"
-                >
-                  Delete
+                  <Edit3 size={18} />
+                  <span>Configure Product</span>
+                  <ChevronRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
                 </button>
               </div>
             </div>
@@ -217,12 +247,19 @@ export default function Products() {
 
       {/* EMPTY STATE */}
       {filteredProducts.length === 0 && (
-        <div className="text-center text-gray-500 pt-20 text-lg">
-          No products found for the selected category.
+        <div className="text-center py-32 glass-card rounded-[3rem]">
+          <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-400">
+            <Package size={40} />
+          </div>
+          <p className="text-slate-500 font-bold text-lg">No products found for this criteria.</p>
+          <button
+            onClick={() => { setSelectedCategoryId("ALL"); setSearchTerm(""); }}
+            className="mt-4 text-emerald-600 font-bold text-sm hover:underline"
+          >
+            Clear all filters
+          </button>
         </div>
       )}
     </div>
-  </div>
-);
-
+  );
 }

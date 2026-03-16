@@ -1,6 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import api from "../api/client";
+import { 
+  Star, 
+  Search, 
+  MessageSquare, 
+  Filter, 
+  User, 
+  Layers, 
+  Package, 
+  ChevronDown,
+  Image as ImageIcon,
+  TrendingUp,
+  Award
+} from "lucide-react";
 
 /* ================= TYPES ================= */
 
@@ -52,9 +65,7 @@ export default function AdminReviews() {
   useEffect(() => {
     const loadReviews = async () => {
       try {
-        const res = await axios.get(
-          "/reviews/all"
-        );
+        const res = await axios.get("/reviews/all");
         const data: Review[] = res.data;
 
         const updated = await Promise.all(
@@ -68,6 +79,8 @@ export default function AdminReviews() {
         );
 
         setReviews(updated);
+      } catch (err) {
+        console.error("Load reviews failed", err);
       } finally {
         setLoading(false);
       }
@@ -131,201 +144,187 @@ export default function AdminReviews() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+        <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+        <p className="text-slate-400 font-bold animate-pulse text-xs uppercase tracking-widest">Aggregating Feedback...</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-10">
-
-      <h1 className="text-3xl font-bold">
-        Reviews Dashboard
-      </h1>
-
-      {/* ===== Stats Cards ===== */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <StatCard
-          title="Total Reviews"
-          value={totalReviews}
-          color="bg-indigo-50"
-        />
-        <StatCard
-          title="Average Rating"
-          value={`${avgRating} ★`}
-          color="bg-yellow-50"
-        />
+    <div className="space-y-10 pb-12">
+      {/* HEADER */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Customer Reviews</h1>
+          <p className="text-slate-500 font-medium">Monitor your reputation and product quality</p>
+        </div>
       </div>
 
-      {/* ===== Filters ===== */}
-      <div className="bg-white p-6 rounded-2xl shadow border grid md:grid-cols-5 gap-4">
-        <Input
-          placeholder="Search..."
-          value={search}
-          onChange={setSearch}
-        />
-
-        <Select
-          value={categoryFilter}
-          onChange={(v) => {
-            setCategoryFilter(v);
-            setProductFilter("ALL");
-          }}
-          options={[
-            { label: "All Categories", value: "ALL" },
-            ...categories.map((c) => ({
-              label: c.name,
-              value: c.id,
-            })),
-          ]}
-        />
-
-        <Select
-          value={productFilter}
-          onChange={setProductFilter}
-          options={[
-            { label: "All Products", value: "ALL" },
-            ...filteredProducts.map((p) => ({
-              label: p.name,
-              value: p.id,
-            })),
-          ]}
-        />
-
-        <Select
-          value={ratingFilter}
-          onChange={setRatingFilter}
-          options={[
-            { label: "All Ratings", value: "ALL" },
-            ...[5, 4, 3, 2, 1].map((r) => ({
-              label: `${r} Star`,
-              value: r,
-            })),
-          ]}
-        />
-      </div>
-
-      {/* ===== Table ===== */}
-      <div className="bg-white rounded-2xl shadow border overflow-x-auto">
-        <table className="w-full text-sm">
-          <thead className="bg-gray-100 text-gray-700">
-            <tr>
-              <th className="p-4">Product</th>
-              <th className="p-4">User</th>
-              <th className="p-4 text-center">Rating</th>
-              <th className="p-4">Comment</th>
-              <th className="p-4 text-center">Image</th>
-            </tr>
-          </thead>
-
-          <tbody className="divide-y">
-            {filteredReviews.map((r) => (
-              <tr key={r.id} className="hover:bg-gray-50 ml-10">
-                <td className="p-4 font-semibold">
-                  {r.productName}
-                </td>
-
-                <td className="p-4">
-                  <div className="font-medium">
-                    {r.userName}
-                  </div>
-                  <div className="text-xs text-gray-400">
-                    {r.userId}
-                  </div>
-                </td>
-
-                <td className="p-4 text-center text-amber-500 text-lg">
-                  {"★".repeat(r.rating)}
-                </td>
-
-                <td className="p-4 break-words">
-                  {r.comment}
-                </td>
-
-                <td className="p-4 text-center">
-                  {r.imageUrl ? (
-                    <img
-                      src={r.imageUrl}
-                      className="w-20 h-20 rounded-lg object-cover border mx-auto"
-                    />
-                  ) : (
-                    "—"
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {filteredReviews.length === 0 && (
-          <div className="text-center py-10 text-gray-400">
-            No reviews found.
+      {/* STATS OVERVIEW */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="glass-card p-8 rounded-[2.5rem] flex items-center gap-6">
+          <div className="p-5 bg-blue-50 text-blue-600 rounded-[1.5rem] shadow-sm">
+            <MessageSquare size={32} />
           </div>
-        )}
+          <div>
+            <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Total Mentions</p>
+            <div className="flex items-baseline gap-2">
+              <p className="text-4xl font-black text-slate-800">{totalReviews}</p>
+              <span className="text-xs font-bold text-emerald-500 flex items-center gap-0.5">
+                <TrendingUp size={12} /> Live
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="glass-card p-8 rounded-[2.5rem] flex items-center gap-6">
+          <div className="p-5 bg-amber-50 text-amber-600 rounded-[1.5rem] shadow-sm">
+            <Award size={32} />
+          </div>
+          <div>
+            <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Store Satisfaction</p>
+            <div className="flex items-baseline gap-2">
+              <p className="text-4xl font-black text-slate-800">{avgRating}</p>
+              <div className="flex gap-0.5 text-amber-400 mb-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={14} fill={i < Math.round(Number(avgRating)) ? "currentColor" : "none"} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
+      {/* FILTER BAR */}
+      <div className="glass-card p-6 rounded-[2rem] gap-4 grid grid-cols-1 md:grid-cols-12 items-center">
+        <div className="md:col-span-4 relative group">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-emerald-500 transition-colors" size={18} />
+          <input
+            placeholder="Search reviews, users..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="input pl-12 h-12 text-sm"
+          />
+        </div>
+        <div className="md:col-span-2 relative group">
+          <select
+            value={categoryFilter}
+            onChange={(e) => {
+              setCategoryFilter(e.target.value);
+              setProductFilter("ALL");
+            }}
+            className="input h-12 text-sm appearance-none pr-10"
+          >
+            <option value="ALL">All Categories</option>
+            {categories.map((c) => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
+          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={16} />
+        </div>
+        <div className="md:col-span-3 relative group">
+          <select
+            value={productFilter}
+            onChange={(e) => setProductFilter(e.target.value)}
+            className="input h-12 text-sm appearance-none pr-10"
+          >
+            <option value="ALL">All Products</option>
+            {filteredProducts.map((p) => (
+              <option key={p.id} value={p.id}>{p.name}</option>
+            ))}
+          </select>
+           <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={16} />
+        </div>
+        <div className="md:col-span-2 relative group">
+          <select
+            value={ratingFilter}
+            onChange={(e) => setRatingFilter(e.target.value)}
+            className="input h-12 text-sm appearance-none pr-10"
+          >
+            <option value="ALL">All Ratings</option>
+            {[5, 4, 3, 2, 1].map((r) => (
+              <option key={r} value={r}>{r} Stars</option>
+            ))}
+          </select>
+           <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={16} />
+        </div>
+        <div className="md:col-span-1 flex justify-end">
+           <div className="p-3 bg-slate-50 text-slate-400 rounded-xl">
+            <Filter size={18} />
+           </div>
+        </div>
+      </div>
+
+      {/* REVIEWS GRID/LIST */}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        {filteredReviews.map((r) => (
+          <div key={r.id} className="glass-card rounded-[2.5rem] p-8 group hover:translate-y-[-4px] transition-all duration-300 border border-slate-50 hover:border-emerald-100">
+            <div className="flex flex-col md:flex-row gap-6">
+              {/* IMAGE (If available) */}
+              {r.imageUrl && (
+                <div className="w-full md:w-32 h-32 shrink-0 relative">
+                  <img
+                    src={r.imageUrl}
+                    className="w-full h-full rounded-2xl object-cover shadow-inner"
+                    alt="Review Visual"
+                  />
+                  <div className="absolute top-2 right-2 p-1.5 bg-white/90 backdrop-blur-sm rounded-lg shadow-sm border border-slate-100">
+                    <ImageIcon size={12} className="text-emerald-500" />
+                  </div>
+                </div>
+              )}
+
+              {/* CONTENT */}
+              <div className="flex-1 space-y-4">
+                <div className="flex justify-between items-start">
+                  <div>
+                     <div className="flex gap-0.5 text-amber-400 mb-2">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} size={14} fill={i < r.rating ? "currentColor" : "none"} />
+                      ))}
+                    </div>
+                    <h3 className="text-lg font-black text-slate-800 leading-tight group-hover:text-emerald-600 transition-colors">
+                      {r.productName}
+                    </h3>
+                  </div>
+                  <div className="text-[10px] font-black text-slate-300 uppercase tracking-widest bg-slate-50 px-2 py-1 rounded-lg">
+                    ID: #{r.id}
+                  </div>
+                </div>
+
+                <p className="text-sm font-medium text-slate-600 leading-relaxed italic">
+                  "{r.comment}"
+                </p>
+
+                <div className="pt-4 border-t border-slate-50/50 flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 border border-blue-100 shadow-sm">
+                      <User size={14} />
+                    </div>
+                    <div>
+                       <p className="text-xs font-bold text-slate-800">{r.userName || "Anonymous"}</p>
+                       <p className="text-[10px] text-slate-400 font-medium">Verified Customer</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-1.5 text-xs font-bold text-slate-400 bg-slate-50 px-3 py-1.5 rounded-xl">
+                      <Package size={12} /> Batch: A-01
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {filteredReviews.length === 0 && !loading && (
+        <div className="py-32 flex flex-col items-center justify-center text-slate-300 glass-card rounded-[3rem]">
+          <MessageSquare size={64} className="mb-6 opacity-10" />
+          <p className="font-black uppercase tracking-widest text-sm">No feedback matches your filters</p>
+          <button onClick={() => {setSearch(""); setRatingFilter("ALL"); setCategoryFilter("ALL"); setProductFilter("ALL");}} className="mt-6 text-emerald-500 font-black text-xs uppercase tracking-widest hover:underline">Clear all filters</button>
+        </div>
+      )}
     </div>
-  );
-}
-
-/* ================= REUSABLE UI ================= */
-
-function StatCard({
-  title,
-  value,
-  color,
-}: {
-  title: string;
-  value: string | number;
-  color: string;
-}) {
-  return (
-    <div className={`${color} p-6 rounded-xl`}>
-      <p>{title}</p>
-      <p className="text-2xl font-bold">{value}</p>
-    </div>
-  );
-}
-
-function Input({
-  placeholder,
-  value,
-  onChange,
-}: {
-  placeholder: string;
-  value: string;
-  onChange: (v: string) => void;
-}) {
-  return (
-    <input
-      placeholder={placeholder}
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      className="border rounded-xl px-4 py-3"
-    />
-  );
-}
-
-function Select({
-  value,
-  onChange,
-  options,
-}: {
-  value: any;
-  onChange: (v: any) => void;
-  options: { label: string; value: any }[];
-}) {
-  return (
-    <select
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      className="border rounded-xl px-4 py-3"
-    >
-      {options.map((o) => (
-        <option key={o.value} value={o.value}>
-          {o.label}
-        </option>
-      ))}
-    </select>
   );
 }

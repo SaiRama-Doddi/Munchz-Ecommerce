@@ -2,6 +2,20 @@ import { useEffect, useMemo, useState } from "react";
 import inventoryApi from "../api/inventoryApi";
 import offlineInventoryApi from "../api/offlineInventoryApi";
 import api from "../api/client";
+import { 
+  BarChart3, 
+  Smartphone, 
+  Store, 
+  Layers, 
+  Search, 
+  Filter, 
+  Package, 
+  ChevronDown,
+  RefreshCcw,
+  ArrowUpRight,
+  ArrowDownRight,
+  LayoutGrid
+} from "lucide-react";
 
 interface StockRow {
   productName: string;
@@ -118,57 +132,105 @@ export default function AdminCompleteStock() {
   /* ================= FILTERED ROWS ================= */
   const filteredRows = useMemo(() => {
     return rows.filter((r) => {
-      const matchesSearch = r.productName
-        .toLowerCase()
-        .includes(search.toLowerCase());
+      const matchesSearch = (r.productName || "").toLowerCase().includes(search.toLowerCase());
+      const categoryName = categories.find((c) => c.id === Number(selectedCategoryId))?.name;
+      const matchesCategory = selectedCategoryId ? r.categoryName === categoryName : true;
+      const productName = products.find((p) => p.id === Number(selectedProductId))?.name;
+      const matchesProduct = selectedProductId ? r.productName === productName : true;
+      const matchesVariant = selectedVariant ? r.variantLabel === selectedVariant : true;
 
-      const matchesCategory = selectedCategoryId
-        ? r.categoryName ===
-          categories.find((c) => c.id === Number(selectedCategoryId))?.name
-        : true;
-
-      const matchesProduct = selectedProductId
-        ? r.productName ===
-          products.find((p) => p.id === Number(selectedProductId))?.name
-        : true;
-
-      const matchesVariant = selectedVariant
-        ? r.variantLabel === selectedVariant
-        : true;
-
-      return (
-        matchesSearch &&
-        matchesCategory &&
-        matchesProduct &&
-        matchesVariant
-      );
+      return matchesSearch && matchesCategory && matchesProduct && matchesVariant;
     });
-  }, [
-    rows,
-    search,
-    selectedCategoryId,
-    selectedProductId,
-    selectedVariant,
-    categories,
-    products,
-  ]);
+  }, [rows, search, selectedCategoryId, selectedProductId, selectedVariant, categories, products]);
+
+  const stats = useMemo(() => {
+    return filteredRows.reduce((acc, curr) => ({
+      online: acc.online + curr.onlineQty,
+      offline: acc.offline + curr.offlineQty,
+      total: acc.total + curr.totalQty
+    }), { online: 0, offline: 0, total: 0 });
+  }, [filteredRows]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 py-10">
-      <div className="max-w-7xl mx-auto bg-white/80 backdrop-blur-xl border border-gray-200 shadow-2xl rounded-3xl p-10">
+    <div className="space-y-8 pb-12">
+      {/* HEADER SECTION */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Consolidated Inventory</h1>
+          <p className="text-slate-500 font-medium italic">Unified visibility across Omni-channels</p>
+        </div>
+        <button
+          onClick={loadAllStock}
+          className={`glass-card p-3 rounded-2xl text-slate-400 hover:text-emerald-500 hover:border-emerald-100 transition-all ${loading ? 'animate-spin' : ''}`}
+        >
+          <RefreshCcw size={20} />
+        </button>
+      </div>
 
-        <h2 className="text-4xl font-bold mb-8">Complete Stock Overview</h2>
+      {/* STATS CARDS GRID */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="glass-card p-8 rounded-[2.5rem] relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:scale-110 transition-transform">
+            <Layers size={100} />
+          </div>
+          <div className="flex items-center gap-4 mb-4">
+            <div className="p-3 bg-indigo-50 text-indigo-600 rounded-2xl">
+              <BarChart3 size={24} />
+            </div>
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Global Aggregate</span>
+          </div>
+          <div className="flex items-baseline gap-2">
+            <h3 className="text-4xl font-black text-slate-800">{stats.total}</h3>
+            <span className="text-xs font-bold text-slate-400">Total Units</span>
+          </div>
+        </div>
 
-        {/* FILTER BAR */}
-        <div className="grid md:grid-cols-5 gap-4 mb-8">
+        <div className="glass-card p-8 rounded-[2.5rem] relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:scale-110 transition-transform">
+            <Smartphone size={100} />
+          </div>
+          <div className="flex items-center gap-4 mb-4">
+            <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">
+              <Smartphone size={24} />
+            </div>
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">E-Commerce Reserve</span>
+          </div>
+          <div className="flex items-baseline gap-2">
+            <h3 className="text-4xl font-black text-slate-800">{stats.online}</h3>
+            <span className="text-xs font-bold text-slate-400">Units Online</span>
+          </div>
+        </div>
 
+        <div className="glass-card p-8 rounded-[2.5rem] relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:scale-110 transition-transform">
+            <Store size={100} />
+          </div>
+          <div className="flex items-center gap-4 mb-4">
+            <div className="p-3 bg-rose-50 text-rose-600 rounded-2xl">
+              <Store size={24} />
+            </div>
+            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Warehouse / POS</span>
+          </div>
+          <div className="flex items-baseline gap-2">
+            <h3 className="text-4xl font-black text-slate-800">{stats.offline}</h3>
+            <span className="text-xs font-bold text-slate-400">Units Offline</span>
+          </div>
+        </div>
+      </div>
+
+      {/* FILTER BAR SECTION */}
+      <div className="glass-card p-6 rounded-[2rem] gap-4 grid grid-cols-1 md:grid-cols-5 items-center">
+        <div className="relative group">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-emerald-500 transition-colors" size={18} />
           <input
-            placeholder="Search product..."
+            placeholder="Search Items..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="border rounded-xl px-4 py-2"
+            className="input pl-12 h-12 text-sm"
           />
-
+        </div>
+        
+        <div className="relative group">
           <select
             value={selectedCategoryId}
             onChange={(e) => {
@@ -176,86 +238,122 @@ export default function AdminCompleteStock() {
               setSelectedProductId("");
               setSelectedVariant("");
             }}
-            className="border rounded-xl px-4 py-2"
+            className="input h-12 text-sm appearance-none pr-10"
           >
-            <option value="">All Categories</option>
+            <option value="">Categories</option>
             {categories.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
+              <option key={c.id} value={c.id}>{c.name}</option>
             ))}
           </select>
+          <Filter className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={16} />
+        </div>
 
+        <div className="relative group">
           <select
             value={selectedProductId}
             onChange={(e) => {
               setSelectedProductId(e.target.value);
               setSelectedVariant("");
             }}
-            className="border rounded-xl px-4 py-2"
+            className="input h-12 text-sm appearance-none pr-10"
           >
-            <option value="">All Products</option>
+            <option value="">Specific Products</option>
             {products.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name}
-              </option>
+              <option key={p.id} value={p.id}>{p.name}</option>
             ))}
           </select>
+          <Package className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={16} />
+        </div>
 
+        <div className="relative group">
           <select
             value={selectedVariant}
             onChange={(e) => setSelectedVariant(e.target.value)}
-            className="border rounded-xl px-4 py-2"
+            className="input h-12 text-sm appearance-none pr-10"
           >
-            <option value="">All Variants</option>
+            <option value="">Variants/Weights</option>
             {variants.map((v, i) => (
-              <option key={i} value={v}>
-                {v}
-              </option>
+              <option key={i} value={v}>{v}</option>
             ))}
           </select>
-
-          <button
-            onClick={() => {
-              setSearch("");
-              setSelectedCategoryId("");
-              setSelectedProductId("");
-              setSelectedVariant("");
-            }}
-            className="bg-gray-200 rounded-xl px-4 py-2"
-          >
-            Clear
-          </button>
+          <LayoutGrid className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={16} />
         </div>
 
-        {/* TABLE */}
-        <div className="overflow-x-auto rounded-xl border">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="p-4">Product</th>
-                <th className="p-4">Variant</th>
-                <th className="p-4">Category</th>
-                <th className="p-4 text-center">Offline</th>
-                <th className="p-4 text-center">Online</th>
-                <th className="p-4 text-center">Total</th>
+        <button
+          onClick={() => {
+            setSearch("");
+            setSelectedCategoryId("");
+            setSelectedProductId("");
+            setSelectedVariant("");
+          }}
+          className="h-12 border border-slate-100 rounded-xl text-xs font-black uppercase tracking-widest text-slate-400 hover:bg-slate-50 transition-colors"
+        >
+          Reset View
+        </button>
+      </div>
+
+      {/* DATA TABLE CARD */}
+      <div className="glass-card rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-2xl">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="bg-slate-50/50 border-b border-slate-100 uppercase">
+                <th className="px-8 py-5 text-[10px] font-black tracking-widest text-slate-400">Inventory SKU</th>
+                <th className="px-6 py-5 text-[10px] font-black tracking-widest text-slate-400">Variant Profile</th>
+                <th className="px-6 py-5 text-[10px] font-black tracking-widest text-slate-400">Classification</th>
+                <th className="px-6 py-5 text-[10px] font-black tracking-widest text-slate-400 text-center">Offline</th>
+                <th className="px-6 py-5 text-[10px] font-black tracking-widest text-slate-400 text-center">Online</th>
+                <th className="px-8 py-5 text-[10px] font-black tracking-widest text-slate-400 text-right">Aggregate</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-slate-50 font-medium">
               {filteredRows.map((r, i) => (
-                <tr key={i} className="border-t text-center">
-                  <td className="p-4">{r.productName}</td>
-                  <td className="p-4">{r.variantLabel}</td>
-                  <td className="p-4">{r.categoryName}</td>
-                  <td className="p-4 text-red-600">{r.offlineQty}</td>
-                  <td className="p-4 text-indigo-600">{r.onlineQty}</td>
-                  <td className="p-4 font-bold text-green-700">{r.totalQty}</td>
+                <tr key={i} className="group hover:bg-slate-50/50 transition-all duration-300">
+                  <td className="px-8 py-5 font-bold text-slate-800 group-hover:text-blue-600 transition-colors text-sm">
+                    {r.productName}
+                  </td>
+                  <td className="px-6 py-5">
+                    <span className="px-3 py-1 bg-slate-100 text-[10px] font-black text-slate-500 rounded-lg uppercase tracking-widest">
+                      {r.variantLabel}
+                    </span>
+                  </td>
+                  <td className="px-6 py-5 text-xs text-slate-400 font-bold uppercase tracking-widest">
+                    {r.categoryName}
+                  </td>
+                  <td className="px-6 py-5 text-center">
+                    <div className="flex items-center justify-center gap-1.5 text-rose-500 font-black">
+                      <Store size={14} className="opacity-40" />
+                      {r.offlineQty}
+                    </div>
+                  </td>
+                  <td className="px-6 py-5 text-center">
+                    <div className="flex items-center justify-center gap-1.5 text-blue-500 font-black">
+                      <Smartphone size={14} className="opacity-40" />
+                      {r.onlineQty}
+                    </div>
+                  </td>
+                  <td className="px-8 py-5 text-right font-black text-lg text-emerald-600">
+                    <div className="flex items-center justify-end gap-2">
+                       {r.totalQty}
+                       {r.totalQty > 50 ? (
+                         <ArrowUpRight size={14} className="text-emerald-300" />
+                       ) : (
+                         <ArrowDownRight size={14} className="text-rose-300" />
+                       )}
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
 
+        {filteredRows.length === 0 && !loading && (
+          <div className="py-24 flex flex-col items-center justify-center text-slate-300">
+            <LayoutGrid size={64} className="mb-6 opacity-10 font-thin" />
+            <p className="font-black uppercase tracking-widest text-xs">No consolidated records found</p>
+          </div>
+        )}
       </div>
     </div>
   );

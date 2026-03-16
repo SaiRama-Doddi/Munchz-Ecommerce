@@ -10,11 +10,21 @@ import {
   YAxis,
   Legend,
 } from "recharts";
-
+import { useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import inventoryApi from "../api/inventoryApi";
 import { useCategories, useProducts } from "../hooks/useQueryHelpers";
 import paymentApi from "../api/paymentApi";
+import { 
+  Package, 
+  Layers, 
+  ArrowUpRight, 
+  AlertTriangle, 
+  ShoppingCart, 
+  CreditCard,
+  Plus
+} from "lucide-react";
+
 /* ================= TYPES ================= */
 
 interface Category {
@@ -26,7 +36,7 @@ interface Product {
   id: number;
   name: string;
   imageUrl: string;
-  createdAt: string; // IMPORTANT
+  createdAt: string;
 }
 
 interface Stock {
@@ -35,14 +45,14 @@ interface Stock {
   productName: string;
   categoryName: string;
   variantLabel: string;
-  quantity: number; // grams
+  quantity: number;
 }
 
 const COLORS: string[] = [
-  "#16a34a",
-  "#22c55e",
-  "#4ade80",
-  "#86efac",
+  "#10b981", // emerald-500
+  "#3b82f6", // blue-500
+  "#8b5cf6", // violet-500
+  "#f59e0b", // amber-500
 ];
 
 interface Order {
@@ -50,7 +60,7 @@ interface Order {
   userName: string;
   totalAmount: number;
   placedAt: string;
-   orderStatus: string; 
+  orderStatus: string; 
 }
 interface DashboardProps {
   orders: Order[];
@@ -59,376 +69,349 @@ interface DashboardProps {
 /* ================= COMPONENT ================= */
 
 export default function Dashboard({ orders }: DashboardProps) {
-
-
-
-  
   const { data: cats = [] } = useCategories();
   const { data: prods = [] } = useProducts();
 
-
-  // locally type them (fixes TS errors)
   const categories: Category[] = cats;
   const products: Product[] = prods;
 
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [todayPayments, setTodayPayments] = useState<any[]>([]);
 
+  useEffect(() => {
+    paymentApi
+      .get("/api/payments/today")
+      .then((res) => setTodayPayments(res.data))
+      .catch(console.error);
+  }, []);
 
-
-
-
-useEffect(() => {
-  paymentApi
-    .get("/api/payments/today")
-    .then((res) => setTodayPayments(res.data))
-    .catch(console.error);
-}, []);
-
-
-
-  /* ===== LOAD INVENTORY ===== */
   useEffect(() => {
     inventoryApi.get("/inventory").then((res) => {
       setStocks(res.data);
     });
   }, []);
 
-  /* ===== TOTAL STOCK ===== */
-  const totalStockGrams = useMemo(() => {
-    return stocks.reduce(
-      (sum: number, s: Stock) => sum + s.quantity,
-      0
-    );
+  const totalStockKg = useMemo(() => {
+    const totalGrams = stocks.reduce((sum: number, s: Stock) => sum + s.quantity, 0);
+    return (totalGrams / 1000).toFixed(1);
   }, [stocks]);
 
-  const totalStockKg = (totalStockGrams / 1000).toFixed(2);
-
-  /* ===== LOW STOCK ===== */
   const lowStockItems = useMemo(() => {
-    return stocks.filter(
-      (s: Stock) => s.quantity < 100
-    ).length;
+    return stocks.filter((s: Stock) => s.quantity < 100).length;
   }, [stocks]);
 
-  /* ===== STOCK BY CATEGORY ===== */
-  const stockByCategory: { name: string; value: number }[] =
-    useMemo(() => {
-      return categories.map((c: Category) => {
-        const total = stocks
-          .filter(
-            (s: Stock) =>
-              s.categoryName === c.name
-          )
-          .reduce(
-            (sum: number, s: Stock) =>
-              sum + s.quantity,
-            0
-          );
+  const stockByCategory = useMemo(() => {
+    return categories.map((c: Category) => {
+      const total = stocks
+        .filter((s: Stock) => s.categoryName === c.name)
+        .reduce((sum: number, s: Stock) => sum + s.quantity, 0);
 
-        return {
-          name: c.name,
-          value: +(total / 1000).toFixed(2),
-        };
-      });
-    }, [categories, stocks]);
+      return {
+        name: c.name,
+        value: +(total / 1000).toFixed(2),
+      };
+    }).filter(item => item.value > 0);
+  }, [categories, stocks]);
 
-    console.log(products.map(p => ({
-  name: p.name,
-  createdAt: p.createdAt
-})));
+  const recentProducts: Product[] = [...products]
+    .sort((a, b) => {
+      const da = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+      const db = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+      return db - da;
+    })
+    .slice(0, 6);
 
-const recentProducts: Product[] = [...products]
-  .sort((a, b) => {
-    const da = a.createdAt
-      ? new Date(a.createdAt).getTime()
-      : 0;
+  const todayOrders = useMemo(() => {
+    return orders.filter((o) => {
+      if (!o.placedAt) return false;
+      const formatted = o.placedAt.replace(" ", "T").split("+")[0];
+      const orderDate = new Date(formatted);
+      const now = new Date();
+      return (
+        orderDate.getFullYear() === now.getFullYear() &&
+        orderDate.getMonth() === now.getMonth() &&
+        orderDate.getDate() === now.getDate()
+      );
+    });
+  }, [orders]);
 
-    const db = b.createdAt
-      ? new Date(b.createdAt).getTime()
-      : 0;
-
-    return db - da;
-  })
-  .slice(0, 6);
-
-const todayOrders = useMemo(() => {
-  return orders.filter((o) => {
-    if (!o.placedAt) return false;
-
-    // Convert backend format safely
-    const formatted = o.placedAt
-      .replace(" ", "T")
-      .split("+")[0];
-
-    const orderDate = new Date(formatted);
-    const now = new Date();
-
-    return (
-      orderDate.getFullYear() === now.getFullYear() &&
-      orderDate.getMonth() === now.getMonth() &&
-      orderDate.getDate() === now.getDate()
-    );
-  });
-}, [orders]);
-
-console.log("Today:", new Date());
-console.log("Orders:", orders);
-console.log("Today Orders:", todayOrders);
-
-console.log("Orders object:", orders);
-
+  const navigate = useNavigate();
 
   return (
-    <div className="space-y-8">
-      <h1 className="text-3xl font-bold">
-        Admin Dashboard
-      </h1>
+    <div className="space-y-10 pb-10">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Overview</h1>
+          <p className="text-slate-500 font-medium">An overview of your store's performance today.</p>
+        </div>
+        <button 
+          onClick={() => navigate("/admin/add-product")}
+          className="flex items-center gap-2 bg-accent-gradient text-white px-5 py-2.5 rounded-xl font-semibold shadow-lg shadow-emerald-500/20 hover:scale-105 transition-transform duration-300"
+        >
+          <Plus size={18} />
+          <span>New Product</span>
+        </button>
+      </div>
 
       {/* KPI CARDS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card
-          title="Categories"
+        <KPICard
+          title="Total Categories"
           value={categories.length}
+          icon={<Layers size={24} className="text-blue-500" />}
+          trend="+2 this month"
+          color="blue"
         />
-        <Card
-          title="Products"
+        <KPICard
+          title="Live Products"
           value={products.length}
+          icon={<Package size={24} className="text-emerald-500" />}
+          trend="+12% vs last week"
+          color="emerald"
         />
-        <Card
-          title="Total Stock (KG)"
-          value={totalStockKg}
+        <KPICard
+          title="Stock Available"
+          value={`${totalStockKg} KG`}
+          icon={<ShoppingCart size={24} className="text-violet-500" />}
+          trend="Healthy"
+          color="violet"
         />
-        <Card
-          title="Low Stock Items"
+        <KPICard
+          title="Low Stock Alerts"
           value={lowStockItems}
-          danger
+          icon={<AlertTriangle size={24} className="text-amber-500" />}
+          trend="Action required"
+          color="amber"
+          isDanger={lowStockItems > 3}
         />
       </div>
 
-      {/* PIE CHART */}
-      <ChartCard title="Stock Distribution">
-        <ResponsiveContainer width="100%" height={300}>
-          <PieChart>
-            <Pie
-              data={stockByCategory}
-              dataKey="value"
-              nameKey="name"
-              outerRadius={100}
-              label
-            >
-              {stockByCategory.map(
-                (
-                  _: {
-                    name: string;
-                    value: number;
-                  },
-                  i: number
-                ) => (
-                  <Cell
-                    key={i}
-                    fill={
-                      COLORS[
-                        i % COLORS.length
-                      ]
-                    }
-                  />
-                )
-              )}
-            </Pie>
-            <Legend />
-            <Tooltip />
-          </PieChart>
-        </ResponsiveContainer>
-      </ChartCard>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <ChartCard title="Stock Distribution" subtitle="Available stock (KG) per category">
+          <ResponsiveContainer width="100%" height={320}>
+            <PieChart>
+              <Pie
+                data={stockByCategory}
+                dataKey="value"
+                nameKey="name"
+                outerRadius={100}
+                innerRadius={60}
+                paddingAngle={5}
+                stroke="none"
+              >
+                {stockByCategory.map((_, i) => (
+                  <Cell key={`cell-${i}`} fill={COLORS[i % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip 
+                contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
+              />
+              <Legend verticalAlign="bottom" height={36} iconType="circle" />
+            </PieChart>
+          </ResponsiveContainer>
+        </ChartCard>
 
-      {/* BAR CHART */}
-      <ChartCard title="Stock by Category">
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={stockByCategory}>
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Bar
-              dataKey="value"
-              fill="#22c55e"
-            />
-          </BarChart>
-        </ResponsiveContainer>
-      </ChartCard>
+        <ChartCard title="Inventory Levels" subtitle="Current kg in warehouse vs category">
+          <ResponsiveContainer width="100%" height={320}>
+            <BarChart data={stockByCategory} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+              <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dy={10} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
+              <Tooltip 
+                cursor={{ fill: 'rgba(241, 245, 249, 0.5)' }}
+                contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
+              />
+              <Bar dataKey="value" fill="url(#barGradient)" radius={[6, 6, 0, 0]} />
+              <defs>
+                <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#10b981" />
+                  <stop offset="100%" stopColor="#059669" />
+                </linearGradient>
+              </defs>
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartCard>
+      </div>
 
       {/* RECENT PRODUCTS */}
-     <section className="bg-white p-5 rounded-xl shadow">
-  <h2 className="font-semibold mb-4">
-    Recent Products
-  </h2>
+      <section className="glass-card rounded-3xl p-8">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-xl font-bold text-slate-800">Recently Added Products</h2>
+          <button className="text-sm font-semibold text-emerald-600 hover:text-emerald-700 transition-colors">View All</button>
+        </div>
 
-  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-    {recentProducts.map((p: Product) => (
-      <div
-        key={p.id}
-        className="border rounded-lg p-3 hover:shadow transition"
-      >
-        <img
-          src={p.imageUrl}
-          alt={p.name}
-          className="h-28 w-full object-contain mb-2"
-        />
-        <div className="text-sm font-medium truncate">
-          {p.name}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+          {recentProducts.map((p: Product) => (
+            <div key={p.id} className="group relative">
+              <div className="aspect-square bg-slate-50 rounded-2xl p-4 flex items-center justify-center border border-slate-100 group-hover:border-emerald-200 transition-all duration-300">
+                <img src={p.imageUrl} alt={p.name} className="max-h-full object-contain group-hover:scale-110 transition-transform duration-300" />
+              </div>
+              <div className="mt-3">
+                <p className="text-sm font-semibold text-slate-800 truncate group-hover:text-emerald-600 transition-colors">{p.name}</p>
+                <p className="text-[10px] uppercase tracking-wider text-slate-400 font-bold mt-1">ID: #{p.id}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* TODAY'S ORDERS */}
+        <div className="glass-card rounded-3xl p-8 overflow-hidden">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-blue-50 text-blue-600">
+                <ShoppingCart size={20} />
+              </div>
+              <h2 className="text-xl font-bold text-slate-800">Today's Orders</h2>
+            </div>
+            <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-lg uppercase tracking-wider">
+              {todayOrders.length} New
+            </span>
+          </div>
+
+          <div className="space-y-4">
+            {todayOrders.length === 0 ? (
+              <div className="text-slate-400 text-sm font-medium py-10 flex flex-col items-center gap-3">
+                <ShoppingCart size={40} className="opacity-20" />
+                No orders placed today
+              </div>
+            ) : (
+              todayOrders.map((o) => (
+                <div key={o.orderId} className="flex items-center justify-between p-4 bg-slate-50/50 rounded-2xl border border-slate-100 hover:border-blue-200 transition-all duration-300 group">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center border border-slate-100 font-bold text-slate-400 group-hover:text-blue-500 transition-colors">
+                      {o.userName.charAt(0)}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-slate-800">{o.userName}</p>
+                      <p className="text-[10px] text-slate-500 font-medium">#{o.orderId}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-bold text-slate-800">₹{o.totalAmount}</p>
+                    <span className="text-[10px] font-bold uppercase text-blue-500">{o.orderStatus}</span>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        {/* TODAY'S PAYMENTS */}
+        <div className="glass-card rounded-3xl p-8 overflow-hidden">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600">
+                <CreditCard size={20} />
+              </div>
+              <h2 className="text-xl font-bold text-slate-800">Incoming Payments</h2>
+            </div>
+            <span className="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-lg uppercase tracking-wider">
+              {todayPayments.length} Recv
+            </span>
+          </div>
+
+          <div className="space-y-4">
+            {todayPayments.length === 0 ? (
+              <div className="text-slate-400 text-sm font-medium py-10 flex flex-col items-center gap-3">
+                <CreditCard size={40} className="opacity-20" />
+                No payments received today
+              </div>
+            ) : (
+              todayPayments.map((p: any) => (
+                <div key={p.id} className="flex items-center justify-between p-4 bg-slate-50/50 rounded-2xl border border-slate-100 hover:border-emerald-200 transition-all duration-300 group">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-emerald-500 shadow-sm border border-slate-100">
+                      <ArrowUpRight size={18} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-slate-800">Order #{p.orderId}</p>
+                      <p className="text-[10px] text-slate-500 font-medium">Payment ID #{p.id.slice(0,8)}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-lg font-bold text-emerald-600">₹{(p.amount / 100).toLocaleString()}</p>
+                    <span className={`text-[10px] font-bold uppercase ${p.status === 'paid' ? 'text-emerald-500' : 'text-amber-500'}`}>{p.status}</span>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </div>
-    ))}
-  </div>
-</section>
-
-
-<div className="bg-white border rounded-xl p-6 mt-6 shadow-sm">
-  <h2 className="text-2xl font-semibold mb-6">Today's Orders</h2>
-
-  {todayOrders.length === 0 ? (
-    <div className="text-gray-500 text-center py-6">
-      No orders today
-    </div>
-  ) : (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      {todayOrders.map((o) => (
-        <div
-          key={o.orderId}
-          className="bg-gray-50 rounded-xl p-5 border hover:shadow-md transition"
-        >
-          <div className="flex justify-between mb-3">
-            <div>
-              <p className="text-sm text-gray-500">Order ID</p>
-              <p className="font-semibold text-gray-800">
-                {o.orderId}
-              </p>
-            </div>
-
-            <span className="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-700">
-              {o.orderStatus}
-            </span>
-          </div>
-
-          <p className="text-sm text-gray-500">Customer</p>
-          <p className="font-medium">{o.userName}</p>
-
-          <div className="mt-4">
-            <p className="text-sm text-gray-500">Amount</p>
-            <p className="text-xl font-bold text-green-600">
-              ₹{o.totalAmount}
-            </p>
-          </div>
-        </div>
-      ))}
-    </div>
-  )}
-</div>
-
-
-
-   <section className="bg-white border rounded-xl p-6 mt-6 shadow-sm">
-  <h2 className="text-2xl font-semibold mb-6">Today's Payments</h2>
-
-  {todayPayments.length === 0 ? (
-    <div className="text-gray-500 text-center py-10">
-      No payments recorded today
-    </div>
-  ) : (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      {todayPayments.map((p: any) => (
-        <div
-          key={p.id}
-          className="bg-gray-50 rounded-xl p-5 border hover:shadow-md transition duration-200"
-        >
-          {/* Top Section */}
-          <div className="flex justify-between items-start mb-4">
-            <div>
-              <p className="text-sm text-gray-500">Order ID</p>
-              <p className="font-semibold text-lg text-gray-800">
-                {p.orderId}
-              </p>
-            </div>
-
-            {/* Status Badge */}
-            <span
-              className={`px-3 py-1 text-xs rounded-full font-medium ${
-                p.status === "paid"
-                  ? "bg-green-100 text-green-700"
-                  : p.status === "pending"
-                  ? "bg-yellow-100 text-yellow-700"
-                  : "bg-red-100 text-red-700"
-              }`}
-            >
-              {p.status}
-            </span>
-          </div>
-
-          {/* Amount */}
-          <div className="mt-4">
-            <p className="text-sm text-gray-500">Amount</p>
-            <p className="text-2xl font-bold text-green-600">
-              ₹{(p.amount / 100).toLocaleString()}
-            </p>
-          </div>
-        </div>
-      ))}
-    </div>
-  )}
-</section>
-
-
-
     </div>
   );
 }
 
-/* ================= UI ================= */
+/* ================= UI COMPONENTS ================= */
 
-function Card({
+function KPICard({
   title,
   value,
-  danger = false,
+  icon,
+  trend,
+  color,
+  isDanger = false
 }: {
   title: string;
   value: number | string;
-  danger?: boolean;
+  icon: React.ReactNode;
+  trend: string;
+  color: string;
+  isDanger?: boolean;
 }) {
-  return (
-    <div className="bg-white p-5 rounded-xl shadow">
-      <div className="text-sm text-gray-500">
-        {title}
-      </div>
-      <div
-        className={`text-3xl font-bold ${
-          danger
-            ? "text-red-600"
-            : "text-green-700"
-        }`}
-      >
-        {value}
-      </div>
+  const colorMap = {
+    blue: "bg-blue-50/50 border-blue-100",
+    emerald: "bg-emerald-50/50 border-emerald-100",
+    violet: "bg-violet-50/50 border-violet-100",
+    amber: "bg-amber-50/50 border-amber-100",
+  };
 
+  return (
+    <div className={`glass-card rounded-3xl p-6 relative overflow-hidden group hover:-translate-y-1 transition-all duration-300`}>
+      <div className="flex justify-between items-start">
+        <div>
+          <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">{title}</p>
+          <h3 className={`text-2xl font-black ${isDanger ? 'text-red-600' : 'text-slate-800'} tracking-tight`}>
+            {value}
+          </h3>
+          <div className="mt-3 flex items-center gap-1.5">
+            <span className={`text-[10px] font-bold ${isDanger ? 'text-red-500' : 'text-emerald-500'}`}>
+              {trend}
+            </span>
+          </div>
+        </div>
+        <div className={`p-3 rounded-2xl ${colorMap[color as keyof typeof colorMap] || 'bg-slate-50'} border`}>
+          {icon}
+        </div>
+      </div>
       
+      {/* Decorative background shape */}
+      <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-slate-50 rounded-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
     </div>
   );
 }
 
 function ChartCard({
   title,
+  subtitle,
   children,
 }: {
   title: string;
+  subtitle: string;
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-white p-5 rounded-xl shadow">
-      <h2 className="font-semibold mb-4">
-        {title}
-      </h2>
-      {children}
-
-      
+    <div className="glass-card rounded-3xl p-8">
+      <div className="mb-8">
+        <h2 className="text-xl font-bold text-slate-800 tracking-tight">
+          {title}
+        </h2>
+        <p className="text-xs text-slate-500 font-medium">{subtitle}</p>
+      </div>
+      <div className="h-[320px]">
+        {children}
+      </div>
     </div>
   );
-}
+}
