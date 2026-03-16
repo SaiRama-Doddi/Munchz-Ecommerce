@@ -92,7 +92,7 @@ export default function Dashboard() {
 
     const token = localStorage.getItem("token");
     axios
-      .get("/order/api/orders/adminallorders?page=0&size=50", {
+      .get("/order/api/orders/adminallorders?page=0&size=50&sort=placedAt,desc", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -138,14 +138,18 @@ export default function Dashboard() {
   const todayOrders = useMemo(() => {
     return orders.filter((o) => {
       if (!o.placedAt) return false;
-      const formatted = o.placedAt.replace(" ", "T").split("+")[0];
-      const orderDate = new Date(formatted);
+      
+      // Backend format: "dd MMM yyyy, hh:mm a" (e.g., "16 Mar 2026, 06:30 PM")
       const now = new Date();
-      return (
-        orderDate.getFullYear() === now.getFullYear() &&
-        orderDate.getMonth() === now.getMonth() &&
-        orderDate.getDate() === now.getDate()
-      );
+      const day = String(now.getDate()).padStart(2, '0');
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const month = monthNames[now.getMonth()];
+      const year = now.getFullYear();
+      
+      const todayString = `${day} ${month} ${year}`;
+      
+      // We check if the placedAt string contains today's date (dd MMM yyyy)
+      return o.placedAt.startsWith(todayString);
     });
   }, [orders]);
 
