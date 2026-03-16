@@ -89,6 +89,20 @@ export default function AddOfflineStock() {
       name: editStock.productName,
     });
   }, [editStock]);
+
+  /* ================= AUTO-SELECT VARIANT ON EDIT ================= */
+  useEffect(() => {
+    if (isEdit && form.variantLabel && variants.length > 0) {
+      const match = variants.find(v => 
+        v.weightLabel === form.variantLabel || 
+        form.variantLabel.includes(v.weightLabel) ||
+        v.weightLabel.includes(form.variantLabel)
+      );
+      if (match && form.variantLabel !== match.weightLabel) {
+        setForm(prev => ({ ...prev, variantLabel: match.weightLabel }));
+      }
+    }
+  }, [isEdit, form.variantLabel, variants]);
   /* ===================================================== */
 
   /* ================= SUBMIT ================= */
@@ -108,9 +122,9 @@ export default function AddOfflineStock() {
 
     try {
       if (isEdit) {
-        await offlineInventoryApi.put(`/offline-inventory/${editStock.id}`, payload);
+        await offlineInventoryApi.put(`/${editStock.id}`, payload);
       } else {
-        await offlineInventoryApi.post("/offline-inventory", payload);
+        await offlineInventoryApi.post("/", payload);
       }
       alert("Offline Stock Saved Successfully");
       navigate("/admin/offline-inventory");

@@ -66,6 +66,13 @@ export default function AddStock() {
     }
   }, [isEdit, form.variant, variants]);
 
+  /* ================= FALLBACK: AUTO-SELECT FIRST IF ONLY ONE ================= */
+  useEffect(() => {
+    if (!isEdit && variants.length === 1 && !form.variant) {
+      setForm(prev => ({ ...prev, variant: variants[0].weightLabel }));
+    }
+  }, [variants, isEdit, form.variant]);
+
   useEffect(() => {
     if (!form.categoryId) return;
     api.get(`/subcategories/by-category/${form.categoryId}`)
@@ -108,7 +115,7 @@ export default function AddStock() {
 
     try {
       if (isEdit) {
-        await inventoryApi.put(`/admin/inventory/${editStock.id}`, payload);
+        await inventoryApi.put(`/inventory/${editStock.id}`, payload);
       } else {
         await inventoryApi.post("/inventory/add", payload);
       }
