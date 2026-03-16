@@ -194,7 +194,12 @@ export default function AdminStockDetails() {
                     Edit
                   </button>
                   <button
-                    onClick={() => deleteStock(s.id)}
+                    onClick={async () => {
+                      if (window.confirm("Delete this entry?")) {
+                        await deleteStock(s.id);
+                        alert("Entry deleted");
+                      }
+                    }}
                     className="bg-red-600 text-white px-3 py-1 rounded text-xs"
                   >
                     Delete

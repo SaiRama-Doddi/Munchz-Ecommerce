@@ -64,12 +64,14 @@ export default function AdminCoupons() {
     };
 
     if (editingId) {
-      await api.put(`/coupons/${editingId}`, payload);
-    } else {
-      await api.post("/coupons", payload);
-    }
-
-    resetForm();
+       await api.put(`/coupons/${editingId}`, payload);
+      alert("Coupon Updated");
+     } else {
+       await api.post("/coupons", payload);
+      alert("Coupon Created");
+     }
+ 
+     resetForm();
     fetchCoupons();
   };
 

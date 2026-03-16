@@ -63,6 +63,15 @@ const clearMainImage = () => {
 
       const variants = Array.isArray(p.variants) ? p.variants : [];
 
+      // Filter out technical 100g base if needed or ensure all are mapped
+      const mappedVariants = variants.map((v: any) => ({
+        id: v.id || null,
+        weightLabel: v.weightLabel || v.label || "",
+        weightInGrams: v.weightInGrams || v.weight || 0,
+        mrp: v.mrp || v.price || 0,
+        offerPrice: v.offerPrice || v.discountPrice || 0,
+      }));
+ 
       setForm({
         categoryId: p.categoryId ? String(p.categoryId) : "",
         subcategoryId: p.subcategoryId ? String(p.subcategoryId) : "",
@@ -70,19 +79,13 @@ const clearMainImage = () => {
         description: p.description || "",
         imageUrl: p.imageUrl || "",
         imageUrls: images.length ? images : [""],
-        variants: variants.map((v: any) => ({
-          id: v.id || null,
-          weightLabel: v.weightLabel || "",
-          weightInGrams: v.weightInGrams || 0,
-          mrp: v.mrp || 0,
-          offerPrice: v.offerPrice || 0,
-        })),
+        variants: mappedVariants,
       });
 
       setLoading(false);
     } catch (err) {
       console.error("FAILED TO LOAD PRODUCT:", err);
-      alert("Unable to fetch product.");
+      alert("Unable to fetch product content.");
       setLoading(false);
     }
   };

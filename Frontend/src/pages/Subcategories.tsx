@@ -24,7 +24,8 @@ export default function Subcategories() {
       categoryId: Number(form.categoryId),
     })
     setForm({ name: '', categoryId: '' })
-    load()
+    alert("Subcategory Created");
+     load()
   }
 
   const startEdit = (s: any) => {
@@ -42,7 +43,8 @@ export default function Subcategories() {
     })
     setEditId(null)
     setForm({ name: '', categoryId: '' })
-    load()
+    alert("Subcategory Updated");
+     load()
   }
 
   const remove = async (id: number) => {

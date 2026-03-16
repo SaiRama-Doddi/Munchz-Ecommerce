@@ -60,6 +60,13 @@ export default function AddStock() {
     });
   }, [editStock]);
 
+  /* ================= AUTO-SELECT VARIANT ON EDIT ================= */
+  useEffect(() => {
+    if (isEdit && form.variant && variants.length > 0) {
+      // The dropdown is bound to form.variant, so it should show the label automatically if it exists in the list
+    }
+  }, [isEdit, form.variant, variants]);
+
   useEffect(() => {
     if (!form.categoryId) return;
     api.get(`/subcategories/by-category/${form.categoryId}`)
@@ -103,11 +110,11 @@ export default function AddStock() {
     try {
       if (isEdit) {
         await inventoryApi.put(`/admin/inventory/${editStock.id}`, payload);
-      } else {
-        await inventoryApi.post("/inventory/add", payload);
       }
-      navigate("/inventory");
+      alert("Stock Saved Successfully");
+      navigate("/admin/inventory");
     } catch (err) {
+      console.error("SAVE ERROR:", err);
       alert("Failed to save stock");
     }
   };

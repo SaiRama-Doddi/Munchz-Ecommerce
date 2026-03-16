@@ -28,8 +28,12 @@ export default function AddStockEntry() {
     sellingPrice: "",
     stockInDate: "",
     expiryDate: "",
-    remarks: ""
+    remarks: "",
+    variantId: ""
   });
+
+  const [variants, setVariants] = useState<any[]>([]);
+  const [selectedVariant, setSelectedVariant] = useState<any>(null);
 
   /* ================= LOAD DATA ================= */
   useEffect(() => {
@@ -49,6 +53,23 @@ export default function AddStockEntry() {
     api.get(url).then(res => setProducts(res.data));
   }, [form.categoryId, form.subCategoryId]);
 
+  /* ================= LOAD VARIANTS ================= */
+  useEffect(() => {
+    if (!form.productId) {
+      setVariants([]);
+      return;
+    }
+    const prod = products.find(p => p.id === Number(form.productId));
+    if (prod && prod.variants) {
+      setVariants(prod.variants);
+    } else {
+      // Fallback: fetch single product if variants not in list
+      api.get(`/products/${form.productId}`).then(res => {
+        setVariants(res.data?.variants || []);
+      });
+    }
+  }, [form.productId, products]);
+
   /* ================= PREFILL EDIT ================= */
   useEffect(() => {
     if (!editData) return;
@@ -58,6 +79,14 @@ export default function AddStockEntry() {
     setSelectedSubCategory({ id: editData.subCategoryId, name: editData.subCategoryName });
     setSelectedProduct({ id: editData.productId, name: editData.productName });
   }, [editData]);
+
+  /* ================= AUTO-SELECT VARIANT ON EDIT ================= */
+  useEffect(() => {
+    if (isEdit && form.variantId && variants.length > 0) {
+      const v = variants.find(v => v.id === Number(form.variantId));
+      if (v) setSelectedVariant(v);
+    }
+  }, [isEdit, form.variantId, variants]);
 
   /* ================= SUBMIT ================= */
   const submit = async (e: any) => {
@@ -74,6 +103,9 @@ const payload = {
   productId: selectedProduct?.id,
   productName: selectedProduct?.name,
 
+  variantId: selectedVariant?.id,
+  variantLabel: selectedVariant?.weightLabel,
+
   quantity: Number(form.quantity),
   purchasePrice: Number(form.purchasePrice),
   sellingPrice: Number(form.sellingPrice),
@@ -86,8 +118,10 @@ const payload = {
       } else {
         await inventoryApi.post("/inventory/entries", payload);
       }
+      alert("Stock Saved Successfully");
       navigate("/admin/stock-details");
-    } catch {
+    } catch (err) {
+      console.error("SAVE ERROR:", err);
       alert("Failed to save stock");
     }
   };
@@ -150,6 +184,25 @@ const payload = {
             <option value="">Select Product</option>
             {products.map(p => (
               <option key={p.id} value={p.id}>{p.name}</option>
+            ))}
+          </select>
+
+          {/* VARIANT */}
+          <select
+            className={inputStyle}
+            value={form.variantId}
+            onChange={(e) => {
+              const sel = variants.find(v => v.id === Number(e.target.value));
+              setSelectedVariant(sel);
+              setForm({ ...form, variantId: e.target.value });
+            }}
+            disabled={!form.productId}
+          >
+            <option value="">Select Variant (Weight)</option>
+            {variants.map(v => (
+              <option key={v.id} value={v.id}>
+                {v.weightLabel} (Price: ₹{v.offerPrice})
+              </option>
             ))}
           </select>
 

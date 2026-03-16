@@ -59,8 +59,9 @@ export default function Categories() {
         }
 
         setForm({ name: "", description: "", thumbnailImage: "" });
-        setEditId(null);
-        refetch();
+         setEditId(null);
+        alert(`Category ${editId ? "Updated" : "Created"}`);
+         refetch();
     };
 
     // DELETE

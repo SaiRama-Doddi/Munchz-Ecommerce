@@ -489,7 +489,7 @@ export default function ProductDetails() {
           Customer Reviews ({reviews?.length || 0})
         </h2>
 
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {reviews?.slice(0, visibleReviews).map((review) => (
             <div
               key={review.id}
