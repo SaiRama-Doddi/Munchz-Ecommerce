@@ -612,7 +612,7 @@ ${order.totalAmount}`,
                     formData.append("request", JSON.stringify(reviewJson));
                     if (file) formData.append("file", file);
 
-                    await axios.post("http://localhost:8090/reviews/form", formData);
+                    await axios.post("/reviews/form", formData);
 
                     alert("Review submitted!");
                     const key = `${selectedOrder.orderId}:${reviewItem.productId}`;

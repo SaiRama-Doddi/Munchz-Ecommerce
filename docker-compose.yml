@@ -38,10 +38,10 @@ services:
     expose:
       - "8081"
     env_file:
-    - .env
+      - .env
     environment:
-     - MAIL_USERNAME=sairamadoddi@gmail.com
-     - MAIL_PASSWORD=fcxl alrt wwwx mkrc
+      MAIL_USERNAME: sairamadoddi@gmail.com
+      MAIL_PASSWORD: fcxl alrt wwwx mkrc
 
   user-profile-service:
     build: ./Backend/user-profile-service/user-profile-service
@@ -51,7 +51,7 @@ services:
     expose:
       - "8082"
     env_file:
-    - .env
+      - .env
 
   product-service:
     build: ./Backend/product-service
@@ -61,7 +61,7 @@ services:
     expose:
       - "8083"
     env_file:
-    - .env
+      - .env
 
   order-service:
     build: ./Backend/order-service
@@ -71,7 +71,7 @@ services:
     expose:
       - "9090"
     env_file:
-    - .env
+      - .env
 
   stock-service:
     build: ./Backend/stock-service/stock-inventry-service
@@ -81,7 +81,7 @@ services:
     expose:
       - "8050"
     env_file:
-    - .env
+      - .env
 
   coupon-service:
     build: ./Backend/coupon-service
@@ -91,7 +91,7 @@ services:
     expose:
       - "8060"
     env_file:
-    - .env
+      - .env
 
   payment-service:
     build: ./Backend/payment-service
@@ -104,7 +104,7 @@ services:
       RAZOR_KEY: ${RAZORPAY_KEY}
       RAZOR_SECRET: ${RAZOR_SECRET}
     env_file:
-    - .env
+      - .env
 
   review-service:
     build: ./Backend/review-service
@@ -114,12 +114,9 @@ services:
     expose:
       - "9095"
     env_file:
-    - .env
-
-
+      - .env
 
   shipping-service:
-
     build: ./Backend/shiprocket-shipping-service
     container_name: shipping-service
     restart: always
@@ -127,5 +124,6 @@ services:
       - "8087"
     env_file:
       - .env
+
 volumes:
   postgres-data:
