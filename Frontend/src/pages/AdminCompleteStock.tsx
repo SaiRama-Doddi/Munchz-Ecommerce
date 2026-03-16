@@ -16,6 +16,7 @@ import {
   ArrowDownRight,
   LayoutGrid
 } from "lucide-react";
+import PremiumSpinner from "../components/PremiumSpinner";
 
 interface StockRow {
   productName: string;
@@ -152,7 +153,8 @@ export default function AdminCompleteStock() {
   }, [filteredRows]);
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-8 pb-12 relative">
+      {loading && <PremiumSpinner text="Gatering stock data..." backdrop={true} fullScreen={true} />}
       {/* HEADER SECTION */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>

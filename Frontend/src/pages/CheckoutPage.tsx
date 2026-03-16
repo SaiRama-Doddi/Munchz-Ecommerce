@@ -8,6 +8,7 @@ import { useCart } from "../state/CartContext";
 import type { CartItem, Address } from "../types/checkout";
 import { ArrowLeft, Pencil, Trash2 } from "lucide-react";
 import { updateAddressApi, deleteAddressApi } from "../api/api";
+import PremiumSpinner from "../components/PremiumSpinner";
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { profile } = useAuth();
@@ -129,7 +130,7 @@ export default function CheckoutPage() {
               replace: true,
               state: { orderId },
             });
-          }, 1500); // 1.5 second smooth delay
+          }, 3500); // 3.5 second premium delay for user to see success
         } catch {
           alert("Payment verification failed");
         }
@@ -209,27 +210,17 @@ export default function CheckoutPage() {
   return (
     <>
       {isPlacingOrder && (
-        <div className="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
-          <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-4 text-green-700 font-medium">
-            Processing your order...
-          </p>
-          <p className="text-sm text-gray-600">
-            Please wait while we connect to secure payment
-          </p>
-        </div>
+        <PremiumSpinner 
+          text="Processing Order" 
+          subtext="Please wait while we connect to secure payment gateway..." 
+        />
       )}
 
       {isRedirecting && (
-        <div className="fixed inset-0 bg-white/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
-          <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-4 text-green-700 font-semibold text-lg">
-            Payment Successful 🎉
-          </p>
-          <p className="text-gray-600 text-sm">
-            Redirecting to order confirmation...
-          </p>
-        </div>
+        <PremiumSpinner 
+          text="Payment Successful! 🎉" 
+          subtext="Your delicious Munchz are being prepared. Redirecting to confirmation..." 
+        />
       )}
 
       <div className="min-h-screen bg-gradient-to-b from-[#f6fff4] to-white py-10">

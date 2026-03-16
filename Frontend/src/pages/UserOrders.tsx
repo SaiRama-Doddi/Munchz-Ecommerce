@@ -6,6 +6,7 @@ import { Mail, User, LayoutGrid, List, Eye, Upload, Image as ImageIcon, Star, Tr
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { FaTimes } from "react-icons/fa";
+import PremiumSpinner from "../components/PremiumSpinner";
 
 
 /* ================= TYPES ================= */
@@ -53,9 +54,7 @@ const formatAddress = (address: any): string[] => {
 };
 
 const PageSpinner = () => (
-  <div className="min-h-[70vh] flex items-center justify-center">
-    <div className="w-12 h-12 border-4 border-green-700 border-t-transparent rounded-full animate-spin" />
-  </div>
+  <PremiumSpinner text="Fetching your orders..." />
 );
 
 
@@ -630,7 +629,7 @@ ${order.totalAmount}`,
                 }}
                 className="flex-[2] py-3 bg-green-700 text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-green-800 transition shadow-lg shadow-green-200"
               >
-                {submitting && <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
+                {submitting && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />}
                 {submitting ? "Submitting..." : "Submit Review"}
               </button>
             </div>

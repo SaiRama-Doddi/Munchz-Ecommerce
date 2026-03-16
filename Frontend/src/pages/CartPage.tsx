@@ -108,9 +108,9 @@ export default function CartPremium() {
 
 
   const milestones = [
-    { target: 499, label: "Free Gift", icon: <Gift className="w-3 h-3" />, color: "from-blue-400 to-indigo-500" },
-    { target: 899, label: "Extra Off", icon: <Star className="w-3 h-3" />, color: "from-indigo-500 to-purple-600" },
-    { target: 1299, label: "Munchz Box", icon: <Trophy className="w-3 h-3" />, color: "from-purple-600 to-pink-500" },
+    { target: 499, label: "Free Gift", icon: <Gift className="w-3 h-3" />, color: "from-emerald-400 to-green-500" },
+    { target: 899, label: "Extra Off", icon: <Star className="w-3 h-3" />, color: "from-green-500 to-teal-600" },
+    { target: 1299, label: "Munchz Box", icon: <Trophy className="w-3 h-3" />, color: "from-teal-600 to-emerald-500" },
   ];
 
   const maxMilestone = milestones[milestones.length - 1].target;
@@ -177,7 +177,7 @@ flex flex-col overflow-y-auto relative"
             </div>
             <button
               onClick={() => navigate(-1)}
-              className="flex-shrink-0 p-2 hover:bg-slate-100 rounded-lg transition-all duration-300 hover:scale-110 text-slate-600 hover:text-slate-900"
+              className="flex-shrink-0 p-2 hover:bg-emerald-50 rounded-lg transition-all duration-300 hover:scale-110 text-slate-600 hover:text-emerald-600"
             >
               <X className="w-6 h-6" />
             </button>
@@ -211,15 +211,15 @@ flex flex-col overflow-y-auto relative"
               </div>
 
               {/* MODERN TRACK WITH MILESTONES */}
-              <div className="relative pt-6 pb-2 px-1">
+              <div className="relative pt-6 pb-6 px-1">
                 {/* TRACK LINE */}
-                <div className="absolute top-1/2 left-0 w-full h-1 bg-white/10 rounded-full -translate-y-1/2"></div>
+                <div className="absolute top-[28px] left-0 w-full h-1 bg-white/10 rounded-full"></div>
                 <div 
-                  className="absolute top-1/2 left-0 h-1 bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 rounded-full -translate-y-1/2 transition-all duration-1000 ease-out shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+                  className="absolute top-[28px] left-0 h-1 bg-gradient-to-r from-emerald-400 via-green-500 to-teal-600 rounded-full transition-all duration-1000 ease-out shadow-[0_0_20px_rgba(16,185,129,0.3)]"
                   style={{ width: `${progress}%` }}
                 >
                   {/* GLOW TIP */}
-                  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-[0_0_15px_#fff] scale-125 animate-pulse"></div>
+                  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-[0_0_15px_#fff] scale-125"></div>
                 </div>
 
                 {/* MILESTONE MARKERS */}
@@ -235,7 +235,7 @@ flex flex-col overflow-y-auto relative"
                         style={{ left: `${pos}%` }}
                       >
                         <div className={`
-                          w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all duration-500
+                          w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all duration-500 relative z-20
                           ${isReached 
                             ? `bg-gradient-to-br ${m.color} border-white shadow-[0_0_15px_rgba(255,255,255,0.3)] scale-110` 
                             : 'bg-slate-800 border-slate-700 text-slate-500'
@@ -243,7 +243,7 @@ flex flex-col overflow-y-auto relative"
                         `}>
                           {isReached ? m.icon : <Lock className="w-3 h-3" />}
                         </div>
-                        <div className="mt-4 text-center">
+                        <div className="mt-2 text-center">
                           <p className={`text-[10px] font-black uppercase tracking-tighter ${isReached ? 'text-white' : 'text-slate-500'}`}>
                             {m.label}
                           </p>
@@ -258,7 +258,7 @@ flex flex-col overflow-y-auto relative"
               </div>
 
               {/* STATUS TEXT */}
-              <div className="mt-16 flex items-center justify-center gap-2 py-3 px-4 bg-white/5 rounded-2xl border border-white/10">
+              <div className="mt-8 flex items-center justify-center gap-2 py-3 px-4 bg-white/5 rounded-2xl border border-white/10">
                 {progress < 100 ? (
                   <p className="text-xs font-bold text-slate-300 italic">
                     Add <span className="text-emerald-400 not-italic font-black">₹{Math.max(0, milestones.find(m => totalPrice < m.target)?.target! - totalPrice)}</span> more for the next reward!
@@ -327,7 +327,7 @@ flex flex-col overflow-y-auto relative"
                       <div className="flex-1 flex flex-col">
                         <div className="flex justify-between items-start gap-2">
                           <h4
-                            className="text-sm sm:text-base font-bold text-slate-900 cursor-pointer hover:text-blue-600 transition-colors line-clamp-2 flex-1"
+                            className="text-sm sm:text-base font-bold text-slate-900 cursor-pointer hover:text-emerald-600 transition-colors line-clamp-2 flex-1"
                             onClick={() => navigate(`/product/${item.productId}`)}
                           >
                             {item.name}
@@ -360,7 +360,7 @@ flex flex-col overflow-y-auto relative"
                         <select
                           value={item.selectedVariantIndex}
                           onChange={(e) => changeVariant(i, Number(e.target.value))}
-                          className="text-xs sm:text-sm px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all hover:border-slate-300"
+                          className="text-xs sm:text-sm px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all hover:border-emerald-300"
                         >
                           {item.variants.map((variant, idx) => (
                             <option key={idx} value={idx}>
@@ -406,8 +406,8 @@ flex flex-col overflow-y-auto relative"
         {/* ==================== COUPONS SECTION (SCROLLABLE) ==================== */}
         <div className="flex-shrink-0 border-t border-slate-200/50 bg-white px-4 sm:px-6 py-4">
           <h3 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
-            <div className="p-1.5 bg-blue-100 rounded-lg">
-              <Star className="w-4 h-4 text-blue-600" />
+            <div className="p-1.5 bg-emerald-100 rounded-lg">
+              <Star className="w-4 h-4 text-emerald-600" />
             </div>
             Available Coupons
           </h3>
@@ -515,8 +515,8 @@ shadow-lg shadow-black/5
 
             {discount > 0 && (
               <div className="flex justify-between items-center text-sm">
-                <span className="text-blue-600 font-medium">Coupon Discount</span>
-                <span className="font-semibold text-blue-600">-₹{discount.toFixed(2)}</span>
+                <span className="text-emerald-600 font-medium">Coupon Discount</span>
+                <span className="font-semibold text-emerald-600">-₹{discount.toFixed(2)}</span>
               </div>
             )}
 
@@ -532,7 +532,7 @@ shadow-lg shadow-black/5
             <div className="flex justify-between items-end pt-1">
               <span className="text-base font-bold text-slate-900">Total Amount</span>
               <div className="text-right">
-               <p className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+               <p className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-emerald-600 to-green-600">
                   ₹{finalAmount.toFixed(2)}
                 </p>
                 <p className="text-xs text-slate-500 mt-1">Incl. all taxes</p>
@@ -552,7 +552,7 @@ shadow-lg shadow-black/5
                 },
               })
             }
-            className="w-full bg-gradient-to-r from-blue-600 via-blue-600 to-indigo-600 hover:from-blue-700 hover:via-blue-700 hover:to-indigo-700 text-white py-2.5 sm:py-4 rounded-xl font-bold transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/20 active:scale-95 flex items-center justify-center gap-2 transform hover:translate-y-[-2px]"
+            className="w-full bg-gradient-to-r from-emerald-600 via-emerald-600 to-green-600 hover:from-emerald-700 hover:via-emerald-700 hover:to-green-700 text-white py-2.5 sm:py-4 rounded-xl font-bold transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/20 active:scale-95 flex items-center justify-center gap-2 transform hover:translate-y-[-2px]"
           >
             <Sparkles className="w-5 h-5 animate-pulse" />
             Place Order Now
