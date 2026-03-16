@@ -249,7 +249,7 @@ export default function App() {
 <Route element={<AdminRoute />}>
   <Route path="/admin" element={<AdminLayout />}>
 
-    <Route path="dashboard" element={<Dashboard orders={[]} />} />
+    <Route path="dashboard" element={<Dashboard />} />
 
     <Route path="category" element={<Categories />} />
     <Route path="sub-category" element={<Subcategories />} />

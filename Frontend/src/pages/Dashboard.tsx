@@ -15,6 +15,7 @@ import { useEffect, useMemo, useState } from "react";
 import inventoryApi from "../api/inventoryApi";
 import { useCategories, useProducts } from "../hooks/useQueryHelpers";
 import paymentApi from "../api/paymentApi";
+import axios from "axios";
 import { 
   Package, 
   Layers, 
@@ -68,7 +69,7 @@ interface DashboardProps {
 
 /* ================= COMPONENT ================= */
 
-export default function Dashboard({ orders }: DashboardProps) {
+export default function Dashboard() {
   const { data: cats = [] } = useCategories();
   const { data: prods = [] } = useProducts();
 
@@ -77,18 +78,31 @@ export default function Dashboard({ orders }: DashboardProps) {
 
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [todayPayments, setTodayPayments] = useState<any[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
     paymentApi
       .get("/api/payments/today")
       .then((res) => setTodayPayments(res.data))
       .catch(console.error);
-  }, []);
 
-  useEffect(() => {
     inventoryApi.get("/inventory").then((res) => {
       setStocks(res.data);
     });
+
+    const token = localStorage.getItem("token");
+    axios
+      .get("/order/api/orders/adminallorders?page=0&size=50", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          setOrders(res.data);
+        } else if (res.data.content) {
+          setOrders(res.data.content);
+        }
+      })
+      .catch(console.error);
   }, []);
 
   const totalStockKg = useMemo(() => {
