@@ -15,7 +15,6 @@ import { useEffect, useMemo, useState } from "react";
 import inventoryApi from "../api/inventoryApi";
 import offlineInventoryApi from "../api/offlineInventoryApi";
 import { useCategories, useProducts } from "../hooks/useQueryHelpers";
-import { useSearch } from "../context/SearchContext";
 import paymentApi from "../api/paymentApi";
 import axios from "axios";
 import { 
@@ -73,7 +72,6 @@ interface DashboardProps {
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { searchQuery } = useSearch();
   const { data: cats = [] } = useCategories();
   const { data: prods = [] } = useProducts();
 
@@ -130,31 +128,16 @@ export default function Dashboard() {
     return stocks.filter((s: Stock) => s.quantity < 100).length;
   }, [stocks]);
 
-  const filteredProducts = useMemo(() => {
-    return products.filter((p: Product) => 
-      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      String(p.id).includes(searchQuery)
-    );
-  }, [products, searchQuery]);
-
-  const filteredOrders = useMemo(() => {
-    return orders.filter((o: Order) => 
-      o.userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      String(o.orderId).includes(searchQuery)
-    );
-  }, [orders, searchQuery]);
-
-  const filteredPayments = useMemo(() => {
-    return todayPayments.filter((p: any) => 
-      String(p.orderId).includes(searchQuery) ||
-      String(p.id).toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [todayPayments, searchQuery]);
-
-  const recentProducts = useMemo(() => filteredProducts.slice(0, 6), [filteredProducts]);
+  const recentProducts: Product[] = [...products]
+    .sort((a, b) => {
+      const da = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+      const db = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+      return db - da;
+    })
+    .slice(0, 6);
 
   const todayOrders = useMemo(() => {
-    return filteredOrders.filter((o) => {
+    return orders.filter((o) => {
       if (!o.placedAt) return false;
       
       // Backend format: "dd MMM yyyy, hh:mm a" (e.g., "16 Mar 2026, 06:30 PM")
@@ -168,9 +151,9 @@ export default function Dashboard() {
       
       return o.placedAt.startsWith(todayString);
     });
-  }, [filteredOrders]);
+  }, [orders]);
 
-  const todayPaymentsFiltered = filteredPayments;
+  const todayPaymentsFiltered = todayPayments;
 
   const stockByCategory = useMemo(() => {
     return categories.map((c: Category) => {
@@ -317,23 +300,17 @@ export default function Dashboard() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-          {recentProducts.length === 0 ? (
-            <div className="col-span-full py-12 text-center text-slate-400 font-medium italic">
-              No products match your search
-            </div>
-          ) : (
-            recentProducts.map((p: Product) => (
-              <div key={p.id} className="group relative">
-                <div className="aspect-square bg-slate-50 rounded-2xl p-4 flex items-center justify-center border border-slate-100 group-hover:border-emerald-200 transition-all duration-300">
-                  <img src={p.imageUrl} alt={p.name} className="max-h-full object-contain group-hover:scale-110 transition-transform duration-300" />
-                </div>
-                <div className="mt-3">
-                  <p className="text-sm font-semibold text-slate-800 truncate group-hover:text-emerald-600 transition-colors">{p.name}</p>
-                  <p className="text-[10px] uppercase tracking-wider text-slate-400 font-bold mt-1">ID: #{p.id}</p>
-                </div>
+          {recentProducts.map((p: Product) => (
+            <div key={p.id} className="group relative">
+              <div className="aspect-square bg-slate-50 rounded-2xl p-4 flex items-center justify-center border border-slate-100 group-hover:border-emerald-200 transition-all duration-300">
+                <img src={p.imageUrl} alt={p.name} className="max-h-full object-contain group-hover:scale-110 transition-transform duration-300" />
               </div>
-            ))
-          )}
+              <div className="mt-3">
+                <p className="text-sm font-semibold text-slate-800 truncate group-hover:text-emerald-600 transition-colors">{p.name}</p>
+                <p className="text-[10px] uppercase tracking-wider text-slate-400 font-bold mt-1">ID: #{p.id}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
