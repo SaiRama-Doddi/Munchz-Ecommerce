@@ -13,6 +13,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import inventoryApi from "../api/inventoryApi";
+import offlineInventoryApi from "../api/offlineInventoryApi";
 import { useCategories, useProducts } from "../hooks/useQueryHelpers";
 import paymentApi from "../api/paymentApi";
 import axios from "axios";
@@ -77,6 +78,7 @@ export default function Dashboard() {
   const products: Product[] = prods;
 
   const [stocks, setStocks] = useState<Stock[]>([]);
+  const [offlineStocks, setOfflineStocks] = useState<any[]>([]);
   const [todayPayments, setTodayPayments] = useState<any[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [chartView, setChartView] = useState<"distribution" | "inventory" | "orders">("distribution");
@@ -89,6 +91,10 @@ export default function Dashboard() {
 
     inventoryApi.get("/inventory").then((res) => {
       setStocks(res.data);
+    });
+
+    offlineInventoryApi.get("/offline-inventory").then((res) => {
+      setOfflineStocks(res.data);
     });
 
     const token = localStorage.getItem("token");
@@ -107,9 +113,18 @@ export default function Dashboard() {
   }, []);
 
   const totalStockKg = useMemo(() => {
-    const totalGrams = stocks.reduce((sum: number, s: Stock) => sum + s.quantity, 0);
-    return (totalGrams / 1000).toFixed(1);
-  }, [stocks]);
+    const onlineGrams = stocks.reduce((sum: number, s: Stock) => sum + s.quantity, 0);
+    const offlineUnits = offlineStocks.reduce((sum: number, s: any) => sum + (Number(s.quantity) || 0), 0);
+    
+    // Assuming offline units are also grams or direct units. 
+    // If they represent "units" like 500g, 1kg etc, we should ideally parse them, 
+    // but for "Aggregate" we'll sum the quantities.
+    return {
+      total: ((onlineGrams + offlineUnits) / 1000).toFixed(1),
+      online: (onlineGrams / 1000).toFixed(1),
+      offline: (offlineUnits / 1000).toFixed(1)
+    };
+  }, [stocks, offlineStocks]);
 
   const lowStockItems = useMemo(() => {
     return stocks.filter((s: Stock) => s.quantity < 100).length;
@@ -192,8 +207,8 @@ export default function Dashboard() {
         />
         <KPICard
           title="Global Stock Aggregate"
-          subtitle="Total KG"
-          value={`${totalStockKg}`}
+          subtitle={`${totalStockKg.online} ON / ${totalStockKg.offline} OFF`}
+          value={`${totalStockKg.total} KG`}
           icon={<ShoppingCart size={24} />}
           bgIcon={<ShoppingCart size={100} />}
           color="violet"
