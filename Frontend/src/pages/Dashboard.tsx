@@ -15,6 +15,7 @@ import { useEffect, useMemo, useState } from "react";
 import inventoryApi from "../api/inventoryApi";
 import offlineInventoryApi from "../api/offlineInventoryApi";
 import { useCategories, useProducts } from "../hooks/useQueryHelpers";
+import { useSearch } from "../context/SearchContext";
 import paymentApi from "../api/paymentApi";
 import axios from "axios";
 import { 
@@ -71,6 +72,8 @@ interface DashboardProps {
 /* ================= COMPONENT ================= */
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+  const { searchQuery } = useSearch();
   const { data: cats = [] } = useCategories();
   const { data: prods = [] } = useProducts();
 
@@ -127,6 +130,48 @@ export default function Dashboard() {
     return stocks.filter((s: Stock) => s.quantity < 100).length;
   }, [stocks]);
 
+  const filteredProducts = useMemo(() => {
+    return products.filter((p: Product) => 
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      String(p.id).includes(searchQuery)
+    );
+  }, [products, searchQuery]);
+
+  const filteredOrders = useMemo(() => {
+    return orders.filter((o: Order) => 
+      o.userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      String(o.orderId).includes(searchQuery)
+    );
+  }, [orders, searchQuery]);
+
+  const filteredPayments = useMemo(() => {
+    return todayPayments.filter((p: any) => 
+      String(p.orderId).includes(searchQuery) ||
+      String(p.id).toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [todayPayments, searchQuery]);
+
+  const recentProducts = useMemo(() => filteredProducts.slice(0, 6), [filteredProducts]);
+
+  const todayOrders = useMemo(() => {
+    return filteredOrders.filter((o) => {
+      if (!o.placedAt) return false;
+      
+      // Backend format: "dd MMM yyyy, hh:mm a" (e.g., "16 Mar 2026, 06:30 PM")
+      const now = new Date();
+      const day = String(now.getDate()).padStart(2, '0');
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const month = monthNames[now.getMonth()];
+      const year = now.getFullYear();
+      
+      const todayString = `${day} ${month} ${year}`;
+      
+      return o.placedAt.startsWith(todayString);
+    });
+  }, [filteredOrders]);
+
+  const todayPaymentsFiltered = filteredPayments;
+
   const stockByCategory = useMemo(() => {
     return categories.map((c: Category) => {
       const total = stocks
@@ -139,34 +184,6 @@ export default function Dashboard() {
       };
     }).filter(item => item.value > 0);
   }, [categories, stocks]);
-
-  const recentProducts: Product[] = [...products]
-    .sort((a, b) => {
-      const da = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-      const db = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-      return db - da;
-    })
-    .slice(0, 6);
-
-  const todayOrders = useMemo(() => {
-    return orders.filter((o) => {
-      if (!o.placedAt) return false;
-      
-      // Backend format: "dd MMM yyyy, hh:mm a" (e.g., "16 Mar 2026, 06:30 PM")
-      const now = new Date();
-      const day = String(now.getDate()).padStart(2, '0');
-      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-      const month = monthNames[now.getMonth()];
-      const year = now.getFullYear();
-      
-      const todayString = `${day} ${month} ${year}`;
-      
-      // We check if the placedAt string contains today's date (dd MMM yyyy)
-      return o.placedAt.startsWith(todayString);
-    });
-  }, [orders]);
-
-  const navigate = useNavigate();
 
   return (
     <div className="space-y-10 pb-10">
@@ -300,17 +317,23 @@ export default function Dashboard() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
-          {recentProducts.map((p: Product) => (
-            <div key={p.id} className="group relative">
-              <div className="aspect-square bg-slate-50 rounded-2xl p-4 flex items-center justify-center border border-slate-100 group-hover:border-emerald-200 transition-all duration-300">
-                <img src={p.imageUrl} alt={p.name} className="max-h-full object-contain group-hover:scale-110 transition-transform duration-300" />
-              </div>
-              <div className="mt-3">
-                <p className="text-sm font-semibold text-slate-800 truncate group-hover:text-emerald-600 transition-colors">{p.name}</p>
-                <p className="text-[10px] uppercase tracking-wider text-slate-400 font-bold mt-1">ID: #{p.id}</p>
-              </div>
+          {recentProducts.length === 0 ? (
+            <div className="col-span-full py-12 text-center text-slate-400 font-medium italic">
+              No products match your search
             </div>
-          ))}
+          ) : (
+            recentProducts.map((p: Product) => (
+              <div key={p.id} className="group relative">
+                <div className="aspect-square bg-slate-50 rounded-2xl p-4 flex items-center justify-center border border-slate-100 group-hover:border-emerald-200 transition-all duration-300">
+                  <img src={p.imageUrl} alt={p.name} className="max-h-full object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div className="mt-3">
+                  <p className="text-sm font-semibold text-slate-800 truncate group-hover:text-emerald-600 transition-colors">{p.name}</p>
+                  <p className="text-[10px] uppercase tracking-wider text-slate-400 font-bold mt-1">ID: #{p.id}</p>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </section>
 
@@ -367,18 +390,18 @@ export default function Dashboard() {
               <h2 className="text-xl font-bold text-slate-800">Incoming Payments</h2>
             </div>
             <span className="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-lg uppercase tracking-wider">
-              {todayPayments.length} Recv
+              {todayPaymentsFiltered.length} Recv
             </span>
           </div>
 
           <div className="space-y-4">
-            {todayPayments.length === 0 ? (
+            {todayPaymentsFiltered.length === 0 ? (
               <div className="text-slate-400 text-sm font-medium py-10 flex flex-col items-center gap-3">
                 <CreditCard size={40} className="opacity-20" />
                 No payments received today
               </div>
             ) : (
-              todayPayments.map((p: any) => (
+              todayPaymentsFiltered.map((p: any) => (
                 <div key={p.id} className="flex items-center justify-between p-4 bg-slate-50/50 rounded-2xl border border-slate-100 hover:border-emerald-200 transition-all duration-300 group">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-emerald-500 shadow-sm border border-slate-100">
