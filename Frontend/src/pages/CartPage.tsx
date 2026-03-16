@@ -118,12 +118,7 @@ export default function CartPremium() {
   const savingsAmount = totalMrp - totalPrice;
 
   return (
-   <div
-  className=" z-0
-  fixed inset-0 z-50 bg-white
-  sm:relative sm:w-full sm:max-w-7xl sm:mx-auto sm:h-auto sm:shadow-none
-flex flex-col overflow-y-auto relative"
->     
+    <div className="relative w-full min-h-screen bg-white flex flex-col overflow-hidden">
       {/* ==================== CELEBRATION OVERLAY ==================== */}
       {showCelebration && (
         <div className="fixed inset-0 z-[100] pointer-events-none flex items-center justify-center overflow-hidden">

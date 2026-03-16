@@ -130,7 +130,7 @@ export default function CheckoutPage() {
               replace: true,
               state: { orderId },
             });
-          }, 3500); // 3.5 second premium delay for user to see success
+          }, 1500); // Optimized 1.5 second delay for smoother flow
         } catch {
           alert("Payment verification failed");
         }
