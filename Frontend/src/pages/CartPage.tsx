@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useCart } from "../state/CartContext";
 import { useNavigate } from "react-router-dom";
 import api from "../api/coupon";
-import { ArrowLeft, Sparkles, Lock, Gift, Trash2, Plus, Minus, X, Star, Check } from "lucide-react";
+import { ArrowLeft, Sparkles, Lock, Gift, Trash2, Plus, Minus, X, Star, Check, PartyPopper, Trophy, Flame } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 export default function CartPremium() {
@@ -15,6 +15,7 @@ export default function CartPremium() {
   const [couponMessage, setCouponMessage] = useState("");
   const [messageType, setMessageType] = useState<"success" | "error">("success");
   const [loadingCoupon, setLoadingCoupon] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
   const [availableCoupons, setAvailableCoupons] = useState<any[]>([]);
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
 
@@ -83,6 +84,10 @@ export default function CartPremium() {
       setAppliedCoupon(code);
       setCouponMessage(`Coupon "${code}" applied successfully`);
       setMessageType("success");
+      
+      // Trigger Celebration
+      setShowCelebration(true);
+      setTimeout(() => setShowCelebration(false), 3000);
     } catch (error: any) {
       setDiscount(0);
       setCouponMessage(error?.response?.data?.message || "Invalid coupon");
@@ -102,18 +107,60 @@ export default function CartPremium() {
 
 
 
-  const couponTarget = 200;
-  const progress = Math.min((totalPrice / couponTarget) * 100, 100);
+  const milestones = [
+    { target: 499, label: "Free Gift", icon: <Gift className="w-3 h-3" />, color: "from-blue-400 to-indigo-500" },
+    { target: 899, label: "Extra Off", icon: <Star className="w-3 h-3" />, color: "from-indigo-500 to-purple-600" },
+    { target: 1299, label: "Munchz Box", icon: <Trophy className="w-3 h-3" />, color: "from-purple-600 to-pink-500" },
+  ];
+
+  const maxMilestone = milestones[milestones.length - 1].target;
+  const progress = Math.min((totalPrice / maxMilestone) * 100, 100);
   const savingsAmount = totalMrp - totalPrice;
-  const isCouponUnlocked = totalPrice >= couponTarget;
 
   return (
    <div
   className=" z-0
   fixed inset-0 z-50 bg-white
   sm:relative sm:w-full sm:max-w-7xl sm:mx-auto sm:h-auto sm:shadow-none
-flex flex-col overflow-y-auto"
->     <div className="absolute inset-0 -z-10 bg-gradient-to-b from-slate-50 to-white"></div>
+flex flex-col overflow-y-auto relative"
+>     
+      {/* ==================== CELEBRATION OVERLAY ==================== */}
+      {showCelebration && (
+        <div className="fixed inset-0 z-[100] pointer-events-none flex items-center justify-center overflow-hidden">
+          {/* Confetti-like particles using CSS */}
+          <div className="absolute inset-0 bg-white/20 backdrop-blur-[2px] animate-fadeIn"></div>
+          <div className="relative transform scale-150 sm:scale-[2]">
+            <div className="absolute inset-0 animate-ping bg-emerald-500/20 rounded-full"></div>
+            <PartyPopper className="w-16 h-16 text-emerald-500 animate-[bounce_0.5s_infinite]" />
+            <h2 className="absolute top-full left-1/2 -translate-x-1/2 mt-4 whitespace-nowrap text-3xl font-black text-slate-900 drop-shadow-lg animate-bounce">
+              BOOM! UNLOCKED 🚀
+            </h2>
+          </div>
+          
+          {/* Simple Particle Rain */}
+          {[...Array(20)].map((_, i) => (
+            <div 
+              key={i}
+              className={`absolute top-0 w-2 h-2 rounded-full animate-fall bg-gradient-to-br ${milestones[i % 3].color}`}
+              style={{
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 2}s`,
+                animationDuration: `${2 + Math.random() * 3}s`
+              }}
+            />
+          ))}
+          
+          <style dangerouslySetInnerHTML={{ __html: `
+            @keyframes fall {
+              0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+              100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+            }
+            .animate-fall { animation: fall linear infinite; }
+          `}} />
+        </div>
+      )}
+
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-slate-50 to-white"></div>
         
         {/* ==================== PREMIUM HEADER ==================== */}
         <div className="sticky top-0 z-40 backdrop-blur-lg bg-white/95 border-b border-slate-200/60 px-4 sm:px-6 py-4 shadow-sm">
@@ -137,60 +184,90 @@ flex flex-col overflow-y-auto"
           </div>
         </div>
 
-        {/* ==================== UNLOCK COUPONS SECTION ==================== */}
+        {/* ==================== MILESTONE TRACKER SECTION ==================== */}
         <div className="flex-shrink-0 px-4 sm:px-6 py-4 border-b border-slate-200/50">
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 border border-blue-200/60 p-4 sm:p-5 shadow-sm">
-            {/* ANIMATED BACKGROUND ELEMENTS */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-200 to-transparent rounded-full blur-3xl opacity-20 -mr-16 -mt-16 animate-pulse"></div>
-            <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-indigo-200 to-transparent rounded-full blur-3xl opacity-20 -ml-12 -mb-12 animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="relative overflow-hidden rounded-[2rem] bg-slate-900 text-white p-6 shadow-2xl border border-white/10">
+            {/* AMBIENT LIGHTS */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+              <div className="absolute -top-24 -left-24 w-64 h-64 bg-emerald-500/20 rounded-full blur-[80px] animate-pulse"></div>
+              <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-blue-500/20 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '1s' }}></div>
+            </div>
 
             <div className="relative z-10">
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3 flex-1">
-                  <div className="relative p-2 bg-white/70 backdrop-blur-sm rounded-lg shadow-sm">
-                    <Sparkles className="w-5 h-5 text-blue-600 animate-spin" style={{ animationDuration: '3s' }} />
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 shadow-xl">
+                    <Flame className="w-6 h-6 text-emerald-400 animate-bounce" />
                   </div>
                   <div>
-                    <p className="font-bold text-slate-900 text-sm sm:text-base">
-                      {isCouponUnlocked ? (
-                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-                          200+ Coupons Unlocked!
-                        </span>
-                      ) : (
-                        "Unlock Premium Coupons"
-                      )}
-                    </p>
-                    <p className="text-xs text-slate-600 mt-1">
-                      {isCouponUnlocked
-                        ? "Enjoy exclusive discounts on your cart"
-                        : `Add ₹${Math.max(0, couponTarget - totalPrice)} more to unlock`}
-                    </p>
+                    <h3 className="text-lg font-black tracking-tight leading-none">Incentives Tracker</h3>
+                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] mt-1.5 font-mono">Spend more, earn more</p>
                   </div>
                 </div>
-                {isCouponUnlocked && (
-                  <div className="flex-shrink-0 ml-2">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-white shadow-md">
-                      <Check className="w-5 h-5 text-blue-600 animate-bounce" />
-                    </div>
-                  </div>
-                )}
+                <div className="text-right">
+                  <p className="text-2xl font-black text-white leading-none">₹{totalPrice.toFixed(0)}</p>
+                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Current Reward Level</p>
+                </div>
               </div>
 
-              {/* PROGRESS BAR */}
-              <div className="space-y-2">
-                <div className="w-full bg-white/60 backdrop-blur-sm h-2.5 rounded-full overflow-hidden border border-blue-200/40 shadow-inner">
-                  <div
-                    style={{ width: `${progress}%` }}
-                    className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-full transition-all duration-700 ease-out shadow-lg"
-                  />
+              {/* MODERN TRACK WITH MILESTONES */}
+              <div className="relative pt-6 pb-2 px-1">
+                {/* TRACK LINE */}
+                <div className="absolute top-1/2 left-0 w-full h-1 bg-white/10 rounded-full -translate-y-1/2"></div>
+                <div 
+                  className="absolute top-1/2 left-0 h-1 bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 rounded-full -translate-y-1/2 transition-all duration-1000 ease-out shadow-[0_0_20px_rgba(16,185,129,0.3)]"
+                  style={{ width: `${progress}%` }}
+                >
+                  {/* GLOW TIP */}
+                  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full shadow-[0_0_15px_#fff] scale-125 animate-pulse"></div>
                 </div>
-                <div className="flex justify-between items-center px-1">
-                  <span className="text-xs font-semibold text-slate-700">₹{Math.min(totalPrice, couponTarget)}</span>
-                  <span className="text-xs font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    {Math.round(progress)}%
-                  </span>
-                  <span className="text-xs font-semibold text-slate-700">₹{couponTarget}</span>
+
+                {/* MILESTONE MARKERS */}
+                <div className="relative flex justify-between">
+                  {milestones.map((m, idx) => {
+                    const isReached = totalPrice >= m.target;
+                    const pos = (m.target / maxMilestone) * 100;
+                    
+                    return (
+                      <div 
+                        key={idx}
+                        className="absolute flex flex-col items-center -translate-x-1/2"
+                        style={{ left: `${pos}%` }}
+                      >
+                        <div className={`
+                          w-8 h-8 rounded-full flex items-center justify-center border-2 transition-all duration-500
+                          ${isReached 
+                            ? `bg-gradient-to-br ${m.color} border-white shadow-[0_0_15px_rgba(255,255,255,0.3)] scale-110` 
+                            : 'bg-slate-800 border-slate-700 text-slate-500'
+                          }
+                        `}>
+                          {isReached ? m.icon : <Lock className="w-3 h-3" />}
+                        </div>
+                        <div className="mt-4 text-center">
+                          <p className={`text-[10px] font-black uppercase tracking-tighter ${isReached ? 'text-white' : 'text-slate-500'}`}>
+                            {m.label}
+                          </p>
+                          <p className={`text-[9px] font-bold font-mono mt-0.5 ${isReached ? 'text-emerald-400' : 'text-slate-600'}`}>
+                            {isReached ? 'Unlocked' : `₹${m.target}`}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
+              </div>
+
+              {/* STATUS TEXT */}
+              <div className="mt-16 flex items-center justify-center gap-2 py-3 px-4 bg-white/5 rounded-2xl border border-white/10">
+                {progress < 100 ? (
+                  <p className="text-xs font-bold text-slate-300 italic">
+                    Add <span className="text-emerald-400 not-italic font-black">₹{Math.max(0, milestones.find(m => totalPrice < m.target)?.target! - totalPrice)}</span> more for the next reward!
+                  </p>
+                ) : (
+                  <p className="text-xs font-black text-emerald-400 uppercase tracking-widest animate-pulse flex items-center gap-2">
+                    <PartyPopper className="w-4 h-4" /> Max Rewards Unlocked!
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -226,7 +303,7 @@ flex flex-col overflow-y-auto"
                 return (
                   <div
                     key={i}
-                    className="group bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 hover:shadow-xl hover:border-slate-300 transition-all duration-300"
+                    className="group bg-white border border-slate-200/60 rounded-[2rem] p-4 sm:p-6 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.05)] hover:border-emerald-200/50 hover:-translate-y-1"
                   >
                     {/* PRODUCT IMAGE & DELETE */}
                     <div className="flex gap-4 mb-4">
@@ -348,12 +425,15 @@ flex flex-col overflow-y-auto"
                 return (
                   <div
                     key={c.id}
-                    className={`border rounded-xl p-3 transition-all duration-300 ${
+                    className={`group relative overflow-hidden border rounded-2xl p-4 transition-all duration-500 ${
                       eligible
-                        ? "bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50 border-green-200 hover:shadow-md hover:border-green-300"
-                        : "bg-slate-50 border-slate-200 opacity-75"
+                        ? "bg-slate-50 border-emerald-100 hover:shadow-xl hover:border-emerald-300"
+                        : "bg-slate-50/50 border-slate-100 opacity-60"
                     }`}
                   >
+                    {eligible && (
+                      <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full -mr-12 -mt-12 group-hover:scale-150 transition-transform duration-700"></div>
+                    )}
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
