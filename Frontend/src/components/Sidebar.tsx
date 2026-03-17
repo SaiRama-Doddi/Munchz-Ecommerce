@@ -11,7 +11,6 @@ import {
   PackageSearch,
   Store,
   Home,
-  LogOut,
   ChevronRight,
   CreditCard
 } from "lucide-react";
@@ -49,17 +48,6 @@ const items = [
 
 export default function Sidebar() {
   const navigate = useNavigate();
-
-  const storedProfile = localStorage.getItem("profile");
-  const profile = storedProfile ? JSON.parse(storedProfile) : null;
-  const email = profile?.email || "Admin";
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("profile");
-    localStorage.removeItem("roles");
-    navigate("/login", { replace: true });
-  };
 
   return (
     <aside className="fixed left-0 top-0 w-72 h-screen bg-emerald-600 text-white px-6 py-8 border-r border-emerald-500 shadow-xl flex flex-col z-50">
@@ -118,26 +106,6 @@ export default function Sidebar() {
           );
         })}
       </nav>
-
-      {/* FOOTER / USER INFO */}
-      <div className="mt-8 pt-6 border-t border-emerald-500/30">
-        <div className="flex items-center gap-3 mb-6 px-2">
-          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-xs font-black text-emerald-600 shadow-lg">
-            {email.charAt(0).toUpperCase()}
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-black text-white truncate">{profile?.firstName || "Admin"}</p>
-            <p className="text-[10px] text-emerald-200 truncate font-black uppercase tracking-tighter">{email}</p>
-          </div>
-        </div>
-        <button
-          onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-black text-white hover:bg-red-500 transition-all duration-300 border border-white/20"
-        >
-          <LogOut size={18} />
-          <span>Logout</span>
-        </button>
-      </div>
     </aside>
   );
 }

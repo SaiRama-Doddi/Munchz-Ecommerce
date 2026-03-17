@@ -19,7 +19,7 @@ export default function AdminLayout() {
     localStorage.removeItem("profile");
     sessionStorage.clear();
     qc.clear();
-    window.location.replace("/admin/login");
+    window.location.replace("/login");
   };
 
   return (
