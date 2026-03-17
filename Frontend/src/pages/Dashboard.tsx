@@ -103,7 +103,7 @@ export default function Dashboard() {
 
     const token = localStorage.getItem("token");
     axios
-      .get("/order/api/orders/adminallorders?page=0&size=1000", {
+      .get("/order/api/orders/adminallorders?page=0&size=1000&sort=placedAt,desc", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
