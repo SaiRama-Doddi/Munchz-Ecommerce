@@ -439,20 +439,20 @@ export default function Dashboard() {
               </div>
             </div>
             
-            <div className="flex flex-wrap gap-2">
+            <div className="flex items-center bg-gray-50 p-1 rounded-xl border border-gray-100 flex-wrap sm:flex-nowrap">
               {[
-                { label: 'ALL HISTORY', value: 'all' },
+                { label: 'ALL', value: 'all' },
                 { label: 'TODAY', value: '24h' },
-                { label: 'LAST 7 DAYS', value: '7d' },
-                { label: 'LAST 30 DAYS', value: '30d' },
+                { label: '7D', value: '7d' },
+                { label: '30D', value: '30d' },
               ].map((f) => (
                 <button
                   key={f.value}
                   onClick={() => setListFilter(f.value as any)}
-                  className={`px-5 py-2.5 rounded-xl text-[10px] font-black transition-all duration-300 uppercase tracking-wider ${
+                  className={`px-4 py-1.5 rounded-lg text-[10px] font-black transition-all duration-300 uppercase tracking-widest ${
                     listFilter === f.value 
-                      ? 'bg-black text-white shadow-xl shadow-black/10' 
-                      : 'bg-white text-gray-400 border border-gray-100 hover:border-emerald-500 hover:text-emerald-600'
+                      ? 'bg-black text-white shadow-lg shadow-black/20 scale-105' 
+                      : 'text-gray-400 hover:text-black hover:bg-white'
                   }`}
                 >
                   {f.label}

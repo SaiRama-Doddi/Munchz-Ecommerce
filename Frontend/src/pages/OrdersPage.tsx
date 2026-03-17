@@ -195,20 +195,20 @@ const OrdersPage: React.FC = () => {
       {/* FILTERS BAR */}
       <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm space-y-8">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-          <div className="flex flex-wrap items-center gap-2 bg-gray-50/50 p-1.5 rounded-[1.5rem] border border-gray-100">
+          <div className="flex items-center bg-gray-50/80 p-1.5 rounded-2xl border border-gray-100 w-full lg:w-auto">
             {[
               { label: "ALL HISTORY", value: "ALL" },
               { label: "TODAY", value: "TODAY" },
-              { label: "LAST 7 DAYS", value: "7D" },
-              { label: "LAST 30 DAYS", value: "30D" },
+              { label: "7 DAYS", value: "7D" },
+              { label: "30 DAYS", value: "30D" },
             ].map((f) => (
               <button
                 key={f.value}
                 onClick={() => setFilterPeriod(f.value as any)}
-                className={`px-6 py-3 rounded-2xl text-[10px] font-black transition-all duration-500 uppercase tracking-wider ${
+                className={`flex-1 lg:flex-none px-6 py-2.5 rounded-xl text-[10px] font-black transition-all duration-500 uppercase tracking-wider ${
                   filterPeriod === f.value
-                    ? "bg-black text-white shadow-xl shadow-black/20 scale-105"
-                    : "text-gray-400 hover:text-black hover:bg-white"
+                    ? "bg-black text-white shadow-xl shadow-black/20"
+                    : "text-gray-400 hover:text-black"
                 }`}
               >
                 {f.label}
