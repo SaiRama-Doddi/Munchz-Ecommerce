@@ -24,7 +24,8 @@ import {
   AlertTriangle, 
   ShoppingCart, 
   CreditCard,
-  Plus
+  Plus,
+  Boxes
 } from "lucide-react";
 
 /* ================= TYPES ================= */
