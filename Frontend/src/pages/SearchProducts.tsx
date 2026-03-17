@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import api from "../api/client";
 import { useCart } from "../state/CartContext";
-import { ArrowLeft, ChevronRight, Filter } from "lucide-react";
+import { ArrowLeft, ChevronRight, Filter, Check } from "lucide-react";
 import ProductReviewStats from "./ProductReviewStats";
 import Footer from "../components/Footer";
 import TopHeader from "../components/TopHeader";

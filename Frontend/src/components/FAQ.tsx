@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, HelpCircle, MessageCircleQuincy } from "lucide-react";
+import { ChevronDown, HelpCircle, MessageCircle } from "lucide-react";
 
 interface FAQItem {
   question: string;
@@ -109,7 +109,7 @@ export default function FAQ() {
               <h4 className="text-sm font-black text-gray-900 uppercase tracking-widest">Consult our elite concierge</h4>
            </div>
            <button className="h-14 px-8 bg-black text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-xl shadow-black/10 flex items-center gap-3">
-              <MessageCircleQuincy size={16} />
+              <MessageCircle size={16} />
               Priority Support
            </button>
         </div>

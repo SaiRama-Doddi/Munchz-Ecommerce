@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Mail, User as UserIcon, LayoutGrid, List, Eye, Upload, Star, Trash2, Package, Calendar, MapPin, ChevronRight, FileText, ShoppingBag } from "lucide-react";
+import { Mail, User as UserIcon, LayoutGrid, List, Eye, Upload, Star, Trash2, Package, Calendar, MapPin, ChevronRight, FileText, ShoppingBag, Truck, ArrowRight } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { FaTimes } from "react-icons/fa";
