@@ -13,6 +13,7 @@ import {
   Home,
   LogOut,
   ChevronRight,
+  CreditCard
 } from "lucide-react";
 
 const items = [
@@ -26,6 +27,7 @@ const items = [
   { to: "/admin/sub-category", label: "Subcategories", icon: Layers },
   { to: "/admin/products", label: "Products", icon: ShoppingBag },
   { to: "/admin/orders", label: "Orders", icon: ClipboardList },
+  { to: "/admin/payments", label: "Payments", icon: CreditCard },
   { 
     label: "Stock Management", 
     type: "header" 

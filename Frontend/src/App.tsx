@@ -41,6 +41,7 @@ import StockDetails from "./pages/StockDetails";
 import AddOfflineStock from "./pages/OfflineStockAdd";
 import OfflineInventoryList from "./pages/OfflineInventoryList";
 import AdminCompleteStock from "./pages/AdminCompleteStock";
+import AdminPayments from "./pages/AdminPayments";
 
 import OrderSuccessPage from "./pages/OrderSuccessPage";
 import UserOrders from "./pages/UserOrders";
@@ -260,6 +261,7 @@ export default function App() {
     <Route path="edit-product/:id" element={<EditProduct />} />
 
     <Route path="orders" element={<OrdersPage />} />
+    <Route path="payments" element={<AdminPayments />} />
     <Route path="coupons" element={<AdminCoupons />} />
     <Route path="reviews" element={<AdminReviews />} />
 

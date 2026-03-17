@@ -250,39 +250,17 @@ export default function Dashboard() {
     <div className="space-y-10 pb-10 bg-white min-h-screen">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-black tracking-tight">Overview</h1>
-          <p className="text-gray-400 font-medium">Daily store performance snapshot</p>
+          <h1 className="text-4xl font-black text-black tracking-tight">System Overview</h1>
+          <p className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em] mt-1">Real-time Performance Metrics</p>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="flex items-center bg-gray-50 p-1 rounded-xl border border-gray-100">
-            {[
-              { label: '24h', value: '24h' },
-              { label: '7d', value: '7d' },
-              { label: '30d', value: '30d' },
-              { label: 'All', value: 'all' }
-            ].map((f) => (
-              <button
-                key={f.value}
-                onClick={() => setTimeFilter(f.value as any)}
-                className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                  timeFilter === f.value 
-                    ? 'bg-white text-emerald-600 shadow-sm border border-gray-100' 
-                    : 'text-gray-400 hover:text-gray-600'
-                }`}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
-          <button 
-            onClick={() => navigate("/admin/add-product")}
-            className="flex items-center gap-2 bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-lg shadow-emerald-600/10 hover:scale-105 transition-transform duration-300"
-          >
-            <Plus size={18} />
-            <span>New Product</span>
-          </button>
-        </div>
+        <button 
+          onClick={() => navigate("/admin/add-product")}
+          className="flex items-center gap-2 bg-emerald-600 text-white px-7 py-3.5 rounded-[1.25rem] font-black text-[10px] uppercase tracking-widest shadow-xl shadow-emerald-600/20 hover:scale-105 transition-all duration-500"
+        >
+          <Plus size={18} />
+          <span>Launch New Product</span>
+        </button>
       </div>
 
       {/* KPI CARDS */}
@@ -294,6 +272,7 @@ export default function Dashboard() {
           icon={<CreditCard size={24} />}
           bgIcon={<CreditCard size={100} />}
           color="black"
+          onClick={() => navigate("/admin/payments")}
         />
         <KPICard
           title="Global Aggregate"
@@ -451,20 +430,20 @@ export default function Dashboard() {
               </div>
             </div>
             
-            <div className="flex items-center bg-gray-50 p-1 rounded-xl border border-gray-100 self-end sm:self-auto">
+            <div className="flex flex-wrap gap-2">
               {[
-                { label: 'Today', value: '24h' },
-                { label: '7d', value: '7d' },
-                { label: '30d', value: '30d' },
-                { label: 'All', value: 'all' }
+                { label: 'ALL HISTORY', value: 'all' },
+                { label: 'TODAY', value: '24h' },
+                { label: 'LAST 7 DAYS', value: '7d' },
+                { label: 'LAST 30 DAYS', value: '30d' },
               ].map((f) => (
                 <button
                   key={f.value}
                   onClick={() => setListFilter(f.value as any)}
-                  className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${
+                  className={`px-5 py-2.5 rounded-xl text-[10px] font-black transition-all duration-300 uppercase tracking-wider ${
                     listFilter === f.value 
-                      ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20' 
-                      : 'text-gray-400 hover:text-emerald-600'
+                      ? 'bg-black text-white shadow-xl shadow-black/10' 
+                      : 'bg-white text-gray-400 border border-gray-100 hover:border-emerald-500 hover:text-emerald-600'
                   }`}
                 >
                   {f.label}
