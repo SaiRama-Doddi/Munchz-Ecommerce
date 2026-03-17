@@ -35,4 +35,9 @@ public class PaymentController {
     public ResponseEntity<?> getTodayPayments() {
         return ResponseEntity.ok(paymentService.getTodayPayments());
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllPayments() {
+        return ResponseEntity.ok(paymentService.getAllPayments());
+    }
 }

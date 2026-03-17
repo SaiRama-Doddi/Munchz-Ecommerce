@@ -80,14 +80,15 @@ export default function Dashboard() {
 
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [offlineStocks, setOfflineStocks] = useState<any[]>([]);
-  const [todayPayments, setTodayPayments] = useState<any[]>([]);
+  const [allPayments, setAllPayments] = useState<any[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [chartView, setChartView] = useState<"distribution" | "inventory" | "orders">("distribution");
+  const [timeFilter, setTimeFilter] = useState<"24h" | "7d" | "30d" | "all">("all");
 
   useEffect(() => {
     paymentApi
-      .get("/api/payments/today")
-      .then((res) => setTodayPayments(res.data))
+      .get("/api/payments/all")
+      .then((res) => setAllPayments(res.data))
       .catch(console.error);
 
     inventoryApi.get("/inventory").then((res) => {
@@ -100,7 +101,7 @@ export default function Dashboard() {
 
     const token = localStorage.getItem("token");
     axios
-      .get("/order/api/orders/adminallorders?page=0&size=50&sort=placedAt,desc", {
+      .get("/order/api/orders/adminallorders?page=0&size=1000", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -136,24 +137,50 @@ export default function Dashboard() {
     })
     .slice(0, 6);
 
-  const todayOrders = useMemo(() => {
+  const filteredOrders = useMemo(() => {
     return orders.filter((o) => {
-      if (!o.placedAt) return false;
-      
-      // Backend format: "dd MMM yyyy, hh:mm a" (e.g., "16 Mar 2026, 06:30 PM")
-      const now = new Date();
-      const day = String(now.getDate()).padStart(2, '0');
-      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-      const month = monthNames[now.getMonth()];
-      const year = now.getFullYear();
-      
-      const todayString = `${day} ${month} ${year}`;
-      
-      return o.placedAt.startsWith(todayString);
-    });
-  }, [orders]);
+      if (!o.placedAt || timeFilter === "all") return true;
 
-  const todayPaymentsFiltered = todayPayments;
+      const orderDate = new Date(o.placedAt);
+      const now = new Date();
+      const diffHrs = (now.getTime() - orderDate.getTime()) / (1000 * 60 * 60);
+
+      if (timeFilter === "24h") return diffHrs <= 24;
+      if (timeFilter === "7d") return diffHrs <= 168; // 7 days
+      if (timeFilter === "30d") return diffHrs <= 720; // 30 days
+      return true;
+    });
+  }, [orders, timeFilter]);
+
+  const filteredPayments = useMemo(() => {
+    return allPayments.filter((p) => {
+      if (!p.createdAt || timeFilter === "all") return true;
+
+      const payDate = new Date(p.createdAt);
+      const now = new Date();
+      const diffHrs = (now.getTime() - payDate.getTime()) / (1000 * 60 * 60);
+
+      if (timeFilter === "24h") return diffHrs <= 24;
+      if (timeFilter === "7d") return diffHrs <= 168;
+      if (timeFilter === "30d") return diffHrs <= 720;
+      return true;
+    });
+  }, [allPayments, timeFilter]);
+
+  const totalRevenue = useMemo(() => {
+    return filteredPayments
+      .filter(p => p.status === 'paid' || p.status === 'SUCCESS')
+      .reduce((sum, p) => sum + (p.amount / 100), 0);
+  }, [filteredPayments]);
+
+  const ordersByDate = useMemo(() => {
+    const map: Record<string, number> = {};
+    filteredOrders.forEach(o => {
+      const date = o.placedAt ? o.placedAt.split(',')[0] : 'Unknown';
+      map[date] = (map[date] || 0) + 1;
+    });
+    return Object.entries(map).map(([name, value]) => ({ name, value })).reverse().slice(-7);
+  }, [filteredOrders]);
 
   const stockByCategory = useMemo(() => {
     return categories.map((c: Category) => {
@@ -175,17 +202,48 @@ export default function Dashboard() {
           <h1 className="text-3xl font-extrabold text-black tracking-tight">Overview</h1>
           <p className="text-gray-400 font-medium">Daily store performance snapshot</p>
         </div>
-        <button 
-          onClick={() => navigate("/admin/add-product")}
-          className="flex items-center gap-2 bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-lg shadow-emerald-600/10 hover:scale-105 transition-transform duration-300"
-        >
-          <Plus size={18} />
-          <span>New Product</span>
-        </button>
+
+        <div className="flex items-center gap-4">
+          <div className="flex items-center bg-gray-50 p-1 rounded-xl border border-gray-100">
+            {[
+              { label: '24h', value: '24h' },
+              { label: '7d', value: '7d' },
+              { label: '30d', value: '30d' },
+              { label: 'All', value: 'all' }
+            ].map((f) => (
+              <button
+                key={f.value}
+                onClick={() => setTimeFilter(f.value as any)}
+                className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  timeFilter === f.value 
+                    ? 'bg-white text-emerald-600 shadow-sm border border-gray-100' 
+                    : 'text-gray-400 hover:text-gray-600'
+                }`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+          <button 
+            onClick={() => navigate("/admin/add-product")}
+            className="flex items-center gap-2 bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-lg shadow-emerald-600/10 hover:scale-105 transition-transform duration-300"
+          >
+            <Plus size={18} />
+            <span>New Product</span>
+          </button>
+        </div>
       </div>
 
       {/* KPI CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+        <KPICard
+          title="Revenue"
+          subtitle="Total Sales"
+          value={`₹${totalRevenue.toLocaleString()}`}
+          icon={<CreditCard size={24} />}
+          bgIcon={<CreditCard size={100} />}
+          color="black"
+        />
         <KPICard
           title="Consolidated Catalog"
           subtitle="Categories"
@@ -196,22 +254,22 @@ export default function Dashboard() {
           onClick={() => navigate("/admin/category")}
         />
         <KPICard
-          title="E-Commerce Catalog"
-          subtitle="Live Products"
+          title="Orders"
+          subtitle="Total volume"
+          value={filteredOrders.length}
+          icon={<ShoppingCart size={24} />}
+          bgIcon={<ShoppingCart size={100} />}
+          color="emerald"
+          onClick={() => navigate("/admin/complete-stock")}
+        />
+        <KPICard
+          title="Products"
+          subtitle="Live Catalog"
           value={products.length}
           icon={<Package size={24} />}
           bgIcon={<Package size={100} />}
           color="emerald"
           onClick={() => navigate("/admin/products")}
-        />
-        <KPICard
-          title="Global Aggregate"
-          subtitle="Total Units"
-          value={totalStock.total.toLocaleString()}
-          icon={<ShoppingCart size={24} />}
-          bgIcon={<ShoppingCart size={100} />}
-          color="emerald"
-          onClick={() => navigate("/admin/complete-stock")}
         />
         <KPICard
           title="Inventory Monitor"
@@ -283,10 +341,13 @@ export default function Dashboard() {
                 <Bar dataKey="value" fill="url(#barGradient)" radius={[8, 8, 0, 0]} />
               </BarChart>
             ) : (
-              <BarChart data={stockByCategory} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+              <BarChart data={ordersByDate} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#9ca3af', fontSize: 12 }} dy={10} />
                 <YAxis axisLine={false} tickLine={false} tick={{ fill: '#9ca3af', fontSize: 12 }} />
-                <Tooltip contentStyle={{ borderRadius: '16px', border: 'none' }} />
+                <Tooltip 
+                   cursor={{ fill: 'rgba(240, 253, 244, 0.5)' }}
+                   contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
+                 />
                 <Bar dataKey="value" fill="#047857" radius={[8, 8, 0, 0]} />
               </BarChart>
             )}
@@ -327,18 +388,18 @@ export default function Dashboard() {
               <h2 className="text-xl font-bold text-black">Today's Orders</h2>
             </div>
             <span className="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-lg uppercase tracking-wider">
-              {todayOrders.length} New
+              {filteredOrders.length} New
             </span>
           </div>
 
           <div className="space-y-4">
-            {todayOrders.length === 0 ? (
+            {filteredOrders.length === 0 ? (
               <div className="text-gray-400 text-sm font-bold py-10 flex flex-col items-center gap-3">
                 <ShoppingCart size={40} className="opacity-10" />
-                No orders placed today
+                No orders for this period
               </div>
             ) : (
-              todayOrders.map((o) => (
+              filteredOrders.slice(0, 10).map((o) => (
                 <div key={o.orderId} className="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-gray-100 hover:border-emerald-600/20 transition-all duration-300 group">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center border border-gray-100 font-bold text-gray-400 group-hover:text-emerald-600 transition-colors">
@@ -369,18 +430,18 @@ export default function Dashboard() {
               <h2 className="text-xl font-bold text-black">Incoming Payments</h2>
             </div>
             <span className="px-3 py-1 bg-gray-100 text-black text-xs font-bold rounded-lg uppercase tracking-wider">
-              {todayPaymentsFiltered.length} Recv
+              {filteredPayments.length} Recv
             </span>
           </div>
 
           <div className="space-y-4">
-            {todayPaymentsFiltered.length === 0 ? (
+            {filteredPayments.length === 0 ? (
               <div className="text-gray-400 text-sm font-bold py-10 flex flex-col items-center gap-3">
                 <CreditCard size={40} className="opacity-10" />
-                No payments received today
+                No payments for this period
               </div>
             ) : (
-              todayPaymentsFiltered.map((p: any) => (
+              filteredPayments.slice(0, 10).map((p: any) => (
                 <div key={p.id} className="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-gray-100 hover:border-emerald-600/20 transition-all duration-300 group">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-emerald-600 shadow-sm border border-gray-100">

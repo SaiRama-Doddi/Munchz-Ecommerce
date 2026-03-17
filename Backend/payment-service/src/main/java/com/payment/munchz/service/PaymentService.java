@@ -140,4 +140,8 @@ public class PaymentService {
 
         return paymentRepo.findByCreatedAtAfter(startOfDay);
     }
+
+    public List<PaymentEntity> getAllPayments() {
+        return paymentRepo.findAll();
+    }
 }
