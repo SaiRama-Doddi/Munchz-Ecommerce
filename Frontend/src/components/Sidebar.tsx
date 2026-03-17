@@ -60,28 +60,28 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="fixed left-0 top-0 w-72 h-screen sidebar-glass text-slate-300 px-6 py-8 shadow-2xl flex flex-col z-50">
+    <aside className="fixed left-0 top-0 w-72 h-screen bg-white text-gray-600 px-6 py-8 border-r border-gray-100 shadow-sm flex flex-col z-50">
       
       {/* BRAND */}
       <div className="flex items-center gap-4 mb-10 px-2 group cursor-pointer" onClick={() => navigate("/admin/dashboard")}>
-        <div className="w-12 h-12 bg-accent-gradient rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-110 transition-transform duration-300">
+        <div className="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-600/10 group-hover:scale-110 transition-transform duration-300">
           <ShoppingBag className="text-white" size={24} />
         </div>
         <div>
-          <h1 className="text-xl font-bold text-white tracking-tight">Munchz</h1>
-          <p className="text-[10px] uppercase tracking-widest text-emerald-500 font-semibold">Premium Admin</p>
+          <h1 className="text-xl font-bold text-black tracking-tight">Munchz</h1>
+          <p className="text-[10px] uppercase tracking-widest text-emerald-600 font-bold">Premium Admin</p>
         </div>
       </div>
 
-      {/* SEARCH / QUICK NAV (OPTIONAL UI POLISH) */}
+      {/* SEARCH / QUICK NAV */}
       <div className="relative mb-6">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <PackageSearch size={14} className="text-slate-500" />
+          <PackageSearch size={14} className="text-gray-400" />
         </div>
         <input 
           type="text" 
           placeholder="Quick search..." 
-          className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg py-2 pl-9 pr-4 text-xs focus:outline-none focus:border-emerald-500/50 transition-colors"
+          className="w-full bg-gray-50 border border-gray-100 rounded-lg py-2 pl-9 pr-4 text-xs focus:outline-none focus:border-emerald-500/50 transition-colors placeholder:text-gray-400 text-black"
         />
       </div>
 
@@ -90,7 +90,7 @@ export default function Sidebar() {
         {items.map((item, idx) => {
           if (item.type === "header") {
             return (
-              <p key={`header-${idx}`} className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mt-6 mb-2 px-4">
+              <p key={`header-${idx}`} className="text-[10px] uppercase tracking-widest text-gray-400 font-bold mt-6 mb-2 px-4 italic">
                 {item.label}
               </p>
             );
@@ -102,15 +102,15 @@ export default function Sidebar() {
               key={item.to}
               to={item.to!}
               className={({ isActive }) =>
-                `group flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
+                `group flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
                   isActive
-                    ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-sm"
-                    : "hover:bg-slate-800/50 hover:text-white"
+                    ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/20"
+                    : "text-gray-500 hover:bg-emerald-50 hover:text-emerald-700"
                 }`
               }
             >
               <div className="flex items-center gap-3">
-                <Icon size={18} className="transition-colors duration-300 group-hover:text-emerald-400" />
+                <Icon size={18} className="" />
                 <span>{item.label}</span>
               </div>
               <ChevronRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -120,19 +120,19 @@ export default function Sidebar() {
       </nav>
 
       {/* FOOTER / USER INFO */}
-      <div className="mt-8 pt-6 border-t border-slate-800/50">
+      <div className="mt-8 pt-6 border-t border-gray-100">
         <div className="flex items-center gap-3 mb-4 px-2">
-          <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-xs font-bold text-emerald-400 border border-slate-700">
+          <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-xs font-bold text-emerald-600 border border-emerald-100">
             {email.charAt(0).toUpperCase()}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-white truncate">{profile?.firstName || "Admin"}</p>
-            <p className="text-xs text-slate-500 truncate">{email}</p>
+            <p className="text-sm font-bold text-black truncate">{profile?.firstName || "Admin"}</p>
+            <p className="text-xs text-gray-400 truncate font-medium">{email}</p>
           </div>
         </div>
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-all duration-300 border border-transparent hover:border-red-500/20"
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-red-500 hover:bg-red-50 hover:text-red-600 transition-all duration-300 border border-transparent"
         >
           <LogOut size={18} />
           <span>Logout</span>

@@ -67,27 +67,29 @@ export default function StockHistory({ productId }: { productId: number }) {
   }, [history, search, variantFilter, typeFilter, fromDate, toDate]);
 
   return (
-    <div className="mt-12 glass-card rounded-[2.5rem] p-8 md:p-10 border border-slate-100 shadow-2xl overflow-hidden">
-      <div className="flex items-center gap-4 mb-8">
-        <div className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl">
+    <div className="mt-12 bg-white border border-gray-100 rounded-[2.5rem] p-8 md:p-10 shadow-sm relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+      
+      <div className="flex items-center gap-4 mb-8 relative">
+        <div className="p-3 bg-black text-white rounded-2xl shadow-lg shadow-black/5">
           <History size={24} />
         </div>
         <div>
-          <h3 className="text-xl font-black text-slate-800 uppercase tracking-tight">Transaction Ledger</h3>
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Historical Batch Movements</p>
+          <h3 className="text-xl font-black text-black uppercase tracking-tight">Transaction Ledger</h3>
+          <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Historical Batch Movements</p>
         </div>
       </div>
 
       {/* FILTER BAR */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-10 relative">
         <div className="relative group">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-emerald-500 transition-colors" size={16} />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-emerald-500 transition-colors" size={16} />
           <input
             type="text"
             placeholder="Search variant..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="input h-11 pl-10 text-xs"
+            className="w-full bg-gray-50 border border-transparent rounded-xl pl-10 pr-4 py-3 text-[11px] font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all"
           />
         </div>
 
@@ -95,27 +97,27 @@ export default function StockHistory({ productId }: { productId: number }) {
           <select
             value={variantFilter}
             onChange={(e) => setVariantFilter(e.target.value)}
-            className="input h-11 text-xs appearance-none pr-8"
+            className="w-full bg-gray-50 border border-transparent rounded-xl px-4 py-3 text-[11px] font-bold appearance-none pr-8 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="">All Variants</option>
             {variants.map((v: any, i) => (
               <option key={i} value={v}>{v}</option>
             ))}
           </select>
-          <LayoutGrid className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={14} />
+          <LayoutGrid className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={14} />
         </div>
 
         <div className="relative group">
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="input h-11 text-xs appearance-none pr-8"
+            className="w-full bg-gray-50 border border-transparent rounded-xl px-4 py-3 text-[11px] font-bold appearance-none pr-8 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="">All Types</option>
             <option value="IN">Stock Inflow</option>
             <option value="OUT">Stock Outflow</option>
           </select>
-          <Filter className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={14} />
+          <Filter className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={14} />
         </div>
 
         <div className="relative group">
@@ -123,9 +125,9 @@ export default function StockHistory({ productId }: { productId: number }) {
             type="date"
             value={fromDate}
             onChange={(e) => setFromDate(e.target.value)}
-            className="input h-11 text-xs"
+            className="w-full bg-gray-50 border border-transparent rounded-xl px-4 py-3 text-[11px] font-bold outline-none focus:bg-white focus:border-emerald-500 transition-all"
           />
-          <Calendar className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={14} />
+          <Calendar className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={14} />
         </div>
 
         <div className="relative group">
@@ -133,30 +135,30 @@ export default function StockHistory({ productId }: { productId: number }) {
             type="date"
             value={toDate}
             onChange={(e) => setToDate(e.target.value)}
-            className="input h-11 text-xs"
+            className="w-full bg-gray-50 border border-transparent rounded-xl px-4 py-3 text-[11px] font-bold outline-none focus:bg-white focus:border-emerald-500 transition-all"
           />
-          <Calendar className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={14} />
+          <Calendar className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={14} />
         </div>
       </div>
 
       {/* TABLE */}
-      <div className="overflow-hidden rounded-2xl border border-slate-50">
+      <div className="overflow-hidden rounded-3xl border border-gray-100 shadow-sm relative">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-slate-50/50 border-b border-slate-100">
-              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Timestamp</th>
-              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Variant Identity</th>
-              <th className="px-6 py-4 text-center text-[10px] font-black uppercase tracking-widest text-slate-400">Delta Qty</th>
-              <th className="px-6 py-4 text-right text-[10px] font-black uppercase tracking-widest text-slate-400">Transaction</th>
+            <tr className="bg-gray-50/50 border-b border-gray-100">
+              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-gray-400">Timestamp</th>
+              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-gray-400">Variant Identity</th>
+              <th className="px-6 py-4 text-center text-[10px] font-black uppercase tracking-widest text-gray-400">Delta Qty</th>
+              <th className="px-6 py-4 text-right text-[10px] font-black uppercase tracking-widest text-gray-400">Transaction</th>
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-slate-50">
+          <tbody className="divide-y divide-gray-50 font-bold">
             {filteredHistory.map((h, i) => (
-              <tr key={i} className="group hover:bg-slate-50/30 transition-all">
-                <td className="px-6 py-4">
-                  <div className="flex items-center gap-2 text-xs font-bold text-slate-500">
-                    <Clock size={12} className="text-slate-300" />
+              <tr key={i} className="group hover:bg-gray-50/50 transition-all">
+                <td className="px-6 py-5">
+                  <div className="flex items-center gap-2 text-[11px] font-bold text-gray-400">
+                    <Clock size={12} className="text-emerald-500" />
                     {new Date(h.createdAt).toLocaleString(undefined, {
                       dateStyle: 'medium',
                       timeStyle: 'short'
@@ -164,32 +166,32 @@ export default function StockHistory({ productId }: { productId: number }) {
                   </div>
                 </td>
 
-                <td className="px-6 py-4">
-                  <span className="text-xs font-black text-slate-700 uppercase tracking-tight group-hover:text-blue-600 transition-colors">
+                <td className="px-6 py-5">
+                  <span className="text-[11px] font-black text-black uppercase tracking-tight group-hover:text-emerald-600 transition-colors">
                     {h.variantLabel}
                   </span>
                 </td>
 
-                <td className="px-6 py-4 text-center">
-                  <span className={`text-lg font-black ${
-                    h.transactionType === "IN" ? "text-emerald-500" : "text-rose-500"
+                <td className="px-6 py-5 text-center">
+                  <span className={`text-xl font-black ${
+                    h.transactionType === "IN" ? "text-emerald-600" : "text-black"
                   }`}>
                     {h.transactionType === "IN" ? "+" : "-"}{h.quantity}
                   </span>
                 </td>
 
-                <td className="px-6 py-4 text-right">
-                  <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border ${
+                <td className="px-6 py-5 text-right">
+                  <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border shadow-sm ${
                     h.transactionType === "IN"
                       ? "bg-emerald-50 text-emerald-600 border-emerald-100"
-                      : "bg-rose-50 text-rose-600 border-rose-100"
+                      : "bg-black text-white border-black"
                   }`}>
                     {h.transactionType === "IN" ? (
                       <ArrowUpCircle size={14} />
                     ) : (
                       <ArrowDownCircle size={14} />
                     )}
-                    <span className="text-[10px] font-black uppercase tracking-widest">
+                    <span className="text-[9px] font-black uppercase tracking-widest">
                       {h.transactionType === "IN" ? "Restock" : "Dispatch"}
                     </span>
                   </div>
@@ -200,7 +202,7 @@ export default function StockHistory({ productId }: { productId: number }) {
         </table>
 
         {filteredHistory.length === 0 && (
-          <div className="py-20 flex flex-col items-center justify-center text-slate-300">
+          <div className="py-24 flex flex-col items-center justify-center text-gray-300">
             <History size={48} className="mb-4 opacity-10" />
             <p className="font-black uppercase tracking-widest text-[10px]">No transaction history found</p>
           </div>

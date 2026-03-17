@@ -12,7 +12,9 @@ import {
   Trash2, 
   CheckCircle,
   X,
-  Info
+  Info,
+  Save,
+  Globe
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -125,7 +127,7 @@ export default function ProductForm() {
 
     try {
       await api.post("/products", payload);
-      alert("Product created successfully");
+      alert("Product Created Successfully");
       navigate("/admin/products");
     } catch (err) {
       console.error("CREATE FAILED:", err);
@@ -134,20 +136,18 @@ export default function ProductForm() {
   };
 
   return (
-    <div className="space-y-10 pb-12">
+    <div className="space-y-10 pb-12 bg-white min-h-screen">
       {/* HEADER */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => navigate(-1)}
-            className="p-3 bg-white border border-slate-100 text-slate-400 rounded-2xl hover:text-emerald-500 hover:border-emerald-100 transition-all shadow-sm"
-          >
-            <ArrowLeft size={20} />
-          </button>
-          <div>
-            <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Create Product</h1>
-            <p className="text-slate-500 font-medium">Add a new item to your store inventory</p>
-          </div>
+      <div className="flex items-center justify-between">
+        <button 
+          onClick={() => navigate(-1)}
+          className="p-3 bg-white border border-gray-100 rounded-2xl text-gray-400 hover:text-black hover:border-black transition-all shadow-sm"
+        >
+          <ArrowLeft size={20} />
+        </button>
+        <div className="text-right">
+          <h1 className="text-2xl font-black text-black uppercase tracking-tight">Create Listing</h1>
+          <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">New Inventory Nucleus</p>
         </div>
       </div>
 
@@ -157,33 +157,35 @@ export default function ProductForm() {
         <div className="xl:col-span-2 space-y-8">
           
           {/* GENERAL INFO */}
-          <div className="glass-card rounded-[2.5rem] p-8 md:p-10">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
+          <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 md:p-10 shadow-sm relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+            
+            <div className="flex items-center gap-3 mb-8 relative">
+              <div className="p-2.5 bg-black text-white rounded-xl">
                 <Package size={20} />
               </div>
-              <h2 className="text-xl font-bold text-slate-800">General Information</h2>
+              <h2 className="text-xl font-bold text-black uppercase tracking-tight">Product DNA</h2>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6 relative">
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Product Name</label>
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Market Identity</label>
                 <input
                   value={form.name}
                   onChange={(e) => updateField("name", e.target.value)}
-                  className="input"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14"
                   placeholder="e.g. Premium Atlantic Salmon"
                   required
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Product Description</label>
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Comprehensive Description</label>
                 <textarea
                   value={form.description}
                   onChange={(e) => updateField("description", e.target.value)}
-                  className="input min-h-[150px] resize-none"
-                  placeholder="Describe the product details, benefits and origin..."
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all min-h-[160px] resize-none leading-relaxed"
+                  placeholder="Detail the attributes and origins of this item..."
                   required
                 />
               </div>
@@ -191,65 +193,65 @@ export default function ProductForm() {
           </div>
 
           {/* PRICING & VARIANTS */}
-          <div className="glass-card rounded-[2.5rem] p-8 md:p-10">
+          <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 md:p-10 shadow-sm">
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-3">
                 <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
                   <Tag size={20} />
                 </div>
-                <h2 className="text-xl font-bold text-slate-800">Pricing & Variants</h2>
+                <h2 className="text-xl font-bold text-black uppercase tracking-tight">Scaling Matrix</h2>
               </div>
               <button
                 type="button"
                 onClick={addVariant}
-                className="flex items-center gap-2 text-emerald-600 font-bold text-sm bg-emerald-50 px-4 py-2 rounded-xl hover:bg-emerald-100 transition-colors"
+                className="flex items-center gap-2 text-black font-black text-[10px] uppercase tracking-widest bg-gray-50 border border-gray-100 px-5 py-2.5 rounded-xl hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all shadow-sm"
               >
                 <Plus size={16} />
-                <span>Add Variant</span>
+                <span>New Variant</span>
               </button>
             </div>
 
             <div className="space-y-4">
-              <div className="hidden md:grid grid-cols-5 gap-4 px-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+              <div className="hidden md:grid grid-cols-5 gap-4 px-6 text-[9px] font-black text-gray-300 uppercase tracking-widest">
                 <div className="col-span-1">Label (e.g. 500g)</div>
-                <div>Weight (Grams)</div>
-                <div>MRP (₹)</div>
-                <div>Offer Price (₹)</div>
-                <div className="text-center">Action</div>
+                <div>Net Weight (g)</div>
+                <div>List Price</div>
+                <div>Sale Price</div>
+                <div className="text-center">Control</div>
               </div>
 
               {form.variants.map((v, i) => (
-                <div key={i} className="grid grid-cols-1 md:grid-cols-5 gap-4 bg-slate-50/50 p-4 rounded-3xl border border-slate-100">
+                <div key={i} className="grid grid-cols-1 md:grid-cols-5 gap-4 bg-gray-50/50 p-4 rounded-3xl border border-gray-100 group hover:border-emerald-100 transition-all">
                   <input
                     value={v.weightLabel}
                     onChange={(e) => updateVariant(i, "weightLabel", e.target.value)}
-                    className="input h-11 text-sm col-span-1"
+                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm font-bold outline-none focus:border-black transition-all h-11"
                     placeholder="250g"
                   />
                   <input
                     value={v.weightInGrams}
                     onChange={(e) => updateVariant(i, "weightInGrams", e.target.value.replace(/\D/g, ""))}
-                    className="input h-11 text-sm"
+                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm font-bold outline-none focus:border-black transition-all h-11"
                     placeholder="250"
                   />
                   <input
                     value={v.mrp}
                     onChange={(e) => updateVariant(i, "mrp", e.target.value.replace(/\D/g, ""))}
-                    className="input h-11 text-sm"
+                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm font-black text-gray-400 outline-none focus:border-black transition-all h-11"
                     placeholder="500"
                   />
                   <input
                     value={v.offerPrice}
                     onChange={(e) => updateVariant(i, "offerPrice", e.target.value.replace(/\D/g, ""))}
-                    className="input h-11 text-sm"
+                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm font-black text-emerald-600 outline-none focus:border-emerald-500 transition-all h-11"
                     placeholder="450"
                   />
                   <div className="flex items-center justify-center">
                     <button
                       type="button"
-                      onClick={() => removeVariant(i)}
+                      onClick={() => removeVariant(index)}
                       disabled={form.variants.length <= 1}
-                      className="w-11 h-11 bg-white border border-slate-200 text-slate-400 rounded-xl flex items-center justify-center hover:text-red-500 hover:border-red-100 hover:bg-red-50 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                      className="w-11 h-11 bg-white border border-gray-100 text-gray-400 rounded-xl flex items-center justify-center hover:text-red-500 hover:border-red-100 hover:bg-red-50 transition-all disabled:opacity-30"
                     >
                       <Trash2 size={16} />
                     </button>
@@ -260,25 +262,25 @@ export default function ProductForm() {
           </div>
         </div>
 
-        {/* RIGHT COLUMN: ORGANIZATION & MEDIA */}
+        {/* RIGHT COLUMN: TAXONOMY & ASSETS */}
         <div className="space-y-8">
           
           {/* ORGANIZATION */}
-          <div className="glass-card rounded-[2.5rem] p-8">
+          <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
+              <div className="p-2.5 bg-black text-white rounded-xl">
                 <Layers size={18} />
               </div>
-              <h2 className="text-lg font-bold text-slate-800">Organization</h2>
+              <h2 className="text-lg font-bold text-black uppercase tracking-tight">Classification</h2>
             </div>
 
             <div className="space-y-6">
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Main Category</label>
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Parent Category</label>
                 <select
                   value={form.categoryId}
                   onChange={(e) => updateField("categoryId", e.target.value)}
-                  className="input h-12"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14"
                   required
                 >
                   <option value="">Select Category</option>
@@ -289,21 +291,21 @@ export default function ProductForm() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Subcategory</label>
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Subcategory Node</label>
                 <select
                   value={form.subcategoryId}
                   onChange={(e) => updateField("subcategoryId", e.target.value)}
                   disabled={!form.categoryId || isLoading}
-                  className="input h-12"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 disabled:opacity-40"
                 >
-                  <option value="">No Subcategory</option>
+                  <option value="">No Secondary Node</option>
                   {subcategories.map((s: any) => (
                     <option key={s.id} value={s.id}>{s.name}</option>
                   ))}
                 </select>
                 {!form.categoryId && (
-                  <p className="text-[10px] text-slate-400 font-bold ml-1 flex items-center gap-1">
-                    <Info size={10} /> Select a category first
+                  <p className="text-[9px] text-gray-400 font-black ml-1 uppercase tracking-widest italic pt-1">
+                    Select master category first
                   </p>
                 )}
               </div>
@@ -311,42 +313,41 @@ export default function ProductForm() {
           </div>
 
           {/* MEDIA SECTION */}
-          <div className="glass-card rounded-[2.5rem] p-8">
+          <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
                 <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
                   <ImageIcon size={18} />
                 </div>
-                <h2 className="text-lg font-bold text-slate-800">Media</h2>
+                <h2 className="text-lg font-bold text-black uppercase tracking-tight">Visual Assets</h2>
               </div>
               <button
                 type="button"
                 onClick={addImageField}
-                className="w-8 h-8 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center hover:bg-emerald-100 transition-colors"
+                className="w-10 h-10 bg-gray-50 text-gray-400 rounded-xl flex items-center justify-center hover:text-black hover:bg-white border border-transparent hover:border-gray-100 transition-all"
               >
-                <Plus size={16} />
+                <Plus size={18} />
               </button>
             </div>
 
             <div className="space-y-6">
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1 text-emerald-600 flex items-center gap-1">
-                  Main Thumbnail
-                  <CheckCircle size={10} />
+                <label className="text-[10px] font-black text-emerald-600 uppercase tracking-widest ml-1 flex items-center gap-1">
+                  Dominant Asset <CheckCircle size={10} />
                 </label>
                 <div className="relative group">
                   <input
                     value={form.imageUrl}
                     onChange={(e) => updateField("imageUrl", e.target.value)}
-                    className="input h-12 pr-10"
-                    placeholder="URL for main image..."
+                    className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-[11px] font-bold outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 pr-10"
+                    placeholder="URL for primary display..."
                     required
                   />
                   {form.imageUrl && (
                     <button
                       type="button"
                       onClick={clearMainImage}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-red-500 transition-colors"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 hover:text-red-500 transition-colors"
                     >
                       <X size={16} />
                     </button>
@@ -354,21 +355,21 @@ export default function ProductForm() {
                 </div>
               </div>
 
-              <div className="space-y-4 pt-4 border-t border-slate-50">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Gallery Images</label>
-                <div className="space-y-3">
+              <div className="pt-4 border-t border-gray-50 space-y-4">
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Gallery Collection</label>
+                <div className="space-y-3 max-h-[220px] overflow-y-auto pr-1 no-scrollbar">
                   {form.imageUrls.map((url, i) => (
-                    <div key={i} className="relative group">
+                    <div key={i} className="relative group/field">
                       <input
                         value={url}
                         onChange={(e) => updateImageUrl(i, e.target.value)}
-                        className="input h-10 text-xs pr-10 bg-slate-50/50"
-                        placeholder={`Gallery Image #${i + 1} URL`}
+                        className="w-full bg-gray-50 border border-transparent rounded-xl px-4 py-3 text-[10px] font-bold outline-none focus:bg-white focus:border-black transition-all h-11 pr-10"
+                        placeholder={`Asset #${i + 1} URL`}
                       />
                       <button
                         type="button"
                         onClick={() => removeImage(i)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-200 hover:text-red-400 opacity-0 group-hover/field:opacity-100 transition-all"
                       >
                         <Trash2 size={14} />
                       </button>
@@ -379,21 +380,29 @@ export default function ProductForm() {
             </div>
           </div>
 
-          {/* ACTIONS */}
-          <div className="pt-4 flex flex-col gap-4">
+          {/* ACTION PERSISTENCE */}
+          <div className="space-y-4">
             <button
               type="submit"
-              className="w-full bg-accent-gradient text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-emerald-500/20 hover:scale-[1.02] transition-all duration-300"
+              className="w-full bg-black text-white py-5 rounded-3xl font-black text-[10px] uppercase tracking-[0.2em] shadow-2xl shadow-black/5 hover:bg-emerald-600 transition-all duration-300 flex items-center justify-center gap-3 active:scale-95"
             >
-              Confirm & Publish Product
+              <Save size={18} />
+              Authorize Publication
             </button>
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="w-full bg-slate-100 text-slate-500 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-200 transition-all duration-300"
+              className="w-full bg-gray-50 text-gray-300 py-5 rounded-3xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-300"
             >
-              Discard Changes
+              Discard Draft
             </button>
+          </div>
+          
+          <div className="p-6 bg-gray-50 rounded-[2rem] border border-gray-100 flex gap-4">
+            <Globe size={20} className="text-emerald-500 shrink-0 mt-1" />
+            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-relaxed">
+              New listings are synchronized immediately with primary sales channels. Ensure data is verified before submission.
+            </p>
           </div>
         </div>
       </form>

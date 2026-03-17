@@ -51,10 +51,10 @@ interface Stock {
 }
 
 const COLORS: string[] = [
+  "#047857", // emerald-700
+  "#059669", // emerald-600
   "#10b981", // emerald-500
-  "#3b82f6", // blue-500
-  "#8b5cf6", // violet-500
-  "#f59e0b", // amber-500
+  "#34d399", // emerald-400
 ];
 
 interface Order {
@@ -169,15 +169,15 @@ export default function Dashboard() {
   }, [categories, stocks]);
 
   return (
-    <div className="space-y-10 pb-10">
+    <div className="space-y-10 pb-10 bg-white min-h-screen">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Overview</h1>
-          <p className="text-slate-500 font-medium">An overview of your store's performance today.</p>
+          <h1 className="text-3xl font-extrabold text-black tracking-tight">Overview</h1>
+          <p className="text-gray-400 font-medium">Daily store performance snapshot</p>
         </div>
         <button 
           onClick={() => navigate("/admin/add-product")}
-          className="flex items-center gap-2 bg-accent-gradient text-white px-5 py-2.5 rounded-xl font-semibold shadow-lg shadow-emerald-500/20 hover:scale-105 transition-transform duration-300"
+          className="flex items-center gap-2 bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-lg shadow-emerald-600/10 hover:scale-105 transition-transform duration-300"
         >
           <Plus size={18} />
           <span>New Product</span>
@@ -192,7 +192,7 @@ export default function Dashboard() {
           value={categories.length}
           icon={<Layers size={24} />}
           bgIcon={<Layers size={100} />}
-          color="indigo"
+          color="emerald"
         />
         <KPICard
           title="E-Commerce Catalog"
@@ -208,16 +208,15 @@ export default function Dashboard() {
           value={totalStock.total.toLocaleString()}
           icon={<ShoppingCart size={24} />}
           bgIcon={<ShoppingCart size={100} />}
-          color="violet"
+          color="emerald"
         />
         <KPICard
           title="Inventory Monitor"
-          subtitle="Low Stock Alerts"
+          subtitle="Low Stock Items"
           value={lowStockItems}
           icon={<AlertTriangle size={24} />}
           bgIcon={<AlertTriangle size={100} />}
-          color="amber"
-          isDanger={lowStockItems > 3}
+          color="black"
         />
       </div>
 
@@ -230,13 +229,13 @@ export default function Dashboard() {
               <select 
                 value={chartView}
                 onChange={(e) => setChartView(e.target.value as any)}
-                className="appearance-none bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 pr-10 text-xs font-bold text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all cursor-pointer"
+                className="appearance-none bg-gray-50 border border-gray-100 rounded-xl px-4 py-2 pr-10 text-xs font-bold text-black focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all cursor-pointer"
               >
                 <option value="distribution">Stock Distribution</option>
                 <option value="inventory">Inventory Levels</option>
                 <option value="orders">Daily Order Volume</option>
               </select>
-              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
                 <Plus size={14} className="rotate-45" />
               </div>
             </div>
@@ -259,7 +258,7 @@ export default function Dashboard() {
                   ))}
                 </Pie>
                 <Tooltip 
-                  contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}
+                  contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
                 />
                 <Legend verticalAlign="bottom" height={36} iconType="circle" />
               </PieChart>
@@ -267,25 +266,24 @@ export default function Dashboard() {
               <BarChart data={stockByCategory} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#8b5cf6" />
-                    <stop offset="100%" stopColor="#6366f1" />
+                    <stop offset="0%" stopColor="#059669" />
+                    <stop offset="100%" stopColor="#10b981" />
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dy={10} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#9ca3af', fontSize: 12 }} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#9ca3af', fontSize: 12 }} />
                 <Tooltip 
-                  cursor={{ fill: 'rgba(241, 245, 249, 0.5)' }}
-                  contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}
+                  cursor={{ fill: 'rgba(240, 253, 244, 0.5)' }}
+                  contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
                 />
                 <Bar dataKey="value" fill="url(#barGradient)" radius={[8, 8, 0, 0]} />
               </BarChart>
             ) : (
               <BarChart data={stockByCategory} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
-                {/* Fallback or Order Volume chart if data available */}
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} dy={10} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748b', fontSize: 12 }} />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#9ca3af', fontSize: 12 }} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#9ca3af', fontSize: 12 }} />
                 <Tooltip contentStyle={{ borderRadius: '16px', border: 'none' }} />
-                <Bar dataKey="value" fill="#10b981" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="value" fill="#047857" radius={[8, 8, 0, 0]} />
               </BarChart>
             )}
           </ResponsiveContainer>
@@ -293,21 +291,21 @@ export default function Dashboard() {
       </div>
 
       {/* RECENT PRODUCTS */}
-      <section className="glass-card rounded-3xl p-8">
+      <section className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-xl font-bold text-slate-800">Recently Added Products</h2>
-          <button className="text-sm font-semibold text-emerald-600 hover:text-emerald-700 transition-colors">View All</button>
+          <h2 className="text-xl font-bold text-black">Recently Added Products</h2>
+          <button className="text-sm font-bold text-emerald-600 hover:text-emerald-700 transition-colors">View All</button>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
           {recentProducts.map((p: Product) => (
             <div key={p.id} className="group relative">
-              <div className="aspect-square bg-slate-50 rounded-2xl p-4 flex items-center justify-center border border-slate-100 group-hover:border-emerald-200 transition-all duration-300">
+              <div className="aspect-square bg-gray-50 rounded-2xl p-4 flex items-center justify-center border border-gray-100 group-hover:border-emerald-600/30 transition-all duration-300">
                 <img src={p.imageUrl} alt={p.name} className="max-h-full object-contain group-hover:scale-110 transition-transform duration-300" />
               </div>
               <div className="mt-3">
-                <p className="text-sm font-semibold text-slate-800 truncate group-hover:text-emerald-600 transition-colors">{p.name}</p>
-                <p className="text-[10px] uppercase tracking-wider text-slate-400 font-bold mt-1">ID: #{p.id}</p>
+                <p className="text-sm font-bold text-black truncate group-hover:text-emerald-600 transition-colors">{p.name}</p>
+                <p className="text-[10px] uppercase tracking-wider text-gray-400 font-bold mt-1">ID: #{p.id}</p>
               </div>
             </div>
           ))}
@@ -316,40 +314,40 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* TODAY'S ORDERS */}
-        <div className="glass-card rounded-3xl p-8 overflow-hidden">
+        <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm overflow-hidden">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-blue-50 text-blue-600">
+              <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600">
                 <ShoppingCart size={20} />
               </div>
-              <h2 className="text-xl font-bold text-slate-800">Today's Orders</h2>
+              <h2 className="text-xl font-bold text-black">Today's Orders</h2>
             </div>
-            <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-lg uppercase tracking-wider">
+            <span className="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-lg uppercase tracking-wider">
               {todayOrders.length} New
             </span>
           </div>
 
           <div className="space-y-4">
             {todayOrders.length === 0 ? (
-              <div className="text-slate-400 text-sm font-medium py-10 flex flex-col items-center gap-3">
-                <ShoppingCart size={40} className="opacity-20" />
+              <div className="text-gray-400 text-sm font-bold py-10 flex flex-col items-center gap-3">
+                <ShoppingCart size={40} className="opacity-10" />
                 No orders placed today
               </div>
             ) : (
               todayOrders.map((o) => (
-                <div key={o.orderId} className="flex items-center justify-between p-4 bg-slate-50/50 rounded-2xl border border-slate-100 hover:border-blue-200 transition-all duration-300 group">
+                <div key={o.orderId} className="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-gray-100 hover:border-emerald-600/20 transition-all duration-300 group">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center border border-slate-100 font-bold text-slate-400 group-hover:text-blue-500 transition-colors">
+                    <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center border border-gray-100 font-bold text-gray-400 group-hover:text-emerald-600 transition-colors">
                       {o.userName.charAt(0)}
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-slate-800">{o.userName}</p>
-                      <p className="text-[10px] text-slate-500 font-medium">#{o.orderId}</p>
+                      <p className="text-sm font-bold text-black">{o.userName}</p>
+                      <p className="text-[10px] text-gray-400 font-semibold">#{o.orderId}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-bold text-slate-800">₹{o.totalAmount}</p>
-                    <span className="text-[10px] font-bold uppercase text-blue-500">{o.orderStatus}</span>
+                    <p className="text-sm font-bold text-black">₹{o.totalAmount}</p>
+                    <span className="text-[10px] font-bold uppercase text-emerald-600">{o.orderStatus}</span>
                   </div>
                 </div>
               ))
@@ -358,40 +356,40 @@ export default function Dashboard() {
         </div>
 
         {/* TODAY'S PAYMENTS */}
-        <div className="glass-card rounded-3xl p-8 overflow-hidden">
+        <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm overflow-hidden">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600">
+              <div className="p-2.5 rounded-xl bg-black text-white">
                 <CreditCard size={20} />
               </div>
-              <h2 className="text-xl font-bold text-slate-800">Incoming Payments</h2>
+              <h2 className="text-xl font-bold text-black">Incoming Payments</h2>
             </div>
-            <span className="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-lg uppercase tracking-wider">
+            <span className="px-3 py-1 bg-gray-100 text-black text-xs font-bold rounded-lg uppercase tracking-wider">
               {todayPaymentsFiltered.length} Recv
             </span>
           </div>
 
           <div className="space-y-4">
             {todayPaymentsFiltered.length === 0 ? (
-              <div className="text-slate-400 text-sm font-medium py-10 flex flex-col items-center gap-3">
-                <CreditCard size={40} className="opacity-20" />
+              <div className="text-gray-400 text-sm font-bold py-10 flex flex-col items-center gap-3">
+                <CreditCard size={40} className="opacity-10" />
                 No payments received today
               </div>
             ) : (
               todayPaymentsFiltered.map((p: any) => (
-                <div key={p.id} className="flex items-center justify-between p-4 bg-slate-50/50 rounded-2xl border border-slate-100 hover:border-emerald-200 transition-all duration-300 group">
+                <div key={p.id} className="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-gray-100 hover:border-emerald-600/20 transition-all duration-300 group">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-emerald-500 shadow-sm border border-slate-100">
+                    <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-emerald-600 shadow-sm border border-gray-100">
                       <ArrowUpRight size={18} />
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-slate-800">Order #{p.orderId}</p>
-                      <p className="text-[10px] text-slate-500 font-medium">Payment ID #{p.id.slice(0,8)}</p>
+                      <p className="text-sm font-bold text-black">Order #{p.orderId}</p>
+                      <p className="text-[10px] text-gray-400 font-semibold">Payment ID #{p.id.slice(0,8)}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-lg font-bold text-emerald-600">₹{(p.amount / 100).toLocaleString()}</p>
-                    <span className={`text-[10px] font-bold uppercase ${p.status === 'paid' ? 'text-emerald-500' : 'text-amber-500'}`}>{p.status}</span>
+                    <p className="text-lg font-black text-emerald-600">₹{(p.amount / 100).toLocaleString()}</p>
+                    <span className={`text-[10px] font-bold uppercase ${p.status === 'paid' ? 'text-emerald-600' : 'text-emerald-400'}`}>{p.status}</span>
                   </div>
                 </div>
               ))
@@ -423,31 +421,28 @@ function KPICard({
   isDanger?: boolean;
 }) {
   const colorMap = {
-    blue: "bg-blue-50 text-blue-600",
     emerald: "bg-emerald-50 text-emerald-600",
-    violet: "bg-violet-50 text-violet-600",
-    amber: "bg-amber-50 text-amber-600",
-    indigo: "bg-indigo-50 text-indigo-600",
+    black: "bg-gray-100 text-black",
   };
 
   return (
-    <div className="glass-card p-8 rounded-[2.5rem] relative overflow-hidden group hover:-translate-y-1 transition-all duration-500">
-      <div className="absolute top-0 right-0 p-10 opacity-[0.03] text-slate-900 group-hover:scale-110 group-hover:opacity-[0.05] transition-all duration-700">
+    <div className="bg-white border border-gray-100 p-8 rounded-[2.5rem] relative overflow-hidden group hover:-translate-y-1 transition-all duration-500 shadow-sm">
+      <div className="absolute top-0 right-0 p-10 opacity-[0.05] text-emerald-600 group-hover:scale-110 transition-all duration-700">
         {bgIcon}
       </div>
       <div className="flex items-center gap-4 mb-4">
-        <div className={`p-3 rounded-2xl ${colorMap[color as keyof typeof colorMap] || 'bg-slate-50 text-slate-600'}`}>
+        <div className={`p-3 rounded-2xl ${colorMap[color as keyof typeof colorMap] || colorMap.emerald}`}>
           {icon}
         </div>
-        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-tight">
+        <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-tight">
           {title}
         </span>
       </div>
       <div className="flex items-baseline gap-2">
-        <h3 className={`text-4xl font-black tracking-tight ${isDanger ? 'text-red-600' : 'text-slate-800'}`}>
+        <h3 className={`text-4xl font-black tracking-tight ${isDanger ? 'text-black' : 'text-black'}`}>
           {value}
         </h3>
-        <span className="text-xs font-bold text-slate-400">{subtitle}</span>
+        <span className="text-xs font-bold text-gray-400">{subtitle}</span>
       </div>
     </div>
   );
@@ -465,13 +460,13 @@ function ChartCard({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="glass-card rounded-[2.5rem] p-8">
+    <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-2xl font-black text-slate-800 tracking-tight">
+          <h2 className="text-2xl font-black text-black tracking-tight">
             {title}
           </h2>
-          <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">{subtitle}</p>
+          <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">{subtitle}</p>
         </div>
         {action}
       </div>

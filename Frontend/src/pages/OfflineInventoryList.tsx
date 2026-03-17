@@ -72,29 +72,29 @@ export default function OfflineInventoryList() {
   const uniqueVariants = [...new Set(stocks.map(s => s.variantLabel))];
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-10 pb-12 bg-white min-h-screen">
       {/* HEADER SECTION */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="flex items-center gap-4">
-          <div className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl">
+          <div className="p-3 bg-black text-white rounded-2xl shadow-lg shadow-black/5">
             <Store size={28} />
           </div>
           <div>
-            <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Offline Inventory</h1>
-            <p className="text-slate-500 font-medium italic">Physical Store & Warehouse Management</p>
+            <h1 className="text-3xl font-extrabold text-black tracking-tight">Offline Inventory</h1>
+            <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Physical Store & Warehouse Management</p>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
            <button
              onClick={loadStocks}
-             className="glass-card p-3 rounded-2xl text-slate-400 hover:text-emerald-500 hover:border-emerald-100 transition-all"
+             className="bg-white border border-gray-100 shadow-sm p-3.5 rounded-2xl text-gray-400 hover:text-emerald-600 hover:border-emerald-200 transition-all"
            >
              <RefreshCcw size={20} className={loading ? "animate-spin" : ""} />
            </button>
            <button
              onClick={() => navigate("/admin/offline-add")}
-             className="flex items-center gap-2 bg-slate-900 text-white px-6 py-3.5 rounded-[1.25rem] font-bold text-sm shadow-xl hover:bg-black transition-all group active:scale-95"
+             className="flex items-center gap-2 bg-black text-white px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-black/5 hover:bg-emerald-600 transition-all group active:scale-95"
            >
              <PlusCircle size={18} className="group-hover:rotate-90 transition-transform duration-300" />
              Create Manual Entry
@@ -103,14 +103,14 @@ export default function OfflineInventoryList() {
       </div>
 
       {/* FILTER BAR SECTION */}
-      <div className="glass-card p-6 rounded-[2rem] gap-4 grid grid-cols-1 md:grid-cols-4 items-center">
+      <div className="bg-white border border-gray-100 shadow-sm p-6 rounded-[2.5rem] gap-4 grid grid-cols-1 md:grid-cols-4 items-center">
         <div className="relative group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-emerald-500 transition-colors" size={18} />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-emerald-500 transition-colors" size={18} />
           <input
             placeholder="Search Physical SKU..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="input pl-12 h-12 text-sm"
+            className="w-full bg-gray-50 border border-transparent rounded-xl pl-12 pr-5 py-3 text-sm font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all"
           />
         </div>
         
@@ -118,28 +118,28 @@ export default function OfflineInventoryList() {
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="input h-12 text-sm appearance-none pr-10"
+            className="w-full bg-gray-50 border border-transparent rounded-xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="">Categories</option>
             {categories.map((c: any) => (
               <option key={c.id}>{c.name}</option>
             ))}
           </select>
-          <Filter className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={16} />
+          <Filter className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
         </div>
 
         <div className="relative group">
           <select
             value={selectedVariant}
             onChange={(e) => setSelectedVariant(e.target.value)}
-            className="input h-12 text-sm appearance-none pr-10"
+            className="w-full bg-gray-50 border border-transparent rounded-xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="">Variants/Weights</option>
             {uniqueVariants.map((v, i) => (
               <option key={i}>{v}</option>
             ))}
           </select>
-          <LayoutGrid className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={16} />
+          <LayoutGrid className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
         </div>
 
         <button
@@ -148,75 +148,75 @@ export default function OfflineInventoryList() {
             setSelectedCategory("");
             setSelectedVariant("");
           }}
-          className="h-12 border border-slate-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:bg-slate-50 transition-colors"
+          className="h-12 border border-gray-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-gray-400 hover:bg-black hover:text-white transition-all shadow-sm"
         >
           Reset Filters
         </button>
       </div>
 
       {/* DATA TABLE CARD */}
-      <div className="glass-card rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-2xl">
+      <div className="bg-white border border-gray-100 shadow-sm rounded-[2.5rem] overflow-hidden">
         {loading ? (
-          <div className="py-24 flex flex-col items-center justify-center">
+          <div className="py-32 flex flex-col items-center justify-center">
              <RefreshCcw size={48} className="text-emerald-200 animate-spin mb-4" />
-             <p className="font-black uppercase tracking-widest text-[10px] text-slate-400">Syncing physical records...</p>
+             <p className="font-black uppercase tracking-widest text-[10px] text-gray-300">Syncing physical records...</p>
           </div>
         ) : filtered.length === 0 ? (
-          <div className="py-24 flex flex-col items-center justify-center text-slate-300">
+          <div className="py-32 flex flex-col items-center justify-center text-gray-300 border-2 border-dashed border-gray-50 m-8 rounded-[2rem]">
             <Package size={64} className="mb-6 opacity-10 font-thin" />
-            <p className="font-black uppercase tracking-widest text-xs italic">Vault is empty</p>
+            <p className="font-black uppercase tracking-widest text-[10px] italic">Vault is empty</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-50/50 border-b border-slate-100 uppercase">
-                  <th className="px-8 py-5 text-[10px] font-black tracking-widest text-slate-400">Classification</th>
-                  <th className="px-6 py-5 text-[10px] font-black tracking-widest text-slate-400">Product Entity</th>
-                  <th className="px-6 py-5 text-[10px] font-black tracking-widest text-slate-400">Variant Profile</th>
-                  <th className="px-6 py-5 text-[10px] font-black tracking-widest text-slate-400 text-center">Available Units</th>
-                  <th className="px-6 py-5 text-[10px] font-black tracking-widest text-slate-400 text-center">Reorder Point</th>
-                  <th className="px-8 py-5 text-[10px] font-black tracking-widest text-slate-400 text-right">Operations</th>
+                <tr className="bg-gray-50/50 border-b border-gray-100 uppercase">
+                  <th className="px-8 py-5 text-[10px] font-black tracking-widest text-gray-400">Classification</th>
+                  <th className="px-6 py-5 text-[10px] font-black tracking-widest text-gray-400">Product Entity</th>
+                  <th className="px-6 py-5 text-[10px] font-black tracking-widest text-gray-400">Variant Profile</th>
+                  <th className="px-6 py-5 text-[10px] font-black tracking-widest text-gray-400 text-center">Available Units</th>
+                  <th className="px-6 py-5 text-[10px] font-black tracking-widest text-gray-400 text-center">Reorder Point</th>
+                  <th className="px-8 py-5 text-[10px] font-black tracking-widest text-gray-400 text-right">Operations</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-50 font-medium">
+              <tbody className="divide-y divide-gray-50 font-medium">
                 {filtered.map((s) => (
-                  <tr key={s.id} className="group hover:bg-slate-50/50 transition-all duration-300">
+                  <tr key={s.id} className="group hover:bg-gray-50 transition-all duration-300">
                     <td className="px-8 py-5">
                        <div className="flex items-center gap-2">
-                         <Layers size={14} className="text-slate-300" />
-                         <span className="text-xs text-slate-500 font-bold">{s.categoryName}</span>
+                         <Layers size={14} className="text-emerald-500/30" />
+                         <span className="text-[10px] text-gray-400 font-black uppercase tracking-widest">{s.categoryName}</span>
                        </div>
                     </td>
-                    <td className="px-6 py-5 font-bold text-slate-800 group-hover:text-emerald-600 transition-colors text-sm">
+                    <td className="px-6 py-5 font-black text-black group-hover:text-emerald-600 transition-colors text-sm uppercase tracking-tight">
                       {s.productName}
                     </td>
                     <td className="px-6 py-5">
-                      <span className="px-3 py-1 bg-slate-100 text-[10px] font-black text-slate-500 rounded-lg uppercase tracking-widest">
+                      <span className="px-3 py-1.5 bg-gray-50 border border-gray-100 text-[9px] font-black text-gray-400 rounded-lg uppercase tracking-widest group-hover:bg-emerald-50 group-hover:text-emerald-600 group-hover:border-emerald-100 transition-all">
                         {s.variantLabel}
                       </span>
                     </td>
                     <td className="px-6 py-5 text-center">
-                       <div className={`inline-flex items-center justify-center gap-1.5 font-black text-lg ${
-                         s.quantity <= s.minThreshold ? 'text-rose-500' : 'text-emerald-600'
+                       <div className={`inline-flex items-center justify-center gap-1.5 font-black text-xl ${
+                         s.quantity <= s.minThreshold ? 'text-black' : 'text-emerald-600'
                        }`}>
-                         {s.quantity <= s.minThreshold && <AlertTriangle size={14} className="animate-pulse" />}
+                         {s.quantity <= s.minThreshold && <AlertTriangle size={14} className="text-black animate-pulse" />}
                          {s.quantity}
                        </div>
                     </td>
-                    <td className="px-6 py-5 text-center text-xs text-slate-400 font-bold uppercase">
+                    <td className="px-6 py-5 text-center text-[10px] text-gray-300 font-black uppercase tracking-widest">
                       {s.minThreshold}
                     </td>
                     <td className="px-8 py-5 text-right space-x-2">
                        <button
                          onClick={() => editStock(s)}
-                         className="p-2.5 rounded-xl bg-white border border-slate-100 text-slate-400 hover:text-emerald-600 hover:border-emerald-100 hover:bg-emerald-50 transition-all shadow-sm active:scale-95"
+                         className="w-10 h-10 inline-flex items-center justify-center rounded-xl bg-white border border-gray-100 text-gray-300 hover:text-black hover:border-gray-200 transition-all shadow-sm active:scale-95"
                        >
                          <Pencil size={16} />
                        </button>
                        <button
                          onClick={() => deleteStock(s.id)}
-                         className="p-2.5 rounded-xl bg-white border border-slate-100 text-slate-400 hover:text-rose-600 hover:border-rose-100 hover:bg-rose-50 transition-all shadow-sm active:scale-95"
+                         className="w-10 h-10 inline-flex items-center justify-center rounded-xl bg-white border border-gray-100 text-gray-300 hover:text-red-500 hover:border-red-100 hover:bg-red-50 transition-all shadow-sm active:scale-95"
                        >
                          <Trash2 size={16} />
                        </button>

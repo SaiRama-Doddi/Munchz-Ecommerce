@@ -149,20 +149,20 @@ export default function AddStockEntry() {
   };
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-10 pb-12 bg-white min-h-screen">
       {/* HEADER */}
       <div className="flex items-center justify-between">
         <button 
           onClick={() => navigate(-1)}
-          className="p-3 bg-white border border-slate-100 rounded-2xl text-slate-400 hover:text-emerald-500 hover:border-emerald-100 transition-all"
+          className="p-3 bg-white border border-gray-100 rounded-2xl text-gray-400 hover:text-black hover:border-gray-200 transition-all shadow-sm"
         >
           <ArrowLeft size={20} />
         </button>
         <div className="text-right">
-          <h1 className="text-2xl font-black text-slate-800 uppercase tracking-tight">
+          <h1 className="text-2xl font-black text-black uppercase tracking-tight">
             {isEdit ? "Update Logistics" : "Logistics Entry"}
           </h1>
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Batch Record Management</p>
+          <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Batch Record Management</p>
         </div>
       </div>
 
@@ -172,19 +172,21 @@ export default function AddStockEntry() {
         <div className="xl:col-span-2 space-y-8">
           
           {/* SECTION 1: CORE PRODUCT MAPPING */}
-          <div className="glass-card rounded-[2.5rem] p-8 md:p-10">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="p-2.5 bg-blue-50 text-blue-600 rounded-xl">
+          <div className="bg-white border border-gray-100 shadow-sm rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+            
+            <div className="flex items-center gap-3 mb-8 relative">
+              <div className="p-2.5 bg-gray-50 text-black rounded-xl">
                 <Package size={20} />
               </div>
-              <h2 className="text-xl font-bold text-slate-800 uppercase tracking-tight">Product Selection</h2>
+              <h2 className="text-xl font-bold text-black uppercase tracking-tight">Product Selection</h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Parent Category</label>
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Parent Category</label>
                 <select
-                  className="input h-14 pr-10"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14"
                   value={form.categoryId}
                   onChange={(e) => {
                     const sel = categories.find(c => c.id === Number(e.target.value));
@@ -201,9 +203,9 @@ export default function AddStockEntry() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Sub Classification</label>
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Sub Classification</label>
                 <select
-                  className="input h-14 pr-10"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14"
                   value={form.subCategoryId}
                   onChange={(e) => {
                     const sel = subcategories.find(s => s.id === Number(e.target.value));
@@ -219,9 +221,9 @@ export default function AddStockEntry() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Item Reference</label>
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Item Reference</label>
                 <select
-                  className="input h-14 pr-10 font-bold"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-black appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14"
                   value={form.productId}
                   onChange={(e) => {
                     const sel = products.find(p => p.id === Number(e.target.value));
@@ -238,9 +240,9 @@ export default function AddStockEntry() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Active Variant</label>
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Active Variant</label>
                 <select
-                  className="input h-14 pr-10"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 disabled:opacity-50"
                   value={form.variantId}
                   onChange={(e) => {
                     const sel = variants.find(v => v.id === Number(e.target.value));
@@ -262,19 +264,19 @@ export default function AddStockEntry() {
           </div>
 
           {/* SECTION 2: SUPPLIER LEDGER */}
-          <div className="glass-card rounded-[2.5rem] p-8 md:p-10">
+          <div className="bg-white border border-gray-100 shadow-sm rounded-[2.5rem] p-8 md:p-10">
             <div className="flex items-center gap-3 mb-8">
               <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
                 <Truck size={20} />
               </div>
-              <h2 className="text-xl font-bold text-slate-800 uppercase tracking-tight">Supply Chain Info</h2>
+              <h2 className="text-xl font-bold text-black uppercase tracking-tight">Supply Chain Info</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Vendor/Supplier Name</label>
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Vendor/Supplier Name</label>
                 <input
-                  className="input h-14"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14"
                   placeholder="e.g. Premium Wholesalers"
                   value={form.supplierName}
                   onChange={e => setForm({ ...form, supplierName: e.target.value })}
@@ -282,9 +284,9 @@ export default function AddStockEntry() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Business Registration (GST)</label>
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Business Registration (GST)</label>
                 <input
-                  className="input h-14 uppercase tracking-widest"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14 uppercase tracking-widest"
                   placeholder="GSTIN Number"
                   value={form.supplierGst}
                   onChange={e => setForm({ ...form, supplierGst: e.target.value })}
@@ -294,49 +296,49 @@ export default function AddStockEntry() {
           </div>
 
           {/* SECTION 3: FINANCIALS & QUANTITY */}
-          <div className="glass-card rounded-[2.5rem] p-8 md:p-10">
+          <div className="bg-white border border-gray-100 shadow-sm rounded-[2.5rem] p-8 md:p-10">
             <div className="flex items-center gap-3 mb-8">
-              <div className="p-2.5 bg-amber-50 text-amber-600 rounded-xl">
+              <div className="p-2.5 bg-black text-white rounded-xl">
                 <CircleDollarSign size={20} />
               </div>
-              <h2 className="text-xl font-bold text-slate-800 uppercase tracking-tight">Inventory Metrics</h2>
+              <h2 className="text-xl font-bold text-black uppercase tracking-tight">Inventory Metrics</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Receiving Qty</label>
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Receiving Qty</label>
                 <div className="relative">
                   <input
                     type="number"
-                    className="input h-14 pl-12 font-black text-xl"
+                    className="w-full bg-gray-50 border border-transparent rounded-2xl pl-12 pr-5 py-4 text-xl font-black text-black placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14"
                     placeholder="0"
                     value={form.quantity}
                     onChange={e => setForm({ ...form, quantity: e.target.value })}
                     required
                   />
-                  <Layers className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
+                  <Layers className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300" size={18} />
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Purchase Cost</label>
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Purchase Cost</label>
                 <div className="relative">
                   <input
                     type="number"
-                    className="input h-14 pl-12 font-bold"
+                    className="w-full bg-gray-50 border border-transparent rounded-2xl pl-12 pr-5 py-4 text-sm font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14"
                     placeholder="0.00"
                     value={form.purchasePrice}
                     onChange={e => setForm({ ...form, purchasePrice: e.target.value })}
                     required
                   />
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-slate-300 text-lg">₹</span>
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 font-black text-gray-300 text-lg">₹</span>
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Market Listing Price</label>
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Market Listing Price</label>
                 <div className="relative">
                   <input
                     type="number"
-                    className="input h-14 pl-12 font-bold text-emerald-600"
+                    className="w-full bg-gray-50 border border-transparent rounded-2xl pl-12 pr-5 py-4 text-sm font-black text-emerald-600 placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14"
                     placeholder="0.00"
                     value={form.sellingPrice}
                     onChange={e => setForm({ ...form, sellingPrice: e.target.value })}
@@ -353,48 +355,48 @@ export default function AddStockEntry() {
         <div className="space-y-8">
           
           {/* LOGISTICS TIMELINE */}
-          <div className="glass-card rounded-[2.5rem] p-8">
+          <div className="bg-white border border-gray-100 shadow-sm rounded-[2.5rem] p-8">
             <div className="flex items-center gap-3 mb-8">
-              <div className="p-2.5 bg-rose-50 text-rose-600 rounded-xl">
+              <div className="p-2.5 bg-gray-50 text-black rounded-xl border border-gray-100">
                 <Calendar size={20} />
               </div>
-              <h2 className="text-xl font-bold text-slate-800 uppercase tracking-tight">Timeline</h2>
+              <h2 className="text-xl font-bold text-black uppercase tracking-tight">Timeline</h2>
             </div>
             
             <div className="space-y-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Stock Inbound Date</label>
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Stock Inbound Date</label>
                 <input
                   type="date"
                   value={form.stockInDate}
                   onChange={e => setForm({ ...form, stockInDate: e.target.value })}
-                  className="input h-14"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold outline-none focus:bg-white focus:border-emerald-500 transition-all h-14"
                   required
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Shelf Life Expiry</label>
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Shelf Life Expiry</label>
                 <input
                   type="date"
                   value={form.expiryDate}
                   onChange={e => setForm({ ...form, expiryDate: e.target.value })}
-                  className="input h-14 border-rose-100 focus:border-rose-500 focus:ring-rose-500/10"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold outline-none focus:bg-white focus:border-black transition-all h-14"
                 />
               </div>
             </div>
           </div>
 
           {/* INTERNAL REMARKS */}
-          <div className="glass-card rounded-[2.5rem] p-8">
+          <div className="bg-white border border-gray-100 shadow-sm rounded-[2.5rem] p-8">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-slate-50 text-slate-400 rounded-lg">
+              <div className="p-2 bg-gray-50 text-gray-400 rounded-lg">
                 <FileText size={18} />
               </div>
-              <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest">Internal Notes</h3>
+              <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Internal Notes</h3>
             </div>
             <textarea
-              className="input min-h-[120px] pt-4 resize-none"
+              className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all min-h-[120px] resize-none"
               placeholder="e.g. Batch inspected for quality..."
               value={form.remarks}
               onChange={e => setForm({ ...form, remarks: e.target.value })}
@@ -404,16 +406,16 @@ export default function AddStockEntry() {
           {/* SUBMIT BUTTON */}
           <button
             type="submit"
-            className="w-full bg-accent-gradient text-white py-6 rounded-3xl font-black text-sm uppercase tracking-widest shadow-2xl shadow-emerald-500/30 hover:scale-[1.02] transition-all duration-300 active:scale-95 flex items-center justify-center gap-3"
+            className="w-full bg-black text-white py-6 rounded-3xl font-black text-[10px] uppercase tracking-widest shadow-2xl shadow-black/5 hover:bg-emerald-600 transition-all duration-300 active:scale-95 flex items-center justify-center gap-3"
           >
             <Save size={20} />
             <span>{isEdit ? "Update Logistics Record" : "Finalize Stock Record"}</span>
           </button>
           
-          <div className="p-6 bg-slate-50/50 rounded-[2rem] border border-slate-100 flex gap-4">
-            <Info size={20} className="text-blue-400 shrink-0 mt-1" />
-            <p className="text-[11px] text-slate-400 font-medium leading-relaxed">
-              Updating these records will affect your global inventory levels and profit calculations. Ensure data accuracy before finalization.
+          <div className="p-6 bg-gray-50 rounded-[2rem] border border-gray-100 flex gap-4">
+            <Info size={20} className="text-emerald-500 shrink-0 mt-1" />
+            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-relaxed">
+              Updating these records will affect your global inventory levels and profit calculations. Ensure data accuracy.
             </p>
           </div>
         </div>

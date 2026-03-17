@@ -138,31 +138,33 @@ export default function AddStock() {
   };
 
   return (
-    <div className="space-y-10 pb-12 max-w-4xl mx-auto">
+    <div className="space-y-10 pb-12 max-w-4xl mx-auto bg-white min-h-screen">
       {/* HEADER */}
       <div className="flex items-center gap-4">
         <button
           onClick={() => navigate(-1)}
-          className="p-3 bg-white border border-slate-100 text-slate-400 rounded-2xl hover:text-emerald-500 hover:border-emerald-100 transition-all shadow-sm"
+          className="p-3 bg-white border border-gray-100 text-gray-400 rounded-2xl hover:text-black hover:border-gray-200 transition-all shadow-sm"
         >
           <ArrowLeft size={20} />
         </button>
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="text-3xl font-extrabold text-black tracking-tight">
             {isEdit ? "Update Stock" : "Inventory Restock"}
           </h1>
-          <p className="text-slate-500 font-medium">Manage physical product availability</p>
+          <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Manage physical product availability</p>
         </div>
       </div>
 
-      <form onSubmit={submit} className="glass-card rounded-[2.5rem] p-10 space-y-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <form onSubmit={submit} className="bg-white border border-gray-100 rounded-[2.5rem] p-10 space-y-10 shadow-sm relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
           
           {/* CATEGORY SELECTION */}
           <div className="space-y-3">
              <div className="flex items-center gap-2 mb-1">
               <Layers size={14} className="text-emerald-500" />
-              <label className="text-xs font-black text-slate-400 uppercase tracking-widest">Main Category</label>
+              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Main Category</label>
             </div>
             <select
               value={form.categoryId}
@@ -171,7 +173,7 @@ export default function AddStock() {
                 setSelectedCategory(categories.find(c => c.id === Number(val)));
                 setForm({ ...form, categoryId: val, subCategoryId: "", productId: "" });
               }}
-              className="input h-14"
+              className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14"
               required
             >
               <option value="">Choose Category...</option>
@@ -185,7 +187,7 @@ export default function AddStock() {
           <div className="space-y-3">
             <div className="flex items-center gap-2 mb-1">
               <ChevronRight size={14} className="text-emerald-500" />
-              <label className="text-xs font-black text-slate-400 uppercase tracking-widest">Subcategory</label>
+              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Subcategory</label>
             </div>
             <select
               value={form.subCategoryId}
@@ -195,7 +197,7 @@ export default function AddStock() {
                 setForm({ ...form, subCategoryId: val, productId: "" });
               }}
               disabled={!form.categoryId}
-              className="input h-14"
+              className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 disabled:opacity-50"
             >
               <option value="">Choose Subcategory...</option>
               {subcategories.map(s => (
@@ -208,7 +210,7 @@ export default function AddStock() {
           <div className="space-y-3">
             <div className="flex items-center gap-2 mb-1">
               <Package size={14} className="text-emerald-500" />
-              <label className="text-xs font-black text-slate-400 uppercase tracking-widest">Target Product</label>
+              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Target Product</label>
             </div>
             <select
               value={form.productId}
@@ -218,7 +220,7 @@ export default function AddStock() {
                 setForm({ ...form, productId: val });
               }}
               disabled={!form.categoryId}
-              className="input h-14"
+              className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 disabled:opacity-50"
               required
             >
               <option value="">Choose Product...</option>
@@ -232,13 +234,13 @@ export default function AddStock() {
           <div className="space-y-3">
             <div className="flex items-center gap-2 mb-1">
               <Tag size={14} className="text-emerald-500" />
-              <label className="text-xs font-black text-slate-400 uppercase tracking-widest">Weight Variant</label>
+              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Weight Variant</label>
             </div>
             <select
               value={form.variant}
               onChange={(e) => setForm({ ...form, variant: e.target.value })}
               disabled={!form.productId}
-              className="input h-14"
+              className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 disabled:opacity-50"
               required
             >
               <option value="">Choose Variant...</option>
@@ -252,32 +254,35 @@ export default function AddStock() {
         </div>
 
         {/* QUANTITY SECTION */}
-        <div className="pt-8 border-t border-slate-50">
-          <div className="flex items-center gap-2 mb-4">
-            <Hash size={18} className="text-emerald-500" />
-            <h3 className="text-lg font-bold text-slate-800">Stock Adjustment</h3>
+        <div className="pt-8 border-t border-gray-100 relative">
+          <div className="flex items-center gap-2 mb-6">
+            <Hash size={18} className="text-emerald-600" />
+            <h3 className="text-sm font-black text-black uppercase tracking-widest">Stock Adjustment</h3>
           </div>
-          <div className="relative group">
+          <div className="relative">
             <input
               type="number"
               value={form.quantity}
               onChange={(e) => setForm({ ...form, quantity: e.target.value })}
               placeholder="e.g. 50"
-              className="input h-16 text-2xl font-black text-emerald-600 pl-8"
+              className="w-full bg-gray-50 border border-transparent rounded-3xl pl-12 pr-6 py-6 text-3xl font-black text-emerald-600 outline-none focus:bg-white focus:border-emerald-500 transition-all shadow-inner h-20"
               required
             />
-            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 font-bold text-sm">#</div>
+            <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300 font-black text-xl">#</div>
           </div>
-          <p className="mt-4 text-xs font-medium text-slate-400 flex items-center gap-2">
-            <Info size={14} /> This will {isEdit ? "overwrite" : "add to"} the current stock for this variant.
-          </p>
+          <div className="mt-6 p-4 bg-gray-50 rounded-2xl border border-gray-100 flex items-center gap-3">
+            <Info size={16} className="text-emerald-500 shrink-0" />
+            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+              This will {isEdit ? "overwrite" : "add to"} the current stock for this variant.
+            </p>
+          </div>
         </div>
 
         {/* ACTIONS */}
-        <div className="pt-6 flex flex-col md:flex-row gap-4">
+        <div className="pt-10 flex flex-col md:flex-row gap-4 relative">
           <button
             type="submit"
-            className="flex-1 flex items-center justify-center gap-3 bg-accent-gradient text-white py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-emerald-500/20 hover:scale-[1.02] transition-all duration-300"
+            className="flex-1 flex items-center justify-center gap-3 bg-black text-white py-5 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-black/5 hover:bg-emerald-600 transition-all duration-300"
           >
             <Save size={18} />
             {isEdit ? "Confirm Update" : "Confirm Stock Entry"}
@@ -285,7 +290,7 @@ export default function AddStock() {
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="flex-1 bg-slate-100 text-slate-500 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-slate-200 transition-all duration-300"
+            className="flex-1 bg-gray-100 text-gray-500 py-5 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-gray-200 transition-all duration-300"
           >
             Discard & Go Back
           </button>

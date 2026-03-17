@@ -144,48 +144,48 @@ export default function AdminReviews() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-        <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
-        <p className="text-slate-400 font-bold animate-pulse text-xs uppercase tracking-widest">Aggregating Feedback...</p>
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 bg-white">
+        <div className="w-12 h-12 border-4 border-emerald-100 border-t-emerald-600 rounded-full animate-spin" />
+        <p className="text-gray-400 font-black uppercase tracking-widest text-[10px]">Aggregating Feedback...</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-10 pb-12">
+    <div className="space-y-10 pb-12 bg-white min-h-screen">
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Customer Reviews</h1>
-          <p className="text-slate-500 font-medium">Monitor your reputation and product quality</p>
+          <h1 className="text-3xl font-extrabold text-black tracking-tight">Customer Reviews</h1>
+          <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Monitor your reputation and product quality</p>
         </div>
       </div>
 
       {/* STATS OVERVIEW */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="glass-card p-8 rounded-[2.5rem] flex items-center gap-6">
-          <div className="p-5 bg-blue-50 text-blue-600 rounded-[1.5rem] shadow-sm">
+        <div className="bg-white border border-gray-100 shadow-sm p-8 rounded-[2.5rem] flex items-center gap-6">
+          <div className="p-5 bg-emerald-50 text-emerald-600 rounded-[1.5rem] shadow-sm">
             <MessageSquare size={32} />
           </div>
           <div>
-            <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Total Mentions</p>
+            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Total Mentions</p>
             <div className="flex items-baseline gap-2">
-              <p className="text-4xl font-black text-slate-800">{totalReviews}</p>
-              <span className="text-xs font-bold text-emerald-500 flex items-center gap-0.5">
+              <p className="text-4xl font-black text-black">{totalReviews}</p>
+              <span className="text-[10px] font-black text-emerald-500 flex items-center gap-1 uppercase">
                 <TrendingUp size={12} /> Live
               </span>
             </div>
           </div>
         </div>
-        <div className="glass-card p-8 rounded-[2.5rem] flex items-center gap-6">
-          <div className="p-5 bg-amber-50 text-amber-600 rounded-[1.5rem] shadow-sm">
+        <div className="bg-white border border-gray-100 shadow-sm p-8 rounded-[2.5rem] flex items-center gap-6">
+          <div className="p-5 bg-black text-white rounded-[1.5rem] shadow-sm">
             <Award size={32} />
           </div>
           <div>
-            <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Store Satisfaction</p>
+            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Store Satisfaction</p>
             <div className="flex items-baseline gap-2">
-              <p className="text-4xl font-black text-slate-800">{avgRating}</p>
-              <div className="flex gap-0.5 text-amber-400 mb-1">
+              <p className="text-4xl font-black text-black">{avgRating}</p>
+              <div className="flex gap-0.5 text-emerald-500 mb-1 ml-2">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} size={14} fill={i < Math.round(Number(avgRating)) ? "currentColor" : "none"} />
                 ))}
@@ -196,14 +196,14 @@ export default function AdminReviews() {
       </div>
 
       {/* FILTER BAR */}
-      <div className="glass-card p-6 rounded-[2rem] gap-4 grid grid-cols-1 md:grid-cols-12 items-center">
+      <div className="bg-white border border-gray-100 shadow-sm p-6 rounded-[2rem] gap-4 grid grid-cols-1 md:grid-cols-12 items-center">
         <div className="md:col-span-4 relative group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-emerald-500 transition-colors" size={18} />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-emerald-500 transition-colors" size={18} />
           <input
             placeholder="Search reviews, users..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="input pl-12 h-12 text-sm"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl pl-12 pr-5 py-3 text-sm font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all"
           />
         </div>
         <div className="md:col-span-2 relative group">
@@ -213,43 +213,43 @@ export default function AdminReviews() {
               setCategoryFilter(e.target.value);
               setProductFilter("ALL");
             }}
-            className="input h-12 text-sm appearance-none pr-10"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="ALL">All Categories</option>
             {categories.map((c) => (
               <option key={c.id} value={c.id}>{c.name}</option>
             ))}
           </select>
-          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={16} />
+          <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
         </div>
         <div className="md:col-span-3 relative group">
           <select
             value={productFilter}
             onChange={(e) => setProductFilter(e.target.value)}
-            className="input h-12 text-sm appearance-none pr-10"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="ALL">All Products</option>
             {filteredProducts.map((p) => (
               <option key={p.id} value={p.id}>{p.name}</option>
             ))}
           </select>
-           <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={16} />
+           <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
         </div>
         <div className="md:col-span-2 relative group">
           <select
             value={ratingFilter}
             onChange={(e) => setRatingFilter(e.target.value)}
-            className="input h-12 text-sm appearance-none pr-10"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="ALL">All Ratings</option>
             {[5, 4, 3, 2, 1].map((r) => (
               <option key={r} value={r}>{r} Stars</option>
             ))}
           </select>
-           <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={16} />
+           <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
         </div>
         <div className="md:col-span-1 flex justify-end">
-           <div className="p-3 bg-slate-50 text-slate-400 rounded-xl">
+           <div className="p-3 bg-gray-50 text-gray-400 rounded-xl">
             <Filter size={18} />
            </div>
         </div>
@@ -258,17 +258,17 @@ export default function AdminReviews() {
       {/* REVIEWS GRID/LIST */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {filteredReviews.map((r) => (
-          <div key={r.id} className="glass-card rounded-[2.5rem] p-8 group hover:translate-y-[-4px] transition-all duration-300 border border-slate-50 hover:border-emerald-100">
+          <div key={r.id} className="bg-white border border-gray-100 shadow-sm rounded-[2.5rem] p-8 group hover:translate-y-[-4px] transition-all duration-300 hover:border-emerald-200">
             <div className="flex flex-col md:flex-row gap-6">
               {/* IMAGE (If available) */}
               {r.imageUrl && (
                 <div className="w-full md:w-32 h-32 shrink-0 relative">
                   <img
                     src={r.imageUrl}
-                    className="w-full h-full rounded-2xl object-cover shadow-inner"
+                    className="w-full h-full rounded-2xl object-cover shadow-inner bg-gray-50"
                     alt="Review Visual"
                   />
-                  <div className="absolute top-2 right-2 p-1.5 bg-white/90 backdrop-blur-sm rounded-lg shadow-sm border border-slate-100">
+                  <div className="absolute top-2 right-2 p-1.5 bg-white/90 backdrop-blur-sm rounded-lg shadow-sm border border-gray-100">
                     <ImageIcon size={12} className="text-emerald-500" />
                   </div>
                 </div>
@@ -278,37 +278,37 @@ export default function AdminReviews() {
               <div className="flex-1 space-y-4">
                 <div className="flex justify-between items-start">
                   <div>
-                     <div className="flex gap-0.5 text-amber-400 mb-2">
+                     <div className="flex gap-0.5 text-emerald-500 mb-2">
                       {[...Array(5)].map((_, i) => (
                         <Star key={i} size={14} fill={i < r.rating ? "currentColor" : "none"} />
                       ))}
                     </div>
-                    <h3 className="text-lg font-black text-slate-800 leading-tight group-hover:text-emerald-600 transition-colors">
+                    <h3 className="text-lg font-black text-black leading-tight group-hover:text-emerald-600 transition-colors">
                       {r.productName}
                     </h3>
                   </div>
-                  <div className="text-[10px] font-black text-slate-300 uppercase tracking-widest bg-slate-50 px-2 py-1 rounded-lg">
+                  <div className="text-[9px] font-black text-gray-400 uppercase tracking-widest bg-gray-50 px-2.5 py-1.5 rounded-lg border border-gray-100">
                     ID: #{r.id}
                   </div>
                 </div>
 
-                <p className="text-sm font-medium text-slate-600 leading-relaxed italic">
+                <p className="text-sm font-bold text-gray-400 leading-relaxed italic">
                   "{r.comment}"
                 </p>
 
-                <div className="pt-4 border-t border-slate-50/50 flex flex-wrap items-center justify-between gap-4">
+                <div className="pt-4 border-t border-gray-50 flex flex-wrap items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 border border-blue-100 shadow-sm">
-                      <User size={14} />
+                    <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100 shadow-sm font-black text-xs">
+                      {r.userName?.charAt(0) || "U"}
                     </div>
                     <div>
-                       <p className="text-xs font-bold text-slate-800">{r.userName || "Anonymous"}</p>
-                       <p className="text-[10px] text-slate-400 font-medium">Verified Customer</p>
+                       <p className="text-sm font-black text-black">{r.userName || "Anonymous"}</p>
+                       <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest">Verified Customer</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-1.5 text-xs font-bold text-slate-400 bg-slate-50 px-3 py-1.5 rounded-xl">
-                      <Package size={12} /> Batch: A-01
+                    <div className="flex items-center gap-1.5 text-[9px] font-black text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-100 uppercase tracking-wider">
+                      <Package size={12} /> BATCH: {String(r.id).padStart(3, '0')}
                     </div>
                   </div>
                 </div>
@@ -319,10 +319,10 @@ export default function AdminReviews() {
       </div>
 
       {filteredReviews.length === 0 && !loading && (
-        <div className="py-32 flex flex-col items-center justify-center text-slate-300 glass-card rounded-[3rem]">
+        <div className="py-32 flex flex-col items-center justify-center text-gray-300 bg-white border-2 border-dashed border-gray-100 rounded-[2.5rem]">
           <MessageSquare size={64} className="mb-6 opacity-10" />
-          <p className="font-black uppercase tracking-widest text-sm">No feedback matches your filters</p>
-          <button onClick={() => {setSearch(""); setRatingFilter("ALL"); setCategoryFilter("ALL"); setProductFilter("ALL");}} className="mt-6 text-emerald-500 font-black text-xs uppercase tracking-widest hover:underline">Clear all filters</button>
+          <p className="font-black uppercase tracking-widest text-[10px]">No feedback matches your filters</p>
+          <button onClick={() => {setSearch(""); setRatingFilter("ALL"); setCategoryFilter("ALL"); setProductFilter("ALL");}} className="mt-6 text-emerald-600 font-black text-[10px] uppercase tracking-[0.2em] hover:text-black transition-colors">Clear all filters</button>
         </div>
       )}
     </div>

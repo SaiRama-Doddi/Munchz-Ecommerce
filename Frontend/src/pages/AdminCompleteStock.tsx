@@ -153,17 +153,18 @@ export default function AdminCompleteStock() {
   }, [filteredRows]);
 
   return (
-    <div className="space-y-8 pb-12 relative">
-      {loading && <PremiumSpinner text="Gatering stock data..." backdrop={true} fullScreen={true} />}
+    <div className="space-y-10 pb-12 bg-white min-h-screen relative">
+      {loading && <PremiumSpinner text="Gathering stock data..." backdrop={true} fullScreen={true} />}
+      
       {/* HEADER SECTION */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">Consolidated Inventory</h1>
-          <p className="text-slate-500 font-medium italic">Unified visibility across Omni-channels</p>
+          <h1 className="text-3xl font-extrabold text-black tracking-tight">Consolidated Inventory</h1>
+          <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Unified visibility across Omni-channels</p>
         </div>
         <button
           onClick={loadAllStock}
-          className={`glass-card p-3 rounded-2xl text-slate-400 hover:text-emerald-500 hover:border-emerald-100 transition-all ${loading ? 'animate-spin' : ''}`}
+          className={`bg-white border border-gray-100 shadow-sm p-3.5 rounded-2xl text-gray-400 hover:text-emerald-600 hover:border-emerald-200 transition-all ${loading ? 'animate-spin' : ''}`}
         >
           <RefreshCcw size={20} />
         </button>
@@ -171,64 +172,64 @@ export default function AdminCompleteStock() {
 
       {/* STATS CARDS GRID */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="glass-card p-8 rounded-[2.5rem] relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:scale-110 transition-transform">
+        <div className="bg-white border border-gray-100 shadow-sm p-8 rounded-[2.5rem] relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:scale-110 transition-transform text-black">
             <Layers size={100} />
           </div>
           <div className="flex items-center gap-4 mb-4">
-            <div className="p-3 bg-indigo-50 text-indigo-600 rounded-2xl">
+            <div className="p-3 bg-gray-50 text-black rounded-2xl">
               <BarChart3 size={24} />
             </div>
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Global Aggregate</span>
+            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Global Aggregate</span>
           </div>
           <div className="flex items-baseline gap-2">
-            <h3 className="text-4xl font-black text-slate-800">{stats.total}</h3>
-            <span className="text-xs font-bold text-slate-400">Total Units</span>
+            <h3 className="text-4xl font-black text-black">{stats.total}</h3>
+            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Total Units</span>
           </div>
         </div>
 
-        <div className="glass-card p-8 rounded-[2.5rem] relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:scale-110 transition-transform">
+        <div className="bg-white border border-gray-100 shadow-sm p-8 rounded-[2.5rem] relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:scale-110 transition-transform text-emerald-600">
             <Smartphone size={100} />
           </div>
           <div className="flex items-center gap-4 mb-4">
-            <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">
+            <div className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl">
               <Smartphone size={24} />
             </div>
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">E-Commerce Reserve</span>
+            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">E-Commerce Reserve</span>
           </div>
           <div className="flex items-baseline gap-2">
-            <h3 className="text-4xl font-black text-slate-800">{stats.online}</h3>
-            <span className="text-xs font-bold text-slate-400">Units Online</span>
+            <h3 className="text-4xl font-black text-black">{stats.online}</h3>
+            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Units Online</span>
           </div>
         </div>
 
-        <div className="glass-card p-8 rounded-[2.5rem] relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:scale-110 transition-transform">
+        <div className="bg-white border border-gray-100 shadow-sm p-8 rounded-[2.5rem] relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:scale-110 transition-transform text-gray-200">
             <Store size={100} />
           </div>
           <div className="flex items-center gap-4 mb-4">
-            <div className="p-3 bg-rose-50 text-rose-600 rounded-2xl">
+            <div className="p-3 bg-black text-white rounded-2xl">
               <Store size={24} />
             </div>
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Warehouse / POS</span>
+            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Warehouse / POS</span>
           </div>
           <div className="flex items-baseline gap-2">
-            <h3 className="text-4xl font-black text-slate-800">{stats.offline}</h3>
-            <span className="text-xs font-bold text-slate-400">Units Offline</span>
+            <h3 className="text-4xl font-black text-black">{stats.offline}</h3>
+            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Units Offline</span>
           </div>
         </div>
       </div>
 
       {/* FILTER BAR SECTION */}
-      <div className="glass-card p-6 rounded-[2rem] gap-4 grid grid-cols-1 md:grid-cols-5 items-center">
+      <div className="bg-white border border-gray-100 shadow-sm p-6 rounded-[2rem] gap-4 grid grid-cols-1 md:grid-cols-5 items-center">
         <div className="relative group">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-emerald-500 transition-colors" size={18} />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-emerald-500 transition-colors" size={18} />
           <input
             placeholder="Search Items..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="input pl-12 h-12 text-sm"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl pl-12 pr-5 py-3 text-sm font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all"
           />
         </div>
         
@@ -240,14 +241,14 @@ export default function AdminCompleteStock() {
               setSelectedProductId("");
               setSelectedVariant("");
             }}
-            className="input h-12 text-sm appearance-none pr-10"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="">Categories</option>
             {categories.map((c) => (
               <option key={c.id} value={c.id}>{c.name}</option>
             ))}
           </select>
-          <Filter className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={16} />
+          <Filter className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
         </div>
 
         <div className="relative group">
@@ -257,28 +258,28 @@ export default function AdminCompleteStock() {
               setSelectedProductId(e.target.value);
               setSelectedVariant("");
             }}
-            className="input h-12 text-sm appearance-none pr-10"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="">Specific Products</option>
             {products.map((p) => (
               <option key={p.id} value={p.id}>{p.name}</option>
             ))}
           </select>
-          <Package className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={16} />
+          <Package className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
         </div>
 
         <div className="relative group">
           <select
             value={selectedVariant}
             onChange={(e) => setSelectedVariant(e.target.value)}
-            className="input h-12 text-sm appearance-none pr-10"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="">Variants/Weights</option>
             {variants.map((v, i) => (
               <option key={i} value={v}>{v}</option>
             ))}
           </select>
-          <LayoutGrid className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" size={16} />
+          <LayoutGrid className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
         </div>
 
         <button
@@ -288,59 +289,59 @@ export default function AdminCompleteStock() {
             setSelectedProductId("");
             setSelectedVariant("");
           }}
-          className="h-12 border border-slate-100 rounded-xl text-xs font-black uppercase tracking-widest text-slate-400 hover:bg-slate-50 transition-colors"
+          className="h-12 border border-gray-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-gray-400 hover:bg-black hover:text-white transition-all shadow-sm"
         >
           Reset View
         </button>
       </div>
 
       {/* DATA TABLE CARD */}
-      <div className="glass-card rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-2xl">
+      <div className="bg-white border border-gray-100 shadow-sm rounded-[2.5rem] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50/50 border-b border-slate-100 uppercase">
-                <th className="px-8 py-5 text-[10px] font-black tracking-widest text-slate-400">Inventory SKU</th>
-                <th className="px-6 py-5 text-[10px] font-black tracking-widest text-slate-400">Variant Profile</th>
-                <th className="px-6 py-5 text-[10px] font-black tracking-widest text-slate-400">Classification</th>
-                <th className="px-6 py-5 text-[10px] font-black tracking-widest text-slate-400 text-center">Offline</th>
-                <th className="px-6 py-5 text-[10px] font-black tracking-widest text-slate-400 text-center">Online</th>
-                <th className="px-8 py-5 text-[10px] font-black tracking-widest text-slate-400 text-right">Aggregate</th>
+              <tr className="bg-gray-50/50 border-b border-gray-100">
+                <th className="px-8 py-5 text-[10px] font-black tracking-widest text-gray-400 uppercase">Inventory SKU</th>
+                <th className="px-6 py-5 text-[10px] font-black tracking-widest text-gray-400 uppercase">Variant Profile</th>
+                <th className="px-6 py-5 text-[10px] font-black tracking-widest text-gray-400 uppercase">Classification</th>
+                <th className="px-6 py-5 text-[10px] font-black tracking-widest text-gray-400 uppercase text-center">Offline</th>
+                <th className="px-6 py-5 text-[10px] font-black tracking-widest text-gray-400 uppercase text-center">Online</th>
+                <th className="px-8 py-5 text-[10px] font-black tracking-widest text-gray-400 uppercase text-right">Aggregate</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-50 font-medium">
+            <tbody className="divide-y divide-gray-50 font-medium">
               {filteredRows.map((r, i) => (
-                <tr key={i} className="group hover:bg-slate-50/50 transition-all duration-300">
-                  <td className="px-8 py-5 font-bold text-slate-800 group-hover:text-blue-600 transition-colors text-sm">
+                <tr key={i} className="group hover:bg-gray-50 transition-all duration-300">
+                  <td className="px-8 py-5 font-black text-black group-hover:text-emerald-600 transition-colors text-sm">
                     {r.productName}
                   </td>
                   <td className="px-6 py-5">
-                    <span className="px-3 py-1 bg-slate-100 text-[10px] font-black text-slate-500 rounded-lg uppercase tracking-widest">
+                    <span className="px-3 py-1.5 bg-white border border-gray-100 text-[9px] font-black text-gray-400 rounded-lg uppercase tracking-widest group-hover:border-emerald-200 group-hover:text-emerald-600">
                       {r.variantLabel}
                     </span>
                   </td>
-                  <td className="px-6 py-5 text-xs text-slate-400 font-bold uppercase tracking-widest">
+                  <td className="px-6 py-5 text-[10px] text-gray-300 font-black uppercase tracking-widest">
                     {r.categoryName}
                   </td>
                   <td className="px-6 py-5 text-center">
-                    <div className="flex items-center justify-center gap-1.5 text-rose-500 font-black">
-                      <Store size={14} className="opacity-40" />
+                    <div className="flex items-center justify-center gap-1.5 text-black font-black text-sm">
+                      <Store size={14} className="text-gray-200" />
                       {r.offlineQty}
                     </div>
                   </td>
                   <td className="px-6 py-5 text-center">
-                    <div className="flex items-center justify-center gap-1.5 text-blue-500 font-black">
-                      <Smartphone size={14} className="opacity-40" />
+                    <div className="flex items-center justify-center gap-1.5 text-emerald-600 font-black text-sm">
+                      <Smartphone size={14} className="text-emerald-100" />
                       {r.onlineQty}
                     </div>
                   </td>
-                  <td className="px-8 py-5 text-right font-black text-lg text-emerald-600">
+                  <td className="px-8 py-5 text-right font-black text-xl text-black">
                     <div className="flex items-center justify-end gap-2">
                        {r.totalQty}
                        {r.totalQty > 50 ? (
-                         <ArrowUpRight size={14} className="text-emerald-300" />
+                         <ArrowUpRight size={16} className="text-emerald-500" />
                        ) : (
-                         <ArrowDownRight size={14} className="text-rose-300" />
+                         <ArrowDownRight size={16} className="text-gray-300" />
                        )}
                     </div>
                   </td>
@@ -351,9 +352,9 @@ export default function AdminCompleteStock() {
         </div>
 
         {filteredRows.length === 0 && !loading && (
-          <div className="py-24 flex flex-col items-center justify-center text-slate-300">
+          <div className="py-24 border-2 border-dashed border-gray-100 rounded-[2.5rem] flex flex-col items-center justify-center text-gray-300 m-8">
             <LayoutGrid size={64} className="mb-6 opacity-10 font-thin" />
-            <p className="font-black uppercase tracking-widest text-xs">No consolidated records found</p>
+            <p className="font-black uppercase tracking-widest text-[10px]">No consolidated records found</p>
           </div>
         )}
       </div>

@@ -8,6 +8,14 @@
   --color-premium-accent-soft: rgba(16, 185, 129, 0.1);
   --shadow-premium: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
   --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+
+  /* Admin Theme Variables */
+  --admin-bg: #ffffff;
+  --admin-text: #000000;
+  --admin-primary: #059669; /* Premium Green */
+  --admin-secondary: #10b981; /* Accent Green */
+  --admin-hover: #f0fdf4; /* Light Green Hover */
+  --admin-border: #e5e7eb;
 }
 
 html,
