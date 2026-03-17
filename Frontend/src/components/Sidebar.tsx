@@ -18,8 +18,8 @@ import {
 } from "lucide-react";
 
 interface SidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
+  isOpen?: boolean;
+  onClose?: boolean | (() => void);
 }
 
 const items = [
@@ -53,9 +53,15 @@ const items = [
   { to: "/admin/reviews", label: "Reviews", icon: ClipboardList },
 ];
 
-export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+export default function Sidebar({ isOpen = true, onClose = () => {} }: SidebarProps) {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+
+  const handleClose = () => {
+    if (typeof onClose === 'function') {
+      onClose();
+    }
+  };
 
   const filteredItems = items.reduce((acc: any[], item, index) => {
     if (item.type === "header") {
@@ -89,12 +95,12 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       {/* MOBILE OVERLAY */}
       <div 
         className={`fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-        onClick={onClose}
+        onClick={handleClose}
       />
 
       <aside className={`fixed left-0 top-0 w-72 h-screen bg-emerald-600 text-white px-6 py-8 border-r border-emerald-500 shadow-xl flex flex-col z-50 transition-transform duration-300 transform ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         <div className="flex items-center justify-between mb-10 px-2 group">
-          <div className="flex items-center gap-4 cursor-pointer" onClick={() => { navigate("/admin/dashboard"); onClose(); }}>
+          <div className="flex items-center gap-4 cursor-pointer" onClick={() => { navigate("/admin/dashboard"); handleClose(); }}>
             <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg shadow-black/10 group-hover:scale-110 transition-transform duration-300">
               <ShoppingBag className="text-emerald-600" size={24} />
             </div>
@@ -105,7 +111,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </div>
           
           <button 
-            onClick={onClose}
+            onClick={handleClose}
             className="lg:hidden p-2 hover:bg-white/10 rounded-lg transition-colors"
           >
             <X size={20} />
