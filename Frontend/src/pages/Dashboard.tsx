@@ -84,6 +84,7 @@ export default function Dashboard() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [chartView, setChartView] = useState<"distribution" | "inventory" | "orders">("distribution");
   const [timeFilter, setTimeFilter] = useState<"24h" | "7d" | "30d" | "all">("all");
+  const [listFilter, setListFilter] = useState<"24h" | "7d" | "30d" | "all">("24h");
 
   useEffect(() => {
     paymentApi
@@ -182,6 +183,32 @@ export default function Dashboard() {
     return Object.entries(map).map(([name, value]) => ({ name, value })).reverse().slice(-7);
   }, [filteredOrders]);
 
+  const listFilteredOrders = useMemo(() => {
+    return orders.filter((o) => {
+      if (!o.placedAt || listFilter === "all") return true;
+      const orderDate = new Date(o.placedAt);
+      const now = new Date();
+      const diffHrs = (now.getTime() - orderDate.getTime()) / (1000 * 60 * 60);
+      if (listFilter === "24h") return diffHrs <= 24;
+      if (listFilter === "7d") return diffHrs <= 168; // 7 days
+      if (listFilter === "30d") return diffHrs <= 720; // 30 days
+      return true;
+    });
+  }, [orders, listFilter]);
+
+  const listFilteredPayments = useMemo(() => {
+    return allPayments.filter((p) => {
+      if (!p.createdAt || listFilter === "all") return true;
+      const payDate = new Date(p.createdAt);
+      const now = new Date();
+      const diffHrs = (now.getTime() - payDate.getTime()) / (1000 * 60 * 60);
+      if (listFilter === "24h") return diffHrs <= 24;
+      if (listFilter === "7d") return diffHrs <= 168;
+      if (listFilter === "30d") return diffHrs <= 720;
+      return true;
+    });
+  }, [allPayments, listFilter]);
+
   const stockByCategory = useMemo(() => {
     return categories.map((c: Category) => {
       const total = stocks
@@ -235,7 +262,7 @@ export default function Dashboard() {
       </div>
 
       {/* KPI CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
         <KPICard
           title="Revenue"
           subtitle="Total Sales"
@@ -245,13 +272,13 @@ export default function Dashboard() {
           color="black"
         />
         <KPICard
-          title="Consolidated Catalog"
-          subtitle="Categories"
-          value={categories.length}
-          icon={<Layers size={24} />}
-          bgIcon={<Layers size={100} />}
+          title="Stock Inventory"
+          subtitle="Total Units"
+          value={totalStock.total.toLocaleString()}
+          icon={<Boxes size={24} />}
+          bgIcon={<Boxes size={100} />}
           color="emerald"
-          onClick={() => navigate("/admin/category")}
+          onClick={() => navigate("/admin/complete-stock")}
         />
         <KPICard
           title="Orders"
@@ -260,7 +287,7 @@ export default function Dashboard() {
           icon={<ShoppingCart size={24} />}
           bgIcon={<ShoppingCart size={100} />}
           color="emerald"
-          onClick={() => navigate("/admin/complete-stock")}
+          onClick={() => navigate("/admin/orders")}
         />
         <KPICard
           title="Products"
@@ -272,13 +299,22 @@ export default function Dashboard() {
           onClick={() => navigate("/admin/products")}
         />
         <KPICard
+          title="Catalog"
+          subtitle="Categories"
+          value={categories.length}
+          icon={<Layers size={24} />}
+          bgIcon={<Layers size={100} />}
+          color="emerald"
+          onClick={() => navigate("/admin/category")}
+        />
+        <KPICard
           title="Inventory Monitor"
-          subtitle="Low Stock Items"
+          subtitle="Low Stock"
           value={lowStockItems}
           icon={<AlertTriangle size={24} />}
           bgIcon={<AlertTriangle size={100} />}
           color="black"
-          onClick={() => navigate("/admin/complete-stock")}
+          onClick={() => navigate("/admin/inventory")}
         />
       </div>
 
@@ -377,29 +413,59 @@ export default function Dashboard() {
         </div>
       </section>
 
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-gray-50 border border-gray-100 rounded-[2.5rem] p-6 shadow-sm">
+         <div className="flex items-center gap-3">
+            <p className="text-sm font-bold text-gray-500">Global History Filter:</p>
+            <div className="flex items-center bg-white p-1 rounded-xl border border-gray-100">
+              {[
+                { label: 'Today', value: '24h' },
+                { label: '7 Days', value: '7d' },
+                { label: '30 Days', value: '30d' },
+                { label: 'All Time', value: 'all' }
+              ].map((f) => (
+                <button
+                  key={f.value}
+                  onClick={() => setListFilter(f.value as any)}
+                  className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                    listFilter === f.value 
+                      ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' 
+                      : 'text-gray-400 hover:text-emerald-600'
+                  }`}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
+         </div>
+         <p className="text-xs font-bold text-gray-400 uppercase tracking-widest italic flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Real-time Activity Stream
+         </p>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* TODAY'S ORDERS */}
-        <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm overflow-hidden">
+        {/* RECENT ORDERS */}
+        <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm overflow-hidden flex flex-col h-full">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600">
                 <ShoppingCart size={20} />
               </div>
-              <h2 className="text-xl font-bold text-black">Today's Orders</h2>
+              <h2 className="text-xl font-bold text-black">{listFilter === '24h' ? "Today's" : listFilter === 'all' ? 'All' : listFilter} Orders</h2>
             </div>
             <span className="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-lg uppercase tracking-wider">
-              {filteredOrders.length} New
+              {listFilteredOrders.length} {listFilter === 'all' ? 'Total' : 'New'}
             </span>
           </div>
 
-          <div className="space-y-4">
-            {filteredOrders.length === 0 ? (
+          <div className="space-y-4 flex-1 overflow-y-auto pr-2 no-scrollbar max-h-[500px]">
+            {listFilteredOrders.length === 0 ? (
               <div className="text-gray-400 text-sm font-bold py-10 flex flex-col items-center gap-3">
                 <ShoppingCart size={40} className="opacity-10" />
                 No orders for this period
               </div>
             ) : (
-              filteredOrders.slice(0, 10).map((o) => (
+              listFilteredOrders.slice(0, 20).map((o) => (
                 <div key={o.orderId} className="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-gray-100 hover:border-emerald-600/20 transition-all duration-300 group">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center border border-gray-100 font-bold text-gray-400 group-hover:text-emerald-600 transition-colors">
@@ -420,28 +486,28 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* TODAY'S PAYMENTS */}
-        <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm overflow-hidden">
+        {/* PAYMENTS */}
+        <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm overflow-hidden flex flex-col h-full">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-black text-white">
                 <CreditCard size={20} />
               </div>
-              <h2 className="text-xl font-bold text-black">Incoming Payments</h2>
+              <h2 className="text-xl font-bold text-black">{listFilter === '24h' ? "Today's" : listFilter === 'all' ? 'All' : listFilter} Payments</h2>
             </div>
             <span className="px-3 py-1 bg-gray-100 text-black text-xs font-bold rounded-lg uppercase tracking-wider">
-              {filteredPayments.length} Recv
+              {listFilteredPayments.length} {listFilter === 'all' ? 'Total' : 'Recv'}
             </span>
           </div>
 
-          <div className="space-y-4">
-            {filteredPayments.length === 0 ? (
+          <div className="space-y-4 flex-1 overflow-y-auto pr-2 no-scrollbar max-h-[500px]">
+            {listFilteredPayments.length === 0 ? (
               <div className="text-gray-400 text-sm font-bold py-10 flex flex-col items-center gap-3">
                 <CreditCard size={40} className="opacity-10" />
                 No payments for this period
               </div>
             ) : (
-              filteredPayments.slice(0, 10).map((p: any) => (
+              listFilteredPayments.slice(0, 20).map((p: any) => (
                 <div key={p.id} className="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-gray-100 hover:border-emerald-600/20 transition-all duration-300 group">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-emerald-600 shadow-sm border border-gray-100">
