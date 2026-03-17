@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -48,6 +49,34 @@ const items = [
 
 export default function Sidebar() {
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredItems = items.reduce((acc: any[], item, index) => {
+    if (item.type === "header") {
+      // Find following items until next header or end
+      const nextItems = [];
+      for (let i = index + 1; i < items.length; i++) {
+        if (items[i].type === "header") break;
+        if (items[i].label.toLowerCase().includes(searchQuery.toLowerCase())) {
+          nextItems.push(items[i]);
+        }
+      }
+      
+      if (nextItems.length > 0) {
+        acc.push(item);
+      }
+    } else {
+      const isHeaderPrev = index > 0 && items[index - 1].type === "header";
+      if (!isHeaderPrev && item.label.toLowerCase().includes(searchQuery.toLowerCase())) {
+        acc.push(item);
+      }
+      // If it has a header, it was already handled or skipped by the header check
+      if (isHeaderPrev && item.label.toLowerCase().includes(searchQuery.toLowerCase())) {
+        acc.push(item);
+      }
+    }
+    return acc;
+  }, []);
 
   return (
     <aside className="fixed left-0 top-0 w-72 h-screen bg-emerald-600 text-white px-6 py-8 border-r border-emerald-500 shadow-xl flex flex-col z-50">
@@ -69,13 +98,15 @@ export default function Sidebar() {
         <input 
           type="text" 
           placeholder="Quick search..." 
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full bg-emerald-500/50 border border-emerald-400/30 rounded-xl py-3 pl-10 pr-4 text-xs focus:outline-none focus:bg-emerald-500 transition-all placeholder:text-emerald-100 text-white"
         />
       </div>
 
       {/* NAVIGATION */}
       <nav className="flex flex-col gap-1.5 flex-1 overflow-y-auto no-scrollbar">
-        {items.map((item, idx) => {
+        {filteredItems.map((item, idx) => {
           if (item.type === "header") {
             return (
               <p key={`header-${idx}`} className="text-[10px] uppercase tracking-widest text-emerald-200/60 font-black mt-8 mb-3 px-4 italic">
