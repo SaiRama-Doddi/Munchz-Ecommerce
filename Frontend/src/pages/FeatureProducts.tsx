@@ -6,7 +6,6 @@ import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import PremiumSpinner from "../components/PremiumSpinner";
 /* =========================
    TYPES
 ========================= */
@@ -133,8 +132,13 @@ const scrollRight = () => {
 
   if (isLoading) {
     return (
-      <div className="bg-white min-h-[400px] flex items-center justify-center">
-        <PremiumSpinner text="Curating selection..." />
+      <div className="bg-[#f6fff4] min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 border-4 border-green-700 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-gray-600 font-medium">
+            Fetching your products...
+          </p>
+        </div>
       </div>
     );
   }
@@ -148,20 +152,18 @@ const scrollRight = () => {
   }
 
   return (
-    <div className="bg-white py-20 lg:py-32 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4">
-        
+    <div className="bg-gradient-to-b from-[#f9fdf7] to-[#f3fff1] py-12 md:py-16">
+
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
+
         {/* HEADING */}
-        <div className="mb-20">
-          <div className="flex items-center gap-3 mb-4">
-            <span className="h-px w-8 bg-emerald-600"></span>
-            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-600">
-              GoMunchZ Favorites
-            </p>
-          </div>
-          <h2 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight tracking-[-0.03em]">
-            Signature <span className="text-emerald-600 italic">Collection</span>
+        <div className="mb-10 text-center">
+          <h2 className="text-3xl md:text-4xl font-semibold">
+            Curated Collection
           </h2>
+          <p className="text-gray-500 text-sm mt-2">
+            Premium-quality products handpicked for excellence
+          </p>
         </div>
 
         {/* SLIDER */}
@@ -206,81 +208,80 @@ const scrollRight = () => {
                 <div
                   key={p.id}
                   onClick={() => navigate(`/product/${p.id}`)}
-                  className="group premium-card bg-white rounded-[2.5rem] overflow-hidden cursor-pointer flex flex-col min-w-[300px] md:min-w-[320px] lg:min-w-[340px] mb-8"
+                  className="group bg-white rounded-xl shadow-sm hover:shadow-lg border border-gray-100 overflow-hidden cursor-pointer transition flex flex-col min-w-[85%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[20%]"
                 >
+
                   {/* IMAGE */}
-                  <div className="relative bg-gray-50/50 aspect-square p-6 flex items-center justify-center overflow-hidden">
+                  <div className="relative bg-gray-50 aspect-square flex items-center justify-center">
+
                     <img
                       src={p.imageUrl}
                       alt={p.name}
-                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out"
+                      className="w-full h-full object-contain p-4 group-hover:scale-105 transition"
                     />
 
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-500"></div>
-
                     {discount > 0 && (
-                      <div className="absolute top-6 right-6 bg-emerald-600 text-white text-[10px] font-black px-3 py-1.5 rounded-full shadow-lg shadow-emerald-600/30 uppercase tracking-widest">
+                      <div className="absolute top-2 right-2 bg-green-600 text-white text-[10px] px-2 py-1 rounded-md font-semibold">
                         {discount}% OFF
                       </div>
                     )}
+
                   </div>
 
                   {/* CONTENT */}
-                  <div className="p-8 flex flex-col gap-4 flex-grow">
-                    <div>
-                      <h3 className="text-[15px] font-black text-gray-900 leading-snug group-hover:text-emerald-700 transition-colors line-clamp-2 uppercase tracking-wide">
-                        {p.name}
-                      </h3>
-                      <ProductReviewStats productId={p.id} />
-                    </div>
+                  <div className="p-3 flex flex-col gap-2 flex-grow">
+
+                    <h3 className="text-sm font-semibold text-gray-900 line-clamp-2">
+                      {p.name}
+                    </h3>
+
+                    <ProductReviewStats productId={p.id} />
 
                     {/* PRICE */}
-                    <div className="flex items-baseline gap-2 mt-2">
-                      <span className="text-2xl font-black text-gray-900">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg font-bold text-gray-900">
                         ₹{selectedVariant.offerPrice * qty}
                       </span>
-                      {selectedVariant.mrp > selectedVariant.offerPrice && (
-                        <span className="text-xs text-gray-400 line-through font-bold">
-                          ₹{selectedVariant.mrp * qty}
-                        </span>
-                      )}
+
                       {base100g && (
-                        <span className="text-[10px] text-emerald-600 font-bold uppercase tracking-widest ml-auto bg-emerald-50 px-2 py-0.5 rounded">
-                          ₹{base100g.offerPrice}/100g
+                        <span className="text-xs text-gray-500">
+                          (₹{base100g.offerPrice}/100g)
                         </span>
                       )}
                     </div>
 
-                    {/* ACTIONS */}
+                    {/* VARIANT + CART */}
                     <div
-                      className="flex items-center gap-3 pt-4 mt-auto border-t border-gray-50"
+                      className="flex items-center gap-2 mt-auto"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <div className="flex-1 relative">
-                        <select
-                          value={selectedVariantIndex}
-                          onChange={(e) =>
-                            setVariantMap((prev) => ({
-                              ...prev,
-                              [p.id]: parseInt(e.target.value),
-                            }))
-                          }
-                          className="w-full pl-4 pr-10 py-3.5 text-[11px] font-black uppercase tracking-widest border border-gray-100 rounded-xl bg-gray-50/50 appearance-none outline-none focus:bg-white focus:border-emerald-500/30 transition-all cursor-pointer"
-                        >
-                          {sellVariants.map((v, i) => (
-                            <option key={i} value={i}>
-                              {v.weightLabel}
-                            </option>
-                          ))}
-                        </select>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-emerald-600">
-                          <FiChevronRight size={14} className="rotate-90" />
-                        </div>
-                      </div>
+
+                    <select
+  value={selectedVariantIndex}
+  onChange={(e) =>
+    setVariantMap((prev) => ({
+      ...prev,
+      [p.id]: parseInt(e.target.value),
+    }))
+  }
+  className="flex-1 px-2 py-1.5 text-xs border border-gray-300 rounded-md bg-gray-50
+  focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+>
+  {sellVariants.map((v, i) => (
+    <option
+      key={i}
+      value={i}
+      style={{ backgroundColor: "white", color: "#111" }}
+    >
+      {v.weightLabel}
+    </option>
+  ))}
+</select>
 
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
+
                           addToCart({
                             productId: p.id,
                             name: p.name,
@@ -290,56 +291,48 @@ const scrollRight = () => {
                             base100gPrice: base100g?.offerPrice,
                             qty,
                           });
+
                           setCartClicked((prev) => ({
                             ...prev,
                             [p.id]: true,
                           }));
-                          setTimeout(() => {
-                            setCartClicked((prev) => ({
-                              ...prev,
-                              [p.id]: false,
-                            }));
-                          }, 2000);
                         }}
-                        className={`min-w-[60px] h-[52px] flex items-center justify-center rounded-xl transition-all duration-300 shadow-xl shadow-black/5 hover:scale-105 active:scale-95 ${
+                        className={`w-9 h-9 flex items-center justify-center rounded-lg transition ${
                           cartClicked[p.id]
-                            ? "bg-emerald-600 text-white"
-                            : "bg-black text-white hover:bg-emerald-600"
+                            ? "bg-red-100 text-red-600"
+                            : "bg-green-600 text-white hover:bg-green-700"
                         }`}
                       >
-                        {cartClicked[p.id] ? (
-                          <span className="text-[10px] font-black uppercase tracking-widest px-4">Added</span>
-                        ) : (
-                          <FiShoppingCart size={18} />
-                        )}
+                        <FiShoppingCart size={18} />
                       </button>
+
                     </div>
+
                   </div>
+
                 </div>
               );
             })}
 
           </div>
-        {/* MOBILE ARROWS */}
-        <div className="flex items-center gap-6 mt-12">
-          <div className="h-px flex-1 bg-gray-100"></div>
-          <div className="flex gap-4">
-            <button
-              onClick={scrollLeft}
-              className="w-14 h-14 flex items-center justify-center rounded-2xl bg-white shadow-premium-soft border border-gray-100 text-gray-400 hover:text-emerald-700 hover:border-emerald-100 transition-all active:scale-95"
-            >
-              <FiChevronLeft size={24} />
-            </button>
+{/* MOBILE ARROWS */}
+<div className="flex justify-center gap-4 mt-6 ">
 
-            <button
-              onClick={scrollRight}
-              className="w-14 h-14 flex items-center justify-center rounded-2xl bg-white shadow-premium-soft border border-gray-100 text-gray-400 hover:text-emerald-700 hover:border-emerald-100 transition-all active:scale-95"
-            >
-              <FiChevronRight size={24} />
-            </button>
-          </div>
-          <div className="h-px flex-1 bg-gray-100"></div>
-        </div>
+  <button
+    onClick={scrollLeft}
+    className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow border hover:bg-green-600 hover:text-white transition"
+  >
+    <FiChevronLeft size={20} />
+  </button>
+
+  <button
+    onClick={scrollRight}
+    className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow border hover:bg-green-600 hover:text-white transition"
+  >
+    <FiChevronRight size={20} />
+  </button>
+
+</div>
           {/* RIGHT BUTTON */}
         
         </div>

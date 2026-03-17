@@ -16,6 +16,3 @@ frontend/build/
 # Logs
 *.log
 logs/
-
-# Build
-*.tsbuildinfo

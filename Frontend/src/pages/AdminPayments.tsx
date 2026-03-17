@@ -224,8 +224,8 @@ const AdminPayments: React.FC = () => {
         </div>
       </div>
 
-      {/* DESKTOP TABLE */}
-      <div className="hidden md:block bg-white rounded-[2.5rem] border border-gray-100 overflow-hidden shadow-sm">
+      {/* TABLE */}
+      <div className="bg-white rounded-[2.5rem] border border-gray-100 overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -282,55 +282,16 @@ const AdminPayments: React.FC = () => {
             </tbody>
           </table>
         </div>
-      </div>
 
-      {/* MOBILE CARDS */}
-      <div className="md:hidden space-y-6">
-         {filteredPayments.map((p) => (
-           <div key={p.id} className="bg-white border border-gray-100 rounded-[2rem] p-6 shadow-sm">
-              <div className="flex justify-between items-start mb-6">
-                 <div>
-                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{formatDate(p.createdAt)}</p>
-                    <h3 className="text-lg font-black text-black tracking-tight">#{p.id.slice(-12).toUpperCase()}</h3>
-                 </div>
-                 <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-black border uppercase tracking-wider ${getStatusStyles(p.status)}`}>
-                    {p.status === 'paid' || p.status === 'SUCCESS' ? <CheckCircle2 size={12} /> : <AlertCircle size={12} />}
-                    {p.status}
-                 </span>
-              </div>
-
-              <div className="flex items-center gap-4 mb-6 bg-gray-50/50 p-4 rounded-2xl border border-gray-50">
-                 <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-orange-600 font-black text-xs shadow-sm">
-                    {getOrderName(p.orderId).charAt(0)}
-                 </div>
-                 <div className="flex-1">
-                    <p className="text-sm font-bold text-black line-clamp-1">{getOrderName(p.orderId)}</p>
-                    <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest">Order ID #{p.orderId.slice(-8).toUpperCase()}</p>
-                 </div>
-              </div>
-
-              <div className="flex items-center justify-between pt-4 border-t border-gray-50">
-                 <div>
-                    <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Reference ID</p>
-                    <p className="text-[10px] font-black text-black truncate max-w-[120px]">{p.razorpayPaymentId || "DIRECT"}</p>
-                 </div>
-                 <div className="text-right">
-                    <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Authorization Value</p>
-                    <p className="text-xl font-black text-emerald-600 italic">₹{(p.amount / 100).toLocaleString()}</p>
-                 </div>
-              </div>
-           </div>
-         ))}
-      </div>
-
-      {filteredPayments.length === 0 && (
-        <div className="py-32 flex flex-col items-center justify-center bg-gray-50/20 rounded-[2.5rem]">
-          <div className="w-20 h-20 bg-white border border-gray-100 rounded-[2rem] flex items-center justify-center mb-6 text-gray-200 shadow-xl shadow-gray-200/20 animate-pulse">
-            <AlertCircle size={40} />
+        {filteredPayments.length === 0 && (
+          <div className="py-32 flex flex-col items-center justify-center bg-gray-50/20">
+            <div className="w-20 h-20 bg-white border border-gray-100 rounded-[2rem] flex items-center justify-center mb-6 text-gray-200 shadow-xl shadow-gray-200/20 animate-pulse">
+              <AlertCircle size={40} />
+            </div>
+            <p className="text-gray-400 font-black uppercase tracking-[0.2em] text-[10px]">No transactions found in this scope</p>
           </div>
-          <p className="text-gray-400 font-black uppercase tracking-[0.2em] text-[10px]">No transactions found in this scope</p>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* PAGINATION (MOCK) */}
       <div className="flex items-center justify-center gap-4">

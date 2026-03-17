@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, HelpCircle, MessageCircle } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 interface FAQItem {
   question: string;
@@ -8,34 +8,34 @@ interface FAQItem {
 
 const faqs: FAQItem[] = [
   {
-    question: "What defines the Munchz Premium distinction?",
+    question: "What makes GoMunchZ snacks different from others?",
     answer:
-      "Munchz Premium represents a relentless pursuit of snacking excellence. We source only the highest grade of natural assets, processed in state-of-the-art facilities to ensure nutritional integrity and a superior sensory profile.",
+      "GoMunchZ focuses on real ingredients and premium sourcing. Our snacks are prepared using carefully selected dry fruits and natural ingredients to ensure both taste and nutritional value.",
   },
   {
-    question: "Are these selections suitable for elite nutritional regimens?",
+    question: "Are GoMunchZ products healthy?",
     answer:
-      "Precisely. Each selection is curated to serve as a high-density nutritional asset. We use minimal processing and zero artificial enhancers to preserve the biological value of our nuts and botanical blends.",
+      "Yes. Our products are made from high-quality nuts, dry fruits, and natural ingredients. We aim to provide snacks that are both delicious and nutritious for everyday consumption.",
   },
   {
-    question: "What is the reach of your logistics network?",
+    question: "Do you deliver across India?",
     answer:
-      "Our logistics grid covers the entirety of India. We utilize priority fulfillment channels to ensure that our premium selections reach your destination with maximum speed and preserved freshness.",
+      "Yes, we offer fast and reliable shipping across India. Orders are processed quickly and delivered safely to ensure freshness.",
   },
   {
-    question: "How should I maintain the integrity of my selections?",
+    question: "How should I store dry fruits and snacks?",
     answer:
-      "To preserve the premium profile, store in a temperature-controlled, dry environment. Once the security seal is breached, we recommend transfer to an airtight containment vessel.",
+      "For best freshness, store the products in a cool and dry place. After opening, keep them in an airtight container to maintain flavor and quality.",
   },
   {
-    question: "What protocol is followed for damaged transfers?",
+    question: "What if I receive a damaged product?",
     answer:
-      "In the rare event of a logistics breach resulting in damage, our elite support concierge handles replacements with priority status. Simply initiate a claim through our digital interface.",
+      "Customer satisfaction is our priority. If you receive a damaged product, please contact our support team and we will assist you with a replacement or refund according to our return policy.",
   },
   {
-    question: "Is real-time tracking available for my acquisition?",
+    question: "Can I track my order?",
     answer:
-      "Absolutely. Upon authorization of the transfer, you will receive encrypted tracking credentials. You can monitor the progress of your Munchz via our integrated logistics portal.",
+      "Yes. Once your order is shipped, you will receive a tracking link so you can monitor the delivery status of your order in real time.",
   },
 ];
 
@@ -47,74 +47,83 @@ export default function FAQ() {
   };
 
   return (
-    <section className="py-24 lg:py-40 bg-white">
-      <div className="max-w-4xl mx-auto px-4 lg:px-8">
-        
-        {/* HEADER */}
-        <div className="text-center mb-24">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <span className="h-px w-8 bg-emerald-600"></span>
-            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-600">Intelligence Center</p>
-            <span className="h-px w-8 bg-emerald-600"></span>
-          </div>
-          <h2 className="text-4xl lg:text-5xl font-black text-gray-900 tracking-tighter mb-6 underline decoration-emerald-600/20 decoration-8 underline-offset-8">
-            Common <span className="text-emerald-600 italic">Inquiries</span>
-          </h2>
-          <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest max-w-sm mx-auto leading-relaxed">
-            Everything you need to know about navigating the premium Munchz ecosystem.
+    <section className="py-20 bg-[#fafaf6]">
+
+      <div className="max-w-4xl mx-auto px-6">
+
+        {/* SECTION HEADER */}
+
+        <div className="text-center mb-12">
+
+          <p className="text-sm uppercase tracking-[4px] text-green-700 mb-2">
+            Help Center
           </p>
+
+          <h2 className="text-3xl md:text-4xl font-semibold text-gray-900">
+            Frequently Asked Questions
+          </h2>
+
+          <div className="w-16 h-[3px] bg-green-600 mx-auto mt-4"></div>
+
         </div>
 
-        {/* FAQ SEQUENCE */}
-        <div className="space-y-6">
-          {faqs.map((item, i) => {
-            const isOpen = openIndex === i;
-            return (
-              <div 
-                key={i} 
-                className={`group rounded-[2.5rem] border transition-all duration-500 overflow-hidden ${isOpen ? 'bg-gray-50/50 border-emerald-100 shadow-xl shadow-emerald-900/5' : 'bg-white border-gray-50 hover:border-gray-200'}`}
+
+        {/* FAQ LIST */}
+
+        <div className="space-y-4">
+
+          {faqs.map((item, i) => (
+            <div
+              key={i}
+              className="
+              bg-white
+              border
+              border-gray-200
+              rounded-xl
+              shadow-sm
+              hover:shadow-md
+              transition
+              "
+            >
+
+              <button
+                onClick={() => toggle(i)}
+                className="w-full px-6 py-5 flex justify-between items-center text-left"
               >
-                <button 
-                  onClick={() => toggle(i)}
-                  className="w-full px-10 py-8 flex justify-between items-center text-left gap-6"
-                >
-                  <div className="flex items-center gap-5">
-                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all ${isOpen ? 'bg-emerald-600 text-white rotate-12' : 'bg-gray-50 text-gray-300 group-hover:text-emerald-600'}`}>
-                       <HelpCircle size={16} />
-                    </div>
-                    <p className={`text-[13px] font-black uppercase tracking-widest transition-colors ${isOpen ? 'text-gray-900' : 'text-gray-500'}`}>
-                      {item.question}
-                    </p>
-                  </div>
-                  <ChevronDown className={`shrink-0 transition-transform duration-500 ${isOpen ? 'rotate-180 text-emerald-600' : 'text-gray-200'}`} size={18} />
-                </button>
 
-                <div className={`transition-all duration-700 ease-in-out px-10 ${isOpen ? 'max-h-[300px] opacity-100 pb-10' : 'max-h-0 opacity-0 overflow-hidden'}`}>
-                  <div className="pl-13 flex gap-6">
-                    <span className="w-1 h-full bg-emerald-100 rounded-full shrink-0"></span>
-                    <p className="text-[14px] font-bold text-gray-500 leading-relaxed tracking-wide italic italic-emerald">
-                      "{item.answer}"
-                    </p>
-                  </div>
-                </div>
+                <p className="text-gray-900 font-medium text-[16px]">
+                  {item.question}
+                </p>
+
+                <ChevronDown
+                  size={22}
+                  className={`transition-transform duration-300 ${
+                    openIndex === i ? "rotate-180 text-green-700" : "text-gray-500"
+                  }`}
+                />
+
+              </button>
+
+
+              {/* ANSWER */}
+
+              <div
+                className={`px-6 overflow-hidden transition-all duration-300 ${
+                  openIndex === i ? "max-h-40 pb-5" : "max-h-0"
+                }`}
+              >
+                <p className="text-gray-600 leading-relaxed text-[15px]">
+                  {item.answer}
+                </p>
               </div>
-            );
-          })}
-        </div>
 
-        {/* SUPPORT CTAS */}
-        <div className="mt-20 flex flex-col sm:flex-row items-center justify-center gap-10 py-12 border-t border-gray-50">
-           <div className="text-center sm:text-left">
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-300 mb-1">Still seeking intelligence?</p>
-              <h4 className="text-sm font-black text-gray-900 uppercase tracking-widest">Consult our elite concierge</h4>
-           </div>
-           <button className="h-14 px-8 bg-black text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-xl shadow-black/10 flex items-center gap-3">
-              <MessageCircle size={16} />
-              Priority Support
-           </button>
+            </div>
+          ))}
+
         </div>
 
       </div>
+
     </section>
   );
 }

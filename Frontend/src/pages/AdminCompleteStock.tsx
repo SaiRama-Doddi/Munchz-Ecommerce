@@ -241,7 +241,7 @@ export default function AdminCompleteStock() {
               setSelectedProductId("");
               setSelectedVariant("");
             }}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all font-inter"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="">Categories</option>
             {categories.map((c) => (
@@ -258,7 +258,7 @@ export default function AdminCompleteStock() {
               setSelectedProductId(e.target.value);
               setSelectedVariant("");
             }}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all font-inter"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="">Specific Products</option>
             {products.map((p) => (
@@ -272,7 +272,7 @@ export default function AdminCompleteStock() {
           <select
             value={selectedVariant}
             onChange={(e) => setSelectedVariant(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all font-inter"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="">Variants/Weights</option>
             {variants.map((v, i) => (
@@ -295,8 +295,8 @@ export default function AdminCompleteStock() {
         </button>
       </div>
 
-      {/* DESKTOP DATA TABLE CARD */}
-      <div className="hidden lg:block bg-white border border-gray-100 shadow-sm rounded-[2.5rem] overflow-hidden">
+      {/* DATA TABLE CARD */}
+      <div className="bg-white border border-gray-100 shadow-sm rounded-[2.5rem] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -309,7 +309,7 @@ export default function AdminCompleteStock() {
                 <th className="px-8 py-5 text-[10px] font-black tracking-widest text-gray-400 uppercase text-right">Aggregate</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50 font-medium font-inter">
+            <tbody className="divide-y divide-gray-50 font-medium">
               {filteredRows.map((r, i) => (
                 <tr key={i} className="group hover:bg-gray-50 transition-all duration-300">
                   <td className="px-8 py-5 font-black text-black group-hover:text-emerald-600 transition-colors text-sm">
@@ -350,60 +350,14 @@ export default function AdminCompleteStock() {
             </tbody>
           </table>
         </div>
-      </div>
 
-      {/* MOBILE CARD VIEW */}
-      <div className="lg:hidden space-y-4">
-        {filteredRows.map((r, i) => (
-          <div key={i} className="bg-white border border-gray-100 shadow-sm rounded-[2rem] p-6 group">
-             <div className="flex justify-between items-start mb-4">
-               <div>
-                  <h3 className="text-lg font-black text-black leading-tight group-hover:text-emerald-600 transition-colors">{r.productName}</h3>
-                  <p className="text-[10px] font-black text-gray-300 uppercase tracking-widest mt-1">{r.categoryName}</p>
-               </div>
-               <span className="px-3 py-1.5 bg-gray-50 border border-gray-100 text-[9px] font-black text-gray-400 rounded-lg uppercase tracking-widest">
-                  {r.variantLabel}
-               </span>
-             </div>
-
-             <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-50">
-                <div className="flex flex-col gap-2">
-                   <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                      <Store size={12} /> Warehouse
-                   </div>
-                   <p className="text-xl font-black text-black">{r.offlineQty}</p>
-                </div>
-                <div className="flex flex-col gap-2">
-                   <div className="flex items-center gap-2 text-[10px] font-black text-emerald-600 uppercase tracking-widest">
-                      <Smartphone size={12} /> E-Commerce
-                   </div>
-                   <p className="text-xl font-black text-emerald-600">{r.onlineQty}</p>
-                </div>
-             </div>
-
-             <div className="mt-4 pt-4 border-t border-gray-50 flex items-center justify-between">
-                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1">
-                   Aggregate Stock
-                </span>
-                <div className="flex items-center gap-2 font-black text-2xl text-black italic">
-                   {r.totalQty}
-                   {r.totalQty > 50 ? (
-                      <ArrowUpRight size={20} className="text-emerald-500" />
-                   ) : (
-                      <ArrowDownRight size={20} className="text-gray-300" />
-                   )}
-                </div>
-             </div>
+        {filteredRows.length === 0 && !loading && (
+          <div className="py-24 border-2 border-dashed border-gray-100 rounded-[2.5rem] flex flex-col items-center justify-center text-gray-300 m-8">
+            <LayoutGrid size={64} className="mb-6 opacity-10 font-thin" />
+            <p className="font-black uppercase tracking-widest text-[10px]">No consolidated records found</p>
           </div>
-        ))}
+        )}
       </div>
-
-      {filteredRows.length === 0 && !loading && (
-        <div className="py-24 border-2 border-dashed border-gray-100 rounded-[2.5rem] flex flex-col items-center justify-center text-gray-300">
-          <LayoutGrid size={64} className="mb-6 opacity-10 font-thin" />
-          <p className="font-black uppercase tracking-widest text-[10px]">No consolidated records found</p>
-        </div>
-      )}
     </div>
   );
 }

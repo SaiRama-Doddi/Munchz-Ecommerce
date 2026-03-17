@@ -5,8 +5,6 @@ import {
   Youtube,
   Mail,
   MapPin,
-  ArrowUpRight,
-  ShieldCheck
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -14,113 +12,105 @@ export default function Footer() {
   const navigate = useNavigate();
 
   return (
-    <footer className="bg-black text-white pt-32 pb-16 relative overflow-hidden">
-      {/* AMBIENT GLOW */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-emerald-900/20 rounded-full blur-[120px] pointer-events-none"></div>
-      
-      <div className="max-w-7xl mx-auto px-4 lg:px-8 relative z-10">
-        
-        {/* TOP SECTION: BRAND & STATEMENTS */}
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-12 mb-24">
-           <div className="max-w-md">
-              <img
-                src="/munchz.png"
-                alt="Munchz Premium"
-                className="h-16 mb-10 cursor-pointer hover:opacity-80 transition-opacity"
-                onClick={() => navigate("/")}
-              />
-              <p className="text-[15px] font-bold text-gray-400 uppercase tracking-widest leading-relaxed">
-                Curating the world's most elite natural assets. We define the future of high-density nutritional experiences.
-              </p>
-           </div>
-           
-           <div className="flex flex-col items-end text-right">
-              <div className="flex items-center gap-3 mb-4">
-                 <ShieldCheck size={18} className="text-emerald-500" />
-                 <p className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-500">Security & Quality Grid</p>
-              </div>
-              <p className="text-sm font-black uppercase tracking-widest text-white/40">Authorized Digital Archive • v1.0.4</p>
-           </div>
-        </div>
+    <footer className="bg-[#022405] text-white pt-16 pb-8">
+      <div className="max-w-7xl mx-auto px-6">
 
-        {/* NAVIGATION GRID */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16 border-t border-white/5 pt-20">
-          
-          {/* CONTACT ARCHIVE */}
+        {/* ================= TOP SECTION ================= */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+
+          {/* BRAND */}
           <div>
-            <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-white mb-8">Contact Archive</h4>
-            <div className="space-y-6 text-[11px] font-bold text-gray-400 uppercase tracking-widest">
-              <div className="flex items-start gap-4 group">
-                <MapPin size={16} className="text-emerald-500 group-hover:scale-125 transition-transform" />
-                <span className="group-hover:text-white transition-colors">Hyderabad Central, TS, India</span>
+            <img
+              src="/munchz.png"
+              alt="GoMunchZ"
+              className="h-14 mb-4 cursor-pointer"
+              onClick={() => navigate("/")}
+            />
+
+            <p className="text-sm text-white/80 leading-relaxed max-w-xs">
+              Premium healthy snacks made with real ingredients,
+              crafted for energy, balance, and everyday performance.
+            </p>
+          </div>
+
+          {/* CONTACT */}
+          <div>
+            <h4 className="font-semibold text-lg mb-4">Contact</h4>
+
+            <div className="space-y-3 text-sm text-white/80">
+              <div className="flex items-start gap-2">
+                <MapPin size={16} className="mt-0.5 text-green-400" />
+                <span>Hyderabad, Telangana, India</span>
               </div>
-              <div className="flex items-center gap-4 group">
-                <Mail size={16} className="text-emerald-500 group-hover:scale-125 transition-transform" />
-                <span className="group-hover:text-white transition-colors">support@gomunchz.com</span>
+
+              <div className="flex items-center gap-2">
+                <Mail size={16} className="text-green-400" />
+                <span>support@gomunchz.com</span>
               </div>
-              <div className="flex items-center gap-4 group">
-                <Phone size={16} className="text-emerald-500 group-hover:scale-125 transition-transform" />
-                <span className="group-hover:text-white transition-colors">+91 9XXXXXXXXX</span>
+
+              <div className="flex items-center gap-2">
+                <Phone size={16} className="text-green-400" />
+                <span>+91 9XXXXXXXXX</span>
               </div>
             </div>
           </div>
 
-          {/* EXPLORATION */}
+          {/* QUICK LINKS */}
           <div>
-            <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-white mb-8">Exploration</h4>
-            <ul className="space-y-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">
-              <li className="flex items-center gap-2 group cursor-pointer hover:text-white transition-all" onClick={() => navigate("/AboutMain")}>
-                About the Portfolio <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+            <h4 className="font-semibold text-lg mb-4">Quick Links</h4>
+            <ul className="space-y-2 text-sm text-white/80">
+              <li
+                className="cursor-pointer hover:text-green-400 transition"
+                onClick={() => navigate("/about")}
+              >
+                About Us
               </li>
-              <li className="flex items-center gap-2 group cursor-pointer hover:text-white transition-all">
-                Intelligence Center <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+              <li className="cursor-pointer hover:text-green-400 transition">
+                Help & Support
               </li>
-              <li className="flex items-center gap-2 group cursor-pointer hover:text-white transition-all">
-                Logistics Policy <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+              <li className="cursor-pointer hover:text-green-400 transition">
+                Shipping & Delivery
               </li>
             </ul>
           </div>
 
-          {/* LEGAL PROTOCOL */}
+          {/* LEGAL */}
           <div>
-            <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-white mb-8">Legal Protocol</h4>
-            <ul className="space-y-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">
-              <li className="cursor-pointer hover:text-white transition-all">Privacy Safeguards</li>
-              <li className="cursor-pointer hover:text-white transition-all">Terms of Access</li>
-              <li className="cursor-pointer hover:text-white transition-all">Reversal Protocol</li>
+            <h4 className="font-semibold text-lg mb-4">Legal</h4>
+            <ul className="space-y-2 text-sm text-white/80">
+              <li className="cursor-pointer hover:text-green-400 transition">
+                Privacy Policy
+              </li>
+              <li className="cursor-pointer hover:text-green-400 transition">
+                Terms & Conditions
+              </li>
+              <li className="cursor-pointer hover:text-green-400 transition">
+                Refund Policy
+              </li>
             </ul>
           </div>
+        </div>
 
-          {/* SOCIAL GRID */}
-          <div>
-            <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-white mb-8">Connect Grid</h4>
-            <div className="flex flex-wrap gap-4">
-              {[
-                { icon: <Instagram size={18}/>, label: "INSTA" },
-                { icon: <Youtube size={18}/>, label: "TUBE" },
-                { icon: <MessageCircle size={18}/>, label: "CHAT" }
-              ].map((social, i) => (
-                <button key={i} className="w-14 h-14 bg-white/5 border border-white/5 rounded-2xl flex items-center justify-center text-gray-500 hover:bg-emerald-600 hover:text-white hover:border-emerald-500 transition-all duration-500 group">
-                   {social.icon}
-                </button>
-              ))}
+        {/* ================= DIVIDER ================= */}
+        <div className="border-t border-white/10 mt-14 pt-8">
+
+          {/* SOCIAL + COPYRIGHT */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+
+            {/* SOCIAL ICONS */}
+            <div className="flex gap-5">
+              <Instagram className="cursor-pointer hover:text-green-400 transition" />
+              <MessageCircle className="cursor-pointer hover:text-green-400 transition" />
+              <Phone className="cursor-pointer hover:text-green-400 transition" />
+              <Youtube className="cursor-pointer hover:text-green-400 transition" />
             </div>
+
+            {/* COPYRIGHT */}
+            <p className="text-xs text-white/60 text-center md:text-right">
+              © {new Date().getFullYear()} GoMunchZ. All rights reserved.
+            </p>
           </div>
         </div>
-
-        {/* BOTTOM STRIP */}
-        <div className="border-t border-white/5 mt-32 pt-12 flex flex-col md:flex-row items-center justify-between gap-8">
-           <div className="flex items-center gap-6">
-              <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em]">Munchz Premium © {new Date().getFullYear()}</p>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
-              <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em]">Global Standards</p>
-           </div>
-           <div className="flex gap-10">
-              <p className="text-[9px] font-black text-white/10 uppercase tracking-widest hover:text-white/40 cursor-help transition-colors">Data Encryption: Active</p>
-              <p className="text-[9px] font-black text-white/10 uppercase tracking-widest hover:text-white/40 cursor-help transition-colors">Server Node: S-WEST-01</p>
-           </div>
-        </div>
-
       </div>
     </footer>
   );
