@@ -96,10 +96,10 @@ export default function Categories() {
     return (
         <div className="space-y-10 pb-12 bg-white min-h-screen">
             {/* HEADER */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
                 <div>
-                    <h1 className="text-3xl font-extrabold text-black tracking-tight">Category Management</h1>
-                    <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Create and organize your product catalog</p>
+                    <h1 className="text-2xl md:text-3xl font-extrabold text-black tracking-tight">Category Setup</h1>
+                    <p className="text-gray-400 font-bold uppercase tracking-widest text-[9px] md:text-[10px]">Create and organize your product catalog</p>
                 </div>
                 {!editId && (
                   <div className="hidden md:flex items-center gap-2 text-gray-400 bg-white border border-gray-100 shadow-sm px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest">
@@ -110,7 +110,7 @@ export default function Categories() {
             </div>
 
             {/* FORM CARD */}
-            <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 md:p-10 relative overflow-hidden shadow-sm">
+            <div className="bg-white border border-gray-100 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 relative overflow-hidden shadow-sm">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
 
                 <div className="flex items-center gap-3 mb-8 relative">
@@ -161,10 +161,10 @@ export default function Categories() {
                     </div>
                 </div>
 
-                <div className="flex flex-wrap gap-4 mt-10 relative">
+                <div className="flex flex-col sm:flex-row gap-4 mt-8 md:mt-10 relative">
                     <button
                         onClick={saveCategory}
-                        className="flex items-center gap-2 bg-black text-white px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-xl shadow-black/5"
+                        className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-black text-white px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-xl shadow-black/5"
                     >
                         {editId ? <Edit3 size={16} /> : <Plus size={16} />}
                         <span>{editId ? "Save Changes" : "Create Category"}</span>
@@ -176,7 +176,7 @@ export default function Categories() {
                                 setEditId(null);
                                 setForm({ name: "", description: "", thumbnailImage: "" });
                             }}
-                            className="px-8 py-4 rounded-2xl bg-gray-100 text-gray-500 font-black text-[10px] uppercase tracking-widest hover:bg-gray-200 transition-all"
+                            className="flex-1 sm:flex-none px-8 py-4 rounded-2xl bg-gray-100 text-gray-500 font-black text-[10px] uppercase tracking-widest hover:bg-gray-200 transition-all"
                         >
                             Cancel Edit
                         </button>
@@ -197,16 +197,16 @@ export default function Categories() {
                             key={c.id}
                             className="group bg-white border border-gray-100 rounded-[2rem] p-6 flex flex-col hover:-translate-y-1 transition-all duration-300 hover:shadow-xl shadow-sm"
                         >
-                            <div className="flex gap-5 mb-6">
+                            <div className="flex gap-4 md:gap-5 mb-6">
                                 <div className="relative shrink-0">
                                     {c.thumbnailImage ? (
                                         <img
                                             src={c.thumbnailImage}
                                             alt={c.name}
-                                            className="w-24 h-24 rounded-3xl object-cover border-2 border-white shadow-md group-hover:scale-105 transition-transform duration-500"
+                                            className="w-20 h-20 md:w-24 md:h-24 rounded-2xl md:rounded-3xl object-cover border-2 border-white shadow-md group-hover:scale-105 transition-transform duration-500"
                                         />
                                     ) : (
-                                        <div className="w-24 h-24 rounded-3xl bg-gray-50 flex items-center justify-center text-gray-300 border-2 border-white shadow-sm italic text-[10px] font-black uppercase tracking-widest">
+                                        <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl md:rounded-3xl bg-gray-50 flex items-center justify-center text-gray-300 border-2 border-white shadow-sm italic text-[9px] md:text-[10px] font-black uppercase tracking-widest">
                                           no image
                                         </div>
                                     )}
@@ -216,11 +216,11 @@ export default function Categories() {
                                 </div>
 
                                 <div className="flex-1 min-w-0 pt-1">
-                                    <h4 className="text-lg font-bold text-black truncate group-hover:text-emerald-600 transition-colors">
+                                    <h4 className="text-base md:text-lg font-bold text-black truncate group-hover:text-emerald-600 transition-colors">
                                         {c.name}
                                     </h4>
-                                    <p className="text-xs text-gray-400 font-bold line-clamp-3 mt-1.5 leading-relaxed">
-                                        {c.description || "No description provided for this category."}
+                                    <p className="text-[11px] md:text-xs text-gray-400 font-bold line-clamp-3 mt-1.5 leading-relaxed">
+                                        {c.description || "No description provided."}
                                     </p>
                                 </div>
                             </div>

@@ -124,16 +124,14 @@ export default function AdminCoupons() {
   return (
     <div className="space-y-10 pb-12 bg-white min-h-screen">
       {/* HEADER */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
         <div>
-          <h1 className="text-3xl font-extrabold text-black tracking-tight">Campaign Coupons</h1>
-          <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Drive more sales with strategic discounts</p>
+          <h1 className="text-2xl md:text-3xl font-extrabold text-black tracking-tight tracking-[-0.02em]">Campaign Hub</h1>
+          <p className="text-gray-400 font-bold uppercase tracking-widest text-[9px] md:text-[10px]">Drive more sales with strategic discounts</p>
         </div>
-        <div className="flex items-center gap-3">
-           <div className="px-4 py-2 bg-white border border-gray-100 shadow-sm text-gray-400 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-            <Ticket size={14} />
-            <span>{coupons.length} STRATEGY ACTIVE</span>
-          </div>
+        <div className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-100 shadow-sm text-gray-400 rounded-2xl text-[9px] md:text-[10px] font-black uppercase tracking-widest self-start md:self-auto">
+          <Ticket size={14} />
+          <span>{coupons.length} STRATEGY ACTIVE</span>
         </div>
       </div>
 
@@ -141,7 +139,7 @@ export default function AdminCoupons() {
 
         {/* FORM SIDE */}
         <div className="xl:col-span-1">
-          <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 md:p-10 sticky top-8 shadow-sm overflow-hidden relative">
+          <div className="bg-white border border-gray-100 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 sticky top-8 shadow-sm overflow-hidden relative">
             <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
             
             <div className="flex items-center gap-3 mb-8 relative">
@@ -242,20 +240,20 @@ export default function AdminCoupons() {
         <div className="xl:col-span-2 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {coupons.map((c) => (
-              <div key={c.id} className="bg-white border border-gray-100 rounded-[2rem] p-6 group hover:border-emerald-100 transition-all duration-300 shadow-sm relative overflow-hidden">
+              <div key={c.id} className="bg-white border border-gray-100 rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-6 group hover:border-emerald-100 transition-all duration-300 shadow-sm relative overflow-hidden">
                 <div className="flex justify-between items-start mb-6">
                   <div className="flex flex-col">
                     <div className="flex items-center gap-2 mb-2">
-                       <span className="bg-emerald-50 text-emerald-600 px-3 py-1.5 rounded-xl text-lg font-black tracking-widest border border-emerald-100">
+                       <span className="bg-emerald-50 text-emerald-600 px-3 py-1.5 rounded-xl text-base md:text-lg font-black tracking-widest border border-emerald-100">
                         {c.code}
                       </span>
                     </div>
-                    <div className={`flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest ${c.active ? 'text-emerald-500' : 'text-gray-300'}`}>
+                    <div className={`flex items-center gap-1.5 text-[8px] md:text-[9px] font-black uppercase tracking-widest ${c.active ? 'text-emerald-500' : 'text-gray-300'}`}>
                       {c.active ? <CheckCircle2 size={12} /> : <XCircle size={12} />}
                       {c.active ? 'Active Now' : 'Internal Disabled'}
                     </div>
                   </div>
-                  <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex gap-1 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => handleEdit(c)}
                       className="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-black hover:bg-gray-50 rounded-xl transition-all"
@@ -273,12 +271,12 @@ export default function AdminCoupons() {
 
                 <div className="grid grid-cols-2 gap-4 py-4 border-y border-gray-50 mb-4">
                   <div>
-                    <p className="text-[9px] font-black text-gray-300 uppercase tracking-widest mb-1">Benefit</p>
-                    <p className="text-xl font-black text-emerald-600">₹{c.discountAmount}</p>
+                    <p className="text-[8px] md:text-[9px] font-black text-gray-300 uppercase tracking-widest mb-1">Benefit</p>
+                    <p className="text-lg md:text-xl font-black text-emerald-600">₹{c.discountAmount}</p>
                   </div>
                   <div>
-                    <p className="text-[9px] font-black text-gray-300 uppercase tracking-widest mb-1">Spend Over</p>
-                    <p className="text-xl font-black text-black">₹{c.minAmount}</p>
+                    <p className="text-[8px] md:text-[9px] font-black text-gray-300 uppercase tracking-widest mb-1">Min Spend</p>
+                    <p className="text-lg md:text-xl font-black text-black">₹{c.minAmount}</p>
                   </div>
                 </div>
 

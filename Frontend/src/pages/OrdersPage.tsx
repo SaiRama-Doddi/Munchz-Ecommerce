@@ -195,19 +195,19 @@ const OrdersPage: React.FC = () => {
       {/* FILTERS BAR */}
       <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm space-y-8">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-          <div className="flex items-center bg-gray-50/80 p-1.5 rounded-2xl border border-gray-100 w-full lg:w-auto">
+          <div className="flex items-center bg-gray-50/80 p-1 rounded-xl md:rounded-2xl border border-gray-100 w-full lg:w-auto flex-wrap sm:flex-nowrap">
             {[
-              { label: "ALL HISTORY", value: "ALL" },
+              { label: "ALL", value: "ALL" },
               { label: "TODAY", value: "TODAY" },
-              { label: "7 DAYS", value: "7D" },
-              { label: "30 DAYS", value: "30D" },
+              { label: "7D", value: "7D" },
+              { label: "30D", value: "30D" },
             ].map((f) => (
               <button
                 key={f.value}
                 onClick={() => setFilterPeriod(f.value as any)}
-                className={`flex-1 lg:flex-none px-6 py-2.5 rounded-xl text-[10px] font-black transition-all duration-500 uppercase tracking-wider ${
+                className={`flex-1 sm:flex-none px-4 md:px-6 py-2 rounded-lg md:rounded-xl text-[10px] font-black transition-all duration-500 uppercase tracking-wider ${
                   filterPeriod === f.value
-                    ? "bg-black text-white shadow-xl shadow-black/20"
+                    ? "bg-black text-white shadow-lg shadow-black/20"
                     : "text-gray-400 hover:text-black"
                 }`}
               >
@@ -216,25 +216,25 @@ const OrdersPage: React.FC = () => {
             ))}
           </div>
 
-          <div className="flex items-center gap-3 flex-1 lg:max-w-md w-full">
-            <div className="relative flex-1 group">
+          <div className="flex flex-col sm:flex-row items-center gap-3 flex-1 lg:max-w-md w-full">
+            <div className="relative flex-1 group w-full">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-emerald-500 transition-colors" size={18} />
               <input
                 type="text"
-                placeholder="Search Order ID or user..."
+                placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs font-bold text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all placeholder:text-gray-300"
               />
             </div>
             
-            <div className="relative group">
+            <div className="relative group w-full sm:w-auto">
               <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-emerald-500 transition-colors" size={18} />
               <input
                 type="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="bg-gray-50 border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs font-bold text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all appearance-none cursor-pointer min-w-[160px]"
+                className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs font-bold text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all appearance-none cursor-pointer sm:min-w-[160px]"
               />
               {selectedDate && (
                 <button 
@@ -397,8 +397,8 @@ const OrdersPage: React.FC = () => {
                 <h4 className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
                   <Package size={12} /> Items Manifest ({selectedOrder.items.length})
                 </h4>
-                <div className="bg-white border border-gray-100 rounded-[2rem] overflow-hidden shadow-sm">
-                  <table className="w-full text-left text-sm">
+                <div className="bg-white border border-gray-100 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-sm overflow-x-auto">
+                  <table className="w-full text-left text-sm min-w-[500px]">
                     <thead>
                       <tr className="bg-gray-50/50">
                         <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase">Product</th>
@@ -438,24 +438,24 @@ const OrdersPage: React.FC = () => {
               </div>
 
               {/* Financial Summary */}
-              <div className="bg-black rounded-[2.5rem] p-8 text-white relative overflow-hidden">
+              <div className="bg-black rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 text-white relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
-                <div className="relative grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                   <div className="space-y-1">
                     <p className="text-[10px] font-black text-white/40 uppercase tracking-widest">Subtotal</p>
-                    <p className="text-xl font-black">₹{selectedOrder.totalAmount - selectedOrder.totalTax + selectedOrder.totalDiscount}</p>
+                    <p className="text-lg md:text-xl font-black">₹{selectedOrder.totalAmount - selectedOrder.totalTax + selectedOrder.totalDiscount}</p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-[10px] font-black text-white/40 uppercase tracking-widest">Taxes</p>
-                    <p className="text-xl font-black text-emerald-400">+ ₹{selectedOrder.totalTax}</p>
+                    <p className="text-lg md:text-xl font-black text-emerald-400">+ ₹{selectedOrder.totalTax}</p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-[10px] font-black text-white/40 uppercase tracking-widest">Discounts</p>
-                    <p className="text-xl font-black text-gray-400">- ₹{selectedOrder.totalDiscount}</p>
+                    <p className="text-lg md:text-xl font-black text-gray-400">- ₹{selectedOrder.totalDiscount}</p>
                   </div>
-                  <div className="space-y-1 border-l border-white/10 pl-8">
+                  <div className="space-y-1 sm:border-l border-white/10 sm:pl-8">
                     <p className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Grant Total</p>
-                    <p className="text-3xl font-black">₹{selectedOrder.totalAmount}</p>
+                    <p className="text-2xl md:text-3xl font-black">₹{selectedOrder.totalAmount}</p>
                   </div>
                 </div>
               </div>

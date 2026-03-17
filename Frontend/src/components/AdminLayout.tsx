@@ -1,6 +1,7 @@
+import { useState } from "react";
 import Sidebar from "./Sidebar";
 import { Outlet, useLocation } from "react-router-dom";
-import { User, LogOut } from "lucide-react";
+import { User, LogOut, Menu } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "../context/AuthContext";
 
@@ -13,6 +14,7 @@ export default function AdminLayout() {
 
   const qc = useQueryClient();
   const { profile } = useAuth();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -24,16 +26,24 @@ export default function AdminLayout() {
 
   return (
     <div className="min-h-screen bg-white flex font-inter">
-      <Sidebar />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="flex-1 ml-72 min-h-screen flex flex-col relative">
+      <div className="flex-1 lg:ml-72 min-h-screen flex flex-col relative">
         {/* PREMIUM HEADER - Standardized White/Black/Green */}
-        <header className="sticky top-0 z-40 bg-white h-20 px-8 flex items-center justify-between border-b border-gray-100 shadow-sm">
-          <div>
-            <h2 className="text-xl font-black text-black capitalize tracking-tight">
-              {pageTitle}
-            </h2>
-            <p className="text-xs text-gray-400 font-bold uppercase tracking-widest text-[10px]">GoMunchZ Admin Dashboard</p>
+        <header className="sticky top-0 z-40 bg-white h-20 px-4 md:px-8 flex items-center justify-between border-b border-gray-100 shadow-sm">
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => setSidebarOpen(true)}
+              className="lg:hidden p-2 hover:bg-gray-50 rounded-lg transition-colors text-gray-500"
+            >
+              <Menu size={24} />
+            </button>
+            <div>
+              <h2 className="text-lg md:text-xl font-black text-black capitalize tracking-tight whitespace-nowrap">
+                {pageTitle}
+              </h2>
+              <p className="hidden xs:block text-xs text-gray-400 font-bold uppercase tracking-widest text-[9px] md:text-[10px]">GoMunchZ Admin Dashboard</p>
+            </div>
           </div>
 
           <div className="flex items-center gap-6">
@@ -60,7 +70,7 @@ export default function AdminLayout() {
         </header>
 
         {/* MAIN CONTENT AREA */}
-        <main className="flex-1 p-8 animate-fadeIn bg-white">
+        <main className="flex-1 p-4 md:p-8 animate-fadeIn bg-white">
           <div className="max-w-[1600px] mx-auto">
             <Outlet />
           </div>

@@ -13,8 +13,14 @@ import {
   Store,
   Home,
   ChevronRight,
-  CreditCard
+  CreditCard,
+  X
 } from "lucide-react";
+
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
 const items = [
   { to: "/", label: "Store Front", icon: Home },
@@ -47,7 +53,7 @@ const items = [
   { to: "/admin/reviews", label: "Reviews", icon: ClipboardList },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -79,17 +85,32 @@ export default function Sidebar() {
   }, []);
 
   return (
-    <aside className="fixed left-0 top-0 w-72 h-screen bg-emerald-600 text-white px-6 py-8 border-r border-emerald-500 shadow-xl flex flex-col z-50">
-      
-      <div className="flex items-center gap-4 mb-10 px-2 group cursor-pointer" onClick={() => navigate("/admin/dashboard")}>
-        <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg shadow-black/10 group-hover:scale-110 transition-transform duration-300">
-          <ShoppingBag className="text-emerald-600" size={24} />
+    <>
+      {/* MOBILE OVERLAY */}
+      <div 
+        className={`fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        onClick={onClose}
+      />
+
+      <aside className={`fixed left-0 top-0 w-72 h-screen bg-emerald-600 text-white px-6 py-8 border-r border-emerald-500 shadow-xl flex flex-col z-50 transition-transform duration-300 transform ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+        <div className="flex items-center justify-between mb-10 px-2 group">
+          <div className="flex items-center gap-4 cursor-pointer" onClick={() => { navigate("/admin/dashboard"); onClose(); }}>
+            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg shadow-black/10 group-hover:scale-110 transition-transform duration-300">
+              <ShoppingBag className="text-emerald-600" size={24} />
+            </div>
+            <div>
+              <h1 className="text-xl font-black text-white tracking-tight">GoMunchZ</h1>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-100 font-black">Premium Admin</p>
+            </div>
+          </div>
+          
+          <button 
+            onClick={onClose}
+            className="lg:hidden p-2 hover:bg-white/10 rounded-lg transition-colors"
+          >
+            <X size={20} />
+          </button>
         </div>
-        <div>
-          <h1 className="text-xl font-black text-white tracking-tight">GoMunchZ</h1>
-          <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-100 font-black">Premium Admin</p>
-        </div>
-      </div>
 
       <div className="relative mb-8">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -138,5 +159,6 @@ export default function Sidebar() {
         })}
       </nav>
     </aside>
+    </>
   );
 }

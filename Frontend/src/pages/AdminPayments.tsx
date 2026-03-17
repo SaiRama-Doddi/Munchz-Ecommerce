@@ -150,19 +150,19 @@ const AdminPayments: React.FC = () => {
           <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Payment Oversight & Reconciliation</p>
         </div>
 
-        <div className="flex flex-wrap gap-4">
-          <div className="bg-white border border-gray-100 px-5 py-3 rounded-2xl shadow-sm flex items-center gap-3 group hover:border-emerald-500/30 transition-all">
+        <div className="flex flex-wrap gap-4 w-full md:w-auto">
+          <div className="flex-1 min-w-[140px] bg-white border border-gray-100 px-4 md:px-5 py-3 rounded-2xl shadow-sm flex items-center gap-3 group hover:border-emerald-500/30 transition-all">
             <div className="p-2 bg-emerald-50 text-emerald-600 rounded-xl group-hover:scale-110 transition-transform">
               <CreditCard size={18} />
             </div>
             <div>
-              <p className="text-[10px] font-black text-gray-400 uppercase tracking-wider">Total Volume</p>
+              <p className="text-[10px] font-black text-gray-400 uppercase tracking-wider">Volume</p>
               <p className="text-sm font-black text-black">₹{stats.totalRevenue.toLocaleString()}</p>
             </div>
           </div>
-          <button className="bg-black text-white px-6 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-black/10 flex items-center gap-2">
+          <button className="flex-1 md:flex-none justify-center bg-black text-white px-6 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-black/10 flex items-center gap-2">
             <Download size={16} />
-            Export CSV
+            Export
           </button>
         </div>
       </div>
@@ -170,19 +170,19 @@ const AdminPayments: React.FC = () => {
       {/* FILTERS BAR */}
       <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm space-y-8">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-          <div className="flex items-center bg-gray-50/80 p-1.5 rounded-2xl border border-gray-100 w-full lg:w-auto">
+          <div className="flex items-center bg-gray-50/80 p-1 rounded-xl md:rounded-2xl border border-gray-100 w-full lg:w-auto flex-wrap sm:flex-nowrap">
             {[
-              { label: "ALL HISTORY", value: "ALL" },
+              { label: "ALL", value: "ALL" },
               { label: "TODAY", value: "TODAY" },
-              { label: "7 DAYS", value: "7D" },
-              { label: "30 DAYS", value: "30D" },
+              { label: "7D", value: "7D" },
+              { label: "30D", value: "30D" },
             ].map((f) => (
               <button
                 key={f.value}
                 onClick={() => setFilterPeriod(f.value as any)}
-                className={`flex-1 lg:flex-none px-6 py-2.5 rounded-xl text-[10px] font-black transition-all duration-500 uppercase tracking-wider ${
+                className={`flex-1 sm:flex-none px-4 md:px-6 py-2 rounded-lg md:rounded-xl text-[10px] font-black transition-all duration-500 uppercase tracking-wider ${
                   filterPeriod === f.value
-                    ? "bg-black text-white shadow-xl shadow-black/20"
+                    ? "bg-black text-white shadow-lg shadow-black/20"
                     : "text-gray-400 hover:text-black"
                 }`}
               >
@@ -191,25 +191,25 @@ const AdminPayments: React.FC = () => {
             ))}
           </div>
 
-          <div className="flex items-center gap-3 flex-1 lg:max-w-md w-full">
-            <div className="relative flex-1 group">
+          <div className="flex flex-col sm:flex-row items-center gap-3 flex-1 lg:max-w-md w-full">
+            <div className="relative flex-1 group w-full">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-emerald-500 transition-colors" size={18} />
               <input
                 type="text"
-                placeholder="Search TxID or customer..."
+                placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs font-bold text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all placeholder:text-gray-300"
               />
             </div>
             
-            <div className="relative group">
+            <div className="relative group w-full sm:w-auto">
               <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-emerald-500 transition-colors" size={18} />
               <input
                 type="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="bg-gray-50 border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs font-bold text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all appearance-none cursor-pointer min-w-[160px]"
+                className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs font-bold text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all appearance-none cursor-pointer sm:min-w-[160px]"
               />
               {selectedDate && (
                 <button 

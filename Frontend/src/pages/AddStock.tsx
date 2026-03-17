@@ -140,22 +140,22 @@ export default function AddStock() {
   return (
     <div className="space-y-10 pb-12 max-w-4xl mx-auto bg-white min-h-screen">
       {/* HEADER */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 px-2">
         <button
           onClick={() => navigate(-1)}
-          className="p-3 bg-white border border-gray-100 text-gray-400 rounded-2xl hover:text-black hover:border-gray-200 transition-all shadow-sm"
+          className="p-3 bg-white border border-gray-100 text-gray-400 rounded-2xl hover:text-black hover:border-gray-200 transition-all shadow-sm shrink-0"
         >
-          <ArrowLeft size={20} />
+          <ArrowLeft size={18} />
         </button>
         <div>
-          <h1 className="text-3xl font-extrabold text-black tracking-tight">
-            {isEdit ? "Update Stock" : "Inventory Restock"}
+          <h1 className="text-2xl md:text-3xl font-extrabold text-black tracking-tight tracking-[-0.02em]">
+            {isEdit ? "Update Batch" : "Secure Restock"}
           </h1>
-          <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Manage physical product availability</p>
+          <p className="text-gray-400 font-bold uppercase tracking-widest text-[9px] md:text-[10px]">Manage physical product availability</p>
         </div>
       </div>
 
-      <form onSubmit={submit} className="bg-white border border-gray-100 rounded-[2.5rem] p-10 space-y-10 shadow-sm relative overflow-hidden">
+      <form onSubmit={submit} className="bg-white border border-gray-100 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 space-y-8 md:space-y-10 shadow-sm relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative">

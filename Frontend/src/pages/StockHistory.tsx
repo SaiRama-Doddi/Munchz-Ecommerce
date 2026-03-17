@@ -81,23 +81,23 @@ export default function StockHistory({ productId }: { productId: number }) {
       </div>
 
       {/* FILTER BAR */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-10 relative">
-        <div className="relative group">
+      <div className="flex flex-col md:flex-row flex-wrap gap-4 mb-10 relative">
+        <div className="flex-1 min-w-[150px] relative group">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-emerald-500 transition-colors" size={16} />
           <input
             type="text"
-            placeholder="Search variant..."
+            placeholder="Variant..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-xl pl-10 pr-4 py-3 text-[11px] font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all"
+            className="w-full bg-gray-50 border border-transparent rounded-xl pl-10 pr-4 py-3 text-[11px] font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-11"
           />
         </div>
 
-        <div className="relative group">
+        <div className="flex-1 min-w-[150px] relative group">
           <select
             value={variantFilter}
             onChange={(e) => setVariantFilter(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-xl px-4 py-3 text-[11px] font-bold appearance-none pr-8 outline-none focus:bg-white focus:border-emerald-500 transition-all"
+            className="w-full bg-gray-50 border border-transparent rounded-xl px-4 py-3 text-[11px] font-bold appearance-none pr-8 outline-none focus:bg-white focus:border-emerald-500 transition-all h-11"
           >
             <option value="">All Variants</option>
             {variants.map((v: any, i) => (
@@ -107,49 +107,49 @@ export default function StockHistory({ productId }: { productId: number }) {
           <LayoutGrid className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={14} />
         </div>
 
-        <div className="relative group">
+        <div className="flex-1 min-w-[150px] relative group">
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-xl px-4 py-3 text-[11px] font-bold appearance-none pr-8 outline-none focus:bg-white focus:border-emerald-500 transition-all"
+            className="w-full bg-gray-50 border border-transparent rounded-xl px-4 py-3 text-[11px] font-bold appearance-none pr-8 outline-none focus:bg-white focus:border-emerald-500 transition-all h-11"
           >
             <option value="">All Types</option>
-            <option value="IN">Stock Inflow</option>
-            <option value="OUT">Stock Outflow</option>
+            <option value="IN">Inflow</option>
+            <option value="OUT">Outflow</option>
           </select>
           <Filter className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={14} />
         </div>
 
-        <div className="relative group">
+        <div className="flex-1 min-w-[130px] relative group">
           <input
             type="date"
             value={fromDate}
             onChange={(e) => setFromDate(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-xl px-4 py-3 text-[11px] font-bold outline-none focus:bg-white focus:border-emerald-500 transition-all"
+            className="w-full bg-gray-50 border border-transparent rounded-xl px-4 py-3 text-[11px] font-bold outline-none focus:bg-white focus:border-emerald-500 transition-all h-11"
           />
           <Calendar className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={14} />
         </div>
 
-        <div className="relative group">
+        <div className="flex-1 min-w-[130px] relative group">
           <input
             type="date"
             value={toDate}
             onChange={(e) => setToDate(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-xl px-4 py-3 text-[11px] font-bold outline-none focus:bg-white focus:border-emerald-500 transition-all"
+            className="w-full bg-gray-50 border border-transparent rounded-xl px-4 py-3 text-[11px] font-bold outline-none focus:bg-white focus:border-emerald-500 transition-all h-11"
           />
           <Calendar className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={14} />
         </div>
       </div>
 
       {/* TABLE */}
-      <div className="overflow-hidden rounded-3xl border border-gray-100 shadow-sm relative">
+      <div className="overflow-x-auto rounded-3xl border border-gray-100 shadow-sm relative no-scrollbar">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-gray-50/50 border-b border-gray-100">
+            <tr className="bg-gray-50/50 border-b border-gray-100 whitespace-nowrap">
               <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-gray-400">Timestamp</th>
               <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-gray-400">Variant Identity</th>
-              <th className="px-6 py-4 text-center text-[10px] font-black uppercase tracking-widest text-gray-400">Delta Qty</th>
-              <th className="px-6 py-4 text-right text-[10px] font-black uppercase tracking-widest text-gray-400">Transaction</th>
+              <th className="px-6 py-4 text-center text-[10px] font-black uppercase tracking-widest text-gray-400">Correction</th>
+              <th className="px-6 py-4 text-right text-[10px] font-black uppercase tracking-widest text-gray-400">Activity</th>
             </tr>
           </thead>
 

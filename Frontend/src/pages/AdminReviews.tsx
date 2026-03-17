@@ -154,38 +154,38 @@ export default function AdminReviews() {
   return (
     <div className="space-y-10 pb-12 bg-white min-h-screen">
       {/* HEADER */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
         <div>
-          <h1 className="text-3xl font-extrabold text-black tracking-tight">Customer Reviews</h1>
-          <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Monitor your reputation and product quality</p>
+          <h1 className="text-2xl md:text-3xl font-extrabold text-black tracking-tight tracking-[-0.02em]">Market Sentiment</h1>
+          <p className="text-gray-400 font-bold uppercase tracking-widest text-[9px] md:text-[10px]">Monitor your reputation and product quality</p>
         </div>
       </div>
 
       {/* STATS OVERVIEW */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white border border-gray-100 shadow-sm p-8 rounded-[2.5rem] flex items-center gap-6">
-          <div className="p-5 bg-emerald-50 text-emerald-600 rounded-[1.5rem] shadow-sm">
-            <MessageSquare size={32} />
+        <div className="bg-white border border-gray-100 shadow-sm p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] flex items-center gap-4 md:gap-6">
+          <div className="p-4 md:p-5 bg-emerald-50 text-emerald-600 rounded-[1.2rem] md:rounded-[1.5rem] shadow-sm">
+            <MessageSquare size={24} className="md:w-8 md:h-8" />
           </div>
           <div>
             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Total Mentions</p>
             <div className="flex items-baseline gap-2">
-              <p className="text-4xl font-black text-black">{totalReviews}</p>
-              <span className="text-[10px] font-black text-emerald-500 flex items-center gap-1 uppercase">
+              <p className="text-3xl md:text-4xl font-black text-black">{totalReviews}</p>
+              <span className="text-[9px] md:text-[10px] font-black text-emerald-500 flex items-center gap-1 uppercase">
                 <TrendingUp size={12} /> Live
               </span>
             </div>
           </div>
         </div>
-        <div className="bg-white border border-gray-100 shadow-sm p-8 rounded-[2.5rem] flex items-center gap-6">
-          <div className="p-5 bg-black text-white rounded-[1.5rem] shadow-sm">
-            <Award size={32} />
+        <div className="bg-white border border-gray-100 shadow-sm p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] flex items-center gap-4 md:gap-6">
+          <div className="p-4 md:p-5 bg-black text-white rounded-[1.2rem] md:rounded-[1.5rem] shadow-sm">
+            <Award size={24} className="md:w-8 md:h-8" />
           </div>
           <div>
-            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Store Satisfaction</p>
+            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Satisfaction</p>
             <div className="flex items-baseline gap-2">
-              <p className="text-4xl font-black text-black">{avgRating}</p>
-              <div className="flex gap-0.5 text-emerald-500 mb-1 ml-2">
+              <p className="text-3xl md:text-4xl font-black text-black">{avgRating}</p>
+              <div className="flex gap-0.5 text-emerald-500 mb-1 ml-2 hidden sm:flex">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} size={14} fill={i < Math.round(Number(avgRating)) ? "currentColor" : "none"} />
                 ))}
@@ -196,24 +196,24 @@ export default function AdminReviews() {
       </div>
 
       {/* FILTER BAR */}
-      <div className="bg-white border border-gray-100 shadow-sm p-6 rounded-[2rem] gap-4 grid grid-cols-1 md:grid-cols-12 items-center">
-        <div className="md:col-span-4 relative group">
+      <div className="bg-white border border-gray-100 shadow-sm p-6 rounded-[2rem] gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 items-center">
+        <div className="sm:col-span-2 md:col-span-4 relative group">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-emerald-500 transition-colors" size={18} />
           <input
-            placeholder="Search reviews, users..."
+            placeholder="Search keywords..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl pl-12 pr-5 py-3 text-sm font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl pl-12 pr-5 py-3 text-xs font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all"
           />
         </div>
-        <div className="md:col-span-2 relative group">
+        <div className="relative group md:col-span-2">
           <select
             value={categoryFilter}
             onChange={(e) => {
               setCategoryFilter(e.target.value);
               setProductFilter("ALL");
             }}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-xs font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all h-11"
           >
             <option value="ALL">All Categories</option>
             {categories.map((c) => (
@@ -222,11 +222,11 @@ export default function AdminReviews() {
           </select>
           <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
         </div>
-        <div className="md:col-span-3 relative group">
+        <div className="relative group md:col-span-3">
           <select
             value={productFilter}
             onChange={(e) => setProductFilter(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-xs font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all h-11"
           >
             <option value="ALL">All Products</option>
             {filteredProducts.map((p) => (
@@ -235,11 +235,11 @@ export default function AdminReviews() {
           </select>
            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
         </div>
-        <div className="md:col-span-2 relative group">
+        <div className="relative group md:col-span-2">
           <select
             value={ratingFilter}
             onChange={(e) => setRatingFilter(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-xs font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all h-11"
           >
             <option value="ALL">All Ratings</option>
             {[5, 4, 3, 2, 1].map((r) => (
@@ -248,7 +248,7 @@ export default function AdminReviews() {
           </select>
            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
         </div>
-        <div className="md:col-span-1 flex justify-end">
+        <div className="hidden md:flex md:col-span-1 justify-end">
            <div className="p-3 bg-gray-50 text-gray-400 rounded-xl">
             <Filter size={18} />
            </div>
@@ -256,9 +256,9 @@ export default function AdminReviews() {
       </div>
 
       {/* REVIEWS GRID/LIST */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-8">
         {filteredReviews.map((r) => (
-          <div key={r.id} className="bg-white border border-gray-100 shadow-sm rounded-[2.5rem] p-8 group hover:translate-y-[-4px] transition-all duration-300 hover:border-emerald-200">
+          <div key={r.id} className="bg-white border border-gray-100 shadow-sm rounded-[2.5rem] p-6 md:p-8 group hover:translate-y-[-4px] transition-all duration-300 hover:border-emerald-200">
             <div className="flex flex-col md:flex-row gap-6">
               {/* IMAGE (If available) */}
               {r.imageUrl && (

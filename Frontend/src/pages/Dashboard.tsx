@@ -257,15 +257,15 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-10 pb-10 bg-white min-h-screen">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-2">
         <div>
-          <h1 className="text-4xl font-black text-black tracking-tight">System Overview</h1>
+          <h1 className="text-3xl md:text-4xl font-black text-black tracking-tight">System Overview</h1>
           <p className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em] mt-1">Real-time Performance Metrics</p>
         </div>
 
         <button 
           onClick={() => navigate("/admin/add-product")}
-          className="flex items-center gap-2 bg-emerald-600 text-white px-7 py-3.5 rounded-[1.25rem] font-black text-[10px] uppercase tracking-widest shadow-xl shadow-emerald-600/20 hover:scale-105 transition-all duration-500"
+          className="flex items-center justify-center gap-2 bg-emerald-600 text-white px-7 py-3.5 rounded-[1.25rem] font-black text-[10px] uppercase tracking-widest shadow-xl shadow-emerald-600/20 hover:scale-105 transition-all duration-500 w-full md:w-auto"
         >
           <Plus size={18} />
           <span>Launch New Product</span>
@@ -404,13 +404,13 @@ export default function Dashboard() {
       </div>
 
       {/* RECENT PRODUCTS */}
-      <section className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm">
+      <section className="bg-white border border-gray-100 rounded-[2rem] md:rounded-[2.5rem] p-5 md:p-8 shadow-sm">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-xl font-bold text-black">Recently Added Products</h2>
+          <h2 className="text-lg md:text-xl font-bold text-black">New Products</h2>
           <button className="text-sm font-bold text-emerald-600 hover:text-emerald-700 transition-colors">View All</button>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
           {recentProducts.map((p: Product) => (
             <div key={p.id} className="group relative">
               <div className="aspect-square bg-gray-50 rounded-2xl p-4 flex items-center justify-center border border-gray-100 group-hover:border-emerald-600/30 transition-all duration-300">
@@ -425,9 +425,9 @@ export default function Dashboard() {
         </div>
       </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mt-4">
         {/* RECENT ORDERS */}
-        <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm overflow-hidden flex flex-col h-full relative">
+        <div className="bg-white border border-gray-100 rounded-[2rem] md:rounded-[2.5rem] p-5 md:p-8 shadow-sm overflow-hidden flex flex-col h-full relative">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600">
@@ -490,7 +490,7 @@ export default function Dashboard() {
         </div>
 
         {/* PAYMENTS */}
-        <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm overflow-hidden flex flex-col h-full">
+        <div className="bg-white border border-gray-100 rounded-[2rem] md:rounded-[2.5rem] p-5 md:p-8 shadow-sm overflow-hidden flex flex-col h-full">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-black text-white">
@@ -568,16 +568,16 @@ function KPICard({
   return (
     <div 
       onClick={onClick}
-      className={`bg-white border border-gray-100 p-7 rounded-[2.5rem] relative overflow-hidden group hover:-translate-y-1.5 transition-all duration-500 shadow-sm ${onClick ? 'cursor-pointer hover:border-emerald-600/30 hover:shadow-xl hover:shadow-emerald-600/5' : ''}`}
+      className={`bg-white border border-gray-100 p-5 md:p-7 rounded-[2rem] md:rounded-[2.5rem] relative overflow-hidden group hover:-translate-y-1.5 transition-all duration-500 shadow-sm ${onClick ? 'cursor-pointer hover:border-emerald-600/30 hover:shadow-xl hover:shadow-emerald-600/5' : ''}`}
     >
       {/* Background Decorative Icon */}
-      <div className="absolute -right-4 -top-4 opacity-[0.03] text-black group-hover:scale-110 group-hover:-rotate-12 transition-all duration-700 pointer-events-none">
+      <div className="absolute -right-2 -top-2 md:-right-4 md:-top-4 opacity-[0.03] text-black group-hover:scale-110 group-hover:-rotate-12 transition-all duration-700 pointer-events-none">
         {bgIcon}
       </div>
 
       <div className="relative z-10">
-        <div className="flex items-center gap-3.5 mb-6">
-          <div className={`p-3 rounded-[1.25rem] shadow-sm ${colorMap[color as keyof typeof colorMap] || colorMap.emerald}`}>
+        <div className="flex items-center gap-3.5 mb-4 md:mb-6">
+          <div className={`p-2.5 md:p-3 rounded-[1rem] md:rounded-[1.25rem] shadow-sm ${colorMap[color as keyof typeof colorMap] || colorMap.emerald}`}>
             {icon}
           </div>
           <div className="flex flex-col">
@@ -613,7 +613,7 @@ function ChartCard({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm">
+    <div className="bg-white border border-gray-100 rounded-[2rem] md:rounded-[2.5rem] p-5 md:p-8 shadow-sm">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h2 className="text-2xl font-black text-black tracking-tight">

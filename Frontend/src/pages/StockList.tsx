@@ -57,14 +57,14 @@ export default function StockList() {
   return (
     <div className="space-y-10 pb-12 bg-white min-h-screen">
       {/* HEADER AREA */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-2">
         <div>
-          <h1 className="text-3xl font-extrabold text-black tracking-tight">Inventory Management</h1>
-          <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Monitor and update your physical stock levels</p>
+          <h1 className="text-2xl md:text-3xl font-extrabold text-black tracking-tight tracking-[-0.02em]">Inventory Hub</h1>
+          <p className="text-gray-400 font-bold uppercase tracking-widest text-[9px] md:text-[10px]">Monitor and update your physical stock levels</p>
         </div>
         <button
           onClick={() => navigate("/admin/addstock")}
-          className="flex items-center justify-center gap-2 bg-black text-white px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-black/5 hover:bg-emerald-600 transition-all duration-300"
+          className="w-full md:w-auto flex items-center justify-center gap-2 bg-black text-white px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-black/5 hover:bg-emerald-600 transition-all duration-300"
         >
           <Plus size={18} />
           <span>Restock Inventory</span>
@@ -72,13 +72,13 @@ export default function StockList() {
       </div>
 
       {/* STATS OVERVIEW */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="bg-white border border-gray-100 shadow-sm p-6 rounded-[2rem] flex items-center gap-4">
           <div className="p-4 bg-gray-50 text-black rounded-2xl">
             <Box size={24} />
           </div>
           <div>
-            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Total SKUs</p>
+            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">SKU Count</p>
             <p className="text-2xl font-black text-black">{stocks.length}</p>
           </div>
         </div>
@@ -87,18 +87,18 @@ export default function StockList() {
             <AlertTriangle size={24} />
           </div>
           <div>
-            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Low Stock Alert</p>
+            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Low Alerts</p>
             <p className="text-2xl font-black text-black">
               {stocks.filter(s => s.quantity < 10).length}
             </p>
           </div>
         </div>
-        <div className="bg-white border border-gray-100 shadow-sm p-6 rounded-[2rem] flex items-center gap-4">
+        <div className="bg-white border border-gray-100 shadow-sm p-6 rounded-[2rem] flex items-center gap-4 sm:col-span-2 lg:col-span-1">
           <div className="p-4 bg-black text-white rounded-2xl">
             <PackageCheck size={24} />
           </div>
           <div>
-            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Healthy Stock</p>
+            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Healthy Qty</p>
             <p className="text-2xl font-black text-black">
               {stocks.filter(s => s.quantity >= 10).length}
             </p>
