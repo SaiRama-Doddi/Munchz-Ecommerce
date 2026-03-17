@@ -193,6 +193,7 @@ export default function Dashboard() {
           icon={<Layers size={24} />}
           bgIcon={<Layers size={100} />}
           color="emerald"
+          onClick={() => navigate("/admin/category")}
         />
         <KPICard
           title="E-Commerce Catalog"
@@ -201,6 +202,7 @@ export default function Dashboard() {
           icon={<Package size={24} />}
           bgIcon={<Package size={100} />}
           color="emerald"
+          onClick={() => navigate("/admin/products")}
         />
         <KPICard
           title="Global Aggregate"
@@ -209,6 +211,7 @@ export default function Dashboard() {
           icon={<ShoppingCart size={24} />}
           bgIcon={<ShoppingCart size={100} />}
           color="emerald"
+          onClick={() => navigate("/admin/complete-stock")}
         />
         <KPICard
           title="Inventory Monitor"
@@ -217,6 +220,7 @@ export default function Dashboard() {
           icon={<AlertTriangle size={24} />}
           bgIcon={<AlertTriangle size={100} />}
           color="black"
+          onClick={() => navigate("/admin/complete-stock")}
         />
       </div>
 
@@ -410,7 +414,8 @@ function KPICard({
   icon,
   bgIcon,
   color,
-  isDanger = false
+  isDanger = false,
+  onClick
 }: {
   title: string;
   subtitle: string;
@@ -419,6 +424,7 @@ function KPICard({
   bgIcon: React.ReactNode;
   color: string;
   isDanger?: boolean;
+  onClick?: () => void;
 }) {
   const colorMap = {
     emerald: "bg-emerald-50 text-emerald-600",
@@ -426,7 +432,10 @@ function KPICard({
   };
 
   return (
-    <div className="bg-white border border-gray-100 p-8 rounded-[2.5rem] relative overflow-hidden group hover:-translate-y-1 transition-all duration-500 shadow-sm">
+    <div 
+      onClick={onClick}
+      className={`bg-white border border-gray-100 p-8 rounded-[2.5rem] relative overflow-hidden group hover:-translate-y-1 transition-all duration-500 shadow-sm ${onClick ? 'cursor-pointer hover:border-emerald-500/30' : ''}`}
+    >
       <div className="absolute top-0 right-0 p-10 opacity-[0.05] text-emerald-600 group-hover:scale-110 transition-all duration-700">
         {bgIcon}
       </div>
