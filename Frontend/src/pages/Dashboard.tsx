@@ -568,24 +568,34 @@ function KPICard({
   return (
     <div 
       onClick={onClick}
-      className={`bg-white border border-gray-100 p-8 rounded-[2.5rem] relative overflow-hidden group hover:-translate-y-1 transition-all duration-500 shadow-sm ${onClick ? 'cursor-pointer hover:border-emerald-500/30' : ''}`}
+      className={`bg-white border border-gray-100 p-7 rounded-[2.5rem] relative overflow-hidden group hover:-translate-y-1.5 transition-all duration-500 shadow-sm ${onClick ? 'cursor-pointer hover:border-emerald-600/30 hover:shadow-xl hover:shadow-emerald-600/5' : ''}`}
     >
-      <div className="absolute top-0 right-0 p-10 opacity-[0.05] text-emerald-600 group-hover:scale-110 transition-all duration-700">
+      {/* Background Decorative Icon */}
+      <div className="absolute -right-4 -top-4 opacity-[0.03] text-black group-hover:scale-110 group-hover:-rotate-12 transition-all duration-700 pointer-events-none">
         {bgIcon}
       </div>
-      <div className="flex items-center gap-4 mb-4">
-        <div className={`p-3 rounded-2xl ${colorMap[color as keyof typeof colorMap] || colorMap.emerald}`}>
-          {icon}
+
+      <div className="relative z-10">
+        <div className="flex items-center gap-3.5 mb-6">
+          <div className={`p-3 rounded-[1.25rem] shadow-sm ${colorMap[color as keyof typeof colorMap] || colorMap.emerald}`}>
+            {icon}
+          </div>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] leading-none mb-1">
+              {title}
+            </span>
+            <span className="text-[10px] font-bold text-emerald-600/60 uppercase tracking-tighter leading-none">
+              Live Data
+            </span>
+          </div>
         </div>
-        <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-tight">
-          {title}
-        </span>
-      </div>
-      <div className="flex items-baseline gap-2">
-        <h3 className={`text-4xl font-black tracking-tight ${isDanger ? 'text-black' : 'text-black'}`}>
-          {value}
-        </h3>
-        <span className="text-xs font-bold text-gray-400">{subtitle}</span>
+
+        <div className="flex flex-col">
+          <h3 className="text-3xl font-black text-black tracking-tight mb-1 leading-none">
+            {value}
+          </h3>
+          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{subtitle}</p>
+        </div>
       </div>
     </div>
   );
