@@ -1,137 +1,90 @@
-import { ShieldCheck, Truck, RotateCcw, Headphones } from "lucide-react";
+import { ShieldCheck, Truck, RotateCcw, Headphones, Star, Award, Heart } from "lucide-react";
 
 export default function AboutUs() {
   return (
-    <section className="w-full bg-white py-8 sm:py-10">
-
-      {/* ABOUT SECTION */}
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 grid-cols-1 items-center">
-
-        {/* LEFT SIDE — TEXT */}
-        <div className="p-8 sm:p-12 md:p-16 bg-[#e3f0e8]">
-
-          <p className="text-sm uppercase tracking-[3px] text-green-700 mb-2">
-            Our Story
-          </p>
-
-          <h2 className="text-3xl md:text-4xl font-semibold mb-6 border-l-4 border-green-600 pl-4 text-gray-900">
-            About GoMunchZ
-          </h2>
-
-          <p className="text-gray-700 leading-relaxed text-[16px] md:text-[17px] mb-4">
-            At <span className="font-semibold text-green-700">GoMunchZ</span>, we
-            believe great snacks start with real ingredients. Our mission is to
-            deliver healthy, delicious, and premium-quality snacks made from
-            carefully sourced nuts, dry fruits, and natural ingredients.
-          </p>
-
-          <p className="text-gray-700 leading-relaxed text-[16px] md:text-[17px] mb-6">
-            Every product is crafted to balance taste and nutrition. From
-            crunchy roasted nuts to flavorful snack blends, we focus on
-            preserving freshness and delivering snacks that you can enjoy
-            anytime with confidence.
-          </p>
-
-          <div className="grid sm:grid-cols-2 gap-4 text-gray-700 text-[15px]">
-
-            <div className="flex items-start gap-3">
-              <span className="text-green-600 font-bold">✓</span>
-              Premium quality dry fruits
+    <section className="w-full bg-white py-24 lg:py-32 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8">
+        
+        {/* STORY ARC */}
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          
+          {/* LEFT: NARATIVE */}
+          <div className="space-y-12">
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="h-px w-8 bg-emerald-600"></span>
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-600">Heritage & Vision</p>
+              </div>
+              <h2 className="text-4xl lg:text-5xl font-black text-gray-900 tracking-tighter leading-tight">
+                Crafting the Future of <br />
+                <span className="text-emerald-600 italic">Gourmet Snacking</span>
+              </h2>
             </div>
 
-            <div className="flex items-start gap-3">
-              <span className="text-green-600 font-bold">✓</span>
-              Carefully sourced ingredients
+            <div className="space-y-6 text-[15px] font-bold text-gray-400 leading-relaxed uppercase tracking-wide">
+              <p>
+                At <span className="text-gray-900">Munchz Premium</span>, we curate more than just snacks; we curate experiences. Our mission is an relentless pursuit of the finest natural assets—nuts, dry fruits, and botanical blends—sourced with uncompromising standards.
+              </p>
+              <p>
+                Each selection in our archive undergoes a rigorous quality protocol, ensuring that every bite balances nutritional density with an elite sensory experience. From our specialized roasting chambers to your doorstep, freshness is our primary directive.
+              </p>
             </div>
 
-            <div className="flex items-start gap-3">
-              <span className="text-green-600 font-bold">✓</span>
-              Hygienic packaging standards
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6">
+              {[
+                "Elite Archive Selections",
+                "Priority Sourcing Grid",
+                "Advanced Preservation Standards",
+                "Nutritional Integrity Protocol"
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-4 bg-gray-50/50 p-4 rounded-2xl border border-gray-50 hover:border-emerald-100 transition-all group">
+                   <div className="w-8 h-8 rounded-xl bg-white flex items-center justify-center text-emerald-600 shadow-sm group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                      <Star size={14} />
+                   </div>
+                   <p className="text-[10px] font-black uppercase tracking-widest text-gray-900">{item}</p>
+                </div>
+              ))}
             </div>
+          </div>
 
-            <div className="flex items-start gap-3">
-              <span className="text-green-600 font-bold">✓</span>
-              Taste with nutrition combined
+          {/* RIGHT: VISUAL ARCHIVE */}
+          <div className="relative aspect-[4/5] rounded-[4rem] overflow-hidden premium-card group shadow-2xl shadow-emerald-900/10">
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/20 to-black/20 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            <img
+              src="/about.png"
+              alt="Munchz Premium Heritage"
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2000ms] ease-out"
+            />
+            {/* FLOATING BADGE */}
+            <div className="absolute bottom-10 left-10 right-10 p-8 bg-white/10 backdrop-blur-xl rounded-[2.5rem] border border-white/20 z-20 flex items-center justify-between">
+               <div>
+                  <p className="text-[10px] font-black text-white/60 uppercase tracking-widest mb-1">Established</p>
+                  <p className="text-xl font-black text-white uppercase tracking-tighter italic">Alpha Generation</p>
+               </div>
+               <Award size={32} className="text-emerald-400" />
             </div>
-
           </div>
         </div>
 
-        {/* RIGHT SIDE — IMAGE */}
-        <div className="relative h-[320px] sm:h-[420px] lg:h-full">
-
-          <div className="absolute inset-0 bg-gradient-to-br from-[#dfe6dc] to-[#faeed6] -z-10"></div>
-
-          <img
-            src="/about.png"
-            alt="About GoMunchZ"
-            className="w-full h-full object-cover"
-          />
-
+        {/* SERVICE TRUST GRID */}
+        <div className="mt-40 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+          {[
+            { icon: <ShieldCheck size={32} />, title: "Prestige Guarantee", sub: "100% Quality Assurance Protocol" },
+            { icon: <Truck size={32} />, title: "Logistics Network", sub: "Express Priority Transfer India-wide" },
+            { icon: <RotateCcw size={32} />, title: "Archive Protection", sub: "Seamless Policy Reversal Standards" },
+            { icon: <Headphones size={32} />, title: "Elite Concierge", sub: "24/7 Intelligence Support Grid" }
+          ].map((service, i) => (
+            <div key={i} className="group premium-card bg-gray-50/30 p-10 rounded-[3rem] border border-gray-50 hover:bg-white hover:shadow-2xl shadow-emerald-900/5 transition-all duration-500">
+               <div className="w-16 h-16 bg-white rounded-[1.5rem] flex items-center justify-center text-emerald-600 shadow-sm mb-8 group-hover:bg-emerald-600 group-hover:text-white transition-all transform group-hover:rotate-6">
+                  {service.icon}
+               </div>
+               <h4 className="text-[13px] font-black text-gray-900 uppercase tracking-widest mb-3">{service.title}</h4>
+               <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest leading-relaxed">{service.sub}</p>
+            </div>
+          ))}
         </div>
+
       </div>
-
-
-      {/* SERVICE ICONS SECTION */}
-
-      <div className="max-w-7xl mx-auto px-6 py-6 sm:py-8">
-        <div className="bg-[#f7f7f7] rounded-xl shadow-sm border grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x">
-
-          {/* PREMIUM QUALITY */}
-          <div className="flex items-center gap-4 p-6 justify-center sm:justify-start">
-            <ShieldCheck className="text-green-700" size={32} />
-            <div>
-              <p className="font-semibold text-gray-900 text-sm">
-                PREMIUM QUALITY
-              </p>
-              <p className="text-gray-500 text-sm">
-                100% Quality Guarantee
-              </p>
-            </div>
-          </div>
-
-          {/* SWIFT SHIPPING */}
-          <div className="flex items-center gap-4 p-6 justify-center sm:justify-start">
-            <Truck className="text-green-700" size={32} />
-            <div>
-              <p className="font-semibold text-gray-900 text-sm">
-                SWIFT SHIPPING
-              </p>
-              <p className="text-gray-500 text-sm">
-                Delivering across India
-              </p>
-            </div>
-          </div>
-
-          {/* EASY RETURN */}
-          <div className="flex items-center gap-4 p-6 justify-center sm:justify-start">
-            <RotateCcw className="text-green-700" size={32} />
-            <div>
-              <p className="font-semibold text-gray-900 text-sm">
-                EASY RETURN
-              </p>
-              <p className="text-gray-500 text-sm">
-                Refer return policy
-              </p>
-            </div>
-          </div>
-
-          {/* 24/7 SUPPORT */}
-          <div className="flex items-center gap-4 p-6 justify-center sm:justify-start">
-            <Headphones className="text-green-700" size={32} />
-            <div>
-              <p className="font-semibold text-gray-900 text-sm">
-                24/7 SUPPORT
-              </p>
-              <p className="text-gray-500 text-sm">
-                Support every time
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
     </section>
   );
 }

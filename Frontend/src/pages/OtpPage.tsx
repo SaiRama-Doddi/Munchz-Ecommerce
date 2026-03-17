@@ -1,8 +1,8 @@
-
 import { useState, useEffect, useRef } from "react";
 import { confirmLoginOtp, sendResendOtp } from "../api/api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { ShieldCheck, ArrowRight, RefreshCw } from "lucide-react";
 
 export default function OtpPage() {
   const location = useLocation();
@@ -17,210 +17,134 @@ export default function OtpPage() {
   const { setProfile } = useAuth();
   const navigate = useNavigate();
 
-  /* redirect if email missing */
   useEffect(() => {
     if (!email) {
-      alert("Session expired. Please login again.");
-      window.location.replace("/login");
+      navigate("/login", { replace: true });
     }
-  }, [email]);
+  }, [email, navigate]);
 
-  /* countdown timer */
   useEffect(() => {
     if (timer === 0) return;
-
-    const interval = setInterval(() => {
-      setTimer((t) => t - 1);
-    }, 1000);
-
+    const interval = setInterval(() => setTimer((t) => t - 1), 1000);
     return () => clearInterval(interval);
   }, [timer]);
 
-  /* OTP typing */
   const handleChange = (value: string, index: number) => {
     if (!/^[0-9]?$/.test(value)) return;
-
     const updated = [...otp];
     updated[index] = value;
     setOtp(updated);
-
-    if (value && index < 5) {
-      inputsRef.current[index + 1]?.focus();
-    }
+    if (value && index < 5) inputsRef.current[index + 1]?.focus();
   };
 
-  /* backspace navigation */
   const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
-    if (e.key === "Backspace" && !otp[index] && index > 0) {
-      inputsRef.current[index - 1]?.focus();
-    }
+    if (e.key === "Backspace" && !otp[index] && index > 0) inputsRef.current[index - 1]?.focus();
   };
 
-  /* paste OTP */
   const handlePaste = (e: React.ClipboardEvent) => {
     e.preventDefault();
-
-    const pasteData = e.clipboardData
-      .getData("text")
-      .replace(/\D/g, "")
-      .slice(0, 6);
-
+    const pasteData = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
     if (pasteData.length === 6) {
       setOtp(pasteData.split(""));
       inputsRef.current[5]?.focus();
     }
   };
 
-  /* verify OTP */
   const handleVerify = async () => {
     const enteredOtp = otp.join("");
-
-    if (enteredOtp.length !== 6) {
-      alert("Enter full 6-digit OTP");
-      return;
-    }
-
+    if (enteredOtp.length !== 6) return;
     setLoading(true);
-
     try {
       const res = await confirmLoginOtp(email, enteredOtp);
-
       const profile = res.data.profile;
       const roles: string[] = res.data.roles;
-
       setProfile(profile);
-
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("profile", JSON.stringify(profile));
       localStorage.setItem("roles", JSON.stringify(roles));
-
-      alert("Login successful!");
-
-      if (roles.includes("ADMIN")) {
-        navigate("/admin/dashboard", { replace: true });
-      } else {
-        navigate("/", { replace: true });
-      }
+      if (roles.includes("ADMIN")) navigate("/admin/dashboard", { replace: true });
+      else navigate("/", { replace: true });
     } catch {
-      alert("Invalid OTP");
+      alert("Invalid Authorization Key");
     } finally {
       setLoading(false);
     }
   };
 
-  /* resend OTP */
   const handleResendOtp = async () => {
     setResendLoading(true);
-
     try {
       await sendResendOtp(email);
-
-      alert("OTP resent successfully");
-
       setOtp(Array(6).fill(""));
       setTimer(50);
       inputsRef.current[0]?.focus();
     } catch {
-      alert("Failed to resend OTP");
+      alert("Resend sequence failed");
+    } finally {
+      setResendLoading(false);
     }
-
-    setResendLoading(false);
   };
 
   return (
-    <div className="min-h-[10vh] bg-gray-50 px-4 pt-6 pb-20 flex justify-center">
+    <div className="min-h-[80vh] flex items-center justify-center px-4 py-20 relative overflow-hidden bg-white">
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-emerald-50 rounded-full blur-[150px] opacity-40"></div>
+      </div>
 
-      <div className="bg-white w-full max-w-md rounded-xl shadow-lg p-6 sm:p-8 text-center">
+      <div className="w-full max-w-md relative z-10 text-center">
+        <div className="premium-card bg-white rounded-[3rem] p-10 lg:p-14 border border-gray-50 shadow-2xl shadow-emerald-900/5">
+          
+          <div className="mb-12">
+            <div className="w-20 h-20 bg-emerald-50 text-emerald-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-sm">
+              <ShieldCheck size={40} strokeWidth={1.5} />
+            </div>
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <span className="h-px w-6 bg-emerald-600"></span>
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-600">Authorization</p>
+              <span className="h-px w-6 bg-emerald-600"></span>
+            </div>
+            <h1 className="text-3xl font-black text-gray-900 tracking-tight">Enter <span className="text-emerald-600 italic">Signature</span></h1>
+            <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mt-4">Transmitted to {email}</p>
+          </div>
 
-        {/* Logo */}
-        <img src="/logo.png" className="w-16 mx-auto mb-3" />
+          <div onPaste={handlePaste} className="flex justify-between gap-3 mb-10">
+            {otp.map((digit, i) => (
+              <input
+                key={i}
+                ref={(el) => { if (el) inputsRef.current[i] = el; }}
+                type="text"
+                inputMode="numeric"
+                maxLength={1}
+                value={digit}
+                onChange={(e) => handleChange(e.target.value, i)}
+                onKeyDown={(e) => handleKeyDown(e, i)}
+                className="w-12 h-16 border-2 border-gray-100 rounded-2xl text-center text-xl font-black text-gray-900 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/5 outline-none transition-all bg-gray-50/50 focus:bg-white sm:w-14"
+              />
+            ))}
+          </div>
 
-        <h2 className="text-lg font-semibold">Enter OTP</h2>
+          <div className="space-y-8">
+            <button
+              onClick={handleVerify}
+              disabled={loading || otp.join("").length !== 6}
+              className="w-full h-18 bg-black text-white rounded-[2rem] font-black text-[12px] uppercase tracking-[0.3em] hover:bg-emerald-600 transition-all duration-500 flex items-center justify-center gap-4 group disabled:opacity-50 shadow-xl shadow-black/10 active:scale-95"
+            >
+              {loading ? <span className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <>Verify Signature <ArrowRight size={16} className="text-emerald-400 group-hover:translate-x-2 transition-transform" /></>}
+            </button>
 
-        {/* OTP INPUTS */}
-        <div
-          className="flex justify-between max-w-xs mx-auto mt-6"
-          onPaste={handlePaste}
-        >
-          {otp.map((digit, i) => (
-            <input
-              key={i}
-              ref={(el) => {
-                if (el) inputsRef.current[i] = el;
-              }}
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              maxLength={1}
-              value={digit}
-              onChange={(e) => handleChange(e.target.value, i)}
-              onKeyDown={(e) => handleKeyDown(e, i)}
-              className="
-                w-9 h-11
-                sm:w-11 sm:h-12
-                border rounded-md
-                text-center text-lg
-                focus:outline-none
-                focus:border-green-600
-              "
-            />
-          ))}
+            <button
+              onClick={handleResendOtp}
+              disabled={timer > 0 || resendLoading}
+              className={`flex items-center justify-center gap-2 mx-auto text-[10px] font-black uppercase tracking-widest transition-colors ${timer > 0 ? 'text-gray-300' : 'text-emerald-600 hover:text-emerald-800'}`}
+            >
+              <RefreshCw size={14} className={resendLoading ? "animate-spin" : ""} />
+              {timer > 0 ? `Retry transmission in ${timer}s` : "Retry transmission"}
+            </button>
+          </div>
         </div>
 
-        <p className="text-gray-500 text-sm mt-4">
-          OTP sent to your registered email
-        </p>
-
-        {/* RESEND OTP */}
-        <button
-          onClick={handleResendOtp}
-          disabled={timer > 0 || resendLoading}
-          className={`mt-3 text-sm font-medium underline
-          ${
-            timer > 0
-              ? "text-gray-400 cursor-not-allowed"
-              : "text-green-700"
-          }`}
-        >
-          {resendLoading
-            ? "Resending..."
-            : timer > 0
-            ? `Resend OTP in ${timer}s`
-            : "Resend OTP"}
-        </button>
-
-        {/* LOGIN BUTTON */}
-        <button
-          onClick={handleVerify}
-          disabled={loading}
-          className={`w-full py-2.5 rounded-md mt-6 font-medium
-          flex items-center justify-center gap-2
-          ${
-            loading
-              ? "bg-green-500 cursor-not-allowed"
-              : "bg-green-600 hover:bg-green-700"
-          }
-          text-white`}
-        >
-          {loading ? (
-            <>
-              <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              Verifying...
-            </>
-          ) : (
-            "Login"
-          )}
-        </button>
-
-        <a
-          href="/signup"
-          className="text-green-600 text-sm block mt-4 underline"
-        >
-          Sign up
-        </a>
-
+        <p className="mt-10 text-[9px] font-bold text-gray-300 uppercase tracking-[0.3em]">Signature Verification Required • Secure Session</p>
       </div>
     </div>
   );
 }
-

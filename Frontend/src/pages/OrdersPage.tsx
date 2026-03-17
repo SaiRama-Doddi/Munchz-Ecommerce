@@ -16,7 +16,8 @@ import {
   AlertCircle,
   Tag,
   Search,
-  Filter
+  Filter,
+  ChevronRight
 } from "lucide-react";
 
 /* =========================
@@ -249,8 +250,8 @@ const OrdersPage: React.FC = () => {
         </div>
       </div>
 
-      {/* TABLE SECTION */}
-      <div className="bg-white rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-sm">
+      {/* DESKTOP TABLE VIEW */}
+      <div className="hidden md:block bg-white rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -310,20 +311,63 @@ const OrdersPage: React.FC = () => {
             </tbody>
           </table>
         </div>
-        
-        {!filteredOrders.length && (
-          <div className="text-center py-20 bg-gray-50/20">
-            <div className="w-16 h-16 bg-white border border-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300 shadow-sm">
-              <ShoppingBag size={32} />
-            </div>
-            <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">No orders found for this period</p>
-          </div>
-        )}
       </div>
+
+      {/* MOBILE CARD VIEW */}
+      <div className="md:hidden space-y-6">
+         {filteredOrders.map((o) => (
+           <div key={o.orderId} onClick={() => setSelectedOrder(o)} className="bg-white border border-gray-100 rounded-[2rem] p-6 shadow-sm active:scale-95 transition-all">
+              <div className="flex justify-between items-start mb-6">
+                 <div>
+                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{formatDate(o.placedAt)}</p>
+                    <h3 className="text-lg font-black text-black tracking-tight">#{o.orderId.slice(-8).toUpperCase()}</h3>
+                 </div>
+                 <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-black border uppercase tracking-wider ${getStatusStyles(o.orderStatus)}`}>
+                    {getStatusIcon(o.orderStatus)}
+                    {o.orderStatus}
+                 </span>
+              </div>
+
+              <div className="flex items-center gap-4 mb-6 bg-gray-50/50 p-4 rounded-2xl border border-gray-50">
+                 <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-emerald-600 font-black text-xs shadow-sm shadow-emerald-900/5">
+                    {o.userName?.charAt(0) || "U"}
+                 </div>
+                 <div className="flex-1">
+                    <p className="text-sm font-bold text-black line-clamp-1">{o.userName}</p>
+                    <p className="text-[10px] text-gray-400 font-medium truncate">{o.userEmail}</p>
+                 </div>
+              </div>
+
+              <div className="flex items-center justify-between pt-4 border-t border-gray-50">
+                 <div>
+                    <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Manifest Volume</p>
+                    <p className="text-sm font-bold text-black">{o.items.length} Units</p>
+                 </div>
+                 <div className="text-right">
+                    <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Authorization Value</p>
+                    <p className="text-xl font-black text-emerald-600 italic">₹{o.totalAmount.toLocaleString()}</p>
+                 </div>
+              </div>
+
+              <div className="mt-6 flex items-center justify-center gap-2 text-[10px] font-black text-emerald-600 uppercase tracking-widest bg-emerald-50/50 py-3 rounded-xl border border-emerald-100/50">
+                 View Logistics Ledger <ChevronRight size={14} />
+              </div>
+           </div>
+         ))}
+      </div>
+      
+      {!filteredOrders.length && (
+        <div className="text-center py-20 bg-gray-50/20 rounded-[2.5rem]">
+          <div className="w-16 h-16 bg-white border border-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300 shadow-sm">
+            <ShoppingBag size={32} />
+          </div>
+          <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">No orders found for this period</p>
+        </div>
+      )}
 
       {/* ORDER DETAILS MODAL */}
       {selectedOrder && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 font-inter">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 font-inter">
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-fadeIn" onClick={() => setSelectedOrder(null)}></div>
           
           <div className="relative bg-white w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-[2.5rem] shadow-2xl flex flex-col animate-scaleIn border border-gray-100">
@@ -347,7 +391,7 @@ const OrdersPage: React.FC = () => {
             </div>
 
             {/* Modal Content */}
-            <div className="flex-1 overflow-y-auto p-8 lg:p-10 space-y-10">
+            <div className="flex-1 overflow-y-auto p-8 lg:p-10 space-y-10 no-scrollbar">
               {/* Info Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div className="space-y-4">
@@ -462,7 +506,7 @@ const OrdersPage: React.FC = () => {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-8 border-t border-gray-100 bg-gray-50/50 flex justify-between items-center">
+            <div className="p-8 border-t border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row justify-between items-center gap-4">
               <div className="flex items-center gap-3">
                 <Tag size={16} className="text-gray-400" />
                 <span className="text-xs font-bold text-gray-500 uppercase tracking-widest text-[10px]">
@@ -471,7 +515,7 @@ const OrdersPage: React.FC = () => {
               </div>
               <button
                 onClick={() => setSelectedOrder(null)}
-                className="bg-black text-white px-10 py-3.5 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-xl shadow-black/5"
+                className="w-full sm:w-auto bg-black text-white px-10 py-3.5 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-xl shadow-black/5"
               >
                 CLOSE VIEW
               </button>

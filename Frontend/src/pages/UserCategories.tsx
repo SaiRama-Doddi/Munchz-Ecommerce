@@ -37,82 +37,70 @@ export default function UserCategories() {
   };
 
   if (isLoading) {
-    return <PremiumSpinner text="Fetching categories..." />;
+    return <PremiumSpinner text="Gourmet Collection..." />;
   }
 
   return (
-    <section className="bg-[#fafaf6] py-10 sm:py-12 lg:py-14">
+    <section className="bg-white py-20 lg:py-32">
 
       <div className="max-w-7xl mx-auto px-4">
 
         {/* HEADER */}
 
-        <div className="flex items-center justify-between mb-10">
-
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div>
-            <p className="text-sm tracking-[4px] text-green-600 mb-2">
-              GoMunchZ COLLECTION
-            </p>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="h-px w-8 bg-emerald-600"></span>
+              <p className="text-[10px] font-black uppercase tracking-[0.4em] text-emerald-600">
+                Curated Selection
+              </p>
+            </div>
 
-            <h2 className="text-3xl font-semibold text-gray-900">
-              Explore Categories
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight tracking-[-0.03em]">
+              Explore <span className="text-emerald-600 italic">Categories</span>
             </h2>
           </div>
 
-          {/* ARROWS */}
-
-          <div className="hidden md:flex gap-3">
-
+          <div className="hidden md:flex gap-4">
             <button
               onClick={() => scroll("left")}
-              className="w-10 h-10 rounded-full border bg-white hover:bg-gray-100 flex items-center justify-center"
+              className="w-14 h-14 rounded-2xl border border-gray-100 bg-white hover:bg-emerald-50 hover:border-emerald-100 text-gray-400 hover:text-emerald-700 flex items-center justify-center transition-all duration-300 shadow-sm"
             >
-              <ChevronLeft size={20} />
+              <ChevronLeft size={24} />
             </button>
 
             <button
               onClick={() => scroll("right")}
-              className="w-10 h-10 rounded-full border bg-white hover:bg-gray-100 flex items-center justify-center"
+              className="w-14 h-14 rounded-2xl border border-gray-100 bg-white hover:bg-emerald-50 hover:border-emerald-100 text-gray-400 hover:text-emerald-700 flex items-center justify-center transition-all duration-300 shadow-sm"
             >
-              <ChevronRight size={20} />
+              <ChevronRight size={24} />
             </button>
-
           </div>
-
         </div>
 
 
 
         {/* MOBILE SLIDER */}
 
-        <div className="md:hidden flex gap-5 overflow-x-auto pb-2 no-scrollbar">
-
+        <div className="md:hidden flex gap-6 overflow-x-auto pb-8 no-scrollbar -mx-4 px-4">
           {categories.map((c) => (
-
             <div
               key={c.id}
               onClick={() => navigate(`/category/${c.id}`)}
-              className="flex-shrink-0 w-[90px] flex flex-col items-center cursor-pointer"
+              className="flex-shrink-0 w-[120px] flex flex-col items-center group active:scale-95 transition-all"
             >
-
-              <div className="w-[75px] h-[75px] rounded-2xl overflow-hidden shadow-md bg-white">
-
+              <div className="w-full aspect-square rounded-[2rem] overflow-hidden shadow-premium-soft border border-gray-50 bg-white p-2">
                 <img
                   src={c.thumbnailImage}
                   alt={c.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover rounded-[1.8rem]"
                 />
-
               </div>
-
-              <p className="text-xs text-center mt-2 font-medium">
+              <p className="text-[11px] font-black uppercase tracking-widest text-center mt-4 text-gray-800">
                 {c.name}
               </p>
-
             </div>
-
           ))}
-
         </div>
 
 
@@ -121,65 +109,32 @@ export default function UserCategories() {
 
         <div
           ref={scrollRef}
-          className="
-          hidden md:flex
-          justify-center
-          gap-10
-          overflow-x-auto
-          scroll-smooth
-          no-scrollbar
-          "
+          className="hidden md:flex gap-12 overflow-x-auto scroll-smooth no-scrollbar py-8"
         >
-
           {categories.map((c) => (
-
             <div
               key={c.id}
               onClick={() => navigate(`/category/${c.id}`)}
-              className="
-              flex-shrink-0
-              w-[200px]
-              group
-              cursor-pointer
-              text-center
-              "
+              className="flex-shrink-0 w-[240px] group cursor-pointer"
             >
-
-              {/* IMAGE */}
-
-              <div className="h-[150px] rounded-2xl overflow-hidden">
-
-                <img
-                  src={c.thumbnailImage}
-                  alt={c.name}
-                  className="
-                  w-full h-full object-cover
-                  group-hover:scale-105
-                  transition duration-500
-                  "
-                />
-
+              <div className="h-[300px] rounded-[3rem] overflow-hidden premium-card bg-white p-4">
+                <div className="w-full h-full rounded-[2.5rem] overflow-hidden bg-gray-50">
+                  <img
+                    src={c.thumbnailImage}
+                    alt={c.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[800ms] cubic-bezier(0.4, 0, 0.2, 1)"
+                  />
+                </div>
               </div>
 
-
-              {/* CATEGORY NAME */}
-
-              <div className="mt-4">
-
-                <p className="text-[16px] font-medium text-gray-800">
+              <div className="mt-8 px-2 flex flex-col items-center">
+                <p className="text-[13px] font-black uppercase tracking-[0.2em] text-gray-900 group-hover:text-emerald-700 transition-colors">
                   {c.name}
                 </p>
-
-                <div className="flex justify-center mt-2">
-                  <span className="w-10 h-[3px] bg-green-600 rounded-full"></span>
-                </div>
-
+                <div className="w-0 group-hover:w-16 h-px bg-emerald-600 mt-3 transition-all duration-500 rounded-full"></div>
               </div>
-
             </div>
-
           ))}
-
         </div>
 
       </div>
