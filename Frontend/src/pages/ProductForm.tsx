@@ -249,7 +249,7 @@ export default function ProductForm() {
                   <div className="flex items-center justify-center">
                     <button
                       type="button"
-                      onClick={() => removeVariant(index)}
+                      onClick={() => removeVariant(i)}
                       disabled={form.variants.length <= 1}
                       className="w-11 h-11 bg-white border border-gray-100 text-gray-400 rounded-xl flex items-center justify-center hover:text-red-500 hover:border-red-100 hover:bg-red-50 transition-all disabled:opacity-30"
                     >
