@@ -131,6 +131,29 @@ export default function Dashboard() {
     return stocks.filter((s: Stock) => s.quantity < 100).length;
   }, [stocks]);
 
+  /* ================= HELPERS ================= */
+  const parseOrderDate = (dateStr: string) => {
+    if (!dateStr) return new Date(0);
+    try {
+      // Format: "17 Mar 2026, 04:10 PM"
+      const [datePart, timePart] = dateStr.split(', ');
+      const [day, month, year] = datePart.split(' ');
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const monthIdx = monthNames.indexOf(month);
+      
+      let [time, modifier] = timePart.split(' ');
+      let [hours, minutes] = time.split(':').map(Number);
+      
+      if (modifier === 'PM' && hours < 12) hours += 12;
+      if (modifier === 'AM' && hours === 12) hours = 0;
+      
+      const d = new Date(Number(year), monthIdx, Number(day), hours, minutes);
+      return isNaN(d.getTime()) ? new Date(dateStr) : d;
+    } catch (e) {
+      return new Date(dateStr);
+    }
+  };
+
   const recentProducts: Product[] = [...products]
     .sort((a, b) => {
       const da = a.createdAt ? new Date(a.createdAt).getTime() : 0;
@@ -143,13 +166,13 @@ export default function Dashboard() {
     return orders.filter((o) => {
       if (!o.placedAt || timeFilter === "all") return true;
 
-      const orderDate = new Date(o.placedAt);
+      const orderDate = parseOrderDate(o.placedAt);
       const now = new Date();
       const diffHrs = (now.getTime() - orderDate.getTime()) / (1000 * 60 * 60);
 
       if (timeFilter === "24h") return diffHrs <= 24;
-      if (timeFilter === "7d") return diffHrs <= 168; // 7 days
-      if (timeFilter === "30d") return diffHrs <= 720; // 30 days
+      if (timeFilter === "7d") return diffHrs <= 168;
+      if (timeFilter === "30d") return diffHrs <= 720;
       return true;
     });
   }, [orders, timeFilter]);
@@ -187,12 +210,12 @@ export default function Dashboard() {
   const listFilteredOrders = useMemo(() => {
     return orders.filter((o) => {
       if (!o.placedAt || listFilter === "all") return true;
-      const orderDate = new Date(o.placedAt);
+      const orderDate = parseOrderDate(o.placedAt);
       const now = new Date();
       const diffHrs = (now.getTime() - orderDate.getTime()) / (1000 * 60 * 60);
       if (listFilter === "24h") return diffHrs <= 24;
-      if (listFilter === "7d") return diffHrs <= 168; // 7 days
-      if (listFilter === "30d") return diffHrs <= 720; // 30 days
+      if (listFilter === "7d") return diffHrs <= 168;
+      if (listFilter === "30d") return diffHrs <= 720;
       return true;
     });
   }, [orders, listFilter]);
@@ -273,8 +296,8 @@ export default function Dashboard() {
           color="black"
         />
         <KPICard
-          title="Stock Inventory"
-          subtitle="Total Units"
+          title="Global Aggregate"
+          subtitle="Total Stock"
           value={totalStock.total.toLocaleString()}
           icon={<Boxes size={24} />}
           bgIcon={<Boxes size={100} />}
@@ -414,22 +437,33 @@ export default function Dashboard() {
         </div>
       </section>
 
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-gray-50 border border-gray-100 rounded-[2.5rem] p-6 shadow-sm">
-         <div className="flex items-center gap-3">
-            <p className="text-sm font-bold text-gray-500">Global History Filter:</p>
-            <div className="flex items-center bg-white p-1 rounded-xl border border-gray-100">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
+        {/* RECENT ORDERS */}
+        <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm overflow-hidden flex flex-col h-full relative">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600">
+                <ShoppingCart size={20} />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-black leading-tight">Orders Feed</h2>
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Live tracking</p>
+              </div>
+            </div>
+            
+            <div className="flex items-center bg-gray-50 p-1 rounded-xl border border-gray-100 self-end sm:self-auto">
               {[
                 { label: 'Today', value: '24h' },
-                { label: '7 Days', value: '7d' },
-                { label: '30 Days', value: '30d' },
-                { label: 'All Time', value: 'all' }
+                { label: '7d', value: '7d' },
+                { label: '30d', value: '30d' },
+                { label: 'All', value: 'all' }
               ].map((f) => (
                 <button
                   key={f.value}
                   onClick={() => setListFilter(f.value as any)}
-                  className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all ${
                     listFilter === f.value 
-                      ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' 
+                      ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20' 
                       : 'text-gray-400 hover:text-emerald-600'
                   }`}
                 >
@@ -437,44 +471,24 @@ export default function Dashboard() {
                 </button>
               ))}
             </div>
-         </div>
-         <p className="text-xs font-bold text-gray-400 uppercase tracking-widest italic flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            Real-time Activity Stream
-         </p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* RECENT ORDERS */}
-        <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm overflow-hidden flex flex-col h-full">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-600">
-                <ShoppingCart size={20} />
-              </div>
-              <h2 className="text-xl font-bold text-black">{listFilter === '24h' ? "Today's" : listFilter === 'all' ? 'All' : listFilter} Orders</h2>
-            </div>
-            <span className="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-lg uppercase tracking-wider">
-              {listFilteredOrders.length} {listFilter === 'all' ? 'Total' : 'New'}
-            </span>
           </div>
 
           <div className="space-y-4 flex-1 overflow-y-auto pr-2 no-scrollbar max-h-[500px]">
             {listFilteredOrders.length === 0 ? (
-              <div className="text-gray-400 text-sm font-bold py-10 flex flex-col items-center gap-3">
+              <div className="text-gray-400 text-sm font-bold py-16 flex flex-col items-center gap-3">
                 <ShoppingCart size={40} className="opacity-10" />
                 No orders for this period
               </div>
             ) : (
-              listFilteredOrders.slice(0, 20).map((o) => (
-                <div key={o.orderId} className="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-gray-100 hover:border-emerald-600/20 transition-all duration-300 group">
+              listFilteredOrders.slice(0, 50).map((o) => (
+                <div key={o.orderId} className="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-gray-100 hover:border-emerald-600/20 transition-all duration-300 group cursor-pointer" onClick={() => navigate("/admin/orders")}>
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center border border-gray-100 font-bold text-gray-400 group-hover:text-emerald-600 transition-colors">
                       {o.userName.charAt(0)}
                     </div>
                     <div>
                       <p className="text-sm font-bold text-black">{o.userName}</p>
-                      <p className="text-[10px] text-gray-400 font-semibold">#{o.orderId}</p>
+                      <p className="text-[10px] text-gray-400 font-semibold">{o.placedAt}</p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -489,26 +503,30 @@ export default function Dashboard() {
 
         {/* PAYMENTS */}
         <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm overflow-hidden flex flex-col h-full">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-xl bg-black text-white">
                 <CreditCard size={20} />
               </div>
-              <h2 className="text-xl font-bold text-black">{listFilter === '24h' ? "Today's" : listFilter === 'all' ? 'All' : listFilter} Payments</h2>
+              <div>
+                <h2 className="text-xl font-bold text-black leading-tight">Payments Log</h2>
+                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Transaction history</p>
+              </div>
             </div>
-            <span className="px-3 py-1 bg-gray-100 text-black text-xs font-bold rounded-lg uppercase tracking-wider">
-              {listFilteredPayments.length} {listFilter === 'all' ? 'Total' : 'Recv'}
+            
+             <span className="px-3 py-1.5 bg-gray-50 text-black text-[10px] font-bold rounded-lg uppercase tracking-wider border border-gray-100">
+              {listFilteredPayments.length} Recv
             </span>
           </div>
 
           <div className="space-y-4 flex-1 overflow-y-auto pr-2 no-scrollbar max-h-[500px]">
             {listFilteredPayments.length === 0 ? (
-              <div className="text-gray-400 text-sm font-bold py-10 flex flex-col items-center gap-3">
+              <div className="text-gray-400 text-sm font-bold py-16 flex flex-col items-center gap-3">
                 <CreditCard size={40} className="opacity-10" />
                 No payments for this period
               </div>
             ) : (
-              listFilteredPayments.slice(0, 20).map((p: any) => (
+              listFilteredPayments.slice(0, 50).map((p: any) => (
                 <div key={p.id} className="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-gray-100 hover:border-emerald-600/20 transition-all duration-300 group">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-emerald-600 shadow-sm border border-gray-100">
