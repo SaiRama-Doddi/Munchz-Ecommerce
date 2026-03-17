@@ -14,7 +14,9 @@ import {
   CheckCircle2,
   Clock,
   AlertCircle,
-  Tag
+  Tag,
+  Search,
+  Filter
 } from "lucide-react";
 
 /* =========================
@@ -104,7 +106,9 @@ const OrdersPage: React.FC = () => {
   const [orders, setOrders] = useState<BackendOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState<BackendOrder | null>(null);
-  const [filterDays, setFilterDays] = useState<number | "ALL">("ALL");
+  const [filterPeriod, setFilterPeriod] = useState<"ALL" | "TODAY" | "7D" | "30D">("ALL");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -131,10 +135,37 @@ const OrdersPage: React.FC = () => {
   const filteredOrders = [...orders]
     .sort((a, b) => new Date(b.placedAt).getTime() - new Date(a.placedAt).getTime())
     .filter((o) => {
-      if (filterDays === "ALL") return true;
-      const limit = new Date();
-      limit.setDate(limit.getDate() - filterDays);
-      return new Date(o.placedAt) >= limit;
+      const orderDate = new Date(o.placedAt);
+      const now = new Date();
+
+      // Period Filter
+      if (filterPeriod !== "ALL") {
+        if (filterPeriod === "TODAY") {
+          if (orderDate.toDateString() !== now.toDateString()) return false;
+        } else {
+          const diffDays = (now.getTime() - orderDate.getTime()) / (1000 * 60 * 60 * 24);
+          if (filterPeriod === "7D" && diffDays > 7) return false;
+          if (filterPeriod === "30D" && diffDays > 30) return false;
+        }
+      }
+
+      // Date Wise Filter
+      if (selectedDate) {
+        const d = new Date(selectedDate).toDateString();
+        if (orderDate.toDateString() !== d) return false;
+      }
+
+      // Search Filter
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        return (
+          o.orderId.toLowerCase().includes(q) ||
+          o.userName.toLowerCase().includes(q) ||
+          o.userEmail.toLowerCase().includes(q)
+        );
+      }
+
+      return true;
     });
 
   if (loading) {
@@ -161,34 +192,60 @@ const OrdersPage: React.FC = () => {
         </div>
       </div>
 
-      {/* FILTERS */}
-      <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg">
-            <Calendar size={18} />
+      {/* FILTERS BAR */}
+      <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm space-y-8">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+          <div className="flex flex-wrap items-center gap-2 bg-gray-50/50 p-1.5 rounded-[1.5rem] border border-gray-100">
+            {[
+              { label: "ALL HISTORY", value: "ALL" },
+              { label: "TODAY", value: "TODAY" },
+              { label: "LAST 7 DAYS", value: "7D" },
+              { label: "LAST 30 DAYS", value: "30D" },
+            ].map((f) => (
+              <button
+                key={f.value}
+                onClick={() => setFilterPeriod(f.value as any)}
+                className={`px-6 py-3 rounded-2xl text-[10px] font-black transition-all duration-500 uppercase tracking-wider ${
+                  filterPeriod === f.value
+                    ? "bg-black text-white shadow-xl shadow-black/20 scale-105"
+                    : "text-gray-400 hover:text-black hover:bg-white"
+                }`}
+              >
+                {f.label}
+              </button>
+            ))}
           </div>
-          <span className="text-xs font-bold text-black uppercase tracking-widest">Filter by period</span>
-        </div>
 
-        <div className="flex flex-wrap gap-2">
-          {[
-            { label: "ALL HISTORY", value: "ALL" },
-            { label: "TODAY", value: 1 },
-            { label: "LAST 7 DAYS", value: 7 },
-            { label: "LAST 30 DAYS", value: 30 },
-          ].map((f) => (
-            <button
-              key={f.label}
-              onClick={() => setFilterDays(f.value as any)}
-              className={`px-5 py-2.5 rounded-xl text-[10px] font-black border transition-all duration-300 ${
-                filterDays === f.value
-                  ? "bg-black text-white border-black shadow-lg shadow-black/10"
-                  : "bg-white text-gray-400 border-gray-100 hover:border-emerald-500 hover:text-emerald-600"
-              }`}
-            >
-              {f.label}
-            </button>
-          ))}
+          <div className="flex items-center gap-3 flex-1 lg:max-w-md w-full">
+            <div className="relative flex-1 group">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-emerald-500 transition-colors" size={18} />
+              <input
+                type="text"
+                placeholder="Search Order ID or user..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs font-bold text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all placeholder:text-gray-300"
+              />
+            </div>
+            
+            <div className="relative group">
+              <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-emerald-500 transition-colors" size={18} />
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                className="bg-gray-50 border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs font-bold text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all appearance-none cursor-pointer min-w-[160px]"
+              />
+              {selectedDate && (
+                <button 
+                  onClick={() => setSelectedDate("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-red-500"
+                >
+                  <Filter size={14} className="rotate-45" />
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 

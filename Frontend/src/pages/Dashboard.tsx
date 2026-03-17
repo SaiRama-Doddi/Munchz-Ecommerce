@@ -170,7 +170,9 @@ export default function Dashboard() {
       const now = new Date();
       const diffHrs = (now.getTime() - orderDate.getTime()) / (1000 * 60 * 60);
 
-      if (timeFilter === "24h") return diffHrs <= 24;
+      if (timeFilter === "24h") {
+        return orderDate.toDateString() === now.toDateString();
+      }
       if (timeFilter === "7d") return diffHrs <= 168;
       if (timeFilter === "30d") return diffHrs <= 720;
       return true;
@@ -185,7 +187,9 @@ export default function Dashboard() {
       const now = new Date();
       const diffHrs = (now.getTime() - payDate.getTime()) / (1000 * 60 * 60);
 
-      if (timeFilter === "24h") return diffHrs <= 24;
+      if (timeFilter === "24h") {
+        return payDate.toDateString() === now.toDateString();
+      }
       if (timeFilter === "7d") return diffHrs <= 168;
       if (timeFilter === "30d") return diffHrs <= 720;
       return true;
@@ -213,7 +217,9 @@ export default function Dashboard() {
       const orderDate = parseOrderDate(o.placedAt);
       const now = new Date();
       const diffHrs = (now.getTime() - orderDate.getTime()) / (1000 * 60 * 60);
-      if (listFilter === "24h") return diffHrs <= 24;
+      if (listFilter === "24h") {
+        return orderDate.toDateString() === now.toDateString();
+      }
       if (listFilter === "7d") return diffHrs <= 168;
       if (listFilter === "30d") return diffHrs <= 720;
       return true;
@@ -225,10 +231,13 @@ export default function Dashboard() {
       if (!p.createdAt || listFilter === "all") return true;
       const payDate = new Date(p.createdAt);
       const now = new Date();
-      const diffHrs = (now.getTime() - payDate.getTime()) / (1000 * 60 * 60);
-      if (listFilter === "24h") return diffHrs <= 24;
-      if (listFilter === "7d") return diffHrs <= 168;
-      if (listFilter === "30d") return diffHrs <= 720;
+      const diffHrs = (now.getTime() - payDate.getTime()) / (1000 * 60 * 60 * 24); // Use days for 7d/30d
+      
+      if (listFilter === "24h") {
+        return payDate.toDateString() === now.toDateString();
+      }
+      if (listFilter === "7d") return diffHrs <= 7;
+      if (listFilter === "30d") return diffHrs <= 30;
       return true;
     });
   }, [allPayments, listFilter]);

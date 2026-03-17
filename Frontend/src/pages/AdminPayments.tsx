@@ -76,8 +76,11 @@ const AdminPayments: React.FC = () => {
       
       // Period Filter
       if (filterPeriod !== "ALL") {
+        if (filterPeriod === "TODAY") {
+          return payDate.toDateString() === now.toDateString();
+        }
+        
         const diffDays = (now.getTime() - payDate.getTime()) / (1000 * 60 * 60 * 24);
-        if (filterPeriod === "TODAY" && diffDays > 1) return false;
         if (filterPeriod === "7D" && diffDays > 7) return false;
         if (filterPeriod === "30D" && diffDays > 30) return false;
       }
