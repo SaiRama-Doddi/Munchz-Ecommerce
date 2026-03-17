@@ -60,28 +60,26 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="fixed left-0 top-0 w-72 h-screen bg-white text-gray-600 px-6 py-8 border-r border-gray-100 shadow-sm flex flex-col z-50">
+    <aside className="fixed left-0 top-0 w-72 h-screen bg-emerald-600 text-white px-6 py-8 border-r border-emerald-500 shadow-xl flex flex-col z-50">
       
-      {/* BRAND */}
       <div className="flex items-center gap-4 mb-10 px-2 group cursor-pointer" onClick={() => navigate("/admin/dashboard")}>
-        <div className="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-600/10 group-hover:scale-110 transition-transform duration-300">
-          <ShoppingBag className="text-white" size={24} />
+        <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg shadow-black/10 group-hover:scale-110 transition-transform duration-300">
+          <ShoppingBag className="text-emerald-600" size={24} />
         </div>
         <div>
-          <h1 className="text-xl font-bold text-black tracking-tight">Munchz</h1>
-          <p className="text-[10px] uppercase tracking-widest text-emerald-600 font-bold">Premium Admin</p>
+          <h1 className="text-xl font-black text-white tracking-tight">GoMunchZ</h1>
+          <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-100 font-black">Premium Admin</p>
         </div>
       </div>
 
-      {/* SEARCH / QUICK NAV */}
-      <div className="relative mb-6">
+      <div className="relative mb-8">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <PackageSearch size={14} className="text-gray-400" />
+          <PackageSearch size={14} className="text-emerald-200" />
         </div>
         <input 
           type="text" 
           placeholder="Quick search..." 
-          className="w-full bg-gray-50 border border-gray-100 rounded-lg py-2 pl-9 pr-4 text-xs focus:outline-none focus:border-emerald-500/50 transition-colors placeholder:text-gray-400 text-black"
+          className="w-full bg-emerald-500/50 border border-emerald-400/30 rounded-xl py-3 pl-10 pr-4 text-xs focus:outline-none focus:bg-emerald-500 transition-all placeholder:text-emerald-100 text-white"
         />
       </div>
 
@@ -90,7 +88,7 @@ export default function Sidebar() {
         {items.map((item, idx) => {
           if (item.type === "header") {
             return (
-              <p key={`header-${idx}`} className="text-[10px] uppercase tracking-widest text-gray-400 font-bold mt-6 mb-2 px-4 italic">
+              <p key={`header-${idx}`} className="text-[10px] uppercase tracking-widest text-emerald-200/60 font-black mt-8 mb-3 px-4 italic">
                 {item.label}
               </p>
             );
@@ -102,10 +100,10 @@ export default function Sidebar() {
               key={item.to}
               to={item.to!}
               className={({ isActive }) =>
-                `group flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                `group flex items-center justify-between px-4 py-3.5 rounded-xl text-sm font-bold transition-all duration-300 ${
                   isActive
-                    ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/20"
-                    : "text-gray-500 hover:bg-emerald-50 hover:text-emerald-700"
+                    ? "bg-white text-emerald-700 shadow-xl shadow-black/10 translate-x-1"
+                    : "text-emerald-50 hover:bg-white/10 hover:text-white"
                 }`
               }
             >
@@ -120,19 +118,19 @@ export default function Sidebar() {
       </nav>
 
       {/* FOOTER / USER INFO */}
-      <div className="mt-8 pt-6 border-t border-gray-100">
-        <div className="flex items-center gap-3 mb-4 px-2">
-          <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-xs font-bold text-emerald-600 border border-emerald-100">
+      <div className="mt-8 pt-6 border-t border-emerald-500/30">
+        <div className="flex items-center gap-3 mb-6 px-2">
+          <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-xs font-black text-emerald-600 shadow-lg">
             {email.charAt(0).toUpperCase()}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-bold text-black truncate">{profile?.firstName || "Admin"}</p>
-            <p className="text-xs text-gray-400 truncate font-medium">{email}</p>
+            <p className="text-sm font-black text-white truncate">{profile?.firstName || "Admin"}</p>
+            <p className="text-[10px] text-emerald-200 truncate font-black uppercase tracking-tighter">{email}</p>
           </div>
         </div>
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-red-500 hover:bg-red-50 hover:text-red-600 transition-all duration-300 border border-transparent"
+          className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-black text-white hover:bg-red-500 transition-all duration-300 border border-white/20"
         >
           <LogOut size={18} />
           <span>Logout</span>

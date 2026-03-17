@@ -8,12 +8,12 @@ interface FAQItem {
 
 const faqs: FAQItem[] = [
   {
-    question: "What makes Munchz snacks different from others?",
+    question: "What makes GoMunchZ snacks different from others?",
     answer:
-      "Munchz focuses on real ingredients and premium sourcing. Our snacks are prepared using carefully selected dry fruits and natural ingredients to ensure both taste and nutritional value.",
+      "GoMunchZ focuses on real ingredients and premium sourcing. Our snacks are prepared using carefully selected dry fruits and natural ingredients to ensure both taste and nutritional value.",
   },
   {
-    question: "Are Munchz products healthy?",
+    question: "Are GoMunchZ products healthy?",
     answer:
       "Yes. Our products are made from high-quality nuts, dry fruits, and natural ingredients. We aim to provide snacks that are both delicious and nutritious for everyday consumption.",
   },

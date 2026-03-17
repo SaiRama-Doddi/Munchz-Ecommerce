@@ -74,7 +74,7 @@ export default function Header() {
             <Link to="/" className="flex items-center">
               <img
                 src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1772772656/Gomunchzlogo_cvt4dt.jpg"
-                alt="Go Munchz"
+                alt="GoMunchZ"
                 className="h-10 md:h-12 lg:h-14 w-auto object-contain"
               />
             </Link>

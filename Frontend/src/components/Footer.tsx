@@ -22,7 +22,7 @@ export default function Footer() {
           <div>
             <img
               src="/munchz.png"
-              alt="Munchz"
+              alt="GoMunchZ"
               className="h-14 mb-4 cursor-pointer"
               onClick={() => navigate("/")}
             />
@@ -45,7 +45,7 @@ export default function Footer() {
 
               <div className="flex items-center gap-2">
                 <Mail size={16} className="text-green-400" />
-                <span>support@munchz.com</span>
+                <span>support@gomunchz.com</span>
               </div>
 
               <div className="flex items-center gap-2">
@@ -107,7 +107,7 @@ export default function Footer() {
 
             {/* COPYRIGHT */}
             <p className="text-xs text-white/60 text-center md:text-right">
-              © {new Date().getFullYear()} Munchz. All rights reserved.
+              © {new Date().getFullYear()} GoMunchZ. All rights reserved.
             </p>
           </div>
         </div>

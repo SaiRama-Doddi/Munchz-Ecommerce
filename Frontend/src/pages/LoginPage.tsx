@@ -43,6 +43,7 @@ export default function LoginPage() {
         {/* Logo */}
         <img
           src="/munchz.png"
+          alt="GoMunchZ"
           className="w-16 mx-auto mb-4"
         />
 

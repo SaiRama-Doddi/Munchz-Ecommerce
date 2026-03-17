@@ -17,10 +17,10 @@ export default function AdminNavbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass-effect h-16 flex items-center justify-between px-8 shadow-sm border-b border-slate-200/60">
       <div className="flex items-center gap-2">
-        <div className="w-8 h-8 bg-accent-gradient rounded-lg flex items-center justify-center shadow-lg">
-          <span className="text-white text-xs font-bold">M</span>
+        <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center shadow-lg">
+          <span className="text-white text-xs font-black">GM</span>
         </div>
-        <h1 className="text-lg font-bold text-slate-800 tracking-tight">Admin Console</h1>
+        <h1 className="text-lg font-black text-slate-800 tracking-tight">GoMunchZ Admin</h1>
       </div>
 
       <div className="flex items-center gap-6">

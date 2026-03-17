@@ -15,11 +15,11 @@ export default function AboutUs() {
           </p>
 
           <h2 className="text-3xl md:text-4xl font-semibold mb-6 border-l-4 border-green-600 pl-4 text-gray-900">
-            About Munchz
+            About GoMunchZ
           </h2>
 
           <p className="text-gray-700 leading-relaxed text-[16px] md:text-[17px] mb-4">
-            At <span className="font-semibold text-green-700">Munchz</span>, we
+            At <span className="font-semibold text-green-700">GoMunchZ</span>, we
             believe great snacks start with real ingredients. Our mission is to
             deliver healthy, delicious, and premium-quality snacks made from
             carefully sourced nuts, dry fruits, and natural ingredients.
@@ -64,7 +64,7 @@ export default function AboutUs() {
 
           <img
             src="/about.png"
-            alt="About Munchz"
+            alt="About GoMunchZ"
             className="w-full h-full object-cover"
           />
 

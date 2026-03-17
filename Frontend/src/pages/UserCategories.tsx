@@ -51,7 +51,7 @@ export default function UserCategories() {
 
           <div>
             <p className="text-sm tracking-[4px] text-green-600 mb-2">
-              Go MunchZ COLLECTION
+              GoMunchZ COLLECTION
             </p>
 
             <h2 className="text-3xl font-semibold text-gray-900">

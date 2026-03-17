@@ -174,9 +174,9 @@ const filteredOrders = useMemo(() => {
 
     // Company
     doc.setFontSize(12);
-    doc.text("Munchz Foods Pvt Ltd", 150, 15, { align: "right" });
+    doc.text("GoMunchZ Foods Pvt Ltd", 150, 15, { align: "right" });
     doc.text("Hyderabad, India", 150, 22, { align: "right" });
-    doc.text("support@munchz.com", 150, 29, { align: "right" });
+    doc.text("support@gomunchz.com", 150, 29, { align: "right" });
 
     // Title
     doc.setFontSize(18);
@@ -231,7 +231,7 @@ ${order.totalAmount}`,
     );
 
     doc.text(
-      "Thank you for shopping with Munchz!",
+      "Thank you for shopping with GoMunchZ!",
       105,
       y + 20,
       { align: "center" }

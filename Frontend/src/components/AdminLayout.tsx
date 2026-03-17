@@ -33,7 +33,7 @@ export default function AdminLayout() {
             <h2 className="text-xl font-black text-black capitalize tracking-tight">
               {pageTitle}
             </h2>
-            <p className="text-xs text-gray-400 font-bold uppercase tracking-widest text-[10px]">Munchz Admin Dashboard</p>
+            <p className="text-xs text-gray-400 font-bold uppercase tracking-widest text-[10px]">GoMunchZ Admin Dashboard</p>
           </div>
 
           <div className="flex items-center gap-6">

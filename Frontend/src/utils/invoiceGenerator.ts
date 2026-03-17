@@ -18,9 +18,9 @@ export const generateInvoice = (order: any, profile: any) => {
 
   /* ================= COMPANY INFO ================= */
   doc.setFontSize(11);
-  doc.text("MUNCHZ ECOMMERCE", 15, 40);
+  doc.text("GOMUNCHZ ECOMMERCE", 15, 40);
   doc.setFontSize(9);
-  doc.text("support@munchz.com", 15, 46);
+  doc.text("support@gomunchz.com", 15, 46);
   doc.text("India", 15, 52);
 
   /* ================= CUSTOMER INFO ================= */

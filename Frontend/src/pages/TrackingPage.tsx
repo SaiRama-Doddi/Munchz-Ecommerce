@@ -218,7 +218,7 @@ export default function TrackingPage() {
                       </div>
                       <h3 className="text-xl font-black mb-2 italic">Fast Delivery</h3>
                       <p className="text-green-100 text-sm font-medium leading-relaxed">
-                        Munchz is committed to bringing your favorite items as quickly as possible.
+                        GoMunchZ is committed to bringing your favorite items as quickly as possible.
                       </p>
                   </div>
                </div>
