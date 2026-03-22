@@ -267,69 +267,69 @@ export default function AllProducts() {
               >
 
                 {/* IMAGE BOX */}
-                <div className="relative bg-white aspect-square flex items-center justify-center m-3 rounded-2xl overflow-hidden shadow-inner border border-green-50 flex-shrink-0">
+                <div className="relative bg-white aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden shadow-inner border border-green-50 flex-shrink-0">
                   <img
                     src={p.imageUrl}
                     alt={p.name}
-                    className="w-full h-full object-contain p-6 group-hover:scale-110 transition-transform duration-700"
+                    className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700"
                   />
 
                   {discount > 0 && (
-                    <div className="absolute top-3 right-3 bg-green-600 text-white text-[10px] px-2.5 py-1 rounded-full font-bold shadow-lg">
+                    <div className="absolute top-2.5 right-2.5 bg-green-600 text-white text-[9px] px-2 py-0.5 rounded-full font-bold shadow-lg">
                       {discount}% OFF
                     </div>
                   )}
                 </div>
 
                 {/* CONTENT AREA */}
-                <div className="px-5 pb-5 pt-2 flex flex-col flex-grow">
-                  <h3 className="text-[16px] font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">
+                <div className="px-4 pb-4 pt-1 flex flex-col flex-grow">
+                  <h3 className="text-[15px] font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">
                     {p.name}
                   </h3>
-                  <p className="text-[11px] text-gray-400 line-clamp-1 mt-0.5">
+                  <p className="text-[10px] text-gray-400 line-clamp-1 mt-0.5">
                     {p.description}
                   </p>
 
-                  <div className="mt-3 flex-grow flex flex-col justify-end">
+                  <div className="mt-2.5 flex-grow flex flex-col justify-end">
                     <ProductReviewStats productId={p.id} />
 
                     {/* PRICE & WEIGHT */}
-                    <div className="flex items-center justify-between mt-3">
+                    <div className="flex items-center justify-between mt-2.5">
                       <div className="flex flex-col">
-                        <span className="text-xl font-medium text-gray-900 tracking-tight">
+                        <span className="text-lg font-medium text-gray-900 tracking-tight">
                           ₹{selectedVariant.offerPrice * qty}
                         </span>
                         {base100g && (
-                          <span className="text-[10px] text-gray-500 font-medium tracking-tight">
+                          <span className="text-[9px] text-gray-500 font-medium tracking-tight">
                             (₹{base100g.offerPrice}/100g)
                           </span>
                         )}
                       </div>
                       
-                      <span className="px-3 py-1 bg-white border border-green-200 text-green-700 text-[11px] font-bold rounded-full shadow-sm uppercase tracking-wider">
+                      <span className="px-2.5 py-1 bg-white border border-green-200 text-green-700 text-[10px] font-bold rounded-full shadow-sm uppercase tracking-wider">
                         {selectedVariant.weightLabel}
                       </span>
                     </div>
 
                     {/* ACTION ROW */}
                     <div
-                      className="flex items-center gap-2 mt-4"
+                      className="flex items-center gap-1.5 mt-3.5"
                       onClick={(e) => e.stopPropagation()}
                     >
                       {/* QTY BOX */}
-                      <div className="flex items-center bg-white rounded-xl border border-green-200 p-1 shadow-sm h-10">
+                      <div className="flex items-center bg-white rounded-xl border border-green-200 p-1 shadow-sm h-9">
                         <button
                           onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: Math.max(1, (pvs[p.id] || 1) - 1)}))}
-                          className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-l-lg transition-all font-bold text-lg"
+                          className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-l-lg transition-all font-bold text-base"
                         >
                           -
                         </button>
-                        <span className="w-6 text-center text-sm font-bold text-gray-900">
+                        <span className="w-5 text-center text-[13px] font-bold text-gray-900">
                           {qty}
                         </span>
                         <button
                           onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: (pvs[p.id] || 1) + 1}))}
-                          className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-r-lg transition-all font-bold text-lg"
+                          className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-r-lg transition-all font-bold text-base"
                         >
                           +
                         </button>
@@ -348,13 +348,13 @@ export default function AllProducts() {
                             qty,
                           });
                         }}
-                        className={`flex-1 h-10 flex items-center justify-center gap-2 rounded-xl font-bold text-[13px] transition-all active:scale-95 shadow-md ${
+                        className={`flex-1 h-9 flex items-center justify-center gap-1.5 rounded-xl font-bold text-[12px] transition-all active:scale-95 shadow-md ${
                           isInCart
                             ? "bg-green-100 text-green-700 border-2 border-green-200"
                             : "bg-green-600 text-white hover:bg-green-700 hover:shadow-xl"
                         }`}
                       >
-                        <FiShoppingCart size={16} />
+                        <FiShoppingCart size={14} />
                         {isInCart ? "ADDED" : "ADD TO CART"}
                       </button>
                     </div>

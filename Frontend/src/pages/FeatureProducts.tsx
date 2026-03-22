@@ -211,11 +211,11 @@ const scrollRight = () => {
                 >
 
                   {/* IMAGE BOX */}
-                  <div className="relative bg-white aspect-square flex items-center justify-center m-2.5 rounded-2xl overflow-hidden shadow-inner border border-green-50 flex-shrink-0">
+                  <div className="relative bg-white aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden shadow-inner border border-green-50 flex-shrink-0">
                     <img
                       src={p.imageUrl}
                       alt={p.name}
-                      className="w-full h-full object-contain p-5 group-hover:scale-110 transition-transform duration-700"
+                      className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700"
                     />
 
                     {discount > 0 && (
@@ -234,7 +234,7 @@ const scrollRight = () => {
                       {p.description}
                     </p>
 
-                    <div className="mt-2.5 flex-grow flex flex-col justify-end">
+                    <div className="mt-2 flex-grow flex flex-col justify-end">
                       <ProductReviewStats productId={p.id} />
 
                       {/* PRICE & WEIGHT */}
@@ -257,7 +257,7 @@ const scrollRight = () => {
 
                       {/* ACTION ROW */}
                       <div
-                        className="flex items-center gap-2 mt-3.5"
+                        className="flex items-center gap-1.5 mt-3.5"
                         onClick={(e) => e.stopPropagation()}
                       >
                         {/* QTY BOX */}
@@ -292,7 +292,7 @@ const scrollRight = () => {
                               qty,
                             });
                           }}
-                          className={`flex-1 h-9 flex items-center justify-center gap-2 rounded-xl font-bold text-[12px] transition-all active:scale-95 shadow-md ${
+                          className={`flex-1 h-9 flex items-center justify-center gap-1.5 rounded-xl font-bold text-[12px] transition-all active:scale-95 shadow-md ${
                             isInCart
                               ? "bg-green-100 text-green-700 border-2 border-green-200"
                               : "bg-green-600 text-white hover:bg-green-700 hover:shadow-xl"
