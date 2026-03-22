@@ -44,7 +44,7 @@ export default function ContactForm() {
         {/* LEFT IMAGE / INFO SECTION */}
         <div className="relative hidden md:block group">
           <img
-            src="https://res.cloudinary.com/dd4oiwnep/image/upload/v174098974/premium_snack_contact_banner_png_1774191286513.png"
+            src="https://res.cloudinary.com/dd4oiwnep/image/upload/ingredients-healthy-dessert-chia-puddings-kitchen-wooden-table_1_fiakub.jpg"
             alt="Premium Healthy Snacks"
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
@@ -105,7 +105,7 @@ export default function ContactForm() {
                   placeholder="First name"
                   value={formData.firstName}
                   onChange={handleChange}
-                  className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-gray-800 placeholder:text-gray-300"
+                  className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-black placeholder:text-gray-500"
                   required
                 />
               </div>
@@ -117,7 +117,7 @@ export default function ContactForm() {
                   placeholder="Last name"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-gray-800 placeholder:text-gray-300"
+                  className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-black placeholder:text-gray-500"
                 />
               </div>
             </div>
@@ -131,7 +131,7 @@ export default function ContactForm() {
                 placeholder="Your email address"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-gray-800 placeholder:text-gray-300"
+                className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-black placeholder:text-gray-500"
                 required
               />
             </div>
@@ -145,7 +145,7 @@ export default function ContactForm() {
                 placeholder="Mobile number (optional)"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-gray-800 placeholder:text-gray-300"
+                className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-black placeholder:text-gray-500"
               />
             </div>
 
@@ -158,7 +158,7 @@ export default function ContactForm() {
                 value={formData.message}
                 onChange={handleChange}
                 rows={4}
-                className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-gray-800 placeholder:text-gray-300 resize-none"
+                className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-black placeholder:text-gray-500 resize-none"
                 required
               />
             </div>
