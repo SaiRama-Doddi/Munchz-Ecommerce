@@ -68,8 +68,8 @@ export default function App() {
             <ProductImage />
             <FeaturedProducts />
             <AboutUs />
-            <Testimonials />
             <FAQ />
+            <Testimonials />
             <Footer />
           </>
         }

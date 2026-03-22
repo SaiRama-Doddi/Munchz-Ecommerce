@@ -1,4 +1,5 @@
-import { Star, User } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Star, User, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Testimonial {
   id: number;
@@ -68,51 +69,116 @@ const testimonials: Testimonial[] = [
 ];
 
 export default function Testimonials() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 1);
+    }
+  };
+
+  useEffect(() => {
+    checkScroll();
+    window.addEventListener("resize", checkScroll);
+    return () => window.removeEventListener("resize", checkScroll);
+  }, []);
+
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const { clientWidth } = scrollRef.current;
+      const scrollAmount = direction === "left" ? -clientWidth : clientWidth;
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      setTimeout(checkScroll, 500);
+    }
+  };
+
   return (
-    <section className="py-20 bg-white">
+    <section className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4">
         
-        {/* SECTION HEADER */}
-        <div className="mb-12">
-          <p className="text-sm uppercase tracking-[4px] text-green-700 mb-2">
-            Testimonials
-          </p>
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
-            What Our <span className="text-green-600">Customers Say</span>
-          </h2>
-          <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
+        {/* HEADER SECTION WITH NAVIGATION */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div>
+            <p className="text-sm uppercase tracking-[4px] text-green-700 mb-2 font-medium">
+              Real Reviews
+            </p>
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+              What Our <span className="text-green-600">Customers Say</span>
+            </h2>
+            <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
+          </div>
+
+          {/* CUSTOM CIRCULAR NAVIGATION BUTTONS AS PER USER REQUEST */}
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => scroll("left")}
+              disabled={!canScrollLeft}
+              className={`w-14 h-14 rounded-full border-2 flex items-center justify-center transition-all ${
+                canScrollLeft 
+                ? "border-gray-200 text-gray-900 hover:border-green-600 hover:text-green-600 shadow-sm" 
+                : "border-gray-100 text-gray-300 cursor-not-allowed"
+              }`}
+              aria-label="Previous testimonials"
+            >
+              <ChevronLeft size={24} />
+            </button>
+            <button 
+              onClick={() => scroll("right")}
+              disabled={!canScrollRight}
+              className={`w-14 h-14 rounded-full border-2 flex items-center justify-center transition-all ${
+                canScrollRight 
+                ? "border-gray-200 text-gray-900 hover:border-green-600 hover:text-green-600 shadow-sm" 
+                : "border-gray-100 text-gray-300 cursor-not-allowed"
+              }`}
+              aria-label="Next testimonials"
+            >
+              <ChevronRight size={24} />
+            </button>
+          </div>
         </div>
 
-        {/* TESTIMONIALS GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* SCROLLABLE CONTAINER (ONE ROW) */}
+        <div 
+          ref={scrollRef}
+          onScroll={checkScroll}
+          className="flex gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-8 pt-4"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
           {testimonials.map((item) => (
             <div 
               key={item.id} 
-              className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center"
+              className="flex-shrink-0 w-full md:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)] snap-start"
             >
-              {/* STARS */}
-              <div className="flex gap-1 mb-6 text-yellow-400">
-                {[...Array(item.rating)].map((_, i) => (
-                  <Star key={i} size={18} fill="currentColor" />
-                ))}
-              </div>
-
-              {/* TITLE */}
-              <h3 className="text-lg font-bold text-gray-900 mb-4 tracking-tight uppercase">
-                {item.title}
-              </h3>
-
-              {/* CONTENT */}
-              <p className="text-gray-600 leading-relaxed mb-8 italic">
-                "{item.content}"
-              </p>
-
-              {/* AVATAR & NAME */}
-              <div className="mt-auto">
-                <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3 border-2 border-green-50">
-                  <User size={32} className="text-gray-400" />
+              <div className="bg-white border border-gray-100 rounded-3xl p-8 h-full shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] transition-all duration-500 flex flex-col items-center text-center group">
+                {/* STARS */}
+                <div className="flex gap-1 mb-6 text-yellow-400">
+                  {[...Array(item.rating)].map((_, i) => (
+                    <Star key={i} size={16} fill="currentColor" />
+                  ))}
                 </div>
-                <p className="font-bold text-gray-900">{item.name}</p>
+
+                {/* TITLE */}
+                <h3 className="text-lg font-bold text-gray-900 mb-4 tracking-tight uppercase group-hover:text-green-700 transition-colors">
+                  {item.title}
+                </h3>
+
+                {/* CONTENT */}
+                <p className="text-gray-600 leading-relaxed mb-8 italic text-sm md:text-base">
+                  "{item.content}"
+                </p>
+
+                {/* AVATAR & NAME */}
+                <div className="mt-auto">
+                  <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mx-auto mb-4 border-2 border-green-50 group-hover:border-green-300 transition-all duration-500 overflow-hidden shadow-inner">
+                    <User size={30} className="text-gray-300" />
+                  </div>
+                  <p className="font-bold text-gray-900 tracking-wide">{item.name}</p>
+                  <p className="text-xs text-green-600 font-medium uppercase tracking-widest mt-1">Verified Buyer</p>
+                </div>
               </div>
             </div>
           ))}
