@@ -47,13 +47,12 @@ export default function UserCategories() {
 
         {/* HEADER */}
 
-        <div className="flex items-center justify-between mb-10">
+        <div className="flex flex-col items-center mb-10">
 
-          <div>
-            <h2 className="text-3xl font-semibold text-gray-900">
-              Shop By Category
-            </h2>
-          </div>
+          <h2 className="text-3xl font-semibold text-gray-900">
+            Shop By Category
+          </h2>
+        </div>
 
           {/* ARROWS (Hidden for now) */}
           {/* 
@@ -72,9 +71,9 @@ export default function UserCategories() {
               <ChevronRight size={20} />
             </button>
           </div>
+
           */}
 
-        </div>
 
 
 
@@ -118,7 +117,7 @@ export default function UserCategories() {
           ref={scrollRef}
           className="
           hidden md:flex
-          justify-start
+          justify-center
           gap-10
           overflow-x-auto
           scroll-smooth
@@ -177,8 +176,8 @@ export default function UserCategories() {
 
         </div>
 
-      </div>
 
-    </section>
+        </div>
+      </section>
   );
 }
