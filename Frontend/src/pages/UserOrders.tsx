@@ -361,11 +361,11 @@ export default function UserOrders() {
 
       {/* REVIEW PRODUCT MODAL */}
       {reviewItem && selectedOrder && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[60] flex items-center justify-center p-0 sm:p-4">
-          <div className="bg-white w-full h-full sm:h-auto sm:max-w-lg sm:rounded-[2.5rem] shadow-2xl p-8 space-y-8 overflow-y-auto animate-slideUp border border-green-50 relative">
-            <button onClick={() => setReviewItem(null)} className="absolute top-6 right-6 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><X size={20} /></button>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[60] flex items-center justify-center p-4 sm:p-6">
+          <div className="bg-white w-full max-h-[92vh] sm:max-w-lg rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl p-6 sm:p-8 space-y-6 sm:space-y-8 overflow-y-auto animate-slideUp border border-green-50 relative">
+            <button onClick={() => setReviewItem(null)} className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all z-10"><X size={20} /></button>
             
-            <h3 className="text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
               <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
               Post a Review
             </h3>
