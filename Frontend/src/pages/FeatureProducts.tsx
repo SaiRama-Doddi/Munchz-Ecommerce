@@ -234,6 +234,9 @@ const scrollRight = () => {
                     <h3 className="text-[15px] font-bold text-gray-900 line-clamp-2 min-h-[2.5rem] group-hover:text-green-700 transition-colors">
                       {p.name}
                     </h3>
+                    <p className="text-[11px] text-gray-500 line-clamp-1 -mt-2 mb-1">
+                      {p.description}
+                    </p>
 
                     <div className="mt-auto">
                       <ProductReviewStats productId={p.id} />

@@ -286,6 +286,9 @@ export default function AllProducts() {
                   <h3 className="text-[17px] font-bold text-gray-900 line-clamp-2 min-h-[3rem] group-hover:text-green-700 transition-colors">
                     {p.name}
                   </h3>
+                  <p className="text-[12px] text-gray-500 line-clamp-1 -mt-2 mb-1">
+                    {p.description}
+                  </p>
 
                   <div className="mt-auto">
                     <ProductReviewStats productId={p.id} />
