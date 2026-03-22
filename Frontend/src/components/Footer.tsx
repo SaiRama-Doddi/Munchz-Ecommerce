@@ -12,103 +12,105 @@ export default function Footer() {
   const navigate = useNavigate();
 
   return (
-    <footer className="bg-[#022405] text-white pt-16 pb-8">
-      <div className="max-w-7xl mx-auto px-6">
-
+    <footer className="bg-[#ecfdf5] text-green-900 pt-16">
+      <div className="max-w-7xl mx-auto px-6 pb-12">
         {/* ================= TOP SECTION ================= */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-
           {/* BRAND */}
-          <div>
-            <img
-              src="/munchz.png"
-              alt="GoMunchZ"
-              className="h-14 mb-4 cursor-pointer"
-              onClick={() => navigate("/")}
-            />
-
-            <p className="text-sm text-white/80 leading-relaxed max-w-xs">
+          <div className="flex flex-col items-start">
+            <div className="bg-white p-2 rounded-lg shadow-sm mb-4">
+              <img
+                src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774171195/gomunchz_logo_resized_ynw790.png"
+                alt="GoMunchZ"
+                className="h-14 cursor-pointer object-contain"
+                onClick={() => navigate("/")}
+              />
+            </div>
+            <p className="text-sm text-green-800 leading-relaxed max-w-xs mb-6">
               Premium healthy snacks made with real ingredients,
               crafted for energy, balance, and everyday performance.
             </p>
-          </div>
-
-          {/* CONTACT */}
-          <div>
-            <h4 className="font-semibold text-lg mb-4">Contact</h4>
-
-            <div className="space-y-3 text-sm text-white/80">
-              <div className="flex items-start gap-2">
-                <MapPin size={16} className="mt-0.5 text-green-400" />
-                <span>Hyderabad, Telangana, India</span>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Mail size={16} className="text-green-400" />
-                <span>support@gomunchz.com</span>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Phone size={16} className="text-green-400" />
-                <span>+91 9XXXXXXXXX</span>
+            {/* FSSAI SECTION */}
+            <div className="flex items-center gap-3 bg-white p-2 rounded-md border border-green-100 shadow-sm w-full max-w-[280px]">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/FSSAI_logo.svg/1200px-FSSAI_logo.svg.png"
+                alt="FSSAI"
+                className="h-8 object-contain"
+              />
+              <div className="text-[10px] leading-tight">
+                <p className="font-semibold text-gray-500 uppercase">License Number:</p>
+                <p className="font-bold text-gray-800 text-sm">13626026000066</p>
               </div>
             </div>
           </div>
 
-          {/* QUICK LINKS */}
+          {/* Contact */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Quick Links</h4>
-            <ul className="space-y-2 text-sm text-white/80">
-              <li
-                className="cursor-pointer hover:text-green-400 transition"
-                onClick={() => navigate("/about")}
-              >
-                About Us
-              </li>
-              <li className="cursor-pointer hover:text-green-400 transition">
-                Help & Support
-              </li>
-              <li className="cursor-pointer hover:text-green-400 transition">
-                Shipping & Delivery
-              </li>
+            <h4 className="font-bold text-lg mb-6 text-green-950">Contact</h4>
+            <div className="space-y-4 text-sm text-green-800">
+              <div className="flex items-start gap-3">
+                <MapPin size={18} className="mt-1 text-green-600 shrink-0" />
+                <span className="font-medium">
+                  SRI VENKATESHWARA SUPER FOODS LLP<br />
+                  H NO-16-317/678, SYMPHONY PARK HOMES,<br />
+                  PATANCHERU, Sangareddy, Telangana-502319
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Mail size={18} className="text-green-600 shrink-0" />
+                <a href="mailto:Gomunchz@gmail.com" className="hover:text-green-600 transition">Gomunchz@gmail.com</a>
+              </div>
+              <div className="flex items-center gap-3">
+                <Phone size={18} className="text-green-600 shrink-0" />
+                <a href="tel:8688547851" className="hover:text-green-600 transition">8688547851</a>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 className="font-bold text-lg mb-6 text-green-950">Quick Links</h4>
+            <ul className="space-y-3 text-sm text-green-800 font-medium">
+              <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/Aboutmain")}>About Us</li>
+              <li className="cursor-pointer hover:text-green-600 transition">Help & Support</li>
+              <li className="cursor-pointer hover:text-green-600 transition">Shipping & Delivery</li>
             </ul>
           </div>
 
-          {/* LEGAL */}
+          {/* Legal */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Legal</h4>
-            <ul className="space-y-2 text-sm text-white/80">
-              <li className="cursor-pointer hover:text-green-400 transition">
-                Privacy Policy
-              </li>
-              <li className="cursor-pointer hover:text-green-400 transition">
-                Terms & Conditions
-              </li>
-              <li className="cursor-pointer hover:text-green-400 transition">
-                Refund Policy
-              </li>
+            <h4 className="font-bold text-lg mb-6 text-green-950">Legal</h4>
+            <ul className="space-y-3 text-sm text-green-800 font-medium">
+              <li className="cursor-pointer hover:text-green-600 transition">Privacy Policy</li>
+              <li className="cursor-pointer hover:text-green-600 transition">Terms & Conditions</li>
+              <li className="cursor-pointer hover:text-green-600 transition">Refund Policy</li>
             </ul>
           </div>
         </div>
+      </div>
 
-        {/* ================= DIVIDER ================= */}
-        <div className="border-t border-white/10 mt-14 pt-8">
-
-          {/* SOCIAL + COPYRIGHT */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-
+      {/* ================= BOTTOM BAR ================= */}
+      <div className="bg-[#022405] py-8">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             {/* SOCIAL ICONS */}
-            <div className="flex gap-5">
-              <Instagram className="cursor-pointer hover:text-green-400 transition" />
-              <MessageCircle className="cursor-pointer hover:text-green-400 transition" />
-              <Phone className="cursor-pointer hover:text-green-400 transition" />
-              <Youtube className="cursor-pointer hover:text-green-400 transition" />
+            <div className="flex gap-6">
+              <Instagram className="text-white cursor-pointer hover:scale-110 transition duration-300" />
+              <MessageCircle className="text-white cursor-pointer hover:scale-110 transition duration-300" />
+              <Phone className="text-white cursor-pointer hover:scale-110 transition duration-300" />
+              <Youtube className="text-white cursor-pointer hover:scale-110 transition duration-300" />
             </div>
 
-            {/* COPYRIGHT */}
-            <p className="text-xs text-white/60 text-center md:text-right">
-              © {new Date().getFullYear()} GoMunchZ. All rights reserved.
-            </p>
+            {/* COPYRIGHTS */}
+            <div className="text-center md:text-right space-y-1">
+              <p className="text-sm text-white/90">
+                © {new Date().getFullYear()} GoMunchZ. All rights reserved.
+              </p>
+              <div className="text-xs text-white/70">
+                <p>© 2026 Inizio Interiors. All rights reserved.</p>
+                <p>Made with ❤️ by <span className="font-semibold text-white">Inizio Interiors</span></p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
