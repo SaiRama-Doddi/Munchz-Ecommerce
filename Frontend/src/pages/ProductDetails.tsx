@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import axios from "axios";
 import { FiShoppingCart } from "react-icons/fi";
-import { useSEO } from "../hooks/useSEO";
 
 
 /* =========================
@@ -175,11 +174,6 @@ export default function ProductDetails() {
 
 
   const { data: product, isLoading, isError } = useProduct(productId);
-
-  useSEO({
-    title: product?.name || "Product Details",
-    description: product?.description || "Quality product from GoMunchZ",
-  });
   const { data: relatedProducts } = useRelatedProducts(productId, product?.categoryId);
 
   const { addToCart, items: cartItems } = useCart();

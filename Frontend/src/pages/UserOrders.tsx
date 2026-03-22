@@ -8,6 +8,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { FaTimes } from "react-icons/fa";
 import PremiumSpinner from "../components/PremiumSpinner";
+import { getProductUrl } from "../utils/slugify";
 
 /* ================= TYPES ================= */
 

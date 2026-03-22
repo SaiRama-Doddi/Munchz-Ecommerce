@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getProductUrl } from "../utils/slugify";
 import api from "../api/client";
 import { useCart } from "../state/CartContext";
-import { useSEO } from "../hooks/useSEO";
 
 /* =========================
    TYPES
@@ -111,11 +110,6 @@ export default function CategoryProducts() {
 
   const { data: products = [], isLoading, isError } =
     useCategoryProducts(categoryId);
-
-  useSEO({
-    title: category?.name || "Category Products",
-    description: `Shop the best ${category?.name || "premium"} snacks and products in our curated collection.`,
-  });
 
   /* PRODUCT STATE */
   const [qtyMap, setQtyMap] = useState<Record<number, number>>({});

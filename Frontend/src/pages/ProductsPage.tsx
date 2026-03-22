@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import api from "../api/client";
 import { useCart } from "../state/CartContext";
 import { getProductUrl } from "../utils/slugify";
-import { useSEO } from "../hooks/useSEO";
 import { ArrowLeft } from "lucide-react";
 import PremiumSpinner from "../components/PremiumSpinner";
 
@@ -131,11 +130,6 @@ export default function AllProducts() {
     const cat = categories.find((c) => c.id === selectedCategoryId);
     return cat ? cat.name : "Products";
   }, [selectedCategoryId, categories]);
-
-  useSEO({
-    title: selectedCategoryId === "ALL" ? "All Products" : `${selectedCategoryName} Snacks`,
-    description: `Explore our premium range of ${selectedCategoryName.toLowerCase()} snacks and dry fruits at GoMunchZ.`,
-  });
 
   if (isLoading) {
     return <PremiumSpinner text="Fetching your products..." />;
