@@ -100,7 +100,7 @@ export default function UserCategories() {
         ref={scrollRef}
         className="
           hidden md:flex
-          justify-start
+          justify-center
           gap-10
           overflow-x-auto
           scroll-smooth
