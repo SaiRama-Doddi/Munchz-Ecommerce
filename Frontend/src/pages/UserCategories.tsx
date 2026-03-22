@@ -46,12 +46,14 @@ export default function UserCategories() {
       <div className="max-w-7xl mx-auto px-4">
 
         {/* HEADER */}
-
-        <div className="flex flex-col items-center mb-10">
-
-          <h2 className="text-3xl font-semibold text-gray-900">
-            Shop By Category
+        <div className="mb-12 text-center">
+          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+            Shop By <span className="text-green-600">Category</span>
           </h2>
+          <p className="text-gray-500 text-sm mt-3 max-w-lg mx-auto">
+            Explore our diverse ranges of premium handpicked snacks
+          </p>
+          <div className="w-16 h-[3px] bg-green-600 mt-4 mx-auto"></div>
         </div>
 
           {/* ARROWS (Hidden for now) */}
@@ -79,27 +81,27 @@ export default function UserCategories() {
 
         {/* MOBILE SLIDER */}
 
-        <div className="md:hidden flex gap-5 overflow-x-auto pb-2 no-scrollbar">
+        <div className="md:hidden flex gap-4 overflow-x-auto pb-6 no-scrollbar">
 
           {categories.map((c) => (
 
             <div
               key={c.id}
               onClick={() => navigate(`/category/${c.id}`)}
-              className="flex-shrink-0 w-[90px] flex flex-col items-center cursor-pointer"
+              className="flex-shrink-0 w-[110px] flex flex-col items-center cursor-pointer group"
             >
 
-              <div className="w-[75px] h-[75px] rounded-2xl overflow-hidden shadow-md bg-white">
-
-                <img
-                  src={c.thumbnailImage}
-                  alt={c.name}
-                  className="w-full h-full object-cover"
-                />
-
+              <div className="w-full aspect-square rounded-2xl overflow-hidden shadow-sm bg-[#ecfdf5] p-2 border border-green-100">
+                <div className="w-full h-full bg-white rounded-xl overflow-hidden shadow-inner flex items-center justify-center p-1">
+                  <img
+                    src={c.thumbnailImage}
+                    alt={c.name}
+                    className="w-full h-full object-contain group-hover:scale-110 transition duration-500"
+                  />
+                </div>
               </div>
 
-              <p className="text-xs text-center mt-2 font-medium">
+              <p className="text-[11px] text-center mt-2 font-bold text-gray-800 uppercase tracking-tighter line-clamp-1">
                 {c.name}
               </p>
 
@@ -118,10 +120,11 @@ export default function UserCategories() {
           className="
           hidden md:flex
           justify-center
-          gap-10
+          gap-8
           overflow-x-auto
           scroll-smooth
           no-scrollbar
+          py-4
           "
         >
 
@@ -132,24 +135,33 @@ export default function UserCategories() {
               onClick={() => navigate(`/category/${c.id}`)}
               className="
               flex-shrink-0
-              w-[200px]
+              w-[190px]
               group
               cursor-pointer
               text-center
+              bg-[#ecfdf5]
+              p-3
+              rounded-3xl
+              border border-green-100
+              shadow-sm
+              hover:shadow-xl
+              transition-all
+              duration-500
+              hover:-translate-y-2
               "
             >
 
               {/* IMAGE */}
 
-              <div className="h-[150px] rounded-2xl overflow-hidden">
+              <div className="aspect-square rounded-2xl overflow-hidden bg-white shadow-inner p-3 flex items-center justify-center">
 
                 <img
                   src={c.thumbnailImage}
                   alt={c.name}
                   className="
-                  w-full h-full object-cover
-                  group-hover:scale-105
-                  transition duration-500
+                  w-full h-full object-contain
+                  group-hover:scale-110
+                  transition duration-700
                   "
                 />
 
@@ -160,12 +172,12 @@ export default function UserCategories() {
 
               <div className="mt-4">
 
-                <p className="text-[16px] font-medium text-gray-800">
+                <h4 className="text-[15px] font-bold text-gray-900 group-hover:text-green-700 transition-colors uppercase tracking-tight">
                   {c.name}
-                </p>
+                </h4>
 
                 <div className="flex justify-center mt-2">
-                  <span className="w-10 h-[3px] bg-green-600 rounded-full"></span>
+                  <div className="w-8 h-[2px] bg-green-600 rounded-full group-hover:w-16 transition-all duration-500"></div>
                 </div>
 
               </div>
