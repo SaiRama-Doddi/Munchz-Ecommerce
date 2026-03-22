@@ -1,16 +1,18 @@
-export default function TopHeader() {
+export default function TopHeader({ theme = "light" }: { theme?: "light" | "dark" }) {
   const messages = [
-    'Get 5% Discount on Purchase of 599 and Above With Code "SAVER0"',
-    "Free Shipping on Orders Above ₹799",
-    "100% Natural & Premium Quality Products",
-    "Cash on Delivery Available Across India",
-    "Freshly Packed & Delivered to Your Doorstep",
+    "Free shipping on orders above Rs 799",
+    "100% natural and premium quality products",
+    "Healthy Snacking",
+    "Add GoMunchz credit with every purchase",
   ];
 
+  const bgColor = theme === "dark" ? "bg-[#064e3b]" : "bg-[#dcfce7]"; // Dark Green vs Light Green
+  const textColor = theme === "dark" ? "text-white" : "text-green-800";
+
   return (
-    <div className="w-full bg-green-200 overflow-hidden py-2">
+    <div className={`w-full ${bgColor} ${textColor} overflow-hidden py-2`}>
       <div className="marquee">
-        <div className="marquee-content">
+        <div className="marquee-content font-medium text-sm">
           {messages.map((msg, i) => (
             <span key={i} className="mx-8">
               ✦ {msg}
@@ -19,7 +21,7 @@ export default function TopHeader() {
         </div>
 
         {/* duplicate for seamless loop */}
-        <div className="marquee-content">
+        <div className="marquee-content font-medium text-sm">
           {messages.map((msg, i) => (
             <span key={i} className="mx-8">
               ✦ {msg}

@@ -73,7 +73,7 @@ export default function Header() {
 
             <Link to="/" className="flex items-center">
               <img
-                src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1772772656/Gomunchzlogo_cvt4dt.jpg"
+                src="/logo.png"
                 alt="GoMunchZ"
                 className="h-10 md:h-12 lg:h-14 w-auto object-contain"
               />
@@ -84,27 +84,26 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8 font-medium">
-  {[
-    { to: "/", label: "Home" },
-    { to: "/productpage", label: "Shop" },
-    { to: "/Aboutmain", label: "About" },
-    { to: "/track", label: "Track" },
-    { to: "/contact", label: "Contact" },
-  ].map((item) => (
-    <NavLink
-      key={item.to}
-      to={item.to}
-      className={({ isActive }) =>
-        isActive
-          ? "text-green-700 border-b-2 border-green-700 pb-1"
-          : "text-gray-800"
-      }
-    >
-      {item.label}
-    </NavLink>
-  ))}
-
-</nav >
+            {[
+              { to: "/", label: "Home" },
+              { to: "/productpage", label: "Shop" },
+              { to: "/Aboutmain", label: "About" },
+              { to: "/track", label: "Track" },
+              { to: "/contact", label: "Contact" },
+            ].map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-green-700 border-b-2 border-green-700 pb-1"
+                    : "text-gray-800 hover:text-green-700 transition"
+                }
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
 
 
     {/* DESKTOP SEARCH (Large screens only) */ }
@@ -314,7 +313,7 @@ export default function Header() {
         <div className="flex justify-between items-center mb-10">
 
           <img
-            src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1772772656/Gomunchzlogo_cvt4dt.jpg"
+            src="/logo.png"
             className="h-10 w-auto object-contain"
           />
 
