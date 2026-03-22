@@ -158,12 +158,13 @@ const scrollRight = () => {
 
         {/* HEADING */}
         <div className="mb-10 text-center">
-          <h2 className="text-3xl md:text-4xl font-semibold">
-            Curated Collection
+          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+            Curated <span className="text-green-600">Collection</span>
           </h2>
-          <p className="text-gray-500 text-sm mt-2">
+          <p className="text-gray-500 text-sm mt-3 max-w-lg mx-auto">
             Premium-quality products handpicked for excellence
           </p>
+          <div className="w-16 h-[3px] bg-green-600 mt-4 mx-auto"></div>
         </div>
 
         {/* SLIDER */}
@@ -208,20 +209,20 @@ const scrollRight = () => {
                 <div
                   key={p.id}
                   onClick={() => navigate(`/product/${p.id}`)}
-                  className="group bg-white rounded-xl shadow-sm hover:shadow-lg border border-gray-100 overflow-hidden cursor-pointer transition flex flex-col min-w-[85%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[20%]"
+                  className="group bg-[#ecfdf5] rounded-2xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-300 flex flex-col min-w-[85%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[23%]"
                 >
 
                   {/* IMAGE */}
-                  <div className="relative bg-gray-50 aspect-square flex items-center justify-center">
+                  <div className="relative bg-white aspect-square flex items-center justify-center m-3 rounded-xl overflow-hidden shadow-inner">
 
                     <img
                       src={p.imageUrl}
                       alt={p.name}
-                      className="w-full h-full object-contain p-4 group-hover:scale-105 transition"
+                      className="w-full h-full object-contain p-6 group-hover:scale-110 transition-transform duration-500"
                     />
 
                     {discount > 0 && (
-                      <div className="absolute top-2 right-2 bg-green-600 text-white text-[10px] px-2 py-1 rounded-md font-semibold">
+                      <div className="absolute top-3 right-3 bg-green-600 text-white text-[11px] px-2.5 py-1 rounded-full font-bold shadow-md">
                         {discount}% OFF
                       </div>
                     )}
@@ -229,54 +230,68 @@ const scrollRight = () => {
                   </div>
 
                   {/* CONTENT */}
-                  <div className="p-3 flex flex-col gap-2 flex-grow">
+                  <div className="p-4 flex flex-col gap-3 flex-grow">
 
-                    <h3 className="text-sm font-semibold text-gray-900 line-clamp-2">
+                    <h3 className="text-[15px] font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">
                       {p.name}
                     </h3>
 
                     <ProductReviewStats productId={p.id} />
 
-                    {/* PRICE */}
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg font-bold text-gray-900">
-                        ₹{selectedVariant.offerPrice * qty}
-                      </span>
-
-                      {base100g && (
-                        <span className="text-xs text-gray-500">
-                          (₹{base100g.offerPrice}/100g)
+                    {/* PRICE & WEIGHT LABEL */}
+                    <div className="flex items-center justify-between mt-1">
+                      <div className="flex flex-col">
+                        <span className="text-xl font-black text-gray-900">
+                          ₹{selectedVariant.offerPrice * qty}
                         </span>
-                      )}
+                        {base100g && (
+                          <span className="text-[10px] text-gray-500 font-medium tracking-tight">
+                            (₹{base100g.offerPrice}/100g)
+                          </span>
+                        )}
+                      </div>
+                      
+                      {/* STATIC WEIGHT BADGE */}
+                      <span className="px-3 py-1 bg-white border border-green-200 text-green-700 text-[11px] font-bold rounded-full shadow-sm uppercase tracking-wide">
+                        {selectedVariant.weightLabel}
+                      </span>
                     </div>
 
-                    {/* VARIANT + CART */}
+                    {/* QUANTITY & CART ACTION */}
                     <div
-                      className="flex items-center gap-2 mt-auto"
+                      className="flex items-center gap-3 mt-4"
                       onClick={(e) => e.stopPropagation()}
                     >
-
-                    <select
-  value={selectedVariantIndex}
-  onChange={(e) =>
-    setVariantMap((prev) => ({
-      ...prev,
-      [p.id]: parseInt(e.target.value),
-    }))
-  }
-  className="flex-1 px-2 py-1.5 text-xs border border-gray-300 rounded-md bg-gray-50
-  focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
->
-  {sellVariants.map((v, i) => (
-    <option
-      key={i}
-      value={i}
-      style={{ backgroundColor: "white", color: "#111" }}
-    >
-      {v.weightLabel}
-    </option>
-  ))}
-</select>
+                      {/* QUANTITY CONTROLS */}
+                      <div className="flex items-center bg-white rounded-xl border border-green-200 p-1 shadow-sm">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setQtyMap((prev) => ({
+                              ...prev,
+                              [p.id]: Math.max(1, (prev[p.id] || 1) - 1),
+                            }));
+                          }}
+                          className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors font-bold text-lg"
+                        >
+                          -
+                        </button>
+                        <span className="w-8 text-center text-sm font-bold text-gray-900">
+                          {qty}
+                        </span>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setQtyMap((prev) => ({
+                              ...prev,
+                              [p.id]: (prev[p.id] || 1) + 1,
+                            }));
+                          }}
+                          className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors font-bold text-lg"
+                        >
+                          +
+                        </button>
+                      </div>
 
                       <button
                         onClick={(e) => {
@@ -296,14 +311,23 @@ const scrollRight = () => {
                             ...prev,
                             [p.id]: true,
                           }));
+                          
+                          // Reset cart clicked status after 2 seconds
+                          setTimeout(() => {
+                            setCartClicked((prev) => ({
+                              ...prev,
+                              [p.id]: false,
+                            }));
+                          }, 2000);
                         }}
-                        className={`w-9 h-9 flex items-center justify-center rounded-lg transition ${
+                        className={`flex-1 h-10 flex items-center justify-center gap-2 rounded-xl font-bold text-[13px] transition-all active:scale-95 shadow-md ${
                           cartClicked[p.id]
-                            ? "bg-red-100 text-red-600"
-                            : "bg-green-600 text-white hover:bg-green-700"
+                            ? "bg-green-100 text-green-700 border-2 border-green-200"
+                            : "bg-green-600 text-white hover:bg-green-700 hover:shadow-lg"
                         }`}
                       >
-                        <FiShoppingCart size={18} />
+                        <FiShoppingCart size={16} />
+                        {cartClicked[p.id] ? "ADDED" : "ADD TO CART"}
                       </button>
 
                     </div>
