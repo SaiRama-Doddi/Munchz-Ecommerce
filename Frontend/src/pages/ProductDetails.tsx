@@ -261,15 +261,7 @@ export default function ProductDetails() {
           <div className="max-w-7xl mx-auto px-4">
 
             {/* BACK BUTTON */}
-            <button 
-              onClick={() => navigate(-1)}
-              className="flex items-center gap-2 text-gray-500 hover:text-green-700 transition mb-10 group"
-            >
-              <div className="p-2 rounded-full bg-white shadow-sm border border-gray-100 group-hover:border-green-200 group-hover:bg-green-50 transition-all">
-                <ArrowLeft size={18} />
-              </div>
-              <span className="text-sm font-bold tracking-tight">Back to Shop</span>
-            </button>
+
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-20">
 
@@ -310,8 +302,8 @@ export default function ProductDetails() {
                       key={i}
                       onClick={() => setSelectedImage(img)}
                       className={`relative w-24 h-24 rounded-2xl overflow-hidden border-2 transition-all p-1.5 flex-shrink-0 ${selectedImage === img || (!selectedImage && i === 0)
-                          ? "border-green-600 bg-green-50"
-                          : "border-gray-100 bg-white hover:border-green-200"
+                        ? "border-green-600 bg-green-50"
+                        : "border-gray-100 bg-white hover:border-green-200"
                         }`}
                     >
                       <img src={img} alt="thumb" className="w-full h-full object-contain rounded-xl" />
@@ -387,8 +379,8 @@ export default function ProductDetails() {
                         key={i}
                         onClick={() => setSelectedVariantIndex(i)}
                         className={`px-5 py-2.5 rounded-xl border-2 font-bold text-sm transition-all ${selectedVariantIndex === i
-                            ? "border-green-600 bg-green-50 text-green-700 shadow-sm"
-                            : "border-gray-100 bg-white text-gray-500 hover:border-green-200"
+                          ? "border-green-600 bg-green-50 text-green-700 shadow-sm"
+                          : "border-gray-100 bg-white text-gray-500 hover:border-green-200"
                           }`}
                       >
                         {v.weightLabel}
@@ -460,77 +452,76 @@ export default function ProductDetails() {
             </p>
             <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
           </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-8">
-          {relatedProducts?.slice(0, 8).map((p) => {
-            const base100g = p.variants.find((v) => v.weightInGrams === 100);
-            const sellVariants = p.variants.filter((v) => v.weightInGrams !== 100);
-            const selectedVariantIndex = variantMap[p.id] ?? 0;
-            const selectedVariant = sellVariants[selectedVariantIndex];
-            const qty = qtyMap[p.id] || 1;
-            if (!selectedVariant) return null;
-            const relDiscount = selectedVariant.mrp > selectedVariant.offerPrice ? Math.round(((selectedVariant.mrp - selectedVariant.offerPrice) / selectedVariant.mrp) * 100) : 0;
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-8">
+            {relatedProducts?.slice(0, 8).map((p) => {
+              const base100g = p.variants.find((v) => v.weightInGrams === 100);
+              const sellVariants = p.variants.filter((v) => v.weightInGrams !== 100);
+              const selectedVariantIndex = variantMap[p.id] ?? 0;
+              const selectedVariant = sellVariants[selectedVariantIndex];
+              const qty = qtyMap[p.id] || 1;
+              if (!selectedVariant) return null;
+              const relDiscount = selectedVariant.mrp > selectedVariant.offerPrice ? Math.round(((selectedVariant.mrp - selectedVariant.offerPrice) / selectedVariant.mrp) * 100) : 0;
 
-            const isInCart = cartItems.some(item => 
-              item.productId === p.id && 
-              item.selectedVariantIndex === selectedVariantIndex
-            );
+              const isInCart = cartItems.some(item =>
+                item.productId === p.id &&
+                item.selectedVariantIndex === selectedVariantIndex
+              );
 
-            return (
-              <div key={p.id} onClick={() => navigate(`/product/${p.id}`)} className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2">
-                
-                <div className="relative bg-white aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden shadow-inner border border-green-50 flex-shrink-0">
-                  <img src={(p.imageUrls && p.imageUrls.length > 0) ? p.imageUrls[0] : p.imageUrl} alt={p.name} className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700" />
-                  {relDiscount > 0 && (
-                    <div className="absolute top-2.5 right-2.5 bg-green-600 text-white text-[9px] px-2 py-0.5 rounded-full font-bold shadow-lg">{relDiscount}% OFF</div>
-                  )}
-                </div>
+              return (
+                <div key={p.id} onClick={() => navigate(`/product/${p.id}`)} className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2">
 
-                {/* CONTENT AREA */}
-                <div className="px-4 pb-4 pt-1 flex flex-col flex-grow">
-                  <h3 className="text-[15px] font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">{p.name}</h3>
-                  <ProductReviewStats productId={p.id} />
-                  
-                  <div className="mt-2 flex-grow flex flex-col justify-end">
-                    {/* PRICE & WEIGHT */}
-                    <div className="flex items-center justify-between mt-2.5">
-                      <div className="flex flex-col">
-                        <span className="text-lg font-medium text-gray-900 tracking-tight">₹{selectedVariant.offerPrice * qty}</span>
-                        {base100g && (
-                          <span className="text-[9px] text-gray-500 font-medium tracking-tight">(₹{base100g.offerPrice}/100g)</span>
-                        )}
+                  <div className="relative bg-white aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden shadow-inner border border-green-50 flex-shrink-0">
+                    <img src={(p.imageUrls && p.imageUrls.length > 0) ? p.imageUrls[0] : p.imageUrl} alt={p.name} className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700" />
+                    {relDiscount > 0 && (
+                      <div className="absolute top-2.5 right-2.5 bg-green-600 text-white text-[9px] px-2 py-0.5 rounded-full font-bold shadow-lg">{relDiscount}% OFF</div>
+                    )}
+                  </div>
+
+                  {/* CONTENT AREA */}
+                  <div className="px-4 pb-4 pt-1 flex flex-col flex-grow">
+                    <h3 className="text-[15px] font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">{p.name}</h3>
+                    <ProductReviewStats productId={p.id} />
+
+                    <div className="mt-2 flex-grow flex flex-col justify-end">
+                      {/* PRICE & WEIGHT */}
+                      <div className="flex items-center justify-between mt-2.5">
+                        <div className="flex flex-col">
+                          <span className="text-lg font-medium text-gray-900 tracking-tight">₹{selectedVariant.offerPrice * qty}</span>
+                          {base100g && (
+                            <span className="text-[9px] text-gray-500 font-medium tracking-tight">(₹{base100g.offerPrice}/100g)</span>
+                          )}
+                        </div>
+                        <span className="px-2.5 py-1 bg-white border border-green-200 text-green-700 text-[10px] font-bold rounded-full shadow-sm uppercase tracking-wider">{selectedVariant.weightLabel}</span>
                       </div>
-                      <span className="px-2.5 py-1 bg-white border border-green-200 text-green-700 text-[10px] font-bold rounded-full shadow-sm uppercase tracking-wider">{selectedVariant.weightLabel}</span>
-                    </div>
 
-                    {/* ACTION ROW */}
-                    <div className="flex items-center gap-1.5 mt-3.5" onClick={(e) => e.stopPropagation()}>
-                       {/* QTY BOX */}
-                       <div className="flex items-center bg-white rounded-xl border border-green-200 p-1 shadow-sm h-9">
-                          <button onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: Math.max(1, (pvs[p.id] || 1) - 1)}))} className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-l-lg transition-all font-bold text-base">-</button>
+                      {/* ACTION ROW */}
+                      <div className="flex items-center gap-1.5 mt-3.5" onClick={(e) => e.stopPropagation()}>
+                        {/* QTY BOX */}
+                        <div className="flex items-center bg-white rounded-xl border border-green-200 p-1 shadow-sm h-9">
+                          <button onClick={() => setQtyMap(pvs => ({ ...pvs, [p.id]: Math.max(1, (pvs[p.id] || 1) - 1) }))} className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-l-lg transition-all font-bold text-base">-</button>
                           <span className="w-5 text-center text-[13px] font-bold text-gray-900">{qty}</span>
-                          <button onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: (pvs[p.id] || 1) + 1}))} className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-r-lg transition-all font-bold text-base">+</button>
-                       </div>
+                          <button onClick={() => setQtyMap(pvs => ({ ...pvs, [p.id]: (pvs[p.id] || 1) + 1 }))} className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-r-lg transition-all font-bold text-base">+</button>
+                        </div>
 
-                       <button
-                         onClick={(e) => {
-                           e.stopPropagation();
-                           addToCart({ productId: p.id, name: p.name, imageUrl: p.imageUrl, variants: sellVariants, selectedVariantIndex, base100gPrice: base100g?.offerPrice, qty });
-                         }}
-                         className={`flex-1 h-9 flex items-center justify-center gap-1.5 rounded-xl font-bold text-[12px] transition-all active:scale-95 shadow-md ${
-                           isInCart ? "bg-green-100 text-green-700 border-2 border-green-200" : "bg-green-600 text-white hover:bg-green-700 hover:shadow-xl"
-                         }`}
-                       >
-                         <FiShoppingCart size={14} />
-                         {isInCart ? "ADDED" : "ADD TO CART"}
-                       </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            addToCart({ productId: p.id, name: p.name, imageUrl: p.imageUrl, variants: sellVariants, selectedVariantIndex, base100gPrice: base100g?.offerPrice, qty });
+                          }}
+                          className={`flex-1 h-9 flex items-center justify-center gap-1.5 rounded-xl font-bold text-[12px] transition-all active:scale-95 shadow-md ${isInCart ? "bg-green-100 text-green-700 border-2 border-green-200" : "bg-green-600 text-white hover:bg-green-700 hover:shadow-xl"
+                            }`}
+                        >
+                          <FiShoppingCart size={14} />
+                          {isInCart ? "ADDED" : "ADD TO CART"}
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-              </div>
-            );
-          })}
-        </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </main>
 
