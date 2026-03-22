@@ -71,6 +71,7 @@ export default function App() {
             <FAQ />
             <Testimonials />
             <Footer />
+            <FloatingActions />
           </>
         }
       />

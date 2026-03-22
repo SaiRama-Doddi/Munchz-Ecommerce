@@ -97,15 +97,12 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="py-24 bg-white">
+    <section className="pt-24 pb-4 bg-white">
       <div className="max-w-7xl mx-auto px-4">
-        
+
         {/* HEADER SECTION WITH NAVIGATION */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div>
-            <p className="text-sm uppercase tracking-[4px] text-green-700 mb-2 font-medium">
-              Real Reviews
-            </p>
             <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
               What Our <span className="text-green-600">Customers Say</span>
             </h2>
@@ -114,70 +111,68 @@ export default function Testimonials() {
 
           {/* CUSTOM CIRCULAR NAVIGATION BUTTONS AS PER USER REQUEST */}
           <div className="flex items-center gap-4">
-            <button 
+            <button
               onClick={() => scroll("left")}
               disabled={!canScrollLeft}
-              className={`w-14 h-14 rounded-full border-2 flex items-center justify-center transition-all ${
-                canScrollLeft 
-                ? "border-gray-200 text-gray-900 hover:border-green-600 hover:text-green-600 shadow-sm" 
-                : "border-gray-100 text-gray-300 cursor-not-allowed"
-              }`}
+              className={`w-12 h-12 md:w-14 md:h-14 rounded-full border-2 flex items-center justify-center transition-all ${canScrollLeft
+                  ? "border-gray-200 text-gray-900 hover:border-green-600 hover:text-green-600 shadow-sm"
+                  : "border-gray-100 text-gray-300 cursor-not-allowed"
+                }`}
               aria-label="Previous testimonials"
             >
-              <ChevronLeft size={24} />
+              <ChevronLeft size={20} />
             </button>
-            <button 
+            <button
               onClick={() => scroll("right")}
               disabled={!canScrollRight}
-              className={`w-14 h-14 rounded-full border-2 flex items-center justify-center transition-all ${
-                canScrollRight 
-                ? "border-gray-200 text-gray-900 hover:border-green-600 hover:text-green-600 shadow-sm" 
-                : "border-gray-100 text-gray-300 cursor-not-allowed"
-              }`}
+              className={`w-12 h-12 md:w-14 md:h-14 rounded-full border-2 flex items-center justify-center transition-all ${canScrollRight
+                  ? "border-gray-200 text-gray-900 hover:border-green-600 hover:text-green-600 shadow-sm"
+                  : "border-gray-100 text-gray-300 cursor-not-allowed"
+                }`}
               aria-label="Next testimonials"
             >
-              <ChevronRight size={24} />
+              <ChevronRight size={20} />
             </button>
           </div>
         </div>
 
         {/* SCROLLABLE CONTAINER (ONE ROW) */}
-        <div 
+        <div
           ref={scrollRef}
           onScroll={checkScroll}
-          className="flex gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-8 pt-4"
+          className="flex gap-4 md:gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-8 pt-4 px-2"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {testimonials.map((item) => (
-            <div 
-              key={item.id} 
-              className="flex-shrink-0 w-full md:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)] snap-start"
+            <div
+              key={item.id}
+              className="flex-shrink-0 w-[85%] md:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)] snap-center md:snap-start"
             >
-              <div className="bg-white border border-gray-100 rounded-3xl p-8 h-full shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] transition-all duration-500 flex flex-col items-center text-center group">
+              <div className="bg-[#ecfdf5] border border-green-100 rounded-3xl p-6 md:p-8 h-full shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] transition-all duration-500 flex flex-col items-center text-center group">
                 {/* STARS */}
                 <div className="flex gap-1 mb-6 text-yellow-400">
                   {[...Array(item.rating)].map((_, i) => (
-                    <Star key={i} size={16} fill="currentColor" />
+                    <Star key={i} size={14} fill="currentColor" />
                   ))}
                 </div>
 
                 {/* TITLE */}
-                <h3 className="text-lg font-bold text-gray-900 mb-4 tracking-tight uppercase group-hover:text-green-700 transition-colors">
+                <h3 className="text-base md:text-lg font-bold text-gray-900 mb-4 tracking-tight uppercase group-hover:text-green-700 transition-colors">
                   {item.title}
                 </h3>
 
                 {/* CONTENT */}
-                <p className="text-gray-600 leading-relaxed mb-8 italic text-sm md:text-base">
+                <p className="text-gray-600 leading-relaxed mb-8 italic text-xs md:text-base">
                   "{item.content}"
                 </p>
 
                 {/* AVATAR & NAME */}
                 <div className="mt-auto">
-                  <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center mx-auto mb-4 border-2 border-green-50 group-hover:border-green-300 transition-all duration-500 overflow-hidden shadow-inner">
-                    <User size={30} className="text-gray-300" />
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-gray-50 flex items-center justify-center mx-auto mb-4 border-2 border-green-50 group-hover:border-green-300 transition-all duration-500 overflow-hidden shadow-inner font-bold text-green-700">
+                    {item.name.charAt(0)}
                   </div>
-                  <p className="font-bold text-gray-900 tracking-wide">{item.name}</p>
-                  <p className="text-xs text-green-600 font-medium uppercase tracking-widest mt-1">Verified Buyer</p>
+                  <p className="font-bold text-gray-900 tracking-wide text-sm md:text-base">{item.name}</p>
+                  <p className="text-[10px] md:text-xs text-green-600 font-medium uppercase tracking-widest mt-1">Verified Buyer</p>
                 </div>
               </div>
             </div>

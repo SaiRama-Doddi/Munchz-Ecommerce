@@ -12,7 +12,7 @@ export default function Footer() {
   const navigate = useNavigate();
 
   return (
-    <footer className="bg-[#ecfdf5] text-black pt-16">
+    <footer className="bg-[#ecfdf5] text-black pt-4">
       <div className="max-w-7xl mx-auto px-6 pb-12">
         {/* ================= TOP SECTION ================= */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
