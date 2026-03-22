@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { getProductUrl } from "../utils/slugify";
 import { useAuth } from "../context/AuthContext";
 import { Mail, User, LayoutGrid, List, Eye, Upload, Image as ImageIcon, Star, Trash2, ArrowLeft, X, ShoppingBag, Check, Flame, Trophy } from "lucide-react";
 import jsPDF from "jspdf";
@@ -264,18 +265,18 @@ export default function UserOrders() {
                 <div className="p-8 space-y-4">
                   {order.items.map((item, idx) => (
                     <div key={idx} className="flex gap-4 items-center group/item hover:bg-green-50/50 p-2 rounded-2xl transition-all">
-                      <img
-                        src={productImages[item.productId] || "/placeholder.png"}
-                        className="w-16 h-16 object-contain bg-white rounded-xl border border-transparent group-hover/item:border-green-100 transition-all cursor-pointer shadow-sm"
-                        onClick={() => navigate(`/product/${item.productId}`)}
-                        alt={item.productName}
-                      />
-                      <div className="flex-1 min-w-0">
-                        <p className="font-bold text-gray-900 text-sm tracking-tight line-clamp-1 truncate cursor-pointer hover:text-green-600 transition-colors" onClick={() => navigate(`/product/${item.productId}`)}>{item.productName}</p>
-                        <p className="text-[10px] text-gray-400 font-bold mt-0.5">₹{item.unitPrice} × {item.quantity}</p>
-                      </div>
-                      <div className="flex flex-col gap-1.5">
-                        <button onClick={() => navigate(`/product/${item.productId}`)} className="text-[10px] font-bold bg-green-600 text-white px-3 py-2 rounded-xl hover:bg-green-700 transition-all">Reorder</button>
+                        <img
+                          src={productImages[item.productId] || "/placeholder.png"}
+                          className="w-16 h-16 object-contain bg-white rounded-xl border border-transparent group-hover/item:border-green-100 transition-all cursor-pointer shadow-sm"
+                          onClick={() => navigate(getProductUrl(item.productId, item.productName))}
+                          alt={item.productName}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <p className="font-bold text-gray-900 text-sm tracking-tight line-clamp-1 truncate cursor-pointer hover:text-green-600 transition-colors" onClick={() => navigate(getProductUrl(item.productId, item.productName))}>{item.productName}</p>
+                          <p className="text-[10px] text-gray-400 font-bold mt-0.5">₹{item.unitPrice} × {item.quantity}</p>
+                        </div>
+                        <div className="flex flex-col gap-1.5">
+                          <button onClick={() => navigate(getProductUrl(item.productId, item.productName))} className="text-[10px] font-bold bg-green-600 text-white px-3 py-2 rounded-xl hover:bg-green-700 transition-all">Reorder</button>
                         {reviewedItems.has(`${order.orderId}:${item.productId}`) ? (
                           <span className="text-[9px] font-bold text-green-600 text-center flex items-center gap-1 justify-center"><Check size={8} /> Review Posted</span>
                         ) : (
@@ -341,9 +342,19 @@ export default function UserOrders() {
             <div className="space-y-4">
               {selectedOrder.items.map((item, idx) => (
                 <div key={idx} className="flex gap-4 border-b border-gray-50 py-4 items-center group">
-                  <img src={productImages[item.productId] || "/placeholder.png"} className="w-16 h-16 object-contain bg-[#ecfdf5] rounded-2xl border border-transparent group-hover:border-green-100 transition-all shadow-sm" alt={item.productName} />
+                  <img 
+                    src={productImages[item.productId] || "/placeholder.png"} 
+                    className="w-16 h-16 object-contain bg-[#ecfdf5] rounded-2xl border border-transparent group-hover:border-green-100 transition-all shadow-sm cursor-pointer" 
+                    alt={item.productName} 
+                    onClick={() => navigate(getProductUrl(item.productId, item.productName))}
+                  />
                   <div className="flex-1">
-                    <p className="font-bold text-gray-900 tracking-tight">{item.productName}</p>
+                    <p 
+                      className="font-bold text-gray-900 tracking-tight cursor-pointer hover:text-green-600 transition-colors"
+                      onClick={() => navigate(getProductUrl(item.productId, item.productName))}
+                    >
+                      {item.productName}
+                    </p>
                     <p className="text-[10px] text-gray-400 font-bold mt-1 uppercase tracking-widest">Qty: {item.quantity} • Rs. {item.unitPrice}</p>
                   </div>
                   <button onClick={() => setReviewItem(item)} className="px-5 py-2.5 bg-green-600 text-white rounded-xl text-xs font-bold tracking-tight hover:bg-green-700 shadow-md transition-all">REVIEW</button>

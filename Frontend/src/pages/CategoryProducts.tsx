@@ -1,8 +1,10 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { getProductUrl } from "../utils/slugify";
 import api from "../api/client";
 import { useCart } from "../state/CartContext";
+import { useSEO } from "../hooks/useSEO";
 
 /* =========================
    TYPES
@@ -109,6 +111,11 @@ export default function CategoryProducts() {
 
   const { data: products = [], isLoading, isError } =
     useCategoryProducts(categoryId);
+
+  useSEO({
+    title: category?.name || "Category Products",
+    description: `Shop the best ${category?.name || "premium"} snacks and products in our curated collection.`,
+  });
 
   /* PRODUCT STATE */
   const [qtyMap, setQtyMap] = useState<Record<number, number>>({});
@@ -262,7 +269,7 @@ export default function CategoryProducts() {
             return (
               <div
                 key={p.id}
-                onClick={() => navigate(`/product/${p.id}`)}
+                onClick={() => navigate(getProductUrl(p.id, p.name))}
                 className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2 h-full"
               >
 

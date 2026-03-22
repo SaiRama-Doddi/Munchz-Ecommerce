@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSEO } from "../hooks/useSEO";
 
 const HERO_IMAGES = [
   "/hero.png",
@@ -11,6 +12,11 @@ const HERO_IMAGES = [
 export default function Hero() {
   const navigate = useNavigate();
   const [active, setActive] = useState(0);
+
+  useSEO({
+    title: "Premium Snacks & Dry Fruits",
+    description: "Welcome to GoMunchZ - Your destination for premium quality snacks, dry fruits, and healthy munchies delivered to your doorstep.",
+  });
 
   useEffect(() => {
     const timer = setInterval(() => {

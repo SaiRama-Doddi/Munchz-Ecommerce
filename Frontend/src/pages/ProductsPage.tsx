@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import api from "../api/client";
 import { useCart } from "../state/CartContext";
+import { getProductUrl } from "../utils/slugify";
+import { useSEO } from "../hooks/useSEO";
 import { ArrowLeft } from "lucide-react";
 import PremiumSpinner from "../components/PremiumSpinner";
 
@@ -129,6 +131,11 @@ export default function AllProducts() {
     const cat = categories.find((c) => c.id === selectedCategoryId);
     return cat ? cat.name : "Products";
   }, [selectedCategoryId, categories]);
+
+  useSEO({
+    title: selectedCategoryId === "ALL" ? "All Products" : `${selectedCategoryName} Snacks`,
+    description: `Explore our premium range of ${selectedCategoryName.toLowerCase()} snacks and dry fruits at GoMunchZ.`,
+  });
 
   if (isLoading) {
     return <PremiumSpinner text="Fetching your products..." />;
@@ -263,7 +270,7 @@ export default function AllProducts() {
             return (
               <div
                 key={p.id}
-                onClick={() => navigate(`/product/${p.id}`)}
+                onClick={() => navigate(getProductUrl(p.id, p.name))}
                 className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2 h-full"
               >
 

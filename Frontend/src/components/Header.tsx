@@ -14,6 +14,7 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../state/CartContext";
 import { useState } from "react";
+import { getProductUrl } from "../utils/slugify";
 import ProfileDashboard from "./ProfileDashboard";
 import { Link, NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -135,7 +136,7 @@ export default function Header() {
                     <div
                       key={p.id}
                       onClick={() => {
-                        navigate(`/product/${p.id}`);
+                        navigate(getProductUrl(p.id, p.name));
                         setSearchTerm("");
                       }}
                       className="flex items-center gap-3 px-4 py-3 hover:bg-green-50 cursor-pointer"

@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import axios from "axios";
 import { FiShoppingCart } from "react-icons/fi";
+import { useSEO } from "../hooks/useSEO";
 
 
 /* =========================
@@ -135,7 +136,7 @@ function ProductReviewStats({ productId }: { productId: number }) {
 ========================= */
 export default function ProductDetails() {
   const { id } = useParams();
-  const productId = Number(id);
+  const productId = Number(id?.split("-")[0]);
   const navigate = useNavigate();
   const { data: reviews } = useProductReviews(productId);
   const [cartClicked, setCartClicked] =
@@ -174,6 +175,11 @@ export default function ProductDetails() {
 
 
   const { data: product, isLoading, isError } = useProduct(productId);
+
+  useSEO({
+    title: product?.name || "Product Details",
+    description: product?.description || "Quality product from GoMunchZ",
+  });
   const { data: relatedProducts } = useRelatedProducts(productId, product?.categoryId);
 
   const { addToCart, items: cartItems } = useCart();

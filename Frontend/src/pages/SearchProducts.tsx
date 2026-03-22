@@ -9,6 +9,7 @@ import Footer from "../components/Footer";
 import TopHeader from "../components/TopHeader";
 import Header from "../components/Header";
 import { FiShoppingCart } from "react-icons/fi";
+import { getProductUrl } from "../utils/slugify";
 
 /* ================= TYPES ================= */
 
@@ -229,7 +230,7 @@ export default function SearchProducts() {
 
                 <div
                   key={p.id}
-                  onClick={() => navigate(`/product/${p.id}`)}
+                  onClick={() => navigate(getProductUrl(p.id, p.name))}
                   className="group bg-white rounded-xl shadow-sm hover:shadow-lg border border-gray-100 overflow-hidden cursor-pointer transition flex flex-col"
                 >
 

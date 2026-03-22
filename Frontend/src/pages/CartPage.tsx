@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useCart } from "../state/CartContext";
 import { useNavigate } from "react-router-dom";
+import { getProductUrl } from "../utils/slugify";
 import api from "../api/coupon";
 import { ArrowLeft, Sparkles, Lock, Gift, Trash2, Plus, Minus, X, Star, Check, PartyPopper, Trophy, Flame, ShoppingBag, ChevronRight } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
@@ -234,7 +235,12 @@ export default function CartPremium() {
                     <div className="flex-1 min-w-0 py-1">
                       <div className="flex justify-between items-start gap-2">
                         <div>
-                          <h4 className="text-sm sm:text-lg font-bold text-gray-900 tracking-tight leading-tight line-clamp-1 truncate">{item.name}</h4>
+                          <h4 
+                            onClick={() => navigate(getProductUrl(item.productId, item.name))}
+                            className="text-sm sm:text-lg font-bold text-gray-900 tracking-tight leading-tight line-clamp-1 truncate cursor-pointer hover:text-green-700 transition-colors"
+                          >
+                            {item.name}
+                          </h4>
                           <p className="text-[10px] text-gray-400 font-bold uppercase mt-0.5">{v.weightLabel}</p>
                         </div>
                         {/* DELETE - ALWAYS VISIBLE ON MOBILE AS RED CIRCLE */}
