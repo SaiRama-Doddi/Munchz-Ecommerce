@@ -25,6 +25,7 @@ interface Variant {
 
 interface Product {
   id: number;
+  categoryId: number;
   name: string;
   imageUrl: string;
   imageUrls: string[];
@@ -75,12 +76,12 @@ function useProduct(id: number) {
 /* =========================
    FETCH RELATED PRODUCTS
 ========================= */
-function useRelatedProducts(currentId: number) {
+function useRelatedProducts(currentId: number, categoryId?: number) {
   return useQuery({
-    queryKey: ["related-products", currentId],
-    enabled: !!currentId,
+    queryKey: ["related-products", currentId, categoryId],
+    enabled: !!currentId && !!categoryId,
     queryFn: async () => {
-      const res = await api.get("/products");
+      const res = await api.get(`/products/category/${categoryId}`);
       return (res.data as Product[]).filter(p => p.id !== currentId);
     },
   });
@@ -173,7 +174,7 @@ export default function ProductDetails() {
 
 
   const { data: product, isLoading, isError } = useProduct(productId);
-  const { data: relatedProducts } = useRelatedProducts(productId);
+  const { data: relatedProducts } = useRelatedProducts(productId, product?.categoryId);
 
   const { addToCart, items: cartItems } = useCart();
 
