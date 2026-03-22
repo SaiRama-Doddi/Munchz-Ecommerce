@@ -20,7 +20,7 @@ export default function TrackOrderPage() {
     try {
       setValidating(true);
       setError(null);
-      
+
       // Call backend to check if the ID is valid
       const res = await axios.get(`/shipping/track/${id}`);
       const data = res.data;
@@ -28,7 +28,7 @@ export default function TrackOrderPage() {
       // Extract tracking details
       // Shiprocket returning track_status: 0 or error field means it's likely invalid/not found
       const trackingData = data?.tracking_data;
-      
+
       if (trackingData && (trackingData.track_status === 1 || (trackingData.shipment_track_activities && trackingData.shipment_track_activities.length > 0))) {
         // Valid tracking found
         navigate(`/track/${id}`);
@@ -51,7 +51,7 @@ export default function TrackOrderPage() {
 
       <main className="max-w-6xl mx-auto px-4 py-12 md:py-24">
         <div className="bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-green-50 flex flex-col md:flex-row min-h-[500px]">
-          
+
           {/* Left Side: Illustration & Info */}
           <div className="md:w-1/2 bg-green-700 p-12 text-white flex flex-col justify-center relative overflow-hidden">
             {/* Decorative circles */}
@@ -66,18 +66,18 @@ export default function TrackOrderPage() {
                 Track Your <br /> <span className="text-green-300">Cravings.</span>
               </h1>
               <p className="text-green-100 text-lg font-medium max-w-md leading-relaxed">
-                Enter your shipment ID to see exactly where your GoMunchZ goodies are in real-time. From our kitchen to your doorstep.
+                Enter your shipment ID to see exactly where your GoMunchZ goodies are in real-time. From our Warehouse to your doorstep.
               </p>
 
               <div className="mt-12 space-y-4">
-                 <div className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 backdrop-blur-sm">
-                    <Package className="text-green-300" size={24} />
-                    <span className="font-bold uppercase tracking-wider text-sm">Real-time GPS Tracking</span>
-                 </div>
-                 <div className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 backdrop-blur-sm">
-                    <MapPin className="text-green-300" size={24} />
-                    <span className="font-bold uppercase tracking-wider text-sm">Status History Updates</span>
-                 </div>
+                <div className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 backdrop-blur-sm">
+                  <Package className="text-green-300" size={24} />
+                  <span className="font-bold uppercase tracking-wider text-sm">Real-time GPS Tracking</span>
+                </div>
+                <div className="flex items-center gap-4 bg-white/5 p-4 rounded-2xl border border-white/10 backdrop-blur-sm">
+                  <MapPin className="text-green-300" size={24} />
+                  <span className="font-bold uppercase tracking-wider text-sm">Status History Updates</span>
+                </div>
               </div>
             </div>
           </div>
@@ -107,15 +107,14 @@ export default function TrackOrderPage() {
                       if (error) setError(null);
                     }}
                     placeholder="Enter Shipment ID (e.g. 123047...)"
-                    className={`w-full pl-14 pr-6 py-5 bg-gray-50 border-2 rounded-3xl font-bold text-gray-800 placeholder:text-gray-300 transition-all outline-none ${
-                      error 
-                        ? "border-red-200 bg-red-50 focus:border-red-500 focus:ring-red-50" 
+                    className={`w-full pl-14 pr-6 py-5 bg-gray-50 border-2 rounded-3xl font-bold text-gray-800 placeholder:text-gray-300 transition-all outline-none ${error
+                        ? "border-red-200 bg-red-50 focus:border-red-500 focus:ring-red-50"
                         : "border-gray-100 focus:bg-white focus:border-green-500 focus:ring-4 focus:ring-green-50"
-                    }`}
+                      }`}
                     required
                     disabled={validating}
                   />
-                  
+
                   {error && (
                     <div className="flex items-center gap-2 mt-3 px-2 text-red-600 font-bold">
                       <AlertCircle size={16} />
@@ -144,13 +143,13 @@ export default function TrackOrderPage() {
               </form>
 
               <div className="mt-12 pt-10 border-t border-gray-100 text-center">
-                 <p className="text-gray-400 text-sm font-bold uppercase tracking-widest mb-4">Need help?</p>
-                 <button 
+                <p className="text-gray-400 text-sm font-bold uppercase tracking-widest mb-4">Need help?</p>
+                <button
                   onClick={() => navigate('/user-orders')}
                   className="text-green-700 font-black hover:underline underline-offset-8 decoration-4 decoration-green-100 transition-all"
-                 >
-                   VIEW MY COMPLETE ORDER HISTORY
-                 </button>
+                >
+                  VIEW MY COMPLETE ORDER HISTORY
+                </button>
               </div>
             </div>
           </div>
