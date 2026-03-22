@@ -263,11 +263,11 @@ export default function AllProducts() {
               <div
                 key={p.id}
                 onClick={() => navigate(`/product/${p.id}`)}
-                className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2 min-h-[480px]"
+                className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2 h-full"
               >
 
-                {/* IMAGE */}
-                <div className="relative bg-white aspect-square flex items-center justify-center m-4 rounded-2xl overflow-hidden shadow-inner border border-green-50 flex-shrink-0">
+                {/* IMAGE BOX */}
+                <div className="relative bg-white aspect-square flex items-center justify-center m-3 rounded-2xl overflow-hidden shadow-inner border border-green-50 flex-shrink-0">
                   <img
                     src={p.imageUrl}
                     alt={p.name}
@@ -275,61 +275,61 @@ export default function AllProducts() {
                   />
 
                   {discount > 0 && (
-                    <div className="absolute top-4 right-4 bg-green-600 text-white text-[11px] px-3 py-1.5 rounded-full font-bold shadow-lg">
+                    <div className="absolute top-3 right-3 bg-green-600 text-white text-[10px] px-2.5 py-1 rounded-full font-bold shadow-lg">
                       {discount}% OFF
                     </div>
                   )}
                 </div>
 
-                {/* CONTENT */}
-                <div className="p-5 flex flex-col gap-4 flex-grow">
-                  <h3 className="text-[17px] font-bold text-gray-900 line-clamp-2 min-h-[3rem] group-hover:text-green-700 transition-colors">
+                {/* CONTENT AREA */}
+                <div className="px-5 pb-5 pt-2 flex flex-col flex-grow">
+                  <h3 className="text-[16px] font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">
                     {p.name}
                   </h3>
-                  <p className="text-[12px] text-gray-500 line-clamp-1 -mt-2 mb-1">
+                  <p className="text-[11px] text-gray-400 line-clamp-1 mt-0.5">
                     {p.description}
                   </p>
 
-                  <div className="mt-auto">
+                  <div className="mt-3 flex-grow flex flex-col justify-end">
                     <ProductReviewStats productId={p.id} />
 
                     {/* PRICE & WEIGHT */}
-                    <div className="flex items-center justify-between mt-4">
+                    <div className="flex items-center justify-between mt-3">
                       <div className="flex flex-col">
-                        <span className="text-2xl font-medium text-gray-900 tracking-tight">
+                        <span className="text-xl font-medium text-gray-900 tracking-tight">
                           ₹{selectedVariant.offerPrice * qty}
                         </span>
                         {base100g && (
-                          <span className="text-[11px] text-gray-500 font-medium tracking-tight">
+                          <span className="text-[10px] text-gray-500 font-medium tracking-tight">
                             (₹{base100g.offerPrice}/100g)
                           </span>
                         )}
                       </div>
                       
-                      <span className="px-4 py-1.5 bg-white border border-green-200 text-green-700 text-[12px] font-bold rounded-full shadow-sm uppercase tracking-wider">
+                      <span className="px-3 py-1 bg-white border border-green-200 text-green-700 text-[11px] font-bold rounded-full shadow-sm uppercase tracking-wider">
                         {selectedVariant.weightLabel}
                       </span>
                     </div>
 
-                    {/* ACTIONS */}
+                    {/* ACTION ROW */}
                     <div
-                      className="flex items-center gap-3 mt-6"
+                      className="flex items-center gap-2 mt-4"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      {/* QUANTITY */}
-                      <div className="flex items-center bg-white rounded-2xl border border-green-200 p-1 shadow-sm h-11">
+                      {/* QTY BOX */}
+                      <div className="flex items-center bg-white rounded-xl border border-green-200 p-1 shadow-sm h-10">
                         <button
                           onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: Math.max(1, (pvs[p.id] || 1) - 1)}))}
-                          className="w-8 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-l-xl transition-all font-bold text-xl"
+                          className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-l-lg transition-all font-bold text-lg"
                         >
                           -
                         </button>
-                        <span className="w-8 text-center text-sm font-bold text-gray-900">
+                        <span className="w-6 text-center text-sm font-bold text-gray-900">
                           {qty}
                         </span>
                         <button
                           onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: (pvs[p.id] || 1) + 1}))}
-                          className="w-8 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-r-xl transition-all font-bold text-xl"
+                          className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-r-lg transition-all font-bold text-lg"
                         >
                           +
                         </button>
@@ -348,7 +348,7 @@ export default function AllProducts() {
                             qty,
                           });
                         }}
-                        className={`flex-1 h-11 flex items-center justify-center gap-2 rounded-2xl font-bold text-[13px] transition-all active:scale-95 shadow-md ${
+                        className={`flex-1 h-10 flex items-center justify-center gap-2 rounded-xl font-bold text-[13px] transition-all active:scale-95 shadow-md ${
                           isInCart
                             ? "bg-green-100 text-green-700 border-2 border-green-200"
                             : "bg-green-600 text-white hover:bg-green-700 hover:shadow-xl"
