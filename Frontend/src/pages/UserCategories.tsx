@@ -50,19 +50,14 @@ export default function UserCategories() {
         <div className="flex items-center justify-between mb-10">
 
           <div>
-            <p className="text-sm tracking-[4px] text-green-600 mb-2">
-              GoMunchZ COLLECTION
-            </p>
-
             <h2 className="text-3xl font-semibold text-gray-900">
-              Explore Categories
+              Shop By Category
             </h2>
           </div>
 
-          {/* ARROWS */}
-
+          {/* ARROWS (Hidden for now) */}
+          {/* 
           <div className="hidden md:flex gap-3">
-
             <button
               onClick={() => scroll("left")}
               className="w-10 h-10 rounded-full border bg-white hover:bg-gray-100 flex items-center justify-center"
@@ -76,8 +71,8 @@ export default function UserCategories() {
             >
               <ChevronRight size={20} />
             </button>
-
           </div>
+          */}
 
         </div>
 
@@ -123,7 +118,7 @@ export default function UserCategories() {
           ref={scrollRef}
           className="
           hidden md:flex
-          justify-center
+          justify-start
           gap-10
           overflow-x-auto
           scroll-smooth

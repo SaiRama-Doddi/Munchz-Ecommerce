@@ -33,7 +33,7 @@ export default function Footer() {
             {/* FSSAI SECTION */}
             <div className="flex items-center gap-3 bg-white p-3 rounded-md border border-green-100 shadow-sm w-full max-w-[280px]">
               <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/FSSAI_logo.svg/1200px-FSSAI_logo.svg.png"
+                src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774172170/unnamed_r2g1px.png"
                 alt="FSSAI"
                 className="h-10 object-contain"
               />

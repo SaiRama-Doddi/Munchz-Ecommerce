@@ -1,9 +1,9 @@
 export default function TopHeader() {
   const messages = [
-    ".Free shipping on orders above Rs 799",
+    "Free shipping on orders above Rs 799",
     "100% natural and premium quality products",
-    ".Healthy Snacking",
-    ".Add GoMunchz credit with every purchase",
+    "Healthy Snacking",
+    "Add GoMunchz credit with every purchase",
   ];
 
   return (
