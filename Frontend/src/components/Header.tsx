@@ -56,7 +56,7 @@ export default function Header() {
     <>
       {/* ================= HEADER ================= */}
 
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur  border-gray-100 shadow-sm">
+      <header className="sticky top-0 z-50 bg-[#ecfdf5]/90 backdrop-blur  border-gray-100 shadow-sm">
 
         <div className="max-w-7xl mx-auto px-4 h-[72px] flex items-center justify-between">
 
@@ -72,11 +72,9 @@ export default function Header() {
             </button>
 
             <Link to="/" className="flex items-center">
-              <img
-                src="/logo.png"
-                alt="GoMunchZ"
-                className="h-10 md:h-12 lg:h-14 w-auto object-contain"
-              />
+              <span className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-800 to-green-600 bg-clip-text text-transparent tracking-tight">
+                GoMunchz
+              </span>
             </Link>
 
           </div>
@@ -84,26 +82,27 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8 font-medium">
-            {[
-              { to: "/", label: "Home" },
-              { to: "/productpage", label: "Shop" },
-              { to: "/Aboutmain", label: "About" },
-              { to: "/track", label: "Track" },
-              { to: "/contact", label: "Contact" },
-            ].map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-green-700 border-b-2 border-green-700 pb-1"
-                    : "text-gray-800 hover:text-green-700 transition"
-                }
-              >
-                {item.label}
-              </NavLink>
-            ))}
-          </nav>
+  {[
+    { to: "/", label: "Home" },
+    { to: "/Aboutmain", label: "About Us" },
+    { to: "/productpage", label: "Shop" },
+    { to: "/track", label: "Track" },
+    { to: "/contact", label: "Contact Us" },
+  ].map((item) => (
+    <NavLink
+      key={item.to}
+      to={item.to}
+      className={({ isActive }) =>
+        isActive
+          ? "text-green-700 border-b-2 border-green-700 pb-1"
+          : "text-gray-800"
+      }
+    >
+      {item.label}
+    </NavLink>
+  ))}
+
+</nav >
 
 
     {/* DESKTOP SEARCH (Large screens only) */ }
@@ -312,10 +311,9 @@ export default function Header() {
 
         <div className="flex justify-between items-center mb-10">
 
-          <img
-            src="/logo.png"
-            className="h-10 w-auto object-contain"
-          />
+          <Link to="/" onClick={() => setOpenMenu(false)} className="flex items-center">
+            <span className="text-2xl font-bold text-green-800">GoMunchz</span>
+          </Link>
 
           <button
             onClick={() => setOpenMenu(false)}
@@ -332,12 +330,12 @@ export default function Header() {
             <Home size={20} /> Home
           </Link>
 
-          <Link to="/productpage" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700">
-            <Grid2x2 size={20} /> Shop
+          <Link to="/Aboutmain" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700">
+            <Info size={20} /> About Us
           </Link>
 
-          <Link to="/Aboutmain" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700">
-            <Info size={20} /> About
+          <Link to="/productpage" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700">
+            <Grid2x2 size={20} /> Shop
           </Link>
 
           <Link to="/track" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700">
@@ -345,7 +343,7 @@ export default function Header() {
           </Link>
 
           <Link to="/contact" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700">
-            <Phone size={20} /> Contact
+            <Phone size={20} /> Contact Us
           </Link>
 
           <Link to="/cart" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700">

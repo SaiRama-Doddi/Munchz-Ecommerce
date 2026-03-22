@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const HERO_IMAGES = [
-  "/banners/banner1.png",
-  "/banners/banner2.png",
-  "/banners/banner3.png",
-  "/banners/banner4.png",
+  "/hero.png",
+  "https://www.shutterstock.com/image-photo/healthy-snack-mixed-nuts-dried-600nw-2309692033.jpg",
+  "https://img.pikbest.com/origin/10/01/82/867pIkbEsTAIq.png!w700wp",
+  "https://nutribinge.in/cdn/shop/articles/Unveiling_the_Essence_of_Dry_Fruits_in_Indian_Festivities.jpg?v=1713257842",
 ];
 
 export default function Hero() {

@@ -154,7 +154,7 @@ body {
 .marquee {
   display: flex;
   width: max-content;
-  animation: scroll 20s linear infinite;
+  animation: scroll 60s linear infinite;
 }
 
 .marquee-content {
