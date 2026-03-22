@@ -95,6 +95,7 @@ export default function UserOrders() {
           }
         }
       }
+      productImages;
       setProductImages(imageMap);
     };
     if (orders.length > 0) fetchImages();
@@ -246,26 +247,26 @@ export default function UserOrders() {
             </div>
           ) : (
             filteredOrders.map((order) => (
-              <div key={order.orderId} className="bg-white rounded-[2rem] border border-green-50 shadow-sm hover:shadow-xl transition-all duration-300 p-8 flex flex-col gap-6 relative overflow-hidden group">
-                <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:scale-110 transition-transform pointer-events-none"><ShoppingBag size={80} /></div>
-                
-                <div className="flex justify-between items-start relative z-10">
+              <div key={order.orderId} className="bg-white rounded-[2rem] border-2 border-green-50/50 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col relative overflow-hidden group">
+                {/* CARD HEADER */}
+                <div className="bg-[#ecfdf5] px-8 py-4 flex justify-between items-center relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-6 opacity-10 pointer-events-none"><ShoppingBag size={40} /></div>
                   <div>
-                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest leading-none mb-1">Placed On</p>
+                    <p className="text-[10px] text-green-700 font-bold uppercase tracking-widest leading-none mb-1">Order Placed On</p>
                     <p className="font-bold text-gray-900 tracking-tight leading-none">{new Date(order.placedAt).toLocaleDateString()}</p>
                   </div>
                   <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest
-                    ${order.orderStatus === "DELIVERED" ? "bg-green-100 text-green-700" : order.orderStatus === "PENDING" ? "bg-yellow-100 text-yellow-700" : "bg-gray-100 text-gray-500"}`}>
+                    ${order.orderStatus === "DELIVERED" ? "bg-green-600 text-white" : order.orderStatus === "PENDING" ? "bg-yellow-100 text-yellow-700" : "bg-gray-100 text-gray-500"}`}>
                     {order.orderStatus}
                   </span>
                 </div>
 
-                <div className="space-y-4">
+                <div className="p-8 space-y-4">
                   {order.items.map((item, idx) => (
                     <div key={idx} className="flex gap-4 items-center group/item hover:bg-green-50/50 p-2 rounded-2xl transition-all">
                       <img
                         src={productImages[item.productId] || "/placeholder.png"}
-                        className="w-16 h-16 object-contain bg-[#ecfdf5] rounded-xl border border-transparent group-hover/item:border-green-100 transition-all cursor-pointer"
+                        className="w-16 h-16 object-contain bg-white rounded-xl border border-transparent group-hover/item:border-green-100 transition-all cursor-pointer shadow-sm"
                         onClick={() => navigate(`/product/${item.productId}`)}
                         alt={item.productName}
                       />
@@ -274,18 +275,18 @@ export default function UserOrders() {
                         <p className="text-[10px] text-gray-400 font-bold mt-0.5">₹{item.unitPrice} × {item.quantity}</p>
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <button onClick={() => navigate(`/product/${item.productId}`)} className="text-[9px] font-black uppercase tracking-widest bg-green-600 text-white px-3 py-1.5 rounded-lg shadow-sm hover:bg-green-700 transition-all">Reorder</button>
+                        <button onClick={() => navigate(`/product/${item.productId}`)} className="text-[10px] font-bold bg-green-600 text-white px-3 py-2 rounded-xl hover:bg-green-700 transition-all">Reorder</button>
                         {reviewedItems.has(`${order.orderId}:${item.productId}`) ? (
-                          <span className="text-[9px] font-black uppercase tracking-[0.05em] text-green-600 text-center flex items-center gap-1 justify-center"><Check size={8} /> Review Posted</span>
+                          <span className="text-[9px] font-bold text-green-600 text-center flex items-center gap-1 justify-center"><Check size={8} /> Review Posted</span>
                         ) : (
-                          <button onClick={() => { setSelectedOrder(order); setReviewItem(item); }} className="text-[9px] font-black uppercase tracking-widest border border-green-600 text-green-600 px-3 py-1.5 rounded-lg hover:bg-green-50 transition-all">Review</button>
+                          <button onClick={() => { setSelectedOrder(order); setReviewItem(item); }} className="text-[10px] font-bold border-2 border-green-600 text-green-600 px-3 py-1.5 rounded-xl hover:bg-green-50 transition-all">Review</button>
                         )}
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="pt-4 border-t border-gray-50 flex justify-between items-center mt-auto">
+                <div className="p-8 pt-4 border-t border-gray-50 flex justify-between items-center mt-auto">
                    <div>
                       <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest leading-none mb-1">Total</p>
                       <p className="text-2xl font-bold text-gray-900 tracking-tighter leading-none">₹{order.totalAmount}</p>
@@ -340,12 +341,12 @@ export default function UserOrders() {
             <div className="space-y-4">
               {selectedOrder.items.map((item, idx) => (
                 <div key={idx} className="flex gap-4 border-b border-gray-50 py-4 items-center group">
-                  <img src={productImages[item.productId] || "/placeholder.png"} className="w-16 h-16 object-contain bg-[#ecfdf5] rounded-2xl border border-transparent group-hover:border-green-100 transition-all" alt={item.productName} />
+                  <img src={productImages[item.productId] || "/placeholder.png"} className="w-16 h-16 object-contain bg-[#ecfdf5] rounded-2xl border border-transparent group-hover:border-green-100 transition-all shadow-sm" alt={item.productName} />
                   <div className="flex-1">
                     <p className="font-bold text-gray-900 tracking-tight">{item.productName}</p>
                     <p className="text-[10px] text-gray-400 font-bold mt-1 uppercase tracking-widest">Qty: {item.quantity} • Rs. {item.unitPrice}</p>
                   </div>
-                  <button onClick={() => setReviewItem(item)} className="px-5 py-2.5 bg-green-600 text-white rounded-xl text-xs font-bold tracking-tight hover:bg-green-700 shadow-lg shadow-green-100 transition-all">REVIEW</button>
+                  <button onClick={() => setReviewItem(item)} className="px-5 py-2.5 bg-green-600 text-white rounded-xl text-xs font-bold tracking-tight hover:bg-green-700 shadow-md transition-all">REVIEW</button>
                 </div>
               ))}
             </div>
@@ -360,8 +361,8 @@ export default function UserOrders() {
 
       {/* REVIEW PRODUCT MODAL */}
       {reviewItem && selectedOrder && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[60] flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl p-8 space-y-8 animate-slideUp border border-green-50 relative">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[60] flex items-center justify-center p-0 sm:p-4">
+          <div className="bg-white w-full h-full sm:h-auto sm:max-w-lg sm:rounded-[2.5rem] shadow-2xl p-8 space-y-8 overflow-y-auto animate-slideUp border border-green-50 relative">
             <button onClick={() => setReviewItem(null)} className="absolute top-6 right-6 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"><X size={20} /></button>
             
             <h3 className="text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
@@ -370,7 +371,7 @@ export default function UserOrders() {
             </h3>
             
             <div className="flex gap-6 items-center p-4 bg-[#f9fdf7] rounded-3xl border border-green-50">
-               <img src={productImages[reviewItem.productId] || "/placeholder.png"} className="w-16 h-16 object-contain bg-white rounded-2xl border" alt={reviewItem.productName} />
+               <img src={productImages[reviewItem.productId] || "/placeholder.png"} className="w-16 h-16 object-contain bg-white rounded-2xl border shadow-sm" alt={reviewItem.productName} />
                <p className="font-bold text-gray-900 text-lg tracking-tight leading-tight uppercase truncate">{reviewItem.productName}</p>
             </div>
 
@@ -395,7 +396,7 @@ export default function UserOrders() {
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 placeholder="Unreal flavor? Absolutely zero compromise? Tell us everything!"
-                rows={3}
+                rows={4}
                 className="w-full bg-gray-50/50 border-2 border-transparent border-gray-100 rounded-[1.5rem] p-4 font-bold text-gray-900 tracking-tight focus:border-green-600 focus:bg-white outline-none transition-all placeholder:text-gray-300"
               />
             </div>
@@ -477,9 +478,9 @@ export default function UserOrders() {
                     setSubmitting(false);
                   }
                 }}
-                className="flex-[2] py-5 bg-green-600 text-white rounded-[1.5rem] text-sm font-black uppercase tracking-widest flex items-center justify-center gap-3 disabled:opacity-30 hover:bg-green-700 transition-all shadow-xl shadow-green-100"
+                className="flex-[2] py-4 bg-green-600 text-white rounded-2xl text-sm font-bold tracking-tight flex items-center justify-center gap-3 disabled:opacity-50 hover:bg-green-700 transition-all shadow-md"
               >
-                {submitting ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : "Post Review"}
+                {submitting ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : "Submit Review"}
               </button>
             </div>
           </div>

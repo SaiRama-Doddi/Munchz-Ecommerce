@@ -368,7 +368,7 @@ export default function CheckoutPage() {
                <button
                  onClick={placeOrder}
                  disabled={isPlacingOrder}
-                 className="w-full bg-green-600 hover:bg-green-700 text-white py-5 rounded-2xl font-bold text-lg shadow-xl shadow-green-100 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3 group disabled:opacity-50"
+                 className="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl font-bold tracking-tight transition-all flex items-center justify-center gap-2 border-none outline-none shadow-sm group disabled:opacity-50"
                >
                  <span>CONFIRM & SECURE ORDER</span>
                  <ChevronRight className="group-hover:translate-x-1 transition-transform" />
