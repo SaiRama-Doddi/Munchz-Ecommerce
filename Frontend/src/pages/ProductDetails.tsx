@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import api from "../api/client";
@@ -190,6 +190,12 @@ export default function ProductDetails() {
   // Zoom state
   const [isHovering, setIsHovering] = useState(false);
   const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 });
+
+  // Reset selected image when product changes
+  useEffect(() => {
+    setSelectedImage(null);
+    setQty(1);
+  }, [productId]);
 
   if (isLoading) {
     return <div className="p-10 text-lg text-center">Loading product...</div>;
@@ -399,8 +405,16 @@ export default function ProductDetails() {
         </div>
 
         {/* REVIEWS SECTION */}
-        <div className="max-w-7xl mx-auto px-4 py-10">
-          <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-10">Customer Reviews ({reviews?.length || 0})</h2>
+        <div className="max-w-7xl mx-auto px-4 py-16">
+          <div className="mb-12">
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+              Customer <span className="text-green-600">Reviews</span>
+            </h2>
+            <p className="text-gray-500 text-sm mt-3 max-w-lg">
+              What our verified buyers say about this product
+            </p>
+            <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {reviews?.slice(0, visibleReviews).map((review) => (
               <div key={review.id} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50 border-b-2 border-b-green-200">
@@ -427,7 +441,15 @@ export default function ProductDetails() {
 
         {/* RELATED PRODUCTS */}
         <div className="max-w-7xl mx-auto px-4 py-16 mb-10">
-          <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-10">Related Products</h2>
+          <div className="mb-12">
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+              Related <span className="text-green-600">Products</span>
+            </h2>
+            <p className="text-gray-500 text-sm mt-3 max-w-lg">
+              You might also like these handpicked selections
+            </p>
+            <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
+          </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-8">
           {relatedProducts?.slice(0, 8).map((p) => {
             const base100g = p.variants.find((v) => v.weightInGrams === 100);
@@ -446,9 +468,8 @@ export default function ProductDetails() {
             return (
               <div key={p.id} onClick={() => navigate(`/product/${p.id}`)} className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2">
                 
-                {/* IMAGE BOX */}
                 <div className="relative bg-white aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden shadow-inner border border-green-50 flex-shrink-0">
-                  <img src={p.imageUrl} alt={p.name} className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700" />
+                  <img src={(p.imageUrls && p.imageUrls.length > 0) ? p.imageUrls[0] : p.imageUrl} alt={p.name} className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700" />
                   {relDiscount > 0 && (
                     <div className="absolute top-2.5 right-2.5 bg-green-600 text-white text-[9px] px-2 py-0.5 rounded-full font-bold shadow-lg">{relDiscount}% OFF</div>
                   )}

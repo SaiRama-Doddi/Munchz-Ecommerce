@@ -22,6 +22,7 @@ interface Product {
   id: number;
   name: string;
   imageUrl: string;
+  imageUrls: string[];
   description: string;
   variants: Variant[];
 }
@@ -269,7 +270,7 @@ export default function AllProducts() {
                 {/* IMAGE BOX */}
                 <div className="relative bg-white aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden shadow-inner border border-green-50 flex-shrink-0">
                   <img
-                    src={p.imageUrl}
+                    src={(p.imageUrls && p.imageUrls.length > 0) ? p.imageUrls[0] : p.imageUrl}
                     alt={p.name}
                     className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700"
                   />
