@@ -53,9 +53,7 @@ export default function FAQ() {
 
         {/* SECTION HEADER */}
         <div className="mb-12">
-          <p className="text-sm uppercase tracking-[4px] text-green-700 mb-2">
-            Help Center
-          </p>
+
 
           <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
             Frequently Asked <span className="text-green-600">Questions</span>
@@ -94,9 +92,8 @@ export default function FAQ() {
 
                 <ChevronDown
                   size={22}
-                  className={`transition-transform duration-300 ${
-                    openIndex === i ? "rotate-180 text-green-700" : "text-gray-500"
-                  }`}
+                  className={`transition-transform duration-300 ${openIndex === i ? "rotate-180 text-green-700" : "text-gray-500"
+                    }`}
                 />
 
               </button>
@@ -105,9 +102,8 @@ export default function FAQ() {
               {/* ANSWER */}
 
               <div
-                className={`px-6 overflow-hidden transition-all duration-300 ${
-                  openIndex === i ? "max-h-40 pb-5" : "max-h-0"
-                }`}
+                className={`px-6 overflow-hidden transition-all duration-300 ${openIndex === i ? "max-h-40 pb-5" : "max-h-0"
+                  }`}
               >
                 <p className="text-gray-600 leading-relaxed text-[15px]">
                   {item.answer}
