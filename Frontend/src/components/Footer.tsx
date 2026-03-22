@@ -20,7 +20,7 @@ export default function Footer() {
           <div className="flex flex-col items-start">
             <div className="bg-white p-2 rounded-lg shadow-sm mb-4">
               <img
-                src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774171195/gomunchz_logo_resized_ynw790.png"
+                src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774178657/gomunchz_logo_transparent_r8r0a8.png"
                 alt="GoMunchZ"
                 className="h-14 cursor-pointer object-contain"
                 onClick={() => navigate("/")}

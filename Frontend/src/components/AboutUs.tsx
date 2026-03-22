@@ -10,10 +10,6 @@ export default function AboutUs() {
         {/* LEFT SIDE — TEXT */}
         <div className="p-8 sm:p-12 md:p-16 bg-[#e3f0e8]">
 
-          <p className="text-sm uppercase tracking-[3px] text-green-700 mb-2">
-            Our Story
-          </p>
-
           <h2 className="text-3xl md:text-4xl font-semibold mb-6 border-l-4 border-green-600 pl-4 text-gray-900">
             About GoMunchZ
           </h2>
@@ -63,7 +59,7 @@ export default function AboutUs() {
           <div className="absolute inset-0 bg-gradient-to-br from-[#dfe6dc] to-[#faeed6] -z-10"></div>
 
           <img
-            src="/about.png"
+            src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774178873/ChatGPT_Image_Mar_22_2026_04_57_38_PM_teywi3.png"
             alt="About GoMunchZ"
             className="w-full h-full object-cover"
           />
@@ -111,7 +107,8 @@ export default function AboutUs() {
                 EASY RETURN
               </p>
               <p className="text-gray-500 text-sm">
-                Refer return policy
+                Needs to be replaced with XXX …YYYY
+
               </p>
             </div>
           </div>
@@ -124,7 +121,8 @@ export default function AboutUs() {
                 24/7 SUPPORT
               </p>
               <p className="text-gray-500 text-sm">
-                Support every time
+                Needs to be replaced with XXX ….YYYY
+
               </p>
             </div>
           </div>
