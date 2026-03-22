@@ -139,7 +139,5 @@ export default function AboutUs() {
       </div>
 
     </section>
-
-    </section>
   );
 }
