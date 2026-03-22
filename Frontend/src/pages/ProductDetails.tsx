@@ -481,5 +481,4 @@ export default function ProductDetails() {
     </div>
   );
 }
-}
 
