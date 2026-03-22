@@ -154,6 +154,27 @@ export default function CartPremium() {
         </div>
       </div>
 
+      {/* BRAND BANNER - PREMIUM TYPOGRAPHY */}
+      <section className="bg-white border-b border-green-50 py-12 md:py-20 hidden sm:block">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 space-y-3">
+          <p className="text-xl font-medium text-green-600/80 uppercase tracking-[0.3em]">
+            Pure Ingredients
+          </p>
+          <div className="space-y-1">
+            <h2 className="text-5xl md:text-8xl font-black leading-none tracking-tighter text-gray-900">
+              Real ingredients
+            </h2>
+            <h2 className="text-5xl md:text-8xl font-thin leading-none tracking-tighter text-gray-400 italic">
+              Unreal flavor
+            </h2>
+          </div>
+          <p className="text-xl font-medium text-green-600/80 pt-4 flex items-center gap-4">
+             <span className="w-12 h-px bg-green-200"></span> 
+             Absolutely zero compromise
+          </p>
+        </div>
+      </section>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid lg:grid-cols-3 gap-10">
           
@@ -205,9 +226,11 @@ export default function CartPremium() {
                       })}
                     </div>
                   </div>
-                             </div>
+                </div>
+
+                {/* STATUS AREA - REMOVED AS PER USER REQUEST */}
+              </div>
             </div>
-       </div>
 
             {/* ITEM LIST */}
             <div className="space-y-4 px-2 sm:px-0">

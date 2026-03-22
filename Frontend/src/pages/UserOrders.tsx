@@ -249,157 +249,152 @@ ${order.totalAmount}`,
 
 
   return (
-   <div className="bg-[#f6fff4] min-h-screen py-12">
+   <div className="bg-[#f9fdf7] min-h-screen py-10 md:py-20">
 
       <div className="max-w-6xl mx-auto px-4 space-y-8">
 
-        {/* USER SUMMARY */}
-        <div className="bg-white shadow rounded-xl p-6 flex flex-col md:flex-row md:justify-between gap-6">
-          <div>
-            <p className="font-semibold flex gap-2 items-center">
-              <User size={16} />
-              {profile?.firstName} {profile?.lastName}
-            </p>
-            <p className="text-sm text-gray-600 flex gap-2 items-center">
-              <Mail size={14} />
-              {profile?.email}
-            </p>
+        {/* USER PROFILE HEADER */}
+        <div className="bg-white rounded-[2rem] p-6 md:p-8 border border-green-100 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6 transition-all hover:shadow-lg">
+          <div className="flex items-center gap-5">
+            <div className="w-16 h-16 bg-[#ecfdf5] rounded-2xl flex items-center justify-center text-green-600 shadow-inner">
+               <User size={32} />
+            </div>
+            <div>
+              <p className="font-black text-xl text-gray-900 tracking-tighter uppercase italic leading-none">
+                {profile?.firstName} {profile?.lastName}
+              </p>
+              <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-2 flex items-center gap-2">
+                <Mail size={12} className="text-green-500" /> {profile?.email}
+              </p>
+            </div>
           </div>
 
-          <div className="flex gap-3 items-center ">
+          <div className="flex bg-gray-50 p-1.5 rounded-2xl border border-gray-100">
             <button
               onClick={() => setGridView(true)}
-              className={`p-2 rounded ${gridView ? "bg-green-700 text-white cursor-pointer" : "bg-gray-100 cursor-pointer"}`}
+              className={`p-3 rounded-xl transition-all ${gridView ? "bg-white text-green-600 shadow-sm" : "text-gray-400 hover:text-green-600"}`}
             >
-              <LayoutGrid size={18} />
+              <LayoutGrid size={20} />
             </button>
             <button
               onClick={() => setGridView(false)}
-              className={`p-2 rounded ${!gridView ? "bg-green-700 text-white cursor-pointer" : "bg-gray-100 cursor-pointer"}`}
+              className={`p-3 rounded-xl transition-all ${!gridView ? "bg-white text-green-600 shadow-sm" : "text-gray-400 hover:text-green-600 transition-all"}`}
             >
-              <List size={18} />
+              <List size={20} />
             </button>
           </div>
         </div>
 
-        {/* FILTER */}
-        <div className="flex flex-wrap gap-3 ">
+        {/* TIME FILTERS */}
+        <div className="flex flex-wrap gap-2.5">
           {[
-            { label: "All", value: "ALL" },
+            { label: "All Orders", value: "ALL" },
             { label: "Today", value: 1 },
-            { label: "Last 7 days", value: 7 },
-            { label: "Last 30 days", value: 30 },
-          ].map((f) => (
-            <button
-              key={f.label}
-              onClick={() => setFilterDays(f.value as any)}
-              className={`px-4 py-1.5 rounded-full border text-sm cursor-pointer ${filterDays === f.value
-                  ? "bg-green-700 text-white"
-                  : "bg-white"
-                }`}
-            >
-              {f.label}
-            </button>
-          ))}
+            { label: "Last 7 Days", value: 7 },
+            { label: "Last 30 Days", value: 30 },
+          ].map((f) => {
+            const isActive = filterDays === f.value;
+            return (
+              <button
+                key={f.label}
+                onClick={() => setFilterDays(f.value as any)}
+                className={`px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all ${isActive
+                    ? "bg-green-600 text-white border-green-600 shadow-lg shadow-green-100"
+                    : "bg-white text-gray-400 border-gray-100 hover:border-green-200"
+                  }`}
+              >
+                {f.label}
+              </button>
+            );
+          })}
         </div>
 
-        {/* ORDERS */}
-<div className={gridView ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" : "space-y-6"}>
-
+        {/* ORDERS GRID/LIST */}
+        <div className={gridView ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" : "space-y-8"}>
           {filteredOrders.map((order) => (
             <div
               key={order.orderId}
-           className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition p-5 flex flex-col gap-4"
-
+              className="bg-[#ecfdf5]/40 rounded-[2.5rem] border border-green-100 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden group"
             >
-              <div className="flex justify-between text-sm text-gray-500">
-                <span>
+              {/* ORDER HEADER */}
+              <div className="bg-white px-6 py-4 flex justify-between items-center border-b border-green-50">
+                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
                   {new Date(order.placedAt).toLocaleDateString()}
                 </span>
-               <span className={`px-3 py-1 rounded-full text-xs font-medium
-  ${
-    order.orderStatus === "DELIVERED"
-      ? "bg-green-100 text-green-700"
-      : order.orderStatus === "PENDING"
-      ? "bg-yellow-100 text-yellow-700"
-      : "bg-gray-100 text-gray-700"
-  }`}>
-  {order.orderStatus}
-</span>
-
+                <span className={`px-2.5 py-0.5 rounded-lg text-[9px] font-black uppercase tracking-widest
+                  ${order.orderStatus === "DELIVERED"
+                    ? "bg-green-100 text-green-700"
+                    : order.orderStatus === "PENDING"
+                    ? "bg-amber-100 text-amber-700"
+                    : order.orderStatus === "PAID"
+                    ? "bg-blue-100 text-blue-700"
+                    : "bg-gray-100 text-gray-600"
+                  }`}>
+                  {order.orderStatus}
+                </span>
               </div>
 
-              {order.items.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="flex gap-4 items-center border-b pb-3"
-                >
-                  <img
-                    src={productImages[item.productId] || "/placeholder.png"}
-                    className="w-16 h-16 object-contain border rounded"
-                    
-                      onClick={() => navigate(`/product/${item.productId}`)}
-                  />
-                  <div className="flex-1">
-                    <p className="font-semibold" 
-                      onClick={() => navigate(`/product/${item.productId}`)}>{item.productName}</p>
-                    <p className="text-sm text-gray-600">
-                      Rs. {item.unitPrice} × {item.quantity}
-                    </p>
-                  </div>
+              {/* ITEMS LIST */}
+              <div className="p-6 pb-2 space-y-4">
+                {order.items.map((item, idx) => (
+                  <div key={idx} className="flex gap-4 items-center bg-white/60 p-3 rounded-2xl border border-white hover:border-green-100 transition-all">
+                    <div className="w-14 h-14 bg-white rounded-xl overflow-hidden shadow-sm flex-shrink-0">
+                       <img
+                        src={productImages[item.productId] || "/placeholder.png"}
+                        className="w-full h-full object-contain p-2"
+                        alt={item.productName}
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-bold text-gray-900 truncate tracking-tight">{item.productName}</p>
+                      <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">₹{item.unitPrice} × {item.quantity}</p>
+                    </div>
 
-                  <div className="flex flex-col gap-2">
-                    <button
-                      onClick={() => navigate(`/product/${item.productId}`)}
-                      className="px-3 py-1 bg-green-700 text-white rounded text-sm"
-                    >
-                      Reorder
-                    </button>
+                    <div className="flex flex-col gap-2">
+                       <button
+                        onClick={() => navigate(`/product/${item.productId}`)}
+                        className="p-1.5 bg-green-600 text-white rounded-lg text-[8px] font-black uppercase shadow-sm hover:bg-green-700 transition-all active:scale-95"
+                      >
+                        Reorder
+                      </button>
 
-                   {reviewedItems.has(`${order.orderId}:${item.productId}`) ? (
-  <span className="px-3 py-1 bg-green-100 text-green-700 rounded text-xs font-medium">
-    Submited the Review
-  </span>
-) : (
-  <button
-    onClick={() => {
-      setSelectedOrder(order);
-      setReviewItem(item);
-    }}
-    className="px-3 py-1 border border-green-700 text-green-700 rounded text-sm hover:bg-green-50 transition"
-  >
-    Review
-  </button>
-)}
+                      {reviewedItems.has(`${order.orderId}:${item.productId}`) ? (
+                        <div className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg text-[8px] font-black uppercase text-center border border-emerald-100">Reviewed</div>
+                      ) : (
+                        <button
+                          onClick={() => { setSelectedOrder(order); setReviewItem(item); }}
+                          className="p-1.5 bg-white border border-green-600 text-green-600 rounded-lg text-[8px] font-black uppercase hover:bg-green-50 transition-all active:scale-95"
+                        >
+                          Review
+                        </button>
+                      )}
+                    </div>
                   </div>
+                ))}
+              </div>
+
+              {/* FOOTER ACTION AREA */}
+              <div className="p-6 pt-0 mt-4 flex justify-between items-center border-t border-green-50/50 bg-white/30 backdrop-blur-sm">
+                <div>
+                  <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-0.5">Total Amount</p>
+                  <p className="text-xl font-black text-gray-900 tracking-tighter italic">₹{order.totalAmount}</p>
                 </div>
-              ))}
-
-
-              <div className="flex justify-between items-center">
-                <p className="font-semibold">
-                  Total: Rs.
-                  {order.totalAmount}
-                </p>
 
                 <div className="flex gap-2">
                   <button
                     onClick={() => setSelectedOrder(order)}
-                    className="p-2 bg-white  rounded hover:bg-green-50 transition cursor-pointer"
-                    title="View Order"
+                    className="w-10 h-10 flex items-center justify-center bg-white text-green-600 rounded-xl border border-green-50 shadow-sm hover:shadow-md transition-all active:scale-90"
+                    title="View Order Details"
                   >
-                    <Eye size={18} className="text-green-700" />
+                    <Eye size={16} />
                   </button>
-
-
                   <button
                     onClick={() => downloadInvoice(order)}
-                    className="px-4 py-2 bg-gray-800 text-white rounded text-sm cursor-pointer"
+                    className="px-5 py-2 bg-gray-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm hover:bg-black transition-all active:scale-95"
                   >
                     Invoice
                   </button>
                 </div>
-
               </div>
             </div>
           ))}
@@ -563,6 +558,11 @@ ${order.totalAmount}`,
                     onChange={(e) => {
                       if (e.target.files && e.target.files[0]) {
                         const f = e.target.files[0];
+                        const MAX_SIZE = 5 * 1024 * 1024; // 5MB limit
+                        if (f.size > MAX_SIZE) {
+                           alert("File size exceeds 5MB limit. Please upload a smaller image.");
+                           return;
+                        }
                         setFile(f);
                         setPreview(URL.createObjectURL(f));
                       }
