@@ -146,46 +146,68 @@ export default function CartPremium() {
           {/* LEFT: CART ITEMS */}
           <div className="lg:col-span-2 space-y-6">
             
-            {/* MILESTONE TRACKER */}
-            <div className="bg-gray-900 rounded-[2.5rem] p-8 text-white relative overflow-hidden shadow-2xl">
-              <div className="absolute top-0 right-0 p-10 opacity-10"><Trophy size={120} /></div>
-              <div className="relative z-10">
-                <div className="flex justify-between items-end mb-8">
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 bg-white/10 rounded-2xl"><Flame className="text-green-400" /></div>
-                    <div>
-                      <h3 className="font-black text-xl tracking-tight">Munchz Rewards</h3>
-                      <p className="text-[10px] text-gray-400 font-bold tracking-widest uppercase mt-0.5">Current Order Level</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-3xl font-black">₹{totalPrice.toFixed(0)}</p>
-                  </div>
+            {/* SINGLE LINE REWARDS SECTION */}
+            <div className="bg-white rounded-[2rem] p-6 md:p-8 border border-green-100 shadow-sm relative group overflow-hidden transition-all hover:shadow-xl">
+              <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:scale-110 transition-transform"><Trophy size={110} /></div>
+              <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8 md:gap-14">
+                
+                {/* HEADER AREA */}
+                <div className="flex-shrink-0">
+                   <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight leading-none mb-1">
+                     Munchz <span className="text-green-600">Rewards</span>
+                   </h2>
+                   <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-2 flex items-center gap-2">
+                     <Flame size={12} className="text-orange-500" /> Current level: ₹{totalPrice.toFixed(0)}
+                   </p>
                 </div>
 
-                <div className="relative h-2 bg-white/10 rounded-full mb-10">
-                   <div 
-                     className="absolute h-full bg-gradient-to-r from-green-400 to-emerald-600 rounded-full transition-all duration-1000 shadow-[0_0_15px_#10b981]"
-                     style={{ width: `${progress}%` }}
-                   />
-                   <div className="absolute top-1/2 -translate-y-1/2 flex justify-between w-full px-0.5 pointer-events-none">
+                {/* PROGRESS TRACK */}
+                <div className="flex-1 relative py-4">
+                  <div className="h-[3px] bg-gray-100 rounded-full w-full relative">
+                    {/* GLOWING PROGRESS LINE */}
+                    <div 
+                      className="absolute h-full bg-gradient-to-r from-green-400 to-green-600 rounded-full transition-all duration-1000 shadow-[0_0_15px_rgba(22,163,74,0.3)]"
+                      style={{ width: `${progress}%` }}
+                    />
+                    
+                    {/* MILESTONE MARKERS */}
+                    <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-0.5">
                       {milestones.map((m, idx) => {
                         const reached = totalPrice >= m.target;
                         return (
-                          <div key={idx} className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all duration-500 scale-110 ${reached ? 'bg-green-500 border-white text-white' : 'bg-gray-800 border-gray-700 text-gray-500'}`}>
-                             {reached ? m.icon : <Lock size={12} />}
+                          <div key={idx} className="relative group/m">
+                            <div className={`
+                              w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all duration-500
+                              ${reached ? 'bg-green-600 border-white text-white shadow-lg' : 'bg-white border-gray-100 text-gray-300'}
+                            `}>
+                               {reached ? m.icon : <Lock size={10} />}
+                            </div>
+                            {/* MINI TOOLTIP */}
+                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-gray-900 text-white text-[8px] px-2 py-0.5 rounded opacity-0 group-hover/m:opacity-100 transition-opacity whitespace-nowrap">
+                               ₹{m.target} • {m.label}
+                            </div>
                           </div>
                         );
                       })}
-                   </div>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="bg-white/5 rounded-2xl p-4 border border-white/5 text-center text-xs font-bold text-gray-300">
-                  {progress < 100 ? (
-                    <p>Add <span className="text-green-400">₹{Math.max(0, milestones.find(m => totalPrice < m.target)?.target! - totalPrice)}</span> more for the next reward!</p>
-                  ) : (
-                    <p className="text-green-400 uppercase tracking-widest animate-pulse">Max Rewards Unlocked! 🏆</p>
-                  )}
+                {/* STATUS AREA */}
+                <div className="flex-shrink-0 text-right md:min-w-[120px]">
+                   {progress < 100 ? (
+                     <div className="flex flex-col items-end">
+                       <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">Unlock next at</p>
+                       <p className="text-lg font-black text-green-600 tracking-tighter leading-none">
+                         +₹{Math.max(0, milestones.find(m => totalPrice < m.target)?.target! - totalPrice)}
+                       </p>
+                     </div>
+                   ) : (
+                     <div className="text-green-600 flex flex-col items-end animate-pulse">
+                        <PartyPopper size={20} className="mb-1" />
+                        <p className="text-[10px] font-black uppercase tracking-widest text-emerald-600">ALL UNLOCKED!</p>
+                     </div>
+                   )}
                 </div>
               </div>
             </div>
