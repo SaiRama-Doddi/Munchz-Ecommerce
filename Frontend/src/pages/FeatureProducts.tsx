@@ -90,13 +90,8 @@ function ProductReviewStats({ productId }: { productId: number }) {
 export default function FeaturedProducts() {
 
   const navigate = useNavigate();
-  const { addToCart } = useCart();
-
-  const { data: products = [], isLoading, isError } =
-    useFeaturedProducts();
-
-  const [cartClicked, setCartClicked] =
-    useState<{ [key: number]: boolean }>({});
+  const { addToCart, items: cartItems } = useCart();
+  const { data: products = [], isLoading, isError } = useFeaturedProducts();
 
   const [qtyMap, setQtyMap] = useState<Record<number, number>>({});
   const [variantMap, setVariantMap] = useState<Record<number, number>>({});
@@ -205,6 +200,11 @@ const scrollRight = () => {
                     )
                   : 0;
 
+              const isInCart = cartItems.some(item => 
+                item.productId === p.id && 
+                item.selectedVariantIndex === selectedVariantIndex
+              );
+
               return (
                 <div
                   key={p.id}
@@ -241,7 +241,7 @@ const scrollRight = () => {
                     {/* PRICE & WEIGHT LABEL */}
                     <div className="flex items-center justify-between mt-1">
                       <div className="flex flex-col">
-                        <span className="text-xl font-black text-gray-900">
+                        <span className="text-xl font-medium text-gray-900">
                           ₹{selectedVariant.offerPrice * qty}
                         </span>
                         {base100g && (
@@ -252,7 +252,7 @@ const scrollRight = () => {
                       </div>
                       
                       {/* STATIC WEIGHT BADGE */}
-                      <span className="px-3 py-1 bg-white border border-green-200 text-green-700 text-[11px] font-bold rounded-full shadow-sm uppercase tracking-wide">
+                      <span className="px-3 py-1 bg-white border border-green-200 text-green-700 text-[11px] font-semibold rounded-full shadow-sm uppercase tracking-wide">
                         {selectedVariant.weightLabel}
                       </span>
                     </div>
@@ -306,28 +306,15 @@ const scrollRight = () => {
                             base100gPrice: base100g?.offerPrice,
                             qty,
                           });
-
-                          setCartClicked((prev) => ({
-                            ...prev,
-                            [p.id]: true,
-                          }));
-                          
-                          // Reset cart clicked status after 2 seconds
-                          setTimeout(() => {
-                            setCartClicked((prev) => ({
-                              ...prev,
-                              [p.id]: false,
-                            }));
-                          }, 2000);
                         }}
                         className={`flex-1 h-10 flex items-center justify-center gap-2 rounded-xl font-bold text-[13px] transition-all active:scale-95 shadow-md ${
-                          cartClicked[p.id]
+                          isInCart
                             ? "bg-green-100 text-green-700 border-2 border-green-200"
                             : "bg-green-600 text-white hover:bg-green-700 hover:shadow-lg"
                         }`}
                       >
                         <FiShoppingCart size={16} />
-                        {cartClicked[p.id] ? "ADDED" : "ADD TO CART"}
+                        {isInCart ? "ADDED" : "ADD TO CART"}
                       </button>
 
                     </div>
