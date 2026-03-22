@@ -43,6 +43,7 @@ import AddOfflineStock from "./pages/OfflineStockAdd";
 import OfflineInventoryList from "./pages/OfflineInventoryList";
 import AdminCompleteStock from "./pages/AdminCompleteStock";
 import AdminPayments from "./pages/AdminPayments";
+import FloatingActions from "./components/FloatingActions";
 
 import OrderSuccessPage from "./pages/OrderSuccessPage";
 import UserOrders from "./pages/UserOrders";
