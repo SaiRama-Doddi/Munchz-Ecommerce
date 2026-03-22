@@ -2,133 +2,143 @@ import { ShieldCheck, Truck, RotateCcw, Headphones } from "lucide-react";
 
 export default function AboutUs() {
   return (
-    <section className="w-full bg-white py-8 sm:py-10">
+    <section className="w-full bg-[#fafbf9] py-16 sm:py-20">
 
       {/* ABOUT SECTION */}
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 grid-cols-1 items-center">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="grid lg:grid-cols-2 gap-12 items-center bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100">
 
-        {/* LEFT SIDE — TEXT */}
-        <div className="p-8 sm:p-12 md:p-16 bg-[#e3f0e8]">
+          {/* LEFT SIDE — TEXT */}
+          <div className="p-8 sm:p-12 md:p-16">
+            <h2 className="text-3xl md:text-5xl font-bold mb-8 text-gray-900 tracking-tight">
+              About <span className="text-green-600">GoMunchZ</span>
+            </h2>
 
-          <h2 className="text-3xl md:text-4xl font-semibold mb-6 border-l-4 border-green-600 pl-4 text-gray-900">
-            About GoMunchZ
-          </h2>
+            <div className="space-y-6 text-gray-600 leading-relaxed text-[16px] md:text-[18px]">
+              <p>
+                At <span className="font-semibold text-green-700">GoMunchZ</span>, we
+                believe great snacks start with real ingredients. Our mission is to
+                deliver healthy, delicious, and premium-quality snacks made from
+                carefully sourced nuts, dry fruits, and natural ingredients.
+              </p>
 
-          <p className="text-gray-700 leading-relaxed text-[16px] md:text-[17px] mb-4">
-            At <span className="font-semibold text-green-700">GoMunchZ</span>, we
-            believe great snacks start with real ingredients. Our mission is to
-            deliver healthy, delicious, and premium-quality snacks made from
-            carefully sourced nuts, dry fruits, and natural ingredients.
-          </p>
-
-          <p className="text-gray-700 leading-relaxed text-[16px] md:text-[17px] mb-6">
-            Every product is crafted to balance taste and nutrition. From
-            crunchy roasted nuts to flavorful snack blends, we focus on
-            preserving freshness and delivering snacks that you can enjoy
-            anytime with confidence.
-          </p>
-
-          <div className="grid sm:grid-cols-2 gap-4 text-gray-700 text-[15px]">
-
-            <div className="flex items-start gap-3">
-              <span className="text-green-600 font-bold">✓</span>
-              Premium quality dry fruits
+              <p>
+                Every product is crafted to balance taste and nutrition. From
+                crunchy roasted nuts to flavorful snack blends, we focus on
+                preserving freshness and delivering snacks that you can enjoy
+                anytime with confidence.
+              </p>
             </div>
 
-            <div className="flex items-start gap-3">
-              <span className="text-green-600 font-bold">✓</span>
-              Carefully sourced ingredients
+            <div className="mt-10 grid sm:grid-cols-2 gap-6 text-gray-700 font-medium">
+              <div className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
+                  <span className="text-green-600 text-sm">✓</span>
+                </div>
+                Premium quality dry fruits
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
+                  <span className="text-green-600 text-sm">✓</span>
+                </div>
+                Carefully sourced ingredients
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
+                  <span className="text-green-600 text-sm">✓</span>
+                </div>
+                Hygienic packaging standards
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
+                  <span className="text-green-600 text-sm">✓</span>
+                </div>
+                Taste with nutrition combined
+              </div>
             </div>
-
-            <div className="flex items-start gap-3">
-              <span className="text-green-600 font-bold">✓</span>
-              Hygienic packaging standards
-            </div>
-
-            <div className="flex items-start gap-3">
-              <span className="text-green-600 font-bold">✓</span>
-              Taste with nutrition combined
-            </div>
-
           </div>
-        </div>
 
-        {/* RIGHT SIDE — IMAGE */}
-        <div className="relative h-[320px] sm:h-[420px] lg:h-full">
-
-          <div className="absolute inset-0 bg-gradient-to-br from-[#dfe6dc] to-[#faeed6] -z-10"></div>
-
-          <img
-            src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774178873/ChatGPT_Image_Mar_22_2026_04_57_38_PM_teywi3.png"
-            alt="About GoMunchZ"
-            className="w-full h-full object-cover"
-          />
-
+          {/* RIGHT SIDE — IMAGE */}
+          <div className="p-8 lg:p-12">
+            <div className="relative rounded-2xl overflow-hidden aspect-[4/5] shadow-2xl">
+              <img
+                src="/about_premium.png"
+                alt="About GoMunchZ Premium Selection"
+                className="w-full h-full object-cover hover:scale-105 transition duration-700"
+              />
+            </div>
+          </div>
         </div>
       </div>
 
-
       {/* SERVICE ICONS SECTION */}
-
-      <div className="max-w-7xl mx-auto px-6 py-6 sm:py-8">
-        <div className="bg-[#f7f7f7] rounded-xl shadow-sm border grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x">
+      <div className="max-w-7xl mx-auto px-4 mt-12">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
 
           {/* PREMIUM QUALITY */}
-          <div className="flex items-center gap-4 p-6 justify-center sm:justify-start">
-            <ShieldCheck className="text-green-700" size={32} />
+          <div className="flex items-center gap-4 p-8 justify-center sm:justify-start">
+            <div className="p-3 bg-green-50 rounded-xl">
+              <ShieldCheck className="text-green-700" size={28} />
+            </div>
             <div>
-              <p className="font-semibold text-gray-900 text-sm">
+              <p className="font-bold text-gray-900 text-sm tracking-wide">
                 PREMIUM QUALITY
               </p>
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-500 text-xs mt-1">
                 100% Quality Guarantee
               </p>
             </div>
           </div>
 
           {/* SWIFT SHIPPING */}
-          <div className="flex items-center gap-4 p-6 justify-center sm:justify-start">
-            <Truck className="text-green-700" size={32} />
+          <div className="flex items-center gap-4 p-8 justify-center sm:justify-start">
+            <div className="p-3 bg-green-50 rounded-xl">
+              <Truck className="text-green-700" size={28} />
+            </div>
             <div>
-              <p className="font-semibold text-gray-900 text-sm">
+              <p className="font-bold text-gray-900 text-sm tracking-wide">
                 SWIFT SHIPPING
               </p>
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-500 text-xs mt-1">
                 Delivering across India
               </p>
             </div>
           </div>
 
           {/* EASY RETURN */}
-          <div className="flex items-center gap-4 p-6 justify-center sm:justify-start">
-            <RotateCcw className="text-green-700" size={32} />
+          <div className="flex items-center gap-4 p-8 justify-center sm:justify-start">
+            <div className="p-3 bg-green-50 rounded-xl">
+              <RotateCcw className="text-green-700" size={28} />
+            </div>
             <div>
-              <p className="font-semibold text-gray-900 text-sm">
+              <p className="font-bold text-gray-900 text-sm tracking-wide">
                 EASY RETURN
               </p>
-              <p className="text-gray-500 text-sm">
-                Needs to be replaced with XXX …YYYY
-
+              <p className="text-gray-500 text-xs mt-1">
+                Hassle-free 7-day returns
               </p>
             </div>
           </div>
 
           {/* 24/7 SUPPORT */}
-          <div className="flex items-center gap-4 p-6 justify-center sm:justify-start">
-            <Headphones className="text-green-700" size={32} />
+          <div className="flex items-center gap-4 p-8 justify-center sm:justify-start">
+            <div className="p-3 bg-green-50 rounded-xl">
+              <Headphones className="text-green-700" size={28} />
+            </div>
             <div>
-              <p className="font-semibold text-gray-900 text-sm">
+              <p className="font-bold text-gray-900 text-sm tracking-wide">
                 24/7 SUPPORT
               </p>
-              <p className="text-gray-500 text-sm">
-                Needs to be replaced with XXX ….YYYY
-
+              <p className="text-gray-500 text-xs mt-1">
+                Dedicated support team
               </p>
             </div>
           </div>
 
         </div>
       </div>
+
+    </section>
 
     </section>
   );
