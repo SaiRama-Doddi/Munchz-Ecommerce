@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import OtpPage from "./pages/OtpPage";
 import AboutUs from "./components/AboutUs";
 import Footer from "./components/Footer";
+import Testimonials from "./components/Testimonials";
 import FAQ from "./components/FAQ";
 import ProductImage from "./components/ProductImage";
 import SignUp from "./pages/SignUp";
@@ -67,6 +68,7 @@ export default function App() {
             <ProductImage />
             <FeaturedProducts />
             <AboutUs />
+            <Testimonials />
             <FAQ />
             <Footer />
           </>

@@ -13,6 +13,7 @@ export default function AboutUs() {
             <h2 className="text-3xl md:text-5xl font-bold mb-8 text-gray-900 tracking-tight">
               About <span className="text-green-600">GoMunchZ</span>
             </h2>
+            <div className="w-16 h-[3px] bg-green-600 mb-8"></div>
 
             <div className="space-y-6 text-gray-600 leading-relaxed text-[16px] md:text-[18px]">
               <p>
