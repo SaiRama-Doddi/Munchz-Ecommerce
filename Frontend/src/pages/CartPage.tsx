@@ -99,7 +99,7 @@ export default function CartPremium() {
 
   const nextGoal = allTargets.find(t => t.target > totalPrice);
   const amountToNext = nextGoal ? nextGoal.target - totalPrice : 0;
-  
+
   const maxMilestone = milestones[milestones.length - 1].target;
   const progress = Math.min((totalPrice / maxMilestone) * 100, 100);
   const savingsAmount = totalMrp - totalPrice;
@@ -112,7 +112,7 @@ export default function CartPremium() {
         </div>
         <h2 className="text-3xl font-bold text-gray-900 mb-3 tracking-tight">Your cart is empty</h2>
         <p className="text-gray-500 font-medium mb-10 text-center max-w-xs leading-relaxed">Looks like you haven't added anything to your cart yet.</p>
-        <button 
+        <button
           onClick={() => navigate('/productpage')}
           className="bg-green-600 text-white font-bold px-10 py-4 rounded-2xl shadow-lg hover:bg-green-700 transition-all hover:-translate-y-1 active:scale-95 flex items-center gap-3"
         >
@@ -124,7 +124,7 @@ export default function CartPremium() {
 
   return (
     <div className="w-full min-h-screen bg-[#f9fdf7]">
-      
+
       {/* CELEBRATION */}
       {showCelebration && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none overflow-hidden">
@@ -157,29 +157,18 @@ export default function CartPremium() {
       </div>
 
       {/* BRAND BANNER - UNIFIED WITH ABOUT US STYLE */}
-      <section className="bg-white border-b border-green-50 py-12 md:py-16 hidden sm:block">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10">
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight leading-tight">
-            Real Ingredients. <span className="text-green-600">Unreal Flavor.</span>
-          </h2>
-          <p className="text-gray-500 text-sm md:text-base mt-3 max-w-2xl leading-relaxed">
-            Pure ingredients, absolutely zero compromise, and snacks you can feel truly good about.
-          </p>
-          <div className="w-16 h-[3px] bg-green-600 mt-4 md:mt-6"></div>
-        </div>
-      </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid lg:grid-cols-3 gap-10">
-          
+
           {/* LEFT: CART ITEMS */}
           <div className="lg:col-span-2 space-y-6">
-            
+
             {/* SINGLE LINE REWARDS SECTION */}
             <div className="bg-white rounded-[2rem] p-6 md:p-8 border border-green-100 shadow-sm relative group overflow-hidden transition-all hover:shadow-xl">
               <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:scale-110 transition-transform"><Trophy size={110} /></div>
               <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8 md:gap-14">
-                
+
                 {/* HEADER AREA */}
                 <div className="flex-shrink-0">
                   <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight leading-none mb-1">
@@ -194,11 +183,11 @@ export default function CartPremium() {
                 <div className="flex-1 relative py-4">
                   <div className="h-[3px] bg-gray-100 rounded-full w-full relative">
                     {/* GLOWING PROGRESS LINE */}
-                    <div 
+                    <div
                       className="absolute h-full bg-gradient-to-r from-green-400 to-green-600 rounded-full transition-all duration-1000 shadow-[0_0_15px_rgba(22,163,74,0.3)]"
                       style={{ width: `${progress}%` }}
                     />
-                    
+
                     {/* MILESTONE MARKERS */}
                     <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-0.5">
                       {milestones.map((m, idx) => {
@@ -232,7 +221,7 @@ export default function CartPremium() {
 
                 return (
                   <div key={i} className="bg-white rounded-[2rem] p-3 sm:p-5 border border-green-50 shadow-sm hover:shadow-lg transition-all duration-300 group flex items-center gap-4 relative overflow-hidden">
-                    
+
                     {/* IMAGE - MOBILE FRIENDLY */}
                     <div className="relative w-20 h-20 sm:w-28 sm:h-28 bg-[#ecfdf5] rounded-2xl sm:rounded-3xl overflow-hidden flex-shrink-0">
                       <img src={item.imageUrl} className="w-full h-full object-contain p-2 sm:p-4" alt={item.name} />
@@ -253,7 +242,7 @@ export default function CartPremium() {
                           <Trash2 size={14} />
                         </button>
                       </div>
-                      
+
                       <div className="flex items-center justify-between mt-2 sm:mt-4">
                         <div className="flex items-center gap-2">
                           <span className="text-base sm:text-2xl font-bold text-gray-900 tracking-tighter">₹{v.offerPrice}</span>
@@ -286,7 +275,7 @@ export default function CartPremium() {
 
           {/* RIGHT: SUMMARY */}
           <div className="lg:col-span-1 space-y-6">
-            
+
             {/* COUPONS */}
             <div className="bg-white rounded-[2rem] p-8 border border-green-50 shadow-sm">
               <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-3 tracking-tight">
@@ -342,25 +331,25 @@ export default function CartPremium() {
               </h3>
 
               <div className="space-y-4 mb-10">
-                <div className="flex justify-between items-center text-sm font-bold text-gray-400 uppercase tracking-widest bg-gray-50 p-3 rounded-xl border border-gray-100">
+                <div className="flex justify-between items-center text-sm md:text-base font-bold text-gray-900 tracking-tight bg-gray-50/50 p-3 rounded-xl border border-gray-100">
                   <span>Initial Amount</span>
-                  <span className="text-gray-900 font-bold">₹{totalPrice.toFixed(0)}</span>
+                  <span className="font-bold">₹{totalPrice.toFixed(0)}</span>
                 </div>
                 {savingsAmount > 0 && (
-                  <div className="flex justify-between items-center text-sm font-bold text-green-600 uppercase tracking-widest px-3">
+                  <div className="flex justify-between items-center text-sm md:text-base font-bold text-green-700 tracking-tight px-3">
                     <span>Instant Savings</span>
                     <span className="font-bold">-₹{savingsAmount.toFixed(0)}</span>
                   </div>
                 )}
                 {discount > 0 && (
-                  <div className="flex justify-between items-center text-sm font-bold text-green-600 uppercase tracking-widest px-3">
+                  <div className="flex justify-between items-center text-sm md:text-base font-bold text-green-700 tracking-tight px-3">
                     <span>Coupon Discount</span>
                     <span className="font-bold">-₹{discount.toFixed(0)}</span>
                   </div>
                 )}
-                <div className="flex justify-between items-center text-sm font-bold text-green-600 uppercase tracking-widest px-3">
+                <div className="flex justify-between items-center text-sm md:text-base font-bold text-green-700 tracking-tight px-3">
                   <span>Shipping Charge</span>
-                  <span className="font-bold uppercase tracking-widest text-[#22c55e]">FREE</span>
+                  <span className="font-bold text-green-600">FREE</span>
                 </div>
                 <div className="h-px bg-gray-100 my-4"></div>
                 <div className="flex justify-between items-end bg-green-50/50 p-4 rounded-2xl border border-green-100">
