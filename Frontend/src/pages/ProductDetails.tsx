@@ -212,10 +212,10 @@ export default function ProductDetails() {
   /* =========================
      IMAGE + VARIANT LOGIC
   ========================= */
-  const images =
-    product.imageUrls && product.imageUrls.length > 0
-      ? product.imageUrls
-      : [product.imageUrl];
+  const images = Array.from(new Set([
+    product.imageUrl,
+    ...(product.imageUrls || [])
+  ])).filter(Boolean);
 
 
 
@@ -260,6 +260,15 @@ export default function ProductDetails() {
           <div className="max-w-7xl mx-auto px-4">
 
             {/* BACK BUTTON */}
+            <button 
+              onClick={() => navigate(-1)}
+              className="flex items-center gap-2 text-gray-500 hover:text-green-700 transition mb-10 group"
+            >
+              <div className="p-2 rounded-full bg-white shadow-sm border border-gray-100 group-hover:border-green-200 group-hover:bg-green-50 transition-all">
+                <ArrowLeft size={18} />
+              </div>
+              <span className="text-sm font-bold tracking-tight">Back to Shop</span>
+            </button>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-20">
 
