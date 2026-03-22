@@ -205,92 +205,64 @@ export default function CartPremium() {
                       })}
                     </div>
                   </div>
-                </div>
-
-                {/* STATUS AREA */}
-                <div className="flex-shrink-0 text-right md:min-w-[150px]">
-                   {nextGoal ? (
-                     <div className="flex flex-col items-end group/hint">
-                       <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1 group-hover/hint:text-green-600 transition-colors">
-                         UNLOCK NEXT AT
-                       </p>
-                       <div className="flex items-center gap-2">
-                         <p className="text-xl font-black text-green-600 tracking-tighter leading-none">
-                           ₹{amountToNext.toFixed(0)} MORE
-                         </p>
-                         <ChevronRight size={14} className="text-green-200 group-hover/hint:translate-x-1 transition-transform" />
-                       </div>
-                     </div>
-                   ) : (
-                     <div className="text-green-600 flex flex-col items-end animate-pulse">
-                        <PartyPopper size={24} className="mb-2" />
-                        <p className="text-[10px] font-black uppercase tracking-widest text-emerald-600 leading-none">ALL REWARDS UNLOCKED!</p>
-                        <p className="text-[8px] font-bold text-gray-400 mt-1 uppercase tracking-tighter">You're a VIP Muncher 🏆</p>
-                     </div>
-                   )}
-                </div>
-              </div>
+                             </div>
             </div>
+       </div>
 
             {/* ITEM LIST */}
-            <div className="space-y-4">
+            <div className="space-y-4 px-2 sm:px-0">
               {items.map((item, i) => {
                 const v = item.variants[item.selectedVariantIndex];
                 const discPercent = Math.round((( (v.mrp || v.offerPrice) - v.offerPrice) / (v.mrp || v.offerPrice) || 0) * 100);
 
                 return (
-                  <div key={i} className="bg-white rounded-[2rem] p-5 sm:p-7 border border-green-50 shadow-sm hover:shadow-xl transition-all duration-300 group relative">
-                    <div className="flex flex-col sm:flex-row gap-6">
-                      
-                      {/* IMG */}
-                      <div className="relative w-32 h-32 bg-[#ecfdf5] rounded-3xl overflow-hidden flex-shrink-0 group-hover:scale-105 transition-transform duration-500">
-                        <img src={item.imageUrl} className="w-full h-full object-contain p-4" alt={item.name} />
-                        {discPercent > 0 && (
-                          <div className="absolute top-0 right-0 bg-green-600 text-white text-[10px] font-black px-2.5 py-1 rounded-bl-2xl uppercase">{discPercent}% OFF</div>
-                        )}
-                      </div>
-
-                      {/* INFO */}
-                      <div className="flex-1 flex flex-col justify-between py-1">
-                        <div>
-                          <div className="flex justify-between items-start gap-4">
-                            <h4 className="text-lg font-bold text-gray-900 tracking-tight leading-tight uppercase underline-offset-4 pointer-events-none">{item.name}</h4>
-                            <button onClick={() => removeItem(i)} className="p-2.5 bg-gray-50 text-gray-300 hover:bg-red-50 hover:text-red-500 rounded-xl transition-all border border-gray-100 hover:border-red-100">
-                              <Trash2 size={18} />
-                            </button>
-                          </div>
-                          
-                          <div className="flex items-center gap-3 mt-3">
-                            <span className="text-2xl font-black text-gray-900 tracking-tighter">₹{v.offerPrice}</span>
-                            {v.mrp > v.offerPrice && (
-                              <span className="text-xs text-gray-400 line-through font-bold">₹{v.mrp}</span>
-                            )}
-                            <div className="px-3 py-1 bg-green-50/50 border border-green-100 rounded-lg ml-auto">
-                              <select 
-                                value={item.selectedVariantIndex}
-                                onChange={(e) => changeVariant(i, Number(e.target.value))}
-                                className="bg-transparent text-[11px] font-black uppercase text-green-700 outline-none cursor-pointer"
-                              >
-                                {item.variants.map((variant, idx) => (
-                                  <option key={idx} value={idx}>{variant.weightLabel}</option>
-                                ))}
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* QTY */}
-                        <div className="flex items-center justify-between mt-6">
-                           <div className="flex items-center bg-gray-50 border border-gray-100 rounded-2xl p-1.5 shadow-inner">
-                             <button onClick={() => updateQty(i, Math.max(item.qty - 1, 1))} className="w-10 h-10 flex items-center justify-center rounded-xl bg-white text-gray-400 hover:text-green-600 shadow-sm border border-gray-100 transition-all active:scale-90"><Minus size={16} /></button>
-                             <span className="w-10 text-center font-black text-gray-900">{item.qty}</span>
-                             <button onClick={() => updateQty(i, item.qty + 1)} className="w-10 h-10 flex items-center justify-center rounded-xl bg-white text-gray-400 hover:text-green-600 shadow-sm border border-gray-100 transition-all active:scale-90"><Plus size={16} /></button>
-                           </div>
-                           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">SUBTOTAL: <span className="text-gray-900 font-black">₹{v.offerPrice * item.qty}</span></p>
-                        </div>
-                      </div>
-
+                  <div key={i} className="bg-white rounded-[2rem] p-3 sm:p-5 border border-green-50 shadow-sm hover:shadow-lg transition-all duration-300 group flex items-center gap-4 relative overflow-hidden">
+                    
+                    {/* IMAGE - MOBILE FRIENDLY */}
+                    <div className="relative w-20 h-20 sm:w-28 sm:h-28 bg-[#ecfdf5] rounded-2xl sm:rounded-3xl overflow-hidden flex-shrink-0">
+                      <img src={item.imageUrl} className="w-full h-full object-contain p-2 sm:p-4" alt={item.name} />
+                      {discPercent > 0 && (
+                        <div className="absolute top-0 left-0 bg-green-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded-br-xl uppercase">{discPercent}%</div>
+                      )}
                     </div>
+
+                    {/* CONTENT - FULL WIDTH ON MOBILE */}
+                    <div className="flex-1 min-w-0 py-1">
+                      <div className="flex justify-between items-start gap-2">
+                        <div>
+                          <h4 className="text-sm sm:text-lg font-bold text-gray-900 tracking-tight leading-tight line-clamp-1 truncate">{item.name}</h4>
+                          <p className="text-[10px] text-gray-400 font-bold uppercase mt-0.5">{v.weightLabel}</p>
+                        </div>
+                        {/* DELETE - ALWAYS VISIBLE ON MOBILE AS RED CIRCLE */}
+                        <button onClick={() => removeItem(i)} className="sm:hidden w-8 h-8 flex items-center justify-center bg-red-50 text-red-500 rounded-full border border-red-100 flex-shrink-0">
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                      
+                      <div className="flex items-center justify-between mt-2 sm:mt-4">
+                        <div className="flex items-center gap-2">
+                          <span className="text-base sm:text-2xl font-black text-gray-900 tracking-tighter">₹{v.offerPrice}</span>
+                          {v.mrp > v.offerPrice && (
+                            <span className="text-[10px] sm:text-xs text-gray-400 line-through font-bold">₹{v.mrp}</span>
+                          )}
+                        </div>
+
+                        {/* QTY - COMPACT STYLE */}
+                        <div className="flex items-center bg-gray-50 border border-gray-100 rounded-xl p-1 gap-1">
+                          <button onClick={() => updateQty(i, Math.max(item.qty - 1, 1))} className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-white rounded-lg transition-all"><Minus size={12} /></button>
+                          <span className="w-4 text-center text-xs font-black text-gray-900">{item.qty}</span>
+                          <button onClick={() => updateQty(i, item.qty + 1)} className="w-7 h-7 flex items-center justify-center bg-green-600 text-white rounded-lg shadow-sm hover:bg-green-700 transition-all"><Plus size={12} /></button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* DESKTOP DELETE */}
+                    <div className="hidden sm:block">
+                       <button onClick={() => removeItem(i)} className="p-3 bg-gray-50 text-gray-300 hover:bg-red-50 hover:text-red-500 rounded-xl transition-all border border-gray-100 hover:border-red-100">
+                          <Trash2 size={18} />
+                       </button>
+                    </div>
+
                   </div>
                 );
               })}
@@ -353,30 +325,33 @@ export default function CartPremium() {
                <h3 className="text-xl font-black text-gray-900 mb-8 tracking-tighter uppercase">Order Summary</h3>
                
                <div className="space-y-4 mb-10">
-                 <div className="flex justify-between items-center text-sm font-bold text-gray-400 uppercase tracking-widest">
+                 <div className="flex justify-between items-center text-sm font-bold text-gray-400 uppercase tracking-widest bg-gray-50 p-3 rounded-xl border border-gray-100">
                    <span>Initial Amount</span>
                    <span className="text-gray-900 font-black">₹{totalPrice.toFixed(0)}</span>
                  </div>
                  {savingsAmount > 0 && (
-                   <div className="flex justify-between items-center text-sm font-bold text-green-600 uppercase tracking-widest">
+                   <div className="flex justify-between items-center text-sm font-bold text-green-600 uppercase tracking-widest px-3">
                      <span>Instant Savings</span>
                      <span className="font-black">-₹{savingsAmount.toFixed(0)}</span>
                    </div>
                  )}
                  {discount > 0 && (
-                   <div className="flex justify-between items-center text-sm font-bold text-green-600 uppercase tracking-widest">
+                   <div className="flex justify-between items-center text-sm font-bold text-green-600 uppercase tracking-widest px-3">
                      <span>Coupon Discount</span>
                      <span className="font-black">-₹{discount.toFixed(0)}</span>
                    </div>
                  )}
-                 <div className="flex justify-between items-center text-sm font-bold text-green-600 uppercase tracking-widest">
+                 <div className="flex justify-between items-center text-sm font-bold text-green-600 uppercase tracking-widest px-3">
                    <span>Shipping Charge</span>
                    <span className="font-black uppercase tracking-widest text-[#22c55e]">FREE</span>
                  </div>
                  <div className="h-px bg-gray-100 my-4"></div>
-                 <div className="flex justify-between items-end">
-                   <p className="text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Grand Total</p>
-                   <p className="text-4xl font-black text-gray-900 tracking-tighter">₹{finalAmount.toFixed(0)}</p>
+                 <div className="flex justify-between items-end bg-green-50/50 p-4 rounded-2xl border border-green-100">
+                   <div>
+                     <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">Grand Total</p>
+                     <p className="text-3xl sm:text-4xl font-black text-gray-900 tracking-tighter">₹{finalAmount.toFixed(0)}</p>
+                   </div>
+                   <div className="pb-1 opacity-20"><ShoppingBag size={32} /></div>
                  </div>
                </div>
 
