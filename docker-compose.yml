@@ -15,7 +15,9 @@ services:
       - postgres-data:/var/lib/postgresql/data
 
   api-gateway:
-    build: ./Backend/api-gateway/api-gateway
+    build:
+      context: .
+      dockerfile: Backend/api-gateway/api-gateway/Dockerfile
     container_name: api-gateway
     ports:
       - "8080:8080"
