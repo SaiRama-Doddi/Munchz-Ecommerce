@@ -108,10 +108,26 @@ export default function AllProducts() {
   const navigate = useNavigate();
   const { addToCart, items: cartItems } = useCart();
   const { data: products = [], isLoading, isError } = useAllProducts();
+  const { data: categories = [] } = useCategories();
 
   /* PRODUCT STATE */
   const [qtyMap, setQtyMap] = useState<Record<number, number>>({});
   const [variantMap, setVariantMap] = useState<Record<number, number>>({});
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | "ALL">("ALL");
+
+  const filteredProducts = useMemo(() => {
+    if (selectedCategoryId === "ALL") return products;
+    return products.filter((p: any) => {
+      const pCatId = p.category?.id ?? p.categoryId ?? null;
+      return pCatId === selectedCategoryId;
+    });
+  }, [products, selectedCategoryId]);
+
+  const selectedCategoryName = useMemo(() => {
+    if (selectedCategoryId === "ALL") return "All";
+    const cat = categories.find((c) => c.id === selectedCategoryId);
+    return cat ? cat.name : "Products";
+  }, [selectedCategoryId, categories]);
 
   if (isLoading) {
     return <PremiumSpinner text="Fetching your products..." />;
@@ -125,11 +141,11 @@ export default function AllProducts() {
     );
 
   return (
-    <div className="bg-[#f9fdf7] min-h-screen py-12 md:py-16">
+    <div className="bg-[#f9fdf7] min-h-screen py-10 md:py-16">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
 
-        {/* HEADER */}
-        <div className="mb-12 text-left">
+        {/* HEADER AREA */}
+        <div className="mb-12">
           <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
             Our <span className="text-green-600">Premium Range</span>
           </h2>
@@ -139,9 +155,82 @@ export default function AllProducts() {
           <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
         </div>
 
+        {/* CATEGORY FILTER (SLIDER) */}
+        <div className="mb-14">
+          <p className="text-[13px] font-bold text-green-700 uppercase tracking-widest mb-5 ml-1">
+            Browse By Category
+          </p>
+          <div className="flex gap-4 overflow-x-auto pb-6 -mx-1 px-1 no-scrollbar">
+            
+            <button
+              onClick={() => setSelectedCategoryId("ALL")}
+              className={`flex flex-col items-center gap-3 p-2 rounded-2xl transition-all group min-w-[100px] ${
+                selectedCategoryId === "ALL" 
+                ? "bg-green-50 scale-105" 
+                : "hover:bg-gray-50"
+              }`}
+            >
+              <div className={`w-16 h-16 rounded-full flex items-center justify-center border-2 transition-all shadow-sm overflow-hidden ${
+                selectedCategoryId === "ALL"
+                ? "border-green-600 bg-white"
+                : "border-transparent bg-gray-100 group-hover:border-green-200"
+              }`}>
+                <span className={`text-xl font-bold ${selectedCategoryId === "ALL" ? "text-green-600" : "text-gray-400"}`}>
+                  ALL
+                </span>
+              </div>
+              <span className={`text-[12px] font-bold tracking-tight ${selectedCategoryId === "ALL" ? "text-green-700" : "text-gray-500"}`}>
+                Everything
+              </span>
+            </button>
+
+            {categories.map((c) => (
+              <button
+                key={c.id}
+                onClick={() => setSelectedCategoryId(c.id)}
+                className={`flex flex-col items-center gap-3 p-2 rounded-2xl transition-all group min-w-[100px] ${
+                  selectedCategoryId === c.id 
+                  ? "bg-green-50 scale-105" 
+                  : "hover:bg-gray-50"
+                }`}
+              >
+                <div className={`w-16 h-16 rounded-full border-2 transition-all shadow-sm overflow-hidden ${
+                  selectedCategoryId === c.id
+                  ? "border-green-600 bg-white"
+                  : "border-transparent bg-gray-100 group-hover:border-green-200"
+                }`}>
+                  <img 
+                    src={c.thumbnailImage || "https://placehold.co/100x100?text=Category"} 
+                    alt={c.name}
+                    className={`w-full h-full object-cover transition-all ${
+                      selectedCategoryId === c.id ? "scale-110" : "group-hover:scale-110"
+                    }`}
+                  />
+                </div>
+                <span className={`text-[12px] font-bold tracking-tight text-center ${selectedCategoryId === c.id ? "text-green-700" : "text-gray-500"}`}>
+                  {c.name}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* DYNAMIC SECTION HEADER */}
+        <div className="mb-10 flex items-center justify-between">
+           <div className="flex items-center gap-3">
+              <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
+                {selectedCategoryName} Products
+              </h3>
+           </div>
+           <span className="text-[12px] font-bold text-gray-400 bg-gray-100 px-3 py-1.5 rounded-full">
+              {filteredProducts.length} Items
+           </span>
+        </div>
+
         {/* PRODUCTS GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {products.map((p) => {
+          {filteredProducts.map((p: any) => {
             const base100g = p.variants.find(
               (v) => v.weightInGrams === 100
             );
@@ -174,11 +263,11 @@ export default function AllProducts() {
               <div
                 key={p.id}
                 onClick={() => navigate(`/product/${p.id}`)}
-                className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2"
+                className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2 min-h-[480px]"
               >
 
                 {/* IMAGE */}
-                <div className="relative bg-white aspect-square flex items-center justify-center m-4 rounded-2xl overflow-hidden shadow-inner border border-green-50">
+                <div className="relative bg-white aspect-square flex items-center justify-center m-4 rounded-2xl overflow-hidden shadow-inner border border-green-50 flex-shrink-0">
                   <img
                     src={p.imageUrl}
                     alt={p.name}
@@ -194,76 +283,78 @@ export default function AllProducts() {
 
                 {/* CONTENT */}
                 <div className="p-5 flex flex-col gap-4 flex-grow">
-                  <h3 className="text-[17px] font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">
+                  <h3 className="text-[17px] font-bold text-gray-900 line-clamp-2 min-h-[3rem] group-hover:text-green-700 transition-colors">
                     {p.name}
                   </h3>
 
-                  <ProductReviewStats productId={p.id} />
+                  <div className="mt-auto">
+                    <ProductReviewStats productId={p.id} />
 
-                  {/* PRICE & WEIGHT */}
-                  <div className="flex items-center justify-between mt-1">
-                    <div className="flex flex-col">
-                      <span className="text-2xl font-medium text-gray-900 tracking-tight">
-                        ₹{selectedVariant.offerPrice * qty}
-                      </span>
-                      {base100g && (
-                        <span className="text-[11px] text-gray-500 font-medium tracking-tight">
-                          (₹{base100g.offerPrice}/100g)
+                    {/* PRICE & WEIGHT */}
+                    <div className="flex items-center justify-between mt-4">
+                      <div className="flex flex-col">
+                        <span className="text-2xl font-medium text-gray-900 tracking-tight">
+                          ₹{selectedVariant.offerPrice * qty}
                         </span>
-                      )}
-                    </div>
-                    
-                    <span className="px-4 py-1.5 bg-white border border-green-200 text-green-700 text-[12px] font-bold rounded-full shadow-sm uppercase tracking-wider">
-                      {selectedVariant.weightLabel}
-                    </span>
-                  </div>
-
-                  {/* ACTIONS */}
-                  <div
-                    className="flex items-center gap-3 mt-4"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {/* QUANTITY */}
-                    <div className="flex items-center bg-white rounded-2xl border border-green-200 p-1.5 shadow-sm">
-                      <button
-                        onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: Math.max(1, (pvs[p.id] || 1) - 1)}))}
-                        className="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all font-bold text-xl"
-                      >
-                        -
-                      </button>
-                      <span className="w-8 text-center text-sm font-bold text-gray-900">
-                        {qty}
+                        {base100g && (
+                          <span className="text-[11px] text-gray-500 font-medium tracking-tight">
+                            (₹{base100g.offerPrice}/100g)
+                          </span>
+                        )}
+                      </div>
+                      
+                      <span className="px-4 py-1.5 bg-white border border-green-200 text-green-700 text-[12px] font-bold rounded-full shadow-sm uppercase tracking-wider">
+                        {selectedVariant.weightLabel}
                       </span>
-                      <button
-                        onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: (pvs[p.id] || 1) + 1}))}
-                        className="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all font-bold text-xl"
-                      >
-                        +
-                      </button>
                     </div>
 
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        addToCart({
-                          productId: p.id,
-                          name: p.name,
-                          imageUrl: p.imageUrl,
-                          variants: sellVariants,
-                          selectedVariantIndex,
-                          base100gPrice: base100g?.offerPrice,
-                          qty,
-                        });
-                      }}
-                      className={`flex-1 h-12 flex items-center justify-center gap-3 rounded-2xl font-bold text-[14px] transition-all active:scale-95 shadow-md ${
-                        isInCart
-                          ? "bg-green-100 text-green-700 border-2 border-green-200"
-                          : "bg-green-600 text-white hover:bg-green-700 hover:shadow-xl"
-                      }`}
+                    {/* ACTIONS */}
+                    <div
+                      className="flex items-center gap-3 mt-6"
+                      onClick={(e) => e.stopPropagation()}
                     >
-                      <FiShoppingCart size={18} />
-                      {isInCart ? "ADDED" : "ADD TO CART"}
-                    </button>
+                      {/* QUANTITY */}
+                      <div className="flex items-center bg-white rounded-2xl border border-green-200 p-1 shadow-sm h-11">
+                        <button
+                          onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: Math.max(1, (pvs[p.id] || 1) - 1)}))}
+                          className="w-8 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-l-xl transition-all font-bold text-xl"
+                        >
+                          -
+                        </button>
+                        <span className="w-8 text-center text-sm font-bold text-gray-900">
+                          {qty}
+                        </span>
+                        <button
+                          onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: (pvs[p.id] || 1) + 1}))}
+                          className="w-8 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-r-xl transition-all font-bold text-xl"
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          addToCart({
+                            productId: p.id,
+                            name: p.name,
+                            imageUrl: p.imageUrl,
+                            variants: sellVariants,
+                            selectedVariantIndex,
+                            base100gPrice: base100g?.offerPrice,
+                            qty,
+                          });
+                        }}
+                        className={`flex-1 h-11 flex items-center justify-center gap-2 rounded-2xl font-bold text-[13px] transition-all active:scale-95 shadow-md ${
+                          isInCart
+                            ? "bg-green-100 text-green-700 border-2 border-green-200"
+                            : "bg-green-600 text-white hover:bg-green-700 hover:shadow-xl"
+                        }`}
+                      >
+                        <FiShoppingCart size={16} />
+                        {isInCart ? "ADDED" : "ADD TO CART"}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
