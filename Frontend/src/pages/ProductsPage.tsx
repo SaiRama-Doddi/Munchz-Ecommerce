@@ -106,115 +106,16 @@ function ProductReviewStats({ productId }: { productId: number }) {
 ========================= */
 export default function AllProducts() {
   const navigate = useNavigate();
-  const { addToCart } = useCart();
-  const [cartClicked, setCartClicked] =
-    useState<{ [key: number]: boolean }>({});
+  const { addToCart, items: cartItems } = useCart();
   const { data: products = [], isLoading, isError } = useAllProducts();
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-
 
   /* PRODUCT STATE */
   const [qtyMap, setQtyMap] = useState<Record<number, number>>({});
   const [variantMap, setVariantMap] = useState<Record<number, number>>({});
 
-  /* FILTER STATE */
-  const [price, setPrice] = useState(5000);
-  const [weights, setWeights] = useState<number[]>([]);
-  const [selectedCategoryId, setSelectedCategoryId] =
-    useState<number | "ALL">("ALL");
-
-  const toggleWeight = (w: number) =>
-    setWeights((prev) =>
-      prev.includes(w) ? prev.filter((x) => x !== w) : [...prev, w]
-    );
-
-  const incQty = (id: number) =>
-    setQtyMap((p) => ({ ...p, [id]: (p[id] || 1) + 1 }));
-
-  const decQty = (id: number) =>
-    setQtyMap((p) => ({ ...p, [id]: Math.max(1, (p[id] || 1) - 1) }));
-
-  /* =========================
-    FILTER PRODUCTS (ALL VARIANTS)
-  ========================= */
-  const filteredProducts = useMemo(() => {
-    return products.filter((p: any) => {
-
-
-
-
-
-      /* ================= CATEGORY FILTER ================= */
-      const productCategoryId =
-        p.category?.id ?? p.categoryId ?? null;
-
-      const categoryMatch =
-        selectedCategoryId === "ALL" ||
-        productCategoryId === selectedCategoryId;
-
-      if (!categoryMatch) return false;
-
-      /* ================= EXISTING LOGIC (UNCHANGED) ================= */
-      const sellVariants = p.variants.filter(
-        (v: any) => v.weightInGrams !== 100
-      );
-
-      const priceMatch = sellVariants.some(
-        (v: any) => v.offerPrice <= price
-      );
-
-      const weightMatch =
-        weights.length === 0 ||
-        sellVariants.some((v: any) =>
-          weights.includes(v.weightInGrams)
-        );
-
-      return priceMatch && weightMatch;
-    });
-
-
-  }, [products, price, weights, selectedCategoryId]);
-
-
-
-
-
-
-  /* =========================
-    SYNC FILTER → VARIANT
-  ========================= */
-  useEffect(() => {
-    if (weights.length === 0) return;
-
-    const preferredWeight = weights[0];
-
-    setVariantMap((prev) => {
-      const updated = { ...prev };
-
-      products.forEach((p) => {
-        const sellVariants = p.variants.filter(
-          (v) => v.weightInGrams !== 100
-        );
-
-        const matchIndex = sellVariants.findIndex(
-          (v) => v.weightInGrams === preferredWeight
-        );
-
-        if (matchIndex !== -1) {
-          updated[p.id] = matchIndex;
-        }
-      });
-
-      return updated;
-    });
-  }, [weights, products]);
-
-  const { data: categories = [] } = useCategories();
-
   if (isLoading) {
     return <PremiumSpinner text="Fetching your products..." />;
   }
-
 
   if (isError)
     return (
@@ -224,318 +125,150 @@ export default function AllProducts() {
     );
 
   return (
-    <div className="bg-[#f3fff1] min-h-screen py-12">
-      <div className="max-w-7xl mx-auto px-4">
+    <div className="bg-[#f9fdf7] min-h-screen py-12 md:py-16">
+      <div className="max-w-7xl mx-auto px-4 md:px-6">
 
-
-
-
-
-        {/* MOBILE FILTER BUTTON */}
-        <div className="flex justify-between items-center mb-6 lg:hidden">
-          <h2 className="text-2xl font-semibold">All Products</h2>
-
-          <button
-            onClick={() => setIsFilterOpen(true)}
-            className="bg-green-700 text-white px-4 py-2 rounded-lg"
-          >
-            ☰ Filters
-          </button>
+        {/* HEADER */}
+        <div className="mb-12 text-left">
+          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+            Our <span className="text-green-600">Premium Range</span>
+          </h2>
+          <p className="text-gray-500 text-sm mt-3 max-w-lg">
+            Delicious snacks crafted with quality and care
+          </p>
+          <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
         </div>
 
+        {/* PRODUCTS GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          {products.map((p) => {
+            const base100g = p.variants.find(
+              (v) => v.weightInGrams === 100
+            );
 
-        <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8">
+            const sellVariants = p.variants.filter(
+              (v) => v.weightInGrams !== 100
+            );
 
-          {/* ================= FILTER PANEL ================= */}
-          <aside className="sticky top-24 h-fit bg-white rounded-xl p-5 shadow hidden lg:block">
-            <h3 className="font-semibold mb-6">☰ Sorted by</h3>
+            const selectedVariantIndex = variantMap[p.id] ?? 0;
+            const selectedVariant = sellVariants[selectedVariantIndex];
+            const qty = qtyMap[p.id] || 1;
 
-            <div className="mb-6">
-              <p className="font-medium mb-2">Price</p>
-              <p className="text-sm mb-2">₹0 to ₹{price}</p>
-              <input
-                type="range"
-                min={0}
-                max={5000}
-                step={50}
-                value={price}
-                onChange={(e) => setPrice(Number(e.target.value))}
-                className="w-full accent-green-600"
-              />
-            </div>
+            if (!selectedVariant) return null;
 
-            <div>
-              <p className="font-medium mb-3">Weight</p>
-              {[250, 500, 750, 1000].map((w) => (
-                <label
-                  key={w}
-                  className="flex items-center gap-2 text-sm mb-2"
-                >
-                  <input
-                    type="checkbox"
-                    checked={weights.includes(w)}
-                    onChange={() => toggleWeight(w)}
-                    className="accent-green-600"
-                  />
-                  {w === 1000 ? "1kg" : `${w}gm`}
-                </label>
-              ))}
-            </div>
-          </aside>
+            const discount =
+              selectedVariant.mrp > selectedVariant.offerPrice
+                ? Math.round(
+                  ((selectedVariant.mrp - selectedVariant.offerPrice) /
+                    selectedVariant.mrp) *
+                  100
+                )
+                : 0;
 
+            const isInCart = cartItems.some(item => 
+              item.productId === p.id && 
+              item.selectedVariantIndex === selectedVariantIndex
+            );
 
-          {/* ================= MOBILE FILTER DRAWER ================= */}
-          {isFilterOpen && (
-            <div className="fixed inset-0 z-50 flex">
-              {/* BACKDROP */}
+            return (
               <div
-                className="absolute inset-0 bg-black/40"
-                onClick={() => setIsFilterOpen(false)}
-              />
+                key={p.id}
+                onClick={() => navigate(`/product/${p.id}`)}
+                className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2"
+              >
 
-              {/* DRAWER */}
-              <div className="relative bg-white w-80 h-full p-6 shadow-xl animate-slideIn">
-                <div className="flex justify-between items-center mb-6">
-                  <h3 className="font-semibold text-lg">☰ Filters</h3>
-                  <button
-                    onClick={() => setIsFilterOpen(false)}
-                    className="text-gray-500 text-xl"
-                  >
-                    ✕
-                  </button>
-                </div>
-
-                {/* ===== COPY YOUR FILTER CONTENT HERE ===== */}
-                <div className="mb-6">
-                  <p className="font-medium mb-2">Price</p>
-                  <p className="text-sm mb-2">₹0 to ₹{price}</p>
-                  <input
-                    type="range"
-                    min={0}
-                    max={5000}
-                    step={50}
-                    value={price}
-                    onChange={(e) => setPrice(Number(e.target.value))}
-                    className="w-full accent-green-600"
+                {/* IMAGE */}
+                <div className="relative bg-white aspect-square flex items-center justify-center m-4 rounded-2xl overflow-hidden shadow-inner border border-green-50">
+                  <img
+                    src={p.imageUrl}
+                    alt={p.name}
+                    className="w-full h-full object-contain p-6 group-hover:scale-110 transition-transform duration-700"
                   />
+
+                  {discount > 0 && (
+                    <div className="absolute top-4 right-4 bg-green-600 text-white text-[11px] px-3 py-1.5 rounded-full font-bold shadow-lg">
+                      {discount}% OFF
+                    </div>
+                  )}
                 </div>
 
-                <div>
-                  <p className="font-medium mb-3">Weight</p>
-                  {[250, 500, 750, 1000].map((w) => (
-                    <label
-                      key={w}
-                      className="flex items-center gap-2 text-sm mb-2"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={weights.includes(w)}
-                        onChange={() => toggleWeight(w)}
-                        className="accent-green-600"
-                      />
-                      {w === 1000 ? "1kg" : `${w}gm`}
-                    </label>
-                  ))}
-                </div>
+                {/* CONTENT */}
+                <div className="p-5 flex flex-col gap-4 flex-grow">
+                  <h3 className="text-[17px] font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">
+                    {p.name}
+                  </h3>
 
-                {/* APPLY BUTTON */}
-                <button
-                  onClick={() => setIsFilterOpen(false)}
-                  className="w-full mt-6 bg-green-700 text-white py-2 rounded-lg"
-                >
-                  Apply Filters
-                </button>
-              </div>
-            </div>
-          )}
+                  <ProductReviewStats productId={p.id} />
 
-
-          {/* ================= PRODUCTS ================= */}
-          <div>
-          <div className="bg-white p-4 rounded-xl shadow mb-8">
-  <p className="font-medium mb-3">Filter by Category</p>
-
-  <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-
-    <button
-      onClick={() => setSelectedCategoryId("ALL")}
-      className={`flex items-center justify-center gap-2 px-4 py-2 min-h-[36px] 
-      rounded-full border text-sm whitespace-nowrap flex-shrink-0 transition
-      ${
-        selectedCategoryId === "ALL"
-          ? "bg-green-700 text-white border-green-700"
-          : "bg-white hover:bg-green-50"
-      }`}
-    >
-      All
-    </button>
-
-    {categories.map((c) => (
-      <button
-        key={c.id}
-        onClick={() => setSelectedCategoryId(c.id)}
-        className={`flex items-center justify-center gap-2 px-4 py-2 min-h-[36px] 
-        rounded-full border text-sm whitespace-nowrap flex-shrink-0 transition
-        ${
-          selectedCategoryId === c.id
-            ? "bg-green-700 text-white border-green-700"
-            : "bg-white hover:bg-green-50"
-        }`}
-      >
-        {c.thumbnailImage && (
-          <img
-            src={c.thumbnailImage}
-            alt={c.name}
-            className="w-5 h-5 rounded object-cover flex-shrink-0"
-          />
-        )}
-        <span>{c.name}</span>
-      </button>
-    ))}
-
-  </div>
-</div>
-
-            <h2 className="text-3xl font-semibold mb-8">
-              All Products
-            </h2>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-              {filteredProducts.map((p) => {
-                const base100g = p.variants.find(
-                  (v) => v.weightInGrams === 100
-                );
-
-                const sellVariants = p.variants.filter(
-                  (v) => v.weightInGrams !== 100
-                );
-
-                const selectedVariantIndex = variantMap[p.id] ?? 0;
-                const selectedVariant = sellVariants[selectedVariantIndex];
-                const qty = qtyMap[p.id] || 1;
-
-                if (!selectedVariant) return null;
-                const discount =
-                  selectedVariant.mrp > selectedVariant.offerPrice
-                    ? Math.round(
-                      ((selectedVariant.mrp - selectedVariant.offerPrice) /
-                        selectedVariant.mrp) *
-                      100
-                    )
-                    : 0;
-
-                return (
-                  <div
-                    key={p.id}
-                    onClick={() => navigate(`/product/${p.id}`)}
-                    className="group bg-white rounded-xl shadow-sm hover:shadow-lg border border-gray-100 overflow-hidden cursor-pointer transition flex flex-col"
-                  >
-
-                    {/* IMAGE */}
-                    <div className="relative bg-gray-50 aspect-square flex items-center justify-center">
-
-                      <img
-                        src={p.imageUrl}
-                        alt={p.name}
-                        className="w-full h-full object-contain p-4 group-hover:scale-105 transition"
-                      />
-
-                      {discount > 0 && (
-                        <div className="absolute top-2 right-2 bg-green-600 text-white text-[10px] px-2 py-1 rounded-md font-semibold">
-                          {discount}% OFF
-                        </div>
+                  {/* PRICE & WEIGHT */}
+                  <div className="flex items-center justify-between mt-1">
+                    <div className="flex flex-col">
+                      <span className="text-2xl font-medium text-gray-900 tracking-tight">
+                        ₹{selectedVariant.offerPrice * qty}
+                      </span>
+                      {base100g && (
+                        <span className="text-[11px] text-gray-500 font-medium tracking-tight">
+                          (₹{base100g.offerPrice}/100g)
+                        </span>
                       )}
                     </div>
-
-                    {/* CONTENT */}
-                    <div className="p-3 flex flex-col gap-2 flex-grow">
-
-                      <h3 className="text-sm font-semibold text-gray-900 line-clamp-2">
-                        {p.name}
-                      </h3>
-
-                      <ProductReviewStats productId={p.id} />
-
-                      {/* PRICE */}
-                      <div className="flex items-center gap-2">
-                        <span className="text-lg font-bold text-gray-900">
-                          ₹{selectedVariant.offerPrice * qty}
-                        </span>
-
-                        {selectedVariant.mrp > selectedVariant.offerPrice && (
-                          <span className="text-sm text-gray-400 line-through">
-                            ₹{selectedVariant.mrp * qty}
-                          </span>
-                        )}
-
-                        {base100g && (
-                          <span className="text-xs text-gray-500">
-                            (₹{base100g.offerPrice}/100g)
-                          </span>
-                        )}
-                      </div>
-
-                      {/* VARIANT + CART */}
-                      <div
-                        className="flex items-center gap-2 mt-auto"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-
-                        <select
-                          value={selectedVariantIndex}
-                          onChange={(e) =>
-                            setVariantMap((prev) => ({
-                              ...prev,
-                              [p.id]: parseInt(e.target.value),
-                            }))
-                          }
-                          className="flex-1 px-2 py-1.5 text-xs border border-gray-300 rounded-md bg-gray-50
-        focus:outline-none focus:ring-2 focus:ring-green-500"
-                        >
-                          {sellVariants.map((v, i) => (
-                            <option key={i} value={i}>
-                              {v.weightLabel}
-                            </option>
-                          ))}
-                        </select>
-
-
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-
-                            addToCart({
-                              productId: p.id,
-                              name: p.name,
-                              imageUrl: p.imageUrl,
-                              variants: sellVariants,
-                              selectedVariantIndex,
-                              base100gPrice: base100g?.offerPrice,
-                              qty,
-                            });
-
-                            setCartClicked((prev) => ({
-                              ...prev,
-                              [p.id]: true,
-                            }));
-                          }}
-                          className={`w-9 h-9 flex items-center justify-center rounded-lg transition ${cartClicked[p.id]
-                              ? "bg-red-100 text-red-600"
-                              : "bg-green-600 text-white hover:bg-green-700"
-                            }`}
-                        >
-                          <FiShoppingCart size={18} />
-                        </button>
-
-                      </div>
-
-                    </div>
+                    
+                    <span className="px-4 py-1.5 bg-white border border-green-200 text-green-700 text-[12px] font-bold rounded-full shadow-sm uppercase tracking-wider">
+                      {selectedVariant.weightLabel}
+                    </span>
                   </div>
-                );
-              })}
-            </div>
 
-          </div>
+                  {/* ACTIONS */}
+                  <div
+                    className="flex items-center gap-3 mt-4"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {/* QUANTITY */}
+                    <div className="flex items-center bg-white rounded-2xl border border-green-200 p-1.5 shadow-sm">
+                      <button
+                        onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: Math.max(1, (pvs[p.id] || 1) - 1)}))}
+                        className="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all font-bold text-xl"
+                      >
+                        -
+                      </button>
+                      <span className="w-8 text-center text-sm font-bold text-gray-900">
+                        {qty}
+                      </span>
+                      <button
+                        onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: (pvs[p.id] || 1) + 1}))}
+                        className="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all font-bold text-xl"
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addToCart({
+                          productId: p.id,
+                          name: p.name,
+                          imageUrl: p.imageUrl,
+                          variants: sellVariants,
+                          selectedVariantIndex,
+                          base100gPrice: base100g?.offerPrice,
+                          qty,
+                        });
+                      }}
+                      className={`flex-1 h-12 flex items-center justify-center gap-3 rounded-2xl font-bold text-[14px] transition-all active:scale-95 shadow-md ${
+                        isInCart
+                          ? "bg-green-100 text-green-700 border-2 border-green-200"
+                          : "bg-green-600 text-white hover:bg-green-700 hover:shadow-xl"
+                      }`}
+                    >
+                      <FiShoppingCart size={18} />
+                      {isInCart ? "ADDED" : "ADD TO CART"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
