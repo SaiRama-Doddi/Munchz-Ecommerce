@@ -1,11 +1,11 @@
 export default function ProductImage() {
   return (
-    <section className="relative w-full overflow-hidden bg-[#fafaf6] py-20">
+    <section className="relative w-full overflow-hidden bg-[#ecfdf5] py-20">
       <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
 
         {/* LEFT TEXT */}
         <div className="space-y-6 text-gray-900">
-          <p className="uppercase tracking-[6px] text-sm text-green-600 font-medium">
+          <p className="text-xl md:text-2xl font-medium text-green-600/80">
             Pure Ingredients
           </p>
 
