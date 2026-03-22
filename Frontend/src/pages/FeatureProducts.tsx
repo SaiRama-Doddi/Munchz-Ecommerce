@@ -304,7 +304,6 @@ const scrollRight = () => {
                       </div>
                     </div>
                   </div>
-div>
 
                 </div>
               );
