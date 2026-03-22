@@ -151,42 +151,42 @@ export default function UserOrders() {
   if (loading) return <div className="bg-white min-h-screen"><PremiumSpinner text="Fetching your orders..." /></div>;
 
   return (
-    <div className="bg-white min-h-screen py-12 md:py-24">
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 space-y-16">
+    <div className="bg-white min-h-screen py-16 md:py-32 font-medium">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 space-y-20">
         
         {/* LOGGED IN USER HEADER - CURATED STYLE */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-10 border-b border-gray-100">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-12 pb-12 border-b border-gray-100">
            <div>
-              <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-gray-900 leading-none">
+              <h1 className="text-4xl md:text-6xl font-medium tracking-tight text-gray-900 leading-none">
                 Your <span className="text-green-600">Account</span>
               </h1>
-              <div className="flex items-center gap-4 mt-8">
-                 <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-400 border border-gray-100"><User size={24} /></div>
+              <div className="flex items-center gap-6 mt-12">
+                 <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-400 border border-gray-100 shadow-sm"><User size={28} /></div>
                  <div>
-                    <p className="text-xl font-bold text-gray-900 tracking-tight uppercase">{profile?.firstName} {profile?.lastName}</p>
-                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em] mt-1">{profile?.email}</p>
+                    <p className="text-2xl font-medium text-gray-900 tracking-tight uppercase">{profile?.firstName} {profile?.lastName}</p>
+                    <p className="text-xs text-gray-400 font-medium uppercase tracking-[0.3em] mt-2">{profile?.email}</p>
                  </div>
               </div>
            </div>
 
-           <div className="flex bg-gray-50 p-2 rounded-2xl border border-gray-100 self-start md:self-auto shadow-sm">
+           <div className="flex bg-gray-50 p-2.5 rounded-2xl border border-gray-100 self-start md:self-auto shadow-sm">
              <button
                onClick={() => setGridView(true)}
-               className={`p-3 rounded-xl transition-all ${gridView ? "bg-white text-green-600 shadow-sm" : "text-gray-300 hover:text-green-600"}`}
+               className={`p-4 rounded-xl transition-all ${gridView ? "bg-white text-green-600 shadow-md" : "text-gray-300 hover:text-green-600"}`}
              >
-               <LayoutGrid size={24} />
+               <LayoutGrid size={28} />
              </button>
              <button
                onClick={() => setGridView(false)}
-               className={`p-3 rounded-xl transition-all ${!gridView ? "bg-white text-green-600 shadow-sm" : "text-gray-300 hover:text-green-600"}`}
+               className={`p-4 rounded-xl transition-all ${!gridView ? "bg-white text-green-600 shadow-md" : "text-gray-300 hover:text-green-600"}`}
              >
-               <List size={24} />
+               <List size={28} />
              </button>
            </div>
         </div>
 
-        {/* REFINED FILTERS */}
-        <div className="flex flex-wrap gap-3">
+        {/* FILTERS */}
+        <div className="flex flex-wrap gap-4">
           {[
             { label: "All Orders", value: "ALL" },
             { label: "Ordered Today", value: 1 },
@@ -196,8 +196,8 @@ export default function UserOrders() {
             <button
               key={f.label}
               onClick={() => setFilterDays(f.value as any)}
-              className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all ${filterDays === f.value
-                  ? "bg-gray-900 text-white border-gray-900 shadow-lg shadow-gray-200"
+              className={`px-8 py-3.5 rounded-2xl text-[10px] font-medium uppercase tracking-[0.2em] border transition-all ${filterDays === f.value
+                  ? "bg-gray-900 text-white border-gray-900 shadow-2xl shadow-gray-200"
                   : "bg-white text-gray-400 border-gray-100 hover:border-green-200"
                 }`}
             >
@@ -207,17 +207,17 @@ export default function UserOrders() {
         </div>
 
         {/* ORDERS GRID/LIST */}
-        <div className={gridView ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10" : "space-y-10"}>
+        <div className={gridView ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12" : "space-y-12"}>
           {filteredOrders.map((order) => (
             <div
               key={order.orderId}
-              className="bg-[#ecfdf5]/40 rounded-[2.5rem] border border-green-50 shadow-sm hover:shadow-2xl transition-all duration-700 overflow-hidden group"
+              className="bg-[#ecfdf5]/40 rounded-[3rem] border border-green-50 shadow-sm hover:shadow-2xl transition-all duration-700 overflow-hidden group"
             >
-              <div className="bg-white px-8 py-5 flex justify-between items-center border-b border-green-50">
-                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+              <div className="bg-white px-8 py-6 flex justify-between items-center border-b border-green-50">
+                <span className="text-[10px] font-medium text-gray-400 uppercase tracking-widest">
                   Ordered {new Date(order.placedAt).toLocaleDateString()}
                 </span>
-                <span className={`px-2.5 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest border
+                <span className={`px-4 py-1.5 rounded-xl text-[8px] font-medium uppercase tracking-[0.2em] border
                   ${order.orderStatus === "DELIVERED"
                     ? "bg-green-50 text-green-600 border-green-100"
                     : order.orderStatus === "PENDING"
@@ -228,30 +228,30 @@ export default function UserOrders() {
                 </span>
               </div>
 
-              <div className="p-8 space-y-6">
+              <div className="p-10 space-y-8">
                 {order.items.map((item, idx) => (
-                  <div key={idx} className="flex gap-5 items-center bg-white/60 p-4 rounded-3xl border border-white hover:border-green-50 transition-all">
-                    <div className="w-16 h-16 bg-white rounded-2xl overflow-hidden shadow-sm flex-shrink-0 border border-gray-50 p-2">
+                  <div key={idx} className="flex gap-6 items-center bg-white p-5 rounded-[2rem] border border-gray-50 hover:border-green-100 transition-all shadow-sm">
+                    <div className="w-20 h-20 bg-white rounded-2xl overflow-hidden shadow-sm flex-shrink-0 border border-gray-100 p-3">
                        <img src={productImages[item.productId] || "/placeholder.png"} className="w-full h-full object-contain" alt={item.productName} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold text-gray-900 truncate tracking-tight uppercase">{item.productName}</p>
-                      <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1">₹{item.unitPrice} × {item.quantity}</p>
+                      <p className="text-base font-medium text-gray-900 truncate tracking-tight uppercase">{item.productName}</p>
+                      <p className="text-[10px] text-gray-400 font-medium uppercase tracking-widest mt-2">₹{item.unitPrice} × {item.quantity}</p>
                     </div>
 
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-3">
                        <button
                         onClick={() => navigate(`/product/${item.productId}`)}
-                        className="px-3 py-1.5 bg-green-600 text-white rounded-lg text-[8px] font-black uppercase shadow-sm hover:shadow-green-100 transition-all active:scale-95"
+                        className="px-4 py-2 bg-green-600 text-white rounded-xl text-[8px] font-medium uppercase shadow-md hover:bg-green-700 transition-all"
                       >
                         Buy Again
                       </button>
                       {reviewedItems.has(`${order.orderId}:${item.productId}`) ? (
-                        <div className="px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg text-[8px] font-black uppercase text-center border border-emerald-100">Reviewed</div>
+                        <div className="px-4 py-2 bg-emerald-50 text-emerald-600 rounded-xl text-[8px] font-medium uppercase text-center border border-emerald-100">Reviewed</div>
                       ) : (
                         <button
                           onClick={() => { setSelectedOrder(order); setReviewItem(item); }}
-                          className="px-3 py-1.5 bg-white border border-green-600 text-green-600 rounded-lg text-[8px] font-black uppercase hover:bg-green-50 transition-all"
+                          className="px-4 py-2 bg-white border border-green-600 text-green-600 rounded-xl text-[8px] font-medium uppercase hover:bg-green-50 transition-all text-center"
                         >
                           Review
                         </button>
@@ -261,22 +261,22 @@ export default function UserOrders() {
                 ))}
               </div>
 
-              <div className="p-8 pt-0 mt-4 flex justify-between items-center border-t border-green-50/50 bg-white/30 backdrop-blur-md">
-                <div className="flex flex-col gap-1">
-                   <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest">Total Investment</p>
-                   <p className="text-2xl font-black text-gray-900 tracking-tighter italic leading-none">₹{order.totalAmount}</p>
+              <div className="p-10 pt-0 mt-6 flex justify-between items-center border-t border-green-50/50 bg-white/40 backdrop-blur-md">
+                <div className="flex flex-col gap-2">
+                   <p className="text-[8px] font-medium text-gray-400 uppercase tracking-[0.3em]">Total Value</p>
+                   <p className="text-3xl font-medium text-gray-900 tracking-tighter italic leading-none">₹{order.totalAmount}</p>
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex gap-4">
                   <button
                     onClick={() => setSelectedOrder(order)}
-                    className="w-12 h-12 flex items-center justify-center bg-white text-green-600 rounded-2xl border border-green-50 shadow-sm hover:shadow-md transition-all active:scale-90"
+                    className="w-14 h-14 flex items-center justify-center bg-white text-green-600 rounded-3xl border border-green-50 shadow-md hover:shadow-xl transition-all"
                   >
-                    <Eye size={20} />
+                    <Eye size={24} />
                   </button>
                   <button
                     onClick={() => downloadInvoice(order)}
-                    className="px-6 py-3 bg-gray-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-sm hover:bg-black transition-all"
+                    className="px-8 py-4 bg-gray-900 text-white rounded-[1.5rem] text-[10px] font-medium uppercase tracking-[0.2em] shadow-2xl shadow-gray-200 hover:bg-black transition-all"
                   >
                     Invoice
                   </button>
@@ -287,67 +287,64 @@ export default function UserOrders() {
         </div>
       </div>
 
-      {/* MODALS REMOVED FOR BREVITY IN REWRITE - BUT KEEPING LOGIC FOR FINAL VERSION */}
       {selectedOrder && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-6">
-           {/* Detailed order view can go here, but focusing on the main UI refinement requested */}
-           <div className="bg-white w-full max-w-2xl rounded-[3rem] p-12 shadow-2xl relative overflow-hidden animate-in zoom-in duration-300">
-              <button onClick={() => setSelectedOrder(null)} className="absolute top-8 right-8 w-12 h-12 flex items-center justify-center bg-gray-50 text-gray-400 rounded-2xl hover:bg-red-50 hover:text-red-500 transition-all"><X size={24} /></button>
-              <h2 className="text-4xl font-bold text-gray-900 tracking-tight uppercase mb-8">Order <span className="text-green-600">Recap</span></h2>
-              <div className="space-y-6 text-sm font-medium text-gray-600">
-                 <p className="flex justify-between items-center border-b border-gray-50 pb-4 tracking-widest uppercase text-[10px] font-black"><span>Order ID</span> <span className="text-gray-900">{selectedOrder.orderId}</span></p>
-                 <p className="flex justify-between items-center border-b border-gray-50 pb-4 tracking-widest uppercase text-[10px] font-black"><span>Placed On</span> <span className="text-gray-900">{new Date(selectedOrder.placedAt).toLocaleString()}</span></p>
-                 <p className="flex justify-between items-center border-b border-gray-50 pb-4 tracking-widest uppercase text-[10px] font-black"><span>Status</span> <span className="px-2 py-0.5 bg-green-50 text-green-600 rounded-md">{selectedOrder.orderStatus}</span></p>
+           <div className="bg-white w-full max-w-2xl rounded-[4rem] p-16 shadow-2xl relative animate-in zoom-in duration-500">
+              <button onClick={() => setSelectedOrder(null)} className="absolute top-12 right-12 w-14 h-14 flex items-center justify-center bg-gray-50 text-gray-400 rounded-3xl hover:bg-red-50 hover:text-red-500 transition-all shadow-sm"><X size={32} /></button>
+              <h2 className="text-5xl font-medium text-gray-900 tracking-tight uppercase mb-12">Order <span className="text-green-600">Details</span></h2>
+              <div className="space-y-8 text-sm font-medium text-gray-600">
+                 <p className="flex justify-between items-center border-b border-gray-50 pb-6 tracking-widest uppercase text-[10px]"><span>Order ID</span> <span className="text-gray-900">{selectedOrder.orderId}</span></p>
+                 <p className="flex justify-between items-center border-b border-gray-50 pb-6 tracking-widest uppercase text-[10px]"><span>Placed On</span> <span className="text-gray-900">{new Date(selectedOrder.placedAt).toLocaleString()}</span></p>
+                 <p className="flex justify-between items-center border-b border-gray-50 pb-6 tracking-widest uppercase text-[10px]"><span>Status</span> <span className="px-4 py-1.5 bg-green-50 text-green-600 rounded-xl shadow-sm">{selectedOrder.orderStatus}</span></p>
               </div>
-              <div className="mt-10 overflow-y-auto max-h-[300px] pr-4 space-y-4">
+              <div className="mt-12 overflow-y-auto max-h-[300px] pr-6 space-y-6">
                  {selectedOrder.items.map((item, i) => (
-                   <div key={i} className="flex justify-between items-center p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                      <p className="font-bold text-gray-900 tracking-tight">{item.productName} × {item.quantity}</p>
-                      <p className="font-black text-gray-900">₹{item.unitPrice * item.quantity}</p>
+                   <div key={i} className="flex justify-between items-center p-6 bg-gray-50/50 rounded-3xl border border-gray-100 shadow-inner">
+                      <p className="font-medium text-gray-900 uppercase tracking-tight">{item.productName} × {item.quantity}</p>
+                      <p className="font-medium text-gray-900 tracking-tighter">₹{item.unitPrice * item.quantity}</p>
                    </div>
                  ))}
               </div>
-              <div className="mt-10 pt-10 border-t border-gray-100 flex justify-between items-baseline">
-                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.4em]">Total Amount</p>
-                 <p className="text-5xl font-black text-gray-900 tracking-tighter italic">₹{selectedOrder.totalAmount}</p>
+              <div className="mt-12 pt-12 border-t border-gray-100 flex justify-between items-baseline">
+                 <p className="text-[10px] font-medium text-gray-400 uppercase tracking-[0.5em]">Grand Total</p>
+                 <p className="text-6xl font-medium text-gray-900 tracking-tighter italic">₹{selectedOrder.totalAmount}</p>
               </div>
            </div>
         </div>
       )}
 
-      {/* REVIEW MODAL */}
       {reviewItem && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[60] flex items-center justify-center p-6 text-gray-900">
-           <div className="bg-white w-full max-w-lg rounded-[3rem] p-10 shadow-2xl relative animate-in slide-in-from-bottom-5 duration-500">
-              <button onClick={() => setReviewItem(null)} className="absolute top-8 right-8 text-gray-300 hover:text-red-500 transition-all"><X size={24} /></button>
-              <h3 className="text-3xl font-bold tracking-tight uppercase mb-8">Review <span className="text-green-600">Product</span></h3>
+           <div className="bg-white w-full max-w-lg rounded-[4rem] p-16 shadow-2xl relative animate-in slide-in-from-bottom-8 duration-700">
+              <button onClick={() => setReviewItem(null)} className="absolute top-12 right-12 text-gray-300 hover:text-red-500 transition-all"><X size={32} /></button>
+              <h3 className="text-4xl font-medium tracking-tight uppercase mb-12">Review <span className="text-green-600">Snacks</span></h3>
               
-              <div className="flex gap-5 items-center p-4 bg-gray-50 rounded-3xl mb-8 border border-gray-100">
-                <img src={productImages[reviewItem.productId] || "/placeholder.png"} className="w-14 h-14 object-contain bg-white rounded-xl border p-1" />
-                <p className="font-bold text-gray-900 uppercase tracking-tight truncate">{reviewItem.productName}</p>
+              <div className="flex gap-6 items-center p-6 bg-gray-50 rounded-[2.5rem] mb-12 border border-inset shadow-inner">
+                <img src={productImages[reviewItem.productId] || "/placeholder.png"} className="w-16 h-16 object-contain bg-white rounded-2xl border p-2 shadow-sm" />
+                <p className="font-medium text-gray-900 uppercase tracking-tight truncate">{reviewItem.productName}</p>
               </div>
 
-              <div className="space-y-8">
-                 <div className="space-y-4">
-                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1 text-center">Your Rating</p>
-                    <div className="flex justify-center gap-3">
+              <div className="space-y-12">
+                 <div className="space-y-6">
+                    <p className="text-[10px] font-medium text-gray-400 uppercase tracking-[0.4em] px-1 text-center">Your Rating</p>
+                    <div className="flex justify-center gap-4">
                       {[1, 2, 3, 4, 5].map((r) => (
-                        <button key={r} onClick={() => setRating(r)} className={`transition-all hover:scale-110 ${rating >= r ? "text-yellow-400" : "text-gray-100"}`}><Star size={40} fill={rating >= r ? "currentColor" : "none"}/></button>
+                        <button key={r} onClick={() => setRating(r)} className={`transition-all hover:scale-125 ${rating >= r ? "text-yellow-400 drop-shadow-lg" : "text-gray-100"}`}><Star size={48} fill={rating >= r ? "currentColor" : "none"}/></button>
                       ))}
                     </div>
                  </div>
 
                  <div className="space-y-4">
-                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">Detailed Feedback</p>
-                    <textarea value={comment} onChange={(e)=>setComment(e.target.value)} placeholder="How was your snack experience?" className="w-full h-32 bg-gray-50 p-6 rounded-3xl border border-gray-100 outline-none focus:border-green-400 transition-all text-sm font-medium" />
+                    <p className="text-[10px] font-medium text-gray-400 uppercase tracking-widest px-1">Share your experience</p>
+                    <textarea value={comment} onChange={(e)=>setComment(e.target.value)} placeholder="Tell us about the flavor..." className="w-full h-40 bg-gray-50 p-8 rounded-[2.5rem] border border-gray-100 outline-none focus:border-green-400 transition-all text-sm font-medium shadow-inner" />
                  </div>
 
                  <div className="space-y-4">
-                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">Upload Snapshot</p>
+                    <p className="text-[10px] font-medium text-gray-400 uppercase tracking-widest px-1">Snapshot</p>
                     {!preview ? (
-                      <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-100 rounded-[2rem] cursor-pointer hover:border-green-400 hover:bg-green-50/50 transition-all group">
-                         <Upload className="w-8 h-8 text-gray-300 group-hover:text-green-600 transition-all mb-2" />
-                         <p className="text-[10px] font-black text-gray-300 uppercase tracking-widest group-hover:text-green-600 transition-all">Select Image</p>
+                      <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-gray-100 rounded-[3rem] cursor-pointer hover:border-green-400 hover:bg-green-50/50 transition-all group shadow-sm bg-gray-50/30">
+                         <Upload className="w-10 h-10 text-gray-300 group-hover:text-green-600 mb-4 transition-all" />
+                         <p className="text-[10px] font-medium text-gray-300 uppercase tracking-widest group-hover:text-green-600">Select Image</p>
                          <input type="file" className="hidden" accept="image/*" onChange={(e) => {
                             if (e.target.files && e.target.files[0]) {
                               const f = e.target.files[0];
@@ -358,9 +355,9 @@ export default function UserOrders() {
                          }} />
                       </label>
                     ) : (
-                      <div className="relative w-full h-40 rounded-[2rem] overflow-hidden border-2 border-green-100">
+                      <div className="relative w-full h-48 rounded-[3rem] overflow-hidden border border-green-100 shadow-xl">
                          <img src={preview} className="w-full h-full object-cover" />
-                         <button onClick={() => { setFile(null); setPreview(null); }} className="absolute top-4 right-4 p-2 bg-red-500 text-white rounded-xl shadow-lg hover:bg-red-600 transition-all"><Trash2 size={16} /></button>
+                         <button onClick={() => { setFile(null); setPreview(null); }} className="absolute top-6 right-6 p-3 bg-red-500 text-white rounded-2xl shadow-2xl hover:bg-red-600 transition-all"><Trash2 size={20} /></button>
                       </div>
                     )}
                  </div>
@@ -382,9 +379,9 @@ export default function UserOrders() {
                         setReviewItem(null); setComment(""); setRating(5); setFile(null); setPreview(null);
                       } catch (e: any) { alert(e.response?.data?.message || "Error submitting review"); } finally { setSubmitting(false); }
                     }}
-                    className="w-full bg-green-600 text-white py-5 rounded-[1.5rem] font-black uppercase tracking-widest shadow-xl shadow-green-100 hover:bg-green-700 transition-all active:scale-95 disabled:opacity-50"
+                    className="w-full bg-green-600 text-white py-7 rounded-[2rem] font-medium uppercase tracking-[0.3em] shadow-2xl shadow-green-100 hover:bg-green-700 transition-all active:scale-95 disabled:opacity-50"
                  >
-                    {submitting ? "SHARING..." : "SHARE EXPERIENCE"}
+                    {submitting ? "Sharing..." : "Share Experience"}
                  </button>
               </div>
            </div>
