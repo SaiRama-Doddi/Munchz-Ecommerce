@@ -21,7 +21,7 @@ export default function About() {
         <main className="grid lg:grid-cols-1 gap-12">
           
           {/* STORY SECTION */}
-          <div className="space-y-6 text-gray-700 leading-relaxed text-base md:text-lg max-w-4xl">
+          <div className="space-y-8 text-gray-700 leading-relaxed text-base md:text-xl text-justify">
             <p>
               At <span className="text-green-700 font-bold tracking-tight">GoMunchz</span>, we believe that great snacking should never be a compromise between taste and health. In a world full of processed options, our mission is simple—bring back the goodness of real, honest ingredients and transform them into snacks you can feel good about.
             </p>
@@ -44,7 +44,7 @@ export default function About() {
           </div>
 
           {/* WHY CHOOSE SECTION */}
-          <div className="mt-8 bg-white p-6 md:p-10 rounded-3xl shadow-sm border border-green-50 max-w-4xl">
+          <div className="mt-8 bg-white p-6 md:p-10 rounded-3xl shadow-sm border border-green-50">
             <div className="flex items-center gap-3 mb-8">
               <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
