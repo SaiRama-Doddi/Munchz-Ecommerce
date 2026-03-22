@@ -46,32 +46,15 @@ export default function UserCategories() {
       <div className="max-w-7xl mx-auto px-4">
 
         {/* HEADER */}
-
-        <div className="flex flex-col items-center mb-10">
-
-          <h2 className="text-3xl font-semibold text-gray-900">
-            Shop By Category
+        <div className="mb-12 text-left">
+          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+            Shop By <span className="text-green-600">Category</span>
           </h2>
+          <p className="text-gray-500 text-sm mt-3 max-w-lg">
+            Explore our diverse ranges of premium handpicked snacks
+          </p>
+          <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
         </div>
-
-        {/* ARROWS (Hidden for now) */}
-        {/* 
-          <div className="hidden md:flex gap-3">
-            <button
-              onClick={() => scroll("left")}
-              className="w-10 h-10 rounded-full border bg-white hover:bg-gray-100 flex items-center justify-center"
-            >
-              <ChevronLeft size={20} />
-            </button>
-
-            <button
-              onClick={() => scroll("right")}
-              className="w-10 h-10 rounded-full border bg-white hover:bg-gray-100 flex items-center justify-center"
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
-          */}
 
       </div>
 
@@ -79,7 +62,7 @@ export default function UserCategories() {
 
       {/* MOBILE SLIDER */}
 
-      <div className="md:hidden flex gap-5 overflow-x-auto pb-2 no-scrollbar">
+      <div className="md:hidden flex gap-5 overflow-x-auto pb-6 no-scrollbar">
 
         {categories.map((c) => (
 
@@ -122,6 +105,7 @@ export default function UserCategories() {
           overflow-x-auto
           scroll-smooth
           no-scrollbar
+          px-4
           "
       >
 
@@ -141,7 +125,7 @@ export default function UserCategories() {
 
             {/* IMAGE */}
 
-            <div className="h-[150px] rounded-2xl overflow-hidden">
+            <div className="h-[150px] rounded-2xl overflow-hidden shadow-sm">
 
               <img
                 src={c.thumbnailImage}
@@ -160,7 +144,7 @@ export default function UserCategories() {
 
             <div className="mt-4">
 
-              <p className="text-[16px] font-medium text-gray-800">
+              <p className="text-[16px] font-semibold text-gray-800">
                 {c.name}
               </p>
 
@@ -176,8 +160,6 @@ export default function UserCategories() {
 
       </div>
 
-    </div>
-
-    </section >
+    </section>
   );
 }
