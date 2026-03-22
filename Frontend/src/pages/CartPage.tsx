@@ -99,20 +99,20 @@ export default function CartPremium() {
 
   const nextGoal = allTargets.find(t => t.target > totalPrice);
   const amountToNext = nextGoal ? nextGoal.target - totalPrice : 0;
-
+  
   const maxMilestone = milestones[milestones.length - 1].target;
   const progress = Math.min((totalPrice / maxMilestone) * 100, 100);
   const savingsAmount = totalMrp - totalPrice;
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-[#f9fdf7] flex flex-col items-center justify-center p-6">
+      <div className="min-h-screen bg-[#f9fdf7] flex flex-col items-center justify-center p-6 text-center">
         <div className="w-32 h-32 bg-green-50 rounded-full flex items-center justify-center mb-8 animate-pulse">
           <ShoppingBag size={56} className="text-green-200" />
         </div>
-        <h2 className="text-3xl font-black text-gray-900 mb-3 tracking-tight">Your cart is empty</h2>
-        <p className="text-gray-500 font-medium mb-10 text-center max-w-xs">Looks like you haven't added anything to your cart yet.</p>
-        <button
+        <h2 className="text-3xl font-bold text-gray-900 mb-3 tracking-tight">Your cart is empty</h2>
+        <p className="text-gray-500 font-medium mb-10 text-center max-w-xs leading-relaxed">Looks like you haven't added anything to your cart yet.</p>
+        <button 
           onClick={() => navigate('/productpage')}
           className="bg-green-600 text-white font-bold px-10 py-4 rounded-2xl shadow-lg hover:bg-green-700 transition-all hover:-translate-y-1 active:scale-95 flex items-center gap-3"
         >
@@ -124,14 +124,14 @@ export default function CartPremium() {
 
   return (
     <div className="w-full min-h-screen bg-[#f9fdf7]">
-
+      
       {/* CELEBRATION */}
       {showCelebration && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none overflow-hidden">
           <div className="absolute inset-0 bg-white/20 backdrop-blur-sm"></div>
           <div className="relative text-center animate-bounce">
             <PartyPopper size={80} className="text-green-500 mx-auto" />
-            <h2 className="text-4xl font-black text-gray-900 mt-4 drop-shadow-lg">BOOM! COUPON APPLIED! 🚀</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mt-4 drop-shadow-lg tracking-tight">BOOM! COUPON APPLIED! 🚀</h2>
           </div>
         </div>
       )}
@@ -140,8 +140,10 @@ export default function CartPremium() {
       <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-green-50 px-6 py-6 sm:px-10">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div>
-            <h1 className="text-2xl sm:text-4xl font-black text-gray-900 tracking-tighter">My <span className="text-green-600">Cart</span></h1>
-            <p className="text-xs sm:text-sm text-gray-400 font-bold uppercase tracking-widest mt-1">
+            <h1 className="text-2xl sm:text-5xl font-bold text-gray-900 tracking-tight leading-none">
+              My <span className="text-green-600">Cart</span>
+            </h1>
+            <p className="text-xs sm:text-base text-gray-500 font-medium mt-3 max-w-2xl leading-relaxed">
               {items.length} {items.length === 1 ? 'Product' : 'Products'} • Ready for Munching
             </p>
           </div>
@@ -154,20 +156,30 @@ export default function CartPremium() {
         </div>
       </div>
 
-      {/* BRAND BANNER - PREMIUM TYPOGRAPHY */}
-
+      {/* BRAND BANNER - UNIFIED WITH ABOUT US STYLE */}
+      <section className="bg-white border-b border-green-50 py-12 md:py-16 hidden sm:block">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10">
+          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight leading-tight">
+            Real Ingredients. <span className="text-green-600">Unreal Flavor.</span>
+          </h2>
+          <p className="text-gray-500 text-sm md:text-base mt-3 max-w-2xl leading-relaxed">
+            Pure ingredients, absolutely zero compromise, and snacks you can feel truly good about.
+          </p>
+          <div className="w-16 h-[3px] bg-green-600 mt-4 md:mt-6"></div>
+        </div>
+      </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid lg:grid-cols-3 gap-10">
-
+          
           {/* LEFT: CART ITEMS */}
           <div className="lg:col-span-2 space-y-6">
-
+            
             {/* SINGLE LINE REWARDS SECTION */}
             <div className="bg-white rounded-[2rem] p-6 md:p-8 border border-green-100 shadow-sm relative group overflow-hidden transition-all hover:shadow-xl">
               <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:scale-110 transition-transform"><Trophy size={110} /></div>
               <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8 md:gap-14">
-
+                
                 {/* HEADER AREA */}
                 <div className="flex-shrink-0">
                   <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight leading-none mb-1">
@@ -182,11 +194,11 @@ export default function CartPremium() {
                 <div className="flex-1 relative py-4">
                   <div className="h-[3px] bg-gray-100 rounded-full w-full relative">
                     {/* GLOWING PROGRESS LINE */}
-                    <div
+                    <div 
                       className="absolute h-full bg-gradient-to-r from-green-400 to-green-600 rounded-full transition-all duration-1000 shadow-[0_0_15px_rgba(22,163,74,0.3)]"
                       style={{ width: `${progress}%` }}
                     />
-
+                    
                     {/* MILESTONE MARKERS */}
                     <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-0.5">
                       {milestones.map((m, idx) => {
@@ -209,8 +221,6 @@ export default function CartPremium() {
                     </div>
                   </div>
                 </div>
-
-                {/* STATUS AREA - REMOVED AS PER USER REQUEST */}
               </div>
             </div>
 
@@ -222,12 +232,12 @@ export default function CartPremium() {
 
                 return (
                   <div key={i} className="bg-white rounded-[2rem] p-3 sm:p-5 border border-green-50 shadow-sm hover:shadow-lg transition-all duration-300 group flex items-center gap-4 relative overflow-hidden">
-
+                    
                     {/* IMAGE - MOBILE FRIENDLY */}
                     <div className="relative w-20 h-20 sm:w-28 sm:h-28 bg-[#ecfdf5] rounded-2xl sm:rounded-3xl overflow-hidden flex-shrink-0">
                       <img src={item.imageUrl} className="w-full h-full object-contain p-2 sm:p-4" alt={item.name} />
                       {discPercent > 0 && (
-                        <div className="absolute top-0 left-0 bg-green-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded-br-xl uppercase">{discPercent}%</div>
+                        <div className="absolute top-0 left-0 bg-green-600 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-br-xl uppercase">{discPercent}%</div>
                       )}
                     </div>
 
@@ -243,10 +253,10 @@ export default function CartPremium() {
                           <Trash2 size={14} />
                         </button>
                       </div>
-
+                      
                       <div className="flex items-center justify-between mt-2 sm:mt-4">
                         <div className="flex items-center gap-2">
-                          <span className="text-base sm:text-2xl font-black text-gray-900 tracking-tighter">₹{v.offerPrice}</span>
+                          <span className="text-base sm:text-2xl font-bold text-gray-900 tracking-tighter">₹{v.offerPrice}</span>
                           {v.mrp > v.offerPrice && (
                             <span className="text-[10px] sm:text-xs text-gray-400 line-through font-bold">₹{v.mrp}</span>
                           )}
@@ -255,7 +265,7 @@ export default function CartPremium() {
                         {/* QTY - COMPACT STYLE */}
                         <div className="flex items-center bg-gray-50 border border-gray-100 rounded-xl p-1 gap-1">
                           <button onClick={() => updateQty(i, Math.max(item.qty - 1, 1))} className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-white rounded-lg transition-all"><Minus size={12} /></button>
-                          <span className="w-4 text-center text-xs font-black text-gray-900">{item.qty}</span>
+                          <span className="w-4 text-center text-xs font-bold text-gray-900">{item.qty}</span>
                           <button onClick={() => updateQty(i, item.qty + 1)} className="w-7 h-7 flex items-center justify-center bg-green-600 text-white rounded-lg shadow-sm hover:bg-green-700 transition-all"><Plus size={12} /></button>
                         </div>
                       </div>
@@ -276,11 +286,11 @@ export default function CartPremium() {
 
           {/* RIGHT: SUMMARY */}
           <div className="lg:col-span-1 space-y-6">
-
+            
             {/* COUPONS */}
             <div className="bg-white rounded-[2rem] p-8 border border-green-50 shadow-sm">
-              <h3 className="text-lg font-black text-gray-900 mb-6 flex items-center gap-2">
-                <div className="w-1.5 h-6 bg-green-600 rounded-full"></div>
+              <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-3 tracking-tight">
+                <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
                 Offers & Coupons
               </h3>
 
@@ -296,13 +306,13 @@ export default function CartPremium() {
                         <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none group-hover:scale-110 transition-transform"><Gift size={32} /></div>
                         <div className="flex justify-between items-center relative z-10">
                           <div>
-                            <p className="font-black text-gray-900 tracking-tight uppercase">{c.code}</p>
+                            <p className="font-bold text-gray-900 tracking-tight uppercase leading-tight">{c.code}</p>
                             <p className="text-[11px] text-green-600 font-bold mt-1 uppercase tracking-tighter">Save ₹{c.discountAmount} on ₹{c.minAmount}+</p>
                           </div>
                           {isEligible && (
                             <button
                               onClick={() => isApplied ? removeCoupon() : applyCoupon(c.code)}
-                              className={`px-5 py-2 rounded-xl text-[10px] font-black uppercase transition-all ${isApplied ? 'bg-red-50 text-red-600 border border-red-100' : 'bg-green-600 text-white shadow-lg'}`}
+                              className={`px-5 py-2 rounded-xl text-[10px] font-bold uppercase transition-all ${isApplied ? 'bg-red-50 text-red-600 border border-red-100' : 'bg-green-600 text-white shadow-lg'}`}
                             >
                               {isApplied ? 'Remove' : 'Apply'}
                             </button>
@@ -326,35 +336,37 @@ export default function CartPremium() {
 
             {/* SUMMARY CARD (STICKY) */}
             <div className="bg-white rounded-[2rem] p-8 border-2 border-green-600 shadow-xl lg:sticky lg:top-32 relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none rotate-12"><ShoppingBag size={80} /></div>
-              <h3 className="text-xl font-black text-gray-900 mb-8 tracking-tighter uppercase">Order Summary</h3>
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3 tracking-tight">
+                <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
+                Order Summary
+              </h3>
 
               <div className="space-y-4 mb-10">
                 <div className="flex justify-between items-center text-sm font-bold text-gray-400 uppercase tracking-widest bg-gray-50 p-3 rounded-xl border border-gray-100">
                   <span>Initial Amount</span>
-                  <span className="text-gray-900 font-black">₹{totalPrice.toFixed(0)}</span>
+                  <span className="text-gray-900 font-bold">₹{totalPrice.toFixed(0)}</span>
                 </div>
                 {savingsAmount > 0 && (
                   <div className="flex justify-between items-center text-sm font-bold text-green-600 uppercase tracking-widest px-3">
                     <span>Instant Savings</span>
-                    <span className="font-black">-₹{savingsAmount.toFixed(0)}</span>
+                    <span className="font-bold">-₹{savingsAmount.toFixed(0)}</span>
                   </div>
                 )}
                 {discount > 0 && (
                   <div className="flex justify-between items-center text-sm font-bold text-green-600 uppercase tracking-widest px-3">
                     <span>Coupon Discount</span>
-                    <span className="font-black">-₹{discount.toFixed(0)}</span>
+                    <span className="font-bold">-₹{discount.toFixed(0)}</span>
                   </div>
                 )}
                 <div className="flex justify-between items-center text-sm font-bold text-green-600 uppercase tracking-widest px-3">
                   <span>Shipping Charge</span>
-                  <span className="font-black uppercase tracking-widest text-[#22c55e]">FREE</span>
+                  <span className="font-bold uppercase tracking-widest text-[#22c55e]">FREE</span>
                 </div>
                 <div className="h-px bg-gray-100 my-4"></div>
                 <div className="flex justify-between items-end bg-green-50/50 p-4 rounded-2xl border border-green-100">
                   <div>
-                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-1">Grand Total</p>
-                    <p className="text-3xl sm:text-4xl font-black text-gray-900 tracking-tighter">₹{finalAmount.toFixed(0)}</p>
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1">Grand Total</p>
+                    <p className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tighter leading-none">₹{finalAmount.toFixed(0)}</p>
                   </div>
                   <div className="pb-1 opacity-20"><ShoppingBag size={32} /></div>
                 </div>
@@ -362,7 +374,7 @@ export default function CartPremium() {
 
               <button
                 onClick={() => navigate("/checkout", { state: { items, totalAmount: finalAmount, discount, appliedCoupon } })}
-                className="w-full bg-green-600 hover:bg-green-700 text-white py-5 rounded-2xl font-black text-lg shadow-xl shadow-green-100 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3 group decoration-0 border-none outline-none"
+                className="w-full bg-green-600 hover:bg-green-700 text-white py-5 rounded-2xl font-bold text-lg shadow-xl shadow-green-100 transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3 group decoration-0 border-none outline-none"
               >
                 <span>PROCEED TO SECURE CHECKOUT</span>
                 <ChevronRight className="group-hover:translate-x-1 transition-transform" />
