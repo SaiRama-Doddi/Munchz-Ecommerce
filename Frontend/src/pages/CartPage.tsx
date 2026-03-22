@@ -198,7 +198,7 @@ export default function CartPremium() {
                             </div>
                             {/* MINI TOOLTIP */}
                             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-gray-900 text-white text-[8px] px-2 py-0.5 rounded opacity-0 group-hover/m:opacity-100 transition-opacity whitespace-nowrap">
-                               ₹{m.target} • {m.label}
+                               ₹{m.target} UNLOCK
                             </div>
                           </div>
                         );
@@ -212,17 +212,14 @@ export default function CartPremium() {
                    {nextGoal ? (
                      <div className="flex flex-col items-end group/hint">
                        <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1 group-hover/hint:text-green-600 transition-colors">
-                         UNLOCK {nextGoal.isCoupon ? "COUPON" : "NEXT"} AT
+                         UNLOCK NEXT AT
                        </p>
                        <div className="flex items-center gap-2">
-                         <p className="text-xl font-black text-green-600 tracking-tighter leading-none mb-1">
-                           +₹{amountToNext.toFixed(0)}
+                         <p className="text-xl font-black text-green-600 tracking-tighter leading-none">
+                           ₹{amountToNext.toFixed(0)} MORE
                          </p>
                          <ChevronRight size={14} className="text-green-200 group-hover/hint:translate-x-1 transition-transform" />
                        </div>
-                       <p className="text-[9px] font-bold text-gray-500 uppercase tracking-tighter max-w-[100px] leading-tight flex items-center gap-1 justify-end">
-                         {nextGoal.isCoupon ? <Lock size={8} /> : null} For {nextGoal.label}
-                       </p>
                      </div>
                    ) : (
                      <div className="text-green-600 flex flex-col items-end animate-pulse">
