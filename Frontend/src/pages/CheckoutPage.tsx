@@ -146,7 +146,7 @@ export default function CheckoutPage() {
     }
     try {
       setIsPlacingOrder(true);
-      const orderRes = await orderApi.post("/api/orders", {
+      const orderRes = await orderApi.post("/orders", {
         shippingAddress: JSON.stringify(selectedAddress),
         billingAddress: JSON.stringify(selectedAddress),
         totalAmount,
