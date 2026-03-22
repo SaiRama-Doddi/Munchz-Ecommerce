@@ -34,6 +34,11 @@ export default function CartPremium() {
 
   const finalAmount = Math.max(totalPrice - discount, 0);
 
+  /* ================= COUPON EXPIRY CHECK ================= */
+  const isCouponExpired = (expiryDate: string) => {
+    return expiryDate ? new Date(expiryDate) < new Date() : false;
+  };
+
   /* ================= FETCH COUPONS ================= */
   useEffect(() => {
     const fetchCoupons = async () => {
@@ -86,6 +91,15 @@ export default function CartPremium() {
     { target: 1299, label: "Munchz Box", icon: <Trophy className="w-4 h-4" />, color: "from-teal-600 to-emerald-700" },
   ];
 
+  /* ================= NEXT GOAL TRACKING ================= */
+  const allTargets = [
+    ...milestones.map(m => ({ target: m.target, label: m.label, isCoupon: false })),
+    ...availableCoupons.filter(c => !isCouponExpired(c.expiryDate)).map(c => ({ target: c.minAmount || 0, label: c.code, isCoupon: true }))
+  ].sort((a, b) => a.target - b.target);
+
+  const nextGoal = allTargets.find(t => t.target > totalPrice);
+  const amountToNext = nextGoal ? nextGoal.target - totalPrice : 0;
+  
   const maxMilestone = milestones[milestones.length - 1].target;
   const progress = Math.min((totalPrice / maxMilestone) * 100, 100);
   const savingsAmount = totalMrp - totalPrice;
@@ -194,18 +208,27 @@ export default function CartPremium() {
                 </div>
 
                 {/* STATUS AREA */}
-                <div className="flex-shrink-0 text-right md:min-w-[120px]">
-                   {progress < 100 ? (
-                     <div className="flex flex-col items-end">
-                       <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">Unlock next at</p>
-                       <p className="text-lg font-black text-green-600 tracking-tighter leading-none">
-                         +₹{Math.max(0, milestones.find(m => totalPrice < m.target)?.target! - totalPrice)}
+                <div className="flex-shrink-0 text-right md:min-w-[150px]">
+                   {nextGoal ? (
+                     <div className="flex flex-col items-end group/hint">
+                       <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1 group-hover/hint:text-green-600 transition-colors">
+                         UNLOCK {nextGoal.isCoupon ? "COUPON" : "NEXT"} AT
+                       </p>
+                       <div className="flex items-center gap-2">
+                         <p className="text-xl font-black text-green-600 tracking-tighter leading-none mb-1">
+                           +₹{amountToNext.toFixed(0)}
+                         </p>
+                         <ChevronRight size={14} className="text-green-200 group-hover/hint:translate-x-1 transition-transform" />
+                       </div>
+                       <p className="text-[9px] font-bold text-gray-500 uppercase tracking-tighter max-w-[100px] leading-tight flex items-center gap-1 justify-end">
+                         {nextGoal.isCoupon ? <Lock size={8} /> : null} For {nextGoal.label}
                        </p>
                      </div>
                    ) : (
                      <div className="text-green-600 flex flex-col items-end animate-pulse">
-                        <PartyPopper size={20} className="mb-1" />
-                        <p className="text-[10px] font-black uppercase tracking-widest text-emerald-600">ALL UNLOCKED!</p>
+                        <PartyPopper size={24} className="mb-2" />
+                        <p className="text-[10px] font-black uppercase tracking-widest text-emerald-600 leading-none">ALL REWARDS UNLOCKED!</p>
+                        <p className="text-[8px] font-bold text-gray-400 mt-1 uppercase tracking-tighter">You're a VIP Muncher 🏆</p>
                      </div>
                    )}
                 </div>
