@@ -15,7 +15,7 @@ const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || "793122597419-e3pfgkc4dgkiol8c4sut37egut6403c3.apps.googleusercontent.com"}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           {/* MUST be here */}
