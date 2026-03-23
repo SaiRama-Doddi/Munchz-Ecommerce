@@ -314,7 +314,8 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
 
         // 2️⃣ Check if already registered
         if (userRepo.existsByEmail(googleUser.email())) {
-            throw new RuntimeException(
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
                     "Account already exists. Please login."
             );
         }
@@ -378,7 +379,7 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
 
 
 
-    @PostMapping("/google")
+    @PostMapping({"/google", "/login/google"})
     public ResponseEntity<Map<String, Object>> unifiedGoogleAuth(
             @RequestBody GoogleLoginRequest req
     ) {
