@@ -111,21 +111,21 @@ Join GoMunchZ and start shopping
 {/* GOOGLE SIGNUP */}
 <div className="flex justify-center mb-4">
 <GoogleLogin
-onSuccess={async (res) => {
-try {
-const apiRes = await googleRegister(res.credential!);
-localStorage.setItem("token", apiRes.data.token);
+        onSuccess={async (res) => {
+          try {
+            const apiRes = await googleRegister(res.credential!);
+            localStorage.setItem("token", apiRes.data.token);
+            localStorage.setItem("userId", apiRes.data.userId);
 
-setSuccess("Registered successfully 🎉");
+            setSuccess("Registered successfully 🎉");
 
-setTimeout(() => {
-navigate("/login");
-}, 1500);
-
-} catch {
-setError("Google signup failed");
-}
-}}
+            setTimeout(() => {
+              navigate("/");
+            }, 1500);
+          } catch {
+            setError("Google signup failed");
+          }
+        }}
 onError={() => setError("Google signup failed")}
 />
 </div>

@@ -366,7 +366,8 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
         return Map.of(
                 "token", token,
                 "profile", profile,
-                "roles",roles
+                "roles", rolls,
+                "userId", user.getId()
         );
     }
 
@@ -459,7 +460,8 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
                 Map.of(
                         "token", token,
                         "profile", mergedProfile,
-                        "roles", roles
+                        "roles", roles,
+                        "userId", user.getId()
                 )
         );
     }
