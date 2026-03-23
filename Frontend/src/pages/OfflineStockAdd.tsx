@@ -117,9 +117,9 @@ export default function AddOfflineStock() {
 
     try {
       if (isEdit) {
-        await offlineInventoryApi.put(`/${editStock.id}`, payload);
+        await offlineInventoryApi.put(`/offline-inventory/${editStock.id}`, payload);
       } else {
-        await offlineInventoryApi.post("/", payload);
+        await offlineInventoryApi.post("/offline-inventory", payload);
       }
       navigate("/admin/offline-inventory");
     } catch (err) {
