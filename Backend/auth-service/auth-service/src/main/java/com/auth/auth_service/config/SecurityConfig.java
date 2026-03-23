@@ -29,18 +29,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                         // ✅ PUBLIC ENDPOINTS
-                        .requestMatchers(
-                                "/auth/login",
-                                "/auth/register",
-                                "/auth/verify-otp",
-                                "/auth/login-otp",
-                                "/auth/login-otp/confirm",
-                                "/auth/resend-otp",
-                                "/auth/resend-otp/confirm",
-                                "/auth/google",
-                                "/auth/login/google",
-                                "/auth/register/google"
-                        ).permitAll()
+                        .requestMatchers("/auth/**").permitAll()
 
                         // ✅ PROTECTED ADDRESS APIs (TEMPORARILY PERMIT ALL FOR DEBUGGING)
                         .requestMatchers("/auth/address", "/auth/address/**").permitAll()

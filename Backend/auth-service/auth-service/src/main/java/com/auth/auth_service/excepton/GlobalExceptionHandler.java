@@ -20,5 +20,16 @@ public class GlobalExceptionHandler {
                         "message", ex.getReason()
                 ));
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, String>> handleGeneralException(Exception ex) {
+        System.out.println("⚠ CRITICAL ERROR: " + ex.getMessage());
+        ex.printStackTrace();
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of(
+                        "message", "Internal Server Error: " + ex.getMessage()
+                ));
+    }
 }
 
