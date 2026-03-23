@@ -335,18 +335,23 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
                 jwtProvider.generateToken(
                         user.getId(),
                         user.getEmail(),
-                        List.of()
+                        List.of("USER")
                 );
 
-        // 6️⃣ Create profile
-        userProfileClient.patchProfile(
-                "Bearer " + internalToken,
-                new CreateProfileRequest(
-                        googleUser.firstName(),
-                        googleUser.lastName(),
-                        null
-                )
-        );
+        // 6️⃣ Create profile safely
+        try {
+            userProfileClient.patchProfile(
+                    "Bearer " + internalToken,
+                    new CreateProfileRequest(
+                            googleUser.firstName(),
+                            googleUser.lastName(),
+                            null
+                    )
+            );
+        } catch (Exception e) {
+            System.out.println("⚠ Google Register Profile Patch Failed: " + e.getMessage());
+        }
+        
         List<String> roles = List.of("USER"); // empty
         // 7️⃣ Final login JWT
         String token =
