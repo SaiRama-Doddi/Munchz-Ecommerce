@@ -7,7 +7,7 @@ import { useAuth } from "../context/AuthContext";
 
 export default function AdminLayout() {
   const location = useLocation();
-  
+
   // Simple breadcrumb/title logic
   const pathParts = location.pathname.split("/").filter(Boolean);
   const pageTitle = pathParts[pathParts.length - 1]?.replace(/-/g, " ") || "Dashboard";
@@ -32,7 +32,7 @@ export default function AdminLayout() {
         {/* PREMIUM HEADER - Standardized White/Black/Green */}
         <header className="sticky top-0 z-40 bg-white h-20 px-4 md:px-8 flex items-center justify-between border-b border-gray-100 shadow-sm">
           <div className="flex items-center gap-4">
-            <button 
+            <button
               onClick={() => setSidebarOpen(true)}
               className="lg:hidden p-2 hover:bg-gray-50 rounded-lg transition-colors text-gray-500"
             >
@@ -58,7 +58,7 @@ export default function AdminLayout() {
                 <User size={20} />
               </div>
               <div className="h-8 w-px bg-gray-100 mx-2"></div>
-              <button 
+              <button
                 onClick={logout}
                 className="flex items-center gap-2 text-gray-400 hover:text-emerald-600 text-[10px] uppercase transition-colors"
               >
@@ -79,3 +79,5 @@ export default function AdminLayout() {
     </div>
   );
 }
+
+#doen
