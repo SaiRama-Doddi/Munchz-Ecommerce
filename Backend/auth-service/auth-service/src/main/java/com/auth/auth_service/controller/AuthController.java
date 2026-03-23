@@ -361,8 +361,13 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
                         roles
                 );
 
-        ProfileResponse profile =
-                userProfileClient.getProfile("Bearer " + token);
+        ProfileResponse profile;
+        try {
+            profile = userProfileClient.getProfile("Bearer " + token);
+        } catch (Exception e) {
+            System.out.println("⚠ Google Register Profile Fetch Failed: " + e.getMessage());
+            profile = new ProfileResponse(googleUser.firstName(), googleUser.lastName());
+        }
 
         return Map.of(
                 "token", token,
