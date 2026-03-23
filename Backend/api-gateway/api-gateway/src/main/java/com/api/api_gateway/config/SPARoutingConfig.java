@@ -36,7 +36,7 @@ public class SPARoutingConfig {
             if (path.startsWith("/assets/") || 
                 path.startsWith("/public/") || 
                 path.startsWith("/static/") ||
-                (path.contains(".") && !path.endsWith(".html"))) {
+                path.matches(".*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$")) {
                 
                 // If it's a relative asset request (e.g. /product/assets/...), 
                 // we should internally forward to the absolute path.
@@ -57,9 +57,12 @@ public class SPARoutingConfig {
             // We append Cache-Control headers here to ensure the browser never caches index.html.
             // If it's cached, the browser might request old hashed JS/CSS files that no longer exist,
             // resulting in a 404 (text/html error) when reloading the page.
-            exchange.getResponse().getHeaders().add("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0");
-            exchange.getResponse().getHeaders().add("Pragma", "no-cache");
-            exchange.getResponse().getHeaders().add("Expires", "0");
+            exchange.getResponse().beforeCommit(() -> {
+                exchange.getResponse().getHeaders().set("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0");
+                exchange.getResponse().getHeaders().set("Pragma", "no-cache");
+                exchange.getResponse().getHeaders().set("Expires", "0");
+                return Mono.empty();
+            });
             
             return chain.filter(
                 exchange.mutate()
