@@ -313,44 +313,37 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
                 googleTokenVerifier.verify(req.idToken());
 
         // 2️⃣ Check if already registered
-        if (userRepo.existsByEmail(googleUser.email())) {
-            throw new ResponseStatusException(
-                    HttpStatus.CONFLICT,
-                    "Account already exists. Please login."
+        User user = userRepo.findByEmail(googleUser.email()).orElse(null);
+
+        if (user == null) {
+            // 3️⃣ Create Auth User (New)
+            user = new User();
+            user.setEmail(googleUser.email());
+            user.setProvider("GOOGLE");
+            user.setProviderId(googleUser.googleId());
+            user.setEmailVerified(true);
+            userRepo.save(user);
+
+            // 5️⃣ INTERNAL JWT for Profile Creation
+            String internalToken = jwtProvider.generateToken(
+                    user.getId(),
+                    user.getEmail(),
+                    List.of("USER")
             );
-        }
 
-        // 3️⃣ Create Auth User
-        User user = new User();
-        user.setEmail(googleUser.email());
-        user.setProvider("GOOGLE");
-        user.setProviderId(googleUser.googleId());
-        user.setEmailVerified(true);
-
-        userRepo.save(user);
-
-
-
-        // 5️⃣ INTERNAL JWT (service-to-service)
-        String internalToken =
-                jwtProvider.generateToken(
-                        user.getId(),
-                        user.getEmail(),
-                        List.of("USER")
+            // 6️⃣ Create profile safely (Only for new users)
+            try {
+                userProfileClient.patchProfile(
+                        "Bearer " + internalToken,
+                        new CreateProfileRequest(
+                                googleUser.firstName(),
+                                googleUser.lastName(),
+                                null
+                        )
                 );
-
-        // 6️⃣ Create profile safely
-        try {
-            userProfileClient.patchProfile(
-                    "Bearer " + internalToken,
-                    new CreateProfileRequest(
-                            googleUser.firstName(),
-                            googleUser.lastName(),
-                            null
-                    )
-            );
-        } catch (Exception e) {
-            System.out.println("⚠ Google Register Profile Patch Failed: " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("⚠ Google Register Profile Patch Failed: " + e.getMessage());
+            }
         }
         
         List<String> roles = List.of("USER"); // empty
