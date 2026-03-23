@@ -5,7 +5,8 @@ COPY Frontend/package*.json ./
 RUN npm install
 COPY Frontend/ ./
 ARG VITE_GOOGLE_CLIENT_ID
-ENV VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
+RUN echo "VITE_API_BASE_URL=https://gomunchz.com" > .env
+RUN echo "VITE_GOOGLE_CLIENT_ID=${VITE_GOOGLE_CLIENT_ID}" >> .env
 RUN npm run build
 
 # Use Maven to build the Spring Boot API Gateway
