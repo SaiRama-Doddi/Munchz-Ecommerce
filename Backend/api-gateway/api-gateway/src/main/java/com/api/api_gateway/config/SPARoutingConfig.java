@@ -37,6 +37,18 @@ public class SPARoutingConfig {
                 path.startsWith("/public/") || 
                 path.startsWith("/static/") ||
                 (path.contains(".") && !path.endsWith(".html"))) {
+                
+                // If it's a relative asset request (e.g. /product/assets/...), 
+                // we should internally forward to the absolute path.
+                if (path.contains("/assets/") && !path.startsWith("/assets/")) {
+                    String correctedPath = path.substring(path.indexOf("/assets/"));
+                    return chain.filter(
+                        exchange.mutate()
+                            .request(exchange.getRequest().mutate().path(correctedPath).build())
+                            .build()
+                    );
+                }
+                
                 return chain.filter(exchange);
             }
 
