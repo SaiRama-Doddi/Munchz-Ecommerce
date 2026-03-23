@@ -53,7 +53,14 @@ public class SPARoutingConfig {
             }
 
             // 3. For all other routes (like /product/1, /cart, /checkout), forward to index.html
-            // This allows the React SPA to take over and handle the route
+            // This allows the React SPA to take over and handle the route.
+            // We append Cache-Control headers here to ensure the browser never caches index.html.
+            // If it's cached, the browser might request old hashed JS/CSS files that no longer exist,
+            // resulting in a 404 (text/html error) when reloading the page.
+            exchange.getResponse().getHeaders().add("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0");
+            exchange.getResponse().getHeaders().add("Pragma", "no-cache");
+            exchange.getResponse().getHeaders().add("Expires", "0");
+            
             return chain.filter(
                 exchange.mutate()
                     .request(exchange.getRequest().mutate().path("/index.html").build())
