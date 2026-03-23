@@ -192,7 +192,6 @@ export default function App() {
 
       <Route path="/product/:id" element={<ProductDetails />} />
 
-
       <Route path="/feature" element={<FeaturedProducts />} />
       <Route
         path="/contact"

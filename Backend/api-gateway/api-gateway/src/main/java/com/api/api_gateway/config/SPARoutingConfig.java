@@ -26,13 +26,17 @@ public class SPARoutingConfig {
 
             // 1. If it's an API request, let it pass
             for (String prefix : API_PREFIXES) {
-                if (path.startsWith(prefix)) {
+                if (path.equals(prefix) || path.startsWith(prefix + "/")) {
                     return chain.filter(exchange);
                 }
             }
 
-            // 2. If it has a file extension (e.g. .js, .css, .png), it's a static asset
-            if (path.contains(".") && !path.endsWith(".html")) {
+            // 2. Explicitly handle static asset directories and common file extensions
+            // This ensures that requests for /assets/index.js never get forwarded to /index.html
+            if (path.startsWith("/assets/") || 
+                path.startsWith("/public/") || 
+                path.startsWith("/static/") ||
+                (path.contains(".") && !path.endsWith(".html"))) {
                 return chain.filter(exchange);
             }
 
