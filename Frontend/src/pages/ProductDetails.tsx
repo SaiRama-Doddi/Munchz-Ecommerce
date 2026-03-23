@@ -407,52 +407,52 @@ export default function ProductDetails() {
         </div>
 
         {/* REVIEWS SECTION */}
-        <div className="max-w-7xl mx-auto px-4 py-16">
-          <div className="mb-12">
+        <div className="max-w-7xl mx-auto px-4 py-10 md:py-16">
+          <div className="mb-8 md:mb-12">
             <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
               Customer <span className="text-green-600">Reviews</span>
             </h2>
-            <p className="text-gray-500 text-sm mt-3 max-w-lg">
+            <p className="text-gray-500 text-sm mt-2 md:mt-3 max-w-lg">
               What our verified buyers say about this product
             </p>
             <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
             {reviews?.slice(0, visibleReviews).map((review) => (
-              <div key={review.id} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50 border-b-2 border-b-green-200">
+              <div key={review.id} className="bg-white rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-6 shadow-sm border border-gray-50 border-b-2 border-b-green-200">
                 <div className="flex justify-between items-center mb-4">
                   <div>
-                    <p className="font-bold text-gray-900">{review.userName}</p>
-                    <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">{new Date(review.createdAt).toLocaleDateString()}</p>
+                    <p className="font-bold text-gray-900 text-base md:text-lg">{review.userName}</p>
+                    <p className="text-[10px] md:text-[11px] font-bold text-gray-400 uppercase tracking-widest">{new Date(review.createdAt).toLocaleDateString()}</p>
                   </div>
-                  <div className="text-yellow-500 text-sm">{"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}</div>
+                  <div className="text-yellow-500 text-xs md:text-sm">{"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}</div>
                 </div>
                 <p className="text-gray-600 text-sm leading-relaxed mb-4">{review.comment}</p>
                 {review.imageUrl && (
-                  <img src={review.imageUrl} alt="review" className="w-24 h-24 object-cover rounded-xl border border-gray-100 hover:scale-105 transition" />
+                  <img src={review.imageUrl} alt="review" className="w-20 h-20 md:w-24 md:h-24 object-cover rounded-xl border border-gray-100 hover:scale-105 transition" />
                 )}
               </div>
             ))}
           </div>
           {reviews && visibleReviews < reviews.length && (
-            <div className="flex justify-center mt-12">
-              <button onClick={handleViewMoreReviews} className="px-10 py-3 bg-green-600 text-white rounded-full font-bold hover:bg-green-700 transition shadow-md">View More Reviews</button>
+            <div className="flex justify-center mt-8 md:mt-12">
+              <button onClick={handleViewMoreReviews} className="px-8 md:px-10 py-3 bg-green-600 text-white rounded-full font-bold hover:bg-green-700 transition shadow-md text-sm md:text-base">View More Reviews</button>
             </div>
           )}
         </div>
 
         {/* RELATED PRODUCTS */}
-        <div className="max-w-7xl mx-auto px-4 py-16 mb-10">
-          <div className="mb-12">
+        <div className="max-w-7xl mx-auto px-4 py-8 md:py-16 mb-10">
+          <div className="mb-8 md:mb-12">
             <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
               Related <span className="text-green-600">Products</span>
             </h2>
-            <p className="text-gray-500 text-sm mt-3 max-w-lg">
+            <p className="text-gray-500 text-sm mt-2 md:mt-3 max-w-lg">
               You might also like these handpicked selections
             </p>
             <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {relatedProducts?.slice(0, 8).map((p) => {
               const base100g = p.variants.find((v) => v.weightInGrams === 100);
               const sellVariants = p.variants.filter((v) => v.weightInGrams !== 100);

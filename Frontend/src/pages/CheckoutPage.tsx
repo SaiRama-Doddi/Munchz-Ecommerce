@@ -196,56 +196,56 @@ export default function CheckoutPage() {
       <div className="min-h-screen bg-[#f9fdf7]">
 
         {/* STICKY HEADER - UNIFIED WITH CART */}
-        <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-green-50 px-6 py-6 sm:px-10">
+        <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-green-50 px-5 py-4 sm:px-10 sm:py-6">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div>
               <h1 className="text-2xl sm:text-5xl font-bold text-gray-900 tracking-tight leading-none">
                 Checkout
               </h1>
-              <p className="text-xs sm:text-base text-gray-500 font-medium mt-3 max-w-2xl leading-relaxed">
+              <p className="text-xs sm:text-base text-gray-500 font-medium mt-1 sm:mt-3 max-w-2xl leading-relaxed">
                 Securely finishing your order • {items.length} Munchz
               </p>
             </div>
             <button
               onClick={() => navigate(-1)}
-              className="p-3 bg-gray-50 hover:bg-green-50 rounded-2xl transition-all border border-gray-100 hover:border-green-200 text-gray-400 hover:text-green-600"
+              className="p-2 sm:p-3 bg-gray-50 hover:bg-green-50 rounded-xl sm:rounded-2xl transition-all border border-gray-100 hover:border-green-200 text-gray-400 hover:text-green-600"
             >
-              <ArrowLeft size={24} />
+              <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10 px-4 sm:px-6 lg:px-8 py-10">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10 px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
 
           {/* LEFT SIDE: ITEMS & ADDRESS */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-6 sm:space-y-8">
 
             {/* ORDER ITEMS SECTION */}
-            <div className="bg-white p-8 rounded-[2rem] border border-green-50 shadow-sm relative overflow-hidden group">
-              <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:scale-110 transition-transform pointer-events-none"><ShoppingBag size={110} /></div>
+            <div className="bg-white p-5 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border border-green-50 shadow-sm relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-5 sm:p-10 opacity-[0.03] group-hover:scale-110 transition-transform pointer-events-none"><ShoppingBag className="w-[80px] h-[80px] sm:w-[110px] sm:h-[110px]" /></div>
               
-              <h3 className="text-xl md:text-3xl font-bold text-gray-900 mb-8 flex items-center gap-3 tracking-tight">
-                <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
+              <h3 className="text-xl md:text-3xl font-bold text-gray-900 mb-6 sm:mb-8 flex items-center gap-2 sm:gap-3 tracking-tight">
+                <div className="w-1.5 h-6 sm:h-8 bg-green-600 rounded-full"></div>
                 Order Items
               </h3>
 
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {items.map((item, idx) => {
                   const v = item.variants[item.selectedVariantIndex];
                   return (
-                    <div key={idx} className="flex gap-6 items-center p-4 rounded-2xl hover:bg-green-50/30 transition-all border border-transparent hover:border-green-50">
-                      <div className="w-20 h-20 bg-[#ecfdf5] rounded-2xl overflow-hidden flex-shrink-0 cursor-pointer" onClick={() => navigate(`/product/${item.productId}`)}>
+                    <div key={idx} className="flex gap-4 sm:gap-6 items-center p-3 sm:p-4 rounded-xl sm:rounded-2xl hover:bg-green-50/30 transition-all border border-transparent hover:border-green-50">
+                      <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#ecfdf5] rounded-xl sm:rounded-2xl overflow-hidden flex-shrink-0 cursor-pointer" onClick={() => navigate(`/product/${item.productId}`)}>
                         <img src={item.imageUrl} className="w-full h-full object-contain p-2" alt={item.name} />
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-bold text-gray-900 text-lg tracking-tight line-clamp-1 truncate cursor-pointer hover:text-green-600 transition-colors" onClick={() => navigate(`/product/${item.productId}`)}>
                           {item.name}
                         </p>
-                        <p className="text-xs text-gray-400 font-bold uppercase mt-1 tracking-widest">
+                        <p className="text-[10px] sm:text-xs text-gray-400 font-bold uppercase mt-0.5 sm:mt-1 tracking-widest">
                           {v.weightLabel} × {item.qty}
                         </p>
                       </div>
-                      <p className="font-bold text-green-700 text-xl tracking-tight">
+                      <p className="font-bold text-green-700 text-lg sm:text-xl tracking-tight">
                         ₹{v.offerPrice * item.qty}
                       </p>
                     </div>
@@ -255,11 +255,11 @@ export default function CheckoutPage() {
             </div>
 
             {/* SHIPPING ADDRESS SECTION */}
-            <div className="bg-white p-8 rounded-[2rem] border border-green-50 shadow-sm relative overflow-hidden group">
-              <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:scale-110 transition-transform pointer-events-none"><MapPin size={110} /></div>
+            <div className="bg-white p-5 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border border-green-50 shadow-sm relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-5 sm:p-10 opacity-[0.03] group-hover:scale-110 transition-transform pointer-events-none"><MapPin className="w-[80px] h-[80px] sm:w-[110px] sm:h-[110px]" /></div>
 
-              <h3 className="text-xl md:text-3xl font-bold text-gray-900 mb-8 flex items-center gap-3 tracking-tight">
-                <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
+              <h3 className="text-xl md:text-3xl font-bold text-gray-900 mb-6 sm:mb-8 flex items-center gap-2 sm:gap-3 tracking-tight">
+                <div className="w-1.5 h-6 sm:h-8 bg-green-600 rounded-full"></div>
                 Shipping Address
               </h3>
 
@@ -267,7 +267,7 @@ export default function CheckoutPage() {
                 {addresses.map((addr) => (
                   <div
                     key={addr.id}
-                    className={`rounded-[1.5rem] p-6 relative transition-all border-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
+                    className={`rounded-2xl sm:rounded-[1.5rem] p-5 sm:p-6 relative transition-all border-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-4 ${
                       selectedAddress?.id === addr.id
                         ? "border-green-600 bg-green-50/50"
                         : "border-gray-100 bg-gray-50/30 hover:border-green-200"
@@ -283,24 +283,24 @@ export default function CheckoutPage() {
                           <input placeholder="Pincode" className="bg-white border-2 border-gray-100 p-4 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none" value={form.pincode || ""} onChange={(e)=>setForm({...form,pincode:e.target.value})} />
                           <input placeholder="Phone" className="bg-white border-2 border-gray-100 p-4 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none" value={form.phone || ""} onChange={(e)=>setForm({...form,phone:e.target.value})} />
                         </div>
-                        <div className="flex gap-4">
-                          <button onClick={()=>handleUpdateAddress(addr.id)} className="flex-1 bg-green-600 text-white py-4 rounded-xl font-bold tracking-tight shadow-lg shadow-green-100 hover:bg-green-700 transition-all">UPDATE</button>
-                          <button onClick={()=>setEditingId(null)} className="flex-1 bg-white border-2 border-gray-100 text-gray-400 py-4 rounded-xl font-bold tracking-tight hover:bg-gray-50 transition-all">CANCEL</button>
+                        <div className="flex gap-2 sm:gap-4">
+                          <button onClick={()=>handleUpdateAddress(addr.id)} className="flex-1 bg-green-600 text-white py-3 sm:py-4 rounded-xl font-bold tracking-tight shadow-lg shadow-green-100 hover:bg-green-700 transition-all text-sm sm:text-base">UPDATE</button>
+                          <button onClick={()=>setEditingId(null)} className="flex-1 bg-white border-2 border-gray-100 text-gray-400 py-3 sm:py-4 rounded-xl font-bold tracking-tight hover:bg-gray-50 transition-all text-sm sm:text-base">CANCEL</button>
                         </div>
                       </div>
                     ) : (
                       <>
-                        <div onClick={()=>setSelectedAddress(addr)} className="cursor-pointer flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            <p className="font-bold text-gray-900 text-lg tracking-tight uppercase leading-none">{addr.label}</p>
-                            {addr.isDefault && <span className="text-[10px] bg-green-600 text-white px-3 py-1 rounded-full font-black uppercase tracking-widest">Default</span>}
+                        <div onClick={()=>setSelectedAddress(addr)} className="cursor-pointer flex-1 min-w-0">
+                          <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
+                            <p className="font-bold text-gray-900 text-base sm:text-lg tracking-tight uppercase leading-none truncate">{addr.label}</p>
+                            {addr.isDefault && <span className="text-[9px] sm:text-[10px] bg-green-600 text-white px-2 sm:px-3 py-1 rounded-full font-black uppercase tracking-widest shrink-0">Default</span>}
                           </div>
-                          <p className="text-gray-500 font-medium leading-relaxed max-w-sm">
+                          <p className="text-gray-500 text-sm sm:text-base font-medium leading-relaxed max-w-sm shrink-0 break-words">
                             {addr.addressLine1}, {addr.city}, {addr.state} - {addr.pincode}
                           </p>
-                          {addr.phone && <p className="text-green-700 font-bold mt-2 flex items-center gap-2">📞 {addr.phone}</p>}
+                          {addr.phone && <p className="text-green-700 text-sm sm:text-base font-bold mt-1 sm:mt-2 flex items-center gap-2">📞 {addr.phone}</p>}
                         </div>
-                        <div className="flex sm:flex-col gap-2">
+                        <div className="flex sm:flex-col gap-2 shrink-0">
                           <button onClick={()=>{setEditingId(addr.id); setForm(addr);}} className="p-3 bg-white text-gray-400 hover:text-green-600 hover:bg-green-50 border border-gray-100 rounded-xl transition-all"><Pencil size={18} /></button>
                           <button onClick={()=>handleDeleteAddress(addr.id)} className="p-3 bg-white text-gray-400 hover:text-red-500 hover:bg-red-50 border border-gray-100 rounded-xl transition-all"><Trash2 size={18} /></button>
                         </div>
@@ -315,16 +315,16 @@ export default function CheckoutPage() {
               </button>
 
               {showNewAddress && (
-                <div className="mt-6 grid gap-4 bg-gray-50/50 p-6 rounded-[1.5rem] border border-gray-100 border-dashed">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <input placeholder="Label (e.g. Work, Home)" className="bg-white border-2 border-gray-100 p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,label:e.target.value})} />
-                    <input placeholder="Address" className="bg-white border-2 border-gray-100 p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,addressLine1:e.target.value})} />
-                    <input placeholder="City" className="bg-white border-2 border-gray-100 p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,city:e.target.value})} />
-                    <input placeholder="State" className="bg-white border-2 border-gray-100 p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,state:e.target.value})} />
-                    <input placeholder="Pincode" className="bg-white border-2 border-gray-100 p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,pincode:e.target.value})} />
-                    <input placeholder="Phone" className="bg-white border-2 border-gray-100 p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,phone:e.target.value})} />
+                <div className="mt-6 grid gap-4 bg-gray-50/50 p-5 sm:p-6 rounded-2xl sm:rounded-[1.5rem] border border-gray-100 border-dashed">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                    <input placeholder="Label (e.g. Work, Home)" className="bg-white border-2 border-gray-100 p-3 sm:p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,label:e.target.value})} />
+                    <input placeholder="Address" className="bg-white border-2 border-gray-100 p-3 sm:p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,addressLine1:e.target.value})} />
+                    <input placeholder="City" className="bg-white border-2 border-gray-100 p-3 sm:p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,city:e.target.value})} />
+                    <input placeholder="State" className="bg-white border-2 border-gray-100 p-3 sm:p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,state:e.target.value})} />
+                    <input placeholder="Pincode" className="bg-white border-2 border-gray-100 p-3 sm:p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,pincode:e.target.value})} />
+                    <input placeholder="Phone" className="bg-white border-2 border-gray-100 p-3 sm:p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,phone:e.target.value})} />
                   </div>
-                  <button onClick={saveNewAddress} className="bg-green-600 text-white py-5 rounded-2xl font-bold tracking-tight shadow-xl shadow-green-100 hover:bg-green-700 transition-all">SAVE ADDRESS & CONTINUE</button>
+                  <button onClick={saveNewAddress} className="bg-green-600 text-white py-4 sm:py-5 rounded-xl sm:rounded-2xl font-bold tracking-tight shadow-xl shadow-green-100 hover:bg-green-700 transition-all mt-2 text-sm sm:text-base">SAVE ADDRESS & CONTINUE</button>
                 </div>
               )}
             </div>
@@ -332,11 +332,11 @@ export default function CheckoutPage() {
 
           {/* RIGHT SIDE: PRICE SUMMARY */}
           <div className="space-y-6">
-            <div className="bg-white p-8 rounded-[2rem] border-2 border-green-600 shadow-xl lg:sticky lg:top-32 relative overflow-hidden">
-               <div className="absolute top-0 right-0 p-10 opacity-5 pointer-events-none rotate-12"><CreditCard size={80} /></div>
+            <div className="bg-white p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border-2 border-green-600 shadow-xl lg:sticky lg:top-32 relative overflow-hidden">
+               <div className="absolute top-0 right-0 p-6 sm:p-10 opacity-5 pointer-events-none rotate-12"><CreditCard className="w-[60px] h-[60px] sm:w-[80px] sm:h-[80px]" /></div>
                
-               <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-8 flex items-center gap-3 tracking-tight">
-                 <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
+               <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6 sm:mb-8 flex items-center gap-2 sm:gap-3 tracking-tight">
+                 <div className="w-1.5 h-6 sm:h-8 bg-green-600 rounded-full"></div>
                  Price Summary
                </h3>
 
@@ -359,19 +359,19 @@ export default function CheckoutPage() {
                  <div className="flex justify-between items-end bg-green-50/50 p-4 rounded-2xl border border-green-100">
                    <div>
                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1">Grand Total</p>
-                     <p className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tighter leading-none">₹{totalAmount.toFixed(0)}</p>
+                     <p className="text-2xl sm:text-4xl font-bold text-gray-900 tracking-tighter leading-none">₹{totalAmount.toFixed(0)}</p>
                    </div>
-                   <div className="pb-1 opacity-20"><ShieldCheck size={32} /></div>
+                   <div className="pb-1 opacity-20"><ShieldCheck className="w-[24px] h-[24px] sm:w-[32px] sm:h-[32px]" /></div>
                  </div>
                </div>
 
                <button
                  onClick={placeOrder}
                  disabled={isPlacingOrder}
-                 className="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl font-bold tracking-tight transition-all flex items-center justify-center gap-2 border-none outline-none shadow-sm group disabled:opacity-50"
+                 className="w-full bg-green-600 hover:bg-green-700 text-white py-3 sm:py-4 rounded-xl font-bold tracking-tight transition-all flex items-center justify-center gap-2 border-none outline-none shadow-sm group disabled:opacity-50 text-sm sm:text-base"
                >
                  <span>CONFIRM & SECURE ORDER</span>
-                 <ChevronRight className="group-hover:translate-x-1 transition-transform" />
+                 <ChevronRight className="group-hover:translate-x-1 transition-transform w-[18px] h-[18px] sm:w-[24px] sm:h-[24px]" />
                </button>
 
                <div className="mt-8 grid grid-cols-3 gap-2 opacity-40">

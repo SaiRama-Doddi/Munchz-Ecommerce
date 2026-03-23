@@ -169,33 +169,33 @@ export default function UserOrders() {
     <div className="bg-[#f9fdf7] min-h-screen">
       
       {/* STICKY HEADER - UNIFIED WITH CART/CHECKOUT */}
-      <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-green-50 px-6 py-6 sm:px-10">
+      <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-green-50 px-5 py-4 sm:px-10 sm:py-6">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div>
             <h1 className="text-2xl sm:text-5xl font-bold text-gray-900 tracking-tight leading-none">
               My <span className="text-green-600">Orders</span>
             </h1>
-            <p className="text-xs sm:text-base text-gray-500 font-medium mt-3 max-w-2xl leading-relaxed">
+            <p className="text-xs sm:text-base text-gray-500 font-medium mt-1 sm:mt-3 max-w-2xl leading-relaxed">
               Order history & status • {orders.length} Munchz Moments
             </p>
           </div>
           <button
             onClick={() => navigate(-1)}
-            className="p-3 bg-gray-50 hover:bg-green-50 rounded-2xl transition-all border border-gray-100 hover:border-green-200 text-gray-400 hover:text-green-600"
+            className="p-2 sm:p-3 bg-gray-50 hover:bg-green-50 rounded-xl sm:rounded-2xl transition-all border border-gray-100 hover:border-green-200 text-gray-400 hover:text-green-600"
           >
-            <ArrowLeft size={24} />
+            <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-6 sm:space-y-10">
 
         {/* USER SUMMARY CARD */}
-        <div className="bg-white rounded-[2rem] border border-green-50 shadow-sm p-8 flex flex-col md:flex-row md:items-center justify-between gap-8 relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-10 opacity-[0.03] group-hover:scale-110 transition-transform pointer-events-none"><User size={110} /></div>
+        <div className="bg-white rounded-[1.5rem] sm:rounded-[2rem] border border-green-50 shadow-sm p-5 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-8 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-5 sm:p-10 opacity-[0.03] group-hover:scale-110 transition-transform pointer-events-none"><User className="w-[80px] h-[80px] sm:w-[110px] sm:h-[110px]" /></div>
           <div>
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-black">{profile?.firstName?.[0]}</div>
+            <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-black text-sm sm:text-base">{profile?.firstName?.[0]}</div>
               <h2 className="text-xl md:text-2xl font-bold text-gray-900 tracking-tight leading-none">{profile?.firstName} {profile?.lastName}</h2>
             </div>
             <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px] flex items-center gap-2 mt-1">
@@ -248,21 +248,21 @@ export default function UserOrders() {
             </div>
           ) : (
             filteredOrders.map((order) => (
-              <div key={order.orderId} className="bg-white rounded-[2rem] border-2 border-green-50/50 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col relative overflow-hidden group">
+              <div key={order.orderId} className="bg-white rounded-[1.5rem] sm:rounded-[2rem] border-2 border-green-50/50 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col relative overflow-hidden group">
                 {/* CARD HEADER */}
-                <div className="bg-[#ecfdf5] px-8 py-4 flex justify-between items-center relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-6 opacity-10 pointer-events-none"><ShoppingBag size={40} /></div>
+                <div className="bg-[#ecfdf5] px-5 sm:px-8 py-3 sm:py-4 flex justify-between items-center relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-4 sm:p-6 opacity-10 pointer-events-none"><ShoppingBag className="w-[28px] h-[28px] sm:w-[40px] sm:h-[40px]" /></div>
                   <div>
-                    <p className="text-[10px] text-green-700 font-bold uppercase tracking-widest leading-none mb-1">Order Placed On</p>
-                    <p className="font-bold text-gray-900 tracking-tight leading-none">{new Date(order.placedAt).toLocaleDateString()}</p>
+                    <p className="text-[9px] sm:text-[10px] text-green-700 font-bold uppercase tracking-widest leading-none mb-1">Order Placed On</p>
+                    <p className="font-bold text-gray-900 tracking-tight leading-none text-sm sm:text-base">{new Date(order.placedAt).toLocaleDateString()}</p>
                   </div>
-                  <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest
+                  <span className={`px-3 sm:px-4 py-1.5 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-widest
                     ${order.orderStatus === "DELIVERED" ? "bg-green-600 text-white" : order.orderStatus === "PENDING" ? "bg-yellow-100 text-yellow-700" : "bg-gray-100 text-gray-500"}`}>
                     {order.orderStatus}
                   </span>
                 </div>
 
-                <div className="p-8 space-y-4">
+                <div className="p-5 sm:p-8 space-y-4">
                   {order.items.map((item, idx) => (
                     <div key={idx} className="flex gap-4 items-center group/item hover:bg-green-50/50 p-2 rounded-2xl transition-all">
                         <img
@@ -287,10 +287,10 @@ export default function UserOrders() {
                   ))}
                 </div>
 
-                <div className="p-8 pt-4 border-t border-gray-50 flex justify-between items-center mt-auto">
+                <div className="p-5 sm:p-8 pt-4 sm:pt-4 border-t border-gray-50 flex justify-between items-center mt-auto">
                    <div>
-                      <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest leading-none mb-1">Total</p>
-                      <p className="text-2xl font-bold text-gray-900 tracking-tighter leading-none">₹{order.totalAmount}</p>
+                      <p className="text-[9px] sm:text-[10px] text-gray-400 font-bold uppercase tracking-widest leading-none mb-1">Total</p>
+                      <p className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tighter leading-none">₹{order.totalAmount}</p>
                    </div>
                    <div className="flex gap-2">
                       <button onClick={() => setSelectedOrder(order)} className="p-3 bg-white text-gray-400 hover:text-green-600 hover:bg-green-50 border border-gray-100 rounded-xl transition-all"><Eye size={18} /></button>
@@ -308,10 +308,10 @@ export default function UserOrders() {
 
       {/* ORDER DETAILS MODAL */}
       {selectedOrder && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-end md:items-center justify-center p-4">
-          <div className="relative bg-white w-full max-w-2xl rounded-[2.5rem] shadow-2xl p-8 overflow-y-auto max-h-[90vh] animate-slideUp border border-green-50">
-            <button onClick={() => setSelectedOrder(null)} className="absolute top-6 right-6 p-3 bg-gray-50 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all border border-gray-100 hover:border-red-100"><X size={20} /></button>
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 tracking-tight flex items-center gap-3"><div className="w-1.5 h-8 bg-green-600 rounded-full"></div> Order Details</h2>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-end md:items-center justify-center md:p-4">
+          <div className="relative bg-white w-full max-w-2xl rounded-t-[2rem] md:rounded-[2.5rem] rounded-b-none md:rounded-b-[2.5rem] shadow-2xl p-6 sm:p-8 overflow-y-auto max-h-[85vh] md:max-h-[90vh] animate-slideUp border border-green-50">
+            <button onClick={() => setSelectedOrder(null)} className="absolute top-4 sm:top-6 right-4 sm:right-6 p-2 sm:p-3 bg-gray-50 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl sm:rounded-2xl transition-all border border-gray-100 hover:border-red-100"><X size={20} /></button>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8 tracking-tight flex items-center gap-2 sm:gap-3"><div className="w-1.5 h-6 sm:h-8 bg-green-600 rounded-full"></div> Order Details</h2>
             
             <div className="grid sm:grid-cols-2 gap-8 bg-[#f9fdf7] p-6 rounded-[2rem] border border-green-100 mb-8">
                <div className="space-y-4">
@@ -372,8 +372,8 @@ export default function UserOrders() {
 
       {/* REVIEW PRODUCT MODAL */}
       {reviewItem && selectedOrder && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[60] flex items-center justify-center p-4 sm:p-6">
-          <div className="bg-white w-full max-h-[92vh] sm:max-w-lg rounded-[2rem] sm:rounded-[2.5rem] shadow-2xl p-6 sm:p-8 space-y-6 sm:space-y-8 overflow-y-auto animate-slideUp border border-green-50 relative">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[60] flex items-end md:items-center justify-center md:p-4">
+          <div className="bg-white w-full max-h-[90vh] sm:max-w-lg rounded-t-[2rem] md:rounded-[2.5rem] rounded-b-none md:rounded-b-[2.5rem] shadow-2xl p-6 sm:p-8 space-y-5 sm:space-y-8 overflow-y-auto animate-slideUp border border-green-50 relative">
             <button onClick={() => setReviewItem(null)} className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all z-10"><X size={20} /></button>
             
             <h3 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
@@ -395,7 +395,7 @@ export default function UserOrders() {
                     onClick={() => setRating(r)}
                     className={`transition-all duration-300 transform hover:scale-125 ${rating >= r ? "text-yellow-400 fill-yellow-400" : "text-gray-100"}`}
                   >
-                    <Star size={36} />
+                    <Star className="w-[28px] h-[28px] sm:w-[36px] sm:h-[36px]" />
                   </button>
                 ))}
               </div>
