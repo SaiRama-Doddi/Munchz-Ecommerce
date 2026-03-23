@@ -18,6 +18,8 @@ services:
     build:
       context: .
       dockerfile: Backend/api-gateway/api-gateway/Dockerfile
+      args:
+        - VITE_GOOGLE_CLIENT_ID=793122597419-e3pfgkc4dgkiol8c4sut37egut6403c3.apps.googleusercontent.com
     container_name: api-gateway
     ports:
       - "8080:8080"

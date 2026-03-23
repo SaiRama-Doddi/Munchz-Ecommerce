@@ -4,6 +4,8 @@ WORKDIR /frontend
 COPY Frontend/package*.json ./
 RUN npm install
 COPY Frontend/ ./
+ARG VITE_GOOGLE_CLIENT_ID
+ENV VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
 RUN npm run build
 
 # Use Maven to build the Spring Boot API Gateway
