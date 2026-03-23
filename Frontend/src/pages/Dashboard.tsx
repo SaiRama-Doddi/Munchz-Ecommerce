@@ -259,13 +259,13 @@ export default function Dashboard() {
     <div className="space-y-10 pb-10 bg-white min-h-screen">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-2">
         <div>
-          <h1 className="text-3xl md:text-4xl font-black text-black tracking-tight">System Overview</h1>
-          <p className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em] mt-1">Real-time Performance Metrics</p>
+          <h1 className="text-3xl md:text-4xl text-black">System Overview</h1>
+          <p className="text-[10px] text-gray-400 uppercase tracking-[0.2em] mt-1">Real-time Performance Metrics</p>
         </div>
 
         <button 
           onClick={() => navigate("/admin/add-product")}
-          className="flex items-center justify-center gap-2 bg-emerald-600 text-white px-7 py-3.5 rounded-[1.25rem] font-black text-[10px] uppercase tracking-widest shadow-xl shadow-emerald-600/20 hover:scale-105 transition-all duration-500 w-full md:w-auto"
+          className="flex items-center justify-center gap-2 bg-emerald-600 text-white px-7 py-3.5 rounded-[1.25rem] text-[10px] uppercase shadow-xl shadow-emerald-600/20 hover:scale-105 transition-all duration-500 w-full md:w-auto"
         >
           <Plus size={18} />
           <span>Launch New Product</span>
@@ -339,7 +339,7 @@ export default function Dashboard() {
               <select 
                 value={chartView}
                 onChange={(e) => setChartView(e.target.value as any)}
-                className="appearance-none bg-gray-50 border border-gray-100 rounded-xl px-4 py-2 pr-10 text-xs font-bold text-black focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all cursor-pointer"
+                className="appearance-none bg-gray-50 border border-gray-100 rounded-xl px-4 py-2 pr-10 text-xs text-black focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all cursor-pointer"
               >
                 <option value="distribution">Stock Distribution</option>
                 <option value="inventory">Inventory Levels</option>
@@ -406,8 +406,8 @@ export default function Dashboard() {
       {/* RECENT PRODUCTS */}
       <section className="bg-white border border-gray-100 rounded-[2rem] md:rounded-[2.5rem] p-5 md:p-8 shadow-sm">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-lg md:text-xl font-bold text-black">New Products</h2>
-          <button className="text-sm font-bold text-emerald-600 hover:text-emerald-700 transition-colors">View All</button>
+          <h2 className="text-lg md:text-xl text-black">New Products</h2>
+          <button className="text-sm text-emerald-600 hover:text-emerald-700 transition-colors">View All</button>
         </div>
 
         <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
@@ -417,8 +417,8 @@ export default function Dashboard() {
                 <img src={p.imageUrl} alt={p.name} className="max-h-full object-contain group-hover:scale-110 transition-transform duration-300" />
               </div>
               <div className="mt-3">
-                <p className="text-sm font-bold text-black truncate group-hover:text-emerald-600 transition-colors">{p.name}</p>
-                <p className="text-[10px] uppercase tracking-wider text-gray-400 font-bold mt-1">ID: #{p.id}</p>
+                <p className="text-sm text-black truncate group-hover:text-emerald-600 transition-colors">{p.name}</p>
+                <p className="text-[10px] uppercase tracking-wider text-gray-400 mt-1">ID: #{p.id}</p>
               </div>
             </div>
           ))}
@@ -434,8 +434,8 @@ export default function Dashboard() {
                 <ShoppingCart size={20} />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-black leading-tight">Orders Feed</h2>
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Live tracking</p>
+                <h2 className="text-xl text-black leading-tight">Orders Feed</h2>
+                <p className="text-[10px] text-gray-400 uppercase tracking-wider">Live tracking</p>
               </div>
             </div>
             
@@ -449,7 +449,7 @@ export default function Dashboard() {
                 <button
                   key={f.value}
                   onClick={() => setListFilter(f.value as any)}
-                  className={`px-4 py-1.5 rounded-lg text-[10px] font-black transition-all duration-300 uppercase tracking-widest ${
+                  className={`px-4 py-1.5 rounded-lg text-[10px] transition-all duration-300 uppercase ${
                     listFilter === f.value 
                       ? 'bg-black text-white shadow-lg shadow-black/20 scale-105' 
                       : 'text-gray-400 hover:text-black hover:bg-white'
@@ -463,7 +463,7 @@ export default function Dashboard() {
 
           <div className="space-y-4 flex-1 overflow-y-auto pr-2 no-scrollbar max-h-[500px]">
             {listFilteredOrders.length === 0 ? (
-              <div className="text-gray-400 text-sm font-bold py-16 flex flex-col items-center gap-3">
+              <div className="text-gray-400 text-sm py-16 flex flex-col items-center gap-3">
                 <ShoppingCart size={40} className="opacity-10" />
                 No orders for this period
               </div>
@@ -471,17 +471,17 @@ export default function Dashboard() {
               listFilteredOrders.slice(0, 50).map((o) => (
                 <div key={o.orderId} className="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-gray-100 hover:border-emerald-600/20 transition-all duration-300 group cursor-pointer" onClick={() => navigate("/admin/orders")}>
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center border border-gray-100 font-bold text-gray-400 group-hover:text-emerald-600 transition-colors">
+                    <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center border border-gray-100 text-gray-400 group-hover:text-emerald-600 transition-colors">
                       {o.userName.charAt(0)}
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-black">{o.userName}</p>
-                      <p className="text-[10px] text-gray-400 font-semibold">{o.placedAt}</p>
+                      <p className="text-sm text-black">{o.userName}</p>
+                      <p className="text-[10px] text-gray-400">{o.placedAt}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-bold text-black">₹{o.totalAmount}</p>
-                    <span className="text-[10px] font-bold uppercase text-emerald-600">{o.orderStatus}</span>
+                    <p className="text-sm text-black">₹{o.totalAmount}</p>
+                    <span className="text-[10px] uppercase text-emerald-600">{o.orderStatus}</span>
                   </div>
                 </div>
               ))
@@ -497,19 +497,19 @@ export default function Dashboard() {
                 <CreditCard size={20} />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-black leading-tight">Payments Log</h2>
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Transaction history</p>
+                <h2 className="text-xl text-black leading-tight">Payments Log</h2>
+                <p className="text-[10px] text-gray-400 uppercase tracking-wider">Transaction history</p>
               </div>
             </div>
             
-             <span className="px-3 py-1.5 bg-gray-50 text-black text-[10px] font-bold rounded-lg uppercase tracking-wider border border-gray-100">
+             <span className="px-3 py-1.5 bg-gray-50 text-black text-[10px] rounded-lg uppercase tracking-wider border border-gray-100">
               {listFilteredPayments.length} Recv
             </span>
           </div>
 
           <div className="space-y-4 flex-1 overflow-y-auto pr-2 no-scrollbar max-h-[500px]">
             {listFilteredPayments.length === 0 ? (
-              <div className="text-gray-400 text-sm font-bold py-16 flex flex-col items-center gap-3">
+              <div className="text-gray-400 text-sm py-16 flex flex-col items-center gap-3">
                 <CreditCard size={40} className="opacity-10" />
                 No payments for this period
               </div>
@@ -521,13 +521,13 @@ export default function Dashboard() {
                       <ArrowUpRight size={18} />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-black">Order #{p.orderId}</p>
-                      <p className="text-[10px] text-gray-400 font-semibold">Payment ID #{p.id.slice(0,8)}</p>
+                      <p className="text-sm text-black">Order #{p.orderId}</p>
+                      <p className="text-[10px] text-gray-400">Payment ID #{p.id.slice(0,8)}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-lg font-black text-emerald-600">₹{(p.amount / 100).toLocaleString()}</p>
-                    <span className={`text-[10px] font-bold uppercase ${p.status === 'paid' ? 'text-emerald-600' : 'text-emerald-400'}`}>{p.status}</span>
+                    <p className="text-lg text-emerald-600">₹{(p.amount / 100).toLocaleString()}</p>
+                    <span className={`text-[10px] uppercase ${p.status === 'paid' ? 'text-emerald-600' : 'text-emerald-400'}`}>{p.status}</span>
                   </div>
                 </div>
               ))
@@ -581,20 +581,20 @@ function KPICard({
             {icon}
           </div>
           <div className="flex flex-col">
-            <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] leading-none mb-1">
+            <span className="text-[10px] text-gray-400 uppercase tracking-[0.15em] leading-none mb-1">
               {title}
             </span>
-            <span className="text-[10px] font-bold text-emerald-600/60 uppercase tracking-tighter leading-none">
+            <span className="text-[10px] text-emerald-600/60 uppercase leading-none">
               Live Data
             </span>
           </div>
         </div>
 
         <div className="flex flex-col">
-          <h3 className="text-3xl font-black text-black tracking-tight mb-1 leading-none">
+          <h3 className="text-3xl text-black mb-1 leading-none">
             {value}
           </h3>
-          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{subtitle}</p>
+          <p className="text-[10px] text-gray-400 uppercase">{subtitle}</p>
         </div>
       </div>
     </div>
@@ -616,10 +616,10 @@ function ChartCard({
     <div className="bg-white border border-gray-100 rounded-[2rem] md:rounded-[2.5rem] p-5 md:p-8 shadow-sm">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-2xl font-black text-black tracking-tight">
+          <h2 className="text-2xl text-black">
             {title}
           </h2>
-          <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">{subtitle}</p>
+          <p className="text-xs text-gray-400 uppercase tracking-wider">{subtitle}</p>
         </div>
         {action}
       </div>

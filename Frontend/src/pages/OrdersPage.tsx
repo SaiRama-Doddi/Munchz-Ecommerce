@@ -172,7 +172,7 @@ const OrdersPage: React.FC = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] bg-white">
         <div className="w-12 h-12 border-4 border-emerald-100 border-t-emerald-600 rounded-full animate-spin"></div>
-        <p className="mt-4 text-gray-400 font-bold uppercase tracking-widest text-[10px]">Fetching orders...</p>
+        <p className="mt-4 text-gray-400 uppercase text-[10px]">Fetching orders...</p>
       </div>
     );
   }
@@ -182,11 +182,11 @@ const OrdersPage: React.FC = () => {
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-black tracking-tight">Order Management</h1>
-          <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Transaction Oversight</p>
+          <h1 className="text-3xl text-black">Order Management</h1>
+          <p className="text-gray-400 uppercase text-[10px]">Transaction Oversight</p>
         </div>
 
-        <div className="flex items-center gap-2 text-gray-400 bg-white border border-gray-100 shadow-sm px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest">
+        <div className="flex items-center gap-2 text-gray-400 bg-white border border-gray-100 shadow-sm px-4 py-2 rounded-xl text-xs uppercase">
           <Package size={16} />
           <span>{orders.length} ACTIVE ORDERS</span>
         </div>
@@ -205,7 +205,7 @@ const OrdersPage: React.FC = () => {
               <button
                 key={f.value}
                 onClick={() => setFilterPeriod(f.value as any)}
-                className={`flex-1 sm:flex-none px-4 md:px-6 py-2 rounded-lg md:rounded-xl text-[10px] font-black transition-all duration-500 uppercase tracking-wider ${
+                className={`flex-1 sm:flex-none px-4 md:px-6 py-2 rounded-lg md:rounded-xl text-[10px] transition-all duration-500 uppercase tracking-wider ${
                   filterPeriod === f.value
                     ? "bg-black text-white shadow-lg shadow-black/20"
                     : "text-gray-400 hover:text-black"
@@ -224,7 +224,7 @@ const OrdersPage: React.FC = () => {
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs font-bold text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all placeholder:text-gray-300"
+                className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all placeholder:text-gray-300"
               />
             </div>
             
@@ -234,7 +234,7 @@ const OrdersPage: React.FC = () => {
                 type="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs font-bold text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all appearance-none cursor-pointer sm:min-w-[160px]"
+                className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all appearance-none cursor-pointer sm:min-w-[160px]"
               />
               {selectedDate && (
                 <button 
@@ -255,12 +255,12 @@ const OrdersPage: React.FC = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-gray-50/50">
-                <th className="px-6 py-5 text-xs font-bold text-gray-400 uppercase tracking-widest border-b border-gray-100">ID & Date</th>
-                <th className="px-6 py-5 text-xs font-bold text-gray-400 uppercase tracking-widest border-b border-gray-100">Customer</th>
-                <th className="px-6 py-5 text-xs font-bold text-gray-400 uppercase tracking-widest border-b border-gray-100 text-right">Total</th>
-                <th className="px-6 py-5 text-xs font-bold text-gray-400 uppercase tracking-widest border-b border-gray-100 text-center">Items</th>
-                <th className="px-6 py-5 text-xs font-bold text-gray-400 uppercase tracking-widest border-b border-gray-100 text-center">Status</th>
-                <th className="px-6 py-5 text-xs font-bold text-gray-400 uppercase tracking-widest border-b border-gray-100 text-center">Action</th>
+                <th className="px-6 py-5 text-xs text-gray-400 uppercase border-b border-gray-100">ID & Date</th>
+                <th className="px-6 py-5 text-xs text-gray-400 uppercase border-b border-gray-100">Customer</th>
+                <th className="px-6 py-5 text-xs text-gray-400 uppercase border-b border-gray-100 text-right">Total</th>
+                <th className="px-6 py-5 text-xs text-gray-400 uppercase border-b border-gray-100 text-center">Items</th>
+                <th className="px-6 py-5 text-xs text-gray-400 uppercase border-b border-gray-100 text-center">Status</th>
+                <th className="px-6 py-5 text-xs text-gray-400 uppercase border-b border-gray-100 text-center">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -268,31 +268,31 @@ const OrdersPage: React.FC = () => {
                 <tr key={o.orderId} className="hover:bg-gray-50/50 transition-colors group">
                   <td className="px-6 py-5">
                     <div className="flex flex-col">
-                      <span className="text-sm font-black text-black tracking-tight">#{o.orderId.slice(-8).toUpperCase()}</span>
-                      <span className="text-[10px] text-gray-400 font-bold mt-1 uppercase">{formatDate(o.placedAt)}</span>
+                      <span className="text-sm text-black">#{o.orderId.slice(-8).toUpperCase()}</span>
+                      <span className="text-[10px] text-gray-400 mt-1 uppercase">{formatDate(o.placedAt)}</span>
                     </div>
                   </td>
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center font-black text-xs border border-white shadow-sm">
+                      <div className="w-9 h-9 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center text-xs border border-white shadow-sm">
                         {o.userName?.charAt(0) || "U"}
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-sm font-bold text-black">{o.userName}</span>
+                        <span className="text-sm text-black">{o.userName}</span>
                         <span className="text-xs text-gray-400">{o.userEmail}</span>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-5 text-right">
-                    <span className="text-sm font-black text-emerald-600">₹{o.totalAmount.toLocaleString()}</span>
+                    <span className="text-sm text-emerald-600">₹{o.totalAmount.toLocaleString()}</span>
                   </td>
                   <td className="px-6 py-5 text-center">
-                    <span className="bg-gray-50 text-gray-500 text-[10px] font-black px-2 py-1 rounded-md">
+                    <span className="bg-gray-50 text-gray-500 text-[10px] px-2 py-1 rounded-md">
                       {o.items.length} ITEMS
                     </span>
                   </td>
                   <td className="px-6 py-5 text-center">
-                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black border uppercase tracking-wider ${getStatusStyles(o.orderStatus)}`}>
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] border uppercase tracking-wider ${getStatusStyles(o.orderStatus)}`}>
                       {getStatusIcon(o.orderStatus)}
                       {o.orderStatus}
                     </span>
@@ -316,7 +316,7 @@ const OrdersPage: React.FC = () => {
             <div className="w-16 h-16 bg-white border border-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300 shadow-sm">
               <ShoppingBag size={32} />
             </div>
-            <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">No orders found for this period</p>
+            <p className="text-gray-400 uppercase text-[10px]">No orders found for this period</p>
           </div>
         )}
       </div>
@@ -334,8 +334,8 @@ const OrdersPage: React.FC = () => {
                   <ShoppingBag size={24} />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-black text-black tracking-tight">Order Insight</h2>
-                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">REF: #{selectedOrder.orderId}</p>
+                  <h2 className="text-2xl text-black">Order Insight</h2>
+                  <p className="text-[10px] text-gray-400 uppercase tracking-[0.2em]">REF: #{selectedOrder.orderId}</p>
                 </div>
               </div>
               <button 
@@ -351,42 +351,42 @@ const OrdersPage: React.FC = () => {
               {/* Info Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div className="space-y-4">
-                  <h4 className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                  <h4 className="flex items-center gap-2 text-[10px] text-gray-400 uppercase tracking-[0.2em]">
                     <UserIcon size={12} /> Customer Information
                   </h4>
                   <div className="bg-gray-50 rounded-[1.5rem] p-5 border border-gray-100">
-                    <p className="text-sm font-bold text-black">{selectedOrder.userName}</p>
-                    <p className="text-xs text-gray-400 flex items-center gap-1.5 mt-1.5 font-medium">
+                    <p className="text-sm text-black">{selectedOrder.userName}</p>
+                    <p className="text-xs text-gray-400 flex items-center gap-1.5 mt-1.5">
                       <Mail size={12} /> {selectedOrder.userEmail}
                     </p>
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <h4 className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                  <h4 className="flex items-center gap-2 text-[10px] text-gray-400 uppercase tracking-[0.2em]">
                     <MapPin size={12} /> Shipping details
                   </h4>
                   <div className="bg-gray-50 rounded-[1.5rem] p-5 border border-gray-100">
-                    <p className="text-xs text-gray-500 leading-relaxed font-medium">
+                    <p className="text-xs text-gray-500 leading-relaxed">
                       {parseAddress(selectedOrder.shippingAddress)}
                     </p>
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <h4 className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                  <h4 className="flex items-center gap-2 text-[10px] text-gray-400 uppercase tracking-[0.2em]">
                     <CreditCard size={12} /> Financial Status
                   </h4>
                   <div className="bg-gray-50 rounded-[1.5rem] p-5 border border-gray-100">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-[10px] font-black text-gray-400 uppercase">Status</span>
-                      <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase border ${getStatusStyles(selectedOrder.orderStatus)}`}>
+                      <span className="text-[10px] text-gray-400 uppercase">Status</span>
+                      <span className={`px-2 py-0.5 rounded-full text-[9px] uppercase border ${getStatusStyles(selectedOrder.orderStatus)}`}>
                         {selectedOrder.orderStatus}
                       </span>
                     </div>
                     <p className="text-xs text-black flex items-center justify-between">
-                      <span className="font-bold">Amount Due</span>
-                      <span className="font-black text-emerald-600 text-sm">₹{selectedOrder.totalAmount}</span>
+                      <span className="">Amount Due</span>
+                      <span className=" text-emerald-600 text-sm">₹{selectedOrder.totalAmount}</span>
                     </p>
                   </div>
                 </div>
@@ -394,17 +394,17 @@ const OrdersPage: React.FC = () => {
 
               {/* Order Items Table */}
               <div className="space-y-4">
-                <h4 className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                <h4 className="flex items-center gap-2 text-[10px] text-gray-400 uppercase tracking-[0.2em]">
                   <Package size={12} /> Items Manifest ({selectedOrder.items.length})
                 </h4>
                 <div className="bg-white border border-gray-100 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-sm overflow-x-auto">
                   <table className="w-full text-left text-sm min-w-[500px]">
                     <thead>
                       <tr className="bg-gray-50/50">
-                        <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase">Product</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase text-center">Price</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase text-center">Qty</th>
-                        <th className="px-6 py-4 text-[10px] font-black text-gray-400 uppercase text-right">Total</th>
+                        <th className="px-6 py-4 text-[10px] text-gray-400 uppercase">Product</th>
+                        <th className="px-6 py-4 text-[10px] text-gray-400 uppercase text-center">Price</th>
+                        <th className="px-6 py-4 text-[10px] text-gray-400 uppercase text-center">Qty</th>
+                        <th className="px-6 py-4 text-[10px] text-gray-400 uppercase text-right">Total</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-50">
@@ -417,18 +417,18 @@ const OrdersPage: React.FC = () => {
                               className="w-14 h-14 object-contain bg-gray-50 rounded-2xl p-2"
                             />
                             <div>
-                              <p className="font-bold text-black">{item.productName}</p>
-                              <p className="text-[10px] font-black text-emerald-600 uppercase tracking-wider">{item.variantLabel}</p>
+                              <p className=" text-black">{item.productName}</p>
+                              <p className="text-[10px] text-emerald-600 uppercase tracking-wider">{item.variantLabel}</p>
                             </div>
                           </td>
-                          <td className="px-6 py-4 text-center font-bold text-gray-400">₹{item.unitPrice}</td>
+                          <td className="px-6 py-4 text-center text-gray-400">₹{item.unitPrice}</td>
                           <td className="px-6 py-4 text-center">
-                            <span className="bg-gray-100 px-3 py-1 rounded-lg font-black text-[10px] text-black">
+                            <span className="bg-gray-100 px-3 py-1 rounded-lg text-[10px] text-black">
                               {item.quantity}
                             </span>
                           </td>
                           <td className="px-6 py-4 text-right">
-                            <span className="font-black text-emerald-600">₹{item.lineTotal}</span>
+                            <span className=" text-emerald-600">₹{item.lineTotal}</span>
                           </td>
                         </tr>
                       ))}
@@ -442,20 +442,20 @@ const OrdersPage: React.FC = () => {
                 <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
                 <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                   <div className="space-y-1">
-                    <p className="text-[10px] font-black text-white/40 uppercase tracking-widest">Subtotal</p>
-                    <p className="text-lg md:text-xl font-black">₹{selectedOrder.totalAmount - selectedOrder.totalTax + selectedOrder.totalDiscount}</p>
+                    <p className="text-[10px] text-white/40 uppercase">Subtotal</p>
+                    <p className="text-lg md:text-xl">₹{selectedOrder.totalAmount - selectedOrder.totalTax + selectedOrder.totalDiscount}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[10px] font-black text-white/40 uppercase tracking-widest">Taxes</p>
-                    <p className="text-lg md:text-xl font-black text-emerald-400">+ ₹{selectedOrder.totalTax}</p>
+                    <p className="text-[10px] text-white/40 uppercase">Taxes</p>
+                    <p className="text-lg md:text-xl text-emerald-400">+ ₹{selectedOrder.totalTax}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-[10px] font-black text-white/40 uppercase tracking-widest">Discounts</p>
-                    <p className="text-lg md:text-xl font-black text-gray-400">- ₹{selectedOrder.totalDiscount}</p>
+                    <p className="text-[10px] text-white/40 uppercase">Discounts</p>
+                    <p className="text-lg md:text-xl text-gray-400">- ₹{selectedOrder.totalDiscount}</p>
                   </div>
                   <div className="space-y-1 sm:border-l border-white/10 sm:pl-8">
-                    <p className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Grant Total</p>
-                    <p className="text-2xl md:text-3xl font-black">₹{selectedOrder.totalAmount}</p>
+                    <p className="text-[10px] text-emerald-400 uppercase">Grant Total</p>
+                    <p className="text-2xl md:text-3xl">₹{selectedOrder.totalAmount}</p>
                   </div>
                 </div>
               </div>
@@ -465,13 +465,13 @@ const OrdersPage: React.FC = () => {
             <div className="p-8 border-t border-gray-100 bg-gray-50/50 flex justify-between items-center">
               <div className="flex items-center gap-3">
                 <Tag size={16} className="text-gray-400" />
-                <span className="text-xs font-bold text-gray-500 uppercase tracking-widest text-[10px]">
-                  Coupon: <span className="text-black font-black">{selectedOrder.couponCode || "NONE"}</span>
+                <span className="text-xs text-gray-500 uppercase text-[10px]">
+                  Coupon: <span className="text-black">{selectedOrder.couponCode || "NONE"}</span>
                 </span>
               </div>
               <button
                 onClick={() => setSelectedOrder(null)}
-                className="bg-black text-white px-10 py-3.5 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-xl shadow-black/5"
+                className="bg-black text-white px-10 py-3.5 rounded-2xl text-[10px] uppercase hover:bg-emerald-600 transition-all shadow-xl shadow-black/5"
               >
                 CLOSE VIEW
               </button>

@@ -136,7 +136,7 @@ const AdminPayments: React.FC = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px]">
         <div className="w-12 h-12 border-4 border-emerald-100 border-t-emerald-600 rounded-full animate-spin"></div>
-        <p className="mt-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Processing Ledger...</p>
+        <p className="mt-4 text-[10px] text-gray-400 uppercase">Processing Ledger...</p>
       </div>
     );
   }
@@ -146,8 +146,8 @@ const AdminPayments: React.FC = () => {
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-black text-black tracking-tight">Financial Ledger</h1>
-          <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Payment Oversight & Reconciliation</p>
+          <h1 className="text-3xl text-black">Financial Ledger</h1>
+          <p className="text-gray-400 uppercase text-[10px]">Payment Oversight & Reconciliation</p>
         </div>
 
         <div className="flex flex-wrap gap-4 w-full md:w-auto">
@@ -156,11 +156,11 @@ const AdminPayments: React.FC = () => {
               <CreditCard size={18} />
             </div>
             <div>
-              <p className="text-[10px] font-black text-gray-400 uppercase tracking-wider">Volume</p>
-              <p className="text-sm font-black text-black">₹{stats.totalRevenue.toLocaleString()}</p>
+              <p className="text-[10px] text-gray-400 uppercase tracking-wider">Volume</p>
+              <p className="text-sm text-black">₹{stats.totalRevenue.toLocaleString()}</p>
             </div>
           </div>
-          <button className="flex-1 md:flex-none justify-center bg-black text-white px-6 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-black/10 flex items-center gap-2">
+          <button className="flex-1 md:flex-none justify-center bg-black text-white px-6 py-3 rounded-2xl text-[10px] uppercase hover:scale-105 transition-all shadow-xl shadow-black/10 flex items-center gap-2">
             <Download size={16} />
             Export
           </button>
@@ -180,7 +180,7 @@ const AdminPayments: React.FC = () => {
               <button
                 key={f.value}
                 onClick={() => setFilterPeriod(f.value as any)}
-                className={`flex-1 sm:flex-none px-4 md:px-6 py-2 rounded-lg md:rounded-xl text-[10px] font-black transition-all duration-500 uppercase tracking-wider ${
+                className={`flex-1 sm:flex-none px-4 md:px-6 py-2 rounded-lg md:rounded-xl text-[10px] transition-all duration-500 uppercase tracking-wider ${
                   filterPeriod === f.value
                     ? "bg-black text-white shadow-lg shadow-black/20"
                     : "text-gray-400 hover:text-black"
@@ -199,7 +199,7 @@ const AdminPayments: React.FC = () => {
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs font-bold text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all placeholder:text-gray-300"
+                className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all placeholder:text-gray-300"
               />
             </div>
             
@@ -209,7 +209,7 @@ const AdminPayments: React.FC = () => {
                 type="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs font-bold text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all appearance-none cursor-pointer sm:min-w-[160px]"
+                className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all appearance-none cursor-pointer sm:min-w-[160px]"
               />
               {selectedDate && (
                 <button 
@@ -230,11 +230,11 @@ const AdminPayments: React.FC = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-gray-50/50">
-                <th className="px-8 py-6 text-[10px] font-black text-gray-400 uppercase tracking-widest border-b border-gray-100">Transaction Details</th>
-                <th className="px-8 py-6 text-[10px] font-black text-gray-400 uppercase tracking-widest border-b border-gray-100">Customer Name</th>
-                <th className="px-8 py-6 text-[10px] font-black text-gray-400 uppercase tracking-widest border-b border-gray-100 text-right">Amount</th>
-                <th className="px-8 py-6 text-[10px] font-black text-gray-400 uppercase tracking-widest border-b border-gray-100 text-center">Status</th>
-                <th className="px-8 py-6 text-[10px] font-black text-gray-400 uppercase tracking-widest border-b border-gray-100 text-center">Reference</th>
+                <th className="px-8 py-6 text-[10px] text-gray-400 uppercase border-b border-gray-100">Transaction Details</th>
+                <th className="px-8 py-6 text-[10px] text-gray-400 uppercase border-b border-gray-100">Customer Name</th>
+                <th className="px-8 py-6 text-[10px] text-gray-400 uppercase border-b border-gray-100 text-right">Amount</th>
+                <th className="px-8 py-6 text-[10px] text-gray-400 uppercase border-b border-gray-100 text-center">Status</th>
+                <th className="px-8 py-6 text-[10px] text-gray-400 uppercase border-b border-gray-100 text-center">Reference</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -242,8 +242,8 @@ const AdminPayments: React.FC = () => {
                 <tr key={p.id} className="group hover:bg-gray-50/50 transition-all duration-300">
                   <td className="px-8 py-6">
                     <div className="flex flex-col">
-                      <span className="text-sm font-black text-black">#{p.id.slice(-12).toUpperCase()}</span>
-                      <span className="text-[10px] font-bold text-gray-400 uppercase mt-1.5 flex items-center gap-1.5">
+                      <span className="text-sm text-black">#{p.id.slice(-12).toUpperCase()}</span>
+                      <span className="text-[10px] text-gray-400 uppercase mt-1.5 flex items-center gap-1.5">
                         <Clock size={12} className="text-emerald-500" />
                         {formatDate(p.createdAt)}
                       </span>
@@ -251,29 +251,29 @@ const AdminPayments: React.FC = () => {
                   </td>
                   <td className="px-8 py-6">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center font-black text-xs border border-white shadow-sm ring-4 ring-orange-500/5 group-hover:scale-110 transition-all">
+                      <div className="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xs border border-white shadow-sm ring-4 ring-orange-500/5 group-hover:scale-110 transition-all">
                         {getOrderName(p.orderId).charAt(0)}
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-sm font-bold text-black">{getOrderName(p.orderId)}</span>
-                        <span className="text-[10px] font-black text-gray-400 leading-tight">Order #{p.orderId.slice(-8).toUpperCase()}</span>
+                        <span className="text-sm text-black">{getOrderName(p.orderId)}</span>
+                        <span className="text-[10px] text-gray-400 leading-tight">Order #{p.orderId.slice(-8).toUpperCase()}</span>
                       </div>
                     </div>
                   </td>
                   <td className="px-8 py-6 text-right">
                     <div className="flex flex-col items-end">
-                      <span className="text-lg font-black text-emerald-600">₹{(p.amount / 100).toLocaleString()}</span>
-                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{p.currency}</span>
+                      <span className="text-lg text-emerald-600">₹{(p.amount / 100).toLocaleString()}</span>
+                      <span className="text-[10px] text-gray-400 uppercase">{p.currency}</span>
                     </div>
                   </td>
                   <td className="px-8 py-6 text-center">
-                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black border uppercase tracking-wider ${getStatusStyles(p.status)}`}>
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] border uppercase tracking-wider ${getStatusStyles(p.status)}`}>
                       {p.status === 'paid' || p.status === 'SUCCESS' ? <CheckCircle2 size={12} /> : <AlertCircle size={12} />}
                       {p.status}
                     </span>
                   </td>
                   <td className="px-8 py-6 text-center">
-                    <span className="text-[10px] font-black text-gray-400 bg-gray-100 px-2 py-1 rounded-md">
+                    <span className="text-[10px] text-gray-400 bg-gray-100 px-2 py-1 rounded-md">
                       {p.razorpayPaymentId || "DIRECT"}
                     </span>
                   </td>
@@ -288,7 +288,7 @@ const AdminPayments: React.FC = () => {
             <div className="w-20 h-20 bg-white border border-gray-100 rounded-[2rem] flex items-center justify-center mb-6 text-gray-200 shadow-xl shadow-gray-200/20 animate-pulse">
               <AlertCircle size={40} />
             </div>
-            <p className="text-gray-400 font-black uppercase tracking-[0.2em] text-[10px]">No transactions found in this scope</p>
+            <p className="text-gray-400 uppercase tracking-[0.2em] text-[10px]">No transactions found in this scope</p>
           </div>
         )}
       </div>
@@ -298,7 +298,7 @@ const AdminPayments: React.FC = () => {
         <button className="w-12 h-12 bg-gray-50 text-gray-400 rounded-2xl flex items-center justify-center hover:bg-black hover:text-white transition-all disabled:opacity-30 border border-gray-100" disabled>
           <ChevronLeft size={20} />
         </button>
-        <span className="text-[10px] font-black text-black px-6 py-3 bg-white border border-gray-100 rounded-2xl uppercase tracking-widest">Page 1 of 1</span>
+        <span className="text-[10px] text-black px-6 py-3 bg-white border border-gray-100 rounded-2xl uppercase">Page 1 of 1</span>
         <button className="w-12 h-12 bg-gray-50 text-gray-400 rounded-2xl flex items-center justify-center hover:bg-black hover:text-white transition-all disabled:opacity-30 border border-gray-100" disabled>
           <ChevronRight size={20} />
         </button>

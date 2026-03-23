@@ -159,8 +159,8 @@ export default function AdminCompleteStock() {
       {/* HEADER SECTION */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-extrabold text-black tracking-tight">Consolidated Inventory</h1>
-          <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Unified visibility across Omni-channels</p>
+          <h1 className="text-3xl text-black">Consolidated Inventory</h1>
+          <p className="text-gray-400 uppercase text-[10px]">Unified visibility across Omni-channels</p>
         </div>
         <button
           onClick={loadAllStock}
@@ -180,11 +180,11 @@ export default function AdminCompleteStock() {
             <div className="p-3 bg-gray-50 text-black rounded-2xl">
               <BarChart3 size={24} />
             </div>
-            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Global Aggregate</span>
+            <span className="text-[10px] text-gray-400 uppercase">Global Aggregate</span>
           </div>
           <div className="flex items-baseline gap-2">
-            <h3 className="text-4xl font-black text-black">{stats.total}</h3>
-            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Total Units</span>
+            <h3 className="text-4xl text-black">{stats.total}</h3>
+            <span className="text-[10px] text-gray-400 uppercase">Total Units</span>
           </div>
         </div>
 
@@ -196,11 +196,11 @@ export default function AdminCompleteStock() {
             <div className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl">
               <Smartphone size={24} />
             </div>
-            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">E-Commerce Reserve</span>
+            <span className="text-[10px] text-gray-400 uppercase">E-Commerce Reserve</span>
           </div>
           <div className="flex items-baseline gap-2">
-            <h3 className="text-4xl font-black text-black">{stats.online}</h3>
-            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Units Online</span>
+            <h3 className="text-4xl text-black">{stats.online}</h3>
+            <span className="text-[10px] text-gray-400 uppercase">Units Online</span>
           </div>
         </div>
 
@@ -212,11 +212,11 @@ export default function AdminCompleteStock() {
             <div className="p-3 bg-black text-white rounded-2xl">
               <Store size={24} />
             </div>
-            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Warehouse / POS</span>
+            <span className="text-[10px] text-gray-400 uppercase">Warehouse / POS</span>
           </div>
           <div className="flex items-baseline gap-2">
-            <h3 className="text-4xl font-black text-black">{stats.offline}</h3>
-            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Units Offline</span>
+            <h3 className="text-4xl text-black">{stats.offline}</h3>
+            <span className="text-[10px] text-gray-400 uppercase">Units Offline</span>
           </div>
         </div>
       </div>
@@ -229,7 +229,7 @@ export default function AdminCompleteStock() {
             placeholder="Search Items..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl pl-12 pr-5 py-3 text-sm font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl pl-12 pr-5 py-3 text-sm placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all"
           />
         </div>
         
@@ -241,7 +241,7 @@ export default function AdminCompleteStock() {
               setSelectedProductId("");
               setSelectedVariant("");
             }}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="">Categories</option>
             {categories.map((c) => (
@@ -258,7 +258,7 @@ export default function AdminCompleteStock() {
               setSelectedProductId(e.target.value);
               setSelectedVariant("");
             }}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="">Specific Products</option>
             {products.map((p) => (
@@ -272,7 +272,7 @@ export default function AdminCompleteStock() {
           <select
             value={selectedVariant}
             onChange={(e) => setSelectedVariant(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="">Variants/Weights</option>
             {variants.map((v, i) => (
@@ -289,7 +289,7 @@ export default function AdminCompleteStock() {
             setSelectedProductId("");
             setSelectedVariant("");
           }}
-          className="h-12 border border-gray-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-gray-400 hover:bg-black hover:text-white transition-all shadow-sm"
+          className="h-12 border border-gray-100 rounded-xl text-[10px] uppercase text-gray-400 hover:bg-black hover:text-white transition-all shadow-sm"
         >
           Reset View
         </button>
@@ -301,41 +301,41 @@ export default function AdminCompleteStock() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-gray-50/50 border-b border-gray-100">
-                <th className="px-8 py-5 text-[10px] font-black tracking-widest text-gray-400 uppercase">Inventory SKU</th>
-                <th className="px-6 py-5 text-[10px] font-black tracking-widest text-gray-400 uppercase">Variant Profile</th>
-                <th className="px-6 py-5 text-[10px] font-black tracking-widest text-gray-400 uppercase">Classification</th>
-                <th className="px-6 py-5 text-[10px] font-black tracking-widest text-gray-400 uppercase text-center">Offline</th>
-                <th className="px-6 py-5 text-[10px] font-black tracking-widest text-gray-400 uppercase text-center">Online</th>
-                <th className="px-8 py-5 text-[10px] font-black tracking-widest text-gray-400 uppercase text-right">Aggregate</th>
+                <th className="px-8 py-5 text-[10px] text-gray-400 uppercase">Inventory SKU</th>
+                <th className="px-6 py-5 text-[10px] text-gray-400 uppercase">Variant Profile</th>
+                <th className="px-6 py-5 text-[10px] text-gray-400 uppercase">Classification</th>
+                <th className="px-6 py-5 text-[10px] text-gray-400 uppercase text-center">Offline</th>
+                <th className="px-6 py-5 text-[10px] text-gray-400 uppercase text-center">Online</th>
+                <th className="px-8 py-5 text-[10px] text-gray-400 uppercase text-right">Aggregate</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50 font-medium">
+            <tbody className="divide-y divide-gray-50">
               {filteredRows.map((r, i) => (
                 <tr key={i} className="group hover:bg-gray-50 transition-all duration-300">
-                  <td className="px-8 py-5 font-black text-black group-hover:text-emerald-600 transition-colors text-sm">
+                  <td className="px-8 py-5 text-black group-hover:text-emerald-600 transition-colors text-sm">
                     {r.productName}
                   </td>
                   <td className="px-6 py-5">
-                    <span className="px-3 py-1.5 bg-white border border-gray-100 text-[9px] font-black text-gray-400 rounded-lg uppercase tracking-widest group-hover:border-emerald-200 group-hover:text-emerald-600">
+                    <span className="px-3 py-1.5 bg-white border border-gray-100 text-[9px] text-gray-400 rounded-lg uppercase group-hover:border-emerald-200 group-hover:text-emerald-600">
                       {r.variantLabel}
                     </span>
                   </td>
-                  <td className="px-6 py-5 text-[10px] text-gray-300 font-black uppercase tracking-widest">
+                  <td className="px-6 py-5 text-[10px] text-gray-300 uppercase">
                     {r.categoryName}
                   </td>
                   <td className="px-6 py-5 text-center">
-                    <div className="flex items-center justify-center gap-1.5 text-black font-black text-sm">
+                    <div className="flex items-center justify-center gap-1.5 text-black text-sm">
                       <Store size={14} className="text-gray-200" />
                       {r.offlineQty}
                     </div>
                   </td>
                   <td className="px-6 py-5 text-center">
-                    <div className="flex items-center justify-center gap-1.5 text-emerald-600 font-black text-sm">
+                    <div className="flex items-center justify-center gap-1.5 text-emerald-600 text-sm">
                       <Smartphone size={14} className="text-emerald-100" />
                       {r.onlineQty}
                     </div>
                   </td>
-                  <td className="px-8 py-5 text-right font-black text-xl text-black">
+                  <td className="px-8 py-5 text-right text-xl text-black">
                     <div className="flex items-center justify-end gap-2">
                        {r.totalQty}
                        {r.totalQty > 50 ? (
@@ -354,7 +354,7 @@ export default function AdminCompleteStock() {
         {filteredRows.length === 0 && !loading && (
           <div className="py-24 border-2 border-dashed border-gray-100 rounded-[2.5rem] flex flex-col items-center justify-center text-gray-300 m-8">
             <LayoutGrid size={64} className="mb-6 opacity-10 font-thin" />
-            <p className="font-black uppercase tracking-widest text-[10px]">No consolidated records found</p>
+            <p className=" uppercase text-[10px]">No consolidated records found</p>
           </div>
         )}
       </div>

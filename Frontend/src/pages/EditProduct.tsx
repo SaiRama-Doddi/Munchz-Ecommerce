@@ -160,7 +160,7 @@ export default function EditProduct() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 bg-white">
         <div className="w-12 h-12 border-4 border-emerald-100 border-t-emerald-600 rounded-full animate-spin" />
-        <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Materializing Product Data...</p>
+        <p className="text-gray-400 uppercase text-[10px]">Materializing Product Data...</p>
       </div>
     );
   }
@@ -176,8 +176,8 @@ export default function EditProduct() {
           <ArrowLeft size={20} />
         </button>
         <div className="text-right">
-          <h1 className="text-2xl font-black text-black uppercase tracking-tight">Edit Product</h1>
-          <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Listing Refinement</p>
+          <h1 className="text-2xl text-black uppercase">Edit Product</h1>
+          <p className="text-[10px] text-gray-400 uppercase tracking-[0.2em]">Listing Refinement</p>
         </div>
       </div>
 
@@ -194,27 +194,27 @@ export default function EditProduct() {
               <div className="p-2.5 bg-black text-white rounded-xl">
                 <Package size={20} />
               </div>
-              <h2 className="text-xl font-bold text-black uppercase tracking-tight">Essential Identifiers</h2>
+              <h2 className="text-xl text-black uppercase">Essential Identifiers</h2>
             </div>
             
             <div className="space-y-6 relative">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Trade Name</label>
+                <label className="text-[10px] text-gray-400 uppercase ml-1">Trade Name</label>
                 <input
                   value={form.name}
                   onChange={(e) => updateField("name", e.target.value)}
-                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14"
                   placeholder="e.g. Premium Atlantic Salmon"
                   required
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Composition & Narrative</label>
+                <label className="text-[10px] text-gray-400 uppercase ml-1">Composition & Narrative</label>
                 <textarea
                   value={form.description}
                   onChange={(e) => updateField("description", e.target.value)}
-                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all min-h-[160px] resize-none leading-relaxed"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all min-h-[160px] resize-none leading-relaxed"
                   placeholder="Detail the unique value propositions..."
                   required
                 />
@@ -229,12 +229,12 @@ export default function EditProduct() {
                 <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
                   <Tag size={20} />
                 </div>
-                <h2 className="text-xl font-bold text-black uppercase tracking-tight">Variant Matrix</h2>
+                <h2 className="text-xl text-black uppercase">Variant Matrix</h2>
               </div>
               <button
                 type="button"
                 onClick={addVariant}
-                className="flex items-center gap-2 text-black font-black text-[10px] uppercase tracking-widest bg-gray-50 border border-gray-100 px-5 py-2.5 rounded-xl hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all shadow-sm"
+                className="flex items-center gap-2 text-black text-[10px] uppercase bg-gray-50 border border-gray-100 px-5 py-2.5 rounded-xl hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all shadow-sm"
               >
                 <Plus size={16} />
                 <span>Add Scale</span>
@@ -242,7 +242,7 @@ export default function EditProduct() {
             </div>
 
             <div className="space-y-4">
-              <div className="hidden md:grid grid-cols-5 gap-4 px-6 text-[9px] font-black text-gray-300 uppercase tracking-widest">
+              <div className="hidden md:grid grid-cols-5 gap-4 px-6 text-[9px] text-gray-300 uppercase">
                 <div className="col-span-1">Label (e.g. 1kg)</div>
                 <div>Mass (Grams)</div>
                 <div>Standard Price</div>
@@ -255,25 +255,25 @@ export default function EditProduct() {
                   <input
                     value={v.weightLabel}
                     onChange={(e) => updateVariant(i, "weightLabel", e.target.value)}
-                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm font-bold outline-none focus:border-black transition-all h-11"
+                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm outline-none focus:border-black transition-all h-11"
                     placeholder="250g"
                   />
                   <input
                     value={v.weightInGrams}
                     onChange={(e) => updateVariant(i, "weightInGrams", String(e.target.value).replace(/\D/g, ""))}
-                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm font-bold outline-none focus:border-black transition-all h-11"
+                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm outline-none focus:border-black transition-all h-11"
                     placeholder="250"
                   />
                   <input
                     value={v.mrp}
                     onChange={(e) => updateVariant(i, "mrp", String(e.target.value).replace(/\D/g, ""))}
-                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm font-black text-gray-400 outline-none focus:border-black transition-all h-11"
+                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm text-gray-400 outline-none focus:border-black transition-all h-11"
                     placeholder="500"
                   />
                   <input
                     value={v.offerPrice}
                     onChange={(e) => updateVariant(i, "offerPrice", String(e.target.value).replace(/\D/g, ""))}
-                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm font-black text-emerald-600 outline-none focus:border-emerald-500 transition-all h-11"
+                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm text-emerald-600 outline-none focus:border-emerald-500 transition-all h-11"
                     placeholder="450"
                   />
                   <div className="flex items-center justify-center">
@@ -301,16 +301,16 @@ export default function EditProduct() {
               <div className="p-2.5 bg-gray-50 text-black rounded-xl">
                 <Layers size={18} />
               </div>
-              <h2 className="text-lg font-bold text-black uppercase tracking-tight">Classification</h2>
+              <h2 className="text-lg text-black uppercase">Classification</h2>
             </div>
 
             <div className="space-y-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Parent Category</label>
+                <label className="text-[10px] text-gray-400 uppercase ml-1">Parent Category</label>
                 <select
                   value={form.categoryId}
                   onChange={(e) => updateField("categoryId", e.target.value)}
-                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14"
                   required
                 >
                   <option value="">Select Category</option>
@@ -321,12 +321,12 @@ export default function EditProduct() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Subcategory Type</label>
+                <label className="text-[10px] text-gray-400 uppercase ml-1">Subcategory Type</label>
                 <select
                   value={form.subcategoryId}
                   onChange={(e) => updateField("subcategoryId", e.target.value)}
                   disabled={!form.categoryId || catsLoading}
-                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 disabled:opacity-40"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 disabled:opacity-40"
                 >
                   <option value="">No Secondary Type</option>
                   {subcategories?.map((s: any) => (
@@ -344,7 +344,7 @@ export default function EditProduct() {
                 <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
                   <ImageIcon size={18} />
                 </div>
-                <h2 className="text-lg font-bold text-black uppercase tracking-tight">Media Grid</h2>
+                <h2 className="text-lg text-black uppercase">Media Grid</h2>
               </div>
               <button
                 type="button"
@@ -357,14 +357,14 @@ export default function EditProduct() {
 
             <div className="space-y-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-emerald-600 uppercase tracking-widest ml-1 flex items-center gap-1">
+                <label className="text-[10px] text-emerald-600 uppercase ml-1 flex items-center gap-1">
                   Primary Thumbnail <CheckCircle size={10} />
                 </label>
                 <div className="relative group">
                   <input
                     value={form.imageUrl}
                     onChange={(e) => updateField("imageUrl", e.target.value)}
-                    className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-[11px] font-bold outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 pr-10"
+                    className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-[11px] outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 pr-10"
                     placeholder="URL for primary asset..."
                     required
                   />
@@ -381,14 +381,14 @@ export default function EditProduct() {
               </div>
 
               <div className="pt-4 border-t border-gray-50 space-y-4">
-                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Expanded Gallery</label>
+                <label className="text-[10px] text-gray-400 uppercase ml-1">Expanded Gallery</label>
                 <div className="space-y-3 max-h-[220px] overflow-y-auto pr-2 no-scrollbar">
                   {form.imageUrls.map((url, i) => (
                     <div key={i} className="relative group">
                       <input
                         value={url}
                         onChange={(e) => updateImage(i, e.target.value)}
-                        className="w-full bg-gray-50/50 border border-transparent rounded-xl px-4 py-3 text-[10px] font-bold outline-none focus:bg-white focus:border-black transition-all h-11 pr-10"
+                        className="w-full bg-gray-50/50 border border-transparent rounded-xl px-4 py-3 text-[10px] outline-none focus:bg-white focus:border-black transition-all h-11 pr-10"
                         placeholder={`Asset #${i + 1} URL`}
                       />
                       <button
@@ -409,7 +409,7 @@ export default function EditProduct() {
           <div className="space-y-4">
             <button
               type="submit"
-              className="w-full bg-black text-white py-5 rounded-3xl font-black text-[10px] uppercase tracking-[0.2em] shadow-2xl shadow-black/5 hover:bg-emerald-600 transition-all duration-300 flex items-center justify-center gap-3 active:scale-95"
+              className="w-full bg-black text-white py-5 rounded-3xl text-[10px] uppercase tracking-[0.2em] shadow-2xl shadow-black/5 hover:bg-emerald-600 transition-all duration-300 flex items-center justify-center gap-3 active:scale-95"
             >
               <Save size={18} />
               Update Master Record
@@ -417,7 +417,7 @@ export default function EditProduct() {
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="w-full bg-gray-50 text-gray-300 py-5 rounded-3xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-300"
+              className="w-full bg-gray-50 text-gray-300 py-5 rounded-3xl text-[10px] uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-300"
             >
               Discard Changes
             </button>
@@ -425,7 +425,7 @@ export default function EditProduct() {
           
           <div className="p-6 bg-gray-50 rounded-[2rem] border border-gray-100 flex gap-4">
             <Globe size={20} className="text-emerald-500 shrink-0 mt-1" />
-            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-relaxed">
+            <p className="text-[10px] text-gray-400 uppercase leading-relaxed">
               Updates to this record will propagate immediately to all storefront catalogs and active search indices.
             </p>
           </div>

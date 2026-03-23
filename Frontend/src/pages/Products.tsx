@@ -90,13 +90,13 @@ export default function Products() {
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-2">
         <div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-black tracking-tight tracking-[-0.02em]">Product Catalog</h1>
-          <p className="text-gray-400 font-bold uppercase tracking-widest text-[9px] md:text-[10px]">Inventory & SKU Management</p>
+          <h1 className="text-2xl md:text-3xl text-black tracking-[-0.02em]">Product Catalog</h1>
+          <p className="text-gray-400 uppercase text-[9px] md:text-[10px]">Inventory & SKU Management</p>
         </div>
 
         <button
           onClick={() => navigate("/admin/add-product")}
-          className="w-full md:w-auto flex items-center justify-center gap-2 bg-black text-white px-6 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-black/5 hover:bg-emerald-600 transition-all duration-300"
+          className="w-full md:w-auto flex items-center justify-center gap-2 bg-black text-white px-6 py-4 rounded-2xl text-[10px] uppercase shadow-xl shadow-black/5 hover:bg-emerald-600 transition-all duration-300"
         >
           <Plus size={18} />
           <span>Add New Entry</span>
@@ -107,28 +107,28 @@ export default function Products() {
       <div className="bg-white border border-gray-100 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-sm">
         <div className="flex flex-col lg:flex-row gap-6 md:gap-8 items-start lg:items-center">
           <div className="w-full lg:w-1/3">
-            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 mb-2 block">Quick Search</label>
+            <label className="text-[10px] text-gray-400 uppercase ml-1 mb-2 block">Quick Search</label>
             <div className="relative">
               <input
                 type="text"
                 placeholder="Name or ID..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-emerald-500 transition-all text-xs font-bold pl-12 h-12"
+                className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:border-emerald-500 transition-all text-xs pl-12 h-12"
               />
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
             </div>
           </div>
 
           <div className="w-full lg:w-2/3 overflow-hidden">
-            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 mb-2 block flex items-center gap-2">
+            <label className="text-[10px] text-gray-400 uppercase ml-1 mb-2 block flex items-center gap-2">
               <Filter size={12} />
               Store Segments
             </label>
             <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide no-scrollbar -mx-1 px-1">
               <button
                 onClick={() => setSelectedCategoryId("ALL")}
-                className={`shrink-0 px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all duration-300 whitespace-nowrap ${
+                className={`shrink-0 px-5 py-2.5 rounded-xl text-[10px] uppercase border transition-all duration-300 whitespace-nowrap ${
                   selectedCategoryId === "ALL"
                     ? "bg-black text-white border-black shadow-lg shadow-black/20"
                     : "bg-white text-gray-400 border-gray-100 hover:border-black hover:text-black"
@@ -140,7 +140,7 @@ export default function Products() {
                 <button
                   key={c.id}
                   onClick={() => setSelectedCategoryId(c.id)}
-                  className={`shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all duration-300 whitespace-nowrap ${
+                  className={`shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-xl text-[10px] uppercase border transition-all duration-300 whitespace-nowrap ${
                     selectedCategoryId === c.id
                       ? "bg-black text-white border-black shadow-lg shadow-black/20"
                       : "bg-white text-gray-400 border-gray-100 hover:border-black hover:text-black"
@@ -169,7 +169,7 @@ export default function Products() {
                 className="max-h-full object-contain group-hover:scale-110 transition-transform duration-700"
               />
               <div className="absolute top-4 left-4 flex gap-2">
-                <span className="bg-white text-black text-[10px] font-black px-3 py-1.5 rounded-full shadow-sm border border-gray-100">
+                <span className="bg-white text-black text-[10px] px-3 py-1.5 rounded-full shadow-sm border border-gray-100">
                   ID: #{p.id}
                 </span>
               </div>
@@ -184,7 +184,7 @@ export default function Products() {
               </div>
 
               {(p.category?.name || p.categoryName) && (
-                <div className="absolute bottom-4 left-4 bg-emerald-600 text-white text-[10px] font-black px-3 py-1.5 rounded-full shadow-lg shadow-emerald-600/10 flex items-center gap-1.5 uppercase tracking-wider">
+                <div className="absolute bottom-4 left-4 bg-emerald-600 text-white text-[10px] px-3 py-1.5 rounded-full shadow-lg shadow-emerald-600/10 flex items-center gap-1.5 uppercase tracking-wider">
                   <Layers size={10} />
                   {p.category?.name || p.categoryName}
                 </div>
@@ -194,10 +194,10 @@ export default function Products() {
             {/* CONTENT SECTION */}
             <div className="p-8 flex flex-col flex-1">
               <div className="mb-4">
-                <h2 className="text-xl font-black text-black tracking-tight group-hover:text-emerald-600 transition-colors">
+                <h2 className="text-xl text-black group-hover:text-emerald-600 transition-colors">
                   {p.name}
                 </h2>
-                <p className="text-xs text-gray-400 font-medium mt-2 line-clamp-2 leading-relaxed">
+                <p className="text-xs text-gray-400 mt-2 line-clamp-2 leading-relaxed">
                   {p.description}
                 </p>
               </div>
@@ -205,15 +205,15 @@ export default function Products() {
               {/* VARIANTS */}
               <div className="mt-4 pt-4 border-t border-gray-50">
                 <div className="flex items-center gap-2 mb-3 text-emerald-600">
-                  <Tag size={12} className="font-bold" />
-                  <span className="text-[10px] font-black uppercase tracking-widest">Pricing & Variants</span>
+                  <Tag size={12} className="" />
+                  <span className="text-[10px] uppercase">Pricing & Variants</span>
                 </div>
 
                 <div className="space-y-2">
                   {p.variants?.slice(0, 3).map((v: any) => (
                     <div key={v.id} className="flex justify-between items-center bg-gray-50 p-2.5 rounded-xl border border-gray-100">
-                      <span className="text-xs font-bold text-black">{v.weightLabel}</span>
-                      <div className="flex items-center gap-2 font-black">
+                      <span className="text-xs text-black">{v.weightLabel}</span>
+                      <div className="flex items-center gap-2">
                         <span className="text-emerald-600 text-sm">₹{v.offerPrice}</span>
                         {Number(v.offerPrice) < Number(v.mrp) && (
                           <span className="text-gray-300 text-[10px] line-through">₹{v.mrp}</span>
@@ -222,7 +222,7 @@ export default function Products() {
                     </div>
                   ))}
                   {p.variants?.length > 3 && (
-                    <p className="text-[10px] text-center text-gray-400 font-bold uppercase tracking-widest mt-2">
+                    <p className="text-[10px] text-center text-gray-400 uppercase mt-2">
                       + {p.variants.length - 3} more variants
                     </p>
                   )}
@@ -233,10 +233,10 @@ export default function Products() {
               <div className="mt-8">
                 <button
                   onClick={() => navigate(`/admin/edit-product/${p.id}`)}
-                  className="w-full flex items-center justify-center gap-2 bg-gray-50 text-black py-4 rounded-2xl font-bold hover:bg-black hover:text-white transition-all duration-300 group/btn"
+                  className="w-full flex items-center justify-center gap-2 bg-gray-50 text-black py-4 rounded-2xl hover:bg-black hover:text-white transition-all duration-300 group/btn"
                 >
                   <Edit3 size={18} />
-                  <span className="text-xs uppercase tracking-widest">Configure Entry</span>
+                  <span className="text-xs uppercase">Configure Entry</span>
                   <ChevronRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
                 </button>
               </div>
@@ -251,10 +251,10 @@ export default function Products() {
           <div className="w-20 h-20 bg-white border border-gray-100 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-300 shadow-sm">
             <Package size={40} />
           </div>
-          <p className="text-black font-bold text-lg">No inventory items found.</p>
+          <p className="text-black text-lg">No inventory items found.</p>
           <button
             onClick={() => { setSelectedCategoryId("ALL"); setSearchTerm(""); }}
-            className="mt-4 text-emerald-600 font-bold text-sm hover:underline uppercase tracking-widest text-[10px]"
+            className="mt-4 text-emerald-600 text-sm hover:underline uppercase text-[10px]"
           >
             Clear current filters
           </button>

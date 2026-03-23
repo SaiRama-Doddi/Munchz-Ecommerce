@@ -100,7 +100,7 @@ export default function AdminStockDetails() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] gap-4 bg-white">
         <div className="w-12 h-12 border-4 border-emerald-100 border-t-emerald-600 rounded-full animate-spin" />
-        <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Scanning Inventory Records...</p>
+        <p className="text-gray-400 uppercase text-[10px]">Scanning Inventory Records...</p>
       </div>
     );
   }
@@ -110,12 +110,12 @@ export default function AdminStockDetails() {
       {/* HEADER SECTION */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-extrabold text-black tracking-tight">Stock Logistics</h1>
-          <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Record and analyze batch-wise inventory flow</p>
+          <h1 className="text-3xl text-black">Stock Logistics</h1>
+          <p className="text-gray-400 uppercase text-[10px]">Record and analyze batch-wise inventory flow</p>
         </div>
         <button
           onClick={() => navigate("/admin/stock-entry")}
-          className="bg-black text-white px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-black/5 hover:bg-emerald-600 transition-all duration-300 flex items-center gap-2"
+          className="bg-black text-white px-8 py-4 rounded-2xl text-[10px] uppercase shadow-xl shadow-black/5 hover:bg-emerald-600 transition-all duration-300 flex items-center gap-2"
         >
           <Plus size={18} />
           <span>New Logistics Entry</span>
@@ -130,14 +130,14 @@ export default function AdminStockDetails() {
             placeholder="Product / Supplier..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl pl-12 pr-5 py-3 text-sm font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl pl-12 pr-5 py-3 text-sm placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all"
           />
         </div>
         <div className="relative group">
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="ALL">All Categories</option>
             {categories.map((c) => (
@@ -150,7 +150,7 @@ export default function AdminStockDetails() {
           <select
             value={productFilter}
             onChange={(e) => setProductFilter(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="ALL">All Products</option>
             {products.map((p) => (
@@ -164,7 +164,7 @@ export default function AdminStockDetails() {
             type="date"
             value={dateFilter}
             onChange={(e) => setDateFilter(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold outline-none focus:bg-white focus:border-emerald-500 transition-all h-full"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm outline-none focus:bg-white focus:border-emerald-500 transition-all h-full"
           />
           <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
         </div>
@@ -176,12 +176,12 @@ export default function AdminStockDetails() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-gray-50/50 border-b border-gray-100">
-                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-gray-400">Inventory Product</th>
-                <th className="px-6 py-5 text-[10px] font-black uppercase tracking-widest text-gray-400 text-center">Batch Status</th>
-                <th className="px-6 py-5 text-[10px] font-black uppercase tracking-widest text-gray-400">Supplier Ledger</th>
-                <th className="px-6 py-5 text-[10px] font-black uppercase tracking-widest text-gray-400">Pricing Strategy</th>
-                <th className="px-6 py-5 text-[10px] font-black uppercase tracking-widest text-gray-400">Timeline</th>
-                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-gray-400 text-right">Control</th>
+                <th className="px-8 py-5 text-[10px] uppercase text-gray-400">Inventory Product</th>
+                <th className="px-6 py-5 text-[10px] uppercase text-gray-400 text-center">Batch Status</th>
+                <th className="px-6 py-5 text-[10px] uppercase text-gray-400">Supplier Ledger</th>
+                <th className="px-6 py-5 text-[10px] uppercase text-gray-400">Pricing Strategy</th>
+                <th className="px-6 py-5 text-[10px] uppercase text-gray-400">Timeline</th>
+                <th className="px-8 py-5 text-[10px] uppercase text-gray-400 text-right">Control</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -197,20 +197,20 @@ export default function AdminStockDetails() {
                           <Package size={20} />
                         </div>
                         <div>
-                          <p className="font-bold text-black text-sm group-hover:text-emerald-600 transition-colors uppercase tracking-tight">{s.productName}</p>
-                          <p className="text-[9px] font-black text-gray-300 uppercase tracking-widest">{s.categoryName}</p>
+                          <p className=" text-black text-sm group-hover:text-emerald-600 transition-colors uppercase">{s.productName}</p>
+                          <p className="text-[9px] text-gray-300 uppercase">{s.categoryName}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-5 text-center">
                       <div className="flex flex-col items-center gap-1">
-                         <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border shadow-sm ${
+                         <span className={`px-4 py-1.5 rounded-full text-[9px] uppercase border shadow-sm ${
                           isOutOfStock ? 'bg-black text-white border-black' : 'bg-emerald-50 text-emerald-600 border-emerald-100'
                         }`}>
                           {s.quantity} Units
                         </span>
                         {isExpiring && (
-                          <div className="flex items-center gap-1 text-[8px] font-black text-emerald-500 uppercase tracking-widest animate-pulse mt-1">
+                          <div className="flex items-center gap-1 text-[8px] text-emerald-500 uppercase animate-pulse mt-1">
                             <AlertCircle size={10} /> Soon Expiring
                           </div>
                         )}
@@ -219,28 +219,28 @@ export default function AdminStockDetails() {
                     <td className="px-6 py-5">
                       <div className="flex items-center gap-2 mb-1">
                         <Briefcase size={14} className="text-gray-300" />
-                        <span className="text-sm font-bold text-black">{s.supplierName}</span>
+                        <span className="text-sm text-black">{s.supplierName}</span>
                       </div>
-                      <span className="text-[9px] font-black text-gray-300 uppercase tracking-widest">GST: {s.supplierGst || 'N/A'}</span>
+                      <span className="text-[9px] text-gray-300 uppercase">GST: {s.supplierGst || 'N/A'}</span>
                     </td>
                     <td className="px-6 py-5">
                       <div className="space-y-1 bg-gray-50 p-3 rounded-xl border border-gray-100">
                         <div className="flex items-center justify-between text-[9px]">
-                          <span className="text-gray-400 font-black uppercase tracking-widest">IN:</span>
-                          <span className="font-black text-black">₹{s.purchasePrice}</span>
+                          <span className="text-gray-400 uppercase">IN:</span>
+                          <span className=" text-black">₹{s.purchasePrice}</span>
                         </div>
                         <div className="flex items-center justify-between text-[9px]">
-                          <span className="text-gray-400 font-black uppercase tracking-widest">OUT:</span>
-                          <span className="font-black text-emerald-600">₹{s.sellingPrice}</span>
+                          <span className="text-gray-400 uppercase">OUT:</span>
+                          <span className=" text-emerald-600">₹{s.sellingPrice}</span>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-5">
-                      <div className="flex items-center gap-2 text-[9px] font-black text-black mb-1 uppercase tracking-widest">
+                      <div className="flex items-center gap-2 text-[9px] text-black mb-1 uppercase">
                         <TrendingUp size={12} className="text-emerald-500" />
                         <span>{s.stockInDate}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-[9px] font-black text-gray-300 uppercase tracking-widest">
+                      <div className="flex items-center gap-2 text-[9px] text-gray-300 uppercase">
                         <Clock size={12} className="text-black/20" />
                         <span>{s.expiryDate || 'NO EXPIRY'}</span>
                       </div>
@@ -273,7 +273,7 @@ export default function AdminStockDetails() {
         {filteredStocks.length === 0 && !loading && (
           <div className="py-32 flex flex-col items-center justify-center text-gray-300 border-2 border-dashed border-gray-50 m-8 rounded-[2rem]">
             <Package size={64} className="mb-6 opacity-10" />
-            <p className="font-black uppercase tracking-widest text-[10px]">No logistics records found</p>
+            <p className=" uppercase text-[10px]">No logistics records found</p>
           </div>
         )}
       </div>

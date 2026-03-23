@@ -140,7 +140,7 @@ export default function AddOfflineStock() {
         <div className="p-2.5 rounded-xl bg-gray-50 border border-gray-100 group-hover:border-black transition-all">
           <ArrowLeft size={18} />
         </div>
-        <span className="font-black text-[10px] uppercase tracking-widest">Return to Registry</span>
+        <span className=" text-[10px] uppercase">Return to Registry</span>
       </button>
 
       {/* HEADER SECTION */}
@@ -150,10 +150,10 @@ export default function AddOfflineStock() {
             <Store size={32} />
           </div>
           <div>
-            <h1 className="text-3xl font-black text-black tracking-tight">
+            <h1 className="text-3xl text-black">
               {isEdit ? "Update Inventory Record" : "Physical Stock Entry"}
             </h1>
-            <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px] mt-1">Manual stock adjustment for physical outlets</p>
+            <p className="text-gray-400 uppercase text-[10px] mt-1">Manual stock adjustment for physical outlets</p>
           </div>
         </div>
       </div>
@@ -166,13 +166,13 @@ export default function AddOfflineStock() {
            </div>
            
            <div className="flex items-center gap-3 mb-8 relative">
-             <div className="h-8 w-8 rounded-full bg-black text-white flex items-center justify-center text-[10px] font-black">01</div>
-             <h2 className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Catalog Mapping</h2>
+             <div className="h-8 w-8 rounded-full bg-black text-white flex items-center justify-center text-[10px]">01</div>
+             <h2 className="text-[10px] text-gray-400 uppercase">Catalog Mapping</h2>
            </div>
 
            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
              <div className="space-y-2">
-               <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+               <label className="text-[10px] text-gray-400 uppercase ml-1 flex items-center gap-2">
                  <Layers size={12} className="text-emerald-500" /> Master Category
                </label>
                <select
@@ -183,7 +183,7 @@ export default function AddOfflineStock() {
                    setSelectedCategory(categories.find(c => c.id === Number(val)));
                    setForm({ ...form, categoryId: val, subCategoryId: "", productId: "" });
                  }}
-                 className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 disabled:opacity-50"
+                 className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 disabled:opacity-50"
                  required
                >
                  <option value="">Select Root Classification</option>
@@ -194,7 +194,7 @@ export default function AddOfflineStock() {
              </div>
 
              <div className="space-y-2">
-               <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+               <label className="text-[10px] text-gray-400 uppercase ml-1 flex items-center gap-2">
                  <LayoutGrid size={12} className="text-emerald-500" /> Sub-Classification
                </label>
                <select
@@ -205,7 +205,7 @@ export default function AddOfflineStock() {
                    setSelectedSubCategory(subcategories.find(s => s.id === Number(val)));
                    setForm({ ...form, subCategoryId: val, productId: "" });
                  }}
-                 className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 disabled:opacity-50"
+                 className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 disabled:opacity-50"
                >
                  <option value="">Select Sub-Type</option>
                  {subcategories.map(s => (
@@ -223,13 +223,13 @@ export default function AddOfflineStock() {
            </div>
            
            <div className="flex items-center gap-3 mb-8 relative">
-             <div className="h-8 w-8 rounded-full bg-black text-white flex items-center justify-center text-[10px] font-black">02</div>
-             <h2 className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Product Entity</h2>
+             <div className="h-8 w-8 rounded-full bg-black text-white flex items-center justify-center text-[10px]">02</div>
+             <h2 className="text-[10px] text-gray-400 uppercase">Product Entity</h2>
            </div>
 
            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
              <div className="space-y-2">
-               <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+               <label className="text-[10px] text-gray-400 uppercase ml-1 flex items-center gap-2">
                  <Package size={12} className="text-emerald-500" /> Base SKU
                </label>
                <select
@@ -240,7 +240,7 @@ export default function AddOfflineStock() {
                    setSelectedProduct(products.find(p => p.id === Number(val)));
                    setForm({ ...form, productId: val });
                  }}
-                 className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 disabled:opacity-50"
+                 className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 disabled:opacity-50"
                  required
                >
                  <option value="">Select Target Product</option>
@@ -251,14 +251,14 @@ export default function AddOfflineStock() {
              </div>
 
              <div className="space-y-2">
-               <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+               <label className="text-[10px] text-gray-400 uppercase ml-1 flex items-center gap-2">
                  <LayoutGrid size={12} className="text-emerald-500" /> Variant Profile
                </label>
                <select
                  value={form.variantLabel}
                  disabled={isEdit || !form.productId}
                  onChange={(e) => setForm({ ...form, variantLabel: e.target.value })}
-                 className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 disabled:opacity-50"
+                 className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 disabled:opacity-50"
                  required
                >
                  <option value="">Select Active Variant</option>
@@ -277,13 +277,13 @@ export default function AddOfflineStock() {
            </div>
            
            <div className="flex items-center gap-3 mb-8 relative">
-             <div className="h-8 w-8 rounded-full bg-black text-white flex items-center justify-center text-[10px] font-black">03</div>
-             <h2 className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Stock Logistics</h2>
+             <div className="h-8 w-8 rounded-full bg-black text-white flex items-center justify-center text-[10px]">03</div>
+             <h2 className="text-[10px] text-gray-400 uppercase">Stock Logistics</h2>
            </div>
 
            <div className="space-y-6 relative">
              <div className="space-y-2">
-               <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+               <label className="text-[10px] text-gray-400 uppercase ml-1 flex items-center gap-2">
                  <Hash size={12} className="text-emerald-500" /> Physical Unit Count
                </label>
                <div className="relative">
@@ -292,18 +292,18 @@ export default function AddOfflineStock() {
                    placeholder="Enter total units available"
                    value={form.quantity}
                    onChange={(e) => setForm({ ...form, quantity: e.target.value })}
-                   className="w-full bg-gray-50 border border-transparent rounded-3xl pl-8 pr-24 py-6 text-3xl font-black text-black placeholder:text-gray-200 outline-none focus:bg-white focus:border-emerald-500 transition-all h-20 shadow-inner"
+                   className="w-full bg-gray-50 border border-transparent rounded-3xl pl-8 pr-24 py-6 text-3xl text-black placeholder:text-gray-200 outline-none focus:bg-white focus:border-emerald-500 transition-all h-20 shadow-inner"
                    required
                  />
                  <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-2 text-gray-300">
-                    <span className="text-[10px] font-black uppercase tracking-widest">Available Units</span>
+                    <span className="text-[10px] uppercase">Available Units</span>
                  </div>
                </div>
              </div>
 
              <div className="p-5 bg-gray-50 rounded-2xl border border-gray-100 flex items-start gap-4">
                 <AlertCircle className="text-black/20 mt-0.5" size={18} />
-                <p className="text-[10px] font-black text-gray-400 leading-relaxed uppercase tracking-[0.1em]">
+                <p className="text-[10px] text-gray-400 leading-relaxed uppercase tracking-[0.1em]">
                   Manual offline entry bypasses online reservation rules. Verified counts are mandatory for data integrity.
                 </p>
              </div>
@@ -314,7 +314,7 @@ export default function AddOfflineStock() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-black text-white rounded-[2rem] py-6 font-black text-[10px] tracking-[0.2em] shadow-2xl shadow-black/5 hover:bg-emerald-600 transition-all group flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
+          className="w-full bg-black text-white rounded-[2rem] py-6 text-[10px] tracking-[0.2em] shadow-2xl shadow-black/5 hover:bg-emerald-600 transition-all group flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]"
         >
           <ShieldCheck className="group-hover:scale-110 transition-transform" size={20} />
           {isEdit ? "COMMIT UPDATE" : "AUTHORIZE STOCK ENTRY"}

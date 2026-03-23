@@ -39,20 +39,20 @@ export default function AdminLayout() {
               <Menu size={24} />
             </button>
             <div>
-              <h2 className="text-lg md:text-xl font-black text-black capitalize tracking-tight whitespace-nowrap">
+              <h2 className="text-lg md:text-xl text-black capitalize whitespace-nowrap">
                 {pageTitle}
               </h2>
-              <p className="hidden xs:block text-xs text-gray-400 font-bold uppercase tracking-widest text-[9px] md:text-[10px]">GoMunchZ Admin Dashboard</p>
+              <p className="hidden xs:block text-xs text-gray-400 uppercase text-[9px] md:text-[10px]">GoMunchZ Admin Dashboard</p>
             </div>
           </div>
 
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-4">
               <div className="text-right hidden md:block">
-                <p className="text-xs font-bold text-black leading-tight">
+                <p className="text-xs text-black leading-tight">
                   {profile ? `${profile.firstName} ${profile.lastName}` : "System Admin"}
                 </p>
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">Administrator</p>
+                <p className="text-[10px] text-gray-400 uppercase">Administrator</p>
               </div>
               <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white shadow-md">
                 <User size={20} />
@@ -60,7 +60,7 @@ export default function AdminLayout() {
               <div className="h-8 w-px bg-gray-100 mx-2"></div>
               <button 
                 onClick={logout}
-                className="flex items-center gap-2 text-gray-400 hover:text-emerald-600 font-bold text-[10px] uppercase tracking-widest transition-colors"
+                className="flex items-center gap-2 text-gray-400 hover:text-emerald-600 text-[10px] uppercase transition-colors"
               >
                 <LogOut size={16} />
                 <span>Logout</span>

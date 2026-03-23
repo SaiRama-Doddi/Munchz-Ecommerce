@@ -126,10 +126,10 @@ export default function AdminCoupons() {
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
         <div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-black tracking-tight tracking-[-0.02em]">Campaign Hub</h1>
-          <p className="text-gray-400 font-bold uppercase tracking-widest text-[9px] md:text-[10px]">Drive more sales with strategic discounts</p>
+          <h1 className="text-2xl md:text-3xl text-black tracking-[-0.02em]">Campaign Hub</h1>
+          <p className="text-gray-400 uppercase text-[9px] md:text-[10px]">Drive more sales with strategic discounts</p>
         </div>
-        <div className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-100 shadow-sm text-gray-400 rounded-2xl text-[9px] md:text-[10px] font-black uppercase tracking-widest self-start md:self-auto">
+        <div className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-100 shadow-sm text-gray-400 rounded-2xl text-[9px] md:text-[10px] uppercase self-start md:self-auto">
           <Ticket size={14} />
           <span>{coupons.length} STRATEGY ACTIVE</span>
         </div>
@@ -146,20 +146,20 @@ export default function AdminCoupons() {
               <div className="p-2.5 bg-black text-white rounded-xl shadow-lg">
                 {editingId ? <Edit3 size={20} /> : <Plus size={20} />}
               </div>
-              <h2 className="text-xl font-bold text-black font-inter">
+              <h2 className="text-xl text-black font-inter">
                 {editingId ? "Update Promo" : "New Promotion"}
               </h2>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6 relative">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Unique Code</label>
+                <label className="text-[10px] text-gray-400 uppercase tracking-[0.2em] ml-1">Unique Code</label>
                 <div className="relative">
                   <input
                     value={form.code}
                     onChange={(e) => updateField("code", e.target.value)}
                     placeholder="e.g. SUMMER50"
-                    className="w-full bg-gray-50 border border-transparent rounded-2xl pl-12 pr-5 py-4 text-sm font-black tracking-widest uppercase placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14"
+                    className="w-full bg-gray-50 border border-transparent rounded-2xl pl-12 pr-5 py-4 text-sm uppercase placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14"
                     required
                   />
                   <Ticket className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
@@ -168,37 +168,37 @@ export default function AdminCoupons() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Min Order</label>
+                  <label className="text-[10px] text-gray-400 uppercase tracking-[0.2em] ml-1">Min Order</label>
                   <input
                     type="number"
                     value={form.minAmount}
                     onChange={(e) => updateField("minAmount", e.target.value)}
                     placeholder="999"
-                    className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14"
+                    className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14"
                     required
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Discount</label>
+                  <label className="text-[10px] text-gray-400 uppercase tracking-[0.2em] ml-1">Discount</label>
                   <input
                     type="number"
                     value={form.discountAmount}
                     onChange={(e) => updateField("discountAmount", e.target.value)}
                     placeholder="100"
-                    className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-black text-emerald-600 placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14"
+                    className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm text-emerald-600 placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14"
                     required
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">Expiry Date</label>
+                <label className="text-[10px] text-gray-400 uppercase tracking-[0.2em] ml-1">Expiry Date</label>
                 <div className="relative">
                   <input
                     type="date"
                     value={form.expiryDate}
                     onChange={(e) => updateField("expiryDate", e.target.value)}
-                    className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14 pr-12"
+                    className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14 pr-12"
                     required
                   />
                   <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={18} />
@@ -213,12 +213,12 @@ export default function AdminCoupons() {
                 >
                   <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${form.active ? 'left-7' : 'left-1'}`}></div>
                 </button>
-                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Enable Promotion</span>
+                <span className="text-[10px] text-gray-400 uppercase">Enable Promotion</span>
               </div>
 
               <button
                 type="submit"
-                className="w-full bg-black text-white py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-black/5 hover:bg-emerald-600 transition-all duration-300"
+                className="w-full bg-black text-white py-4 rounded-2xl text-[10px] uppercase shadow-xl shadow-black/5 hover:bg-emerald-600 transition-all duration-300"
               >
                 {editingId ? "Apply Changes" : "Launch Promotion"}
               </button>
@@ -227,7 +227,7 @@ export default function AdminCoupons() {
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="w-full bg-gray-100 text-gray-500 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-gray-200 transition-all duration-300"
+                  className="w-full bg-gray-100 text-gray-500 py-4 rounded-2xl text-[10px] uppercase hover:bg-gray-200 transition-all duration-300"
                 >
                   Discard Edit
                 </button>
@@ -244,11 +244,11 @@ export default function AdminCoupons() {
                 <div className="flex justify-between items-start mb-6">
                   <div className="flex flex-col">
                     <div className="flex items-center gap-2 mb-2">
-                       <span className="bg-emerald-50 text-emerald-600 px-3 py-1.5 rounded-xl text-base md:text-lg font-black tracking-widest border border-emerald-100">
+                       <span className="bg-emerald-50 text-emerald-600 px-3 py-1.5 rounded-xl text-base md:text-lg border border-emerald-100">
                         {c.code}
                       </span>
                     </div>
-                    <div className={`flex items-center gap-1.5 text-[8px] md:text-[9px] font-black uppercase tracking-widest ${c.active ? 'text-emerald-500' : 'text-gray-300'}`}>
+                    <div className={`flex items-center gap-1.5 text-[8px] md:text-[9px] uppercase ${c.active ? 'text-emerald-500' : 'text-gray-300'}`}>
                       {c.active ? <CheckCircle2 size={12} /> : <XCircle size={12} />}
                       {c.active ? 'Active Now' : 'Internal Disabled'}
                     </div>
@@ -271,21 +271,21 @@ export default function AdminCoupons() {
 
                 <div className="grid grid-cols-2 gap-4 py-4 border-y border-gray-50 mb-4">
                   <div>
-                    <p className="text-[8px] md:text-[9px] font-black text-gray-300 uppercase tracking-widest mb-1">Benefit</p>
-                    <p className="text-lg md:text-xl font-black text-emerald-600">₹{c.discountAmount}</p>
+                    <p className="text-[8px] md:text-[9px] text-gray-300 uppercase mb-1">Benefit</p>
+                    <p className="text-lg md:text-xl text-emerald-600">₹{c.discountAmount}</p>
                   </div>
                   <div>
-                    <p className="text-[8px] md:text-[9px] font-black text-gray-300 uppercase tracking-widest mb-1">Min Spend</p>
-                    <p className="text-lg md:text-xl font-black text-black">₹{c.minAmount}</p>
+                    <p className="text-[8px] md:text-[9px] text-gray-300 uppercase mb-1">Min Spend</p>
+                    <p className="text-lg md:text-xl text-black">₹{c.minAmount}</p>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between text-[10px] font-bold text-gray-400">
-                   <div className="flex items-center gap-1.5 font-black uppercase tracking-widest">
+                <div className="flex items-center justify-between text-[10px] text-gray-400">
+                   <div className="flex items-center gap-1.5 uppercase">
                     <Calendar size={12} />
                     <span>Expires {c.expiryDate}</span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-black/20 font-black">
+                  <div className="flex items-center gap-1.5 text-black/20">
                     <Activity size={12} />
                     <span>ID: #{c.id}</span>
                   </div>
@@ -297,7 +297,7 @@ export default function AdminCoupons() {
           {coupons.length === 0 && !loading && (
              <div className="bg-white border-2 border-dashed border-gray-100 rounded-[2.5rem] py-24 flex flex-col items-center justify-center text-gray-300">
               <Ticket size={48} className="mb-4 opacity-10" />
-              <p className="font-black uppercase tracking-widest text-[10px]">No promotions available</p>
+              <p className=" uppercase text-[10px]">No promotions available</p>
            </div>
           )}
         </div>

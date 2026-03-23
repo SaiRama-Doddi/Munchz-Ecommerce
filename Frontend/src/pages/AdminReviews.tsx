@@ -146,7 +146,7 @@ export default function AdminReviews() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 bg-white">
         <div className="w-12 h-12 border-4 border-emerald-100 border-t-emerald-600 rounded-full animate-spin" />
-        <p className="text-gray-400 font-black uppercase tracking-widest text-[10px]">Aggregating Feedback...</p>
+        <p className="text-gray-400 uppercase text-[10px]">Aggregating Feedback...</p>
       </div>
     );
   }
@@ -156,8 +156,8 @@ export default function AdminReviews() {
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
         <div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-black tracking-tight tracking-[-0.02em]">Market Sentiment</h1>
-          <p className="text-gray-400 font-bold uppercase tracking-widest text-[9px] md:text-[10px]">Monitor your reputation and product quality</p>
+          <h1 className="text-2xl md:text-3xl text-black tracking-[-0.02em]">Market Sentiment</h1>
+          <p className="text-gray-400 uppercase text-[9px] md:text-[10px]">Monitor your reputation and product quality</p>
         </div>
       </div>
 
@@ -168,10 +168,10 @@ export default function AdminReviews() {
             <MessageSquare size={24} className="md:w-8 md:h-8" />
           </div>
           <div>
-            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Total Mentions</p>
+            <p className="text-[10px] text-gray-400 uppercase mb-1">Total Mentions</p>
             <div className="flex items-baseline gap-2">
-              <p className="text-3xl md:text-4xl font-black text-black">{totalReviews}</p>
-              <span className="text-[9px] md:text-[10px] font-black text-emerald-500 flex items-center gap-1 uppercase">
+              <p className="text-3xl md:text-4xl text-black">{totalReviews}</p>
+              <span className="text-[9px] md:text-[10px] text-emerald-500 flex items-center gap-1 uppercase">
                 <TrendingUp size={12} /> Live
               </span>
             </div>
@@ -182,9 +182,9 @@ export default function AdminReviews() {
             <Award size={24} className="md:w-8 md:h-8" />
           </div>
           <div>
-            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Satisfaction</p>
+            <p className="text-[10px] text-gray-400 uppercase mb-1">Satisfaction</p>
             <div className="flex items-baseline gap-2">
-              <p className="text-3xl md:text-4xl font-black text-black">{avgRating}</p>
+              <p className="text-3xl md:text-4xl text-black">{avgRating}</p>
               <div className="flex gap-0.5 text-emerald-500 mb-1 ml-2 hidden sm:flex">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} size={14} fill={i < Math.round(Number(avgRating)) ? "currentColor" : "none"} />
@@ -203,7 +203,7 @@ export default function AdminReviews() {
             placeholder="Search keywords..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl pl-12 pr-5 py-3 text-xs font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl pl-12 pr-5 py-3 text-xs placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all"
           />
         </div>
         <div className="relative group md:col-span-2">
@@ -213,7 +213,7 @@ export default function AdminReviews() {
               setCategoryFilter(e.target.value);
               setProductFilter("ALL");
             }}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-xs font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all h-11"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-xs appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all h-11"
           >
             <option value="ALL">All Categories</option>
             {categories.map((c) => (
@@ -226,7 +226,7 @@ export default function AdminReviews() {
           <select
             value={productFilter}
             onChange={(e) => setProductFilter(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-xs font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all h-11"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-xs appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all h-11"
           >
             <option value="ALL">All Products</option>
             {filteredProducts.map((p) => (
@@ -239,7 +239,7 @@ export default function AdminReviews() {
           <select
             value={ratingFilter}
             onChange={(e) => setRatingFilter(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-xs font-bold appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all h-11"
+            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-xs appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all h-11"
           >
             <option value="ALL">All Ratings</option>
             {[5, 4, 3, 2, 1].map((r) => (
@@ -283,31 +283,31 @@ export default function AdminReviews() {
                         <Star key={i} size={14} fill={i < r.rating ? "currentColor" : "none"} />
                       ))}
                     </div>
-                    <h3 className="text-lg font-black text-black leading-tight group-hover:text-emerald-600 transition-colors">
+                    <h3 className="text-lg text-black leading-tight group-hover:text-emerald-600 transition-colors">
                       {r.productName}
                     </h3>
                   </div>
-                  <div className="text-[9px] font-black text-gray-400 uppercase tracking-widest bg-gray-50 px-2.5 py-1.5 rounded-lg border border-gray-100">
+                  <div className="text-[9px] text-gray-400 uppercase bg-gray-50 px-2.5 py-1.5 rounded-lg border border-gray-100">
                     ID: #{r.id}
                   </div>
                 </div>
 
-                <p className="text-sm font-bold text-gray-400 leading-relaxed italic">
+                <p className="text-sm text-gray-400 leading-relaxed italic">
                   "{r.comment}"
                 </p>
 
                 <div className="pt-4 border-t border-gray-50 flex flex-wrap items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100 shadow-sm font-black text-xs">
+                    <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100 shadow-sm text-xs">
                       {r.userName?.charAt(0) || "U"}
                     </div>
                     <div>
-                       <p className="text-sm font-black text-black">{r.userName || "Anonymous"}</p>
-                       <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest">Verified Customer</p>
+                       <p className="text-sm text-black">{r.userName || "Anonymous"}</p>
+                       <p className="text-[10px] text-gray-400 uppercase">Verified Customer</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-1.5 text-[9px] font-black text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-100 uppercase tracking-wider">
+                    <div className="flex items-center gap-1.5 text-[9px] text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-100 uppercase tracking-wider">
                       <Package size={12} /> BATCH: {String(r.id).padStart(3, '0')}
                     </div>
                   </div>
@@ -321,8 +321,8 @@ export default function AdminReviews() {
       {filteredReviews.length === 0 && !loading && (
         <div className="py-32 flex flex-col items-center justify-center text-gray-300 bg-white border-2 border-dashed border-gray-100 rounded-[2.5rem]">
           <MessageSquare size={64} className="mb-6 opacity-10" />
-          <p className="font-black uppercase tracking-widest text-[10px]">No feedback matches your filters</p>
-          <button onClick={() => {setSearch(""); setRatingFilter("ALL"); setCategoryFilter("ALL"); setProductFilter("ALL");}} className="mt-6 text-emerald-600 font-black text-[10px] uppercase tracking-[0.2em] hover:text-black transition-colors">Clear all filters</button>
+          <p className=" uppercase text-[10px]">No feedback matches your filters</p>
+          <button onClick={() => {setSearch(""); setRatingFilter("ALL"); setCategoryFilter("ALL"); setProductFilter("ALL");}} className="mt-6 text-emerald-600 text-[10px] uppercase tracking-[0.2em] hover:text-black transition-colors">Clear all filters</button>
         </div>
       )}
     </div>

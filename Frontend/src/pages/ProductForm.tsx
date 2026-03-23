@@ -146,8 +146,8 @@ export default function ProductForm() {
           <ArrowLeft size={20} />
         </button>
         <div className="text-right">
-          <h1 className="text-2xl font-black text-black uppercase tracking-tight">Create Listing</h1>
-          <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">New Inventory Nucleus</p>
+          <h1 className="text-2xl text-black uppercase">Create Listing</h1>
+          <p className="text-[10px] text-gray-400 uppercase tracking-[0.2em]">New Inventory Nucleus</p>
         </div>
       </div>
 
@@ -164,27 +164,27 @@ export default function ProductForm() {
               <div className="p-2.5 bg-black text-white rounded-xl">
                 <Package size={20} />
               </div>
-              <h2 className="text-xl font-bold text-black uppercase tracking-tight">Product DNA</h2>
+              <h2 className="text-xl text-black uppercase">Product DNA</h2>
             </div>
 
             <div className="space-y-6 relative">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Market Identity</label>
+                <label className="text-[10px] text-gray-400 uppercase ml-1">Market Identity</label>
                 <input
                   value={form.name}
                   onChange={(e) => updateField("name", e.target.value)}
-                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14"
                   placeholder="e.g. Premium Atlantic Salmon"
                   required
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Comprehensive Description</label>
+                <label className="text-[10px] text-gray-400 uppercase ml-1">Comprehensive Description</label>
                 <textarea
                   value={form.description}
                   onChange={(e) => updateField("description", e.target.value)}
-                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm font-bold placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all min-h-[160px] resize-none leading-relaxed"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-4 text-sm placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all min-h-[160px] resize-none leading-relaxed"
                   placeholder="Detail the attributes and origins of this item..."
                   required
                 />
@@ -199,12 +199,12 @@ export default function ProductForm() {
                 <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
                   <Tag size={20} />
                 </div>
-                <h2 className="text-xl font-bold text-black uppercase tracking-tight">Scaling Matrix</h2>
+                <h2 className="text-xl text-black uppercase">Scaling Matrix</h2>
               </div>
               <button
                 type="button"
                 onClick={addVariant}
-                className="flex items-center gap-2 text-black font-black text-[10px] uppercase tracking-widest bg-gray-50 border border-gray-100 px-5 py-2.5 rounded-xl hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all shadow-sm"
+                className="flex items-center gap-2 text-black text-[10px] uppercase bg-gray-50 border border-gray-100 px-5 py-2.5 rounded-xl hover:bg-emerald-600 hover:text-white hover:border-emerald-600 transition-all shadow-sm"
               >
                 <Plus size={16} />
                 <span>New Variant</span>
@@ -212,7 +212,7 @@ export default function ProductForm() {
             </div>
 
             <div className="space-y-4">
-              <div className="hidden md:grid grid-cols-5 gap-4 px-6 text-[9px] font-black text-gray-300 uppercase tracking-widest">
+              <div className="hidden md:grid grid-cols-5 gap-4 px-6 text-[9px] text-gray-300 uppercase">
                 <div className="col-span-1">Label (e.g. 500g)</div>
                 <div>Net Weight (g)</div>
                 <div>List Price</div>
@@ -225,25 +225,25 @@ export default function ProductForm() {
                   <input
                     value={v.weightLabel}
                     onChange={(e) => updateVariant(i, "weightLabel", e.target.value)}
-                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm font-bold outline-none focus:border-black transition-all h-11"
+                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm outline-none focus:border-black transition-all h-11"
                     placeholder="250g"
                   />
                   <input
                     value={v.weightInGrams}
                     onChange={(e) => updateVariant(i, "weightInGrams", e.target.value.replace(/\D/g, ""))}
-                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm font-bold outline-none focus:border-black transition-all h-11"
+                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm outline-none focus:border-black transition-all h-11"
                     placeholder="250"
                   />
                   <input
                     value={v.mrp}
                     onChange={(e) => updateVariant(i, "mrp", e.target.value.replace(/\D/g, ""))}
-                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm font-black text-gray-400 outline-none focus:border-black transition-all h-11"
+                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm text-gray-400 outline-none focus:border-black transition-all h-11"
                     placeholder="500"
                   />
                   <input
                     value={v.offerPrice}
                     onChange={(e) => updateVariant(i, "offerPrice", e.target.value.replace(/\D/g, ""))}
-                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm font-black text-emerald-600 outline-none focus:border-emerald-500 transition-all h-11"
+                    className="w-full bg-white border border-gray-100 rounded-xl px-4 py-2 text-sm text-emerald-600 outline-none focus:border-emerald-500 transition-all h-11"
                     placeholder="450"
                   />
                   <div className="flex items-center justify-center">
@@ -271,16 +271,16 @@ export default function ProductForm() {
               <div className="p-2.5 bg-black text-white rounded-xl">
                 <Layers size={18} />
               </div>
-              <h2 className="text-lg font-bold text-black uppercase tracking-tight">Classification</h2>
+              <h2 className="text-lg text-black uppercase">Classification</h2>
             </div>
 
             <div className="space-y-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Parent Category</label>
+                <label className="text-[10px] text-gray-400 uppercase ml-1">Parent Category</label>
                 <select
                   value={form.categoryId}
                   onChange={(e) => updateField("categoryId", e.target.value)}
-                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14"
                   required
                 >
                   <option value="">Select Category</option>
@@ -291,12 +291,12 @@ export default function ProductForm() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Subcategory Node</label>
+                <label className="text-[10px] text-gray-400 uppercase ml-1">Subcategory Node</label>
                 <select
                   value={form.subcategoryId}
                   onChange={(e) => updateField("subcategoryId", e.target.value)}
                   disabled={!form.categoryId || isLoading}
-                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm font-bold appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 disabled:opacity-40"
+                  className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm appearance-none outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 disabled:opacity-40"
                 >
                   <option value="">No Secondary Node</option>
                   {subcategories.map((s: any) => (
@@ -304,7 +304,7 @@ export default function ProductForm() {
                   ))}
                 </select>
                 {!form.categoryId && (
-                  <p className="text-[9px] text-gray-400 font-black ml-1 uppercase tracking-widest italic pt-1">
+                  <p className="text-[9px] text-gray-400 ml-1 uppercase italic pt-1">
                     Select master category first
                   </p>
                 )}
@@ -319,7 +319,7 @@ export default function ProductForm() {
                 <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
                   <ImageIcon size={18} />
                 </div>
-                <h2 className="text-lg font-bold text-black uppercase tracking-tight">Visual Assets</h2>
+                <h2 className="text-lg text-black uppercase">Visual Assets</h2>
               </div>
               <button
                 type="button"
@@ -332,14 +332,14 @@ export default function ProductForm() {
 
             <div className="space-y-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-black text-emerald-600 uppercase tracking-widest ml-1 flex items-center gap-1">
+                <label className="text-[10px] text-emerald-600 uppercase ml-1 flex items-center gap-1">
                   Dominant Asset <CheckCircle size={10} />
                 </label>
                 <div className="relative group">
                   <input
                     value={form.imageUrl}
                     onChange={(e) => updateField("imageUrl", e.target.value)}
-                    className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-[11px] font-bold outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 pr-10"
+                    className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-[11px] outline-none focus:bg-white focus:border-emerald-500 transition-all h-14 pr-10"
                     placeholder="URL for primary display..."
                     required
                   />
@@ -356,14 +356,14 @@ export default function ProductForm() {
               </div>
 
               <div className="pt-4 border-t border-gray-50 space-y-4">
-                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Gallery Collection</label>
+                <label className="text-[10px] text-gray-400 uppercase ml-1">Gallery Collection</label>
                 <div className="space-y-3 max-h-[220px] overflow-y-auto pr-1 no-scrollbar">
                   {form.imageUrls.map((url, i) => (
                     <div key={i} className="relative group/field">
                       <input
                         value={url}
                         onChange={(e) => updateImageUrl(i, e.target.value)}
-                        className="w-full bg-gray-50 border border-transparent rounded-xl px-4 py-3 text-[10px] font-bold outline-none focus:bg-white focus:border-black transition-all h-11 pr-10"
+                        className="w-full bg-gray-50 border border-transparent rounded-xl px-4 py-3 text-[10px] outline-none focus:bg-white focus:border-black transition-all h-11 pr-10"
                         placeholder={`Asset #${i + 1} URL`}
                       />
                       <button
@@ -384,7 +384,7 @@ export default function ProductForm() {
           <div className="space-y-4">
             <button
               type="submit"
-              className="w-full bg-black text-white py-5 rounded-3xl font-black text-[10px] uppercase tracking-[0.2em] shadow-2xl shadow-black/5 hover:bg-emerald-600 transition-all duration-300 flex items-center justify-center gap-3 active:scale-95"
+              className="w-full bg-black text-white py-5 rounded-3xl text-[10px] uppercase tracking-[0.2em] shadow-2xl shadow-black/5 hover:bg-emerald-600 transition-all duration-300 flex items-center justify-center gap-3 active:scale-95"
             >
               <Save size={18} />
               Authorize Publication
@@ -392,7 +392,7 @@ export default function ProductForm() {
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="w-full bg-gray-50 text-gray-300 py-5 rounded-3xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-300"
+              className="w-full bg-gray-50 text-gray-300 py-5 rounded-3xl text-[10px] uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-300"
             >
               Discard Draft
             </button>
@@ -400,7 +400,7 @@ export default function ProductForm() {
           
           <div className="p-6 bg-gray-50 rounded-[2rem] border border-gray-100 flex gap-4">
             <Globe size={20} className="text-emerald-500 shrink-0 mt-1" />
-            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-relaxed">
+            <p className="text-[10px] text-gray-400 uppercase leading-relaxed">
               New listings are synchronized immediately with primary sales channels. Ensure data is verified before submission.
             </p>
           </div>
