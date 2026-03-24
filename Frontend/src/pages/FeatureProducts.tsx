@@ -149,12 +149,12 @@ const scrollRight = () => {
   }
 
   return (
-    <div className="bg-white py-12 md:py-16">
+    <div className="bg-white py-8 sm:py-10">
 
       <div className="max-w-7xl mx-auto px-4">
 
         {/* HEADING */}
-        <div className="mb-10 text-left px-0">
+        <div className="mb-8 text-left px-0">
           <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
             Curated <span className="text-green-600">Collection</span>
           </h2>

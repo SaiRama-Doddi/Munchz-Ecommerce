@@ -51,9 +51,9 @@ export default function Footer() {
               <div className="flex items-start gap-3">
                 <MapPin size={18} className="mt-1 text-black shrink-0" />
                 <span className="font-medium">
-                  SRI VENKATESHWARA SUPER FOODS LLP<br />
-                  H NO-16-317/678, SYMPHONY PARK HOMES,<br />
-                  PATANCHERU, Sangareddy, Telangana-502319
+                  Sri Venkateshwara Super Foods LLP<br />
+                  H No-16-317/678, Symphony Park Homes,<br />
+                  Patancheru, Sangareddy, Telangana-502319
                 </span>
               </div>
               <div className="flex items-center gap-3">
@@ -81,9 +81,10 @@ export default function Footer() {
           <div>
             <h4 className="font-bold text-lg mb-6 text-black">Legal</h4>
             <ul className="space-y-3 text-sm text-gray-700 font-medium">
-              <li className="cursor-pointer hover:text-green-600 transition">Privacy Policy</li>
               <li className="cursor-pointer hover:text-green-600 transition">Terms & Conditions</li>
-              <li className="cursor-pointer hover:text-green-600 transition">Refund Policy</li>
+              <li className="cursor-pointer hover:text-green-600 transition">Privacy Policy</li>
+              <li className="cursor-pointer hover:text-green-600 transition">Return & Refund</li>
+              <li className="cursor-pointer hover:text-green-600 transition">Refer & Earn</li>
             </ul>
           </div>
         </div>
@@ -93,19 +94,22 @@ export default function Footer() {
       <div className="border-t border-black/5 py-8">
         <div className="w-full px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-            {/* SOCIAL ICONS */}
-            <div className="flex gap-6">
+            {/* COPYRIGHTS (Left) */}
+            <div className="text-center md:text-left order-2 md:order-1">
+              <p className="text-sm text-black font-medium">
+                © 2026 GoMunchz. All rights reserved.
+              </p>
+              <p className="text-xs text-black/60 mt-1">
+                Made with❤️ by Gomunchz
+              </p>
+            </div>
+
+            {/* SOCIAL ICONS (Right) */}
+            <div className="flex gap-6 order-1 md:order-2">
               <Instagram className="text-black cursor-pointer hover:scale-110 transition duration-300" />
               <MessageCircle className="text-black cursor-pointer hover:scale-110 transition duration-300" />
               <Phone className="text-black cursor-pointer hover:scale-110 transition duration-300" />
               <Youtube className="text-black cursor-pointer hover:scale-110 transition duration-300" />
-            </div>
-
-            {/* COPYRIGHTS */}
-            <div className="text-center md:text-right">
-              <p className="text-sm text-black font-medium">
-                © 2026 GoMunchz. All rights reserved.
-              </p>
             </div>
           </div>
         </div>

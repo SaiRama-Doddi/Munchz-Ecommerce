@@ -2,7 +2,7 @@ import { ShieldCheck, Truck, RotateCcw, Headphones } from "lucide-react";
 
 export default function AboutUs() {
   return (
-    <section className="w-full bg-white py-16 sm:py-20">
+    <section className="w-full bg-white py-8 sm:py-10">
 
       {/* ABOUT SECTION */}
       <div className="max-w-7xl mx-auto px-4">
@@ -10,7 +10,7 @@ export default function AboutUs() {
 
           {/* LEFT SIDE — TEXT */}
           <div className="p-8 sm:p-12 md:p-16">
-            <h2 className="text-3xl md:text-5xl font-bold mb-8 text-gray-900 tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-gray-900 tracking-tight">
               About <span className="text-green-600">GoMunchz</span>
             </h2>
             <div className="w-16 h-[3px] bg-green-600 mb-8"></div>
@@ -73,7 +73,7 @@ export default function AboutUs() {
       </div>
 
       {/* SERVICE ICONS SECTION */}
-      <div className="max-w-7xl mx-auto px-4 mt-12">
+      <div className="max-w-7xl mx-auto px-4 mt-8">
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
 
           {/* PREMIUM QUALITY */}
