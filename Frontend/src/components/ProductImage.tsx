@@ -24,7 +24,7 @@ export default function ProductImage() {
 
           <div className="pt-8">
             <span className="inline-block text-3xl md:text-4xl font-bold tracking-tight">
-              GoMunchZ
+              GoMunchz
             </span>
             <div className="w-20 h-1 bg-green-500 mt-2 rounded-full"></div>
           </div>
@@ -34,7 +34,7 @@ export default function ProductImage() {
         <div className="flex justify-center md:justify-end">
           <img
             src="/premium_snacks.png"
-            alt="GoMunchZ Premium Snacks"
+            alt="GoMunchz Premium Snacks"
             className="w-full max-w-xl object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)] hover:scale-105 transition duration-700"
           />
         </div>

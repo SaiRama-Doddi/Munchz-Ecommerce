@@ -105,7 +105,7 @@ export default function Sidebar({ isOpen = true, onClose = () => {} }: SidebarPr
               <ShoppingBag className="text-emerald-600" size={24} />
             </div>
             <div>
-              <h1 className="text-xl font-black text-white tracking-tight">GoMunchZ</h1>
+              <h1 className="text-xl font-black text-white tracking-tight">GoMunchz</h1>
               <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-100 font-black">Premium Admin</p>
             </div>
           </div>

@@ -20,7 +20,7 @@ export default function AdminNavbar() {
         <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center shadow-lg">
           <span className="text-white text-xs font-black">GM</span>
         </div>
-        <h1 className="text-lg font-black text-slate-800 tracking-tight">GoMunchZ Admin</h1>
+        <h1 className="text-lg font-black text-slate-800 tracking-tight">GoMunchz Admin</h1>
       </div>
 
       <div className="flex items-center gap-6">

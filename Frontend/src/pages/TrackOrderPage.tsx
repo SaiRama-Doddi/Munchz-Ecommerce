@@ -66,7 +66,7 @@ export default function TrackOrderPage() {
                 Track Your <br /> <span className="text-green-300">Cravings.</span>
               </h1>
               <p className="text-green-100 text-lg font-medium max-w-md leading-relaxed">
-                Enter your shipment ID to see exactly where your GoMunchZ goodies are in real-time. From our Warehouse to your doorstep.
+                Enter your shipment ID to see exactly where your GoMunchz goodies are in real-time. From our Warehouse to your doorstep.
               </p>
 
               <div className="mt-12 space-y-4">

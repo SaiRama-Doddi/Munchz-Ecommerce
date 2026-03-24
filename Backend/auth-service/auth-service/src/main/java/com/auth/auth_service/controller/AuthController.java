@@ -307,6 +307,7 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
     public Map<String, Object> googleRegister(
             @RequestBody GoogleLoginRequest req
     ) {
+        System.out.println("DEBUG: Entering googleRegister with token: " + (req.idToken() != null ? "PRESENT" : "NULL"));
 
         // 1️⃣ Verify Google Token
         GoogleUserPayload googleUser =
@@ -377,6 +378,7 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
     public ResponseEntity<Map<String, Object>> unifiedGoogleAuth(
             @RequestBody GoogleLoginRequest req
     ) {
+        System.out.println("DEBUG: Entering unifiedGoogleAuth with token: " + (req.idToken() != null ? "PRESENT" : "NULL"));
         // 1️⃣ Verify Google token
         GoogleUserPayload googleUser =
                 googleTokenVerifier.verify(req.idToken());

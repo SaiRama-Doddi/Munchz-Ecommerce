@@ -20,7 +20,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="mt-4 sm:mt-6 lg:mt-8 px-4 sm:px-6 lg:px-8">
+    <section className="mt-4 sm:mt-6 lg:mt-8 max-w-7xl mx-auto px-4">
       
       {/* HERO CONTAINER */}
       <div

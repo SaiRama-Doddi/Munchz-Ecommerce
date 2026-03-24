@@ -82,7 +82,7 @@ setTimeout(() => {
 <div className="flex flex-col items-center mb-6">
 <img
 src="/munchz.png"
-alt="GoMunchZ logo"
+alt="GoMunchz logo"
 className="w-20 sm:w-24 mb-2"
 />
 
@@ -91,7 +91,7 @@ Create Account
 </h2>
 
 <p className="text-sm text-gray-500">
-Join GoMunchZ and start shopping
+Join GoMunchz and start shopping
 </p>
 </div>
 

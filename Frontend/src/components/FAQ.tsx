@@ -8,12 +8,12 @@ interface FAQItem {
 
 const faqs: FAQItem[] = [
   {
-    question: "What makes GoMunchZ snacks different from others?",
+    question: "What makes GoMunchz snacks different from others?",
     answer:
-      "GoMunchZ focuses on real ingredients and premium sourcing. Our snacks are prepared using carefully selected dry fruits and natural ingredients to ensure both taste and nutritional value.",
+      "GoMunchz focuses on real ingredients and premium sourcing. Our snacks are prepared using carefully selected dry fruits and natural ingredients to ensure both taste and nutritional value.",
   },
   {
-    question: "Are GoMunchZ products healthy?",
+    question: "Are GoMunchz products healthy?",
     answer:
       "Yes. Our products are made from high-quality nuts, dry fruits, and natural ingredients. We aim to provide snacks that are both delicious and nutritious for everyday consumption.",
   },
@@ -47,7 +47,7 @@ export default function FAQ() {
   };
 
   return (
-    <section className="py-20 bg-[#fafaf6]">
+    <section className="py-20 bg-white">
 
       <div className="max-w-7xl mx-auto px-4">
 

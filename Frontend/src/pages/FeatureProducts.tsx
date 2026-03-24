@@ -129,7 +129,7 @@ const scrollRight = () => {
 
   if (isLoading) {
     return (
-      <div className="bg-[#f6fff4] min-h-screen flex items-center justify-center">
+      <div className="bg-white min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="h-12 w-12 border-4 border-green-700 border-t-transparent rounded-full animate-spin"></div>
           <p className="text-gray-600 font-medium">
@@ -149,9 +149,9 @@ const scrollRight = () => {
   }
 
   return (
-    <div className="bg-gradient-to-b from-[#f9fdf7] to-[#f3fff1] py-12 md:py-16">
+    <div className="bg-white py-12 md:py-16">
 
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
+      <div className="max-w-7xl mx-auto px-4">
 
         {/* HEADING */}
         <div className="mb-10 text-left px-0">

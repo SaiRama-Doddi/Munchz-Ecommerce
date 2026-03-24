@@ -69,8 +69,8 @@ export default function App() {
             <ProductImage />
             <FeaturedProducts />
             <AboutUs />
-            <FAQ />
             <Testimonials />
+            <FAQ />
             <Footer />
             <FloatingActions />
           </>
@@ -237,6 +237,18 @@ export default function App() {
 
       <Route path="/track/:shipmentId" element={
         <TrackingPage />
+      } />
+
+      <Route path="/blog" element={
+        <>
+          <TopHeader />
+          <Header />
+          <div className="min-h-screen pt-32 pb-20 px-4 text-center">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">GoMunchz Blog</h1>
+            <p className="text-gray-600 text-lg">Coming soon! Stay tuned for the latest news and updates from GoMunchz.</p>
+          </div>
+          <Footer />
+        </>
       } />
       
       <Route path="/AboutMain" element ={<>

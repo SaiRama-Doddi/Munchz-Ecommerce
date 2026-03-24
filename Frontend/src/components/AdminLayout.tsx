@@ -42,7 +42,7 @@ export default function AdminLayout() {
               <h2 className="text-lg md:text-xl text-black capitalize whitespace-nowrap">
                 {pageTitle}
               </h2>
-              <p className="hidden xs:block text-xs text-gray-400 uppercase text-[9px] md:text-[10px]">GoMunchZ Admin Dashboard</p>
+              <p className="hidden xs:block text-xs text-gray-400 uppercase text-[9px] md:text-[10px]">GoMunchz Admin Dashboard</p>
             </div>
           </div>
 

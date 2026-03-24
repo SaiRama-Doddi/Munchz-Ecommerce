@@ -2,7 +2,7 @@ import { ShieldCheck, Truck, RotateCcw, Headphones } from "lucide-react";
 
 export default function AboutUs() {
   return (
-    <section className="w-full bg-[#fafbf9] py-16 sm:py-20">
+    <section className="w-full bg-white py-16 sm:py-20">
 
       {/* ABOUT SECTION */}
       <div className="max-w-7xl mx-auto px-4">
@@ -11,13 +11,13 @@ export default function AboutUs() {
           {/* LEFT SIDE — TEXT */}
           <div className="p-8 sm:p-12 md:p-16">
             <h2 className="text-3xl md:text-5xl font-bold mb-8 text-gray-900 tracking-tight">
-              About <span className="text-green-600">GoMunchZ</span>
+              About <span className="text-green-600">GoMunchz</span>
             </h2>
             <div className="w-16 h-[3px] bg-green-600 mb-8"></div>
 
             <div className="space-y-6 text-gray-600 leading-relaxed text-[16px] md:text-[18px]">
               <p>
-                At <span className="font-semibold text-green-700">GoMunchZ</span>, we
+                At <span className="font-semibold text-green-700">GoMunchz</span>, we
                 believe great snacks start with real ingredients. Our mission is to
                 deliver healthy, delicious, and premium-quality snacks made from
                 carefully sourced nuts, dry fruits, and natural ingredients.
@@ -64,7 +64,7 @@ export default function AboutUs() {
             <div className="relative rounded-2xl overflow-hidden aspect-[4/5] shadow-2xl">
               <img
                 src="/about_premium.png"
-                alt="About GoMunchZ Premium Selection"
+                alt="About GoMunchz Premium Selection"
                 className="w-full h-full object-cover hover:scale-105 transition duration-700"
               />
             </div>

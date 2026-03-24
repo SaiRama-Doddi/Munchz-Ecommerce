@@ -31,7 +31,7 @@ public class SecurityHeadersConfig {
                 // ✅ REQUIRED for Google OAuth popup
                 response.setHeader(
                         "Cross-Origin-Opener-Policy",
-                        "same-origin-allow-popups"
+                        "unsafe-none"
                 );
 
                 response.setHeader(

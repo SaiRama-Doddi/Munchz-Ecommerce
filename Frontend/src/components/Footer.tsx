@@ -13,15 +13,15 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#ecfdf5] text-black pt-4">
-      <div className="max-w-7xl mx-auto px-6 pb-12">
+      <div className="max-w-7xl mx-auto px-4 pb-12">
         {/* ================= TOP SECTION ================= */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           {/* BRAND */}
           <div className="flex flex-col items-start">
-            <div className="bg-white p-2 rounded-lg shadow-sm mb-4">
+            <div className="mb-4">
               <img
                 src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774178657/gomunchz_logo_transparent_r8r0a8.png"
-                alt="GoMunchZ"
+                alt="GoMunchz"
                 className="h-14 cursor-pointer object-contain"
                 onClick={() => navigate("/")}
               />
@@ -91,7 +91,7 @@ export default function Footer() {
 
       {/* ================= BOTTOM BAR ================= */}
       <div className="border-t border-black/5 py-8">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="w-full px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             {/* SOCIAL ICONS */}
             <div className="flex gap-6">
@@ -102,14 +102,10 @@ export default function Footer() {
             </div>
 
             {/* COPYRIGHTS */}
-            <div className="text-center md:text-right space-y-1">
+            <div className="text-center md:text-right">
               <p className="text-sm text-black font-medium">
-                © {new Date().getFullYear()} GoMunchZ. All rights reserved.
+                © 2026 GoMunchz. All rights reserved.
               </p>
-              <div className="text-xs text-black/60">
-                <p>© 2026 Inizio Interiors. All rights reserved.</p>
-                <p>Made with ❤️ by <span className="font-semibold text-black">Inizio Interiors</span></p>
-              </div>
             </div>
           </div>
         </div>

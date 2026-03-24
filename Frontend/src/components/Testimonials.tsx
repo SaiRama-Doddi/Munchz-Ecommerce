@@ -21,7 +21,7 @@ const testimonials: Testimonial[] = [
     id: 2,
     name: "Meenakshi Iyer",
     title: "HELPS WITH STRESS EATING!",
-    content: "I've noticed a huge reduction in my sugar cravings since I started snacking on GoMunchZ. It helps me make better food choices throughout the day.",
+    content: "I've noticed a huge reduction in my sugar cravings since I started snacking on GoMunchz. It helps me make better food choices throughout the day.",
     rating: 5,
   },
   {
@@ -42,7 +42,7 @@ const testimonials: Testimonial[] = [
     id: 5,
     name: "Sai Prasad",
     title: "PERFECT OFFICE SNACK",
-    content: "Great for munching during long meetings. It's healthy, filling, and doesn't leave you feeling sluggish. Great job GoMunchZ!",
+    content: "Great for munching during long meetings. It's healthy, filling, and doesn't leave you feeling sluggish. Great job GoMunchz!",
     rating: 5,
   },
   {
@@ -56,7 +56,7 @@ const testimonials: Testimonial[] = [
     id: 7,
     name: "Venkatesh Rao",
     title: "PREMIUM PACKAGING",
-    content: "The packaging keeps everything so fresh. It's clear that GoMunchZ cares about quality at every step. Very impressed.",
+    content: "The packaging keeps everything so fresh. It's clear that GoMunchz cares about quality at every step. Very impressed.",
     rating: 5,
   },
   {

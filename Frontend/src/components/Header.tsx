@@ -10,6 +10,8 @@ import {
   MapPin,
   Phone,
   X,
+  Layers,
+  BookOpen,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../state/CartContext";
@@ -75,7 +77,7 @@ export default function Header() {
             <Link to="/" className="flex items-center">
               <img
                 src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774178657/gomunchz_logo_transparent_r8r0a8.png"
-                alt="GoMunchZ"
+                alt="GoMunchz"
                 className="h-10 md:h-12 lg:h-14 w-auto object-contain"
               />
             </Link>
@@ -84,11 +86,13 @@ export default function Header() {
 
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8 font-medium">
+          <nav className="hidden md:flex items-center gap-5 font-medium">
             {[
               { to: "/", label: "Home" },
               { to: "/Aboutmain", label: "About Us" },
               { to: "/productpage", label: "Shop" },
+
+              { to: "/blog", label: "Blog" },
               { to: "/track", label: "Track" },
               { to: "/contact", label: "Contact Us" },
             ].map((item) => (
@@ -110,7 +114,7 @@ export default function Header() {
 
           {/* DESKTOP SEARCH (Large screens only) */}
 
-          < div className="hidden lg:flex flex-1 mx-8 max-w-md relative" >
+          < div className="hidden lg:flex flex-1 mx-4 max-w-[300px] relative" >
 
             <div className="flex items-center w-full bg-gray-50 border border-gray-200 rounded-full px-4 py-2 shadow-sm">
 
@@ -317,7 +321,7 @@ export default function Header() {
                 <Link to="/" onClick={() => setOpenMenu(false)} className="flex items-center">
                   <img
                     src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774171195/gomunchz_logo_resized_ynw790.png"
-                    alt="GoMunchZ"
+                    alt="GoMunchz"
                     className="h-10 w-auto object-contain"
                   />
                 </Link>
@@ -343,6 +347,12 @@ export default function Header() {
 
                 <Link to="/productpage" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700">
                   <Grid2x2 size={20} /> Shop
+                </Link>
+
+
+
+                <Link to="/blog" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700">
+                  <BookOpen size={20} /> Blog
                 </Link>
 
                 <Link to="/track" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700">

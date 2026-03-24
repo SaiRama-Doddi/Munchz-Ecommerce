@@ -136,7 +136,7 @@ export default function UserOrders() {
     doc.setFontSize(11);
     doc.addImage("/munchz.png", "PNG", 14, 10, 30, 15);
     doc.setFontSize(12);
-    doc.text("GoMunchZ Foods Pvt Ltd", 150, 15, { align: "right" });
+    doc.text("GoMunchz Foods Pvt Ltd", 150, 15, { align: "right" });
     doc.text("Hyderabad, India", 150, 22, { align: "right" });
     doc.text("support@gomunchz.com", 150, 29, { align: "right" });
     doc.setFontSize(18);
@@ -159,7 +159,7 @@ export default function UserOrders() {
     });
     const y = (doc as any).lastAutoTable.finalY + 10;
     doc.text(`Grand Total: Rs. ${order.totalAmount}`, 150, y, { align: "right" });
-    doc.text("Thank you for shopping with GoMunchZ!", 105, y + 20, { align: "center" });
+    doc.text("Thank you for shopping with GoMunchz!", 105, y + 20, { align: "center" });
     doc.save(`Invoice-${order.orderId}.pdf`);
   };
 
