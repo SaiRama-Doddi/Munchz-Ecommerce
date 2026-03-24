@@ -47,12 +47,12 @@ export default function FAQ() {
   };
 
   return (
-    <section className="py-8 sm:py-10 bg-white">
+    <section className="py-20 bg-white">
 
       <div className="max-w-7xl mx-auto px-4">
 
         {/* SECTION HEADER */}
-        <div className="mb-8">
+        <div className="mb-12">
 
 
           <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">

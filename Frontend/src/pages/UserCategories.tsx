@@ -41,12 +41,12 @@ export default function UserCategories() {
   }
 
   return (
-    <section className="bg-white py-8 sm:py-10">
+    <section className="bg-white py-10 sm:py-12 lg:py-14">
 
       <div className="max-w-7xl mx-auto px-4">
 
         {/* HEADER */}
-        <div className="mb-8 text-left">
+        <div className="mb-12 text-left">
           <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
             Shop By <span className="text-green-600">Category</span>
           </h2>
