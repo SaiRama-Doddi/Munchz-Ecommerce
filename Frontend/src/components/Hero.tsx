@@ -10,40 +10,60 @@ const HERO_IMAGES = [
 
 export default function Hero() {
   const navigate = useNavigate();
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActive((prev) => (prev + 1) % HERO_IMAGES.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <section className="mt-4 sm:mt-6 lg:mt-8 max-w-7xl mx-auto px-4">
-      <div className="relative w-full overflow-hidden bg-white rounded-3xl border border-gray-100 shadow-sm h-[400px] sm:h-[450px] lg:h-[500px] flex flex-col md:flex-row">
-        
-        {/* Left Content */}
-        <div className="flex-1 flex flex-col justify-center px-8 sm:px-12 lg:px-20 py-10">
-          <p className="text-green-600 font-semibold text-lg mb-4">Pure Ingredients</p>
-          
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-[#0f172a] leading-tight">
-            Real ingredients
-          </h1>
-          <h2 className="text-4xl sm:text-5xl lg:text-7xl font-normal text-gray-400 mb-8 leading-tight">
-            Unreal flavor
-          </h2>
-          
-          <p className="text-green-600 font-medium text-lg mb-12">Absolutely zero compromise</p>
-          
-          <div className="flex flex-col items-start">
-            <span className="text-3xl font-extrabold text-[#0f172a] relative">
-              GoMunchz
-              <div className="absolute -bottom-2 left-0 w-12 h-1 bg-green-500"></div>
-            </span>
-          </div>
-        </div>
+      
+      {/* HERO CONTAINER */}
+      <div
+        className="
+        relative w-full overflow-hidden bg-black
+        h-[220px] sm:h-[320px] md:h-[420px] lg:h-[75vh]
+        rounded-xl
+        "
+      >
 
-        {/* Right Image Container */}
-        <div className="flex-1 relative bg-[#e7f5e9] md:rounded-l-[100px] overflow-hidden">
+        {/* Images */}
+        {HERO_IMAGES.map((img, index) => (
           <img
-            src="https://nutribinge.in/cdn/shop/articles/Unveiling_the_Essence_of_Dry_Fruits_in_Indian_Festivities.jpg?v=1713257842"
+            key={img}
+            src={img}
             alt="Healthy snacks"
-            className="absolute inset-0 w-full h-full object-cover mix-blend-multiply opacity-90"
+            className={`absolute inset-0 w-full h-full object-cover transition-all duration-[1500ms]
+            ${index === active ? "opacity-100 scale-100" : "opacity-0 scale-110"}`}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#e7f5e9] via-transparent to-transparent hidden md:block w-32"></div>
+        ))}
+
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
+
+        {/* DOT INDICATOR */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+
+          {HERO_IMAGES.map((_, index) => (
+            <div
+              key={index}
+              onClick={() => setActive(index)}
+              className={`transition-all duration-300 cursor-pointer
+              
+              ${
+                active === index
+                  ? "w-8 h-2 bg-white"
+                  : "w-2 h-2 bg-white/50"
+              }
+
+              rounded-full`}
+            />
+          ))}
+
         </div>
 
       </div>
