@@ -9,7 +9,7 @@ export default function AboutUs() {
         <div className="grid lg:grid-cols-2 gap-12 items-center bg-white rounded-3xl overflow-hidden">
 
           {/* LEFT SIDE — TEXT */}
-          <div className="p-8 sm:p-12 md:p-16">
+          <div className="py-8 sm:py-12 md:py-16 pr-8 sm:pr-12 md:pr-16">
             <h2 className="text-3xl md:text-5xl font-bold mb-8 text-gray-900 tracking-tight">
               About <span className="text-green-600">GoMunchz</span>
             </h2>
