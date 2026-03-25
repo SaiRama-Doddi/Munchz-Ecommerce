@@ -11,7 +11,7 @@ export default function About() {
           <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
             About <span className="text-green-600">GoMunchz</span>
           </h2>
-          <p className="text-gray-500 text-sm md:text-base mt-3 max-w-2xl leading-relaxed">
+          <p className="text-gray-500 text-sm md:text-base mt-3 leading-relaxed whitespace-nowrap overflow-hidden text-ellipsis">
             Bringing back the goodness of real, honest ingredients and transforming them into snacks you can feel good about.
           </p>
           <div className="w-16 h-[3px] bg-green-600 mt-4 md:mt-6"></div>

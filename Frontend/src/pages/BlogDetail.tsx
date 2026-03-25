@@ -58,7 +58,7 @@ export default function BlogDetail() {
             </div>
           </div>
 
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-900 tracking-tight leading-tight mb-6">
+          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight leading-tight mb-6">
             {blog.title}
           </h1>
           
@@ -69,7 +69,7 @@ export default function BlogDetail() {
         </div>
 
         {/* ================= CONTENT AREA ================= */}
-        <main className="max-w-4xl">
+        <main className="w-full">
           <div className="space-y-10 text-gray-700 leading-relaxed text-base md:text-xl text-justify">
             {blog.sections.map((section, idx) => {
               switch (section.type) {
@@ -97,7 +97,7 @@ export default function BlogDetail() {
                   );
                 case "quote":
                   return (
-                    <div key={idx} className="font-bold text-gray-900 border-l-4 border-green-600 pl-6 italic bg-green-50/50 py-8 rounded-r-3xl my-10 text-xl md:text-2xl shadow-sm">
+                    <div key={idx} className="font-bold text-gray-900 border-l-4 border-green-600 pl-6 italic bg-green-50/50 py-5 rounded-r-2xl my-10 text-xl md:text-2xl shadow-sm">
                       "{section.content as string}"
                     </div>
                   );
@@ -129,22 +129,6 @@ export default function BlogDetail() {
                   return null;
               }
             })}
-          </div>
-
-          {/* ================= CONCLUSION / FOOTER INFO ================= */}
-          <div className="mt-20 p-8 md:p-12 bg-green-600 rounded-[2.5rem] text-white shadow-xl relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32 transition-transform group-hover:scale-110"></div>
-            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-              <div className="text-center md:text-left">
-                <h3 className="text-2xl md:text-3xl font-bold mb-4">Love these insights?</h3>
-                <p className="text-green-50 text-base md:text-lg max-w-md opacity-90">
-                  Join thousands of smart snackers who choose GoMunchz every day for a healthier lifestyle.
-                </p>
-              </div>
-              <Link to="/productpage" className="bg-white text-green-700 font-bold px-8 py-4 rounded-full shadow-lg hover:bg-green-50 transition-all hover:scale-105 active:scale-95 whitespace-nowrap">
-                Shop Our Collection
-              </Link>
-            </div>
           </div>
         </main>
       </div>

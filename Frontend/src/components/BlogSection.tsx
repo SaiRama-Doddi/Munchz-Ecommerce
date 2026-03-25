@@ -40,13 +40,13 @@ export default function BlogSection() {
         {/* ================= HEADER ================= */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-1.5 h-6 bg-green-600 rounded-full"></div>
-              <span className="text-green-700 font-bold uppercase tracking-widest text-xs">Our Journal</span>
-            </div>
-            <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
-              Latest from <span className="text-green-600">GoMunchz Blog</span>
+            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+              Our <span className="text-green-600">Journal</span>
             </h2>
+            <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
+            <p className="text-gray-500 text-sm md:text-base mt-4 font-medium uppercase tracking-widest">
+              Latest from GoMunchz Blog
+            </p>
           </div>
           
           <Link to="/blog" className="flex items-center gap-2 text-green-700 font-bold hover:gap-4 transition-all group underline underline-offset-8 decoration-2 decoration-green-100 hover:decoration-green-600">
