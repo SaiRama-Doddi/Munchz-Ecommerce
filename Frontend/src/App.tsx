@@ -53,6 +53,8 @@ import SearchProducts from "./pages/SearchProducts";
 import TrackingPage from "./pages/TrackingPage";
 import TrackOrderPage from "./pages/TrackOrderPage";
 
+import BlogDetail from "./pages/BlogDetail";
+
 
 export default function App() {
   return (
@@ -239,13 +241,14 @@ export default function App() {
         <TrackingPage />
       } />
 
+      <Route path="/blog/:slug" element={<BlogDetail />} />
       <Route path="/blog" element={
         <>
           <TopHeader />
           <Header />
           <div className="min-h-screen pt-32 pb-20 px-4 text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">GoMunchz Blog</h1>
-            <p className="text-gray-600 text-lg">Coming soon! Stay tuned for the latest news and updates from GoMunchz.</p>
+            <p className="text-gray-600 text-lg">Detailed insights and tips for a healthier lifestyle. Choose a blog from the menu to start reading!</p>
           </div>
           <Footer />
         </>

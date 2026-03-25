@@ -12,6 +12,7 @@ import {
   X,
   Layers,
   BookOpen,
+  ChevronDown,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../state/CartContext";
@@ -20,6 +21,7 @@ import { getProductUrl } from "../utils/slugify";
 import ProfileDashboard from "./ProfileDashboard";
 import { Link, NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { blogs } from "../data/blogData";
 
 
 import { useQuery } from "@tanstack/react-query";
@@ -36,6 +38,8 @@ export default function Header() {
   const [openProfile, setOpenProfile] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [openMenu, setOpenMenu] = useState(false);
+  const [showBlogDropdown, setShowBlogDropdown] = useState(false);
+  const [mobileBlogOpen, setMobileBlogOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -87,29 +91,52 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-5 font-medium">
-            {[
-              { to: "/", label: "Home" },
-              { to: "/Aboutmain", label: "About Us" },
-              { to: "/productpage", label: "Shop" },
+            <NavLink to="/" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Home</NavLink>
+            <NavLink to="/Aboutmain" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>About Us</NavLink>
+            <NavLink to="/productpage" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Shop</NavLink>
 
-              { to: "/blog", label: "Blog" },
-              { to: "/track", label: "Track" },
-              { to: "/contact", label: "Contact Us" },
-            ].map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-green-700 border-b-2 border-green-700 pb-1"
-                    : "text-gray-800"
-                }
-              >
-                {item.label}
-              </NavLink>
-            ))}
+            {/* Blog Dropdown */}
+            <div 
+              className="relative group py-4"
+              onMouseEnter={() => setShowBlogDropdown(true)}
+              onMouseLeave={() => setShowBlogDropdown(false)}
+            >
+              <div className="flex items-center gap-1 cursor-pointer text-gray-800 hover:text-green-700 transition-colors">
+                <span>Blog</span>
+                <ChevronDown size={16} className={`transition-transform duration-300 ${showBlogDropdown ? "rotate-180" : ""}`} />
+              </div>
 
-          </nav >
+              {showBlogDropdown && (
+                <div className="absolute top-full left-0 w-80 bg-white shadow-2xl rounded-2xl border border-gray-100 py-4 z-50 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <div className="px-4 mb-2 pb-2 border-b border-gray-50">
+                    <p className="text-xs font-bold text-green-600 uppercase tracking-widest">Our Latest Stories</p>
+                  </div>
+                  {blogs.map((blog) => (
+                    <Link
+                      key={blog.id}
+                      to={`/blog/${blog.slug}`}
+                      className="block px-4 py-3 hover:bg-green-50 transition-colors group/item"
+                      onClick={() => setShowBlogDropdown(false)}
+                    >
+                      <p className="text-sm font-semibold text-gray-800 group-hover/item:text-green-700 leading-tight">
+                        {blog.title}
+                      </p>
+                    </Link>
+                  ))}
+                  <Link 
+                    to="/blog" 
+                    className="mt-2 mx-4 py-2 text-center block bg-green-600 text-white text-xs font-bold rounded-lg hover:bg-green-700 transition"
+                    onClick={() => setShowBlogDropdown(false)}
+                  >
+                    View All Blogs
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            <NavLink to="/track" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Track</NavLink>
+            <NavLink to="/contact" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Contact Us</NavLink>
+          </nav>
 
 
           {/* DESKTOP SEARCH (Large screens only) */}
@@ -345,25 +372,59 @@ export default function Header() {
                   <Info size={20} /> About Us
                 </Link>
 
-                <Link to="/productpage" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700">
+                <Link to="/productpage" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
                   <Grid2x2 size={20} /> Shop
                 </Link>
 
+                <div className="flex flex-col gap-4">
+                  <button 
+                    onClick={() => setMobileBlogOpen(!mobileBlogOpen)}
+                    className="flex items-center justify-between w-full hover:text-green-700 transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <BookOpen size={20} /> Blog
+                    </div>
+                    <ChevronDown size={18} className={`transition-transform duration-300 ${mobileBlogOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  
+                  {mobileBlogOpen && (
+                    <div className="flex flex-col gap-3 pl-8 border-l-2 border-green-100 py-2">
+                      {blogs.map((blog) => (
+                        <Link
+                          key={blog.id}
+                          to={`/blog/${blog.slug}`}
+                          onClick={() => {
+                            setOpenMenu(false);
+                            setMobileBlogOpen(false);
+                          }}
+                          className="text-sm text-gray-600 hover:text-green-700"
+                        >
+                          {blog.title}
+                        </Link>
+                      ))}
+                      <Link
+                        to="/blog"
+                        onClick={() => {
+                          setOpenMenu(false);
+                          setMobileBlogOpen(false);
+                        }}
+                        className="text-xs font-bold text-green-600"
+                      >
+                        View All Blogs →
+                      </Link>
+                    </div>
+                  )}
+                </div>
 
-
-                <Link to="/blog" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700">
-                  <BookOpen size={20} /> Blog
-                </Link>
-
-                <Link to="/track" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700">
+                <Link to="/track" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
                   <MapPin size={20} /> Track
                 </Link>
 
-                <Link to="/contact" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700">
+                <Link to="/contact" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
                   <Phone size={20} /> Contact Us
                 </Link>
 
-                <Link to="/cart" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700">
+                <Link to="/cart" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
                   <ShoppingCart size={20} /> Cart ({cartCount})
                 </Link>
 
