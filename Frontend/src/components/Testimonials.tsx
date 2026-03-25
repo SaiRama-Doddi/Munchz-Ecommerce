@@ -168,7 +168,7 @@ export default function Testimonials() {
 
                 {/* AVATAR & NAME */}
                 <div className="mt-auto">
-                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-gray-50 flex items-center justify-center mx-auto mb-4 border-2 border-green-50 group-hover:border-green-300 transition-all duration-500 overflow-hidden shadow-inner font-bold text-green-700">
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white flex items-center justify-center mx-auto mb-4 border-2 border-green-50 group-hover:border-green-300 transition-all duration-500 overflow-hidden shadow-inner font-bold text-green-700">
                     {item.name.charAt(0)}
                   </div>
                   <p className="font-bold text-gray-900 tracking-wide text-sm md:text-base">{item.name}</p>

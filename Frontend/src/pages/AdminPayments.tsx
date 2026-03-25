@@ -170,7 +170,7 @@ const AdminPayments: React.FC = () => {
       {/* FILTERS BAR */}
       <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 shadow-sm space-y-8">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-          <div className="flex items-center bg-gray-50/80 p-1 rounded-xl md:rounded-2xl border border-gray-100 w-full lg:w-auto flex-wrap sm:flex-nowrap">
+          <div className="flex items-center bg-white p-1 rounded-xl md:rounded-2xl border border-gray-100 w-full lg:w-auto flex-wrap sm:flex-nowrap">
             {[
               { label: "ALL", value: "ALL" },
               { label: "TODAY", value: "TODAY" },
@@ -199,7 +199,7 @@ const AdminPayments: React.FC = () => {
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all placeholder:text-gray-300"
+                className="w-full bg-white border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all placeholder:text-gray-300"
               />
             </div>
             
@@ -209,7 +209,7 @@ const AdminPayments: React.FC = () => {
                 type="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all appearance-none cursor-pointer sm:min-w-[160px]"
+                className="w-full bg-white border border-gray-100 rounded-2xl py-3.5 pl-12 pr-4 text-xs text-black focus:outline-none focus:ring-4 focus:ring-emerald-500/5 focus:bg-white transition-all appearance-none cursor-pointer sm:min-w-[160px]"
               />
               {selectedDate && (
                 <button 
@@ -229,7 +229,7 @@ const AdminPayments: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-gray-50/50">
+              <tr className="bg-white">
                 <th className="px-8 py-6 text-[10px] text-gray-400 uppercase border-b border-gray-100">Transaction Details</th>
                 <th className="px-8 py-6 text-[10px] text-gray-400 uppercase border-b border-gray-100">Customer Name</th>
                 <th className="px-8 py-6 text-[10px] text-gray-400 uppercase border-b border-gray-100 text-right">Amount</th>
@@ -237,9 +237,9 @@ const AdminPayments: React.FC = () => {
                 <th className="px-8 py-6 text-[10px] text-gray-400 uppercase border-b border-gray-100 text-center">Reference</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-green-50">
               {filteredPayments.map((p) => (
-                <tr key={p.id} className="group hover:bg-gray-50/50 transition-all duration-300">
+                <tr key={p.id} className="group hover:bg-green-50/5 transition-all duration-300">
                   <td className="px-8 py-6">
                     <div className="flex flex-col">
                       <span className="text-sm text-black">#{p.id.slice(-12).toUpperCase()}</span>
@@ -273,7 +273,7 @@ const AdminPayments: React.FC = () => {
                     </span>
                   </td>
                   <td className="px-8 py-6 text-center">
-                    <span className="text-[10px] text-gray-400 bg-gray-100 px-2 py-1 rounded-md">
+                    <span className="text-[10px] text-gray-400 bg-white border border-gray-100 px-2 py-1 rounded-md">
                       {p.razorpayPaymentId || "DIRECT"}
                     </span>
                   </td>
@@ -284,7 +284,7 @@ const AdminPayments: React.FC = () => {
         </div>
 
         {filteredPayments.length === 0 && (
-          <div className="py-32 flex flex-col items-center justify-center bg-gray-50/20">
+          <div className="py-32 flex flex-col items-center justify-center bg-white">
             <div className="w-20 h-20 bg-white border border-gray-100 rounded-[2rem] flex items-center justify-center mb-6 text-gray-200 shadow-xl shadow-gray-200/20 animate-pulse">
               <AlertCircle size={40} />
             </div>

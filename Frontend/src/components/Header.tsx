@@ -73,7 +73,7 @@ export default function Header() {
 
             <button
               onClick={() => setOpenMenu(true)}
-              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition"
+              className="md:hidden p-2 rounded-lg hover:bg-white transition"
             >
               <Menu size={26} />
             </button>
@@ -143,7 +143,7 @@ export default function Header() {
 
           < div className="hidden lg:flex flex-1 mx-4 max-w-[300px] relative" >
 
-            <div className="flex items-center w-full bg-gray-50 border border-gray-200 rounded-full px-4 py-2 shadow-sm">
+            <div className="flex items-center w-full bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm">
 
               <Search size={18} className="text-gray-500" />
 
@@ -273,7 +273,7 @@ export default function Header() {
 
         <div className="relative">
 
-          <div className="flex items-center bg-gray-50  border-gray-200 rounded-full px-4 py-2 shadow-sm">
+          <div className="flex items-center bg-white  border-gray-200 rounded-full px-4 py-2 shadow-sm">
 
             <Search size={18} className="text-gray-500" />
 
@@ -358,7 +358,7 @@ export default function Header() {
                     setOpenMenu(false);
                     setMobileBlogOpen(false);
                   }}
-                  className="p-2 rounded-lg hover:bg-gray-100"
+                  className="p-2 rounded-lg hover:bg-white"
                 >
                   <X size={22} />
                 </button>

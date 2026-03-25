@@ -186,10 +186,10 @@ export default function CategoryProducts() {
 
   if (isLoading) {
   return (
-    <div className="bg-[#f6fff4] min-h-screen flex items-center justify-center">
+    <div className="bg-white min-h-screen flex items-center justify-center">
       <div className="flex flex-col items-center gap-4">
         <div className="h-12 w-12 border-4 border-green-700 border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-gray-600 font-medium">Fetching your orders...</p>
+        <p className="text-gray-600 font-medium">Fetching products...</p>
       </div>
     </div>
   );
@@ -205,7 +205,7 @@ export default function CategoryProducts() {
 
     
   return (
-    <div className="bg-[#f9fdf7] min-h-screen py-10 md:py-16">
+    <div className="bg-white min-h-screen py-10 md:py-16">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
 
         {/* HEADER AREA */}
@@ -227,7 +227,7 @@ export default function CategoryProducts() {
                 {category?.name || "Category"} Products
               </h3>
            </div>
-           <span className="text-[12px] font-bold text-gray-400 bg-gray-100 px-3 py-1.5 rounded-full">
+           <span className="text-[12px] font-bold text-gray-400 bg-white border border-gray-100 px-3 py-1.5 rounded-full">
               {filteredProducts.length} Items
            </span>
         </div>

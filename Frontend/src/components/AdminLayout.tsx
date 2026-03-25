@@ -57,7 +57,8 @@ export default function AdminLayout() {
               <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white shadow-md">
                 <User size={20} />
               </div>
-              <div className="h-8 w-px bg-gray-100 mx-2"></div>
+              <div className="flex-1 overflow-auto bg-white p-4 md:p-8">
+</div>
               <button
                 onClick={logout}
                 className="flex items-center gap-2 text-gray-400 hover:text-emerald-600 text-[10px] uppercase transition-colors"

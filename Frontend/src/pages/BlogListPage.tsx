@@ -8,7 +8,7 @@ import Footer from "../components/Footer";
 
 export default function BlogListPage() {
   return (
-    <div className="w-full bg-[#f9fdf7] min-h-screen">
+    <div className="w-full bg-white min-h-screen">
       <TopHeader />
       <Header />
 

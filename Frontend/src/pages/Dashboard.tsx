@@ -339,7 +339,7 @@ export default function Dashboard() {
               <select 
                 value={chartView}
                 onChange={(e) => setChartView(e.target.value as any)}
-                className="appearance-none bg-gray-50 border border-gray-100 rounded-xl px-4 py-2 pr-10 text-xs text-black focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all cursor-pointer"
+                className="appearance-none bg-white border border-gray-100 rounded-xl px-4 py-2 pr-10 text-xs text-black focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all cursor-pointer"
               >
                 <option value="distribution">Stock Distribution</option>
                 <option value="inventory">Inventory Levels</option>
@@ -413,7 +413,7 @@ export default function Dashboard() {
         <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
           {recentProducts.map((p: Product) => (
             <div key={p.id} className="group relative">
-              <div className="aspect-square bg-gray-50 rounded-2xl p-4 flex items-center justify-center border border-gray-100 group-hover:border-emerald-600/30 transition-all duration-300">
+              <div className="aspect-square bg-white rounded-2xl p-4 flex items-center justify-center border border-gray-100 group-hover:border-emerald-600/30 transition-all duration-300">
                 <img src={p.imageUrl} alt={p.name} className="max-h-full object-contain group-hover:scale-110 transition-transform duration-300" />
               </div>
               <div className="mt-3">
@@ -439,7 +439,7 @@ export default function Dashboard() {
               </div>
             </div>
             
-            <div className="flex items-center bg-gray-50 p-1 rounded-xl border border-gray-100 flex-wrap sm:flex-nowrap">
+            <div className="flex items-center bg-white p-1 rounded-xl border border-gray-100 flex-wrap sm:flex-nowrap">
               {[
                 { label: 'ALL', value: 'all' },
                 { label: 'TODAY', value: '24h' },
@@ -469,7 +469,7 @@ export default function Dashboard() {
               </div>
             ) : (
               listFilteredOrders.slice(0, 50).map((o) => (
-                <div key={o.orderId} className="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-gray-100 hover:border-emerald-600/20 transition-all duration-300 group cursor-pointer" onClick={() => navigate("/admin/orders")}>
+                <div key={o.orderId} className="flex items-center justify-between p-4 bg-white/50 rounded-2xl border border-gray-100 hover:border-emerald-600/20 transition-all duration-300 group cursor-pointer" onClick={() => navigate("/admin/orders")}>
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center border border-gray-100 text-gray-400 group-hover:text-emerald-600 transition-colors">
                       {o.userName.charAt(0)}
@@ -502,7 +502,7 @@ export default function Dashboard() {
               </div>
             </div>
             
-             <span className="px-3 py-1.5 bg-gray-50 text-black text-[10px] rounded-lg uppercase tracking-wider border border-gray-100">
+             <span className="px-3 py-1.5 bg-white text-black text-[10px] rounded-lg uppercase tracking-wider border border-gray-100">
               {listFilteredPayments.length} Recv
             </span>
           </div>
@@ -515,7 +515,7 @@ export default function Dashboard() {
               </div>
             ) : (
               listFilteredPayments.slice(0, 50).map((p: any) => (
-                <div key={p.id} className="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-gray-100 hover:border-emerald-600/20 transition-all duration-300 group">
+                <div key={p.id} className="flex items-center justify-between p-4 bg-white/50 rounded-2xl border border-gray-100 hover:border-emerald-600/20 transition-all duration-300 group">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-emerald-600 shadow-sm border border-gray-100">
                       <ArrowUpRight size={18} />
@@ -562,7 +562,7 @@ function KPICard({
 }) {
   const colorMap = {
     emerald: "bg-emerald-50 text-emerald-600",
-    black: "bg-gray-100 text-black",
+    black: "bg-white text-black",
   };
 
   return (

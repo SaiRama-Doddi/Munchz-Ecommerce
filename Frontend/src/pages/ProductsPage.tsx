@@ -143,7 +143,7 @@ export default function AllProducts() {
     );
 
   return (
-    <div className="bg-[#f9fdf7] min-h-screen py-10 md:py-16">
+    <div className="bg-white min-h-screen py-10 md:py-16">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
 
         {/* HEADER AREA */}
@@ -169,13 +169,13 @@ export default function AllProducts() {
               className={`flex flex-col items-center gap-3 p-2 rounded-2xl transition-all group min-w-[100px] ${
                 selectedCategoryId === "ALL" 
                 ? "bg-green-50 scale-105" 
-                : "hover:bg-gray-50"
+                : "hover:bg-white"
               }`}
             >
               <div className={`w-16 h-16 rounded-full flex items-center justify-center border-2 transition-all shadow-sm overflow-hidden ${
                 selectedCategoryId === "ALL"
                 ? "border-green-600 bg-white"
-                : "border-transparent bg-gray-100 group-hover:border-green-200"
+                : "border-transparent bg-white group-hover:border-green-200"
               }`}>
                 <span className={`text-xl font-bold ${selectedCategoryId === "ALL" ? "text-green-600" : "text-gray-400"}`}>
                   ALL
@@ -193,13 +193,13 @@ export default function AllProducts() {
                 className={`flex flex-col items-center gap-3 p-2 rounded-2xl transition-all group min-w-[100px] ${
                   selectedCategoryId === c.id 
                   ? "bg-green-50 scale-105" 
-                  : "hover:bg-gray-50"
+                  : "hover:bg-white"
                 }`}
               >
                 <div className={`w-16 h-16 rounded-full border-2 transition-all shadow-sm overflow-hidden ${
                   selectedCategoryId === c.id
                   ? "border-green-600 bg-white"
-                  : "border-transparent bg-gray-100 group-hover:border-green-200"
+                  : "border-transparent bg-white group-hover:border-green-200"
                 }`}>
                   <img 
                     src={c.thumbnailImage || "https://placehold.co/100x100?text=Category"} 
@@ -225,7 +225,7 @@ export default function AllProducts() {
                 {selectedCategoryName} Products
               </h3>
            </div>
-           <span className="text-[12px] font-bold text-gray-400 bg-gray-100 px-3 py-1.5 rounded-full">
+           <span className="text-[12px] font-bold text-gray-400 bg-white px-3 py-1.5 rounded-full">
               {filteredProducts.length} Items
            </span>
         </div>

@@ -256,7 +256,7 @@ export default function ProductDetails() {
       <TopHeader />
       <Header />
 
-      <main className="flex-grow bg-[#f9fdf7]">
+      <main className="flex-grow bg-white">
         <div className="py-10 md:py-16">
           <div className="max-w-7xl mx-auto px-4">
 
@@ -468,7 +468,7 @@ export default function ProductDetails() {
               );
 
               return (
-                <div key={p.id} onClick={() => navigate(`/product/${p.id}`)} className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2">
+                <div key={p.id} onClick={() => navigate(`/product/${p.id}`)} className="group bg-white rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2">
 
                   <div className="relative bg-transparent aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden flex-shrink-0">
                     <img src={(p.imageUrls && p.imageUrls.length > 0) ? p.imageUrls[0] : p.imageUrl} alt={p.name} className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700" />

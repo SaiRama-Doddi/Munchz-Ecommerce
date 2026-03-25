@@ -163,10 +163,10 @@ export default function UserOrders() {
     doc.save(`Invoice-${order.orderId}.pdf`);
   };
 
-  if (loading) return <div className="bg-[#f9fdf7] min-h-screen"><PageSpinner /></div>;
+  if (loading) return <div className="bg-white min-h-screen"><PageSpinner /></div>;
 
   return (
-    <div className="bg-[#f9fdf7] min-h-screen">
+    <div className="bg-white min-h-screen">
       
       {/* STICKY HEADER - UNIFIED WITH CART/CHECKOUT */}
       <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-green-50 px-5 py-4 sm:px-10 sm:py-6">
@@ -181,7 +181,7 @@ export default function UserOrders() {
           </div>
           <button
             onClick={() => navigate(-1)}
-            className="p-2 sm:p-3 bg-gray-50 hover:bg-green-50 rounded-xl sm:rounded-2xl transition-all border border-gray-100 hover:border-green-200 text-gray-400 hover:text-green-600"
+            className="p-2 sm:p-3 bg-white hover:bg-green-50 rounded-xl sm:rounded-2xl transition-all border border-gray-100 hover:border-green-200 text-gray-400 hover:text-green-600"
           >
             <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
@@ -203,7 +203,7 @@ export default function UserOrders() {
             </p>
           </div>
 
-          <div className="flex gap-2 bg-gray-50 p-1.5 rounded-2xl border border-gray-100 h-fit">
+          <div className="flex gap-2 bg-white p-1.5 rounded-2xl border border-gray-100 h-fit">
             <button
               onClick={() => setGridView(true)}
               className={`p-3 rounded-xl transition-all ${gridView ? "bg-white text-green-600 shadow-md" : "text-gray-400 hover:text-gray-600"}`}
@@ -310,10 +310,10 @@ export default function UserOrders() {
       {selectedOrder && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-end md:items-center justify-center md:p-4">
           <div className="relative bg-white w-full max-w-2xl rounded-t-[2rem] md:rounded-[2.5rem] rounded-b-none md:rounded-b-[2.5rem] shadow-2xl p-6 sm:p-8 overflow-y-auto max-h-[85vh] md:max-h-[90vh] animate-slideUp border border-green-50">
-            <button onClick={() => setSelectedOrder(null)} className="absolute top-4 sm:top-6 right-4 sm:right-6 p-2 sm:p-3 bg-gray-50 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl sm:rounded-2xl transition-all border border-gray-100 hover:border-red-100"><X size={20} /></button>
+            <button onClick={() => setSelectedOrder(null)} className="absolute top-4 sm:top-6 right-4 sm:right-6 p-2 sm:p-3 bg-white text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl sm:rounded-2xl transition-all border border-gray-100 hover:border-red-100"><X size={20} /></button>
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8 tracking-tight flex items-center gap-2 sm:gap-3"><div className="w-1.5 h-6 sm:h-8 bg-green-600 rounded-full"></div> Order Details</h2>
             
-            <div className="grid sm:grid-cols-2 gap-8 bg-[#f9fdf7] p-6 rounded-[2rem] border border-green-100 mb-8">
+            <div className="grid sm:grid-cols-2 gap-8 bg-white p-6 rounded-[2rem] border border-green-100 mb-8">
                <div className="space-y-4">
                   <div>
                     <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">Order ID</p>
@@ -381,7 +381,7 @@ export default function UserOrders() {
               Post a Review
             </h3>
             
-            <div className="flex gap-6 items-center p-4 bg-[#f9fdf7] rounded-3xl border border-green-50">
+            <div className="flex gap-6 items-center p-4 bg-white rounded-3xl border border-green-50">
                <img src={productImages[reviewItem.productId] || "/placeholder.png"} className="w-16 h-16 object-contain bg-white rounded-2xl border shadow-sm" alt={reviewItem.productName} />
                <p className="font-bold text-gray-900 text-lg tracking-tight leading-tight uppercase truncate">{reviewItem.productName}</p>
             </div>
@@ -455,7 +455,7 @@ export default function UserOrders() {
             </div>
 
             <div className="flex gap-4 pt-4">
-              <button onClick={() => setReviewItem(null)} className="flex-1 py-4 text-xs font-black uppercase tracking-widest text-gray-400 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-all">Back</button>
+              <button onClick={() => setReviewItem(null)} className="flex-1 py-4 text-xs font-black uppercase tracking-widest text-gray-400 bg-white rounded-2xl hover:bg-gray-100 transition-all">Back</button>
               <button
                 disabled={submitting || !comment}
                 onClick={async () => {

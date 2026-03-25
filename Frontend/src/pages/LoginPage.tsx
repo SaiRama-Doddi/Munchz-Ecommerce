@@ -37,7 +37,7 @@ export default function LoginPage() {
   };
 
   return (
-<div className="min-h-[10vh] bg-gray-50 px-4 pt-6 pb-20 flex justify-center">
+<div className="min-h-[10vh] bg-white px-4 pt-6 pb-20 flex justify-center">
       <div className="bg-white w-full max-w-md rounded-xl shadow-lg p-6 sm:p-8">
 
         {/* Logo */}

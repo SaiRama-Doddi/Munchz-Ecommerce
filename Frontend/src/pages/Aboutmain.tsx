@@ -3,7 +3,7 @@ import { CheckCircle2, Leaf, Box, Heart, Activity } from "lucide-react";
 
 export default function About() {
   return (
-    <div className="w-full bg-[#f9fdf7] min-h-screen py-10 md:py-16">
+    <div className="w-full bg-white min-h-screen py-10 md:py-16">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
 
         {/* ================= HEADER AREA ================= */}
@@ -38,7 +38,7 @@ export default function About() {
               At GoMunchz, we’re not just building a snack brand—we’re creating a smarter snacking culture. Whether you're at work, traveling, working out, or simply relaxing, our products are designed to fit seamlessly into your lifestyle.
             </p>
 
-            <p className="font-bold text-gray-900 border-l-4 border-green-600 pl-6 italic bg-green-50/50 py-5 rounded-r-2xl">
+            <p className="font-bold text-gray-900 border-l-4 border-green-600 pl-6 italic bg-white py-5 rounded-r-2xl">
               Because we believe snacking should energize you, not weigh you down.
             </p>
           </div>

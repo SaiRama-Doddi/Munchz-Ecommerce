@@ -107,8 +107,8 @@ export default function CartPremium() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-[#f9fdf7] flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-32 h-32 bg-green-50 rounded-full flex items-center justify-center mb-8 animate-pulse">
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 text-center">
+        <div className="w-32 h-32 bg-white rounded-full flex items-center justify-center mb-8 animate-pulse">
           <ShoppingBag size={56} className="text-green-200" />
         </div>
         <h2 className="text-3xl font-bold text-gray-900 mb-3 tracking-tight">Your cart is empty</h2>
@@ -124,7 +124,7 @@ export default function CartPremium() {
   }
 
   return (
-    <div className="w-full min-h-screen bg-[#f9fdf7]">
+    <div className="w-full min-h-screen bg-white">
 
       {/* CELEBRATION */}
       {showCelebration && (
@@ -150,7 +150,7 @@ export default function CartPremium() {
           </div>
           <button
             onClick={() => navigate(-1)}
-            className="p-3 bg-gray-50 hover:bg-green-50 rounded-2xl transition-all border border-gray-100 hover:border-green-200 text-gray-400 hover:text-green-600"
+            className="p-3 bg-white hover:bg-green-50 rounded-2xl transition-all border border-gray-100 hover:border-green-200 text-gray-400 hover:text-green-600"
           >
             <X size={24} />
           </button>
@@ -182,7 +182,7 @@ export default function CartPremium() {
 
                 {/* PROGRESS TRACK */}
                 <div className="flex-1 relative py-4">
-                  <div className="h-[3px] bg-gray-100 rounded-full w-full relative">
+                  <div className="h-[3px] bg-white rounded-full w-full relative">
                     {/* GLOWING PROGRESS LINE */}
                     <div
                       className="absolute h-full bg-gradient-to-r from-green-400 to-green-600 rounded-full transition-all duration-1000 shadow-[0_0_15px_rgba(22,163,74,0.3)]"
@@ -258,7 +258,7 @@ export default function CartPremium() {
                         </div>
 
                         {/* QTY - COMPACT STYLE */}
-                        <div className="flex items-center bg-gray-50 border border-gray-100 rounded-xl p-1 gap-1">
+                        <div className="flex items-center bg-white border border-gray-100 rounded-xl p-1 gap-1">
                           <button onClick={() => updateQty(i, Math.max(item.qty - 1, 1))} className="w-7 h-7 flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-white rounded-lg transition-all"><Minus size={12} /></button>
                           <span className="w-4 text-center text-xs font-bold text-gray-900">{item.qty}</span>
                           <button onClick={() => updateQty(i, item.qty + 1)} className="w-7 h-7 flex items-center justify-center bg-green-600 text-white rounded-lg shadow-sm hover:bg-green-700 transition-all"><Plus size={12} /></button>
@@ -268,7 +268,7 @@ export default function CartPremium() {
 
                     {/* DESKTOP DELETE */}
                     <div className="hidden sm:block">
-                      <button onClick={() => removeItem(i)} className="p-3 bg-gray-50 text-gray-300 hover:bg-red-50 hover:text-red-500 rounded-xl transition-all border border-gray-100 hover:border-red-100">
+                      <button onClick={() => removeItem(i)} className="p-3 bg-white text-gray-300 hover:bg-red-50 hover:text-red-500 rounded-xl transition-all border border-gray-100 hover:border-red-100">
                         <Trash2 size={18} />
                       </button>
                     </div>
@@ -297,7 +297,7 @@ export default function CartPremium() {
                     const isEligible = totalPrice >= (c.minAmount || 0);
                     const isApplied = appliedCoupon === c.code;
                     return (
-                      <div key={c.id} className={`p-5 rounded-2xl border-2 transition-all relative overflow-hidden group ${isEligible ? 'bg-green-50/20 border-green-100 hover:border-green-300' : 'bg-gray-50/50 border-gray-100 opacity-60'}`}>
+                      <div key={c.id} className={`p-5 rounded-2xl border-2 transition-all relative overflow-hidden group ${isEligible ? 'bg-green-50/20 border-green-100 hover:border-green-300' : 'bg-white/50 border-gray-100 opacity-60'}`}>
                         <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none group-hover:scale-110 transition-transform"><Gift size={32} /></div>
                         <div className="flex justify-between items-center relative z-10">
                           <div>
@@ -337,7 +337,7 @@ export default function CartPremium() {
               </h3>
 
               <div className="space-y-4 mb-10">
-                <div className="flex justify-between items-center text-sm md:text-base font-bold text-gray-900 tracking-tight bg-gray-50/50 p-3 rounded-xl border border-gray-100">
+                <div className="flex justify-between items-center text-sm md:text-base font-bold text-gray-900 tracking-tight bg-white/50 p-3 rounded-xl border border-gray-100">
                   <span>Initial Amount</span>
                   <span className="font-bold">₹{totalPrice.toFixed(0)}</span>
                 </div>

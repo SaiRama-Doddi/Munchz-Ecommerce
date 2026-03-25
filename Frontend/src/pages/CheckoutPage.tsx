@@ -193,7 +193,7 @@ export default function CheckoutPage() {
         />
       )}
 
-      <div className="min-h-screen bg-[#f9fdf7]">
+      <div className="min-h-screen bg-white">
 
         {/* STICKY HEADER - UNIFIED WITH CART */}
         <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-green-50 px-5 py-4 sm:px-10 sm:py-6">
@@ -208,7 +208,7 @@ export default function CheckoutPage() {
             </div>
             <button
               onClick={() => navigate(-1)}
-              className="p-2 sm:p-3 bg-gray-50 hover:bg-green-50 rounded-xl sm:rounded-2xl transition-all border border-gray-100 hover:border-green-200 text-gray-400 hover:text-green-600"
+              className="p-2 sm:p-3 bg-white hover:bg-green-50 rounded-xl sm:rounded-2xl transition-all border border-gray-100 hover:border-green-200 text-gray-400 hover:text-green-600"
             >
               <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
@@ -270,7 +270,7 @@ export default function CheckoutPage() {
                     className={`rounded-2xl sm:rounded-[1.5rem] p-5 sm:p-6 relative transition-all border-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-4 ${
                       selectedAddress?.id === addr.id
                         ? "border-green-600 bg-green-50/50"
-                        : "border-gray-100 bg-gray-50/30 hover:border-green-200"
+                        : "border-gray-100 bg-white hover:border-green-200"
                     }`}
                   >
                     {editingId === addr.id ? (
@@ -285,7 +285,7 @@ export default function CheckoutPage() {
                         </div>
                         <div className="flex gap-2 sm:gap-4">
                           <button onClick={()=>handleUpdateAddress(addr.id)} className="flex-1 bg-green-600 text-white py-3 sm:py-4 rounded-xl font-bold tracking-tight shadow-lg shadow-green-100 hover:bg-green-700 transition-all text-sm sm:text-base">UPDATE</button>
-                          <button onClick={()=>setEditingId(null)} className="flex-1 bg-white border-2 border-gray-100 text-gray-400 py-3 sm:py-4 rounded-xl font-bold tracking-tight hover:bg-gray-50 transition-all text-sm sm:text-base">CANCEL</button>
+                          <button onClick={()=>setEditingId(null)} className="flex-1 bg-white border-2 border-gray-100 text-gray-400 py-3 sm:py-4 rounded-xl font-bold tracking-tight hover:bg-white transition-all text-sm sm:text-base">CANCEL</button>
                         </div>
                       </div>
                     ) : (
@@ -315,7 +315,7 @@ export default function CheckoutPage() {
               </button>
 
               {showNewAddress && (
-                <div className="mt-6 grid gap-4 bg-gray-50/50 p-5 sm:p-6 rounded-2xl sm:rounded-[1.5rem] border border-gray-100 border-dashed">
+                <div className="mt-6 grid gap-4 bg-white p-5 sm:p-6 rounded-2xl sm:rounded-[1.5rem] border border-gray-100 border-dashed">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <input placeholder="Label (e.g. Work, Home)" className="bg-white border-2 border-gray-100 p-3 sm:p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,label:e.target.value})} />
                     <input placeholder="Address" className="bg-white border-2 border-gray-100 p-3 sm:p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,addressLine1:e.target.value})} />
@@ -341,7 +341,7 @@ export default function CheckoutPage() {
                </h3>
 
                <div className="space-y-4 mb-10">
-                 <div className="flex justify-between items-center text-sm md:text-base font-bold text-gray-900 tracking-tight bg-gray-50/50 p-3 rounded-xl border border-gray-100">
+                 <div className="flex justify-between items-center text-sm md:text-base font-bold text-gray-900 tracking-tight bg-white/50 p-3 rounded-xl border border-gray-100">
                    <span>Initial Amount</span>
                    <span className="font-bold">₹{totalAmount + discount}</span>
                  </div>
@@ -355,7 +355,7 @@ export default function CheckoutPage() {
                    <span>Shipping</span>
                    <span className="font-bold text-green-600 uppercase tracking-widest text-[10px]">FREE</span>
                  </div>
-                 <div className="h-px bg-gray-100 my-4"></div>
+                 <div className="h-px bg-white my-4"></div>
                  <div className="flex justify-between items-end bg-green-50/50 p-4 rounded-2xl border border-green-100">
                    <div>
                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1">Grand Total</p>

@@ -177,7 +177,7 @@ export default function AdminCompleteStock() {
             <Layers size={100} />
           </div>
           <div className="flex items-center gap-4 mb-4">
-            <div className="p-3 bg-gray-50 text-black rounded-2xl">
+            <div className="p-3 bg-white border border-gray-100 text-black rounded-2xl">
               <BarChart3 size={24} />
             </div>
             <span className="text-[10px] text-gray-400 uppercase">Global Aggregate</span>
@@ -229,7 +229,7 @@ export default function AdminCompleteStock() {
             placeholder="Search Items..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl pl-12 pr-5 py-3 text-sm placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all"
+            className="w-full bg-white border border-gray-100 rounded-2xl pl-12 pr-5 py-3 text-sm placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all"
           />
         </div>
         
@@ -241,7 +241,7 @@ export default function AdminCompleteStock() {
               setSelectedProductId("");
               setSelectedVariant("");
             }}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
+            className="w-full bg-white border border-gray-100 rounded-2xl px-5 py-3 text-sm appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="">Categories</option>
             {categories.map((c) => (
@@ -258,7 +258,7 @@ export default function AdminCompleteStock() {
               setSelectedProductId(e.target.value);
               setSelectedVariant("");
             }}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
+            className="w-full bg-white border border-gray-100 rounded-2xl px-5 py-3 text-sm appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="">Specific Products</option>
             {products.map((p) => (
@@ -272,7 +272,7 @@ export default function AdminCompleteStock() {
           <select
             value={selectedVariant}
             onChange={(e) => setSelectedVariant(e.target.value)}
-            className="w-full bg-gray-50 border border-transparent rounded-2xl px-5 py-3 text-sm appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
+            className="w-full bg-white border border-gray-100 rounded-2xl px-5 py-3 text-sm appearance-none pr-10 outline-none focus:bg-white focus:border-emerald-500 transition-all"
           >
             <option value="">Variants/Weights</option>
             {variants.map((v, i) => (
@@ -300,7 +300,7 @@ export default function AdminCompleteStock() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-gray-50/50 border-b border-gray-100">
+              <tr className="bg-white border-b border-gray-100">
                 <th className="px-8 py-5 text-[10px] text-gray-400 uppercase">Inventory SKU</th>
                 <th className="px-6 py-5 text-[10px] text-gray-400 uppercase">Variant Profile</th>
                 <th className="px-6 py-5 text-[10px] text-gray-400 uppercase">Classification</th>
@@ -309,9 +309,9 @@ export default function AdminCompleteStock() {
                 <th className="px-8 py-5 text-[10px] text-gray-400 uppercase text-right">Aggregate</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-green-50/50">
               {filteredRows.map((r, i) => (
-                <tr key={i} className="group hover:bg-gray-50 transition-all duration-300">
+                <tr key={i} className="group hover:bg-green-50/5 transition-all duration-300">
                   <td className="px-8 py-5 text-black group-hover:text-emerald-600 transition-colors text-sm">
                     {r.productName}
                   </td>

@@ -23,7 +23,7 @@ export default function OrderSuccessPage() {
   }, [orderId]);
 
   return (
-    <div className="min-h-screen bg-[#f6fff4] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-white flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-8 text-center">
 
         {/* ✅ ICON */}
@@ -41,7 +41,7 @@ export default function OrderSuccessPage() {
 
         {/* ✅ TRACKING (IF SHIPROCKET READY) */}
         {order?.shiprocketShipmentId && (
-          <div className="mt-6 p-4 bg-green-50 border border-green-100 rounded-xl flex items-center gap-4">
+          <div className="mt-6 p-4 bg-white border border-green-100 rounded-xl flex items-center gap-4">
             <div className="p-3 bg-white rounded-lg shadow-sm">
               <Truck className="text-green-600" size={24} />
             </div>
@@ -58,7 +58,7 @@ export default function OrderSuccessPage() {
         )}
 
         {/* ✅ ORDER ID */}
-        <div className="mt-6 bg-gray-50 border rounded-lg p-4">
+        <div className="mt-6 bg-white border rounded-lg p-4">
           <p className="text-sm text-gray-500">Order ID</p>
           <p className="font-mono text-xs text-gray-800 break-all">
             {orderId}

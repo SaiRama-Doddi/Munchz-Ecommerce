@@ -74,7 +74,7 @@ setTimeout(() => {
   };
 
  return (
-<div className="min-h-screen bg-gradient-to-br from-green-50 to-white flex items-center justify-center px-4 py-8">
+<div className="min-h-screen bg-white flex items-center justify-center px-4 py-8">
 
 <div className="w-full max-w-md bg-white rounded-2xl shadow-lg px-6 sm:px-8 py-8">
 
