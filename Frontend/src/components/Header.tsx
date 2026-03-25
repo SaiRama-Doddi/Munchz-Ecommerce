@@ -64,9 +64,8 @@ export default function Header() {
     <>
       {/* ================= HEADER ================= */}
 
-      <header className="sticky top-0 z-50 bg-[#ecfdf5]/90 backdrop-blur  border-gray-100 shadow-sm">
-
-        <div className="max-w-7xl mx-auto px-4 h-[72px] flex items-center justify-between">
+      <header className="sticky top-0 z-50 w-full bg-transparent px-2 sm:px-4 py-2">
+        <div className="max-w-7xl mx-auto bg-[#ecfdf5]/95 backdrop-blur-md border border-green-100/50 shadow-sm rounded-2xl px-4 sm:px-6 h-[72px] flex items-center justify-between">
 
           {/* LEFT */}
 
