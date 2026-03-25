@@ -65,16 +65,12 @@ export default function ReferAndEarn() {
       <Header />
       
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-20">
-        <div className="flex items-center gap-4 mb-6">
-           <div className="p-3 bg-green-50 rounded-2xl text-green-600">
-             <Gift size={32} />
-           </div>
-           <p className="text-sm font-bold text-gray-400 uppercase tracking-widest">Share the Love</p>
+        <div className="mb-12 md:mb-16">
+          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+            Refer & <span className="text-green-600">Earn</span>
+          </h2>
+          <div className="w-16 h-[3px] bg-green-600 mt-4 md:mt-6"></div>
         </div>
-
-        <h1 className="text-4xl md:text-6xl font-bold text-gray-900 tracking-tight mb-12 border-b border-gray-100 pb-8">
-          Refer & <span className="text-green-600">Earn</span>
-        </h1>
 
         <div className="space-y-12">
           {sections.map((section, idx) => (

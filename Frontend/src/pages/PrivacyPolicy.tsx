@@ -7,14 +7,14 @@ import Footer from "../components/Footer";
 export default function PrivacyPolicy() {
   const sections = [
     {
-      title: "1. INTRODUCTION",
+      title: "1. Introduction",
       content: [
         "This Privacy Policy describes how Sri Venkateshwara Super Foods LLP, operating under the brand GoMunchz (“we”, “our”, “us”), collects, uses, stores, and protects your personal information when you use our website and services.",
         "By accessing or using our website, you agree to the terms of this Privacy Policy."
       ]
     },
     {
-      title: "2. INFORMATION WE COLLECT",
+      title: "2. Information We Collect",
       content: [
         "Personal Information: Name, Email address, Mobile number, Shipping and billing address, Payment details (processed via secure third-party gateways)",
         "Non-Personal Information: IP address, Browser type and device details, Pages visited and browsing behavior, Referral URLs",
@@ -23,7 +23,7 @@ export default function PrivacyPolicy() {
       isList: true
     },
     {
-      title: "3. HOW WE USE YOUR INFORMATION",
+      title: "3. How We Use Your Information",
       content: [
         "Process and fulfill orders",
         "Provide customer support",
@@ -36,7 +36,7 @@ export default function PrivacyPolicy() {
       isList: true
     },
     {
-      title: "4. COOKIES & TRACKING TECHNOLOGIES",
+      title: "4. Cookies & Tracking Technologies",
       content: [
         "Understand user behavior",
         "Improve website performance",
@@ -46,7 +46,7 @@ export default function PrivacyPolicy() {
       isList: true
     },
     {
-      title: "5. SHARING OF INFORMATION",
+      title: "5. Sharing of Information",
       content: [
         "Logistics partners (for delivery)",
         "Payment gateway providers",
@@ -57,13 +57,13 @@ export default function PrivacyPolicy() {
       isList: true
     },
     {
-      title: "6. THIRD-PARTY SERVICES",
+      title: "6. Third-Party Services",
       content: [
         "Our website may contain links to third-party websites or services. We are not responsible for their privacy practices. Users are encouraged to review their policies before sharing information."
       ]
     },
     {
-      title: "7. DATA SECURITY",
+      title: "7. Data Security",
       content: [
         "We implement reasonable technical and organizational measures to protect your data, including:",
         "Secure servers",
@@ -74,7 +74,7 @@ export default function PrivacyPolicy() {
       isList: true
     },
     {
-      title: "8. DATA RETENTION",
+      title: "8. Data Retention",
       content: [
         "As long as necessary to fulfill the purpose for which it was collected",
         "To comply with legal and regulatory requirements",
@@ -83,7 +83,7 @@ export default function PrivacyPolicy() {
       isList: true
     },
     {
-      title: "9. USER RIGHTS",
+      title: "9. User Rights",
       content: [
         "Access your personal data",
         "Request correction or deletion",
@@ -93,7 +93,7 @@ export default function PrivacyPolicy() {
       isList: true
     },
     {
-      title: "10. MARKETING COMMUNICATIONS",
+      title: "10. Marketing Communications",
       content: [
         "Email",
         "SMS",
@@ -103,19 +103,19 @@ export default function PrivacyPolicy() {
       isList: true
     },
     {
-      title: "11. CHILDREN’S PRIVACY",
+      title: "11. Children’s Privacy",
       content: [
         "Our website is not intended for individuals under the age of 18. We do not knowingly collect personal data from minors."
       ]
     },
     {
-      title: "12. CHANGES TO THIS POLICY",
+      title: "12. Changes to This Policy",
       content: [
         "We reserve the right to update this Privacy Policy at any time. Changes will be posted on this page. Continued use of the website constitutes acceptance of updated terms."
       ]
     },
     {
-      title: "13. LEGAL COMPLIANCE",
+      title: "13. Legal Compliance",
       content: [
         "This Privacy Policy complies with applicable Indian laws, including:",
         "Information Technology Act, 2000",
@@ -124,7 +124,7 @@ export default function PrivacyPolicy() {
       isList: true
     },
     {
-      title: "14. CONSENT",
+      title: "14. Consent",
       content: [
         "By using our website and providing your information, you consent to:",
         "Collection, Use, Storage, Processing of your data as described in this Policy"
@@ -132,7 +132,7 @@ export default function PrivacyPolicy() {
       isList: true
     },
     {
-      title: "15. CONTACT INFORMATION",
+      title: "15. Contact Information",
       content: [
         "Sri Venkateshwara Super Foods LLP (GoMunchz)",
         "Hyderabad, Telangana, India",
@@ -149,16 +149,12 @@ export default function PrivacyPolicy() {
       <Header />
       
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-20">
-        <div className="flex items-center gap-4 mb-6">
-           <div className="p-3 bg-green-50 rounded-2xl text-green-600">
-             <ShieldCheck size={32} />
-           </div>
-           <p className="text-sm font-bold text-gray-400 uppercase tracking-widest">Privacy Matters</p>
+        <div className="mb-12 md:mb-16">
+          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+            Privacy <span className="text-green-600">Policy</span>
+          </h2>
+          <div className="w-16 h-[3px] bg-green-600 mt-4 md:mt-6"></div>
         </div>
-        
-        <h1 className="text-4xl md:text-6xl font-bold text-gray-900 tracking-tight mb-12 border-b border-gray-100 pb-8">
-          Privacy <span className="text-green-600">Policy</span>
-        </h1>
 
         <div className="space-y-12">
           {sections.map((section, idx) => (

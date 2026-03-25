@@ -7,14 +7,14 @@ import Footer from "../components/Footer";
 export default function TermsAndConditions() {
   const sections = [
     {
-      title: "OVERVIEW",
+      title: "Overview",
       content: [
         "This website is operated by Sri Venkateshwara Super Foods LLP, operating under the brand name GoMunchz (“we”, “us”, “our”). By accessing or using our website and purchasing products, you agree to be bound by the following Terms of Service (“Terms”).",
         "These Terms apply to all users of the website, including browsers, customers, merchants, and contributors of content."
       ]
     },
     {
-      title: "1. ELIGIBILITY",
+      title: "1. Eligibility",
       content: [
         "You are at least 18 years of age, or using the site under supervision of a parent/guardian",
         "You are legally capable of entering into binding contracts under Indian law"
@@ -22,7 +22,7 @@ export default function TermsAndConditions() {
       isList: true
     },
     {
-      title: "2. USE OF WEBSITE",
+      title: "2. Use of Website",
       content: [
         "Not to use the website for any unlawful or fraudulent purpose",
         "Not to transmit viruses, malware, or harmful code",
@@ -32,7 +32,7 @@ export default function TermsAndConditions() {
       isList: true
     },
     {
-      title: "3. PRODUCT INFORMATION & ACCURACY",
+      title: "3. Product Information & Accuracy",
       content: [
         "We strive to ensure that all product descriptions, images, pricing, and nutritional information are accurate. However:",
         "Minor variations in color, packaging, or appearance may occur",
@@ -43,7 +43,7 @@ export default function TermsAndConditions() {
       isList: true
     },
     {
-      title: "4. PRICING & ORDER ACCEPTANCE",
+      title: "4. Pricing & Order Acceptance",
       content: [
         "Prices are subject to change without prior notice",
         "We reserve the right to refuse or cancel any order, including: Incorrect pricing, Suspected fraudulent transactions, Bulk/reseller misuse",
@@ -52,7 +52,7 @@ export default function TermsAndConditions() {
       isList: true
     },
     {
-      title: "5. PAYMENT TERMS",
+      title: "5. Payment Terms",
       content: [
         "Payments must be made through authorized payment gateways",
         "You agree to provide accurate billing and payment information",
@@ -62,7 +62,7 @@ export default function TermsAndConditions() {
       isList: true
     },
     {
-      title: "6. SHIPPING & DELIVERY",
+      title: "6. Shipping & Delivery",
       content: [
         "Delivery timelines are indicative and may vary due to logistics constraints",
         "We are not liable for delays caused by third-party courier partners",
@@ -71,7 +71,7 @@ export default function TermsAndConditions() {
       isList: true
     },
     {
-      title: "7. RETURNS & REFUNDS",
+      title: "7. Returns & Refunds",
       content: [
         "Products are eligible for return/replacement only in case of: Damaged packaging, Incorrect product delivery, Quality issues reported within 7 days of delivery",
         "We reserve the right to validate claims before processing refunds or replacements."
@@ -79,7 +79,7 @@ export default function TermsAndConditions() {
       isList: true
     },
     {
-      title: "8. INTELLECTUAL PROPERTY",
+      title: "8. Intellectual Property",
       content: [
         "All content on this website including: Logos, Product designs, Text, images, graphics are the property of Sri Venkateshwara Super Foods LLP (GoMunchz) and are protected under applicable intellectual property laws.",
         "Unauthorized use is strictly prohibited."
@@ -87,7 +87,7 @@ export default function TermsAndConditions() {
       isList: true
     },
     {
-      title: "9. USER CONTENT & FEEDBACK",
+      title: "9. User Content & Feedback",
       content: [
         "If you submit reviews, feedback, or suggestions:",
         "You grant us the right to use, modify, publish, and distribute such content",
@@ -97,7 +97,7 @@ export default function TermsAndConditions() {
       isList: true
     },
     {
-      title: "10. THIRD-PARTY LINKS",
+      title: "10. Third-Party Links",
       content: [
         "Our website may include links to third-party websites. We:",
         "Do not control these websites",
@@ -107,7 +107,7 @@ export default function TermsAndConditions() {
       isList: true
     },
     {
-      title: "11. DISCLAIMER OF WARRANTIES",
+      title: "11. Disclaimer of Warranties",
       content: [
         "We do not guarantee that:",
         "The website will be uninterrupted or error-free",
@@ -117,7 +117,7 @@ export default function TermsAndConditions() {
       isList: true
     },
     {
-      title: "12. LIMITATION OF LIABILITY",
+      title: "12. Limitation of Liability",
       content: [
         "To the maximum extent permitted by law:",
         "GoMunchz shall not be liable for any indirect, incidental, or consequential damages",
@@ -126,7 +126,7 @@ export default function TermsAndConditions() {
       isList: true
     },
     {
-      title: "13. INDEMNIFICATION",
+      title: "13. Indemnification",
       content: [
         "You agree to indemnify and hold harmless GoMunchz, its partners, employees, and affiliates against any claims arising from:",
         "Your breach of these Terms",
@@ -135,7 +135,7 @@ export default function TermsAndConditions() {
       isList: true
     },
     {
-      title: "14. TERMINATION",
+      title: "14. Termination",
       content: [
         "We reserve the right to:",
         "Suspend or terminate your access to the website",
@@ -144,7 +144,7 @@ export default function TermsAndConditions() {
       isList: true
     },
     {
-      title: "15. GOVERNING LAW & JURISDICTION",
+      title: "15. Governing Law & Jurisdiction",
       content: [
         "These Terms shall be governed by the laws of India.",
         "All disputes shall be subject to the exclusive jurisdiction of courts in Hyderabad, Telangana."
@@ -152,14 +152,14 @@ export default function TermsAndConditions() {
       isList: true
     },
     {
-      title: "16. CHANGES TO TERMS",
+      title: "16. Changes to Terms",
       content: [
         "We may update these Terms at any time. Continued use of the website constitutes acceptance of updated Terms."
       ],
       isList: true
     },
     {
-      title: "17. CONTACT INFORMATION",
+      title: "17. Contact Information",
       content: [
         "Sri Venkateshwara Super Foods LLP (GoMunchz)",
         "Hyderabad, Telangana, India",
@@ -169,7 +169,7 @@ export default function TermsAndConditions() {
       isList: true
     },
     {
-      title: "18. LEGAL COMPLIANCE",
+      title: "18. Legal Compliance",
       content: [
         "This document is an electronic record under the Information Technology Act, 2000 and does not require physical or digital signatures.",
         "By using this website, you acknowledge that you have read, understood, and agreed to these Terms of Service."
@@ -184,9 +184,12 @@ export default function TermsAndConditions() {
       <Header />
       
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-20">
-        <h1 className="text-4xl md:text-6xl font-bold text-gray-900 tracking-tight mb-12 border-b border-gray-100 pb-8">
-          Terms of <span className="text-green-600">Service</span>
-        </h1>
+        <div className="mb-12 md:mb-16">
+          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+            Terms of <span className="text-green-600">Service</span>
+          </h2>
+          <div className="w-16 h-[3px] bg-green-600 mt-4 md:mt-6"></div>
+        </div>
 
         <div className="space-y-12">
           {sections.map((section, idx) => (

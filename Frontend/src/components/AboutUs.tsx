@@ -6,7 +6,7 @@ export default function AboutUs() {
 
       {/* ABOUT SECTION */}
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-12 items-center bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100">
+        <div className="grid lg:grid-cols-2 gap-12 items-center bg-white rounded-3xl overflow-hidden">
 
           {/* LEFT SIDE — TEXT */}
           <div className="p-8 sm:p-12 md:p-16">
@@ -74,7 +74,7 @@ export default function AboutUs() {
 
       {/* SERVICE ICONS SECTION */}
       <div className="max-w-7xl mx-auto px-4 mt-12">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
+        <div className="bg-white rounded-2xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
 
           {/* PREMIUM QUALITY */}
           <div className="flex items-center gap-4 p-8 justify-center sm:justify-start">
