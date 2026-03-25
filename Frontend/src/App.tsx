@@ -57,6 +57,10 @@ import TrackOrderPage from "./pages/TrackOrderPage";
 import BlogDetail from "./pages/BlogDetail";
 
 import BlogListPage from "./pages/BlogListPage";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import ReturnRefundPolicy from "./pages/ReturnRefundPolicy";
+import ReferAndEarn from "./pages/ReferAndEarn";
 
 
 export default function App() {
@@ -254,6 +258,11 @@ export default function App() {
             <AboutMain />
             <Footer />
           </>}/>
+
+      <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/return-refund-policy" element={<ReturnRefundPolicy />} />
+      <Route path="/refer-and-earn" element={<ReferAndEarn />} />
 
 {/* ADMIN ROUTES  */}
 

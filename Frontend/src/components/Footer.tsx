@@ -82,10 +82,10 @@ export default function Footer() {
             <div>
               <h4 className="font-bold text-lg mb-6 text-black">Legal</h4>
               <ul className="space-y-3 text-sm text-gray-700 font-medium">
-                <li className="cursor-pointer hover:text-green-600 transition">Terms & Conditions</li>
-                <li className="cursor-pointer hover:text-green-600 transition">Privacy Policy</li>
-                <li className="cursor-pointer hover:text-green-600 transition">Return & Refund</li>
-                <li className="cursor-pointer hover:text-green-600 transition">Refer & Earn</li>
+                <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/terms-and-conditions")}>Terms & Conditions</li>
+                <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/privacy-policy")}>Privacy Policy</li>
+                <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/return-refund-policy")}>Return & Refund</li>
+                <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/refer-and-earn")}>Refer & Earn</li>
               </ul>
             </div>
           </div>
