@@ -239,7 +239,7 @@ const AdminPayments: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-green-50">
               {filteredPayments.map((p) => (
-                <tr key={p.id} className="group hover:bg-green-50/5 transition-all duration-300">
+                <tr key={p.id} className="group hover:bg-green-50/5 transition-all duration-300 cursor-pointer">
                   <td className="px-8 py-6">
                     <div className="flex flex-col">
                       <span className="text-sm text-black">#{p.id.slice(-12).toUpperCase()}</span>

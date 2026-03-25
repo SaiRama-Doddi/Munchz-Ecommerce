@@ -311,7 +311,7 @@ export default function AdminCompleteStock() {
             </thead>
             <tbody className="divide-y divide-green-50/50">
               {filteredRows.map((r, i) => (
-                <tr key={i} className="group hover:bg-green-50/5 transition-all duration-300">
+                <tr key={i} className="group hover:bg-green-50/5 transition-all duration-300 cursor-pointer">
                   <td className="px-8 py-5 text-black group-hover:text-emerald-600 transition-colors text-sm">
                     {r.productName}
                   </td>

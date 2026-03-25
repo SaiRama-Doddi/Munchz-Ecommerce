@@ -224,7 +224,10 @@ export default function CartPremium() {
                   <div key={i} className="bg-white rounded-[2rem] p-3 sm:p-5 border border-green-50 shadow-sm hover:shadow-lg transition-all duration-300 group flex items-center gap-4 relative overflow-hidden">
 
                     {/* IMAGE - MOBILE FRIENDLY */}
-                    <div className="relative w-20 h-20 sm:w-28 sm:h-28 bg-[#ecfdf5] rounded-2xl sm:rounded-3xl overflow-hidden flex-shrink-0">
+                    <div 
+                      onClick={() => navigate(getProductUrl(item.productId, item.name))}
+                      className="relative w-20 h-20 sm:w-28 sm:h-28 bg-[#ecfdf5] rounded-2xl sm:rounded-3xl overflow-hidden flex-shrink-0 cursor-pointer"
+                    >
                       <img src={item.imageUrl} className="w-full h-full object-contain p-2 sm:p-4" alt={item.name} />
                       {discPercent > 0 && (
                         <div className="absolute top-0 left-0 bg-green-600 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-br-xl uppercase">{discPercent}%</div>
@@ -307,7 +310,7 @@ export default function CartPremium() {
                           {isEligible && (
                             <button
                               onClick={() => isApplied ? removeCoupon() : applyCoupon(c.code)}
-                              className={`px-5 py-2 rounded-xl text-[10px] font-bold uppercase transition-all ${isApplied ? 'bg-red-50 text-red-600 border border-red-100' : 'bg-green-600 text-white shadow-lg'}`}
+                              className={`px-5 py-2 rounded-xl text-[10px] font-bold uppercase transition-all cursor-pointer ${isApplied ? 'bg-red-50 text-red-600 border border-red-100' : 'bg-green-600 text-white shadow-lg'}`}
                             >
                               {isApplied ? 'Remove' : 'Apply'}
                             </button>
@@ -369,7 +372,7 @@ export default function CartPremium() {
 
               <button
                 onClick={() => navigate("/checkout", { state: { items, totalAmount: finalAmount, discount, appliedCoupon } })}
-                className="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl font-bold tracking-tight transition-all flex items-center justify-center gap-2 border-none outline-none shadow-sm group"
+                className="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl font-bold tracking-tight transition-all flex items-center justify-center gap-2 border-none outline-none shadow-sm group cursor-pointer"
               >
                 <span>PROCEED TO SECURE CHECKOUT</span>
                 <ChevronRight className="group-hover:translate-x-1 transition-transform" />

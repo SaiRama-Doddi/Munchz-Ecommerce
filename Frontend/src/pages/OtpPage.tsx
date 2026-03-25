@@ -179,7 +179,7 @@ export default function OtpPage() {
           ${
             timer > 0
               ? "text-gray-400 cursor-not-allowed"
-              : "text-green-700"
+              : "text-green-700 cursor-pointer"
           }`}
         >
           {resendLoading
@@ -198,7 +198,7 @@ export default function OtpPage() {
           ${
             loading
               ? "bg-green-500 cursor-not-allowed"
-              : "bg-green-600 hover:bg-green-700"
+              : "bg-green-600 hover:bg-green-700 cursor-pointer"
           }
           text-white`}
         >
@@ -214,7 +214,7 @@ export default function OtpPage() {
 
         <a
           href="/signup"
-          className="text-green-600 text-sm block mt-4 underline"
+          className="text-green-600 text-sm block mt-4 underline cursor-pointer"
         >
           Sign up
         </a>

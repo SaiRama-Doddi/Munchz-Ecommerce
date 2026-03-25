@@ -267,7 +267,7 @@ const scrollRight = () => {
                         <div className="flex items-center bg-white rounded-xl border border-green-200 p-1 shadow-sm h-9">
                           <button
                             onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: Math.max(1, (pvs[p.id] || 1) - 1)}))}
-                            className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-l-lg transition-all font-bold text-base"
+                            className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-l-lg transition-all font-bold text-base cursor-pointer"
                           >
                             -
                           </button>
@@ -276,7 +276,7 @@ const scrollRight = () => {
                           </span>
                           <button
                             onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: (pvs[p.id] || 1) + 1}))}
-                            className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-r-lg transition-all font-bold text-base"
+                            className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-r-lg transition-all font-bold text-base cursor-pointer"
                           >
                             +
                           </button>

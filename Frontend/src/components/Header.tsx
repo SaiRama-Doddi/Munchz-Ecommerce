@@ -73,16 +73,16 @@ export default function Header() {
 
             <button
               onClick={() => setOpenMenu(true)}
-              className="md:hidden p-2 rounded-lg hover:bg-white transition"
+              className="md:hidden p-2 rounded-lg hover:bg-white transition cursor-pointer"
             >
               <Menu size={26} />
             </button>
 
-            <Link to="/" className="flex items-center">
+            <Link to="/" className="flex items-center cursor-pointer">
               <img
                 src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774178657/gomunchz_logo_transparent_r8r0a8.png"
                 alt="GoMunchz"
-                className="h-10 md:h-12 lg:h-14 w-auto object-contain"
+                className="h-10 md:h-12 lg:h-14 w-auto object-contain cursor-pointer"
               />
             </Link>
 
@@ -141,11 +141,11 @@ export default function Header() {
 
           {/* DESKTOP SEARCH (Large screens only) */}
 
-          < div className="hidden lg:flex flex-1 mx-4 max-w-[300px] relative" >
+          < div className="hidden lg:flex flex-1 mx-4 max-w-[300px] relative cursor-pointer" >
 
-            <div className="flex items-center w-full bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm">
+            <div className="flex items-center w-full bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm cursor-text">
 
-              <Search size={18} className="text-gray-500" />
+              <Search size={18} className="text-gray-500 cursor-pointer" />
 
               <input
                 value={searchTerm}
@@ -244,7 +244,7 @@ export default function Header() {
               profile ? (
                 <button
                   onClick={() => setOpenProfile(true)}
-                  className="text-sm font-medium text-gray-700 hover:text-green-700 transition"
+                  className="text-sm font-medium text-gray-700 hover:text-green-700 transition cursor-pointer"
                 >
                   Hi, {profile.firstName}
                 </button>
