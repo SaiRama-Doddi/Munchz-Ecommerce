@@ -268,7 +268,7 @@ export default function CategoryProducts() {
               >
 
                 {/* IMAGE BOX */}
-                <div className="relative bg-transparent aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden shadow-inner flex-shrink-0">
+                <div className="relative bg-transparent aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden flex-shrink-0">
                   <img
                     src={displayImage}
                     alt={p.name}

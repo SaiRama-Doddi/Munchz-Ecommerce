@@ -1,6 +1,6 @@
 export default function ProductImage() {
   return (
-    <section className="relative w-full overflow-hidden bg-white py-20">
+    <section className="relative w-full overflow-hidden bg-white py-12 md:py-16">
       <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
 
         {/* LEFT TEXT */}
@@ -35,7 +35,7 @@ export default function ProductImage() {
           <img
             src="/premium_snacks.png"
             alt="GoMunchz Premium Snacks"
-            className="w-full max-w-xl object-contain drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)] hover:scale-105 transition duration-700"
+            className="w-full max-w-lg max-h-[350px] md:max-h-[450px] object-contain hover:scale-105 transition duration-700"
           />
         </div>
       </div>
