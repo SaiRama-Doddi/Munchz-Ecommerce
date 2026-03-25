@@ -12,7 +12,7 @@ export default function Footer() {
   const navigate = useNavigate();
 
   return (
-    <footer className="text-black">
+    <footer className="text-black bg-white">
       <div className="max-w-7xl mx-auto px-0">
         <div className="bg-[#ecfdf5] px-4 sm:px-6 lg:px-8 py-12 md:py-16 rounded-t-[2.5rem]">
           {/* ================= TOP SECTION ================= */}
@@ -32,14 +32,14 @@ export default function Footer() {
                 crafted for energy, balance, and everyday performance.
               </p>
               {/* FSSAI SECTION */}
-              <div className="flex items-center gap-3 bg-white p-3 rounded-md border border-green-100 shadow-sm w-full max-w-[280px]">
+              <div className="flex items-center gap-3 p-3 rounded-md border border-green-100 shadow-sm w-full max-w-[280px]">
                 <img
                   src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774172170/unnamed_r2g1px.png"
                   alt="FSSAI"
                   className="h-10 object-contain"
                 />
                 <div className="text-[10px] leading-tight">
-                  <p className="font-semibold text-gray-400 uppercase tracking-wider">License Number:</p>
+                  <p className="font-semibold text-black-400 uppercase tracking-wider">License Number:</p>
                   <p className="font-bold text-gray-900 text-sm">13626026000066</p>
                 </div>
               </div>
@@ -52,10 +52,10 @@ export default function Footer() {
                 <div className="flex items-start gap-3">
                   <MapPin size={18} className="mt-1 text-black shrink-0" />
                   <span className="font-medium">
-                  Sri Venkateshwara Super Foods LLP<br />
-                  H.No-16-317/678, Symphony Park Homes,<br />
-                  Patancheru, Sangareddy, Telangana-502319
-                </span>
+                    Sri Venkateshwara Super Foods LLP<br />
+                    H.No-16-317/678, Symphony Park Homes,<br />
+                    Patancheru, Sangareddy, Telangana-502319
+                  </span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Mail size={18} className="text-black shrink-0" />
