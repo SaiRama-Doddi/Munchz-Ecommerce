@@ -32,14 +32,14 @@ export default function Footer() {
                 crafted for energy, balance, and everyday performance.
               </p>
               {/* FSSAI SECTION */}
-              <div className="flex items-center gap-3 p-3 rounded-md border border-green-100 shadow-sm w-full max-w-[280px]">
+              <div className="flex items-center gap-3 w-full max-w-[280px]">
                 <img
                   src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774172170/unnamed_r2g1px.png"
                   alt="FSSAI"
-                  className="h-10 object-contain"
+                  className="h-10 object-contain mix-blend-multiply"
                 />
                 <div className="text-[10px] leading-tight">
-                  <p className="font-semibold text-black-400 uppercase tracking-wider">License Number:</p>
+                  <p className="font-semibold text-black-500 uppercase tracking-wider">License Number:</p>
                   <p className="font-bold text-gray-900 text-sm">13626026000066</p>
                 </div>
               </div>

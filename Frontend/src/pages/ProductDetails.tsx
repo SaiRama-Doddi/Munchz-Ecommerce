@@ -268,7 +268,7 @@ export default function ProductDetails() {
               {/* ================= LEFT: IMAGES ================= */}
               <div className="flex flex-col gap-6">
                 <div
-                  className="relative w-full aspect-square bg-white rounded-[2rem] border border-green-50 shadow-sm flex items-center justify-center overflow-hidden cursor-crosshair group/main"
+                  className="relative w-full aspect-square bg-transparent rounded-[2rem] flex items-center justify-center overflow-hidden cursor-crosshair group/main"
                   onMouseEnter={() => setIsHovering(true)}
                   onMouseLeave={() => setIsHovering(false)}
                   onMouseMove={(e) => {
@@ -470,7 +470,7 @@ export default function ProductDetails() {
               return (
                 <div key={p.id} onClick={() => navigate(`/product/${p.id}`)} className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2">
 
-                  <div className="relative bg-white aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden shadow-inner border border-green-50 flex-shrink-0">
+                  <div className="relative bg-transparent aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden shadow-inner flex-shrink-0">
                     <img src={(p.imageUrls && p.imageUrls.length > 0) ? p.imageUrls[0] : p.imageUrl} alt={p.name} className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700" />
                     {relDiscount > 0 && (
                       <div className="absolute top-2.5 right-2.5 bg-green-600 text-white text-[9px] px-2 py-0.5 rounded-full font-bold shadow-lg">{relDiscount}% OFF</div>
