@@ -52,10 +52,10 @@ export default function Footer() {
                 <div className="flex items-start gap-3">
                   <MapPin size={18} className="mt-1 text-black shrink-0" />
                   <span className="font-medium">
-                    SRI VENKATESHWARA SUPER FOODS LLP<br />
-                    H NO-16-317/678, SYMPHONY PARK HOMES,<br />
-                    PATANCHERU, Sangareddy, Telangana-502319
-                  </span>
+                  Sri Venkateshwara Super Foods LLP<br />
+                  H.No-16-317/678, Symphony Park Homes,<br />
+                  Patancheru, Sangareddy, Telangana-502319
+                </span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Mail size={18} className="text-black shrink-0" />
@@ -105,18 +105,13 @@ export default function Footer() {
             </div>
 
             {/* COPYRIGHTS */}
-            <div className="flex flex-col items-center md:items-end gap-2">
-              <p className="text-xs text-black/50 font-bold uppercase tracking-[0.2em]">
+            <div className="flex flex-col items-center md:items-end gap-1 text-gray-700">
+              <p className="text-[15px]">
                 © 2026 GoMunchz. All rights reserved.
               </p>
-              <div className="flex items-center gap-1.5 text-sm font-bold text-green-900 group">
-                <span className="text-black/40 font-semibold italic">Made with</span>
-                <span className="text-red-500 animate-pulse text-lg drop-shadow-sm">❤️</span>
-                <span className="text-black/40 font-semibold italic">by</span>
-                <span className="bg-green-100/80 text-green-700 px-3 py-1 rounded-xl border border-green-200/50 shadow-sm group-hover:bg-green-600 group-hover:text-white transition-all duration-300">
-                  GoMunchz Team
-                </span>
-              </div>
+              <p className="text-[15px] flex items-center gap-1.5">
+                Made with <span className="text-red-500 text-lg">❤️</span> by GoMunchz
+              </p>
             </div>
           </div>
         </div>
