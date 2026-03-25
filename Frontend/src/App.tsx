@@ -31,6 +31,7 @@ import Layout from "./components/Layout";
 import FeaturedProducts from "./pages/FeatureProducts";
 import Contact from "./components/Contact"
 import AdminLayout from "./components/AdminLayout";
+import BlogSection from "./components/BlogSection";
 import AddStock from "./pages/AddStock";
 import StockList from "./pages/StockList";
 import StockHistory from "./pages/StockHistory";
@@ -55,6 +56,8 @@ import TrackOrderPage from "./pages/TrackOrderPage";
 
 import BlogDetail from "./pages/BlogDetail";
 
+import BlogListPage from "./pages/BlogListPage";
+
 
 export default function App() {
   return (
@@ -72,6 +75,7 @@ export default function App() {
             <FeaturedProducts />
             <AboutUs />
             <Testimonials />
+            <BlogSection />
             <FAQ />
             <Footer />
             <FloatingActions />
@@ -242,17 +246,7 @@ export default function App() {
       } />
 
       <Route path="/blog/:slug" element={<BlogDetail />} />
-      <Route path="/blog" element={
-        <>
-          <TopHeader />
-          <Header />
-          <div className="min-h-screen pt-32 pb-20 px-4 text-center">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">GoMunchz Blog</h1>
-            <p className="text-gray-600 text-lg">Detailed insights and tips for a healthier lifestyle. Choose a blog from the menu to start reading!</p>
-          </div>
-          <Footer />
-        </>
-      } />
+      <Route path="/blog" element={<BlogListPage />} />
       
       <Route path="/AboutMain" element ={<>
             <TopHeader />

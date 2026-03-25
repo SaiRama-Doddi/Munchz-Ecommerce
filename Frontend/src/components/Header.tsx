@@ -13,6 +13,7 @@ import {
   Layers,
   BookOpen,
   ChevronDown,
+  ArrowLeft,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../state/CartContext";
@@ -354,7 +355,10 @@ export default function Header() {
                 </Link>
 
                 <button
-                  onClick={() => setOpenMenu(false)}
+                  onClick={() => {
+                    setOpenMenu(false);
+                    setMobileBlogOpen(false);
+                  }}
                   className="p-2 rounded-lg hover:bg-gray-100"
                 >
                   <X size={22} />
@@ -362,33 +366,57 @@ export default function Header() {
 
               </div>
 
-              <nav className="flex flex-col gap-7 text-gray-800 font-medium">
+              <nav className="flex flex-col gap-7 text-gray-800 font-medium h-[calc(100%-80px)] overflow-y-auto">
 
-                <Link to="/" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700">
-                  <Home size={20} /> Home
-                </Link>
+                {!mobileBlogOpen ? (
+                  <>
+                    <Link to="/" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
+                      <Home size={20} /> Home
+                    </Link>
 
-                <Link to="/Aboutmain" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700">
-                  <Info size={20} /> About Us
-                </Link>
+                    <Link to="/Aboutmain" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
+                      <Info size={20} /> About Us
+                    </Link>
 
-                <Link to="/productpage" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
-                  <Grid2x2 size={20} /> Shop
-                </Link>
+                    <Link to="/productpage" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
+                      <Grid2x2 size={20} /> Shop
+                    </Link>
 
-                <div className="flex flex-col gap-4">
-                  <button 
-                    onClick={() => setMobileBlogOpen(!mobileBlogOpen)}
-                    className="flex items-center justify-between w-full hover:text-green-700 transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <BookOpen size={20} /> Blog
-                    </div>
-                    <ChevronDown size={18} className={`transition-transform duration-300 ${mobileBlogOpen ? "rotate-180" : ""}`} />
-                  </button>
-                  
-                  {mobileBlogOpen && (
-                    <div className="flex flex-col gap-3 pl-8 border-l-2 border-green-100 py-2">
+                    <button 
+                      onClick={() => setMobileBlogOpen(true)}
+                      className="flex items-center justify-between w-full hover:text-green-700 transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <BookOpen size={20} /> Blog
+                      </div>
+                      <ChevronDown size={18} className="-rotate-90" />
+                    </button>
+
+                    <Link to="/track" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
+                      <MapPin size={20} /> Track
+                    </Link>
+
+                    <Link to="/contact" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
+                      <Phone size={20} /> Contact Us
+                    </Link>
+
+                    <Link to="/cart" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
+                      <ShoppingCart size={20} /> Cart ({cartCount})
+                    </Link>
+                  </>
+                ) : (
+                  <div className="flex flex-col gap-6 animate-in slide-in-from-right duration-300">
+                    <button 
+                      onClick={() => setMobileBlogOpen(false)}
+                      className="flex items-center gap-2 text-green-700 font-bold mb-2 group"
+                    >
+                      <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" /> 
+                      <span>Back to Menu</span>
+                    </button>
+
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] px-2 mb-4">Our Latest Stories</p>
+                      
                       {blogs.map((blog) => (
                         <Link
                           key={blog.id}
@@ -397,36 +425,26 @@ export default function Header() {
                             setOpenMenu(false);
                             setMobileBlogOpen(false);
                           }}
-                          className="text-sm text-gray-600 hover:text-green-700"
+                          className="flex items-start gap-3 py-3 px-2 rounded-xl hover:bg-green-50 text-gray-700 hover:text-green-700 transition-all text-sm leading-snug font-semibold"
                         >
+                          <div className="mt-1 w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0"></div>
                           {blog.title}
                         </Link>
                       ))}
+
                       <Link
                         to="/blog"
                         onClick={() => {
                           setOpenMenu(false);
                           setMobileBlogOpen(false);
                         }}
-                        className="text-xs font-bold text-green-600"
+                        className="flex items-center justify-center gap-2 mt-6 py-3 bg-green-600 text-white rounded-xl text-xs font-bold shadow-lg shadow-green-100 hover:bg-green-700 transition"
                       >
-                        View All Blogs →
+                        View All Articles
                       </Link>
                     </div>
-                  )}
-                </div>
-
-                <Link to="/track" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
-                  <MapPin size={20} /> Track
-                </Link>
-
-                <Link to="/contact" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
-                  <Phone size={20} /> Contact Us
-                </Link>
-
-                <Link to="/cart" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
-                  <ShoppingCart size={20} /> Cart ({cartCount})
-                </Link>
+                  </div>
+                )}
 
               </nav>
 
