@@ -90,14 +90,14 @@ export default function Header() {
 
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-5 font-medium">
+          <nav className="hidden md:flex items-center gap-8 font-medium">
             <NavLink to="/" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Home</NavLink>
             <NavLink to="/Aboutmain" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>About Us</NavLink>
             <NavLink to="/productpage" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Shop</NavLink>
 
             {/* Blog Dropdown */}
             <div 
-              className="relative group py-4"
+              className="relative group py-4 h-full flex items-center"
               onMouseEnter={() => setShowBlogDropdown(true)}
               onMouseLeave={() => setShowBlogDropdown(false)}
             >
