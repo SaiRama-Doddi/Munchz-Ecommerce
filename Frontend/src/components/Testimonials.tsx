@@ -10,6 +10,15 @@ interface Testimonial {
   image: string;
 }
 
+import pman1 from "../assets/profiles/profile_man_1.png";
+import pman2 from "../assets/profiles/profile_man_2.png";
+import pman3 from "../assets/profiles/profile_man_3.png";
+import pman4 from "../assets/profiles/profile_man_4.png";
+import pwoman1 from "../assets/profiles/profile_woman_1.png";
+import pwoman2 from "../assets/profiles/profile_woman_2.png";
+import pwoman3 from "../assets/profiles/profile_woman_3.png";
+import pwoman4 from "../assets/profiles/profile_woman_4.png";
+
 const testimonials: Testimonial[] = [
   {
     id: 1,
@@ -17,7 +26,7 @@ const testimonials: Testimonial[] = [
     title: "CRISPY, SMOOTH, NOVEL!",
     content: "These snacks have the perfect balance of crunch and taste—light, crispy, and absolutely delicious. They’re a game-changer compared to any other healthy snack I've tried.",
     rating: 5,
-    image: "/profile_man_1.png",
+    image: pman1,
   },
   {
     id: 2,
@@ -25,7 +34,7 @@ const testimonials: Testimonial[] = [
     title: "HELPS WITH STRESS EATING!",
     content: "I've noticed a huge reduction in my sugar cravings since I started snacking on GoMunchz. It helps me make better food choices throughout the day.",
     rating: 5,
-    image: "/profile_woman_1.png",
+    image: pwoman1,
   },
   {
     id: 3,
@@ -33,7 +42,7 @@ const testimonials: Testimonial[] = [
     title: "MORE ENERGY, LESS BURNOUT",
     content: "I used to feel exhausted by evening, but these premium nuts have helped me power through my day without feeling drained. Highly recommend!",
     rating: 5,
-    image: "/profile_man_2.png",
+    image: pman2,
   },
   {
     id: 4,
@@ -41,7 +50,7 @@ const testimonials: Testimonial[] = [
     title: "BEST QUALITY EVER",
     content: "The freshness of the almonds and cashews is unmatched. You can tell they source only the best. My whole family loves it!",
     rating: 5,
-    image: "/profile_woman_2.png",
+    image: pwoman2,
   },
   {
     id: 5,
@@ -49,7 +58,7 @@ const testimonials: Testimonial[] = [
     title: "PERFECT OFFICE SNACK",
     content: "Great for munching during long meetings. It's healthy, filling, and doesn't leave you feeling sluggish. Great job GoMunchz!",
     rating: 5,
-    image: "/profile_man_3.png",
+    image: pman3,
   },
   {
     id: 6,
@@ -57,7 +66,7 @@ const testimonials: Testimonial[] = [
     title: "DELICIOUS & NUTRITIOUS",
     content: "Hard to believe something this tasty is also healthy. The dry fruit mix is my absolute favorite. Will definitely order more.",
     rating: 5,
-    image: "/profile_woman_3.png",
+    image: pwoman3,
   },
   {
     id: 7,
@@ -65,7 +74,7 @@ const testimonials: Testimonial[] = [
     title: "PREMIUM PACKAGING",
     content: "The packaging keeps everything so fresh. It's clear that GoMunchz cares about quality at every step. Very impressed.",
     rating: 5,
-    image: "/profile_man_4.png",
+    image: pman4,
   },
   {
     id: 8,
@@ -73,7 +82,7 @@ const testimonials: Testimonial[] = [
     title: "GREAT TASTE, NO GUILT",
     content: "Finally a snack that I don't have to feel guilty about! Crisp, fresh, and perfectly seasoned. Best healthy find this year.",
     rating: 5,
-    image: "/profile_woman_4.png",
+    image: pwoman4,
   },
 ];
 

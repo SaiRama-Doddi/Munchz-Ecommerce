@@ -36,7 +36,7 @@ export default function BlogDetail() {
         <nav className="flex items-center gap-2 text-sm text-gray-500 mb-8 overflow-x-auto whitespace-nowrap">
           <Link to="/" className="hover:text-green-600">Home</Link>
           <ChevronRight size={14} />
-          <span className="hover:text-green-600">Blog</span>
+          <Link to="/#blog-section" className="hover:text-green-600">Blog</Link>
           <ChevronRight size={14} />
           <span className="text-green-700 font-medium truncate">{blog.title}</span>
         </nav>

@@ -8,14 +8,14 @@ import {
 } from "lucide-react";
 import { blogs } from "../data/blogData";
 
-const blogImages = [
-  "/blog_healthy_future.png",
-  "/blog_makhana_choice.png",
-  "/blog_weight_loss_snacks.png",
-  "/blog_choose_snacks.png",
-  "/blog_late_night_cravings.png",
-  "/blog_makhana_5_ways.png"
-];
+import blog1 from "../assets/blog/blog_healthy_future.png";
+import blog2 from "../assets/blog/blog_makhana_choice.png";
+import blog3 from "../assets/blog/blog_weight_loss_snacks.png";
+import blog4 from "../assets/blog/blog_choose_snacks.png";
+import blog5 from "../assets/blog/blog_late_night_cravings.png";
+import blog6 from "../assets/blog/blog_makhana_5_ways.png";
+
+const blogImages = [blog1, blog2, blog3, blog4, blog5, blog6];
 
 const blogCategories = [
   "Lifestyle",
@@ -47,7 +47,7 @@ export default function BlogSection() {
   };
 
   return (
-    <section className="py-20 bg-white overflow-hidden font-sans">
+    <section id="blog-section" className="py-20 bg-white overflow-hidden font-sans">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
 
         {/* ================= HEADER ================= */}

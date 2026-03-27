@@ -75,7 +75,7 @@ export default function Footer() {
                 <li className="cursor-pointer hover:text-green-700 transition" onClick={() => navigate("/")}>Home</li>
                 <li className="cursor-pointer hover:text-green-700 transition" onClick={() => navigate("/Aboutmain")}>About Us</li>
                 <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/productpage")}>Shop</li>
-                <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/blog")}>Blog</li>
+                <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/#blog-section")}>Blog</li>
                 <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/track")}>Track</li>
                 <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/gifting")}>Gifting</li>
                 <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/contact")}>Contact Us</li>
