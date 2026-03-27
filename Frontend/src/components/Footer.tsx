@@ -72,9 +72,12 @@ export default function Footer() {
             <div className="md:col-span-2">
               <h4 className="font-bold text-lg mb-6 text-black">Quick Links</h4>
               <ul className="space-y-3 text-sm text-gray-700 font-medium whitespace-nowrap">
+                <li className="cursor-pointer hover:text-green-700 transition" onClick={() => navigate("/")}>Home</li>
                 <li className="cursor-pointer hover:text-green-700 transition" onClick={() => navigate("/Aboutmain")}>About Us</li>
-                <li className="cursor-pointer hover:text-green-600 transition">Help & Support</li>
-                <li className="cursor-pointer hover:text-green-600 transition">Shipping & Delivery</li>
+                <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/productpage")}>Shop</li>
+                <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/blog")}>Blog</li>
+                <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/track")}>Track</li>
+                <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/contact")}>Contact Us</li>
               </ul>
             </div>
 
