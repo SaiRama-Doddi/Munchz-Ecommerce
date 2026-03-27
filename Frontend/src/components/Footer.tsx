@@ -16,9 +16,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-0">
         <div className="bg-[#ecfdf5] px-4 sm:px-6 lg:px-8 py-12 md:py-16 rounded-t-[2.5rem] border-t border-green-100/50">
           {/* ================= TOP SECTION ================= */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
             {/* BRAND */}
-            <div className="flex flex-col items-start">
+            <div className="flex flex-col items-start md:col-span-4">
               <div className="mb-4">
                 <img
                   src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774178657/gomunchz_logo_transparent_r8r0a8.png"
@@ -46,12 +46,12 @@ export default function Footer() {
             </div>
 
             {/* Contact */}
-            <div>
+            <div className="md:col-span-4">
               <h4 className="font-bold text-lg mb-6 text-black">Contact</h4>
               <div className="space-y-4 text-sm text-gray-700">
                 <div className="flex items-start gap-3">
                   <MapPin size={18} className="mt-1 text-black shrink-0" />
-                  <span className="font-medium">
+                  <span className="font-medium whitespace-nowrap">
                     Sri Venkateshwara Super Foods LLP<br />
                     H.No-16-317/678, Symphony Park Homes,<br />
                     Patancheru, Sangareddy, Telangana-502319
@@ -69,9 +69,9 @@ export default function Footer() {
             </div>
 
             {/* Quick Links */}
-            <div>
+            <div className="md:col-span-2">
               <h4 className="font-bold text-lg mb-6 text-black">Quick Links</h4>
-              <ul className="space-y-3 text-sm text-gray-700 font-medium">
+              <ul className="space-y-3 text-sm text-gray-700 font-medium whitespace-nowrap">
                 <li className="cursor-pointer hover:text-green-700 transition" onClick={() => navigate("/Aboutmain")}>About Us</li>
                 <li className="cursor-pointer hover:text-green-600 transition">Help & Support</li>
                 <li className="cursor-pointer hover:text-green-600 transition">Shipping & Delivery</li>
@@ -79,9 +79,9 @@ export default function Footer() {
             </div>
 
             {/* Legal */}
-            <div>
+            <div className="md:col-span-2">
               <h4 className="font-bold text-lg mb-6 text-black">Legal</h4>
-              <ul className="space-y-3 text-sm text-gray-700 font-medium">
+              <ul className="space-y-3 text-sm text-gray-700 font-medium whitespace-nowrap">
                 <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/terms-and-conditions")}>Terms & Conditions</li>
                 <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/privacy-policy")}>Privacy Policy</li>
                 <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/return-refund-policy")}>Return & Refund</li>
