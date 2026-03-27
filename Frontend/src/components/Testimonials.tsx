@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Star, User, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Testimonial {
   id: number;
@@ -7,6 +7,7 @@ interface Testimonial {
   title: string;
   content: string;
   rating: number;
+  image: string;
 }
 
 const testimonials: Testimonial[] = [
@@ -16,6 +17,7 @@ const testimonials: Testimonial[] = [
     title: "CRISPY, SMOOTH, NOVEL!",
     content: "These snacks have the perfect balance of crunch and taste—light, crispy, and absolutely delicious. They’re a game-changer compared to any other healthy snack I've tried.",
     rating: 5,
+    image: "C:/Users/win/.gemini/antigravity/brain/fea17ac9-c43e-4ccf-b5ea-97177e5205ce/profile_man_1_1774590511749.png",
   },
   {
     id: 2,
@@ -23,6 +25,7 @@ const testimonials: Testimonial[] = [
     title: "HELPS WITH STRESS EATING!",
     content: "I've noticed a huge reduction in my sugar cravings since I started snacking on GoMunchz. It helps me make better food choices throughout the day.",
     rating: 5,
+    image: "C:/Users/win/.gemini/antigravity/brain/fea17ac9-c43e-4ccf-b5ea-97177e5205ce/profile_woman_1_1774590527727.png",
   },
   {
     id: 3,
@@ -30,6 +33,7 @@ const testimonials: Testimonial[] = [
     title: "MORE ENERGY, LESS BURNOUT",
     content: "I used to feel exhausted by evening, but these premium nuts have helped me power through my day without feeling drained. Highly recommend!",
     rating: 5,
+    image: "C:/Users/win/.gemini/antigravity/brain/fea17ac9-c43e-4ccf-b5ea-97177e5205ce/profile_man_2_1774590544019.png",
   },
   {
     id: 4,
@@ -37,6 +41,7 @@ const testimonials: Testimonial[] = [
     title: "BEST QUALITY EVER",
     content: "The freshness of the almonds and cashews is unmatched. You can tell they source only the best. My whole family loves it!",
     rating: 5,
+    image: "C:/Users/win/.gemini/antigravity/brain/fea17ac9-c43e-4ccf-b5ea-97177e5205ce/profile_woman_2_1774590702893.png",
   },
   {
     id: 5,
@@ -44,6 +49,7 @@ const testimonials: Testimonial[] = [
     title: "PERFECT OFFICE SNACK",
     content: "Great for munching during long meetings. It's healthy, filling, and doesn't leave you feeling sluggish. Great job GoMunchz!",
     rating: 5,
+    image: "C:/Users/win/.gemini/antigravity/brain/fea17ac9-c43e-4ccf-b5ea-97177e5205ce/profile_man_3_1774590716006.png",
   },
   {
     id: 6,
@@ -51,6 +57,7 @@ const testimonials: Testimonial[] = [
     title: "DELICIOUS & NUTRITIOUS",
     content: "Hard to believe something this tasty is also healthy. The dry fruit mix is my absolute favorite. Will definitely order more.",
     rating: 5,
+    image: "C:/Users/win/.gemini/antigravity/brain/fea17ac9-c43e-4ccf-b5ea-97177e5205ce/profile_woman_3_1774590733272.png",
   },
   {
     id: 7,
@@ -58,6 +65,7 @@ const testimonials: Testimonial[] = [
     title: "PREMIUM PACKAGING",
     content: "The packaging keeps everything so fresh. It's clear that GoMunchz cares about quality at every step. Very impressed.",
     rating: 5,
+    image: "C:/Users/win/.gemini/antigravity/brain/fea17ac9-c43e-4ccf-b5ea-97177e5205ce/profile_man_4_1774590749802.png",
   },
   {
     id: 8,
@@ -65,6 +73,7 @@ const testimonials: Testimonial[] = [
     title: "GREAT TASTE, NO GUILT",
     content: "Finally a snack that I don't have to feel guilty about! Crisp, fresh, and perfectly seasoned. Best healthy find this year.",
     rating: 5,
+    image: "C:/Users/win/.gemini/antigravity/brain/fea17ac9-c43e-4ccf-b5ea-97177e5205ce/profile_woman_4_1774590766033.png",
   },
 ];
 
@@ -97,11 +106,11 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="pt-24 pb-4 bg-white">
+    <section className="pt-16 pb-2 bg-white">
       <div className="max-w-7xl mx-auto px-4">
 
         {/* HEADER SECTION WITH NAVIGATION */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
           <div>
             <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
               What Our <span className="text-green-600">Customers Say</span>
@@ -148,28 +157,28 @@ export default function Testimonials() {
               key={item.id}
               className="flex-shrink-0 w-[85%] md:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)] snap-center md:snap-start"
             >
-              <div className="bg-[#ecfdf5] border border-green-100 rounded-3xl p-6 md:p-8 h-full shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] transition-all duration-500 flex flex-col items-center text-center group">
+              <div className="bg-[#ecfdf5] border border-green-100 rounded-3xl p-5 md:p-6 h-full shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] transition-all duration-500 flex flex-col items-center text-center group">
                 {/* STARS */}
-                <div className="flex gap-1 mb-6 text-yellow-400">
+                <div className="flex gap-1 mb-3 text-yellow-400">
                   {[...Array(item.rating)].map((_, i) => (
                     <Star key={i} size={14} fill="currentColor" />
                   ))}
                 </div>
 
                 {/* TITLE */}
-                <h3 className="text-base md:text-lg font-bold text-gray-900 mb-4 tracking-tight uppercase group-hover:text-green-700 transition-colors">
+                <h3 className="text-base md:text-lg font-bold text-gray-900 mb-2 tracking-tight uppercase group-hover:text-green-700 transition-colors">
                   {item.title}
                 </h3>
 
                 {/* CONTENT */}
-                <p className="text-gray-600 leading-relaxed mb-8 italic text-xs md:text-base">
+                <p className="text-gray-600 leading-relaxed mb-5 italic text-xs md:text-sm">
                   "{item.content}"
                 </p>
 
                 {/* AVATAR & NAME */}
                 <div className="mt-auto">
-                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white flex items-center justify-center mx-auto mb-4 border-2 border-green-50 group-hover:border-green-300 transition-all duration-500 overflow-hidden shadow-inner font-bold text-green-700">
-                    {item.name.charAt(0)}
+                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-white flex items-center justify-center mx-auto mb-3 border-2 border-green-50 group-hover:border-green-300 transition-all duration-500 overflow-hidden shadow-inner">
+                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                   </div>
                   <p className="font-bold text-gray-900 tracking-wide text-sm md:text-base">{item.name}</p>
                   <p className="text-[10px] md:text-xs text-green-600 font-medium uppercase tracking-widest mt-1">Verified Buyer</p>
