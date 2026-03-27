@@ -17,7 +17,7 @@ const testimonials: Testimonial[] = [
     title: "CRISPY, SMOOTH, NOVEL!",
     content: "These snacks have the perfect balance of crunch and taste—light, crispy, and absolutely delicious. They’re a game-changer compared to any other healthy snack I've tried.",
     rating: 5,
-    image: "C:/Users/win/.gemini/antigravity/brain/fea17ac9-c43e-4ccf-b5ea-97177e5205ce/profile_man_1_1774590511749.png",
+    image: "/profile_man_1.png",
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ const testimonials: Testimonial[] = [
     title: "HELPS WITH STRESS EATING!",
     content: "I've noticed a huge reduction in my sugar cravings since I started snacking on GoMunchz. It helps me make better food choices throughout the day.",
     rating: 5,
-    image: "C:/Users/win/.gemini/antigravity/brain/fea17ac9-c43e-4ccf-b5ea-97177e5205ce/profile_woman_1_1774590527727.png",
+    image: "/profile_woman_1.png",
   },
   {
     id: 3,
@@ -33,7 +33,7 @@ const testimonials: Testimonial[] = [
     title: "MORE ENERGY, LESS BURNOUT",
     content: "I used to feel exhausted by evening, but these premium nuts have helped me power through my day without feeling drained. Highly recommend!",
     rating: 5,
-    image: "C:/Users/win/.gemini/antigravity/brain/fea17ac9-c43e-4ccf-b5ea-97177e5205ce/profile_man_2_1774590544019.png",
+    image: "/profile_man_2.png",
   },
   {
     id: 4,
@@ -41,7 +41,7 @@ const testimonials: Testimonial[] = [
     title: "BEST QUALITY EVER",
     content: "The freshness of the almonds and cashews is unmatched. You can tell they source only the best. My whole family loves it!",
     rating: 5,
-    image: "C:/Users/win/.gemini/antigravity/brain/fea17ac9-c43e-4ccf-b5ea-97177e5205ce/profile_woman_2_1774590702893.png",
+    image: "/profile_woman_2.png",
   },
   {
     id: 5,
@@ -49,7 +49,7 @@ const testimonials: Testimonial[] = [
     title: "PERFECT OFFICE SNACK",
     content: "Great for munching during long meetings. It's healthy, filling, and doesn't leave you feeling sluggish. Great job GoMunchz!",
     rating: 5,
-    image: "C:/Users/win/.gemini/antigravity/brain/fea17ac9-c43e-4ccf-b5ea-97177e5205ce/profile_man_3_1774590716006.png",
+    image: "/profile_man_3.png",
   },
   {
     id: 6,
@@ -57,7 +57,7 @@ const testimonials: Testimonial[] = [
     title: "DELICIOUS & NUTRITIOUS",
     content: "Hard to believe something this tasty is also healthy. The dry fruit mix is my absolute favorite. Will definitely order more.",
     rating: 5,
-    image: "C:/Users/win/.gemini/antigravity/brain/fea17ac9-c43e-4ccf-b5ea-97177e5205ce/profile_woman_3_1774590733272.png",
+    image: "/profile_woman_3.png",
   },
   {
     id: 7,
@@ -65,7 +65,7 @@ const testimonials: Testimonial[] = [
     title: "PREMIUM PACKAGING",
     content: "The packaging keeps everything so fresh. It's clear that GoMunchz cares about quality at every step. Very impressed.",
     rating: 5,
-    image: "C:/Users/win/.gemini/antigravity/brain/fea17ac9-c43e-4ccf-b5ea-97177e5205ce/profile_man_4_1774590749802.png",
+    image: "/profile_man_4.png",
   },
   {
     id: 8,
@@ -73,7 +73,7 @@ const testimonials: Testimonial[] = [
     title: "GREAT TASTE, NO GUILT",
     content: "Finally a snack that I don't have to feel guilty about! Crisp, fresh, and perfectly seasoned. Best healthy find this year.",
     rating: 5,
-    image: "C:/Users/win/.gemini/antigravity/brain/fea17ac9-c43e-4ccf-b5ea-97177e5205ce/profile_woman_4_1774590766033.png",
+    image: "/profile_woman_4.png",
   },
 ];
 
