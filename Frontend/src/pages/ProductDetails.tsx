@@ -344,29 +344,30 @@ export default function ProductDetails() {
                   </ul>
                 </div>
 
-                {/* PRICE */}
-                <div className="mb-10">
-                  <div className="flex items-baseline gap-4 mb-1">
+                {/* PRICE SECTION - AMAZON STYLE */}
+                <div className="mb-10 font-sans">
+                  <div className="flex items-center gap-2 mb-1">
                     {discount > 0 && (
-                      <span className="text-3xl font-light text-red-500">-{discount}%</span>
+                      <span className="text-3xl font-light text-[#CC0C39]">-{discount}%</span>
                     )}
                     <div className="flex items-start">
-                      <span className="text-xl font-bold mt-2 mr-0.5">₹</span>
-                      <span className="text-5xl font-black text-gray-900 tracking-tighter">
+                      <span className="text-sm font-bold mt-1.5 mr-0.5 text-gray-900">₹</span>
+                      <span className="text-4xl font-semibold text-gray-900 tracking-tight">
                         {selectedVariant.offerPrice}
                       </span>
                     </div>
-                  </div>
-                  <div className="flex flex-col gap-1 ml-1">
                     {base100g && (
-                      <span className="text-gray-500 font-bold text-sm">
+                      <span className="text-gray-600 text-sm ml-2 mt-2">
                         (₹{base100g.offerPrice} / 100 g)
                       </span>
                     )}
-                    <div className="text-gray-400 text-sm font-medium">
+                  </div>
+
+                  <div className="space-y-0.5 ml-1">
+                    <div className="text-gray-500 text-sm">
                       M.R.P.: <span className="line-through">₹{selectedVariant.mrp}</span>
                     </div>
-                    <div className="text-[11px] text-gray-400 mt-1">Inclusive of all taxes</div>
+                    <div className="text-[13px] text-gray-700">Inclusive of all taxes</div>
                   </div>
                 </div>
 
