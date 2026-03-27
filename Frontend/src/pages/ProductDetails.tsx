@@ -353,7 +353,7 @@ export default function ProductDetails() {
                     <div className="flex items-start">
                       <span className="text-sm font-bold mt-1.5 mr-0.5 text-gray-900">₹</span>
                       <span className="text-4xl font-semibold text-gray-900 tracking-tight">
-                        {selectedVariant.offerPrice}
+                        {selectedVariant?.offerPrice || 0}
                       </span>
                     </div>
                     {base100g && (
@@ -365,7 +365,7 @@ export default function ProductDetails() {
 
                   <div className="space-y-0.5 ml-1">
                     <div className="text-gray-500 text-sm">
-                      M.R.P.: <span className="line-through">₹{selectedVariant.mrp}</span>
+                      M.R.P.: <span className="line-through">₹{selectedVariant?.mrp || 0}</span>
                     </div>
                     <div className="text-[13px] text-gray-700">Inclusive of all taxes</div>
                   </div>
