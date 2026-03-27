@@ -23,7 +23,7 @@ export default function Footer() {
                 <img
                   src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774178657/gomunchz_logo_transparent_r8r0a8.png"
                   alt="GoMunchz"
-                  className="h-14 cursor-pointer object-contain"
+                  className="h-28 cursor-pointer object-contain"
                   onClick={() => navigate("/")}
                 />
               </div>

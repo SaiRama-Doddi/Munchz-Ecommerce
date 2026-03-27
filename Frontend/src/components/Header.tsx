@@ -82,7 +82,7 @@ export default function Header() {
               <img
                 src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774178657/gomunchz_logo_transparent_r8r0a8.png"
                 alt="GoMunchz"
-                className="h-10 md:h-12 lg:h-14 w-auto object-contain cursor-pointer"
+                className="h-14 md:h-16 lg:h-18 w-auto object-contain cursor-pointer"
               />
             </Link>
 
@@ -349,7 +349,7 @@ export default function Header() {
                   <img
                     src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774171195/gomunchz_logo_resized_ynw790.png"
                     alt="GoMunchz"
-                    className="h-10 w-auto object-contain"
+                    className="h-20 w-auto object-contain"
                   />
                 </Link>
 
