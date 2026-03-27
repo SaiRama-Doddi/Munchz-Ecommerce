@@ -94,7 +94,7 @@ export default function BlogSection() {
               <Link
                 key={blog.id}
                 to={`/blog/${blog.slug}`}
-                className="min-w-[85%] sm:min-w-[45%] md:min-w-0 bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 group/card flex flex-col"
+                className="min-w-[85%] sm:min-w-[45%] md:min-w-0 bg-[#ecfdf5] rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-green-100/50 group/card flex flex-col"
               >
                 {/* BLOG IMAGE - FIXED ASPECT RATIO AS PER REQUESTED DESIGN */}
                 <div className="w-full aspect-[16/10] overflow-hidden">
