@@ -75,7 +75,7 @@ export default function BlogDetail() {
               switch (section.type) {
                 case "heading":
                   return (
-                    <h2 key={idx} className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mt-6 mb-4 flex items-center gap-3">
+                    <h2 key={idx} className="text-2xl font-bold text-gray-900 tracking-tight mt-6 mb-4 flex items-center gap-3">
                       <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
                       {section.content as string}
                     </h2>

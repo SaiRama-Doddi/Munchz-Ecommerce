@@ -138,13 +138,13 @@ export default function CartPremium() {
       )}
 
       {/* HEADER */}
-      <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-green-50 px-6 py-6 sm:px-10">
+      <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-green-50 px-6 py-4 sm:px-10">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div>
             <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 tracking-tight leading-none">
               My <span className="text-green-600">Cart</span>
             </h1>
-            <p className="text-xs sm:text-base text-gray-500 font-medium mt-3 max-w-2xl leading-relaxed">
+            <p className="text-xs sm:text-base text-gray-500 font-medium mt-1 max-w-2xl leading-relaxed">
               {items.length} {items.length === 1 ? 'Product' : 'Products'} • Ready for Munching
             </p>
           </div>
@@ -159,7 +159,7 @@ export default function CartPremium() {
 
       {/* BRAND BANNER - UNIFIED WITH ABOUT US STYLE */}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-10">
         <div className="grid lg:grid-cols-3 gap-10">
 
           {/* LEFT: CART ITEMS */}
@@ -280,45 +280,41 @@ export default function CartPremium() {
                 );
               })}
             </div>
-          </div>
-
-          {/* RIGHT: SUMMARY */}
-          <div className="lg:col-span-1 space-y-6">
-
-            {/* COUPONS */}
-            <div className="bg-white rounded-[2rem] p-8 border border-green-50 shadow-sm">
-              <h3 className="text-base font-bold text-gray-900 mb-6 flex items-center gap-3 tracking-tight">
-                <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
+ 
+            {/* OFFERS & COUPONS - HORIZONTAL BOTTOM */}
+            <div className="bg-white rounded-[2rem] p-6 md:p-8 border border-green-50 shadow-sm mt-10">
+              <h3 className="text-sm font-bold text-gray-900 mb-6 flex items-center gap-3 tracking-tight">
+                <div className="w-1.5 h-6 bg-green-600 rounded-full"></div>
                 Offers & Coupons
               </h3>
 
-              <div className="space-y-3">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {availableCoupons.length === 0 ? (
-                  <p className="text-xs text-gray-400 font-bold italic py-4">No exclusive offers available for this order.</p>
+                  <p className="text-xs text-gray-400 font-bold italic py-4 col-span-full">No exclusive offers available for this order.</p>
                 ) : (
                   availableCoupons.map((c) => {
                     const isEligible = totalPrice >= (c.minAmount || 0);
                     const isApplied = appliedCoupon === c.code;
                     return (
-                      <div key={c.id} className={`p-5 rounded-2xl border-2 transition-all relative overflow-hidden group ${isEligible ? 'bg-green-50/20 border-green-100 hover:border-green-300' : 'bg-white/50 border-gray-100 opacity-60'}`}>
+                      <div key={c.id} className={`p-5 rounded-2xl border-2 transition-all relative overflow-hidden group h-full flex flex-col justify-between ${isEligible ? 'bg-green-50/20 border-green-100 hover:border-green-300' : 'bg-white/50 border-gray-100 opacity-60'}`}>
                         <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none group-hover:scale-110 transition-transform"><Gift size={32} /></div>
-                        <div className="flex justify-between items-center relative z-10">
-                          <div>
-                            <p className="font-bold text-gray-900 tracking-tight uppercase leading-tight">{c.code}</p>
-                            <p className="text-[11px] text-green-600 font-bold mt-1 uppercase tracking-tighter">Save ₹{c.discountAmount} on ₹{c.minAmount}+</p>
-                          </div>
-                          {isEligible && (
+                        <div className="relative z-10">
+                          <p className="text-sm font-bold text-gray-900 tracking-tight uppercase leading-tight">{c.code}</p>
+                          <p className="text-xs text-green-600 font-bold mt-1 uppercase tracking-tighter">Save ₹{c.discountAmount} on ₹{c.minAmount}+</p>
+                        </div>
+                        
+                        <div className="mt-4 flex items-center justify-between relative z-10">
+                          {isEligible ? (
                             <button
                               onClick={() => isApplied ? removeCoupon() : applyCoupon(c.code)}
-                              className={`px-5 py-2 rounded-xl text-[10px] font-bold uppercase transition-all cursor-pointer ${isApplied ? 'bg-red-50 text-red-600 border border-red-100' : 'bg-green-600 text-white shadow-lg'}`}
+                              className={`w-full py-2 rounded-xl text-xs font-bold uppercase transition-all cursor-pointer ${isApplied ? 'bg-red-50 text-red-600 border border-red-100' : 'bg-green-600 text-white shadow-lg'}`}
                             >
                               {isApplied ? 'Remove' : 'Apply'}
                             </button>
+                          ) : (
+                            <p className="text-xs font-bold text-gray-400 uppercase flex items-center gap-1.5"><Lock size={10} /> Add ₹{(c.minAmount || 0) - totalPrice} more</p>
                           )}
                         </div>
-                        {!isEligible && (
-                          <p className="text-[9px] font-bold text-gray-400 mt-2 uppercase flex items-center gap-1.5"><Lock size={10} /> Add ₹{(c.minAmount || 0) - totalPrice} more to unlock</p>
-                        )}
                       </div>
                     );
                   })
@@ -331,6 +327,12 @@ export default function CartPremium() {
                 </div>
               )}
             </div>
+          </div>
+
+          {/* RIGHT: SUMMARY */}
+          <div className="lg:col-span-1 space-y-6">
+
+
 
             {/* SUMMARY CARD (STICKY) */}
             <div className="bg-white rounded-[2rem] p-8 border-2 border-green-600 shadow-xl lg:sticky lg:top-32 relative overflow-hidden">

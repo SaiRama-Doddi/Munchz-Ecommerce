@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Load environment variables from the root .env file
+if [ -f ../.env ]; then
+  # Use a portable way to export variables from .env
+  export $(grep -v '^#' ../.env | xargs)
+  echo "Loaded environment variables from .env"
+fi
+
 echo "Starting Auth Service..."
 nohup java -jar auth-service/auth-service/target/auth-service-0.0.1-SNAPSHOT.jar > auth.log 2>&1 &
 

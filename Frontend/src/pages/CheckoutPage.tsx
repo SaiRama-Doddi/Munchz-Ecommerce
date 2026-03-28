@@ -160,7 +160,7 @@ export default function CheckoutPage() {
       const orderId = orderRes.data.orderId;
       const paymentRes = await paymentApi.post("/api/payments/create", {
         orderId,
-        amount: totalAmount * 100,
+        amount: Math.round(totalAmount * 100),
         currency: "INR",
       });
       const loaded = await loadRazorpay();
@@ -196,13 +196,13 @@ export default function CheckoutPage() {
       <div className="min-h-screen bg-white">
 
         {/* STICKY HEADER - UNIFIED WITH CART */}
-        <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-green-50 px-5 py-4 sm:px-10 sm:py-6">
+        <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-green-50 px-5 py-4 sm:px-10">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div>
               <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 tracking-tight leading-none">
                 Checkout
               </h1>
-              <p className="text-xs sm:text-base text-gray-500 font-medium mt-1 sm:mt-3 max-w-2xl leading-relaxed">
+              <p className="text-xs sm:text-base text-gray-500 font-medium mt-1 max-w-2xl leading-relaxed">
                 Securely finishing your order • {items.length} Munchz
               </p>
             </div>
@@ -215,7 +215,7 @@ export default function CheckoutPage() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10 px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10 px-4 sm:px-6 lg:px-8 pt-2 pb-10">
 
           {/* LEFT SIDE: ITEMS & ADDRESS */}
           <div className="lg:col-span-2 space-y-6 sm:space-y-8">
@@ -224,12 +224,12 @@ export default function CheckoutPage() {
             <div className="bg-white p-5 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border border-green-50 shadow-sm relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-5 sm:p-10 opacity-[0.03] group-hover:scale-110 transition-transform pointer-events-none"><ShoppingBag className="w-[80px] h-[80px] sm:w-[110px] sm:h-[110px]" /></div>
               
-              <h3 className="text-base font-bold text-gray-900 mb-6 sm:mb-8 flex items-center gap-2 sm:gap-3 tracking-tight">
+              <h3 className="text-base font-bold text-gray-900 mb-4 md:mb-6 flex items-center gap-2 sm:gap-3 tracking-tight">
                 <div className="w-1.5 h-6 sm:h-8 bg-green-600 rounded-full"></div>
                 Order Items
               </h3>
 
-              <div className="space-y-4 sm:space-y-6">
+              <div className="space-y-2 sm:space-y-3">
                 {items.map((item, idx) => {
                   const v = item.variants[item.selectedVariantIndex];
                   return (
