@@ -75,7 +75,7 @@ export default function BlogDetail() {
               switch (section.type) {
                 case "heading":
                   return (
-                    <h2 key={idx} className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight mt-12 mb-6 flex items-center gap-3">
+                    <h2 key={idx} className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mt-12 mb-6 flex items-center gap-3">
                       <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
                       {section.content as string}
                     </h2>
@@ -84,13 +84,11 @@ export default function BlogDetail() {
                   return <p key={idx} className="mb-6">{section.content as string}</p>;
                 case "list":
                   return (
-                    <ul key={idx} className="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
+                    <ul key={idx} className="space-y-4 my-6">
                       {(section.content as string[]).map((item, i) => (
-                        <li key={i} className="flex items-start gap-3 bg-white p-4 rounded-2xl shadow-sm border border-green-50 hover:border-green-200 transition-colors">
-                          <div className="mt-1 bg-green-100 p-1 rounded-full text-green-700 flex-shrink-0">
-                            <ChevronRight size={14} />
-                          </div>
-                          <span className="font-semibold text-gray-800">{item}</span>
+                        <li key={i} className="flex items-start gap-3 group">
+                          <div className="mt-2 w-1.5 h-1.5 rounded-full bg-green-600 flex-shrink-0 group-hover:scale-125 transition-transform" />
+                          <span className="text-gray-700 font-medium group-hover:text-green-700 transition-colors">{item}</span>
                         </li>
                       ))}
                     </ul>
