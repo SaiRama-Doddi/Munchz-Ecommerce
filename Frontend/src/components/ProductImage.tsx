@@ -1,6 +1,6 @@
 export default function ProductImage() {
   return (
-    <section className="relative w-full overflow-hidden bg-[#ecfdf5] pb-5 md:pb-8">
+    <section className="relative w-full overflow-hidden bg-white pt-6 pb-5 md:pt-10 md:pb-8">
       <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
 
         {/* LEFT TEXT */}
@@ -30,7 +30,7 @@ export default function ProductImage() {
           <img
             src="/premium_snacks.png"
             alt="GoMunchz Premium Snacks"
-            className="w-full max-w-lg max-h-[350px] md:max-h-[450px] object-contain hover:scale-105 transition duration-700"
+            className="w-full max-w-lg max-h-[300px] md:max-h-[400px] object-contain hover:scale-105 transition duration-700"
           />
         </div>
       </div>

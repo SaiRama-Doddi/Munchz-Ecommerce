@@ -41,7 +41,7 @@ export default function UserCategories() {
   }
 
   return (
-    <section className="bg-[#ecfdf5] pt-2 sm:pt-4 lg:pt-6 pb-0">
+    <section className="bg-white pt-2 sm:pt-4 lg:pt-6 pb-6 md:pb-10">
 
       <div className="max-w-7xl mx-auto px-4">
 
