@@ -224,7 +224,7 @@ export default function CheckoutPage() {
             <div className="bg-white p-5 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border border-green-50 shadow-sm relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-5 sm:p-10 opacity-[0.03] group-hover:scale-110 transition-transform pointer-events-none"><ShoppingBag className="w-[80px] h-[80px] sm:w-[110px] sm:h-[110px]" /></div>
               
-              <h3 className="text-xl md:text-3xl font-bold text-gray-900 mb-6 sm:mb-8 flex items-center gap-2 sm:gap-3 tracking-tight">
+              <h3 className="text-base font-bold text-gray-900 mb-6 sm:mb-8 flex items-center gap-2 sm:gap-3 tracking-tight">
                 <div className="w-1.5 h-6 sm:h-8 bg-green-600 rounded-full"></div>
                 Order Items
               </h3>
@@ -238,14 +238,14 @@ export default function CheckoutPage() {
                         <img src={item.imageUrl} className="w-full h-full object-contain p-2" alt={item.name} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-bold text-gray-900 text-lg tracking-tight line-clamp-1 truncate cursor-pointer hover:text-green-600 transition-colors" onClick={() => navigate(`/product/${item.productId}`)}>
+                        <p className="font-bold text-gray-900 text-base tracking-tight line-clamp-1 truncate cursor-pointer hover:text-green-600 transition-colors" onClick={() => navigate(`/product/${item.productId}`)}>
                           {item.name}
                         </p>
                         <p className="text-[10px] sm:text-xs text-gray-400 font-bold uppercase mt-0.5 sm:mt-1 tracking-widest">
                           {v.weightLabel} × {item.qty}
                         </p>
                       </div>
-                      <p className="font-bold text-green-700 text-lg sm:text-xl tracking-tight">
+                      <p className="font-bold text-green-700 text-base tracking-tight">
                         ₹{v.offerPrice * item.qty}
                       </p>
                     </div>
@@ -258,7 +258,7 @@ export default function CheckoutPage() {
             <div className="bg-white p-5 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border border-green-50 shadow-sm relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-5 sm:p-10 opacity-[0.03] group-hover:scale-110 transition-transform pointer-events-none"><MapPin className="w-[80px] h-[80px] sm:w-[110px] sm:h-[110px]" /></div>
 
-              <h3 className="text-xl md:text-3xl font-bold text-gray-900 mb-6 sm:mb-8 flex items-center gap-2 sm:gap-3 tracking-tight">
+              <h3 className="text-base font-bold text-gray-900 mb-6 sm:mb-8 flex items-center gap-2 sm:gap-3 tracking-tight">
                 <div className="w-1.5 h-6 sm:h-8 bg-green-600 rounded-full"></div>
                 Shipping Address
               </h3>
@@ -292,7 +292,7 @@ export default function CheckoutPage() {
                       <>
                         <div onClick={()=>setSelectedAddress(addr)} className="cursor-pointer flex-1 min-w-0">
                           <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
-                            <p className="font-bold text-gray-900 text-base sm:text-lg tracking-tight uppercase leading-none truncate">{addr.label}</p>
+                            <p className="font-bold text-gray-900 text-base tracking-tight uppercase leading-none truncate">{addr.label}</p>
                             {addr.isDefault && <span className="text-[9px] sm:text-[10px] bg-green-600 text-white px-2 sm:px-3 py-1 rounded-full font-black uppercase tracking-widest shrink-0">Default</span>}
                           </div>
                           <p className="text-gray-500 text-sm sm:text-base font-medium leading-relaxed max-w-sm shrink-0 break-words">
@@ -335,7 +335,7 @@ export default function CheckoutPage() {
             <div className="bg-white p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border-2 border-green-600 shadow-xl lg:sticky lg:top-32 relative overflow-hidden">
                <div className="absolute top-0 right-0 p-6 sm:p-10 opacity-5 pointer-events-none rotate-12"><CreditCard className="w-[60px] h-[60px] sm:w-[80px] sm:h-[80px]" /></div>
                
-               <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6 sm:mb-8 flex items-center gap-2 sm:gap-3 tracking-tight">
+               <h3 className="text-base font-bold text-gray-900 mb-6 sm:mb-8 flex items-center gap-2 sm:gap-3 tracking-tight">
                  <div className="w-1.5 h-6 sm:h-8 bg-green-600 rounded-full"></div>
                  Price Summary
                </h3>
@@ -359,7 +359,7 @@ export default function CheckoutPage() {
                  <div className="flex justify-between items-end bg-green-50/50 p-4 rounded-2xl border border-green-100">
                    <div>
                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1">Grand Total</p>
-                     <p className="text-2xl sm:text-4xl font-bold text-gray-900 tracking-tighter leading-none">₹{totalAmount.toFixed(0)}</p>
+                     <p className="text-base font-bold text-gray-900 tracking-tighter leading-none">₹{totalAmount.toFixed(0)}</p>
                    </div>
                    <div className="pb-1 opacity-20"><ShieldCheck className="w-[24px] h-[24px] sm:w-[32px] sm:h-[32px]" /></div>
                  </div>

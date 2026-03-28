@@ -39,7 +39,7 @@ export default function AdminLayout() {
               <Menu size={24} />
             </button>
             <div>
-              <h2 className="text-lg md:text-xl text-black capitalize whitespace-nowrap">
+              <h2 className="text-base text-black capitalize whitespace-nowrap">
                 {pageTitle}
               </h2>
               <p className="hidden xs:block text-xs text-gray-400 uppercase text-[9px] md:text-[10px]">GoMunchz Admin Dashboard</p>

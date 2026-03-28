@@ -156,7 +156,7 @@ export default function AdminReviews() {
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
         <div>
-          <h1 className="text-2xl md:text-3xl text-black tracking-[-0.02em]">Market Sentiment</h1>
+          <h1 className="text-base text-black tracking-[-0.02em]">Market Sentiment</h1>
           <p className="text-gray-400 uppercase text-[9px] md:text-[10px]">Monitor your reputation and product quality</p>
         </div>
       </div>
@@ -283,7 +283,7 @@ export default function AdminReviews() {
                         <Star key={i} size={14} fill={i < r.rating ? "currentColor" : "none"} />
                       ))}
                     </div>
-                    <h3 className="text-lg text-black leading-tight group-hover:text-emerald-600 transition-colors">
+                    <h3 className="text-base text-black leading-tight group-hover:text-emerald-600 transition-colors">
                       {r.productName}
                     </h3>
                   </div>

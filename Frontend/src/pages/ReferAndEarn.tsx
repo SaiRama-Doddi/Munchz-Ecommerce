@@ -75,7 +75,7 @@ export default function ReferAndEarn() {
         <div className="space-y-12">
           {sections.map((section, idx) => (
             <div key={idx}>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight mb-6 flex items-center gap-3">
+              <h2 className="text-base font-bold text-gray-900 tracking-tight mb-6 flex items-center gap-3">
                 <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
                 {section.title}
               </h2>
@@ -94,7 +94,7 @@ export default function ReferAndEarn() {
               ) : (
                 <div className="space-y-4">
                   {section.content.map((para, i) => (
-                    <p key={i} className="text-gray-700 text-lg leading-relaxed text-justify">
+                    <p key={i} className="text-gray-700 text-base leading-relaxed text-justify">
                       {para}
                     </p>
                   ))}

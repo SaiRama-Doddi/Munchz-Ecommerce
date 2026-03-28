@@ -146,7 +146,7 @@ export default function ProductForm() {
           <ArrowLeft size={20} />
         </button>
         <div className="text-right">
-          <h1 className="text-2xl text-black uppercase">Create Listing</h1>
+          <h1 className="text-base text-black uppercase">Create Listing</h1>
           <p className="text-[10px] text-gray-400 uppercase tracking-[0.2em]">New Inventory Nucleus</p>
         </div>
       </div>
@@ -164,7 +164,7 @@ export default function ProductForm() {
               <div className="p-2.5 bg-black text-white rounded-xl">
                 <Package size={20} />
               </div>
-              <h2 className="text-xl text-black uppercase">Product DNA</h2>
+              <h2 className="text-base text-black uppercase">Product DNA</h2>
             </div>
 
             <div className="space-y-6 relative">
@@ -199,7 +199,7 @@ export default function ProductForm() {
                 <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
                   <Tag size={20} />
                 </div>
-                <h2 className="text-xl text-black uppercase">Scaling Matrix</h2>
+                <h2 className="text-base text-black uppercase">Scaling Matrix</h2>
               </div>
               <button
                 type="button"
@@ -271,7 +271,7 @@ export default function ProductForm() {
               <div className="p-2.5 bg-black text-white rounded-xl">
                 <Layers size={18} />
               </div>
-              <h2 className="text-lg text-black uppercase">Classification</h2>
+              <h2 className="text-base text-black uppercase">Classification</h2>
             </div>
 
             <div className="space-y-6">
@@ -319,7 +319,7 @@ export default function ProductForm() {
                 <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
                   <ImageIcon size={18} />
                 </div>
-                <h2 className="text-lg text-black uppercase">Visual Assets</h2>
+                <h2 className="text-base text-black uppercase">Visual Assets</h2>
               </div>
               <button
                 type="button"

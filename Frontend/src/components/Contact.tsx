@@ -51,7 +51,7 @@ export default function ContactForm() {
           <div className="absolute inset-0 bg-green-900/20 group-hover:bg-green-900/10 transition-colors" />
           
           <div className="absolute bottom-10 left-10 right-10 p-8 bg-white/90 backdrop-blur-md rounded-3xl shadow-lg border border-white/50">
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Quality You Can Trust</h3>
+            <h3 className="text-base font-bold text-gray-900 mb-2">Quality You Can Trust</h3>
             <p className="text-sm text-gray-600 leading-relaxed font-medium">
               Have a bulk requirement or a special occasion? Our team is here to help you curate the perfect snack boxes.
             </p>

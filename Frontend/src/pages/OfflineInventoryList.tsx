@@ -197,7 +197,7 @@ export default function OfflineInventoryList() {
                       </span>
                     </td>
                     <td className="px-6 py-5 text-center">
-                       <div className={`inline-flex items-center justify-center gap-1.5 text-xl ${
+                       <div className={`inline-flex items-center justify-center gap-1.5 text-base ${
                          s.quantity <= s.minThreshold ? 'text-black' : 'text-emerald-600'
                        }`}>
                          {s.quantity <= s.minThreshold && <AlertTriangle size={14} className="text-black animate-pulse" />}

@@ -406,7 +406,7 @@ export default function Dashboard() {
       {/* RECENT PRODUCTS */}
       <section className="bg-white border border-gray-100 rounded-[2rem] md:rounded-[2.5rem] p-5 md:p-8 shadow-sm">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-lg md:text-xl text-black">New Products</h2>
+          <h2 className="text-base text-black">New Products</h2>
           <button className="text-sm text-emerald-600 hover:text-emerald-700 transition-colors">View All</button>
         </div>
 
@@ -434,7 +434,7 @@ export default function Dashboard() {
                 <ShoppingCart size={20} />
               </div>
               <div>
-                <h2 className="text-xl text-black leading-tight">Orders Feed</h2>
+                <h2 className="text-base text-black leading-tight">Orders Feed</h2>
                 <p className="text-[10px] text-gray-400 uppercase tracking-wider">Live tracking</p>
               </div>
             </div>
@@ -497,7 +497,7 @@ export default function Dashboard() {
                 <CreditCard size={20} />
               </div>
               <div>
-                <h2 className="text-xl text-black leading-tight">Payments Log</h2>
+                <h2 className="text-base text-black leading-tight">Payments Log</h2>
                 <p className="text-[10px] text-gray-400 uppercase tracking-wider">Transaction history</p>
               </div>
             </div>
@@ -526,7 +526,7 @@ export default function Dashboard() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-lg text-emerald-600">₹{(p.amount / 100).toLocaleString()}</p>
+                    <p className="text-base text-emerald-600">₹{(p.amount / 100).toLocaleString()}</p>
                     <span className={`text-[10px] uppercase ${p.status === 'paid' ? 'text-emerald-600' : 'text-emerald-400'}`}>{p.status}</span>
                   </div>
                 </div>
@@ -616,7 +616,7 @@ function ChartCard({
     <div className="bg-white border border-gray-100 rounded-[2rem] md:rounded-[2.5rem] p-5 md:p-8 shadow-sm">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-2xl text-black">
+          <h2 className="text-base text-black">
             {title}
           </h2>
           <p className="text-xs text-gray-400 uppercase tracking-wider">{subtitle}</p>

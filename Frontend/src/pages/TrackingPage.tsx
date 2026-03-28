@@ -105,7 +105,7 @@ export default function TrackingPage() {
             <div className="bg-red-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                <AlertCircle size={40} className="text-red-500" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Tracking Not Available Yet</h2>
+            <h2 className="text-base font-bold text-gray-800 mb-4">Tracking Not Available Yet</h2>
             <p className="text-gray-600 max-w-md mx-auto leading-relaxed">
               {error}
             </p>
@@ -187,7 +187,7 @@ export default function TrackingPage() {
                {/* Left Column: Shipment Details */}
                <div className="md:col-span-1 space-y-6">
                   <div className="bg-white rounded-3xl shadow-lg p-6 border border-green-50">
-                    <h3 className="text-lg font-bold text-gray-800 mb-4 border-b pb-3">Shipment Info</h3>
+                    <h3 className="text-base font-bold text-gray-800 mb-4 border-b pb-3">Shipment Info</h3>
                     <div className="space-y-4">
                        <div className="flex gap-4">
                           <div className="bg-green-50 p-2 rounded-xl h-fit">
@@ -216,7 +216,7 @@ export default function TrackingPage() {
                       <div className="absolute -right-4 -bottom-4 opacity-10 transform group-hover:scale-110 transition-transform">
                           <Truck size={120} />
                       </div>
-                      <h3 className="text-xl font-black mb-2 italic">Fast Delivery</h3>
+                      <h3 className="text-base font-black mb-2 italic">Fast Delivery</h3>
                       <p className="text-green-100 text-sm font-medium leading-relaxed">
                         GoMunchz is committed to bringing your favorite items as quickly as possible.
                       </p>
@@ -227,7 +227,7 @@ export default function TrackingPage() {
                <div className="md:col-span-2">
                   <div className="bg-white rounded-3xl shadow-lg p-8 border border-green-50 min-h-full">
                     <div className="flex justify-between items-center mb-8 border-b pb-4">
-                      <h3 className="text-xl font-black text-gray-800 uppercase tracking-tight">Timeline</h3>
+                      <h3 className="text-base font-black text-gray-800 uppercase tracking-tight">Timeline</h3>
                       <Clock size={20} className="text-green-600" />
                     </div>
 

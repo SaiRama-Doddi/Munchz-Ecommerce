@@ -335,7 +335,7 @@ export default function AdminCompleteStock() {
                       {r.onlineQty}
                     </div>
                   </td>
-                  <td className="px-8 py-5 text-right text-xl text-black">
+                  <td className="px-8 py-5 text-right text-base text-black">
                     <div className="flex items-center justify-end gap-2">
                        {r.totalQty}
                        {r.totalQty > 50 ? (

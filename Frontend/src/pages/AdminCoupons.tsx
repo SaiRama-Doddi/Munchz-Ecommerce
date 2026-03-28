@@ -126,7 +126,7 @@ export default function AdminCoupons() {
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
         <div>
-          <h1 className="text-2xl md:text-3xl text-black tracking-[-0.02em]">Campaign Hub</h1>
+          <h1 className="text-base text-black tracking-[-0.02em]">Campaign Hub</h1>
           <p className="text-gray-400 uppercase text-[9px] md:text-[10px]">Drive more sales with strategic discounts</p>
         </div>
         <div className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-100 shadow-sm text-gray-400 rounded-2xl text-[9px] md:text-[10px] uppercase self-start md:self-auto">
@@ -146,7 +146,7 @@ export default function AdminCoupons() {
               <div className="p-2.5 bg-black text-white rounded-xl shadow-lg">
                 {editingId ? <Edit3 size={20} /> : <Plus size={20} />}
               </div>
-              <h2 className="text-xl text-black font-inter">
+              <h2 className="text-base text-black font-inter">
                 {editingId ? "Update Promo" : "New Promotion"}
               </h2>
             </div>
@@ -244,7 +244,7 @@ export default function AdminCoupons() {
                 <div className="flex justify-between items-start mb-6">
                   <div className="flex flex-col">
                     <div className="flex items-center gap-2 mb-2">
-                       <span className="bg-emerald-50 text-emerald-600 px-3 py-1.5 rounded-xl text-base md:text-lg border border-emerald-100">
+                       <span className="bg-emerald-50 text-emerald-600 px-3 py-1.5 rounded-xl text-base border border-emerald-100">
                         {c.code}
                       </span>
                     </div>
@@ -272,11 +272,11 @@ export default function AdminCoupons() {
                 <div className="grid grid-cols-2 gap-4 py-4 border-y border-gray-50 mb-4">
                   <div>
                     <p className="text-[8px] md:text-[9px] text-gray-300 uppercase mb-1">Benefit</p>
-                    <p className="text-lg md:text-xl text-emerald-600">₹{c.discountAmount}</p>
+                    <p className="text-base text-emerald-600">₹{c.discountAmount}</p>
                   </div>
                   <div>
                     <p className="text-[8px] md:text-[9px] text-gray-300 uppercase mb-1">Min Spend</p>
-                    <p className="text-lg md:text-xl text-black">₹{c.minAmount}</p>
+                    <p className="text-base text-black">₹{c.minAmount}</p>
                   </div>
                 </div>
 

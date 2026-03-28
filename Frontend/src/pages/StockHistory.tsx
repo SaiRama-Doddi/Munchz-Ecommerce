@@ -75,7 +75,7 @@ export default function StockHistory({ productId }: { productId: number }) {
           <History size={24} />
         </div>
         <div>
-          <h3 className="text-xl font-black text-black uppercase tracking-tight">Transaction Ledger</h3>
+          <h3 className="text-base font-black text-black uppercase tracking-tight">Transaction Ledger</h3>
           <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Historical Batch Movements</p>
         </div>
       </div>
@@ -173,7 +173,7 @@ export default function StockHistory({ productId }: { productId: number }) {
                 </td>
 
                 <td className="px-6 py-5 text-center">
-                  <span className={`text-xl font-black ${
+                  <span className={`text-base font-black ${
                     h.transactionType === "IN" ? "text-emerald-600" : "text-black"
                   }`}>
                     {h.transactionType === "IN" ? "+" : "-"}{h.quantity}

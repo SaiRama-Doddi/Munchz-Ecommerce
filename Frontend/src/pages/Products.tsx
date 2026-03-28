@@ -90,7 +90,7 @@ export default function Products() {
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-2">
         <div>
-          <h1 className="text-2xl md:text-3xl text-black tracking-[-0.02em]">Product Catalog</h1>
+          <h1 className="text-base text-black tracking-[-0.02em]">Product Catalog</h1>
           <p className="text-gray-400 uppercase text-[9px] md:text-[10px]">Inventory & SKU Management</p>
         </div>
 
@@ -194,7 +194,7 @@ export default function Products() {
             {/* CONTENT SECTION */}
             <div className="p-8 flex flex-col flex-1">
               <div className="mb-4">
-                <h2 className="text-xl text-black group-hover:text-emerald-600 transition-colors">
+                <h2 className="text-base text-black group-hover:text-emerald-600 transition-colors">
                   {p.name}
                 </h2>
                 <p className="text-xs text-gray-400 mt-2 line-clamp-2 leading-relaxed">
@@ -251,7 +251,7 @@ export default function Products() {
           <div className="w-20 h-20 bg-white border border-gray-100 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-300 shadow-sm">
             <Package size={40} />
           </div>
-          <p className="text-black text-lg">No inventory items found.</p>
+          <p className="text-black text-base">No inventory items found.</p>
           <button
             onClick={() => { setSelectedCategoryId("ALL"); setSearchTerm(""); }}
             className="mt-4 text-emerald-600 text-sm hover:underline uppercase text-[10px]"

@@ -86,7 +86,7 @@ alt="GoMunchz logo"
 className="w-20 sm:w-24 mb-2"
 />
 
-<h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
+<h2 className="text-base font-semibold text-gray-800">
 Create Account
 </h2>
 

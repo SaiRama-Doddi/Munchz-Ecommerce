@@ -172,7 +172,7 @@ export default function CartPremium() {
 
                 {/* HEADER AREA */}
                 <div className="flex-shrink-0">
-                  <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight leading-none mb-1">
+                  <h2 className="text-base font-bold text-gray-900 tracking-tight leading-none mb-1">
                     Munchz <span className="text-green-600">Rewards</span>
                   </h2>
                   <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-2 flex items-center gap-2">
@@ -240,7 +240,7 @@ export default function CartPremium() {
                         <div>
                           <h4 
                             onClick={() => navigate(getProductUrl(item.productId, item.name))}
-                            className="text-sm sm:text-lg font-bold text-gray-900 tracking-tight leading-tight line-clamp-1 truncate cursor-pointer hover:text-green-700 transition-colors"
+                            className="text-sm sm:text-base font-bold text-gray-900 tracking-tight leading-tight line-clamp-1 truncate cursor-pointer hover:text-green-700 transition-colors"
                           >
                             {item.name}
                           </h4>
@@ -254,7 +254,7 @@ export default function CartPremium() {
 
                       <div className="flex items-center justify-between mt-2 sm:mt-4">
                         <div className="flex items-center gap-2">
-                          <span className="text-base sm:text-2xl font-bold text-gray-900 tracking-tighter">₹{v.offerPrice}</span>
+                          <span className="text-base font-bold text-gray-900 tracking-tighter">₹{v.offerPrice}</span>
                           {v.mrp > v.offerPrice && (
                             <span className="text-[10px] sm:text-xs text-gray-400 line-through font-bold">₹{v.mrp}</span>
                           )}
@@ -287,7 +287,7 @@ export default function CartPremium() {
 
             {/* COUPONS */}
             <div className="bg-white rounded-[2rem] p-8 border border-green-50 shadow-sm">
-              <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-3 tracking-tight">
+              <h3 className="text-base font-bold text-gray-900 mb-6 flex items-center gap-3 tracking-tight">
                 <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
                 Offers & Coupons
               </h3>
@@ -334,7 +334,7 @@ export default function CartPremium() {
 
             {/* SUMMARY CARD (STICKY) */}
             <div className="bg-white rounded-[2rem] p-8 border-2 border-green-600 shadow-xl lg:sticky lg:top-32 relative overflow-hidden">
-              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3 tracking-tight">
+              <h3 className="text-base font-bold text-gray-900 mb-6 flex items-center gap-3 tracking-tight">
                 <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
                 Order Summary
               </h3>

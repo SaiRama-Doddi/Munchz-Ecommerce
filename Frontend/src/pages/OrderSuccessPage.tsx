@@ -30,7 +30,7 @@ export default function OrderSuccessPage() {
         <CheckCircle className="mx-auto text-green-600" size={72} />
 
         {/* ✅ TITLE */}
-        <h1 className="text-2xl font-bold text-gray-800 mt-4">
+        <h1 className="text-base font-bold text-gray-800 mt-4">
           Payment Successful 🎉
         </h1>
 

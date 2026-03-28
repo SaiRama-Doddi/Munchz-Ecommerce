@@ -5,7 +5,7 @@ export default function ProductImage() {
 
         {/* LEFT TEXT */}
         <div className="space-y-6 text-gray-900">
-          <p className="text-xl md:text-2xl font-medium text-green-600/80">
+          <p className="text-base font-medium text-green-600/80">
             Pure Ingredients
           </p>
 

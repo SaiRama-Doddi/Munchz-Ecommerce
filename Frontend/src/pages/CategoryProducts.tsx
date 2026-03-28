@@ -223,7 +223,7 @@ export default function CategoryProducts() {
         <div className="mb-10 flex items-center justify-between">
            <div className="flex items-center gap-3">
               <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 uppercase tracking-tight">
+              <h3 className="text-base font-bold text-gray-900 uppercase tracking-tight">
                 {category?.name || "Category"} Products
               </h3>
            </div>
@@ -297,7 +297,7 @@ export default function CategoryProducts() {
                     {/* PRICE & WEIGHT */}
                     <div className="flex items-center justify-between mt-2.5">
                       <div className="flex flex-col">
-                        <span className="text-lg font-medium text-gray-900 tracking-tight">
+                        <span className="text-base font-medium text-gray-900 tracking-tight">
                           ₹{selectedVariant.offerPrice * qty}
                         </span>
                         {base100g && (

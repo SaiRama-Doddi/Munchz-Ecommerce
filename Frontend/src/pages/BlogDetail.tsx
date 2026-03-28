@@ -62,7 +62,7 @@ export default function BlogDetail() {
             {blog.title}
           </h1>
           
-          <p className="text-gray-600 text-lg md:text-xl max-w-3xl leading-relaxed italic border-l-4 border-green-600 pl-6 py-2">
+          <p className="text-gray-600 text-base max-w-3xl leading-relaxed italic border-l-4 border-green-600 pl-6 py-2">
             {blog.description}
           </p>
           <div className="w-20 h-1 bg-green-600 mt-8"></div>
@@ -70,7 +70,7 @@ export default function BlogDetail() {
 
         {/* ================= CONTENT AREA ================= */}
         <main className="w-full">
-          <div className="space-y-10 text-gray-700 leading-relaxed text-base md:text-xl text-justify">
+          <div className="space-y-10 text-gray-700 leading-relaxed text-base text-justify">
             {blog.sections.map((section, idx) => {
               switch (section.type) {
                 case "heading":
@@ -97,7 +97,7 @@ export default function BlogDetail() {
                   );
                 case "quote":
                   return (
-                    <div key={idx} className="font-bold text-gray-900 border-l-4 border-green-600 pl-6 italic bg-green-50/50 py-5 rounded-r-2xl my-10 text-xl md:text-2xl shadow-sm">
+                    <div key={idx} className="font-bold text-gray-900 border-l-4 border-green-600 pl-6 italic bg-green-50/50 py-5 rounded-r-2xl my-10 text-base md:text-base shadow-sm">
                       "{section.content as string}"
                     </div>
                   );

@@ -21,7 +21,7 @@ export default function BlogListPage() {
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-tight mb-6 animate-in fade-in slide-in-from-bottom-2 duration-700">
             Welcome to <span className="text-green-600">GoMunchz Blog</span>
           </h1>
-          <p className="text-gray-500 text-base md:text-xl mt-3 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <p className="text-gray-500 text-base mt-3 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000">
             Exploring the world of healthy snacking, nutritional powerhouses, and smarter lifestyle choices for a better you.
           </p>
           <div className="w-20 h-[3px] bg-green-600 mx-auto mt-10"></div>
@@ -48,7 +48,7 @@ export default function BlogListPage() {
                   </div>
                 </div>
 
-                <h2 className="text-2xl md:text-2xl font-bold text-gray-900 mb-4 group-hover:text-green-700 transition-colors leading-tight line-clamp-2">
+                <h2 className="text-base font-bold text-gray-900 mb-4 group-hover:text-green-700 transition-colors leading-tight line-clamp-2">
                   <Link to={`/blog/${blog.slug}`}>{blog.title}</Link>
                 </h2>
                 

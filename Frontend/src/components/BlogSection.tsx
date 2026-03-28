@@ -53,7 +53,7 @@ export default function BlogSection() {
         {/* ================= HEADER ================= */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
+            <h2 className="text-base font-bold text-gray-900 tracking-tight">
               Our <span className="text-green-600">Blog</span>
             </h2>
             <div className="w-16 h-[3px] bg-green-600 mt-4"></div>

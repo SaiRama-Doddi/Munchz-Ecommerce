@@ -243,7 +243,7 @@ const scrollRight = () => {
                       {/* PRICE & WEIGHT */}
                       <div className="flex items-center justify-between mt-2.5">
                         <div className="flex flex-col">
-                          <span className="text-lg font-medium text-gray-900 tracking-tight">
+                          <span className="text-base font-medium text-gray-900 tracking-tight">
                             ₹{selectedVariant.offerPrice * qty}
                           </span>
                           {base100g && (

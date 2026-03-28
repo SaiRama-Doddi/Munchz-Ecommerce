@@ -262,7 +262,7 @@ const AdminPayments: React.FC = () => {
                   </td>
                   <td className="px-8 py-6 text-right">
                     <div className="flex flex-col items-end">
-                      <span className="text-lg text-emerald-600">₹{(p.amount / 100).toLocaleString()}</span>
+                      <span className="text-base text-emerald-600">₹{(p.amount / 100).toLocaleString()}</span>
                       <span className="text-[10px] text-gray-400 uppercase">{p.currency}</span>
                     </div>
                   </td>

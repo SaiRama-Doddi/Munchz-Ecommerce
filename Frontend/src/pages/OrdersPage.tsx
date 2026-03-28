@@ -334,7 +334,7 @@ const OrdersPage: React.FC = () => {
                   <ShoppingBag size={24} />
                 </div>
                 <div>
-                  <h2 className="text-2xl text-black">Order Insight</h2>
+                  <h2 className="text-base text-black">Order Insight</h2>
                   <p className="text-[10px] text-gray-400 uppercase tracking-[0.2em]">REF: #{selectedOrder.orderId}</p>
                 </div>
               </div>
@@ -443,19 +443,19 @@ const OrdersPage: React.FC = () => {
                 <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                   <div className="space-y-1">
                     <p className="text-[10px] text-white/40 uppercase">Subtotal</p>
-                    <p className="text-lg md:text-xl">₹{selectedOrder.totalAmount - selectedOrder.totalTax + selectedOrder.totalDiscount}</p>
+                    <p className="text-base">₹{selectedOrder.totalAmount - selectedOrder.totalTax + selectedOrder.totalDiscount}</p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-[10px] text-white/40 uppercase">Taxes</p>
-                    <p className="text-lg md:text-xl text-emerald-400">+ ₹{selectedOrder.totalTax}</p>
+                    <p className="text-base text-emerald-400">+ ₹{selectedOrder.totalTax}</p>
                   </div>
                   <div className="space-y-1">
                     <p className="text-[10px] text-white/40 uppercase">Discounts</p>
-                    <p className="text-lg md:text-xl text-gray-400">- ₹{selectedOrder.totalDiscount}</p>
+                    <p className="text-base text-gray-400">- ₹{selectedOrder.totalDiscount}</p>
                   </div>
                   <div className="space-y-1 sm:border-l border-white/10 sm:pl-8">
                     <p className="text-[10px] text-emerald-400 uppercase">Grant Total</p>
-                    <p className="text-2xl md:text-3xl">₹{selectedOrder.totalAmount}</p>
+                    <p className="text-base">₹{selectedOrder.totalAmount}</p>
                   </div>
                 </div>
               </div>

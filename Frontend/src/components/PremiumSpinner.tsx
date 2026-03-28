@@ -39,7 +39,7 @@ const PremiumSpinner: React.FC<PremiumSpinnerProps> = ({
 
       {/* TEXT SECTION */}
       <div className="mt-8 text-center">
-        <h3 className="text-xl font-black text-slate-800 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700">
+        <h3 className="text-base font-black text-slate-800 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700">
           {text}
         </h3>
         {subtext && (

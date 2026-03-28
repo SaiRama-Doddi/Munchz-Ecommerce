@@ -176,7 +176,7 @@ export default function EditProduct() {
           <ArrowLeft size={20} />
         </button>
         <div className="text-right">
-          <h1 className="text-2xl text-black uppercase">Edit Product</h1>
+          <h1 className="text-base text-black uppercase">Edit Product</h1>
           <p className="text-[10px] text-gray-400 uppercase tracking-[0.2em]">Listing Refinement</p>
         </div>
       </div>
@@ -194,7 +194,7 @@ export default function EditProduct() {
               <div className="p-2.5 bg-black text-white rounded-xl">
                 <Package size={20} />
               </div>
-              <h2 className="text-xl text-black uppercase">Essential Identifiers</h2>
+              <h2 className="text-base text-black uppercase">Essential Identifiers</h2>
             </div>
             
             <div className="space-y-6 relative">
@@ -229,7 +229,7 @@ export default function EditProduct() {
                 <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
                   <Tag size={20} />
                 </div>
-                <h2 className="text-xl text-black uppercase">Variant Matrix</h2>
+                <h2 className="text-base text-black uppercase">Variant Matrix</h2>
               </div>
               <button
                 type="button"
@@ -301,7 +301,7 @@ export default function EditProduct() {
               <div className="p-2.5 bg-gray-50 text-black rounded-xl">
                 <Layers size={18} />
               </div>
-              <h2 className="text-lg text-black uppercase">Classification</h2>
+              <h2 className="text-base text-black uppercase">Classification</h2>
             </div>
 
             <div className="space-y-6">
@@ -344,7 +344,7 @@ export default function EditProduct() {
                 <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
                   <ImageIcon size={18} />
                 </div>
-                <h2 className="text-lg text-black uppercase">Media Grid</h2>
+                  <h2 className="text-base text-black uppercase">Media Grid</h2>
               </div>
               <button
                 type="button"

@@ -263,7 +263,7 @@ export default function SearchProducts() {
                     {/* PRICE */}
                     <div className="flex items-center gap-2">
 
-                      <span className="text-lg font-bold text-gray-900">
+                      <span className="text-base font-bold text-gray-900">
                         ₹{selectedVariant.offerPrice * qty}
                       </span>
 

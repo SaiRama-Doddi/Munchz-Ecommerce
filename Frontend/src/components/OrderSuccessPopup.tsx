@@ -6,7 +6,7 @@ export default function OrderSuccessPopup() {
       <div className="bg-white rounded-xl p-8 w-[90%] max-w-md text-center shadow-xl animate-fadeIn">
         <CheckCircle size={72} className="text-green-600 mx-auto mb-4" />
 
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+        <h2 className="text-base font-bold text-gray-800 mb-2">
           Order Confirmed!
         </h2>
 

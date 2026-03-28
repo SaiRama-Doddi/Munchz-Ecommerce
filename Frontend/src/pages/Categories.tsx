@@ -187,7 +187,7 @@ export default function Categories() {
             {/* LIST SECTION */}
             <div className="space-y-6">
                 <div className="flex items-center justify-between px-2">
-                    <h3 className="text-xl font-bold text-black tracking-tight">Active Categories</h3>
+                    <h3 className="text-base font-bold text-black tracking-tight">Active Categories</h3>
                     <div className="h-px flex-1 mx-6 bg-gray-100 hidden md:block"></div>
                 </div>
 
@@ -216,7 +216,7 @@ export default function Categories() {
                                 </div>
 
                                 <div className="flex-1 min-w-0 pt-1">
-                                    <h4 className="text-base md:text-lg font-bold text-black truncate group-hover:text-emerald-600 transition-colors">
+                                    <h4 className="text-base font-bold text-black truncate group-hover:text-emerald-600 transition-colors">
                                         {c.name}
                                     </h4>
                                     <p className="text-[11px] md:text-xs text-gray-400 font-bold line-clamp-3 mt-1.5 leading-relaxed">

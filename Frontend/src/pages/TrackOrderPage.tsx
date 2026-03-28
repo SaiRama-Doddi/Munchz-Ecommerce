@@ -65,7 +65,7 @@ export default function TrackOrderPage() {
               <h1 className="text-4xl md:text-4xl font-black mb-6 leading-tight tracking-tighter uppercase italic">
                 Track Your <br /> <span className="text-green-300">Cravings.</span>
               </h1>
-              <p className="text-green-100 text-lg font-medium max-w-md leading-relaxed">
+              <p className="text-green-100 text-base font-medium max-w-md leading-relaxed">
                 Enter your shipment ID to see exactly where your GoMunchz goodies are in real-time. From our Warehouse to your doorstep.
               </p>
 
@@ -126,7 +126,7 @@ export default function TrackOrderPage() {
                 <button
                   type="submit"
                   disabled={!shipmentId.trim() || validating}
-                  className="w-full bg-green-700 text-white py-6 rounded-3xl font-black text-lg uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-green-800 hover:shadow-2xl hover:shadow-green-200 transition-all disabled:opacity-70 disabled:cursor-not-allowed group relative overflow-hidden"
+                  className="w-full bg-green-700 text-white py-6 rounded-3xl font-black text-base uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-green-800 hover:shadow-2xl hover:shadow-green-200 transition-all disabled:opacity-70 disabled:cursor-not-allowed group relative overflow-hidden"
                 >
                   {validating ? (
                     <div className="flex items-center gap-3">

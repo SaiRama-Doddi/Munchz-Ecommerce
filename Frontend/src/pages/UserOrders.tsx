@@ -383,7 +383,7 @@ export default function UserOrders() {
             
             <div className="flex gap-6 items-center p-4 bg-white rounded-3xl border border-green-50">
                <img src={productImages[reviewItem.productId] || "/placeholder.png"} className="w-16 h-16 object-contain bg-white rounded-2xl border shadow-sm" alt={reviewItem.productName} />
-               <p className="font-bold text-gray-900 text-lg tracking-tight leading-tight uppercase truncate">{reviewItem.productName}</p>
+               <p className="font-bold text-gray-900 text-base tracking-tight leading-tight uppercase truncate">{reviewItem.productName}</p>
             </div>
 
             <div className="space-y-3">

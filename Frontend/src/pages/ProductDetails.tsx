@@ -199,7 +199,7 @@ export default function ProductDetails() {
   }, [productId]);
 
   if (isLoading) {
-    return <div className="p-10 text-lg text-center">Loading product...</div>;
+    return <div className="p-10 text-base text-center">Loading product...</div>;
   }
 
   if (isError || !product) {
@@ -393,9 +393,9 @@ export default function ProductDetails() {
                 {/* QTY & ACTIONS */}
                 <div className="flex flex-col sm:flex-row gap-4 items-stretch mb-10">
                   <div className="flex items-center bg-white rounded-2xl border border-gray-100 p-1.5 shadow-sm min-w-[140px] h-14">
-                    <button onClick={() => setQty(Math.max(1, qty - 1))} className="w-10 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all font-bold text-2xl">−</button>
-                    <span className="flex-1 text-center font-black text-lg text-gray-900">{qty}</span>
-                    <button onClick={() => setQty(qty + 1)} className="w-10 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all font-bold text-2xl">+</button>
+                    <button onClick={() => setQty(Math.max(1, qty - 1))} className="w-10 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all font-bold text-base">−</button>
+                    <span className="flex-1 text-center font-black text-base text-gray-900">{qty}</span>
+                    <button onClick={() => setQty(qty + 1)} className="w-10 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all font-bold text-base">+</button>
                   </div>
                   <div className="flex-1 flex gap-3">
                     <button onClick={() => addToCart({ productId: product.id, name: product.name, imageUrl: product.imageUrl, variants, selectedVariantIndex, base100gPrice: base100g?.offerPrice, qty })} className="flex-grow bg-green-600 text-white rounded-2xl font-black text-[15px] uppercase tracking-wider hover:bg-green-700 transition shadow-lg active:scale-95">Add to cart</button>
@@ -423,7 +423,7 @@ export default function ProductDetails() {
               <div key={review.id} className="bg-white rounded-[1.5rem] md:rounded-[2rem] p-5 md:p-6 shadow-sm border border-gray-50 border-b-2 border-b-green-200">
                 <div className="flex justify-between items-center mb-4">
                   <div>
-                    <p className="font-bold text-gray-900 text-base md:text-lg">{review.userName}</p>
+                    <p className="font-bold text-gray-900 text-base">{review.userName}</p>
                     <p className="text-[10px] md:text-[11px] font-bold text-gray-400 uppercase tracking-widest">{new Date(review.createdAt).toLocaleDateString()}</p>
                   </div>
                   <div className="text-yellow-500 text-xs md:text-sm">{"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}</div>
@@ -487,7 +487,7 @@ export default function ProductDetails() {
                       {/* PRICE & WEIGHT */}
                       <div className="flex items-center justify-between mt-2.5">
                         <div className="flex flex-col">
-                          <span className="text-lg font-medium text-gray-900 tracking-tight">₹{selectedVariant.offerPrice * qty}</span>
+                          <span className="text-base font-medium text-gray-900 tracking-tight">₹{selectedVariant.offerPrice * qty}</span>
                           {base100g && (
                             <span className="text-[9px] text-gray-500 font-medium tracking-tight">(₹{base100g.offerPrice}/100g)</span>
                           )}

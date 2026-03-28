@@ -109,7 +109,7 @@ export default function MyOrders() {
       {/* ================= PROFILE SUMMARY ================= */}
       <div className="bg-green-50 rounded-xl p-6 shadow-sm flex flex-col md:flex-row justify-between gap-4 mb-10">
         <div>
-          <p className="font-semibold text-lg">
+          <p className="font-semibold text-base">
             {profile?.firstName} {profile?.lastName}
           </p>
           <p className="text-sm text-gray-600">
@@ -119,12 +119,12 @@ export default function MyOrders() {
 
         <div>
           <p className="text-sm text-gray-600">Total orders</p>
-          <p className="text-xl font-bold">{orders.length}</p>
+          <p className="text-base font-bold">{orders.length}</p>
         </div>
       </div>
 
       {/* ================= HEADER ================= */}
-      <h2 className="text-xl font-semibold mb-6">Order history</h2>
+      <h2 className="text-base font-semibold mb-6">Order history</h2>
 
       {/* ================= ORDER LIST ================= */}
       {orders.length === 0 ? (
@@ -148,7 +148,7 @@ export default function MyOrders() {
   }}
 />
                   <div>
-                    <p className="font-semibold text-lg">
+                    <p className="font-semibold text-base">
                       {item.productName}
                     </p>
                     <p className="text-sm text-gray-600">

@@ -98,7 +98,7 @@ export default function Subcategories() {
       {/* HEADER SECTION */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
         <div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-black tracking-tight">Sub-Classification</h1>
+          <h1 className="text-base font-extrabold text-black tracking-tight">Sub-Classification</h1>
           <p className="text-gray-400 font-bold uppercase tracking-widest text-[9px] md:text-[10px]">精確的分類與商品管理</p>
         </div>
         <div className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-100 shadow-sm text-gray-400 rounded-2xl text-[9px] md:text-[10px] font-black uppercase tracking-widest self-start md:self-auto">
@@ -118,7 +118,7 @@ export default function Subcategories() {
               <div className="p-2.5 bg-black text-white rounded-xl shadow-lg">
                 {editId ? <Edit3 size={20} /> : <Plus size={20} />}
               </div>
-              <h2 className="text-xl font-bold text-black uppercase tracking-tight">
+              <h2 className="text-base font-bold text-black uppercase tracking-tight">
                 {editId ? 'Edit Variant' : 'New Subcategory'}
               </h2>
             </div>
@@ -189,7 +189,7 @@ export default function Subcategories() {
                 >
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex flex-col">
-                      <h3 className="text-lg font-black text-black leading-tight mb-1 group-hover:text-emerald-600 transition-colors">
+                      <h3 className="text-base font-black text-black leading-tight mb-1 group-hover:text-emerald-600 transition-colors">
                         {s.name}
                       </h3>
                       <div className="flex items-center gap-1.5 text-[9px] font-black text-gray-400 uppercase tracking-widest">

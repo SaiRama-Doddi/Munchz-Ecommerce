@@ -11,12 +11,12 @@ export default function SuccessPage() {
     <div className="max-w-3xl mx-auto p-10 text-center">
       <h1 className="text-4xl font-bold text-green-600">Order Confirmed!</h1>
 
-      <p className="text-lg mt-4">
+      <p className="text-base mt-4">
         Your order has been placed successfully.
       </p>
 
       <div className="border rounded p-4 mt-6 bg-white shadow text-left">
-        <h2 className="text-xl font-semibold mb-2">Order Details</h2>
+        <h2 className="text-base font-semibold mb-2">Order Details</h2>
 
         <p><b>Order ID:</b> {state.orderId}</p>
         <p><b>Total Amount:</b> ₹{state.totalAmount}</p>

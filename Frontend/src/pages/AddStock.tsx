@@ -148,7 +148,7 @@ export default function AddStock() {
           <ArrowLeft size={18} />
         </button>
         <div>
-          <h1 className="text-2xl md:text-3xl text-black tracking-[-0.02em]">
+          <h1 className="text-base text-black tracking-[-0.02em]">
             {isEdit ? "Update Batch" : "Secure Restock"}
           </h1>
           <p className="text-gray-400 uppercase text-[9px] md:text-[10px]">Manage physical product availability</p>
@@ -268,7 +268,7 @@ export default function AddStock() {
               className="w-full bg-gray-50 border border-transparent rounded-3xl pl-12 pr-6 py-6 text-3xl text-emerald-600 outline-none focus:bg-white focus:border-emerald-500 transition-all shadow-inner h-20"
               required
             />
-            <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300 text-xl">#</div>
+            <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300 text-base">#</div>
           </div>
           <div className="mt-6 p-4 bg-gray-50 rounded-2xl border border-gray-100 flex items-center gap-3">
             <Info size={16} className="text-emerald-500 shrink-0" />

@@ -135,7 +135,7 @@ export default function OtpPage() {
         {/* Logo */}
         <img src="/logo.png" className="w-16 mx-auto mb-3" />
 
-        <h2 className="text-lg font-semibold">Enter OTP</h2>
+        <h2 className="text-base font-semibold">Enter OTP</h2>
 
         {/* OTP INPUTS */}
         <div
@@ -159,7 +159,7 @@ export default function OtpPage() {
                 w-9 h-11
                 sm:w-11 sm:h-12
                 border rounded-md
-                text-center text-lg
+                text-center text-base
                 focus:outline-none
                 focus:border-green-600
               "

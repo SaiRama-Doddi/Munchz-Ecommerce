@@ -59,7 +59,7 @@ export default function StockList() {
       {/* HEADER AREA */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 px-2">
         <div>
-          <h1 className="text-2xl md:text-3xl text-black tracking-[-0.02em]">Inventory Hub</h1>
+          <h1 className="text-base text-black tracking-[-0.02em]">Inventory Hub</h1>
           <p className="text-gray-400 uppercase text-[9px] md:text-[10px]">Monitor and update your physical stock levels</p>
         </div>
         <button
@@ -79,7 +79,7 @@ export default function StockList() {
           </div>
           <div>
             <p className="text-[10px] text-gray-400 uppercase mb-1">SKU Count</p>
-            <p className="text-2xl text-black">{stocks.length}</p>
+            <p className="text-base text-black">{stocks.length}</p>
           </div>
         </div>
         <div className="bg-white border border-gray-100 shadow-sm p-6 rounded-[2rem] flex items-center gap-4">
@@ -88,7 +88,7 @@ export default function StockList() {
           </div>
           <div>
             <p className="text-[10px] text-gray-400 uppercase mb-1">Low Alerts</p>
-            <p className="text-2xl text-black">
+            <p className="text-base text-black">
               {stocks.filter(s => s.quantity < 10).length}
             </p>
           </div>
@@ -99,7 +99,7 @@ export default function StockList() {
           </div>
           <div>
             <p className="text-[10px] text-gray-400 uppercase mb-1">Healthy Qty</p>
-            <p className="text-2xl text-black">
+            <p className="text-base text-black">
               {stocks.filter(s => s.quantity >= 10).length}
             </p>
           </div>
@@ -147,7 +147,7 @@ export default function StockList() {
                     </div>
                   </td>
                   <td className="px-8 py-6 text-center">
-                    <span className={`text-lg ${s.quantity < 10 ? 'text-emerald-600' : 'text-black'}`}>
+                    <span className={`text-base ${s.quantity < 10 ? 'text-emerald-600' : 'text-black'}`}>
                       {s.quantity}
                     </span>
                   </td>

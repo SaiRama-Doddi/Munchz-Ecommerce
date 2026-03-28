@@ -159,7 +159,7 @@ export default function AddStockEntry() {
           <ArrowLeft size={20} />
         </button>
         <div className="text-right">
-          <h1 className="text-2xl text-black uppercase">
+          <h1 className="text-base text-black uppercase">
             {isEdit ? "Update Logistics" : "Logistics Entry"}
           </h1>
           <p className="text-[10px] text-gray-400 uppercase tracking-[0.2em]">Batch Record Management</p>
@@ -179,7 +179,7 @@ export default function AddStockEntry() {
               <div className="p-2.5 bg-gray-50 text-black rounded-xl">
                 <Package size={20} />
               </div>
-              <h2 className="text-xl text-black uppercase">Product Selection</h2>
+              <h2 className="text-base text-black uppercase">Product Selection</h2>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
@@ -269,7 +269,7 @@ export default function AddStockEntry() {
               <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
                 <Truck size={20} />
               </div>
-              <h2 className="text-xl text-black uppercase">Supply Chain Info</h2>
+              <h2 className="text-base text-black uppercase">Supply Chain Info</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -301,7 +301,7 @@ export default function AddStockEntry() {
               <div className="p-2.5 bg-black text-white rounded-xl">
                 <CircleDollarSign size={20} />
               </div>
-              <h2 className="text-xl text-black uppercase">Inventory Metrics</h2>
+              <h2 className="text-base text-black uppercase">Inventory Metrics</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -310,7 +310,7 @@ export default function AddStockEntry() {
                 <div className="relative">
                   <input
                     type="number"
-                    className="w-full bg-gray-50 border border-transparent rounded-2xl pl-12 pr-5 py-4 text-xl text-black placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14"
+                    className="w-full bg-gray-50 border border-transparent rounded-2xl pl-12 pr-5 py-4 text-base text-black placeholder:text-gray-300 focus:bg-white focus:border-emerald-500 outline-none transition-all h-14"
                     placeholder="0"
                     value={form.quantity}
                     onChange={e => setForm({ ...form, quantity: e.target.value })}
@@ -330,7 +330,7 @@ export default function AddStockEntry() {
                     onChange={e => setForm({ ...form, purchasePrice: e.target.value })}
                     required
                   />
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 text-lg">₹</span>
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 text-base">₹</span>
                 </div>
               </div>
               <div className="space-y-2">
@@ -344,7 +344,7 @@ export default function AddStockEntry() {
                     onChange={e => setForm({ ...form, sellingPrice: e.target.value })}
                     required
                   />
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-200 text-lg">₹</span>
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-200 text-base">₹</span>
                 </div>
               </div>
             </div>
@@ -360,7 +360,7 @@ export default function AddStockEntry() {
               <div className="p-2.5 bg-gray-50 text-black rounded-xl border border-gray-100">
                 <Calendar size={20} />
               </div>
-              <h2 className="text-xl text-black uppercase">Timeline</h2>
+              <h2 className="text-base text-black uppercase">Timeline</h2>
             </div>
             
             <div className="space-y-6">
