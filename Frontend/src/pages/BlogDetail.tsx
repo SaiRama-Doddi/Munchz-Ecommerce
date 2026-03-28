@@ -31,7 +31,7 @@ export default function BlogDetail() {
       <TopHeader />
       <Header />
       
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-16">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 pt-4 pb-10 md:pt-6 md:pb-16">
         {/* ================= BREADCRUMBS ================= */}
         <nav className="flex items-center gap-2 text-sm text-gray-500 mb-8 overflow-x-auto whitespace-nowrap">
           <Link to="/" className="hover:text-green-600">Home</Link>

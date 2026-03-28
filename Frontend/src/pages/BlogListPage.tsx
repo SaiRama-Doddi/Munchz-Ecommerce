@@ -12,7 +12,7 @@ export default function BlogListPage() {
       <TopHeader />
       <Header />
 
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-20 text-center">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 pt-4 pb-10 md:pt-6 md:pb-20 text-center">
         {/* ================= HEADER AREA ================= */}
         <div className="mb-12 md:mb-20">
           <span className="inline-block px-4 py-1.5 bg-green-100 text-green-700 text-xs font-bold rounded-full mb-6 uppercase tracking-[0.2em] animate-in fade-in slide-in-from-bottom duration-500">

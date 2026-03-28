@@ -129,7 +129,7 @@ export default function SearchProducts() {
     <>
       <TopHeader />
       <Header />
-<div className="bg-[#f3fff1] min-h-screen py-12">
+<div className="bg-[#f3fff1] min-h-screen pt-4 pb-10 md:pt-6 md:pb-16">
   <div className="max-w-7xl mx-auto px-4">
 
     {/* TITLE */}

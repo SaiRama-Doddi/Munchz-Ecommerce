@@ -143,7 +143,7 @@ export default function AllProducts() {
     );
 
   return (
-    <div className="bg-white min-h-screen py-10 md:py-16">
+    <div className="bg-white min-h-screen pt-4 pb-10 md:pt-6 md:pb-16">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
 
         {/* HEADER AREA */}

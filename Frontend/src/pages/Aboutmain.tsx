@@ -3,7 +3,7 @@ import { CheckCircle2, Leaf, Box, Heart, Activity } from "lucide-react";
 
 export default function About() {
   return (
-    <div className="w-full bg-white min-h-screen py-10 md:py-16">
+    <div className="w-full bg-white min-h-screen pt-4 pb-10 md:pt-6 md:pb-16">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
 
         {/* ================= HEADER AREA ================= */}
@@ -20,7 +20,7 @@ export default function About() {
         <main className="grid lg:grid-cols-1 gap-12">
           
           {/* STORY SECTION */}
-          <div className="space-y-8 text-gray-700 leading-relaxed text-base text-justify">
+          <div className="space-y-5 text-gray-700 leading-relaxed text-base text-justify">
             <p>
               At <span className="text-green-700 font-bold tracking-tight">GoMunchz</span>, we believe that great snacking should never be a compromise between taste and health. In a world full of processed options, our mission is simple—bring back the goodness of real, honest ingredients and transform them into snacks you can feel good about.
             </p>

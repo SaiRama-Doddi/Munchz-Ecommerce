@@ -99,7 +99,7 @@ export default function ReturnRefundPolicy() {
       <TopHeader />
       <Header />
       
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-20">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 pt-4 pb-12 md:pt-6 md:pb-20">
         <div className="mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
             Refunds & <span className="text-green-600">Returns</span>
