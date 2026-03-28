@@ -47,16 +47,16 @@ export default function BlogSection() {
   };
 
   return (
-    <section id="blog-section" className="py-8 md:py-12 bg-white overflow-hidden font-sans">
+    <section id="blog-section" className="py-5 md:py-8 bg-white overflow-hidden font-sans">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
 
         {/* ================= HEADER ================= */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
           <div>
             <h2 className="text-4xl font-bold text-gray-900 tracking-tight">
               Our <span className="text-green-600">Blog</span>
             </h2>
-            <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
+
             <p className="text-gray-600 text-sm md:text-base mt-2 font-normal">
               Latest from GoMunchz Blog
             </p>

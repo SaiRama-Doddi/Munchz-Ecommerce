@@ -216,7 +216,7 @@ export default function CategoryProducts() {
           <p className="text-gray-500 text-sm mt-3 max-w-lg">
             Delicious {category?.name || "Premium"} snacks crafted with quality and care
           </p>
-          <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
+
         </div>
 
         {/* DYNAMIC SECTION HEADER */}

@@ -41,19 +41,19 @@ export default function UserCategories() {
   }
 
   return (
-    <section className="bg-white pt-2 sm:pt-4 lg:pt-6 pb-10 sm:pb-12 lg:pb-14">
+    <section className="bg-[#ecfdf5] pt-2 sm:pt-4 lg:pt-6 pb-0">
 
       <div className="max-w-7xl mx-auto px-4">
 
         {/* HEADER */}
-        <div className="mb-12 text-left">
+        <div className="mb-6 text-left">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
             Shop By <span className="text-green-600">Category</span>
           </h2>
           <p className="text-gray-500 text-sm mt-3 max-w-lg">
             Explore our diverse ranges of premium handpicked snacks
           </p>
-          <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
+
         </div>
 
       </div>
@@ -148,9 +148,7 @@ export default function UserCategories() {
                 {c.name}
               </p>
 
-              <div className="flex justify-center mt-2">
-                <span className="w-10 h-[3px] bg-green-600 rounded-full"></span>
-              </div>
+
 
             </div>
 

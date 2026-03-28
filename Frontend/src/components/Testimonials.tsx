@@ -115,7 +115,7 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="pt-8 md:pt-12 pb-2 bg-white">
+    <section className="py-5 md:py-8 bg-white">
       <div className="max-w-7xl mx-auto px-4">
 
         {/* HEADER SECTION WITH NAVIGATION */}
@@ -124,7 +124,7 @@ export default function Testimonials() {
             <h2 className="text-4xl font-bold text-gray-900 tracking-tight">
               What Our <span className="text-green-600">Customers Say</span>
             </h2>
-            <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
+
           </div>
 
           {/* CUSTOM CIRCULAR NAVIGATION BUTTONS AS PER USER REQUEST */}

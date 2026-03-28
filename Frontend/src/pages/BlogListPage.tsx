@@ -24,7 +24,7 @@ export default function BlogListPage() {
           <p className="text-gray-500 text-base mt-3 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000">
             Exploring the world of healthy snacking, nutritional powerhouses, and smarter lifestyle choices for a better you.
           </p>
-          <div className="w-20 h-[3px] bg-green-600 mx-auto mt-10"></div>
+
         </div>
 
         {/* ================= BLOG GRID ================= */}

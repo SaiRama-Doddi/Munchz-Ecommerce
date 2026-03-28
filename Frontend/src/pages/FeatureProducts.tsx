@@ -149,19 +149,19 @@ const scrollRight = () => {
   }
 
   return (
-    <div className="bg-white py-8 md:py-12">
+    <div className="bg-white py-5 md:py-8">
 
       <div className="max-w-7xl mx-auto px-4">
 
         {/* HEADING */}
-        <div className="mb-10 text-left px-0">
+        <div className="mb-8 text-left px-0">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
             Curated <span className="text-green-600">Collection</span>
           </h2>
           <p className="text-gray-500 text-sm mt-3 max-w-lg">
             Premium-quality products handpicked for excellence
           </p>
-          <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
+
         </div>
 
         {/* SLIDER */}

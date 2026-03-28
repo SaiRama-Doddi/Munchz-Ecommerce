@@ -47,19 +47,19 @@ export default function FAQ() {
   };
 
   return (
-    <section className="py-8 md:py-12 bg-white">
+    <section className="py-5 md:py-8 bg-white">
 
       <div className="max-w-7xl mx-auto px-4">
 
         {/* SECTION HEADER */}
-        <div className="mb-12">
+        <div className="mb-8">
 
 
           <h2 className="text-4xl font-bold text-gray-900 tracking-tight">
             Frequently Asked <span className="text-green-600">Questions</span>
           </h2>
 
-          <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
+
         </div>
 
 

@@ -1,6 +1,6 @@
 export default function ProductImage() {
   return (
-    <section className="relative w-full overflow-hidden bg-[#ecfdf5] py-8 md:py-12">
+    <section className="relative w-full overflow-hidden bg-[#ecfdf5] pb-5 md:pb-8">
       <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
 
         {/* LEFT TEXT */}
@@ -21,7 +21,7 @@ export default function ProductImage() {
             <span className="inline-block text-3xl md:text-4xl font-bold tracking-tight">
               GoMunchz
             </span>
-            <div className="w-20 h-1 bg-green-500 mt-2 rounded-full"></div>
+
           </div>
         </div>
 

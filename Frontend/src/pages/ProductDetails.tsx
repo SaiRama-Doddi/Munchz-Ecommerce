@@ -416,7 +416,7 @@ export default function ProductDetails() {
             <p className="text-gray-500 text-sm mt-2 md:mt-3 max-w-lg">
               What our verified buyers say about this product
             </p>
-            <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
+
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
             {reviews?.slice(0, visibleReviews).map((review) => (
@@ -451,7 +451,7 @@ export default function ProductDetails() {
             <p className="text-gray-500 text-sm mt-2 md:mt-3 max-w-lg">
               You might also like these handpicked selections
             </p>
-            <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
+
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {relatedProducts?.slice(0, 8).map((p) => {
