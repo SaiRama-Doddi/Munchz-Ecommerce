@@ -53,7 +53,7 @@ export default function BlogSection() {
         {/* ================= HEADER ================= */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <h2 className="text-base font-bold text-gray-900 tracking-tight">
+            <h2 className="text-4xl font-bold text-gray-900 tracking-tight">
               Our <span className="text-green-600">Blog</span>
             </h2>
             <div className="w-16 h-[3px] bg-green-600 mt-4"></div>
@@ -113,7 +113,7 @@ export default function BlogSection() {
 
                   {/* TITLE WITH ARROW */}
                   <div className="flex items-start justify-between gap-4 mb-4">
-                    <h3 className="text-gray-900 font-bold text-lg md:text-xl leading-snug group-hover/card:text-green-700 transition-colors line-clamp-2">
+                    <h3 className="text-gray-900 font-bold text-base leading-snug group-hover/card:text-green-700 transition-colors line-clamp-2 mt-1">
                       {blog.title}
                     </h3>
                     <ArrowUpRight size={20} className="text-gray-400 group-hover/card:text-green-700 transition-all group-hover/card:-translate-y-1 group-hover/card:translate-x-1 shrink-0 mt-1" />

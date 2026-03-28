@@ -8,7 +8,7 @@ export default function About() {
 
         {/* ================= HEADER AREA ================= */}
         <div className="mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
+          <h2 className="text-4xl font-bold text-gray-900 tracking-tight">
             About <span className="text-green-600">GoMunchz</span>
           </h2>
           <p className="text-gray-500 text-sm md:text-base mt-3 leading-relaxed whitespace-nowrap overflow-hidden text-ellipsis">

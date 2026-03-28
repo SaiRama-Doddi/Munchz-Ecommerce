@@ -70,7 +70,7 @@ export default function Footer() {
 
             {/* Quick Links */}
             <div className="md:col-span-2">
-              <h4 className="font-bold text-lg mb-6 text-black">Quick Links</h4>
+              <h4 className="font-bold text-base mb-6 text-black">Quick Links</h4>
               <ul className="space-y-3 text-sm text-gray-700 font-medium whitespace-nowrap">
                 <li className="cursor-pointer hover:text-green-700 transition" onClick={() => navigate("/")}>Home</li>
                 <li className="cursor-pointer hover:text-green-700 transition" onClick={() => navigate("/Aboutmain")}>About Us</li>
@@ -84,7 +84,7 @@ export default function Footer() {
 
             {/* Legal */}
             <div className="md:col-span-2">
-              <h4 className="font-bold text-lg mb-6 text-black">Legal</h4>
+              <h4 className="font-bold text-base mb-6 text-black">Legal</h4>
               <ul className="space-y-3 text-sm text-gray-700 font-medium whitespace-nowrap">
                 <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/terms-and-conditions")}>Terms & Conditions</li>
                 <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/privacy-policy")}>Privacy Policy</li>
@@ -110,10 +110,10 @@ export default function Footer() {
 
             {/* COPYRIGHTS */}
             <div className="flex flex-col items-center md:items-end gap-1 text-gray-700">
-              <p className="text-[15px]">
+              <p className="text-sm">
                 © 2026 GoMunchz. All rights reserved.
               </p>
-              <p className="text-[15px] flex items-center gap-1.5">
+              <p className="text-sm flex items-center gap-1.5">
                 Made with <span className="text-red-500 text-lg">❤️</span> by GoMunchz
               </p>
             </div>

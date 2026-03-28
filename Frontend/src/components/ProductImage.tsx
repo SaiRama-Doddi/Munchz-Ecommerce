@@ -9,16 +9,11 @@ export default function ProductImage() {
             Pure Ingredients
           </p>
 
-          <div className="space-y-2">
-            <h2 className="text-4xl md:text-6xl font-semibold leading-tight tracking-tight">
-              Real ingredients
-            </h2>
-            <h2 className="text-4xl md:text-6xl font-light leading-tight tracking-tight text-gray-700">
-              Unreal flavor
-            </h2>
-          </div>
+          <h2 className="text-4xl font-semibold leading-tight tracking-tight">
+            Real ingredients <span className="font-light text-gray-700 italic">Unreal flavor</span>
+          </h2>
 
-          <p className="text-xl md:text-2xl font-medium text-green-600/80 pt-2">
+          <p className="text-base font-medium text-green-600/80 pt-2">
             Absolutely zero compromise
           </p>
 

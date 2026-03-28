@@ -90,7 +90,7 @@ export default function Header() {
 
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8 font-medium">
+          <nav className="hidden md:flex items-center gap-8 font-medium text-sm">
             <NavLink to="/" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Home</NavLink>
             <NavLink to="/Aboutmain" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>About Us</NavLink>
             <NavLink to="/productpage" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Shop</NavLink>
@@ -366,7 +366,7 @@ export default function Header() {
 
               </div>
 
-              <nav className="flex flex-col gap-7 text-gray-800 font-medium h-[calc(100%-80px)] overflow-y-auto">
+              <nav className="flex flex-col gap-7 text-gray-800 font-medium text-sm h-[calc(100%-80px)] overflow-y-auto">
 
                 {!mobileBlogOpen ? (
                   <>
