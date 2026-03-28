@@ -38,7 +38,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f9fdf7] flex items-center justify-center px-4 py-12 md:py-20">
+    <div className="min-h-screen bg-[#f9fdf7] flex items-center justify-center px-4 pt-4 pb-12 md:pt-6 md:pb-20">
       <div className="max-w-6xl w-full bg-[#ecfdf5] rounded-[2.5rem] shadow-xl overflow-hidden grid md:grid-cols-2 border border-green-100/50">
 
         {/* LEFT IMAGE / INFO SECTION */}

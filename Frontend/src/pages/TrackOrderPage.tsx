@@ -49,7 +49,7 @@ export default function TrackOrderPage() {
       <TopHeader />
       <Header />
 
-      <main className="max-w-6xl mx-auto px-4 py-12 md:py-24">
+      <main className="max-w-6xl mx-auto px-4 pt-4 pb-12 md:pt-6 md:pb-24">
         <div className="bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-green-50 flex flex-col md:flex-row min-h-[500px]">
 
           {/* Left Side: Illustration & Info */}

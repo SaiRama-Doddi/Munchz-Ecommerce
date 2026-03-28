@@ -257,7 +257,7 @@ export default function ProductDetails() {
       <Header />
 
       <main className="flex-grow bg-white">
-        <div className="pt-4 pb-10 md:pt-6 md:pb-16">
+        <div className="pt-4 pb-0 md:pt-6 md:pb-0">
           <div className="max-w-7xl mx-auto px-4">
 
             {/* BACK BUTTON */}
@@ -408,8 +408,8 @@ export default function ProductDetails() {
         </div>
 
         {/* REVIEWS SECTION */}
-        <div className="max-w-7xl mx-auto px-4 py-10 md:py-16">
-          <div className="mb-8 md:mb-12">
+        <div className="max-w-7xl mx-auto px-4 pt-2 pb-2 md:pt-3 md:pb-3">
+          <div className="mb-4 md:mb-6">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
               Customer <span className="text-green-600">Reviews</span>
             </h2>
@@ -443,10 +443,10 @@ export default function ProductDetails() {
         </div>
 
         {/* RELATED PRODUCTS */}
-        <div className="max-w-7xl mx-auto px-4 py-8 md:py-16 mb-10">
-          <div className="mb-8 md:mb-12">
+        <div className="max-w-7xl mx-auto px-4 pt-2 pb-2 md:pt-3 md:pb-3 mb-2">
+          <div className="mb-4 md:mb-6">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
-              Related <span className="text-green-600">Products</span>
+              Try Our Other <span className="text-green-600">Flavours</span>
             </h2>
             <p className="text-gray-500 text-sm mt-2 md:mt-3 max-w-lg">
               You might also like these handpicked selections

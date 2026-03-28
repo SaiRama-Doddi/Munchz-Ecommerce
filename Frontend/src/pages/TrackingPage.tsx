@@ -86,7 +86,7 @@ export default function TrackingPage() {
       <TopHeader />
       <Header />
 
-      <main className="max-w-4xl mx-auto px-4 py-8 md:py-16">
+      <main className="max-w-4xl mx-auto px-4 pt-4 pb-8 md:pt-6 md:pb-16">
         <button 
           onClick={() => navigate(-1)}
           className="flex items-center gap-2 text-green-700 hover:text-green-800 font-medium mb-6 transition-colors"
