@@ -149,7 +149,7 @@ const scrollRight = () => {
   }
 
   return (
-    <div className="bg-white py-12 md:py-16">
+    <div className="bg-white py-8 md:py-12">
 
       <div className="max-w-7xl mx-auto px-4">
 

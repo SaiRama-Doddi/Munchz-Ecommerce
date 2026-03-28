@@ -115,7 +115,7 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="pt-16 pb-2 bg-white">
+    <section className="pt-8 md:pt-12 pb-2 bg-white">
       <div className="max-w-7xl mx-auto px-4">
 
         {/* HEADER SECTION WITH NAVIGATION */}

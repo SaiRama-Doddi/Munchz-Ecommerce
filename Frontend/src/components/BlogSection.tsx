@@ -47,7 +47,7 @@ export default function BlogSection() {
   };
 
   return (
-    <section id="blog-section" className="py-20 bg-white overflow-hidden font-sans">
+    <section id="blog-section" className="py-8 md:py-12 bg-white overflow-hidden font-sans">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
 
         {/* ================= HEADER ================= */}
