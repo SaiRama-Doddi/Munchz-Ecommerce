@@ -357,7 +357,7 @@ export default function ProductDetails() {
                       </span>
                     </div>
                     {base100g && (
-                      <span className="text-gray-600 text-sm ml-2 mt-2">
+                      <span className="text-gray-600 text-xs ml-2 mt-2">
                         (₹{base100g.offerPrice} / 100 g)
                       </span>
                     )}
@@ -394,7 +394,7 @@ export default function ProductDetails() {
                 <div className="flex flex-col sm:flex-row gap-4 items-stretch mb-10">
                   <div className="flex items-center bg-white rounded-2xl border border-gray-100 p-1.5 shadow-sm min-w-[140px] h-14">
                     <button onClick={() => setQty(Math.max(1, qty - 1))} className="w-10 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all font-bold text-base">−</button>
-                    <span className="flex-1 text-center font-black text-base text-gray-900">{qty}</span>
+                    <span className="flex-1 text-center font-black text-xs text-gray-900">{qty}</span>
                     <button onClick={() => setQty(qty + 1)} className="w-10 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all font-bold text-base">+</button>
                   </div>
                   <div className="flex-1 flex gap-3">
@@ -474,13 +474,13 @@ export default function ProductDetails() {
                   <div className="relative bg-transparent aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden flex-shrink-0">
                     <img src={(p.imageUrls && p.imageUrls.length > 0) ? p.imageUrls[0] : p.imageUrl} alt={p.name} className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700" />
                     {relDiscount > 0 && (
-                      <div className="absolute top-2.5 right-2.5 bg-green-600 text-white text-[9px] px-2 py-0.5 rounded-full font-bold shadow-lg">{relDiscount}% OFF</div>
+                      <div className="absolute top-2.5 right-2.5 bg-green-600 text-white text-sm px-3 py-1 rounded-full font-bold shadow-lg">{relDiscount}% OFF</div>
                     )}
                   </div>
 
                   {/* CONTENT AREA */}
                   <div className="px-4 pb-4 pt-1 flex flex-col flex-grow">
-                    <h3 className="text-[15px] font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">{p.name}</h3>
+                    <h3 className="text-base font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">{p.name}</h3>
                     <ProductReviewStats productId={p.id} />
 
                     <div className="mt-2 flex-grow flex flex-col justify-end">
@@ -489,7 +489,7 @@ export default function ProductDetails() {
                         <div className="flex flex-col">
                           <span className="text-base font-medium text-gray-900 tracking-tight">₹{selectedVariant.offerPrice * qty}</span>
                           {base100g && (
-                            <span className="text-[9px] text-gray-500 font-medium tracking-tight">(₹{base100g.offerPrice}/100g)</span>
+                            <span className="text-xs text-gray-500 font-medium tracking-tight">(₹{base100g.offerPrice}/100g)</span>
                           )}
                         </div>
                         <span className="px-2.5 py-1 bg-white border border-green-200 text-green-700 text-[10px] font-bold rounded-full shadow-sm uppercase tracking-wider">{selectedVariant.weightLabel}</span>
@@ -500,7 +500,7 @@ export default function ProductDetails() {
                         {/* QTY BOX */}
                         <div className="flex items-center bg-white rounded-xl border border-green-200 p-1 shadow-sm h-9">
                           <button onClick={() => setQtyMap(pvs => ({ ...pvs, [p.id]: Math.max(1, (pvs[p.id] || 1) - 1) }))} className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-l-lg transition-all font-bold text-base">-</button>
-                          <span className="w-5 text-center text-[13px] font-bold text-gray-900">{qty}</span>
+                          <span className="w-5 text-center text-xs font-bold text-gray-900">{qty}</span>
                           <button onClick={() => setQtyMap(pvs => ({ ...pvs, [p.id]: (pvs[p.id] || 1) + 1 }))} className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-r-lg transition-all font-bold text-base">+</button>
                         </div>
 

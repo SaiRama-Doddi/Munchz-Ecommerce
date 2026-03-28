@@ -222,7 +222,7 @@ const scrollRight = () => {
                     />
 
                     {discount > 0 && (
-                      <div className="absolute top-2.5 right-2.5 bg-green-600 text-white text-[9px] px-2 py-0.5 rounded-full font-bold shadow-lg">
+                      <div className="absolute top-2.5 right-2.5 bg-green-600 text-white text-sm px-3 py-1 rounded-full font-bold shadow-lg">
                         {discount}% OFF
                       </div>
                     )}
@@ -230,10 +230,10 @@ const scrollRight = () => {
 
                   {/* CONTENT AREA */}
                   <div className="px-4 pb-4 pt-1 flex flex-col flex-grow">
-                    <h3 className="text-[15px] font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">
+                    <h3 className="text-base font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">
                       {p.name}
                     </h3>
-                    <p className="text-[11px] text-gray-400 line-clamp-1 mt-0.5">
+                    <p className="text-sm text-gray-400 line-clamp-1 mt-0.5">
                       {p.description}
                     </p>
 
@@ -247,7 +247,7 @@ const scrollRight = () => {
                             ₹{selectedVariant.offerPrice * qty}
                           </span>
                           {base100g && (
-                            <span className="text-[9px] text-gray-500 font-medium tracking-tight">
+                            <span className="text-xs text-gray-500 font-medium tracking-tight">
                               (₹{base100g.offerPrice}/100g)
                             </span>
                           )}
@@ -271,7 +271,7 @@ const scrollRight = () => {
                           >
                             -
                           </button>
-                          <span className="w-5 text-center text-[13px] font-bold text-gray-900">
+                          <span className="w-5 text-center text-xs font-bold text-gray-900">
                             {qty}
                           </span>
                           <button

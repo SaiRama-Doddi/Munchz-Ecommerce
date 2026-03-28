@@ -38,8 +38,8 @@ export default function Footer() {
                   alt="FSSAI"
                   className="h-10 object-contain mix-blend-multiply"
                 />
-                <div className="text-[10px] leading-tight">
-                  <p className="font-semibold text-gray-500 uppercase tracking-wider">License Number:</p>
+                <div className="leading-tight">
+                  <p className="font-semibold text-gray-500 uppercase tracking-wider text-base">License Number:</p>
                   <p className="font-bold text-gray-900 text-sm">13626026000066</p>
                 </div>
               </div>

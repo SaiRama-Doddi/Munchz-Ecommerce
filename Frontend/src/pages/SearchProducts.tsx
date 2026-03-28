@@ -244,7 +244,7 @@ export default function SearchProducts() {
                     />
 
                     {discount > 0 && (
-                      <div className="absolute top-2 right-2 bg-green-600 text-white text-[10px] px-2 py-1 rounded-md font-semibold">
+                      <div className="absolute top-2 right-2 bg-green-600 text-white text-sm px-3 py-1 rounded-md font-semibold">
                         {discount}% OFF
                       </div>
                     )}
@@ -254,7 +254,7 @@ export default function SearchProducts() {
                   {/* CONTENT */}
                   <div className="p-3 flex flex-col gap-2 flex-grow">
 
-                    <h3 className="text-sm font-semibold text-gray-900 line-clamp-2">
+                    <h3 className="text-base font-semibold text-gray-900 line-clamp-2">
                       {p.name}
                     </h3>
 
