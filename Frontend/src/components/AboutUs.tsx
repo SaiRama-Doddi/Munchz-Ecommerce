@@ -2,7 +2,7 @@ import { ShieldCheck, Truck, RotateCcw, Headphones } from "lucide-react";
 
 export default function AboutUs() {
   return (
-    <section className="w-full bg-white py-5 md:py-8">
+    <section className="w-full bg-white pt-2 pb-2 md:pt-3 md:pb-3">
 
       {/* ABOUT SECTION */}
       <div className="max-w-7xl mx-auto px-4">
@@ -60,7 +60,7 @@ export default function AboutUs() {
 
           {/* RIGHT SIDE — IMAGE */}
           <div className="p-8 lg:p-12">
-            <div className="relative rounded-2xl overflow-hidden aspect-[4/5] shadow-2xl">
+            <div className="relative rounded-2xl overflow-hidden max-h-[400px] shadow-2xl">
               <img
                 src="/about_premium.png"
                 alt="About GoMunchz Premium Selection"
@@ -72,7 +72,7 @@ export default function AboutUs() {
       </div>
 
       {/* SERVICE ICONS SECTION */}
-      <div className="max-w-7xl mx-auto px-4 mt-12">
+      <div className="max-w-7xl mx-auto px-4 mt-6">
         <div className="bg-white rounded-2xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
 
           {/* PREMIUM QUALITY */}

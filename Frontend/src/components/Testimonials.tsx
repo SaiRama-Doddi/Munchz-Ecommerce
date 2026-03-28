@@ -115,7 +115,7 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="py-5 md:py-8 bg-white">
+    <section className="pt-2 pb-2 md:pt-3 md:pb-3 bg-white">
       <div className="max-w-7xl mx-auto px-4">
 
         {/* HEADER SECTION WITH NAVIGATION */}

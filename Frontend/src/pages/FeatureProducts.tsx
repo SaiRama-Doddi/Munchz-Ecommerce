@@ -149,19 +149,37 @@ const scrollRight = () => {
   }
 
   return (
-    <div className="bg-white py-5 md:py-8">
+    <div className="bg-white pt-5 pb-2 md:pt-8 md:pb-3">
 
       <div className="max-w-7xl mx-auto px-4">
 
         {/* HEADING */}
-        <div className="mb-8 text-left px-0">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
-            Curated <span className="text-green-600">Collection</span>
-          </h2>
-          <p className="text-gray-500 text-sm mt-3 max-w-lg">
-            Premium-quality products handpicked for excellence
-          </p>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
+              Curated <span className="text-green-600">Collection</span>
+            </h2>
+            <p className="text-gray-500 text-sm mt-3 max-w-lg">
+              Premium-quality products handpicked for excellence
+            </p>
+          </div>
 
+          {/* NAVIGATION BUTTONS */}
+          <div className="flex gap-4">
+            <button
+              onClick={scrollLeft}
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow border hover:bg-green-600 hover:text-white transition"
+            >
+              <FiChevronLeft size={20} />
+            </button>
+
+            <button
+              onClick={scrollRight}
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow border hover:bg-green-600 hover:text-white transition"
+            >
+              <FiChevronRight size={20} />
+            </button>
+          </div>
         </div>
 
         {/* SLIDER */}
@@ -313,24 +331,6 @@ const scrollRight = () => {
             })}
 
           </div>
-{/* MOBILE ARROWS */}
-<div className="flex justify-center gap-4 mt-6 ">
-
-  <button
-    onClick={scrollLeft}
-    className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow border hover:bg-green-600 hover:text-white transition"
-  >
-    <FiChevronLeft size={20} />
-  </button>
-
-  <button
-    onClick={scrollRight}
-    className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow border hover:bg-green-600 hover:text-white transition"
-  >
-    <FiChevronRight size={20} />
-  </button>
-
-</div>
           {/* RIGHT BUTTON */}
         
         </div>

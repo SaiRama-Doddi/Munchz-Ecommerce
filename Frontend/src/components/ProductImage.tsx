@@ -1,6 +1,6 @@
 export default function ProductImage() {
   return (
-    <section className="relative w-full overflow-hidden bg-white pt-6 pb-5 md:pt-10 md:pb-8">
+    <section className="relative w-full overflow-hidden bg-white pt-2 pb-5 md:pt-3 md:pb-8">
       <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
 
         {/* LEFT TEXT */}
