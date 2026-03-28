@@ -141,7 +141,7 @@ export default function CartPremium() {
       <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-green-50 px-6 py-6 sm:px-10">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div>
-            <h1 className="text-2xl sm:text-5xl font-bold text-gray-900 tracking-tight leading-none">
+            <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 tracking-tight leading-none">
               My <span className="text-green-600">Cart</span>
             </h1>
             <p className="text-xs sm:text-base text-gray-500 font-medium mt-3 max-w-2xl leading-relaxed">

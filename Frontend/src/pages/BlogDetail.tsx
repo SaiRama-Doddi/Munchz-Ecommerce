@@ -58,7 +58,7 @@ export default function BlogDetail() {
             </div>
           </div>
 
-          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight leading-tight mb-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-tight mb-6">
             {blog.title}
           </h1>
           

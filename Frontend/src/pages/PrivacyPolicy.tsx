@@ -150,7 +150,7 @@ export default function PrivacyPolicy() {
       
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 md:py-20">
         <div className="mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
             Privacy <span className="text-green-600">Policy</span>
           </h2>
           <div className="w-16 h-[3px] bg-green-600 mt-4 md:mt-6"></div>

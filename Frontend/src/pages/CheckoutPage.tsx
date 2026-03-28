@@ -199,7 +199,7 @@ export default function CheckoutPage() {
         <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-green-50 px-5 py-4 sm:px-10 sm:py-6">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div>
-              <h1 className="text-2xl sm:text-5xl font-bold text-gray-900 tracking-tight leading-none">
+              <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 tracking-tight leading-none">
                 Checkout
               </h1>
               <p className="text-xs sm:text-base text-gray-500 font-medium mt-1 sm:mt-3 max-w-2xl leading-relaxed">

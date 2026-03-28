@@ -155,7 +155,7 @@ const scrollRight = () => {
 
         {/* HEADING */}
         <div className="mb-10 text-left px-0">
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
             Curated <span className="text-green-600">Collection</span>
           </h2>
           <p className="text-gray-500 text-sm mt-3 max-w-lg">

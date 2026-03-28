@@ -10,7 +10,7 @@ export default function AboutUs() {
 
           {/* LEFT SIDE — TEXT */}
           <div className="py-8 sm:py-12 md:py-16 pr-8 sm:pr-12 md:pr-16">
-            <h2 className="text-3xl md:text-5xl font-bold mb-8 text-gray-900 tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-bold mb-8 text-gray-900 tracking-tight">
               About <span className="text-green-600">GoMunchz</span>
             </h2>
             <div className="w-16 h-[3px] bg-green-600 mb-8"></div>

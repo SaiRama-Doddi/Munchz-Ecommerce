@@ -315,7 +315,7 @@ export default function ProductDetails() {
               {/* ================= RIGHT: INFO ================= */}
               <div className="flex flex-col">
                 <div className="mb-6">
-                  <h1 className="text-3xl md:text-5xl font-black text-gray-900 leading-tight mb-4">
+                  <h1 className="text-3xl md:text-4xl font-black text-gray-900 leading-tight mb-4">
                     {product.name}
                   </h1>
                   <div className="flex items-center gap-4">
@@ -410,7 +410,7 @@ export default function ProductDetails() {
         {/* REVIEWS SECTION */}
         <div className="max-w-7xl mx-auto px-4 py-10 md:py-16">
           <div className="mb-8 md:mb-12">
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
               Customer <span className="text-green-600">Reviews</span>
             </h2>
             <p className="text-gray-500 text-sm mt-2 md:mt-3 max-w-lg">
@@ -445,7 +445,7 @@ export default function ProductDetails() {
         {/* RELATED PRODUCTS */}
         <div className="max-w-7xl mx-auto px-4 py-8 md:py-16 mb-10">
           <div className="mb-8 md:mb-12">
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
               Related <span className="text-green-600">Products</span>
             </h2>
             <p className="text-gray-500 text-sm mt-2 md:mt-3 max-w-lg">

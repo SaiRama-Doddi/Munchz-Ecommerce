@@ -62,7 +62,7 @@ export default function TrackOrderPage() {
               <div className="bg-white/10 w-20 h-20 rounded-3xl flex items-center justify-center mb-8 backdrop-blur-md border border-white/20">
                 <Truck size={40} className="text-white" />
               </div>
-              <h1 className="text-4xl md:text-5xl font-black mb-6 leading-tight tracking-tighter uppercase italic">
+              <h1 className="text-4xl md:text-4xl font-black mb-6 leading-tight tracking-tighter uppercase italic">
                 Track Your <br /> <span className="text-green-300">Cravings.</span>
               </h1>
               <p className="text-green-100 text-lg font-medium max-w-md leading-relaxed">

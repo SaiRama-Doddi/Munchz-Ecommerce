@@ -121,7 +121,7 @@ export default function Testimonials() {
         {/* HEADER SECTION WITH NAVIGATION */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
           <div>
-            <h2 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
               What Our <span className="text-green-600">Customers Say</span>
             </h2>
             <div className="w-16 h-[3px] bg-green-600 mt-4"></div>

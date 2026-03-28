@@ -18,7 +18,7 @@ export default function BlogListPage() {
           <span className="inline-block px-4 py-1.5 bg-green-100 text-green-700 text-xs font-bold rounded-full mb-6 uppercase tracking-[0.2em] animate-in fade-in slide-in-from-bottom duration-500">
             Insights & Updates
           </span>
-          <h1 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight leading-tight mb-6 animate-in fade-in slide-in-from-bottom-2 duration-700">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-tight mb-6 animate-in fade-in slide-in-from-bottom-2 duration-700">
             Welcome to <span className="text-green-600">GoMunchz Blog</span>
           </h1>
           <p className="text-gray-500 text-base md:text-xl mt-3 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000">
