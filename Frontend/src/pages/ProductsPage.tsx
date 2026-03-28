@@ -147,7 +147,7 @@ export default function AllProducts() {
       <div className="max-w-7xl mx-auto px-4 md:px-6">
 
         {/* HEADER AREA */}
-        <div className="mb-12">
+        <div className="mb-6 md:mb-8">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
             Our <span className="text-green-600">Premium Range</span>
           </h2>
@@ -158,11 +158,11 @@ export default function AllProducts() {
         </div>
 
         {/* CATEGORY FILTER (SLIDER) */}
-        <div className="mb-14">
-          <p className="text-[13px] font-bold text-green-700 uppercase tracking-widest mb-5 ml-1">
+        <div className="mb-6 md:mb-8">
+          <p className="text-[13px] font-bold text-green-700 uppercase tracking-widest mb-3 ml-1">
             Browse By Category
           </p>
-          <div className="flex gap-4 overflow-x-auto pb-6 -mx-1 px-1 no-scrollbar">
+          <div className="flex gap-4 overflow-x-auto pb-2 md:pb-4 -mx-1 px-1 no-scrollbar">
             
             <button
               onClick={() => setSelectedCategoryId("ALL")}
@@ -218,7 +218,7 @@ export default function AllProducts() {
         </div>
 
         {/* DYNAMIC SECTION HEADER */}
-        <div className="mb-10 flex items-center justify-between">
+        <div className="mb-6 md:mb-8 flex items-center justify-between">
            <div className="flex items-center gap-3">
               <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
               <h3 className="text-base font-bold text-gray-900">

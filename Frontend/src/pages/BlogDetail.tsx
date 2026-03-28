@@ -42,7 +42,7 @@ export default function BlogDetail() {
         </nav>
 
         {/* ================= HEADER AREA ================= */}
-        <div className="mb-12 md:mb-16">
+        <div className="mb-6 md:mb-8">
           <div className="flex flex-wrap items-center gap-4 text-xs md:text-sm text-gray-500 mb-6">
             <div className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm">
               <Calendar size={14} className="text-green-600" />
@@ -65,23 +65,23 @@ export default function BlogDetail() {
           <p className="text-gray-600 text-base max-w-3xl leading-relaxed italic border-l-4 border-green-600 pl-6 py-2">
             {blog.description}
           </p>
-          <div className="w-20 h-1 bg-green-600 mt-8"></div>
+
         </div>
 
         {/* ================= CONTENT AREA ================= */}
         <main className="w-full">
-          <div className="space-y-10 text-gray-700 leading-relaxed text-base text-justify">
+          <div className="space-y-5 text-gray-700 leading-relaxed text-base text-justify">
             {blog.sections.map((section, idx) => {
               switch (section.type) {
                 case "heading":
                   return (
-                    <h2 key={idx} className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mt-12 mb-6 flex items-center gap-3">
+                    <h2 key={idx} className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight mt-6 mb-4 flex items-center gap-3">
                       <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
                       {section.content as string}
                     </h2>
                   );
                 case "paragraph":
-                  return <p key={idx} className="mb-6">{section.content as string}</p>;
+                  return <p key={idx}>{section.content as string}</p>;
                 case "list":
                   return (
                     <ul key={idx} className="space-y-4 my-6">

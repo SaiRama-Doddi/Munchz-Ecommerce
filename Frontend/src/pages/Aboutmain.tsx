@@ -7,17 +7,17 @@ export default function About() {
       <div className="max-w-7xl mx-auto px-4 md:px-6">
 
         {/* ================= HEADER AREA ================= */}
-        <div className="mb-12 md:mb-16">
+        <div className="mb-6 md:mb-8">
           <h2 className="text-4xl font-bold text-gray-900 tracking-tight">
             About <span className="text-green-600">GoMunchz</span>
           </h2>
-          <p className="text-gray-500 text-sm md:text-base mt-3 leading-relaxed whitespace-nowrap overflow-hidden text-ellipsis">
+          <p className="text-gray-500 text-sm md:text-base mt-2 leading-relaxed">
             Bringing back the goodness of real, honest ingredients and transforming them into snacks you can feel good about.
           </p>
         </div>
 
         {/* ================= CONTENT AREA ================= */}
-        <main className="grid lg:grid-cols-1 gap-12">
+        <main className="grid lg:grid-cols-1 gap-6">
           
           {/* STORY SECTION */}
           <div className="space-y-5 text-gray-700 leading-relaxed text-base text-justify">
@@ -43,7 +43,7 @@ export default function About() {
           </div>
 
           {/* WHY CHOOSE SECTION */}
-          <div className="mt-8 bg-white p-6 md:p-10 rounded-3xl shadow-sm border border-green-50">
+          <div className="mt-2 bg-white p-6 md:p-10 rounded-3xl shadow-sm border border-green-50">
             <div className="flex items-center gap-3 mb-8">
               <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
               <h2 className="text-base font-bold text-gray-900 tracking-tight">
