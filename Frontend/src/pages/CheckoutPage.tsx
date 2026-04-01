@@ -160,7 +160,7 @@ export default function CheckoutPage() {
       const orderId = orderRes.data.orderId;
       const paymentRes = await paymentApi.post("/api/payments/create", {
         orderId,
-        amount: totalAmount * 100,
+        amount: Math.round(totalAmount * 100),
         currency: "INR",
       });
       const loaded = await loadRazorpay();

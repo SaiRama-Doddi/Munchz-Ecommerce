@@ -45,7 +45,12 @@ export default function CartPremium() {
     const fetchCoupons = async () => {
       try {
         const res = await api.get("/coupons");
-        setAvailableCoupons(Array.isArray(res.data) ? res.data : []);
+        if (Array.isArray(res.data)) {
+          const activeCoupons = res.data.filter(c => !isCouponExpired(c.expiryDate));
+          setAvailableCoupons(activeCoupons);
+        } else {
+          setAvailableCoupons([]);
+        }
       } catch (err) {
         console.error("Failed to fetch coupons", err);
       }

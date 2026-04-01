@@ -21,6 +21,7 @@ import java.util.UUID;
 import com.razorpay.Utils;
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PaymentService {
 
     private final RazorpayClient razorpayClient;
@@ -36,11 +37,18 @@ public class PaymentService {
 
     public CreatePaymentResponse createPayment(CreatePaymentRequest req) throws Exception {
 
+        log.info("Creating payment for orderId: {}, amount: {} {}", req.orderId(), req.amount(), req.currency());
+
+        if (req.amount() < 100) {
+            log.warn("Amount {} below minimum of 100 paise for orderId: {}", req.amount(), req.orderId());
+            throw new RuntimeException("Minimum order amount is ₹1 (100 paise)");
+        }
+
          Optional<PaymentEntity> existingPayment =
             paymentRepo.findByOrderId(req.orderId());
 
     if(existingPayment.isPresent()) {
-
+        log.info("Found existing payment for orderId: {}", req.orderId());
         PaymentEntity payment = existingPayment.get();
 
         return new CreatePaymentResponse(
@@ -50,18 +58,21 @@ public class PaymentService {
                 razorpayKey
         );
     } 
+
+    try {
         JSONObject orderReq = new JSONObject();
         orderReq.put("amount", req.amount());
         orderReq.put("currency", req.currency());
         orderReq.put("receipt", req.orderId().toString());
 
         Order order = razorpayClient.orders.create(orderReq);
+        String razorpayOrderId = order.get("id");
 
         PaymentEntity payment = PaymentEntity.builder()
                 .orderId(req.orderId())
                 .amount(req.amount())
                 .currency(req.currency())
-                .razorpayOrderId(order.get("id"))
+                .razorpayOrderId(razorpayOrderId)
                 .status("CREATED")
                 .metadata(Map.of("receipt", req.orderId().toString()))
                 .build();
@@ -69,12 +80,16 @@ public class PaymentService {
         paymentRepo.save(payment);
 
         return new CreatePaymentResponse(
-                order.get("id"),
+                razorpayOrderId,
                 req.amount(),
                 req.currency(),
                 razorpayKey
         );
+    } catch (Exception e) {
+        log.error("Razorpay order creation failed for order {}: {}", req.orderId(), e.getMessage(), e);
+        throw new RuntimeException("Payment server error: " + e.getMessage());
     }
+}
 
 
     
