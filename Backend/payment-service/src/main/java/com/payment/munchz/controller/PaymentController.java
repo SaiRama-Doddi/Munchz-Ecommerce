@@ -19,8 +19,12 @@ public class PaymentController {
     @PostMapping("/create")
     public ResponseEntity<CreatePaymentResponse> createPayment(
             @RequestBody CreatePaymentRequest request
-    ) throws Exception {
-        return ResponseEntity.ok(paymentService.createPayment(request));
+    ) {
+        try {
+            return ResponseEntity.ok(paymentService.createPayment(request));
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @PostMapping("/verify")

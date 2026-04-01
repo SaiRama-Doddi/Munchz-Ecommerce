@@ -10,6 +10,7 @@ import com.payment.munchz.repo.PaymentRepository;
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -31,9 +32,26 @@ public class PaymentService {
     @Value("${razorpay.key}")
     private String razorpayKey;
 
-
     @Value("${razorpay.secret}")
     private String razorpaySecret;
+
+    @jakarta.annotation.PostConstruct
+    public void validateConfig() {
+        boolean keyValid = razorpayKey != null && !razorpayKey.isEmpty() && !razorpayKey.equals("${RAZORPAY_KEY}");
+        boolean secretValid = razorpaySecret != null && !razorpaySecret.isEmpty() && !razorpaySecret.equals("${RAZOR_SECRET}");
+
+        if (!keyValid) {
+            log.error("CRITICAL: Razorpay Key is NOT configured! Check your environment variables (RAZORPAY_KEY). Current value: {}", razorpayKey);
+        } else {
+            log.info("Razorpay Key correctly initialized (starts with: {})", razorpayKey.substring(0, Math.min(razorpayKey.length(), 6)));
+        }
+
+        if (!secretValid) {
+            log.error("CRITICAL: Razorpay Secret is NOT configured! Check your environment variables (RAZOR_SECRET). Current value: {}", razorpaySecret);
+        } else {
+            log.info("Razorpay Secret correctly initialized.");
+        }
+    }
 
     public CreatePaymentResponse createPayment(CreatePaymentRequest req) throws Exception {
 
@@ -85,9 +103,12 @@ public class PaymentService {
                 req.currency(),
                 razorpayKey
         );
+    } catch (com.razorpay.RazorpayException re) {
+        log.error("Razorpay SDK Error for order {}: {}", req.orderId(), re.getMessage());
+        throw new RuntimeException("Razorpay Error: " + re.getMessage());
     } catch (Exception e) {
-        log.error("Razorpay order creation failed for order {}: {}", req.orderId(), e.getMessage(), e);
-        throw new RuntimeException("Payment server error: " + e.getMessage());
+        log.error("Internal Payment Error for order {}: {}", req.orderId(), e.getMessage(), e);
+        throw new RuntimeException("Internal Payment Service Error: " + e.getMessage());
     }
 }
 
@@ -137,8 +158,7 @@ public class PaymentService {
         );
 
     } catch (Exception e) {
-        System.out.println("CRITICAL ERROR: Order update failed for payment " + payment.getId() + " / order " + payment.getOrderId() + ": " + e.getMessage());
-        e.printStackTrace();
+        log.error("CRITICAL ERROR: Order update failed for payment {} / order {}: {}", payment.getId(), payment.getOrderId(), e.getMessage(), e);
 
         payment.setStatus("REQUIRES_MANUAL_REVIEW");
         paymentRepo.save(payment);
