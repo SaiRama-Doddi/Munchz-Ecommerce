@@ -36,7 +36,7 @@ public class SPARoutingConfig {
             if (path.startsWith("/assets/") || 
                 path.startsWith("/public/") || 
                 path.startsWith("/static/") ||
-                path.matches(".*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$")) {
+                path.matches(".*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|txt|json)$")) {
                 
                 // If it's a relative asset request (e.g. /product/assets/...), 
                 // we should internally forward to the absolute path.
@@ -52,11 +52,15 @@ public class SPARoutingConfig {
                 return chain.filter(exchange);
             }
 
-            // 3. For all other routes (like /product/1, /cart, /checkout), forward to index.html
-            // This allows the React SPA to take over and handle the route.
-            // We append Cache-Control headers here to ensure the browser never caches index.html.
-            // If it's cached, the browser might request old hashed JS/CSS files that no longer exist,
-            // resulting in a 404 (text/html error) when reloading the page.
+            // 3. Prevent forwarding missing files (paths with dots) to index.html
+            // If the path contains a dot but wasn't caught by the asset check above,
+            // it's likely a missing file. Forwarding it to index.html would cause
+            // a MIME type mismatch error in the browser.
+            if (path.contains(".") && !path.startsWith("/index.html")) {
+                return chain.filter(exchange);
+            }
+
+            // 4. For all other routes (like /product/1, /cart, /checkout), forward to index.html
             exchange.getResponse().beforeCommit(() -> {
                 exchange.getResponse().getHeaders().set("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0");
                 exchange.getResponse().getHeaders().set("Pragma", "no-cache");
