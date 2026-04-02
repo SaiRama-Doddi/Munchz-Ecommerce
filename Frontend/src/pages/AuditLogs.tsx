@@ -35,7 +35,7 @@ export default function AuditLogs() {
 
   const fetchLogs = async () => {
     try {
-      const res = await API.get("/subadmin/api/activities", {
+      const res = await API.get("/auth/subadmin/api/activities", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
       if (Array.isArray(res.data)) {

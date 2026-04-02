@@ -28,7 +28,7 @@ export default function SubAdminManagement() {
 
   const fetchSubAdmins = async () => {
     try {
-      const res = await API.get("/subadmin/api/list", {
+      const res = await API.get("/auth/subadmin/api/list", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
       if (Array.isArray(res.data)) {
@@ -48,7 +48,7 @@ export default function SubAdminManagement() {
     e.preventDefault();
     setIsCreating(true);
     try {
-      await API.post("/subadmin/api/create", { email }, {
+      await API.post("/auth/subadmin/api/create", { email }, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
       });
       toast.success("Sub-Admin created! Verification email sent.");
@@ -85,7 +85,7 @@ export default function SubAdminManagement() {
   const savePermissions = async () => {
     if (!selectedSubAdmin) return;
     try {
-      await API.put(`/subadmin/api/${selectedSubAdmin.id}/permissions`, 
+      await API.put(`/auth/subadmin/api/${selectedSubAdmin.id}/permissions`, 
         { permissions: JSON.stringify(permissions) },
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
