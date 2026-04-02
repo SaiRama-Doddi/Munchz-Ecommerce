@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../api/api";
 import { UserPlus, Shield, Mail, CheckCircle, XCircle, Settings, Trash2, Clock } from "lucide-react";
 import { toast } from "react-hot-toast";
 
@@ -28,7 +28,9 @@ export default function SubAdminManagement() {
 
   const fetchSubAdmins = async () => {
     try {
-      const res = await axios.get("/subadmin/list");
+      const res = await API.get("/subadmin/api/list", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      });
       if (Array.isArray(res.data)) {
         setSubAdmins(res.data);
       } else {
@@ -46,7 +48,9 @@ export default function SubAdminManagement() {
     e.preventDefault();
     setIsCreating(true);
     try {
-      await axios.post("/subadmin/create", { email });
+      await API.post("/subadmin/api/create", { email }, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      });
       toast.success("Sub-Admin created! Verification email sent.");
       setEmail("");
       fetchSubAdmins();
@@ -81,9 +85,10 @@ export default function SubAdminManagement() {
   const savePermissions = async () => {
     if (!selectedSubAdmin) return;
     try {
-      await axios.put(`/subadmin/${selectedSubAdmin.id}/permissions`, {
-        permissions: JSON.stringify(permissions)
-      });
+      await API.put(`/subadmin/api/${selectedSubAdmin.id}/permissions`, 
+        { permissions: JSON.stringify(permissions) },
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+      );
       toast.success("Permissions updated successfully");
       setSelectedSubAdmin(null);
       fetchSubAdmins();

@@ -96,7 +96,7 @@ export default function OtpPage() {
       // NEW: Fetch specific permissions if user is a SUB_ADMIN
       if (roles.includes("SUB_ADMIN")) {
         try {
-          const permRes = await axios.get(`/subadmin/by-email/${email}`, {
+          const permRes = await axios.get(`/subadmin/api/by-email/${email}`, {
             headers: { Authorization: `Bearer ${res.data.token}` }
           });
           if (permRes.data && permRes.data.permissions) {

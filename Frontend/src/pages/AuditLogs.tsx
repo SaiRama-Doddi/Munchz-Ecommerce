@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Clock, User, FileText, Activity, Layers, ShoppingBag, Package, Search, Filter } from "lucide-react";
 import { toast } from "react-hot-toast";
+import API from "../api/api";
 
 interface AuditLog {
   id: string;
@@ -34,7 +35,9 @@ export default function AuditLogs() {
 
   const fetchLogs = async () => {
     try {
-      const res = await axios.get("/subadmin/activities");
+      const res = await API.get("/subadmin/api/activities", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      });
       if (Array.isArray(res.data)) {
         setLogs(res.data);
       } else {

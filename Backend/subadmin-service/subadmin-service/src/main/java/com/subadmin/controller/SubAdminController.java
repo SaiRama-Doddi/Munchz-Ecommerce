@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/subadmin")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class SubAdminController {
 
