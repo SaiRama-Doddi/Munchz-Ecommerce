@@ -62,7 +62,6 @@ const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const ReturnRefundPolicy = lazy(() => import("./pages/ReturnRefundPolicy"));
 const ReferAndEarn = lazy(() => import("./pages/ReferAndEarn"));
 const SubAdminManagement = lazy(() => import("./pages/SubAdminManagement"));
-const SubAdminManagement = lazy(() => import("./pages/SubAdminManagement"));
 const AuditLogs = lazy(() => import("./pages/AuditLogs"));
 
 
