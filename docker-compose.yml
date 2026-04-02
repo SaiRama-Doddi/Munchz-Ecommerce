@@ -22,6 +22,8 @@ services:
       args:
         - VITE_GOOGLE_CLIENT_ID=568627977658-72dbv6fjkkh7np5bt1q5gmn0216tc3t4.apps.googleusercontent.com
     container_name: api-gateway
+    env_file:
+      - .env
     ports:
       - "8080:8080"
     depends_on:
