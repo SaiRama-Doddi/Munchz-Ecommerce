@@ -13,6 +13,7 @@ services:
       - "5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
 
   api-gateway:
     build:
@@ -128,6 +129,19 @@ services:
       - "8087"
     env_file:
       - .env
+
+  subadmin-service:
+    build: ./Backend/subadmin-service/subadmin-service
+    container_name: subadmin-service
+    depends_on:
+      - postgres
+    expose:
+      - "8089"
+    env_file:
+      - .env
+    environment:
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
 
 volumes:
   postgres-data:

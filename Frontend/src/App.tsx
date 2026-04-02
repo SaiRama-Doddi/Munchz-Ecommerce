@@ -61,6 +61,9 @@ const TermsAndConditions = lazy(() => import("./pages/TermsAndConditions"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const ReturnRefundPolicy = lazy(() => import("./pages/ReturnRefundPolicy"));
 const ReferAndEarn = lazy(() => import("./pages/ReferAndEarn"));
+const SubAdminManagement = lazy(() => import("./pages/SubAdminManagement"));
+const SubAdminOtpVerify = lazy(() => import("./pages/SubAdminOtpVerify"));
+const AuditLogs = lazy(() => import("./pages/AuditLogs"));
 
 
 export default function App() {
@@ -250,6 +253,8 @@ export default function App() {
           <TrackingPage />
         } />
 
+        <Route path="/subadmin/verify" element={<SubAdminOtpVerify />} />
+
         <Route path="/blog/:slug" element={<BlogDetail />} />
         <Route path="/blog" element={<BlogListPage />} />
         
@@ -287,6 +292,8 @@ export default function App() {
       <Route path="offline-add" element={<AddOfflineStock />} />
       <Route path="offline-inventory" element={<OfflineInventoryList />} />
       <Route path="complete-stock" element={<AdminCompleteStock />} />
+      <Route path="sub-admins" element={<SubAdminManagement />} />
+      <Route path="audit-logs" element={<AuditLogs />} />
     </Route>
   </Route>
 

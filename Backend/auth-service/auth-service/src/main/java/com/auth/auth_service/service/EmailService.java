@@ -21,6 +21,13 @@ public class EmailService {
                 "Thank you for registering with Munchz!");
     }
 
+    public void sendSubAdminWelcomeMail(String to) {
+        sendMail(to, "Munchz Sub-Admin Authority Granted 🛡️",
+                "Congratulations!\n\nYou have been successfully registered as a Sub-Admin on the Munchz Platform.\n" +
+                "You can now log in using your email and a secure OTP to manage assigned modules.\n\n" +
+                "Successfully you are now a Sub-Admin!");
+    }
+
     private void sendMail(String to, String subject, String body) {
 
         SimpleMailMessage message = new SimpleMailMessage();

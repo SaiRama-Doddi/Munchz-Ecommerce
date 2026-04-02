@@ -24,6 +24,39 @@ import java.util.HashMap;
 @RequestMapping("/auth")
 public class AuthController {
 
+    @PostMapping("/internal/sync-subadmin")
+    public String syncSubAdmin(@RequestBody Map<String, String> req) {
+        String email = req.get("email");
+        User user = userRepo.findByEmail(email).orElse(null);
+        if (user == null) {
+            user = new User();
+            user.setEmail(email);
+            user.setEmailVerified(true);
+            user.setProvider("LOCAL");
+            user = userRepo.save(user);
+        }
+
+        Integer roleId = roleService.listRoles().stream()
+                .filter(r -> r.getName().equals("SUB_ADMIN"))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("SUB_ADMIN role not found"))
+                .getId();
+
+        boolean hasRole = roleService.getUserRoleNames(user.getId()).contains("SUB_ADMIN");
+        if (!hasRole) {
+            roleService.assignRole(user.getId(), roleId, user.getId()); 
+        }
+
+        // 🔥 Send professional welcome email for Sub-Admin
+        try {
+            emailService.sendSubAdminWelcomeMail(email);
+        } catch (Exception e) {
+            System.err.println("⚠ Sub-Admin welcome email failed: " + e.getMessage());
+        }
+
+        return "Sub-Admin identity synced";
+    }
+
     @Autowired
     UserRepository userRepo;
 

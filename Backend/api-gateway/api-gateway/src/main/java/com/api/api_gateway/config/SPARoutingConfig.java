@@ -16,7 +16,7 @@ import java.util.List;
 public class SPARoutingConfig {
 
     private static final List<String> API_PREFIXES = Arrays.asList(
-        "/auth", "/product/api", "/order/api", "/stock", "/coupon", "/payment", "/userprofile", "/reviews", "/shipping", "/actuator"
+        "/auth", "/product/api", "/order/api", "/stock", "/coupon", "/payment", "/userprofile", "/reviews", "/shipping", "/actuator", "/subadmin"
     );
 
     @Bean

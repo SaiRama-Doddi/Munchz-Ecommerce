@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { sendLoginOtp, googleLogin } from "../api/api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -23,13 +24,10 @@ export default function LoginPage() {
       await sendLoginOtp(email);
       navigate("/otp", { state: { email } });
     } catch (err: any) {
-      if (
-        err.response?.status === 404 &&
-        err.response?.data?.message?.includes("signup")
-      ) {
-        setError("Failed to send OTP. Try again.");
-      } else {
+      if (err.response?.status === 404) {
         setError("Email not exists. Please signup.");
+      } else {
+        setError(err.response?.data?.message || "Failed to send OTP. Try again.");
       }
     } finally {
       setLoading(false);

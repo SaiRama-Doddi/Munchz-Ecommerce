@@ -31,6 +31,7 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // 1. Ensure essential roles exist
         ensureRoleExists("USER");
+        ensureRoleExists("SUB_ADMIN");
         Role adminRole = ensureRoleExists("ADMIN");
 
         // 2. Define bootstrap admins

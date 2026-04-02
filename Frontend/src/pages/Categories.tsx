@@ -6,10 +6,13 @@ import {
   Edit3,
   Trash2,
   Plus,
-  Image as ImageIcon,
+  ImageIcon,
   ChevronRight,
-  Info
+  Info,
+  ShieldAlert
 } from "lucide-react";
+import { usePermissions } from "../hooks/usePermissions";
+import { toast } from "react-hot-toast";
 
 // =====================
 // CATEGORY DTO TYPE
@@ -38,6 +41,12 @@ function useCategories() {
 export default function Categories() {
     const qc = useQueryClient();
     const { data: categories, refetch } = useCategories();
+    const { hasPermission, isAdmin } = usePermissions();
+
+    const canCreate = hasPermission("CATEGORIES", "CREATE");
+    const canUpdate = hasPermission("CATEGORIES", "UPDATE");
+    const canDelete = hasPermission("CATEGORIES", "DELETE");
+    const canRead = hasPermission("CATEGORIES", "READ");
 
     const [form, setForm] = useState({
         name: "",
@@ -109,7 +118,8 @@ export default function Categories() {
                 )}
             </div>
 
-            {/* FORM CARD */}
+            {/* FORM CARD - Only show if has CREATE or UPDATE permission */}
+            {(canCreate || (editId && canUpdate)) ? (
             <div className="bg-white border border-gray-100 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 relative overflow-hidden shadow-sm">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
 
@@ -183,6 +193,12 @@ export default function Categories() {
                     )}
                 </div>
             </div>
+            ) : !isAdmin && (
+                <div className="bg-orange-50 border border-orange-100 rounded-[2rem] p-8 flex items-center gap-4 text-orange-700">
+                    <ShieldAlert size={24} />
+                    <p className="text-xs font-bold uppercase tracking-widest">You do not have permission to create or edit categories.</p>
+                </div>
+            )}
 
             {/* LIST SECTION */}
             <div className="space-y-6">
@@ -226,6 +242,7 @@ export default function Categories() {
                             </div>
 
                             <div className="mt-auto flex gap-3 pt-4 border-t border-gray-50">
+                                {canUpdate && (
                                 <button
                                     onClick={() => startEdit(c)}
                                     className="flex-1 flex items-center justify-center gap-2 bg-gray-50 text-gray-500 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-black hover:text-white transition-all duration-300"
@@ -233,13 +250,16 @@ export default function Categories() {
                                     <Edit3 size={14} />
                                     <span>Edit</span>
                                 </button>
+                                )}
 
+                                {canDelete && (
                                 <button
                                     onClick={() => deleteCategory(c.id)}
                                     className="flex items-center justify-center w-12 h-12 bg-gray-50 text-gray-400 rounded-xl hover:bg-gray-100 hover:text-black transition-all duration-300"
                                 >
                                     <Trash2 size={16} />
                                 </button>
+                                )}
 
                                 <button className="flex items-center justify-center w-12 h-12 bg-gray-50 text-gray-400 rounded-xl hover:bg-gray-100 hover:text-emerald-600 transition-all duration-300">
                                   <ChevronRight size={18} />

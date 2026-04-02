@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { usePermissions } from "../hooks/usePermissions";
 import {
   LayoutDashboard,
   Boxes,
@@ -14,7 +15,9 @@ import {
   Home,
   ChevronRight,
   CreditCard,
-  X
+  X,
+  Shield,
+  Activity
 } from "lucide-react";
 
 interface SidebarProps {
@@ -51,10 +54,17 @@ const items = [
   },
   { to: "/admin/coupons", label: "Coupons", icon: TicketPercent },
   { to: "/admin/reviews", label: "Reviews", icon: ClipboardList },
+  { 
+    label: "User Management", 
+    type: "header" 
+  },
+  { to: "/admin/sub-admins", label: "Sub-Admins", icon: Shield },
+  { to: "/admin/audit-logs", label: "Audit Logs", icon: Activity },
 ];
 
 export default function Sidebar({ isOpen = true, onClose = () => {} }: SidebarProps) {
   const navigate = useNavigate();
+  const { isAdmin } = usePermissions();
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleClose = () => {
@@ -64,6 +74,11 @@ export default function Sidebar({ isOpen = true, onClose = () => {} }: SidebarPr
   };
 
   const filteredItems = items.reduce((acc: any[], item, index) => {
+    // Hide Admin-only items from Sub-Admins
+    if (!isAdmin && (item.label === "User Management" || item.to === "/admin/sub-admins" || item.to === "/admin/audit-logs")) {
+      return acc;
+    }
+
     if (item.type === "header") {
       // Find following items until next header or end
       const nextItems = [];

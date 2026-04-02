@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { confirmLoginOtp, sendResendOtp } from "../api/api";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import axios from "axios";
 
 export default function OtpPage() {
   const location = useLocation();
@@ -88,21 +89,34 @@ export default function OtpPage() {
       const profile = res.data.profile;
       const roles: string[] = res.data.roles;
 
-      setProfile(profile);
-
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("profile", JSON.stringify(profile));
       localStorage.setItem("roles", JSON.stringify(roles));
 
+      // NEW: Fetch specific permissions if user is a SUB_ADMIN
+      if (roles.includes("SUB_ADMIN")) {
+        try {
+          const permRes = await axios.get(`/subadmin/by-email/${email}`, {
+            headers: { Authorization: `Bearer ${res.data.token}` }
+          });
+          if (permRes.data && permRes.data.permissions) {
+            localStorage.setItem("permissions", permRes.data.permissions);
+          }
+        } catch (err) {
+          console.error("Failed to fetch sub-admin permissions:", err);
+        }
+      }
+
+      setProfile(profile);
       alert("Login successful!");
 
-      if (roles.includes("ADMIN")) {
+      if (roles.includes("ADMIN") || roles.includes("SUB_ADMIN")) {
         navigate("/admin/dashboard", { replace: true });
       } else {
         navigate("/", { replace: true });
       }
-    } catch {
-      alert("Invalid OTP");
+    } catch (err: any) {
+      alert("Invalid OTP or server error");
     } finally {
       setLoading(false);
     }

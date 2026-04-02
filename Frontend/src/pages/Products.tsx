@@ -12,8 +12,10 @@ import {
   Tag,
   ChevronRight,
   Filter,
-  Layers
+  Layers,
+  ShieldAlert
 } from "lucide-react";
+import { usePermissions } from "../hooks/usePermissions";
 
 /* =====================
    CATEGORY TYPE
@@ -28,6 +30,11 @@ interface Category {
 export default function Products() {
   const navigate = useNavigate();
   const { data: products = [], refetch } = useProducts();
+  const { hasPermission } = usePermissions();
+
+  const canCreate = hasPermission("PRODUCTS", "CREATE");
+  const canUpdate = hasPermission("PRODUCTS", "UPDATE");
+  const canDelete = hasPermission("PRODUCTS", "DELETE");
 
   /* =====================
      FETCH CATEGORIES
@@ -94,13 +101,15 @@ export default function Products() {
           <p className="text-gray-400 uppercase text-[9px] md:text-[10px]">Inventory & SKU Management</p>
         </div>
 
-        <button
-          onClick={() => navigate("/admin/add-product")}
-          className="w-full md:w-auto flex items-center justify-center gap-2 bg-black text-white px-6 py-4 rounded-2xl text-[10px] uppercase shadow-xl shadow-black/5 hover:bg-emerald-600 transition-all duration-300"
-        >
-          <Plus size={18} />
-          <span>Add New Entry</span>
-        </button>
+        {canCreate && (
+          <button
+            onClick={() => navigate("/admin/add-product")}
+            className="w-full md:w-auto flex items-center justify-center gap-2 bg-black text-white px-6 py-4 rounded-2xl text-[10px] uppercase shadow-xl shadow-black/5 hover:bg-emerald-600 transition-all duration-300"
+          >
+            <Plus size={18} />
+            <span>Add New Entry</span>
+          </button>
+        )}
       </div>
 
       {/* FILTER & SEARCH SECTION */}
@@ -174,14 +183,16 @@ export default function Products() {
                 </span>
               </div>
 
-              <div className="absolute top-4 right-4 group-hover:translate-x-0 translate-x-12 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                <button
-                  onClick={() => deleteProduct(p.id)}
-                  className="w-10 h-10 bg-white border border-gray-100 text-gray-400 rounded-2xl flex items-center justify-center shadow-lg hover:text-red-500 transition-colors"
-                >
-                  <Trash2 size={18} />
-                </button>
-              </div>
+              {canDelete && (
+                <div className="absolute top-4 right-4 group-hover:translate-x-0 translate-x-12 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  <button
+                    onClick={() => deleteProduct(p.id)}
+                    className="w-10 h-10 bg-white border border-gray-100 text-gray-400 rounded-2xl flex items-center justify-center shadow-lg hover:text-red-500 transition-colors"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                </div>
+              )}
 
               {(p.category?.name || p.categoryName) && (
                 <div className="absolute bottom-4 left-4 bg-emerald-600 text-white text-[10px] px-3 py-1.5 rounded-full shadow-lg shadow-emerald-600/10 flex items-center gap-1.5 uppercase tracking-wider">
@@ -233,11 +244,16 @@ export default function Products() {
               <div className="mt-8">
                 <button
                   onClick={() => navigate(`/admin/edit-product/${p.id}`)}
-                  className="w-full flex items-center justify-center gap-2 bg-gray-50 text-black py-4 rounded-2xl hover:bg-black hover:text-white transition-all duration-300 group/btn"
+                  className={`w-full flex items-center justify-center gap-2 py-4 rounded-2xl transition-all duration-300 group/btn ${
+                    canUpdate 
+                      ? "bg-gray-50 text-black hover:bg-black hover:text-white" 
+                      : "bg-gray-50 text-gray-300 cursor-not-allowed"
+                  }`}
+                  disabled={!canUpdate}
                 >
-                  <Edit3 size={18} />
-                  <span className="text-xs uppercase">Configure Entry</span>
-                  <ChevronRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
+                  {canUpdate ? <Edit3 size={18} /> : <ShieldAlert size={18} />}
+                  <span className="text-xs uppercase">{canUpdate ? "Configure Entry" : "View Only Mode"}</span>
+                  {canUpdate && <ChevronRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />}
                 </button>
               </div>
             </div>

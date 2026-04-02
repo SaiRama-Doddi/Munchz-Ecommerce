@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS sub_admins (
+    id BIGSERIAL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    permissions JSONB DEFAULT '{}',
+    is_active BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS sub_admin_activities (
+    id BIGSERIAL PRIMARY KEY,
+    sub_admin_email VARCHAR(255) NOT NULL,
+    module VARCHAR(50),
+    action VARCHAR(50),
+    details TEXT,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
