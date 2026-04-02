@@ -29,7 +29,12 @@ export default function SubAdminManagement() {
   const fetchSubAdmins = async () => {
     try {
       const res = await axios.get("/subadmin/list");
-      setSubAdmins(res.data);
+      if (Array.isArray(res.data)) {
+        setSubAdmins(res.data);
+      } else {
+        console.error("Invalid sub-admin data format:", res.data);
+        setSubAdmins([]);
+      }
     } catch (err) {
       toast.error("Failed to fetch sub-admins");
     } finally {
@@ -148,7 +153,7 @@ export default function SubAdminManagement() {
               <p className="text-gray-400 text-sm">No secondary authorities established yet.</p>
             </div>
           ) : (
-            subAdmins.map((sa) => (
+            (subAdmins || []).map((sa) => (
               <div key={sa.id} className="bg-white border border-gray-100 rounded-[2rem] p-6 hover:shadow-md transition-all group">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-4">

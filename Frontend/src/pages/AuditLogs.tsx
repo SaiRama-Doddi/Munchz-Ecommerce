@@ -35,7 +35,12 @@ export default function AuditLogs() {
   const fetchLogs = async () => {
     try {
       const res = await axios.get("/subadmin/activities");
-      setLogs(res.data);
+      if (Array.isArray(res.data)) {
+        setLogs(res.data);
+      } else {
+        console.error("Invalid activity logs data format:", res.data);
+        setLogs([]);
+      }
     } catch (err) {
       toast.error("Failed to fetch activity logs");
     } finally {
@@ -93,7 +98,7 @@ export default function AuditLogs() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                {filteredLogs.map((log) => {
+                {(filteredLogs || []).map((log) => {
                   const Icon = MODULE_ICONS[log.module] || FileText;
                   return (
                     <tr key={log.id} className="hover:bg-gray-50 transition-colors group cursor-pointer">
