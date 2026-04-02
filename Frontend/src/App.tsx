@@ -62,7 +62,7 @@ const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const ReturnRefundPolicy = lazy(() => import("./pages/ReturnRefundPolicy"));
 const ReferAndEarn = lazy(() => import("./pages/ReferAndEarn"));
 const SubAdminManagement = lazy(() => import("./pages/SubAdminManagement"));
-const SubAdminOtpVerify = lazy(() => import("./pages/SubAdminOtpVerify"));
+const SubAdminManagement = lazy(() => import("./pages/SubAdminManagement"));
 const AuditLogs = lazy(() => import("./pages/AuditLogs"));
 
 
@@ -253,7 +253,6 @@ export default function App() {
           <TrackingPage />
         } />
 
-        <Route path="/subadmin/verify" element={<SubAdminOtpVerify />} />
 
         <Route path="/blog/:slug" element={<BlogDetail />} />
         <Route path="/blog" element={<BlogListPage />} />
