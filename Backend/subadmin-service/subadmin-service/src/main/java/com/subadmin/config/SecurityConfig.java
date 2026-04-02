@@ -16,7 +16,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/subadmin/**").permitAll() // Gateway will handle security
+                .requestMatchers("/api/**").permitAll() // Gateway will handle security
                 .anyRequest().authenticated()
             );
         return http.build();
