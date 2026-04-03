@@ -57,21 +57,51 @@ public class SubAdminActivityFilter implements GlobalFilter, Ordered {
                         String module = extractModule(path);
                         String action = getReadableAction(method);
  
-                        // For POST/PUT, we capture the body to see "WHAT" changed
-                        if (method == HttpMethod.POST || method == HttpMethod.PUT) {
+                        if (method == HttpMethod.PUT || method == HttpMethod.DELETE) {
+                            // Capture OLD state before change
+                            return fetchSnapshot(path, token)
+                                    .flatMap(oldName -> {
+                                        if (method == HttpMethod.PUT) {
+                                            // Capture NEW state from body
+                                            return DataBufferUtils.join(exchange.getRequest().getBody())
+                                                    .flatMap(dataBuffer -> {
+                                                        byte[] bytes = new byte[dataBuffer.readableByteCount()];
+                                                        dataBuffer.read(bytes);
+                                                        DataBufferUtils.release(dataBuffer);
+                                                        String body = new String(bytes, StandardCharsets.UTF_8);
+                                                        String newName = extractDisplayName(body);
+ 
+                                                        String details = generateTransitionDetails(action, module, path, oldName, newName);
+                                                        logActivity(email, module, action, details).subscribe();
+ 
+                                                        ServerHttpRequest mutatedRequest = new ServerHttpRequestDecorator(exchange.getRequest()) {
+                                                            @Override
+                                                            public Flux<DataBuffer> getBody() {
+                                                                return Flux.just(exchange.getResponse().bufferFactory().wrap(bytes));
+                                                            }
+                                                        };
+                                                        return chain.filter(exchange.mutate().request(mutatedRequest).build());
+                                                    });
+                                        } else {
+                                            // DELETE case
+                                            String details = generateTransitionDetails(action, module, path, oldName, null);
+                                            logActivity(email, module, action, details).subscribe();
+                                            return chain.filter(exchange);
+                                        }
+                                    }).onErrorResume(e -> chain.filter(exchange)); // Fallback on snapshot error
+                        } else if (method == HttpMethod.POST) {
+                            // CREATE case (New only)
                             return DataBufferUtils.join(exchange.getRequest().getBody())
                                     .flatMap(dataBuffer -> {
                                         byte[] bytes = new byte[dataBuffer.readableByteCount()];
                                         dataBuffer.read(bytes);
                                         DataBufferUtils.release(dataBuffer);
                                         String body = new String(bytes, StandardCharsets.UTF_8);
+                                        String newName = extractDisplayName(body);
  
-                                        String displayName = extractDisplayName(body);
-                                        String details = generateDetails(email, action, module, path, displayName);
- 
+                                        String details = generateTransitionDetails(action, module, path, null, newName);
                                         logActivity(email, module, action, details).subscribe();
  
-                                        // Re-wrap the body so it can be read again downstream
                                         ServerHttpRequest mutatedRequest = new ServerHttpRequestDecorator(exchange.getRequest()) {
                                             @Override
                                             public Flux<DataBuffer> getBody() {
@@ -80,14 +110,10 @@ public class SubAdminActivityFilter implements GlobalFilter, Ordered {
                                         };
                                         return chain.filter(exchange.mutate().request(mutatedRequest).build());
                                     });
-                        } else {
-                            // For DELETE, no body typical
-                            String details = generateDetails(email, action, module, path, null);
-                            logActivity(email, module, action, details).subscribe();
                         }
                     }
                 } catch (Exception e) {
-                    // Ignore JWT/Parsing errors
+                    // Ignore JWT errors
                 }
             }
         }
@@ -95,12 +121,26 @@ public class SubAdminActivityFilter implements GlobalFilter, Ordered {
         return chain.filter(exchange);
     }
  
+    private Mono<String> fetchSnapshot(String path, String token) {
+        // Construct the full URL relative to the gateway's internal routing if needed, 
+        // but since we are in a GlobalFilter, we hit the downstream URL directly or via the gateway itself.
+        // For simplicity, we assume the gateway can hit the internal services by their balanced names if we use a new WebClient,
+        // but here we'll just try to hit the same path through the current port for consistency.
+        return webClient.get()
+                .uri("http://gateway:8080" + path) // Direct hit through gateway to ensure routing works
+                .header("Authorization", "Bearer " + token)
+                .retrieve()
+                .bodyToMono(String.class)
+                .map(this::extractDisplayName)
+                .defaultIfEmpty("Unknown")
+                .onErrorReturn("Unknown");
+    }
+ 
     private String extractDisplayName(String body) {
+        if (body == null || body.isEmpty()) return null;
         try {
             JsonNode node = objectMapper.readTree(body);
-            // Search for common "Identity" fields
-            return Optional.ofNullable(node.get("name"))
-                    .map(JsonNode::asText)
+            return Optional.ofNullable(node.get("name")).map(JsonNode::asText)
                     .orElseGet(() -> Optional.ofNullable(node.get("title")).map(JsonNode::asText)
                     .orElseGet(() -> Optional.ofNullable(node.get("label")).map(JsonNode::asText)
                     .orElseGet(() -> Optional.ofNullable(node.get("email")).map(JsonNode::asText)
@@ -118,20 +158,33 @@ public class SubAdminActivityFilter implements GlobalFilter, Ordered {
         return method.name();
     }
  
-    private String generateDetails(String email, String action, String module, String path, String displayName) {
-        String idInfo = "";
+    private String generateTransitionDetails(String action, String module, String path, String oldVal, String newVal) {
+        String base = String.format("%s %s", action, module.toLowerCase());
+        String idInfo = extractId(path);
+        
+        String context = "";
+        if (oldVal != null && newVal != null) {
+            context = String.format(": [%s -> %s]", oldVal, newVal);
+        } else if (newVal != null) {
+            context = String.format(": [%s]", newVal);
+        } else if (oldVal != null) {
+            context = String.format(": [%s]", oldVal);
+        }
+ 
+        return String.format("%s%s at %s%s", base, context, path, idInfo);
+    }
+ 
+    private String extractId(String path) {
         try {
             String[] parts = path.split("/");
             if (parts.length > 0) {
                 String lastPart = parts[parts.length - 1];
                 if (lastPart.matches("\\d+") || lastPart.length() > 20) {
-                    idInfo = " [ID: " + lastPart + "]";
+                    return " [ID: " + lastPart + "]";
                 }
             }
         } catch (Exception e) {}
- 
-        String context = (displayName != null && !displayName.isEmpty()) ? ": [" + displayName + "]" : "";
-        return String.format("%s %s%s at %s%s", action, module.toLowerCase(), context, path, idInfo);
+        return "";
     }
  
     private boolean isMutation(HttpMethod method) {
