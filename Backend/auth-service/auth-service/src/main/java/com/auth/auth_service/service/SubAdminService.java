@@ -31,12 +31,15 @@ public class SubAdminService {
 
     @Transactional
     public SubAdmin createSubAdmin(String email, String token) {
+        System.out.println("Initiating Sub-Admin creation for: " + email);
+        
         // 1. Ensure User exists in auth_users
         User user = userRepository.findByEmail(email)
                 .orElseGet(() -> {
                     User newUser = new User();
                     newUser.setEmail(email);
                     newUser.setEmailVerified(true);
+                    newUser.setProvider("LOCAL");
                     return userRepository.save(newUser);
                 });
 
@@ -47,7 +50,7 @@ public class SubAdminService {
         try {
             roleService.assignRole(user.getId(), subAdminRole.getId(), null);
         } catch (Exception e) {
-            // Already assigned or error, continue
+            System.err.println("⚠ Role assignment skipped/failed: " + e.getMessage());
         }
 
         // 3. Create SubAdmin Metadata
@@ -63,12 +66,14 @@ public class SubAdminService {
 
         // 4. Sync Profile to User Profile Service
         try {
-            CreateProfileRequest profileRequest = new CreateProfileRequest(
-                    "Sub", "Admin", "0000000000"
-            );
-            userProfileClient.createProfile(token, profileRequest);
+            if (token != null) {
+                CreateProfileRequest profileRequest = new CreateProfileRequest(
+                        "Sub", "Admin", "0000000000"
+                );
+                userProfileClient.createProfile(token, profileRequest);
+            }
         } catch (Exception e) {
-            // Log as warning but continue, profile might already exist
+            System.err.println("⚠ Profile sync skipped (likely already exists): " + e.getMessage());
         }
 
         // 5. Log Activity
@@ -78,7 +83,7 @@ public class SubAdminService {
         try {
             emailService.sendSubAdminWelcomeMail(email);
         } catch (Exception e) {
-            // Log error but don't break the creation flow
+            System.err.println("⚠ Welcome email failed: " + e.getMessage());
         }
 
         return subAdmin;
@@ -108,7 +113,13 @@ public class SubAdminService {
         SubAdmin subAdmin = subAdminRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("SubAdmin not found"));
         
-        logActivity(subAdmin.getEmail(), "DELETE", "SUB_ADMIN", "Removed sub-admin authority for " + subAdmin.getEmail());
+        String email = subAdmin.getEmail();
+        System.out.println("Deleting sub-admin: " + email);
+        
+        // Log before delete
+        logActivity(email, "DELETE", "SUB_ADMIN", "Removed sub-admin authority for " + email);
+        
+        // Delete metadata
         subAdminRepository.deleteById(id);
     }
 

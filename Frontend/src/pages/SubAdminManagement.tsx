@@ -21,6 +21,9 @@ export default function SubAdminManagement() {
   const [isCreating, setIsCreating] = useState(false);
   const [selectedSubAdmin, setSelectedSubAdmin] = useState<SubAdmin | null>(null);
   const [permissions, setPermissions] = useState<any>({});
+  const [activeTab, setActiveTab] = useState<"MANAGEMENT" | "ACTIVITY">("MANAGEMENT");
+  const [activities, setActivities] = useState<any[]>([]);
+  const [loadingActivities, setLoadingActivities] = useState(false);
 
   useEffect(() => {
     fetchSubAdmins();
@@ -43,6 +46,26 @@ export default function SubAdminManagement() {
       setLoading(false);
     }
   };
+
+  const fetchActivities = async () => {
+    setLoadingActivities(true);
+    try {
+      const res = await API.get("/auth/subadmin/api/activities", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      });
+      setActivities(res.data || []);
+    } catch (err) {
+      toast.error("Failed to fetch audit logs");
+    } finally {
+      setLoadingActivities(false);
+    }
+  };
+
+  useEffect(() => {
+     if (activeTab === "ACTIVITY") {
+         fetchActivities();
+     }
+  }, [activeTab]);
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -118,6 +141,25 @@ export default function SubAdminManagement() {
             <h1 className="text-4xl text-black font-medium tracking-tight">Access Control</h1>
             <p className="text-[10px] text-gray-400 uppercase tracking-widest mt-1">Manage Sub-Admin identities and granular permissions</p>
         </div>
+
+        <div className="flex bg-gray-100 p-1 rounded-2xl">
+            <button 
+                onClick={() => setActiveTab("MANAGEMENT")}
+                className={`px-6 py-2 rounded-xl text-[10px] uppercase font-bold transition-all ${
+                    activeTab === "MANAGEMENT" ? "bg-white text-black shadow-sm" : "text-gray-400 hover:text-gray-600"
+                }`}
+            >
+                Authorities
+            </button>
+            <button 
+                onClick={() => setActiveTab("ACTIVITY")}
+                className={`px-6 py-2 rounded-xl text-[10px] uppercase font-bold transition-all ${
+                    activeTab === "ACTIVITY" ? "bg-white text-black shadow-sm" : "text-gray-400 hover:text-gray-600"
+                }`}
+            >
+                Activity Log
+            </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
@@ -159,60 +201,95 @@ export default function SubAdminManagement() {
 
         {/* List */}
         <div className="xl:col-span-3 space-y-4">
-          {loading ? (
-            <div className="h-64 flex items-center justify-center bg-gray-50 rounded-[2.5rem] border border-dashed border-gray-200">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
-            </div>
-          ) : subAdmins.length === 0 ? (
-            <div className="bg-gray-50 border border-dashed border-gray-200 rounded-[2.5rem] p-16 text-center">
-              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
-                <Shield className="text-gray-200" size={40} />
-              </div>
-              <p className="text-gray-400 text-sm">No secondary authorities established yet.</p>
-            </div>
-          ) : (
-            (subAdmins || []).map((sa) => (
-              <div key={sa.id} className="bg-white border border-gray-100 rounded-[2rem] p-6 hover:shadow-md transition-all group">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${
-                      sa.status === 'ACTIVE' ? 'bg-emerald-50 text-emerald-600' : 'bg-orange-50 text-orange-600'
-                    }`}>
-                      <Shield size={24} />
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-bold text-black">{sa.email}</h3>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className={`text-[9px] uppercase px-2 py-0.5 rounded-md ${
-                          sa.status === 'ACTIVE' ? 'bg-emerald-100 text-emerald-700' : 'bg-orange-100 text-orange-700'
+          {activeTab === "MANAGEMENT" ? (
+            <>
+              {loading ? (
+                <div className="h-64 flex items-center justify-center bg-gray-50 rounded-[2.5rem] border border-dashed border-gray-200">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
+                </div>
+              ) : (subAdmins || []).length === 0 ? (
+                <div className="bg-gray-50 border border-dashed border-gray-200 rounded-[2.5rem] p-16 text-center">
+                  <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
+                    <Shield className="text-gray-200" size={40} />
+                  </div>
+                  <p className="text-gray-400 text-sm">No secondary authorities established yet.</p>
+                </div>
+              ) : (
+                (subAdmins || []).map((sa) => (
+                  <div key={sa.id} className="bg-white border border-gray-100 rounded-[2rem] p-6 hover:shadow-md transition-all group">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div className="flex items-center gap-4">
+                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${
+                          sa.status === 'ACTIVE' ? 'bg-emerald-50 text-emerald-600' : 'bg-orange-50 text-orange-600'
                         }`}>
-                          {sa.status.replace('_', ' ')}
-                        </span>
-                        <span className="text-[9px] text-gray-400 flex items-center gap-1">
-                          <Clock size={10} /> {new Date(sa.createdAt).toLocaleDateString()}
-                        </span>
+                          <Shield size={24} />
+                        </div>
+                        <div>
+                          <h3 className="text-sm font-bold text-black">{sa.email}</h3>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className={`text-[9px] uppercase px-2 py-0.5 rounded-md ${
+                              sa.status === 'ACTIVE' ? 'bg-emerald-100 text-emerald-700' : 'bg-orange-100 text-orange-700'
+                            }`}>
+                              {sa.status.replace('_', ' ')}
+                            </span>
+                            <span className="text-[9px] text-gray-400 flex items-center gap-1">
+                              <Clock size={10} /> {new Date(sa.createdAt).toLocaleDateString()}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button 
+                          onClick={() => handleOpenPermissions(sa)}
+                          className="p-3 rounded-xl bg-gray-50 text-gray-600 hover:bg-emerald-50 hover:text-emerald-600 transition-colors"
+                          title="Adjust Permissions"
+                        >
+                          <Settings size={18} />
+                        </button>
+                        <button 
+                          onClick={() => handleDelete(sa.id)}
+                          className="p-3 rounded-xl bg-gray-50 text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors"
+                        >
+                          <Trash2 size={18} />
+                        </button>
                       </div>
                     </div>
                   </div>
-                  
-                  <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button 
-                      onClick={() => handleOpenPermissions(sa)}
-                      className="p-3 rounded-xl bg-gray-50 text-gray-600 hover:bg-emerald-50 hover:text-emerald-600 transition-colors"
-                      title="Adjust Permissions"
-                    >
-                      <Settings size={18} />
-                    </button>
-                    <button 
-                      onClick={() => handleDelete(sa.id)}
-                      className="p-3 rounded-xl bg-gray-50 text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors"
-                    >
-                      <Trash2 size={18} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))
+                ))
+              )}
+            </>
+          ) : (
+            <div className="space-y-4">
+               {loadingActivities ? (
+                 <div className="h-64 flex items-center justify-center">
+                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
+                 </div>
+               ) : activities.length === 0 ? (
+                 <div className="bg-gray-50 border border-dashed border-gray-200 rounded-[2.5rem] p-16 text-center">
+                    <p className="text-gray-400 text-sm">No activity logs recorded yet.</p>
+                 </div>
+               ) : (
+                 activities.reverse().map((act, index) => (
+                   <div key={index} className="bg-white border border-gray-50 p-6 rounded-[1.5rem] flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-400 mt-1">
+                         <Clock size={18} />
+                      </div>
+                      <div className="flex-1">
+                         <div className="flex items-center justify-between">
+                            <h4 className="text-[11px] font-bold text-black">{act.subAdminEmail}</h4>
+                            <span className="text-[9px] text-gray-400 uppercase tracking-widest">{new Date(act.timestamp).toLocaleString()}</span>
+                         </div>
+                         <div className="mt-2 flex items-center gap-2">
+                            <span className="text-[9px] font-black italic text-emerald-600 uppercase tracking-tighter">{act.module}</span>
+                            <span className="text-[10px] text-gray-600">— {act.action}</span>
+                         </div>
+                         <p className="text-[10px] text-gray-400 mt-1 italic">{act.details}</p>
+                      </div>
+                   </div>
+                 ))
+               )}
+            </div>
           )}
         </div>
       </div>
