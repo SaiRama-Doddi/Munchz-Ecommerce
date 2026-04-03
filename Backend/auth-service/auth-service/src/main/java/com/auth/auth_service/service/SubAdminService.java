@@ -27,6 +27,7 @@ public class SubAdminService {
     private final RoleRepository roleRepository;
     private final RoleService roleService;
     private final UserProfileClient userProfileClient;
+    private final EmailService emailService;
 
     @Transactional
     public SubAdmin createSubAdmin(String email, String token) {
@@ -73,6 +74,13 @@ public class SubAdminService {
         // 5. Log Activity
         logActivity(email, "CREATE", "SUB_ADMIN", "Created new sub-admin authority");
 
+        // 6. Send Welcome Email
+        try {
+            emailService.sendSubAdminWelcomeMail(email);
+        } catch (Exception e) {
+            // Log error but don't break the creation flow
+        }
+
         return subAdmin;
     }
 
@@ -95,9 +103,18 @@ public class SubAdminService {
         return subAdminRepository.findByEmail(email).orElse(null);
     }
 
+    @Transactional
+    public void deleteSubAdmin(UUID id) {
+        SubAdmin subAdmin = subAdminRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("SubAdmin not found"));
+        
+        logActivity(subAdmin.getEmail(), "DELETE", "SUB_ADMIN", "Removed sub-admin authority for " + subAdmin.getEmail());
+        subAdminRepository.deleteById(id);
+    }
+
     public void logActivity(String email, String action, String module, String details) {
         SubAdminActivity activity = new SubAdminActivity();
-        activity.setEmail(email);
+        activity.setSubAdminEmail(email);
         activity.setAction(action);
         activity.setModule(module);
         activity.setDetails(details);

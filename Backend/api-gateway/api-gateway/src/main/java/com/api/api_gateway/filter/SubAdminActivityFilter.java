@@ -26,7 +26,7 @@ public class SubAdminActivityFilter implements GlobalFilter, Ordered {
     private final WebClient webClient;
 
     public SubAdminActivityFilter(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("http://subadmin-service:8089").build();
+        this.webClient = webClientBuilder.baseUrl("http://auth-service:8081").build();
     }
 
     @Override
@@ -86,7 +86,7 @@ public class SubAdminActivityFilter implements GlobalFilter, Ordered {
 
     private Mono<Void> logActivity(String email, String module, String action, String details) {
         return webClient.post()
-                .uri("/subadmin/log")
+                .uri("/auth/subadmin/api/log")
                 .bodyValue(Map.of(
                         "email", email,
                         "module", module,

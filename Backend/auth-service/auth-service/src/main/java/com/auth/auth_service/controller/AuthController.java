@@ -4,8 +4,11 @@ import com.auth.auth_service.dto.*;
 import com.auth.auth_service.entity.User;
 import com.auth.auth_service.excepton.ResourceNotFoundException;
 import com.auth.auth_service.feign.UserProfileClient;
+import com.auth.auth_service.entity.SubAdmin;
+import com.auth.auth_service.repository.SubAdminRepository;
 import com.auth.auth_service.repository.UserRepository;
 import com.auth.auth_service.security.JwtProvider;
+import com.auth.auth_service.service.*;
 import com.auth.auth_service.service.EmailService;
 import com.auth.auth_service.service.GoogleTokenVerifier;
 import com.auth.auth_service.service.OtpService;
@@ -59,6 +62,9 @@ public class AuthController {
 
     @Autowired
     UserRepository userRepo;
+
+    @Autowired
+    SubAdminRepository subAdminRepo;
 
     @Autowired
     OtpService otpService;
@@ -257,8 +263,14 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
     }
 
     List<String> roles = roleService.getUserRoleNames(user.getId());
+    String permissions = null;
+    if (roles.contains("SUB_ADMIN")) {
+        permissions = subAdminRepo.findByEmail(user.getEmail())
+                .map(SubAdmin::getPermissions)
+                .orElse("[]");
+    }
 
-    String token = jwtProvider.generateToken(user.getId(), user.getEmail(), roles);
+    String token = jwtProvider.generateToken(user.getId(), user.getEmail(), roles, permissions);
 
     AuthProfileResponse mergedProfile = null;
     List<AddressResponse> addresses = List.of();

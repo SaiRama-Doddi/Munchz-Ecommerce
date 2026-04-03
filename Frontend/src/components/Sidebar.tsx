@@ -64,7 +64,7 @@ const items = [
 
 export default function Sidebar({ isOpen = true, onClose = () => {} }: SidebarProps) {
   const navigate = useNavigate();
-  const { isAdmin } = usePermissions();
+  const { isAdmin, hasPermission } = usePermissions();
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleClose = () => {
@@ -73,18 +73,49 @@ export default function Sidebar({ isOpen = true, onClose = () => {} }: SidebarPr
     }
   };
 
-  const filteredItems = items.reduce((acc: any[], item, index) => {
-    // Hide Admin-only items from Sub-Admins
-    if (!isAdmin && (item.label === "User Management" || item.to === "/admin/sub-admins" || item.to === "/admin/audit-logs")) {
-      return acc;
+  // Helper to check if a navigation item should be visible
+  const isVisible = (item: any) => {
+    if (isAdmin) return true; // Admins see everything
+    if (item.type === "header") return true; // Headers handled in reduce
+    if (item.to === "/") return true; // Everyone sees Store Front
+    if (item.to === "/admin/dashboard") return true; // Everyone sees Dashboard
+
+    // Module Mappings
+    if (item.to === "/admin/category" || item.to === "/admin/sub-category") {
+      return hasPermission("CATEGORIES", "READ");
+    }
+    if (item.to === "/admin/products") {
+      return hasPermission("PRODUCTS", "READ");
+    }
+    if (item.to === "/admin/orders" || item.to === "/admin/payments") {
+      return hasPermission("ORDERS", "READ");
+    }
+    if (item.to?.includes("/admin/stock") || item.to?.includes("/admin/inventory") || item.to?.includes("/admin/offline") || item.to?.includes("/admin/addstock")) {
+      return hasPermission("STOCKS", "READ");
+    }
+    if (item.to === "/admin/coupons") {
+      return hasPermission("COUPONS", "READ");
+    }
+    if (item.to === "/admin/reviews") {
+      return hasPermission("REVIEWS", "READ");
     }
 
+    // Default: Hide Admin-only areas from Sub-Admins
+    const adminOnlyPaths = ["/admin/sub-admins", "/admin/audit-logs"];
+    if (adminOnlyPaths.includes(item.to)) return false;
+
+    return true; 
+  };
+
+  const filteredItems = items.reduce((acc: any[], item, index) => {
+    if (!isVisible(item)) return acc;
+
     if (item.type === "header") {
-      // Find following items until next header or end
+      // Show header ONLY if it has visible children
       const nextItems = [];
       for (let i = index + 1; i < items.length; i++) {
         if (items[i].type === "header") break;
-        if (items[i].label.toLowerCase().includes(searchQuery.toLowerCase())) {
+        if (isVisible(items[i]) && items[i].label.toLowerCase().includes(searchQuery.toLowerCase())) {
           nextItems.push(items[i]);
         }
       }

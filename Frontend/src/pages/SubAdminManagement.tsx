@@ -97,6 +97,19 @@ export default function SubAdminManagement() {
     }
   };
 
+  const handleDelete = async (id: string) => {
+    if (!window.confirm("Are you sure you want to remove this sub-admin? This will immediately revoke their access.")) return;
+    try {
+      await API.delete(`/auth/subadmin/api/${id}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+      });
+      toast.success("Sub-Admin removed successfully");
+      fetchSubAdmins();
+    } catch (err) {
+      toast.error("Failed to remove sub-admin");
+    }
+  };
+
   return (
     <div className="space-y-8 animate-fadeIn">
       {/* Header */}
@@ -190,7 +203,10 @@ export default function SubAdminManagement() {
                     >
                       <Settings size={18} />
                     </button>
-                    <button className="p-3 rounded-xl bg-gray-50 text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors">
+                    <button 
+                      onClick={() => handleDelete(sa.id)}
+                      className="p-3 rounded-xl bg-gray-50 text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors"
+                    >
                       <Trash2 size={18} />
                     </button>
                   </div>

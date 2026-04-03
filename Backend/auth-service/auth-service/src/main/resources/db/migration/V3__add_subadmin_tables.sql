@@ -11,7 +11,7 @@ CREATE TABLE sub_admins (
 -- SubAdmin Activity Table
 CREATE TABLE sub_admin_activities (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    email VARCHAR(255) NOT NULL,
+    sub_admin_email VARCHAR(255) NOT NULL,
     action VARCHAR(255) NOT NULL,
     module VARCHAR(255) NOT NULL,
     details TEXT,

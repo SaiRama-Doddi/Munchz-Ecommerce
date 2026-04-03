@@ -14,8 +14,8 @@ public class SubAdminActivity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false)
-    private String email;
+    @Column(nullable = false, name = "sub_admin_email")
+    private String subAdminEmail;
 
     @Column(nullable = false)
     private String action;

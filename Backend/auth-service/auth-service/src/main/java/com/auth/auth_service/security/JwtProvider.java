@@ -20,11 +20,14 @@
         @Value("${jwt.expiration}")
         private Long expiration;
     
-        public String generateToken(UUID userId, String email, List<String> roles) {
+        public String generateToken(UUID userId, String email, List<String> roles) { return generateToken(userId, email, roles, null); }
+
+        public String generateToken(UUID userId, String email, List<String> roles, String permissions) {
             return JWT.create()
                     .withSubject(userId.toString())
                     .withClaim("email", email)
-                    .withClaim("roles", roles)     // 👈 ADD ROLES HERE
+                    .withClaim("roles", roles)
+                    .withClaim("permissions", permissions)
                     .withIssuedAt(new Date())
                     .withExpiresAt(new Date(System.currentTimeMillis() + expiration))
                     .sign(Algorithm.HMAC256(secret));

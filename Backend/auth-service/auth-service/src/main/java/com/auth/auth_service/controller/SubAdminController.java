@@ -41,6 +41,12 @@ public class SubAdminController {
         return ResponseEntity.ok(service.updatePermissions(id, body.get("permissions")));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        service.deleteSubAdmin(id);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/activities")
     public ResponseEntity<List<SubAdminActivity>> activities() {
         return ResponseEntity.ok(service.getAllActivities());

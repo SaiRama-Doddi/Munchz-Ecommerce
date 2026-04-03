@@ -93,18 +93,14 @@ export default function OtpPage() {
       localStorage.setItem("profile", JSON.stringify(profile));
       localStorage.setItem("roles", JSON.stringify(roles));
 
-      // NEW: Fetch specific permissions if user is a SUB_ADMIN
-      if (roles.includes("SUB_ADMIN")) {
-        try {
-          const permRes = await axios.get(`/auth/subadmin/api/by-email/${email}`, {
-            headers: { Authorization: `Bearer ${res.data.token}` }
-          });
-          if (permRes.data && permRes.data.permissions) {
-            localStorage.setItem("permissions", permRes.data.permissions);
-          }
-        } catch (err) {
-          console.error("Failed to fetch sub-admin permissions:", err);
+      // Decode JWT and store permissions if present
+      try {
+        const payload = JSON.parse(atob(res.data.token.split('.')[1]));
+        if (payload.permissions) {
+          localStorage.setItem("permissions", payload.permissions);
         }
+      } catch (e) {
+        console.error("Token decoding failed", e);
       }
 
       setProfile(profile);
