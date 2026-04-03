@@ -53,7 +53,13 @@ public class SubAdminActivityFilter implements GlobalFilter, Ordered {
                     List<String> roles = decodedJWT.getClaim("roles").asList(String.class);
  
                     if (roles != null && roles.contains("SUB_ADMIN")) {
-                        String email = decodedJWT.getSubject();
+                        // Priority: 'email' claim -> 'subject' (UUID)
+                        String sub = decodedJWT.getClaim("email").asString();
+                        if (sub == null || sub.isEmpty()) {
+                            sub = decodedJWT.getSubject();
+                        }
+                        final String email = sub;
+                        
                         String module = extractModule(path);
                         String action = getReadableAction(method);
  
@@ -88,7 +94,7 @@ public class SubAdminActivityFilter implements GlobalFilter, Ordered {
                                             logActivity(email, module, action, details).subscribe();
                                             return chain.filter(exchange);
                                         }
-                                    }).onErrorResume(e -> chain.filter(exchange)); // Fallback on snapshot error
+                                    });
                         } else if (method == HttpMethod.POST) {
                             // CREATE case (New only)
                             return DataBufferUtils.join(exchange.getRequest().getBody())
@@ -122,18 +128,15 @@ public class SubAdminActivityFilter implements GlobalFilter, Ordered {
     }
  
     private Mono<String> fetchSnapshot(String path, String token) {
-        // Construct the full URL relative to the gateway's internal routing if needed, 
-        // but since we are in a GlobalFilter, we hit the downstream URL directly or via the gateway itself.
-        // For simplicity, we assume the gateway can hit the internal services by their balanced names if we use a new WebClient,
-        // but here we'll just try to hit the same path through the current port for consistency.
+        // Internal Docker routing: hit the gateway service directly on port 8080
         return webClient.get()
-                .uri("http://gateway:8080" + path) // Direct hit through gateway to ensure routing works
+                .uri("http://api-gateway:8080" + path) 
                 .header("Authorization", "Bearer " + token)
                 .retrieve()
                 .bodyToMono(String.class)
                 .map(this::extractDisplayName)
-                .defaultIfEmpty("Unknown")
-                .onErrorReturn("Unknown");
+                .onErrorReturn("Unknown")
+                .defaultIfEmpty("Unknown");
     }
  
     private String extractDisplayName(String body) {
@@ -152,9 +155,9 @@ public class SubAdminActivityFilter implements GlobalFilter, Ordered {
     }
  
     private String getReadableAction(HttpMethod method) {
-        if (method == HttpMethod.POST) return "CREATED";
-        if (method == HttpMethod.PUT) return "UPDATED";
-        if (method == HttpMethod.DELETE) return "DELETED";
+        if (method == HttpMethod.POST) return "CREATE";
+        if (method == HttpMethod.PUT) return "UPDATE";
+        if (method == HttpMethod.DELETE) return "DELETE";
         return method.name();
     }
  
@@ -163,11 +166,11 @@ public class SubAdminActivityFilter implements GlobalFilter, Ordered {
         String idInfo = extractId(path);
         
         String context = "";
-        if (oldVal != null && newVal != null) {
+        if (oldVal != null && newVal != null && !oldVal.equals("Unknown")) {
             context = String.format(": [%s -> %s]", oldVal, newVal);
         } else if (newVal != null) {
             context = String.format(": [%s]", newVal);
-        } else if (oldVal != null) {
+        } else if (oldVal != null && !oldVal.equals("Unknown")) {
             context = String.format(": [%s]", oldVal);
         }
  
@@ -208,6 +211,7 @@ public class SubAdminActivityFilter implements GlobalFilter, Ordered {
         if (p.contains("/coupon")) return "COUPON";
         if (p.contains("/review")) return "REVIEW";
         if (p.contains("/payment")) return "PAYMENT";
+        if (p.contains("/profile") || p.contains("/auth")) return "USER_MANAGEMENT";
         return "GENERAL";
     }
  
