@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS sub_admins (
-    id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email VARCHAR(255) UNIQUE NOT NULL,
     permissions TEXT DEFAULT '{}',
     status VARCHAR(20) DEFAULT 'PRE_VERIFIED',
@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS sub_admins (
 );
 
 CREATE TABLE IF NOT EXISTS sub_admin_activities (
-    id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     sub_admin_id UUID,
     sub_admin_email VARCHAR(255) NOT NULL,
     module VARCHAR(50),

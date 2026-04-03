@@ -11,7 +11,7 @@ import java.util.UUID;
 public class SubAdminActivity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "sub_admin_id")
