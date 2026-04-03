@@ -36,7 +36,6 @@ services:
       - coupon-service
       - payment-service
       - shipping-service
-      - subadmin-service
 
   auth-service:
     build: ./Backend/auth-service/auth-service
@@ -133,19 +132,6 @@ services:
     env_file:
       - .env
 
-  subadmin-service:
-    build: ./Backend/subadmin-service/subadmin-service
-    container_name: subadmin-service
-    restart: always
-    depends_on:
-      - postgres
-    expose:
-      - "8089"
-    env_file:
-      - .env
-    environment:
-      MAIL_USERNAME: ${MAIL_USERNAME}
-      MAIL_PASSWORD: ${MAIL_PASSWORD}
 
 volumes:
   postgres-data:
