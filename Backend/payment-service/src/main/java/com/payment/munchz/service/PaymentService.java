@@ -38,7 +38,7 @@ public class PaymentService {
     @jakarta.annotation.PostConstruct
     public void validateConfig() {
         boolean keyValid = razorpayKey != null && !razorpayKey.isEmpty() && !razorpayKey.equals("${RAZORPAY_KEY}");
-        boolean secretValid = razorpaySecret != null && !razorpaySecret.isEmpty() && !razorpaySecret.equals("${RAZOR_SECRET}");
+        boolean secretValid = razorpaySecret != null && !razorpaySecret.isEmpty() && !razorpaySecret.equals("${RAZORPAY_SECRET}");
 
         if (!keyValid) {
             log.error("CRITICAL: Razorpay Key is NOT configured! Check your environment variables (RAZORPAY_KEY). Current value: {}", razorpayKey);
@@ -47,7 +47,7 @@ public class PaymentService {
         }
 
         if (!secretValid) {
-            log.error("CRITICAL: Razorpay Secret is NOT configured! Check your environment variables (RAZOR_SECRET). Current value: {}", razorpaySecret);
+            log.error("CRITICAL: Razorpay Secret is NOT configured! Check your environment variables (RAZORPAY_SECRET). Current value: {}", razorpaySecret);
         } else {
             log.info("Razorpay Secret correctly initialized.");
         }

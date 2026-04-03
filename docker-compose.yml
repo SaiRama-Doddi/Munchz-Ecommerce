@@ -108,8 +108,8 @@ services:
     expose:
       - "9092"
     environment:
-      RAZOR_KEY: ${RAZORPAY_KEY}
-      RAZOR_SECRET: ${RAZOR_SECRET}
+      RAZORPAY_KEY: ${RAZORPAY_KEY}
+      RAZORPAY_SECRET: ${RAZOR_SECRET}
     env_file:
       - .env
 
