@@ -136,6 +136,7 @@ services:
   subadmin-service:
     build: ./Backend/subadmin-service/subadmin-service
     container_name: subadmin-service
+    restart: always
     depends_on:
       - postgres
     expose:
