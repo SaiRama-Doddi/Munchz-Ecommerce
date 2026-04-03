@@ -18,12 +18,16 @@ public class SubAdmin {
     private String email;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 20)
     private SubAdminStatus status = SubAdminStatus.PRE_VERIFIED;
 
     @Column(columnDefinition = "TEXT")
-    private String permissions; // JSON String or comma-separated
+    private String permissions; // JSON String
 
+    @Column(name = "created_at", updatable = false)
     private Instant createdAt;
+
+    @Column(name = "updated_at")
     private Instant updatedAt;
 
     @PrePersist

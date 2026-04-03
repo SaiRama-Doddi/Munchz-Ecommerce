@@ -39,8 +39,8 @@ public class AuthController {
         Integer roleId = roleService.listRoles().stream()
                 .filter(r -> r.getName().equals("SUB_ADMIN"))
                 .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("SUB_ADMIN role not found"))
-                .getId();
+                .map(com.auth.auth_service.entity.Role::getId)
+                .orElseGet(() -> roleService.createRole("SUB_ADMIN").getId());
 
         boolean hasRole = roleService.getUserRoleNames(user.getId()).contains("SUB_ADMIN");
         if (!hasRole) {
