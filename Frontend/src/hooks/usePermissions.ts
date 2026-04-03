@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-export type Module = "CATEGORIES" | "PRODUCTS" | "ORDERS" | "STOCKS" | "COUPONS" | "REVIEWS";
+export type Module = "CATEGORIES" | "PRODUCTS" | "ORDERS" | "STOCKS" | "COUPONS" | "REVIEWS" | "DASHBOARD" | "PAYMENTS" | "USER_MANAGEMENT";
 export type Action = "CREATE" | "READ" | "UPDATE" | "DELETE";
 
 export const usePermissions = () => {

@@ -77,20 +77,29 @@ export default function Sidebar({ isOpen = true, onClose = () => {} }: SidebarPr
   const isVisible = (item: any) => {
     if (isAdmin) return true; // Admins see everything
     if (item.type === "header") return true; // Headers handled in reduce
-    if (item.to === "/") return true; // Everyone sees Store Front
-    if (item.to === "/admin/dashboard") return true; // Everyone sees Dashboard
-
-    // Module Mappings
+    
+    // Sub-Admins: Strict mapping for ALL menu items
+    if (item.to === "/") return false; // Usually hidden from admin sidebar
+    if (item.to === "/admin/dashboard") {
+      return hasPermission("DASHBOARD", "READ");
+    }
     if (item.to === "/admin/category" || item.to === "/admin/sub-category") {
       return hasPermission("CATEGORIES", "READ");
     }
     if (item.to === "/admin/products") {
       return hasPermission("PRODUCTS", "READ");
     }
-    if (item.to === "/admin/orders" || item.to === "/admin/payments") {
+    if (item.to === "/admin/orders") {
       return hasPermission("ORDERS", "READ");
     }
-    if (item.to?.includes("/admin/stock") || item.to?.includes("/admin/inventory") || item.to?.includes("/admin/offline") || item.to?.includes("/admin/addstock")) {
+    if (item.to === "/admin/payments") {
+      return hasPermission("PAYMENTS", "READ");
+    }
+    if (
+      item.to?.toLowerCase().includes("stock") || 
+      item.to?.toLowerCase().includes("inventory") || 
+      item.to?.toLowerCase().includes("offline")
+    ) {
       return hasPermission("STOCKS", "READ");
     }
     if (item.to === "/admin/coupons") {
@@ -99,12 +108,12 @@ export default function Sidebar({ isOpen = true, onClose = () => {} }: SidebarPr
     if (item.to === "/admin/reviews") {
       return hasPermission("REVIEWS", "READ");
     }
+    if (item.to === "/admin/sub-admins" || item.to === "/admin/audit-logs") {
+      return hasPermission("USER_MANAGEMENT", "READ");
+    }
 
-    // Default: Hide Admin-only areas from Sub-Admins
-    const adminOnlyPaths = ["/admin/sub-admins", "/admin/audit-logs"];
-    if (adminOnlyPaths.includes(item.to)) return false;
-
-    return true; 
+    // Default: Hide EVERYTHING else from Sub-Admins (Zero Trust)
+    return false; 
   };
 
   const filteredItems = items.reduce((acc: any[], item, index) => {

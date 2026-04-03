@@ -94,10 +94,12 @@ export default function OtpPage() {
       localStorage.setItem("roles", JSON.stringify(roles));
 
       // Decode JWT and store permissions if present
+      let userPermissions: any = {};
       try {
         const payload = JSON.parse(atob(res.data.token.split('.')[1]));
         if (payload.permissions) {
           localStorage.setItem("permissions", payload.permissions);
+          userPermissions = JSON.parse(payload.permissions);
         }
       } catch (e) {
         console.error("Token decoding failed", e);
@@ -106,8 +108,22 @@ export default function OtpPage() {
       setProfile(profile);
       alert("Login successful!");
 
-      if (roles.includes("ADMIN") || roles.includes("SUB_ADMIN")) {
+      if (roles.includes("ADMIN")) {
         navigate("/admin/dashboard", { replace: true });
+      } else if (roles.includes("SUB_ADMIN")) {
+        // Dynamic Redirect for Sub-Admins based on permissions
+        const firstModule = Object.keys(userPermissions).find(m => userPermissions[m]?.length > 0);
+        
+        if (firstModule === "DASHBOARD") navigate("/admin/dashboard", { replace: true });
+        else if (firstModule === "CATEGORIES") navigate("/admin/category", { replace: true });
+        else if (firstModule === "PRODUCTS") navigate("/admin/products", { replace: true });
+        else if (firstModule === "ORDERS") navigate("/admin/orders", { replace: true });
+        else if (firstModule === "PAYMENTS") navigate("/admin/payments", { replace: true });
+        else if (firstModule === "STOCKS") navigate("/admin/inventory", { replace: true });
+        else if (firstModule === "COUPONS") navigate("/admin/coupons", { replace: true });
+        else if (firstModule === "REVIEWS") navigate("/admin/reviews", { replace: true });
+        else if (firstModule === "USER_MANAGEMENT") navigate("/admin/sub-admins", { replace: true });
+        else navigate("/", { replace: true }); // Fallback to Storefront if NO admin access
       } else {
         navigate("/", { replace: true });
       }

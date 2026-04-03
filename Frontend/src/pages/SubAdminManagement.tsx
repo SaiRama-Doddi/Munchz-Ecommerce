@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import API from "../api/api";
-import { UserPlus, Shield, Mail, CheckCircle, XCircle, Settings, Trash2, Clock } from "lucide-react";
+import { UserPlus, Shield, Mail, CheckCircle, XCircle, Settings, Trash2, Clock, Package, Layers, ShoppingCart, Boxes } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 interface SubAdmin {
@@ -11,7 +11,7 @@ interface SubAdmin {
   createdAt: string;
 }
 
-const MODULES = ["CATEGORIES", "PRODUCTS", "ORDERS", "STOCKS", "COUPONS", "REVIEWS"];
+const MODULES = ["DASHBOARD", "CATEGORIES", "PRODUCTS", "ORDERS", "PAYMENTS", "STOCKS", "COUPONS", "REVIEWS", "USER_MANAGEMENT"];
 const ACTIONS = ["CREATE", "READ", "UPDATE", "DELETE"];
 
 export default function SubAdminManagement() {
@@ -24,6 +24,30 @@ export default function SubAdminManagement() {
   const [activeTab, setActiveTab] = useState<"MANAGEMENT" | "ACTIVITY">("MANAGEMENT");
   const [activities, setActivities] = useState<any[]>([]);
   const [loadingActivities, setLoadingActivities] = useState(false);
+
+  const timeAgo = (dateParam: string) => {
+    if (!dateParam) return null;
+    const date = new Date(dateParam);
+    const now = new Date();
+    const seconds = Math.round((now.getTime() - date.getTime()) / 1000);
+    const minutes = Math.round(seconds / 60);
+    const hours = Math.round(minutes / 60);
+    const days = Math.round(hours / 24);
+
+    if (seconds < 60) return "Just now";
+    if (minutes < 60) return `${minutes}m ago`;
+    if (hours < 24) return `${hours}h ago`;
+    return `${days}d ago`;
+  };
+
+  const getModuleIcon = (module: string) => {
+    const m = module.toUpperCase();
+    if (m === "PRODUCT") return <Package size={18} />;
+    if (m === "CATEGORY") return <Layers size={18} />;
+    if (m === "ORDER" || m === "PAYMENT") return <ShoppingCart size={18} />;
+    if (m === "STOCK") return <Boxes size={18} />;
+    return <Clock size={18} />;
+  };
 
   useEffect(() => {
     fetchSubAdmins();
@@ -260,36 +284,36 @@ export default function SubAdminManagement() {
               )}
             </>
           ) : (
-            <div className="space-y-4">
-               {loadingActivities ? (
-                 <div className="h-64 flex items-center justify-center">
-                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
-                 </div>
-               ) : activities.length === 0 ? (
-                 <div className="bg-gray-50 border border-dashed border-gray-200 rounded-[2.5rem] p-16 text-center">
-                    <p className="text-gray-400 text-sm">No activity logs recorded yet.</p>
-                 </div>
-               ) : (
-                 activities.reverse().map((act, index) => (
-                   <div key={index} className="bg-white border border-gray-50 p-6 rounded-[1.5rem] flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-400 mt-1">
-                         <Clock size={18} />
-                      </div>
-                      <div className="flex-1">
-                         <div className="flex items-center justify-between">
-                            <h4 className="text-[11px] font-bold text-black">{act.subAdminEmail}</h4>
-                            <span className="text-[9px] text-gray-400 uppercase tracking-widest">{new Date(act.timestamp).toLocaleString()}</span>
-                         </div>
-                         <div className="mt-2 flex items-center gap-2">
-                            <span className="text-[9px] font-black italic text-emerald-600 uppercase tracking-tighter">{act.module}</span>
-                            <span className="text-[10px] text-gray-600">— {act.action}</span>
-                         </div>
-                         <p className="text-[10px] text-gray-400 mt-1 italic">{act.details}</p>
-                      </div>
-                   </div>
-                 ))
-               )}
-            </div>
+             <div className="space-y-4">
+                {loadingActivities ? (
+                  <div className="h-64 flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
+                  </div>
+                ) : activities.length === 0 ? (
+                  <div className="bg-gray-50 border border-dashed border-gray-200 rounded-[2.5rem] p-16 text-center">
+                     <p className="text-gray-400 text-sm">No activity logs recorded yet.</p>
+                  </div>
+                ) : (
+                  activities.reverse().map((act, index) => (
+                    <div key={index} className="bg-white border border-gray-50 p-6 rounded-[1.5rem] flex items-start gap-4 hover:shadow-sm transition-all group">
+                       <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-emerald-600 mt-1 shadow-sm group-hover:bg-emerald-500 group-hover:text-white transition-all">
+                          {getModuleIcon(act.module)}
+                       </div>
+                       <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                             <h4 className="text-[11px] font-bold text-black">{act.subAdminEmail}</h4>
+                             <span className="text-[9px] text-gray-400 uppercase tracking-widest bg-gray-50 px-2 py-1 rounded-md">{timeAgo(act.timestamp)}</span>
+                          </div>
+                          <div className="mt-2 flex items-center gap-2">
+                             <span className="text-[9px] font-black italic text-emerald-600 uppercase tracking-tighter bg-emerald-50 px-1.5 py-0.5 rounded">{act.module}</span>
+                             <span className="text-[10px] text-gray-600 font-bold">— {act.action}</span>
+                          </div>
+                          <p className="text-[10px] text-gray-400 mt-1 italic leading-relaxed">{act.details}</p>
+                       </div>
+                    </div>
+                  ))
+                )}
+             </div>
           )}
         </div>
       </div>

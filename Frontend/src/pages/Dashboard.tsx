@@ -69,10 +69,29 @@ interface DashboardProps {
   orders: Order[];
 }
 
-/* ================= COMPONENT ================= */
+import { usePermissions } from "../hooks/usePermissions";
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const { isSubAdmin, hasPermission } = usePermissions();
+  
+  // Dynamic Redirect for Sub-Admins who shouldn't be on the Dashboard
+  useEffect(() => {
+    if (isSubAdmin) {
+       // If they have NO permissions for high-level data, send them to their first allowed module
+       const canSeeAnyOrders = hasPermission("ORDERS", "READ");
+       const canSeeAnyProducts = hasPermission("PRODUCTS", "READ");
+       const canSeeAnyCategories = hasPermission("CATEGORIES", "READ");
+       const canSeeAnyStocks = hasPermission("STOCKS", "READ");
+
+       // If they can't even see orders or stocks, they shouldn't be on the main overview
+       if (!canSeeAnyOrders && !canSeeAnyStocks) {
+          if (canSeeAnyCategories) navigate("/admin/category", { replace: true });
+          else if (canSeeAnyProducts) navigate("/admin/products", { replace: true });
+       }
+    }
+  }, [isSubAdmin, hasPermission, navigate]);
+
   const { data: cats = [] } = useCategories();
   const { data: prods = [] } = useProducts();
 
@@ -274,60 +293,72 @@ export default function Dashboard() {
 
       {/* KPI CARDS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
-        <KPICard
-          title="Revenue"
-          subtitle="Total Sales"
-          value={`₹${totalRevenue.toLocaleString()}`}
-          icon={<CreditCard size={24} />}
-          bgIcon={<CreditCard size={100} />}
-          color="black"
-          onClick={() => navigate("/admin/payments")}
-        />
-        <KPICard
-          title="Global Aggregate"
-          subtitle="Total Stock"
-          value={totalStock.total.toLocaleString()}
-          icon={<Boxes size={24} />}
-          bgIcon={<Boxes size={100} />}
-          color="emerald"
-          onClick={() => navigate("/admin/complete-stock")}
-        />
-        <KPICard
-          title="Orders"
-          subtitle="Total volume"
-          value={filteredOrders.length}
-          icon={<ShoppingCart size={24} />}
-          bgIcon={<ShoppingCart size={100} />}
-          color="emerald"
-          onClick={() => navigate("/admin/orders")}
-        />
-        <KPICard
-          title="Products"
-          subtitle="Live Catalog"
-          value={products.length}
-          icon={<Package size={24} />}
-          bgIcon={<Package size={100} />}
-          color="emerald"
-          onClick={() => navigate("/admin/products")}
-        />
-        <KPICard
-          title="Catalog"
-          subtitle="Categories"
-          value={categories.length}
-          icon={<Layers size={24} />}
-          bgIcon={<Layers size={100} />}
-          color="emerald"
-          onClick={() => navigate("/admin/category")}
-        />
-        <KPICard
-          title="Inventory Monitor"
-          subtitle="Low Stock"
-          value={lowStockItems}
-          icon={<AlertTriangle size={24} />}
-          bgIcon={<AlertTriangle size={100} />}
-          color="black"
-          onClick={() => navigate("/admin/inventory")}
-        />
+        {hasPermission("ORDERS", "READ") && (
+          <KPICard
+            title="Revenue"
+            subtitle="Total Sales"
+            value={`₹${totalRevenue.toLocaleString()}`}
+            icon={<CreditCard size={24} />}
+            bgIcon={<CreditCard size={100} />}
+            color="black"
+            onClick={() => navigate("/admin/payments")}
+          />
+        )}
+        {hasPermission("STOCKS", "READ") && (
+          <KPICard
+            title="Global Aggregate"
+            subtitle="Total Stock"
+            value={totalStock.total.toLocaleString()}
+            icon={<Boxes size={24} />}
+            bgIcon={<Boxes size={100} />}
+            color="emerald"
+            onClick={() => navigate("/admin/complete-stock")}
+          />
+        )}
+        {hasPermission("ORDERS", "READ") && (
+          <KPICard
+            title="Orders"
+            subtitle="Total volume"
+            value={filteredOrders.length}
+            icon={<ShoppingCart size={24} />}
+            bgIcon={<ShoppingCart size={100} />}
+            color="emerald"
+            onClick={() => navigate("/admin/orders")}
+          />
+        )}
+        {hasPermission("PRODUCTS", "READ") && (
+          <KPICard
+            title="Products"
+            subtitle="Live Catalog"
+            value={products.length}
+            icon={<Package size={24} />}
+            bgIcon={<Package size={100} />}
+            color="emerald"
+            onClick={() => navigate("/admin/products")}
+          />
+        )}
+        {hasPermission("CATEGORIES", "READ") && (
+          <KPICard
+            title="Catalog"
+            subtitle="Categories"
+            value={categories.length}
+            icon={<Layers size={24} />}
+            bgIcon={<Layers size={100} />}
+            color="emerald"
+            onClick={() => navigate("/admin/category")}
+          />
+        )}
+        {hasPermission("STOCKS", "READ") && (
+          <KPICard
+            title="Inventory Monitor"
+            subtitle="Low Stock"
+            value={lowStockItems}
+            icon={<AlertTriangle size={24} />}
+            bgIcon={<AlertTriangle size={100} />}
+            color="black"
+            onClick={() => navigate("/admin/inventory")}
+          />
+        )}
       </div>
 
       <div className="grid grid-cols-1 gap-8">

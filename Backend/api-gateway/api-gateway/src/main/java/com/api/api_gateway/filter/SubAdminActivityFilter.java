@@ -46,20 +46,41 @@ public class SubAdminActivityFilter implements GlobalFilter, Ordered {
                     if (roles != null && roles.contains("SUB_ADMIN")) {
                         String email = decodedJWT.getSubject();
                         String module = extractModule(path);
-                        String action = method.name();
-                        String details = "Sub-Admin " + email + " performed " + action + " on " + path;
+                        String action = getReadableAction(method);
+                        String details = generateDetails(email, action, module, path);
 
                         // Call subadmin-service asynchronously to log the activity
                         logActivity(email, module, action, details).subscribe();
                     }
                 } catch (Exception e) {
-                    // Ignore JWT decoding errors in filter to avoid blocking valid requests
-                    // Actual security is handled in individual services
+                    // Ignore JWT decoding errors
                 }
             }
         }
 
         return chain.filter(exchange);
+    }
+
+    private String getReadableAction(HttpMethod method) {
+        if (method == HttpMethod.POST) return "CREATED";
+        if (method == HttpMethod.PUT) return "UPDATED";
+        if (method == HttpMethod.DELETE) return "DELETED";
+        return method.name();
+    }
+
+    private String generateDetails(String email, String action, String module, String path) {
+        String idInfo = "";
+        try {
+            String[] parts = path.split("/");
+            if (parts.length > 0) {
+                String lastPart = parts[parts.length - 1];
+                if (lastPart.matches("\\d+") || lastPart.length() > 20) {
+                    idInfo = " [ID: " + lastPart + "]";
+                }
+            }
+        } catch (Exception e) {}
+
+        return String.format("%s %s %s%s", action, module.toLowerCase(), "at " + path, idInfo);
     }
 
     private boolean isMutation(HttpMethod method) {
@@ -75,12 +96,14 @@ public class SubAdminActivityFilter implements GlobalFilter, Ordered {
     }
 
     private String extractModule(String path) {
-        if (path.contains("/product/")) return "PRODUCT";
-        if (path.contains("/categories")) return "CATEGORY";
-        if (path.contains("/order/")) return "ORDER";
-        if (path.contains("/stock/")) return "STOCK";
-        if (path.contains("/coupon/")) return "COUPON";
-        if (path.contains("/review/")) return "REVIEW";
+        String p = path.toLowerCase();
+        if (p.contains("/product")) return "PRODUCT";
+        if (p.contains("/categor")) return "CATEGORY";
+        if (p.contains("/order")) return "ORDER";
+        if (p.contains("/stock") || p.contains("/inventory") || p.contains("/offline")) return "STOCK";
+        if (p.contains("/coupon")) return "COUPON";
+        if (p.contains("/review")) return "REVIEW";
+        if (p.contains("/payment")) return "PAYMENT";
         return "GENERAL";
     }
 
