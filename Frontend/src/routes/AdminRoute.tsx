@@ -16,7 +16,7 @@ const AdminRoute = () => {
     const payload = JSON.parse(atob(base64Payload));
     const roles: string[] = payload?.roles || [];
 
-    if (!roles.includes("ADMIN")) {
+    if (!roles.includes("ADMIN") && !roles.includes("SUB_ADMIN")) {
       return <Navigate to="/" replace />;
     }
 

@@ -27,7 +27,12 @@ export const usePermissions = () => {
     // Sub-Admin permissions check
     if (roles.includes("SUB_ADMIN")) {
       const modulePerms = permissions[module];
-      return modulePerms ? modulePerms.includes(action) : false;
+      if (!modulePerms || modulePerms.length === 0) return false;
+      
+      // If we are checking for READ, and they have ANY permission, let them in
+      if (action === "READ") return true; 
+      
+      return modulePerms.includes(action);
     }
 
     // Regular users or non-admins have no permissions for management

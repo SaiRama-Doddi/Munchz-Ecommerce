@@ -16,7 +16,6 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import { usePermissions } from "../hooks/usePermissions";
 import { useCart } from "../state/CartContext";
 import { useState } from "react";
 import { getProductUrl } from "../utils/slugify";
@@ -34,7 +33,6 @@ import api from "../api/client";
 
 export default function Header() {
   const { profile } = useAuth();
-  const { isAdmin, isSubAdmin } = usePermissions();
   const { items } = useCart();
   const cartCount = items.length;
 
@@ -245,22 +243,12 @@ export default function Header() {
 
             {
               profile ? (
-                <div className="flex items-center gap-4">
-                  {(isAdmin || isSubAdmin) && (
-                    <Link 
-                      to="/admin/dashboard" 
-                      className="hidden sm:block text-xs font-bold bg-green-600 text-white px-3 py-1.5 rounded-full hover:bg-green-700 transition shadow-sm"
-                    >
-                      Dashboard
-                    </Link>
-                  )}
-                  <button
-                    onClick={() => setOpenProfile(true)}
-                    className="text-sm font-medium text-gray-700 hover:text-green-700 transition cursor-pointer"
-                  >
-                    Hi, {profile.firstName}
-                  </button>
-                </div>
+                <button
+                  onClick={() => setOpenProfile(true)}
+                  className="text-sm font-medium text-gray-700 hover:text-green-700 transition cursor-pointer"
+                >
+                  Hi, {profile.firstName}
+                </button>
               ) : (
                 <NavLink to="/login">
                   {({ isActive }) => (
