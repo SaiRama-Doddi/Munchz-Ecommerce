@@ -20,23 +20,23 @@ public class SubAdminController {
     private final SubAdminService service;
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody Map<String, String> body, HttpServletRequest request) {
+    public ResponseEntity<SubAdmin> create(@RequestBody Map<String, String> body, HttpServletRequest request) {
         try {
             String token = request.getHeader("Authorization");
             return ResponseEntity.ok(service.createSubAdmin(body.get("email"), token));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().body("Create error: " + e.getMessage());
+            return ResponseEntity.internalServerError().build();
         }
     }
 
     @GetMapping("/list")
-    public ResponseEntity<?> list() {
+    public ResponseEntity<List<SubAdmin>> list() {
         try {
             return ResponseEntity.ok(service.getAllSubAdmins());
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().body("List error: " + e.getMessage());
+            return ResponseEntity.internalServerError().build();
         }
     }
 

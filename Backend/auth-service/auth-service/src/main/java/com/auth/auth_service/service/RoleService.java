@@ -25,16 +25,19 @@ public class RoleService {
        return roleRepository.save(role);
     }
 
-    public void assignRole(UUID userId,Integer roleId,UUID assignedBy){
-        UserRole.UserRoleId id=new UserRole.UserRoleId();
+    public void assignRole(UUID userId, Integer roleId, UUID assignedBy) {
+        UserRole.UserRoleId id = new UserRole.UserRoleId();
         id.setUserId(userId);
         id.setRoleId(roleId);
 
-        UserRole userRole=new UserRole();
+        if (userRoleRepository.existsById(id)) {
+            return; // Already assigned, do nothing
+        }
+
+        UserRole userRole = new UserRole();
         userRole.setId(id);
         userRole.setAssignedBy(assignedBy);
         userRoleRepository.save(userRole);
-
     }
     public List<Role> listRoles(){
         return roleRepository.findAll();
