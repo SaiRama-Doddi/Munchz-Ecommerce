@@ -7,9 +7,12 @@ import {
   Mail,
   Pencil,
   Trash2,
+  LayoutDashboard
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { usePermissions } from "../hooks/usePermissions";
+import { useNavigate } from "react-router-dom";
 import {
   updateProfileApi,
   listAddressesApi,
@@ -43,6 +46,8 @@ interface Address {
 
 export default function ProfileDashboard({ open, onClose }: Props) {
   const { profile, updateProfile, logout } = useAuth();
+  const { isAdmin, isSubAdmin } = usePermissions();
+  const navigate = useNavigate();
 
   /* ---------- PROFILE ---------- */
   const [firstName, setFirstName] = useState("");
@@ -328,6 +333,19 @@ export default function ProfileDashboard({ open, onClose }: Props) {
       <Save size={18} />
       Save Changes
     </button>
+
+    {(isAdmin || isSubAdmin) && (
+      <button
+        onClick={() => {
+          navigate("/admin/dashboard");
+          onClose();
+        }}
+        className="w-full bg-indigo-600 text-white py-2.5 rounded-lg flex items-center justify-center gap-2 cursor-pointer transition hover:bg-indigo-700 shadow-lg shadow-indigo-100"
+      >
+        <LayoutDashboard size={18} />
+        Go to Admin Dashboard
+      </button>
+    )}
 
     <button
       onClick={logout}
