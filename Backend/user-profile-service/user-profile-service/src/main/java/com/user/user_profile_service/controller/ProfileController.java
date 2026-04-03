@@ -30,6 +30,15 @@ public class ProfileController {
         return profileService.createProfile(userId, req);
     }
 
+    /* INTERNAL API: For Auth Service to sync new sub-admins */
+    @PostMapping("/internal/{userId}")
+    public Profile createInternalProfile(
+            @PathVariable UUID userId,
+            @RequestBody CreateProfileRequest req
+    ) {
+        return profileService.createProfile(userId, req);
+    }
+
     /* ===================== GET ===================== */
    /*  @GetMapping
     public Profile getProfile(

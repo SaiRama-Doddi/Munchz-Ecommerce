@@ -23,6 +23,12 @@ public interface UserProfileClient {
             @RequestBody CreateProfileRequest request
     );
 
+    @PostMapping("/profile/internal/{userId}")
+    ProfileResponse createInternalProfile(
+            @PathVariable("userId") java.util.UUID userId,
+            @RequestBody CreateProfileRequest request
+    );
+
     @GetMapping("/profile")
     ProfileResponse getProfile(
             @RequestHeader("Authorization") String token

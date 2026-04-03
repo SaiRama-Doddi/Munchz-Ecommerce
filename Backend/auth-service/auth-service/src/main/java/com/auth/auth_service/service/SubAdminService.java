@@ -65,15 +65,15 @@ public class SubAdminService {
         subAdmin = subAdminRepository.save(subAdmin);
 
         // 4. Sync Profile to User Profile Service
+        // 4. Sync Profile to User Profile Service (Internal)
         try {
-            if (token != null) {
-                CreateProfileRequest profileRequest = new CreateProfileRequest(
-                        "Sub", "Admin", "0000000000"
-                );
-                userProfileClient.createProfile(token, profileRequest);
-            }
+            System.out.println("Syncing profile for newly created sub-admin ID: " + user.getId());
+            CreateProfileRequest profileRequest = new CreateProfileRequest(
+                    "Sub", "Admin", "0000000000"
+            );
+            userProfileClient.createInternalProfile(user.getId(), profileRequest);
         } catch (Exception e) {
-            System.err.println("⚠ Profile sync skipped (likely already exists): " + e.getMessage());
+            System.err.println("⚠ Profile sync skipped or failed: " + e.getMessage());
         }
 
         // 5. Log Activity
