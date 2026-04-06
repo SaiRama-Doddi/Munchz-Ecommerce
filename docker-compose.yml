@@ -109,7 +109,7 @@ services:
       - "9092"
     environment:
       RAZORPAY_KEY: ${RAZORPAY_KEY}
-      RAZORPAY_SECRET: ${RAZOR_SECRET}
+      RAZORPAY_SECRET: ${RAZORPAY_SECRET}
     env_file:
       - .env
 

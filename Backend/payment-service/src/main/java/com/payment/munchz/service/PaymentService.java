@@ -37,36 +37,36 @@ public class PaymentService {
 
     @jakarta.annotation.PostConstruct
     public void validateConfig() {
-        boolean keyValid = razorpayKey != null && !razorpayKey.isEmpty() && !razorpayKey.equals("${RAZORPAY_KEY}");
-        boolean secretValid = razorpaySecret != null && !razorpaySecret.isEmpty() && !razorpaySecret.equals("${RAZORPAY_SECRET}");
+        boolean keyValid = razorpayKey != null && !razorpayKey.isEmpty() && !razorpayKey.startsWith("${");
+        boolean secretValid = razorpaySecret != null && !razorpaySecret.isEmpty() && !razorpaySecret.startsWith("${");
 
         if (!keyValid) {
-            log.error("CRITICAL: Razorpay Key is NOT configured! Check your environment variables (RAZORPAY_KEY). Current value: {}", razorpayKey);
+            log.error("CRITICAL CONFIG ERROR: RAZORPAY_KEY is missing or incorrectly mapped! Check your environment variables. Current: {}", razorpayKey);
         } else {
-            log.info("Razorpay Key correctly initialized (starts with: {})", razorpayKey.substring(0, Math.min(razorpayKey.length(), 6)));
+            log.info("Razorpay Key successfully loaded: {}...{}", razorpayKey.substring(0, 8), razorpayKey.substring(razorpayKey.length() - 4));
         }
 
         if (!secretValid) {
-            log.error("CRITICAL: Razorpay Secret is NOT configured! Check your environment variables (RAZORPAY_SECRET). Current value: {}", razorpaySecret);
+            log.error("CRITICAL CONFIG ERROR: RAZORPAY_SECRET is missing or incorrectly mapped! Check your environment variables.");
         } else {
-            log.info("Razorpay Secret correctly initialized.");
+            log.info("Razorpay Secret successfully loaded (verified presence).");
         }
     }
 
     public CreatePaymentResponse createPayment(CreatePaymentRequest req) throws Exception {
 
-        log.info("Creating payment for orderId: {}, amount: {} {}", req.orderId(), req.amount(), req.currency());
+        log.info("Initiating payment creation for Order: {}", req.orderId());
 
         if (req.amount() < 100) {
-            log.warn("Amount {} below minimum of 100 paise for orderId: {}", req.amount(), req.orderId());
-            throw new RuntimeException("Minimum order amount is ₹1 (100 paise)");
+            log.warn("Payment rejected: Amount {} (paise) is below Razorpay minimum of 100 paise.", req.amount());
+            throw new RuntimeException("Minimum order amount is ₹1");
         }
 
          Optional<PaymentEntity> existingPayment =
             paymentRepo.findByOrderId(req.orderId());
 
     if(existingPayment.isPresent()) {
-        log.info("Found existing payment for orderId: {}", req.orderId());
+        log.info("Returning existing Razorpay Order for Munchz Order: {}", req.orderId());
         PaymentEntity payment = existingPayment.get();
 
         return new CreatePaymentResponse(
@@ -83,6 +83,7 @@ public class PaymentService {
         orderReq.put("currency", req.currency());
         orderReq.put("receipt", req.orderId().toString());
 
+        log.debug("Calling Razorpay API for Order ID: {}", req.orderId());
         Order order = razorpayClient.orders.create(orderReq);
         String razorpayOrderId = order.get("id");
 
@@ -97,6 +98,8 @@ public class PaymentService {
 
         paymentRepo.save(payment);
 
+        log.info("Successfully created Razorpay Order: {} for Munchz Order: {}", razorpayOrderId, req.orderId());
+
         return new CreatePaymentResponse(
                 razorpayOrderId,
                 req.amount(),
@@ -104,11 +107,16 @@ public class PaymentService {
                 razorpayKey
         );
     } catch (com.razorpay.RazorpayException re) {
-        log.error("Razorpay SDK Error for order {}: {}", req.orderId(), re.getMessage());
-        throw new RuntimeException("Razorpay Error: " + re.getMessage());
+        String msg = re.getMessage();
+        log.error("RAZORPAY SDK EXCEPTION: {}", msg);
+        
+        if (msg.contains("Authentication failed")) {
+            throw new RuntimeException("Payment Gateway Error: Invalid Credentials (Check RAZORPAY_KEY/SECRET)");
+        }
+        throw new RuntimeException("Razorpay failure: " + msg);
     } catch (Exception e) {
-        log.error("Internal Payment Error for order {}: {}", req.orderId(), e.getMessage(), e);
-        throw new RuntimeException("Internal Payment Service Error: " + e.getMessage());
+        log.error("INTERNAL PAYMENT FAULT: {}", e.getMessage(), e);
+        throw new RuntimeException("Internal Payment Service Fault: " + e.getMessage());
     }
 }
 
