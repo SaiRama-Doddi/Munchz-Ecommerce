@@ -56,77 +56,81 @@ public class PaymentService {
 
     public CreatePaymentResponse createPayment(CreatePaymentRequest req) throws Exception {
 
-        log.info("Initiating payment creation for Order: {}", req.orderId());
+        log.info("--- [CREATE PAYMENT START] for Munchz Order: {} ---", req.orderId());
+        log.info("Amount: {} {}, Receipt: {}", req.amount(), req.currency(), req.orderId());
 
         // Diagnostic Check: Ensure keys are not literal placeholders
-        if (razorpayKey == null || razorpayKey.startsWith("${")) {
-            log.error("PAYMENT CONFIG ERROR: razorpay.key is not correctly resolved! Current value: {}", razorpayKey);
-            throw new RuntimeException("Payment Service Configuration Error: Invalid API Key. Check environment variables.");
+        if (razorpayKey == null || razorpayKey.isBlank() || razorpayKey.startsWith("${")) {
+            log.error("PAYMENT CONFIG ERROR: RAZORPAY_KEY is missing or unresolved! Current: '{}'", razorpayKey);
+            throw new RuntimeException("Payment Service Configuration Error: Razorpay Key is missing or invalid. Check .env / Docker environment.");
         }
 
         if (req.amount() < 100) {
             log.warn("Payment rejected: Amount {} (paise) is below Razorpay minimum of 100 paise.", req.amount());
-            throw new RuntimeException("Minimum order amount is ₹1");
+            throw new RuntimeException("Minimum order amount is ₹1 (100 paise)");
         }
 
-         Optional<PaymentEntity> existingPayment =
-            paymentRepo.findByOrderId(req.orderId());
+        Optional<PaymentEntity> existingPayment = paymentRepo.findByOrderId(req.orderId());
 
-    if(existingPayment.isPresent()) {
-        log.info("Returning existing Razorpay Order for Munchz Order: {}", req.orderId());
-        PaymentEntity payment = existingPayment.get();
-
-        return new CreatePaymentResponse(
-                payment.getRazorpayOrderId(),
-                payment.getAmount(),
-                payment.getCurrency(),
-                razorpayKey
-        );
-    } 
-
-    try {
-        JSONObject orderReq = new JSONObject();
-        orderReq.put("amount", req.amount());
-        orderReq.put("currency", req.currency());
-        orderReq.put("receipt", req.orderId().toString());
-
-        log.info("Calling Razorpay API (orders.create) for Order ID: {} with Receipt: {}", req.orderId(), req.orderId());
-        Order order = razorpayClient.orders.create(orderReq);
-        String razorpayOrderId = order.get("id");
-
-        PaymentEntity payment = PaymentEntity.builder()
-                .orderId(req.orderId())
-                .amount(req.amount())
-                .currency(req.currency())
-                .razorpayOrderId(razorpayOrderId)
-                .status("CREATED")
-                .metadata(Map.of("receipt", req.orderId().toString()))
-                .build();
-
-        paymentRepo.save(payment);
-
-        log.info("Successfully created Razorpay Order: {} for Munchz Order: {}", razorpayOrderId, req.orderId());
-
-        return new CreatePaymentResponse(
-                razorpayOrderId,
-                req.amount(),
-                req.currency(),
-                razorpayKey
-        );
-    } catch (com.razorpay.RazorpayException re) {
-        String msg = re.getMessage();
-        log.error("RAZORPAY SDK EXCEPTION (Create Order): {}", msg);
-        
-        if (msg.contains("Authentication failed")) {
-            throw new RuntimeException("Razorpay Authentication Failed: Invalid Key or Secret. Verify your .env file.");
+        if (existingPayment.isPresent()) {
+            PaymentEntity payment = existingPayment.get();
+            log.info("Found existing Razorpay Order: {} for Munchz Order: {}. Returning it.", payment.getRazorpayOrderId(), req.orderId());
+            return new CreatePaymentResponse(
+                    payment.getRazorpayOrderId(),
+                    payment.getAmount(),
+                    payment.getCurrency(),
+                    razorpayKey
+            );
         }
-        // Return EXACT error from Razorpay SDK to the frontend for visibility
-        throw new RuntimeException("Razorpay API Error: " + msg);
-    } catch (Exception e) {
-        log.error("INTERNAL PAYMENT FAULT during order creation: {}", e.getMessage(), e);
-        throw new RuntimeException("Internal Payment Service Fault: " + e.getMessage());
+
+        try {
+            JSONObject orderReq = new JSONObject();
+            orderReq.put("amount", req.amount());
+            orderReq.put("currency", req.currency());
+            orderReq.put("receipt", req.orderId().toString());
+
+            log.info("Executing Razorpay API Call: orders.create...");
+            Order order = razorpayClient.orders.create(orderReq);
+            
+            if (order == null || !order.has("id")) {
+                log.error("Razorpay API returned null or missing ID for order request!");
+                throw new RuntimeException("Razorpay API Error: Received invalid response from gateway.");
+            }
+
+            String razorpayOrderId = order.get("id");
+            log.info("Razorpay Order Created: {}", razorpayOrderId);
+
+            PaymentEntity payment = PaymentEntity.builder()
+                    .orderId(req.orderId())
+                    .amount(req.amount())
+                    .currency(req.currency())
+                    .razorpayOrderId(razorpayOrderId)
+                    .status("CREATED")
+                    .metadata(Map.of("receipt", req.orderId().toString()))
+                    .build();
+
+            paymentRepo.save(payment);
+            log.info("Payment Record saved to DB for Order: {}", req.orderId());
+
+            return new CreatePaymentResponse(
+                    razorpayOrderId,
+                    req.amount(),
+                    req.currency(),
+                    razorpayKey
+            );
+        } catch (com.razorpay.RazorpayException re) {
+            String msg = re.getMessage();
+            log.error("RAZORPAY SDK ERROR (Create Order): {}", msg);
+            
+            if (msg.toLowerCase().contains("authentication failed")) {
+                throw new RuntimeException("Razorpay Auth Failed: Invalid Key/Secret. Check your .env credentials.");
+            }
+            throw new RuntimeException("Razorpay API Error: " + msg);
+        } catch (Exception e) {
+            log.error("INTERNAL ERROR in createPayment: {}", e.getMessage(), e);
+            throw new RuntimeException("Internal Payment Service Fault: " + e.getMessage());
+        }
     }
-}
 
 
     

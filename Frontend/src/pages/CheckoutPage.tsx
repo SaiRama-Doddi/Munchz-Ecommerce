@@ -171,8 +171,17 @@ export default function CheckoutPage() {
       }
       openRazorpay(paymentRes.data, orderId);
     } catch (err: any) {
-      console.error("Payment creation failed:", err);
-      const errorMsg = err.response?.data?.message || err.message || "Order or payment failed";
+      console.error("Order or Payment failed:", err);
+      
+      let errorMsg = "Something went wrong. Please try again.";
+      
+      if (err.response && err.response.data) {
+        // Handle standard Spring Boot error or our custom GlobalExceptionHandler format
+        errorMsg = err.response.data.message || err.response.data.error || errorMsg;
+      } else if (err.message) {
+        errorMsg = err.message;
+      }
+
       alert(`Error: ${errorMsg}`);
       setIsPlacingOrder(false);
     }

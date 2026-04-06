@@ -14,21 +14,23 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> handleRuntimeException(RuntimeException ex) {
-        log.error("Runtime exception caught: {}", ex.getMessage(), ex);
+        log.error("Payment Runtime Exception: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Map.of(
-                        "error", "Payment Error",
+                        "status", "error",
+                        "error", "Payment Service Exception",
                         "message", ex.getMessage()
                 ));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGenericException(Exception ex) {
-        log.error("Unhandled exception caught: {}", ex.getMessage(), ex);
+        log.error("Payment Unhandled Exception: {}", ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Map.of(
-                        "error", "Internal Server Error",
-                        "message", "An unexpected error occurred: " + ex.getMessage()
+                        "status", "error",
+                        "error", ex.getClass().getSimpleName(),
+                        "message", "Internal Server Error: " + ex.getMessage()
                 ));
     }
 }

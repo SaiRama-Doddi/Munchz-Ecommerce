@@ -41,15 +41,24 @@ public class OrderService {
     =========================== */
     @Transactional
     public UUID createOrder(OrderRequest req) {
-
-        System.out.println("========== CREATE ORDER START ==========");
-
+        log.info("--- [CREATE ORDER START] ---");
         var auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || auth.getPrincipal() == null) {
+            log.error("Order Creation Error: User not authenticated in SecurityContext!");
+            throw new RuntimeException("Authentication failure: User session not found.");
+        }
 
         UUID userId = (UUID) auth.getPrincipal();
         String email = (String) auth.getDetails();
+        log.info("User: {} ({})", userId, email);
 
-        ProfileResponse profile = userProfileClient.getProfile();
+        ProfileResponse profile;
+        try {
+            profile = userProfileClient.getProfile();
+        } catch (Exception e) {
+            log.error("Order Creation Error: User Profile Service unreachable or failed: {}", e.getMessage());
+            throw new RuntimeException("Profile service error. Please try again later.");
+        }
 
         OrderEntity order = new OrderEntity();
         order.setUserId(userId);
@@ -63,7 +72,8 @@ public class OrderService {
         order.setBillingAddress(req.getBillingAddress());
 
         if (req.getItems() == null || req.getItems().isEmpty()) {
-            throw new RuntimeException("Order items are empty");
+            log.error("Order Creation Error: Empty cart items received for user {}", userId);
+            throw new RuntimeException("Order cannot be empty.");
         }
 
         List<OrderItemEntity> items =
@@ -79,37 +89,30 @@ public class OrderService {
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         order.setTotalAmount(total);
-        /* ================= APPLY COUPON (ADD HERE) ================= */
+
+        /* ================= APPLY COUPON ================= */
         if (req.getCouponCode() != null && !req.getCouponCode().isBlank()) {
-
-            CouponResponse coupon;
-
+            log.info("Applying Coupon: {}", req.getCouponCode());
             try {
-                coupon = couponClient.applyCoupon(
-                        new ApplyCouponRequest(
-                                req.getCouponCode(),
-                                total.doubleValue()
-                        ),userId
+                CouponResponse coupon = couponClient.applyCoupon(
+                        new ApplyCouponRequest(req.getCouponCode(), total.doubleValue()), userId
                 );
+                order.setCouponId(Math.toIntExact(coupon.id()));
+                order.setCouponCode(coupon.code());
+                order.setTotalDiscount(BigDecimal.valueOf(coupon.appliedDiscount()));
+                order.setTotalAmount(BigDecimal.valueOf(coupon.finalAmount()));
+                log.info("Coupon applied successfully. Final Amount: {}", order.getTotalAmount());
             } catch (FeignException.BadRequest ex) {
-                throw new RuntimeException("Invalid coupon");
+                log.warn("Coupon rejected: {}", req.getCouponCode());
+                throw new RuntimeException("The coupon '" + req.getCouponCode() + "' is invalid or expired.");
+            } catch (Exception ex) {
+                log.error("Coupon service error: {}", ex.getMessage());
+                throw new RuntimeException("Could not verify coupon. Please try again.");
             }
-
-            order.setCouponId(Math.toIntExact(coupon.id()));  // ✅ convert Long → Integer
-
-            order.setCouponCode(coupon.code());
-
-            order.setTotalDiscount(
-                    BigDecimal.valueOf(coupon.appliedDiscount())
-            );
-
-            order.setTotalAmount(
-                    BigDecimal.valueOf(coupon.finalAmount())
-            );
         }
 
-        /* SAVE + FLUSH */
         OrderEntity saved = orderRepository.saveAndFlush(order);
+        log.info("Order Saved to DB: {}", saved.getId());
 
 
 
