@@ -41,13 +41,14 @@ public class PaymentService {
         boolean secretValid = razorpaySecret != null && !razorpaySecret.isEmpty() && !razorpaySecret.startsWith("${");
 
         if (!keyValid) {
-            log.error("CRITICAL CONFIG ERROR: RAZORPAY_KEY is missing or incorrectly mapped! Check your environment variables. Current: {}", razorpayKey);
+            log.error("CRITICAL CONFIG ERROR: RAZORPAY_KEY is missing or incorrectly mapped! Current: {}", razorpayKey);
         } else {
-            log.info("Razorpay Key successfully loaded: {}...{}", razorpayKey.substring(0, 8), razorpayKey.substring(razorpayKey.length() - 4));
+            String maskedKey = razorpayKey.length() > 8 ? razorpayKey.substring(0, 8) + "..." : "Loaded";
+            log.info("Razorpay Key successfully loaded: {}", maskedKey);
         }
 
         if (!secretValid) {
-            log.error("CRITICAL CONFIG ERROR: RAZORPAY_SECRET is missing or incorrectly mapped! Check your environment variables.");
+            log.error("CRITICAL CONFIG ERROR: RAZORPAY_SECRET is missing or incorrectly mapped!");
         } else {
             log.info("Razorpay Secret successfully loaded (verified presence).");
         }
@@ -60,7 +61,7 @@ public class PaymentService {
         // Diagnostic Check: Ensure keys are not literal placeholders
         if (razorpayKey == null || razorpayKey.startsWith("${")) {
             log.error("PAYMENT CONFIG ERROR: razorpay.key is not correctly resolved! Current value: {}", razorpayKey);
-            throw new RuntimeException("Payment Service Configuration Error: Invalid API Key");
+            throw new RuntimeException("Payment Service Configuration Error: Invalid API Key. Check environment variables.");
         }
 
         if (req.amount() < 100) {
@@ -117,9 +118,10 @@ public class PaymentService {
         log.error("RAZORPAY SDK EXCEPTION (Create Order): {}", msg);
         
         if (msg.contains("Authentication failed")) {
-            throw new RuntimeException("Payment Gateway Error: Invalid Credentials (Check RAZORPAY_KEY/SECRET)");
+            throw new RuntimeException("Razorpay Authentication Failed: Invalid Key or Secret. Verify your .env file.");
         }
-        throw new RuntimeException("Razorpay failure: " + msg);
+        // Return EXACT error from Razorpay SDK to the frontend for visibility
+        throw new RuntimeException("Razorpay API Error: " + msg);
     } catch (Exception e) {
         log.error("INTERNAL PAYMENT FAULT during order creation: {}", e.getMessage(), e);
         throw new RuntimeException("Internal Payment Service Fault: " + e.getMessage());

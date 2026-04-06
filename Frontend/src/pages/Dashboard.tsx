@@ -221,6 +221,10 @@ export default function Dashboard() {
       .reduce((sum, p) => sum + (p.amount / 100), 0);
   }, [filteredPayments]);
 
+  const expectedRevenue = useMemo(() => {
+    return filteredOrders.reduce((sum, o) => sum + o.totalAmount, 0);
+  }, [filteredOrders]);
+
   const ordersByDate = useMemo(() => {
     const map: Record<string, number> = {};
     filteredOrders.forEach(o => {
@@ -296,12 +300,23 @@ export default function Dashboard() {
         {hasPermission("ORDERS", "READ") && (
           <KPICard
             title="Revenue"
-            subtitle="Total Sales"
+            subtitle="Verified Sales"
             value={`₹${totalRevenue.toLocaleString()}`}
             icon={<CreditCard size={24} />}
             bgIcon={<CreditCard size={100} />}
             color="black"
             onClick={() => navigate("/admin/payments")}
+          />
+        )}
+        {hasPermission("ORDERS", "READ") && (
+          <KPICard
+            title="Expected Revenue"
+            subtitle="All Orders Total"
+            value={`₹${expectedRevenue.toLocaleString()}`}
+            icon={<ArrowUpRight size={24} />}
+            bgIcon={<ArrowUpRight size={100} />}
+            color="emerald"
+            onClick={() => navigate("/admin/orders")}
           />
         )}
         {hasPermission("STOCKS", "READ") && (
