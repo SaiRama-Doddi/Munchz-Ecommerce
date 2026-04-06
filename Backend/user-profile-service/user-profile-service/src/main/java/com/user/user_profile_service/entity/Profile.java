@@ -25,6 +25,8 @@ public class Profile {
     private String mobile;
 /*    private LocalDate dob;*/
 
+    private String referralCode;
+
 
     private Instant createdAt;
     private Instant updatedAt;

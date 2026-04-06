@@ -14,6 +14,10 @@ public class ProfileService {
     @Autowired
     private ProfileRepository profileRepository;
 
+    public java.util.List<Profile> getAllProfiles() {
+        return profileRepository.findAll();
+    }
+
     /* ===================== CREATE ===================== */
     public Profile createProfile(UUID userId, CreateProfileRequest req) {
 
@@ -26,6 +30,7 @@ public class ProfileService {
         profile.setFirstName(req.firstName());
         profile.setLastName(req.lastName());
         profile.setMobile(req.mobile());
+        profile.setReferralCode(req.referralCode());
 
         return profileRepository.save(profile);
     }
@@ -47,6 +52,7 @@ public class ProfileService {
         profile.setFirstName(req.firstName());
         profile.setLastName(req.lastName());
         profile.setMobile(req.mobile());
+        profile.setReferralCode(req.referralCode());
 
         return profileRepository.save(profile);
     }
@@ -66,6 +72,13 @@ public class ProfileService {
         if (req.mobile() != null)
             profile.setMobile(req.mobile());
 
+        if (req.referralCode() != null)
+            profile.setReferralCode(req.referralCode());
+
         return profileRepository.save(profile);
+    }
+
+    public void deleteProfileByUserId(UUID userId) {
+        profileRepository.findByUserId(userId).ifPresent(profileRepository::delete);
     }
 }

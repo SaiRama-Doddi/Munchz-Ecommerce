@@ -43,4 +43,7 @@ public class User {
     @Column(name = "provider_id")
     private String providerId; // Google "sub"
 
+    @Column(name = "referral_code", unique = true)
+    private String referralCode;
+
 }

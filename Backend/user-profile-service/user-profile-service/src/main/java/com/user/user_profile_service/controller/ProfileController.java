@@ -18,6 +18,9 @@ public class ProfileController {
     private ProfileService profileService;
 
     @Autowired
+    private com.user.user_profile_service.service.AddressService addressService;
+
+    @Autowired
     private JwtUtil jwtUtil;
 
     /* ===================== CREATE ===================== */
@@ -50,10 +53,20 @@ public class ProfileController {
  */
 
     @GetMapping
-public Profile getProfile(Authentication authentication) {
-    UUID userId = UUID.fromString(authentication.getName());
-    return profileService.getProfile(userId);
-}
+    public Profile getProfile(Authentication authentication) {
+        UUID userId = UUID.fromString(authentication.getName());
+        return profileService.getProfile(userId);
+    }
+
+    @GetMapping("/all")
+    public java.util.List<Profile> getAllProfiles() {
+        return profileService.getAllProfiles();
+    }
+
+    @GetMapping("/addresses/all")
+    public java.util.List<com.user.user_profile_service.entity.Address> getAllAddresses() {
+        return addressService.getAllAddresses();
+    }
     /* ===================== PUT ===================== */
     @PutMapping
     public Profile putProfile(
@@ -77,5 +90,10 @@ public Profile getProfile(Authentication authentication) {
     @GetMapping("/users/{userId}")
     public Profile getProfileByUserId(@PathVariable UUID userId) {
         return profileService.getProfile(userId);
+    }
+
+    @DeleteMapping("/internal/{userId}")
+    public void deleteInternalProfile(@PathVariable UUID userId) {
+        profileService.deleteProfileByUserId(userId);
     }
 }

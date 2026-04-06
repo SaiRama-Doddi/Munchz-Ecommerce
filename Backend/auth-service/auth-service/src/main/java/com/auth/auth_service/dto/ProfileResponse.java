@@ -1,5 +1,6 @@
 package com.auth.auth_service.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.UUID;
@@ -11,8 +12,14 @@ public class ProfileResponse {
     private String firstName;
     private String lastName;
   /*  private String email;*/
+    @JsonProperty("mobile")
     private String phone;
+    private String referralCode;
 
-    public ProfileResponse(Object o, Object o1) {
+    public ProfileResponse(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
+
+    public ProfileResponse() {}
 }

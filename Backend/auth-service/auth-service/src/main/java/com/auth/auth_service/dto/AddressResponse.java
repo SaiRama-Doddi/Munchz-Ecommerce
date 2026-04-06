@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public record AddressResponse(
         UUID id,
+        UUID userId,
         String label,
         String addressLine1,
         String addressLine2,

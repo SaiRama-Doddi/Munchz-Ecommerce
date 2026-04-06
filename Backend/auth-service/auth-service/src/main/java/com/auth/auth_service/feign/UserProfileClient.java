@@ -29,6 +29,12 @@ public interface UserProfileClient {
             @RequestBody CreateProfileRequest request
     );
 
+    @GetMapping("/profile/all")
+    java.util.List<ProfileResponse> getAllProfiles();
+
+    @GetMapping("/profile/addresses/all")
+    java.util.List<AddressResponse> getAllAddresses();
+
     @GetMapping("/profile")
     ProfileResponse getProfile(
             @RequestHeader("Authorization") String token
@@ -74,4 +80,7 @@ public interface UserProfileClient {
             @RequestHeader("Authorization") String token,
             @PathVariable("addressId") String addressId
     );
+
+    @DeleteMapping("/profile/internal/{userId}")
+    void deleteInternalProfile(@PathVariable("userId") java.util.UUID userId);
 }

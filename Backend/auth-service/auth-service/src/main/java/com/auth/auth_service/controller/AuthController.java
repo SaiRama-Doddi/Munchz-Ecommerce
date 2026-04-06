@@ -149,11 +149,16 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
 
     // 🔥 SAFE CALL to user-profile-service
     try {
+        String referralCode = generateReferralCode(req.firstName(), req.phone());
+        user.setReferralCode(referralCode);
+        userRepo.save(user);
+
         CreateProfileRequest profileReq =
                 new CreateProfileRequest(
                         req.firstName(),
                         req.lastName(),
-                        req.phone()
+                        req.phone(),
+                        referralCode
                 );
 
         userProfileClient.createProfile(
@@ -379,12 +384,17 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
 
             // 6️⃣ Create profile safely (Only for new users)
             try {
+                String referralCode = generateReferralCode(googleUser.firstName(), null);
+                user.setReferralCode(referralCode);
+                userRepo.save(user);
+
                 userProfileClient.patchProfile(
                         "Bearer " + internalToken,
                         new CreateProfileRequest(
                                 googleUser.firstName(),
                                 googleUser.lastName(),
-                                null
+                                null,
+                                referralCode
                         )
                 );
             } catch (Exception e) {
@@ -463,12 +473,17 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
         if (isNewUser) {
             // 6️⃣ Create profile for new users
             try {
+                String referralCode = generateReferralCode(googleUser.firstName(), null);
+                user.setReferralCode(referralCode);
+                userRepo.save(user);
+
                 userProfileClient.createProfile(
                         "Bearer " + internalToken,
                         new CreateProfileRequest(
                                 googleUser.firstName(),
                                 googleUser.lastName(),
-                                null
+                                null,
+                                referralCode
                         )
                 );
             } catch (Exception e) {
@@ -591,5 +606,28 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
             @PathVariable String addressId
     ) {
         return userProfileClient.deleteAddress(token, addressId);
+    }
+
+    private String generateReferralCode(String firstName, String phone) {
+        String base = "";
+        if (firstName != null && !firstName.isEmpty()) {
+            base += firstName.substring(0, Math.min(firstName.length(), 4)).toUpperCase();
+        } else {
+            base += "USER";
+        }
+
+        if (phone != null && phone.length() >= 4) {
+            base += phone.substring(phone.length() - 4);
+        } else {
+            base += "0000";
+        }
+
+        String referralCode = base;
+        int suffix = 1;
+        while (userRepo.existsByReferralCode(referralCode)) {
+            referralCode = base + suffix;
+            suffix++;
+        }
+        return referralCode;
     }
 }

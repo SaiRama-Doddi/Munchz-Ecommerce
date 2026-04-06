@@ -1,0 +1,1 @@
+ALTER TABLE auth_users ADD COLUMN referral_code VARCHAR(255) UNIQUE;

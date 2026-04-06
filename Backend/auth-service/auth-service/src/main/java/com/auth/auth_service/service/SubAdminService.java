@@ -68,8 +68,14 @@ public class SubAdminService {
         // 4. Sync Profile to User Profile Service (Internal)
         try {
             System.out.println("Syncing profile for newly created sub-admin ID: " + user.getId());
+            
+            // Generate referral code for sub-admin
+            String referralCode = generateReferralCode("Sub", "0000000000");
+            user.setReferralCode(referralCode);
+            userRepository.save(user);
+
             CreateProfileRequest profileRequest = new CreateProfileRequest(
-                    "Sub", "Admin", "0000000000"
+                    "Sub", "Admin", "0000000000", referralCode
             );
             userProfileClient.createInternalProfile(user.getId(), profileRequest);
         } catch (Exception e) {
@@ -114,13 +120,45 @@ public class SubAdminService {
                 .orElseThrow(() -> new RuntimeException("SubAdmin not found"));
         
         String email = subAdmin.getEmail();
-        System.out.println("Deleting sub-admin: " + email);
-        
-        // Log before delete
         logActivity(email, "DELETE", "SUB_ADMIN", "Removed sub-admin authority for " + email);
-        
-        // Delete metadata
         subAdminRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void promoteToSubAdmin(UUID userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Role subAdminRole = roleRepository.findByName("SUB_ADMIN")
+                .orElseGet(() -> roleService.createRole("SUB_ADMIN"));
+        roleService.assignRole(user.getId(), subAdminRole.getId(), null);
+
+        if (!subAdminRepository.existsByEmail(user.getEmail())) {
+            SubAdmin subAdmin = new SubAdmin();
+            subAdmin.setEmail(user.getEmail());
+            subAdmin.setStatus(SubAdmin.SubAdminStatus.ACTIVE);
+            subAdmin.setPermissions("[]");
+            subAdminRepository.save(subAdmin);
+        }
+
+        logActivity(user.getEmail(), "PROMOTE", "USER_MANAGEMENT", "User promoted to sub-admin");
+    }
+
+    @Transactional
+    public void deleteUserAccount(UUID userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        try {
+            userProfileClient.deleteInternalProfile(userId);
+        } catch (Exception e) {
+            System.err.println("⚠ Profile deletion failed: " + e.getMessage());
+        }
+
+        subAdminRepository.findByEmail(user.getEmail()).ifPresent(subAdminRepository::delete);
+        userRepository.delete(user);
+        
+        logActivity(user.getEmail(), "DELETE", "USER_MANAGEMENT", "User account deleted");
     }
 
     public void logActivity(String email, String action, String module, String details) {
@@ -130,5 +168,28 @@ public class SubAdminService {
         activity.setModule(module);
         activity.setDetails(details);
         activityRepository.save(activity);
+    }
+
+    private String generateReferralCode(String firstName, String phone) {
+        String base = "";
+        if (firstName != null && !firstName.isEmpty()) {
+            base += firstName.substring(0, Math.min(firstName.length(), 4)).toUpperCase();
+        } else {
+            base += "USER";
+        }
+
+        if (phone != null && phone.length() >= 4) {
+            base += phone.substring(phone.length() - 4);
+        } else {
+            base += "0000";
+        }
+
+        String referralCode = base;
+        int suffix = 1;
+        while (userRepository.existsByReferralCode(referralCode)) {
+            referralCode = base + suffix;
+            suffix++;
+        }
+        return referralCode;
     }
 }

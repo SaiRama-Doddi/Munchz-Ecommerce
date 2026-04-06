@@ -17,7 +17,8 @@ import {
   CreditCard,
   X,
   Shield,
-  Activity
+  Activity,
+  Users
 } from "lucide-react";
 
 interface SidebarProps {
@@ -59,6 +60,7 @@ const items = [
     type: "header" 
   },
   { to: "/admin/sub-admins", label: "Sub-Admins", icon: Shield },
+  { to: "/admin/users", label: "Global Directory", icon: Users },
   { to: "/admin/audit-logs", label: "Audit Logs", icon: Activity },
 ];
 
@@ -108,7 +110,7 @@ export default function Sidebar({ isOpen = true, onClose = () => {} }: SidebarPr
     if (item.to === "/admin/reviews") {
       return hasPermission("REVIEWS", "READ");
     }
-    if (item.to === "/admin/sub-admins" || item.to === "/admin/audit-logs") {
+    if (item.to === "/admin/sub-admins" || item.to === "/admin/audit-logs" || item.to === "/admin/users") {
       return hasPermission("USER_MANAGEMENT", "READ");
     }
 

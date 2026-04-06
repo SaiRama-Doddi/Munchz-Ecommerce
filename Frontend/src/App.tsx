@@ -63,6 +63,7 @@ const ReturnRefundPolicy = lazy(() => import("./pages/ReturnRefundPolicy"));
 const ReferAndEarn = lazy(() => import("./pages/ReferAndEarn"));
 const SubAdminManagement = lazy(() => import("./pages/SubAdminManagement"));
 const AuditLogs = lazy(() => import("./pages/AuditLogs"));
+const UserManagement = lazy(() => import("./pages/UserManagement"));
 
 
 export default function App() {
@@ -292,6 +293,7 @@ export default function App() {
       <Route path="complete-stock" element={<AdminCompleteStock />} />
       <Route path="sub-admins" element={<SubAdminManagement />} />
       <Route path="audit-logs" element={<AuditLogs />} />
+      <Route path="users" element={<UserManagement />} />
     </Route>
   </Route>
 

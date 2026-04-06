@@ -44,6 +44,10 @@ public class AddressService {
         return addressRepository.findByUserId(userId);
     }
 
+    public List<Address> getAllAddresses() {
+        return addressRepository.findAll();
+    }
+
 
     /* UPDATE */
     public Address updateAddress(
