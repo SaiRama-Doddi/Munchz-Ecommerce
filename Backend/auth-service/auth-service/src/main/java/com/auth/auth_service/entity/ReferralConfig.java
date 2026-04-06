@@ -20,10 +20,10 @@ public class ReferralConfig {
     private Long id;
 
     @Column(name = "reward_percentage")
-    private Double rewardPercentage;
+    private Double friendDiscountPercentage;
 
     @Column(name = "fixed_amount")
-    private Double fixedAmount;
+    private Double referrerCashbackAmount;
 
     @Column(name = "minimum_order_amount")
     private Double minimumOrderAmount;

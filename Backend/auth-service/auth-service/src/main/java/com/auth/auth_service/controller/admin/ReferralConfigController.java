@@ -32,8 +32,8 @@ public class ReferralConfigController {
         ReferralConfig existing = referralConfigRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Config not found"));
         
-        existing.setRewardPercentage(newConfig.getRewardPercentage());
-        existing.setFixedAmount(newConfig.getFixedAmount());
+        existing.setFriendDiscountPercentage(newConfig.getFriendDiscountPercentage());
+        existing.setReferrerCashbackAmount(newConfig.getReferrerCashbackAmount());
         existing.setMinimumOrderAmount(newConfig.getMinimumOrderAmount());
         existing.setIsActive(newConfig.getIsActive());
         
