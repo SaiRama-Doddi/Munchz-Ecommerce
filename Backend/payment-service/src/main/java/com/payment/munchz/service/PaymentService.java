@@ -57,6 +57,12 @@ public class PaymentService {
 
         log.info("Initiating payment creation for Order: {}", req.orderId());
 
+        // Diagnostic Check: Ensure keys are not literal placeholders
+        if (razorpayKey == null || razorpayKey.startsWith("${")) {
+            log.error("PAYMENT CONFIG ERROR: razorpay.key is not correctly resolved! Current value: {}", razorpayKey);
+            throw new RuntimeException("Payment Service Configuration Error: Invalid API Key");
+        }
+
         if (req.amount() < 100) {
             log.warn("Payment rejected: Amount {} (paise) is below Razorpay minimum of 100 paise.", req.amount());
             throw new RuntimeException("Minimum order amount is ₹1");
@@ -83,7 +89,7 @@ public class PaymentService {
         orderReq.put("currency", req.currency());
         orderReq.put("receipt", req.orderId().toString());
 
-        log.debug("Calling Razorpay API for Order ID: {}", req.orderId());
+        log.info("Calling Razorpay API (orders.create) for Order ID: {} with Receipt: {}", req.orderId(), req.orderId());
         Order order = razorpayClient.orders.create(orderReq);
         String razorpayOrderId = order.get("id");
 
@@ -108,14 +114,14 @@ public class PaymentService {
         );
     } catch (com.razorpay.RazorpayException re) {
         String msg = re.getMessage();
-        log.error("RAZORPAY SDK EXCEPTION: {}", msg);
+        log.error("RAZORPAY SDK EXCEPTION (Create Order): {}", msg);
         
         if (msg.contains("Authentication failed")) {
             throw new RuntimeException("Payment Gateway Error: Invalid Credentials (Check RAZORPAY_KEY/SECRET)");
         }
         throw new RuntimeException("Razorpay failure: " + msg);
     } catch (Exception e) {
-        log.error("INTERNAL PAYMENT FAULT: {}", e.getMessage(), e);
+        log.error("INTERNAL PAYMENT FAULT during order creation: {}", e.getMessage(), e);
         throw new RuntimeException("Internal Payment Service Fault: " + e.getMessage());
     }
 }
