@@ -62,7 +62,7 @@ export default function AboutUs() {
           <div className="p-8 lg:p-12">
             <div className="relative rounded-2xl overflow-hidden max-h-[400px] shadow-2xl">
               <img
-                src="/about_premium.png"
+                src="https://res.cloudinary.com/dpgomcvqz/image/upload/v1775062524/a-top-down-photograph-of-a-rustic-wooden_-qH3KLv5R3C-m03chQYudA_yjZz74-eTeyItpRsbX4x5g_cover_sd_effesi.jpg"
                 alt="About GoMunchz Premium Selection"
                 className="w-full h-full object-cover hover:scale-105 transition duration-700"
               />

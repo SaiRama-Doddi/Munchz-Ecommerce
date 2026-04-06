@@ -75,7 +75,7 @@ public class SubAdminService {
             userRepository.save(user);
 
             CreateProfileRequest profileRequest = new CreateProfileRequest(
-                    "Sub", "Admin", "0000000000", referralCode
+                    "Sub", "Admin", "0000000000", referralCode, 0.0
             );
             userProfileClient.createInternalProfile(user.getId(), profileRequest);
         } catch (Exception e) {

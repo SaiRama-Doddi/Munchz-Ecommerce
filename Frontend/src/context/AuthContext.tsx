@@ -7,6 +7,8 @@ interface Profile {
 /*   userId: string;  */
   mobile: string;
   email?: string;
+  referralCode?: string;
+  referralCredits?: number;
 }
 
 interface AuthContextType {

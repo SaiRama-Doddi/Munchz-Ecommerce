@@ -9,5 +9,7 @@ import java.util.Optional;
 @Repository
 public interface ReferralConfigRepository extends JpaRepository<ReferralConfig, Long> {
     // We only ever have one config record (ID 1)
-    Optional<ReferralConfig> findFirstByOrderByIdAsc();
+    java.util.Optional<ReferralConfig> findFirstByOrderByIdAsc();
+
+    java.util.List<ReferralConfig> findByIsActiveTrue();
 }

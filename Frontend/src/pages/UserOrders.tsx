@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { getProductUrl } from "../utils/slugify";
 import { useAuth } from "../context/AuthContext";
-import { Mail, User, LayoutGrid, List, Eye, Upload, Image as ImageIcon, Star, Trash2, ArrowLeft, X, ShoppingBag, Check, Flame, Trophy } from "lucide-react";
+import { Mail, User, LayoutGrid, List, Eye, Upload, Image as ImageIcon, Star, Trash2, ArrowLeft, X, ShoppingBag, Check, Flame, Trophy, ChevronRight } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { FaTimes } from "react-icons/fa";
@@ -201,6 +201,20 @@ export default function UserOrders() {
             <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px] flex items-center gap-2 mt-1">
               <Mail size={12} className="text-green-600" /> {profile?.email}
             </p>
+          </div>
+
+          {/* REFERRAL CREDITS CARD */}
+          <div className="flex-shrink-0 bg-emerald-50 border border-emerald-100 p-4 sm:p-5 rounded-2xl sm:rounded-3xl flex items-center gap-4 shadow-sm hover:shadow-emerald-100/50 transition-all cursor-pointer group/ref" onClick={() => navigate("/refer-and-earn")}>
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-xl sm:rounded-2xl flex items-center justify-center text-emerald-600 shadow-sm group-hover/ref:scale-110 transition-transform">
+               <Trophy size={20} className="sm:w-6 sm:h-6" />
+            </div>
+            <div>
+               <p className="text-[9px] sm:text-[10px] text-emerald-700 font-black uppercase tracking-widest leading-none mb-1">Referral Earnings</p>
+               <p className="text-xl sm:text-2xl font-black text-gray-900 tracking-tighter leading-none">₹{profile?.referralCredits || 0}</p>
+            </div>
+            <div className="ml-2 bg-white p-1 rounded-lg text-emerald-400 group-hover/ref:translate-x-1 transition-transform">
+               <ChevronRight size={14} />
+            </div>
           </div>
 
           <div className="flex gap-2 bg-white p-1.5 rounded-2xl border border-gray-100 h-fit">

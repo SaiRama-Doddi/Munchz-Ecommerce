@@ -31,6 +31,7 @@ public class ProfileService {
         profile.setLastName(req.lastName());
         profile.setMobile(req.mobile());
         profile.setReferralCode(req.referralCode());
+        profile.setReferralCredits(req.referralCredits() != null ? req.referralCredits() : 0.0);
 
         return profileRepository.save(profile);
     }
@@ -53,6 +54,7 @@ public class ProfileService {
         profile.setLastName(req.lastName());
         profile.setMobile(req.mobile());
         profile.setReferralCode(req.referralCode());
+        profile.setReferralCredits(req.referralCredits() != null ? req.referralCredits() : profile.getReferralCredits());
 
         return profileRepository.save(profile);
     }
@@ -74,6 +76,9 @@ public class ProfileService {
 
         if (req.referralCode() != null)
             profile.setReferralCode(req.referralCode());
+
+        if (req.referralCredits() != null)
+            profile.setReferralCredits(req.referralCredits());
 
         return profileRepository.save(profile);
     }

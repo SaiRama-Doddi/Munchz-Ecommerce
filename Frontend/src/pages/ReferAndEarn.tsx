@@ -1,107 +1,203 @@
-import React from "react";
-import { ChevronRight, Gift } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { ChevronRight, Gift, Copy, Share2, MessageCircle, Mail, CheckCircle2 } from "lucide-react";
 import TopHeader from "../components/TopHeader";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { getProfileApi, getActiveReferralConfigApi } from "../api/api";
 
 export default function ReferAndEarn() {
+  const [profile, setProfile] = useState<any>(null);
+  const [activeConfig, setActiveConfig] = useState<any>(null);
+  const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [profRes, configRes] = await Promise.all([
+          getProfileApi(),
+          getActiveReferralConfigApi()
+        ]);
+        setProfile(profRes.data);
+        // Take the first active config
+        if (configRes.data && configRes.data.length > 0) {
+          setActiveConfig(configRes.data[0]);
+        }
+      } catch (err) {
+        console.error("Error fetching referral data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const referralCode = profile?.referralCode || "LOGIN_TO_SEE";
+  const referralLink = `${window.location.origin}/signup?ref=${referralCode}`;
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(referralLink);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const shareText = `Hey! Check out GoMunchz - Premium nuts and dry fruits. Use my link to get ${activeConfig?.friendDiscountPercentage || 15}% OFF on your first order! 🥜✨\n\nLink: ${referralLink}`;
+
+  const shareWhatsApp = () => {
+    window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, "_blank");
+  };
+
+  const shareEmail = () => {
+    window.location.href = `mailto:?subject=Gift from GoMunchz!&body=${encodeURIComponent(shareText)}`;
+  };
+
   const sections = [
     {
       title: "How It Works",
       content: [
-        "Share Your Link: Generate and share your unique referral link via WhatsApp, SMS, or email.",
-        "The Gift: Your friend clicks the link and receives a 15% discount on their first order above ₹999.",
-        "Automatic Savings: The discount is automatically applied at their checkout, or they can manually paste the code.",
-        "Earn Rewards: Once your friend’s order is successfully completed and delivered, you receive your reward."
+        "Share Your Link: Copy your unique link below and share it with friends via WhatsApp or Email.",
+        `The Gift: Your friend clicks the link and receives a ${activeConfig?.friendDiscountPercentage || 15}% discount on their first order above ₹${activeConfig?.minimumOrderAmount || 999}.`,
+        "Automatic Savings: The discount is automatically applied at their checkout when they register via your link.",
+        "Earn Rewards: Once your friend’s order is successfully delivered, you receive your reward credited to your account."
       ],
       isList: true
     },
     {
       title: "Rewards Structure",
       content: [
-        "For Your Friend: 15% OFF on their first order of ₹999 or more.",
-        "For You: ₹200 cashback for every successful referral.",
-        "Delivery: Your cashback is sent directly to you via the same channel used for sharing (WhatsApp, SMS, or email)."
+        `For Your Friend: ${activeConfig?.friendDiscountPercentage || 15}% OFF on their first order of ₹${activeConfig?.minimumOrderAmount || 999} or more.`,
+        `For You: ₹${activeConfig?.referrerCashbackAmount || 200} cashback for every successful referral.`,
+        "Balance: Your earnings are visible in your Profile and can be used for future Munching!"
       ],
       isList: true
     },
     {
       title: "What Defines a “Successful Referral”?",
       content: [
-        "The referred friend must use your specific referral code at checkout.",
-        "The friend’s order value must be ₹999 or higher after all discounts are applied.",
-        "The order must be successfully delivered without being cancelled, returned, or marked as 'Return to Origin' (RTO)."
-      ],
-      isList: true
-    },
-    {
-      title: "Redeeming Your Rewards",
-      content: [
-        "Notification: You will receive a message via WhatsApp, SMS, or email once your reward is ready.",
-        "Simple Process: Follow the instructions within the reward message to claim your cashback.",
-        "Consolidation: In some cases, multiple referral rewards may be grouped into a single reward card to make your redemption bigger and simpler."
-      ],
-      isList: true
-    },
-    {
-      title: "Terms & Conditions",
-      content: [
-        "Program Ownership: This program is operated exclusively by Sri Venkateshwara Super Foods LLP. We reserve all rights regarding rewards, discounts, and program rules.",
-        "Eligibility & Restrictions: Self-referrals are strictly prohibited. You cannot use your own referral code for your own orders; doing so will result in no cashback being issued.",
-        "Referral rewards are non-transferable and can only be redeemed once.",
-        "Payout Timeline: Cashback is typically processed within 48 hours following the successful delivery of the referred friend's order.",
-        "Expiry: Rewards and cashback links may have an expiry date, which will be specified in your reward message. Expired rewards cannot be reissued.",
-        "Fraud Prevention: Any attempt to manipulate the system through fake accounts or bulk self-referrals will lead to immediate disqualification and forfeiture of all rewards.",
-        "Modifications: GoMunchz reserves the right to modify, suspend, or terminate the Refer & Earn program or change reward values at any time without prior notice.",
-        "Liability: Sri Venkateshwara Super Foods LLP is not responsible for delays in reward credits caused by third-party payment services or banks. Our decision on any program-related dispute is final."
+        "The referred friend must register using your specific referral link.",
+        `The friend’s order value must be ₹${activeConfig?.minimumOrderAmount || 999} or higher.`,
+        "The order must be successfully delivered (not cancelled or returned)."
       ],
       isList: true
     }
   ];
 
   return (
-    <div className="w-full bg-white min-h-screen">
+    <div className="w-full bg-[#fcfcfc] min-h-screen">
       <TopHeader />
       <Header />
       
-      <div className="max-w-7xl mx-auto px-4 md:px-6 pt-4 pb-12 md:pt-6 md:pb-20">
-        <div className="mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
-            Refer & <span className="text-green-600">Earn</span>
-          </h2>
-
+      <div className="max-w-7xl mx-auto px-4 md:px-6 pt-8 pb-12">
+        {/* HERO HEADER */}
+        <div className="mb-10 text-center md:text-left">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
+            Refer & <span className="text-emerald-600">Earn</span>
+          </h1>
+          <p className="text-gray-500 text-lg max-w-2xl">
+            Spread the joy of healthy munching and get rewarded for every friend who joins the family.
+          </p>
         </div>
 
-        <div className="space-y-12">
-          {sections.map((section, idx) => (
-            <div key={idx}>
-              <h2 className="text-base font-bold text-gray-900 tracking-tight mb-6 flex items-center gap-3">
-                <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
-                {section.title}
-              </h2>
-              
-              {section.isList ? (
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* LEFT: SHARE INTERFACE */}
+          <div className="lg:col-span-1 space-y-6">
+            <div className="bg-white rounded-3xl shadow-xl shadow-emerald-900/5 border border-emerald-50 p-8 sticky top-24">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-14 h-14 bg-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-emerald-200">
+                  <Gift size={28} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-xl text-gray-900">Your Invite</h3>
+                  <p className="text-emerald-600 font-medium">Ready to share</p>
+                </div>
+              </div>
+
+              {/* REFERRAL CODE DISPLAY */}
+              <div className="bg-gray-50 rounded-2xl p-6 mb-8 border border-gray-100 text-center">
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">My Unique Code</p>
+                <p className="text-3xl font-black text-gray-900 tracking-tighter">{referralCode}</p>
+              </div>
+
+              {/* LINK & COPY */}
+              <div className="space-y-4">
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                     <Share2 size={16} />
+                  </div>
+                  <input 
+                    readOnly
+                    value={referralLink}
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-11 pr-4 py-3.5 text-sm font-medium text-gray-600 focus:outline-none"
+                  />
+                  <button 
+                    onClick={handleCopy}
+                    className={`absolute right-2 top-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2
+                      ${copied ? 'bg-emerald-600 text-white' : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 shadow-sm'}`}
+                  >
+                    {copied ? <CheckCircle2 size={14} /> : <Copy size={14} />}
+                    {copied ? 'Copied' : 'Copy'}
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <button 
+                    onClick={shareWhatsApp}
+                    className="flex items-center justify-center gap-2 bg-[#25D366] text-white py-3.5 rounded-xl font-bold hover:opacity-90 transition-opacity"
+                  >
+                    <MessageCircle size={18} />
+                    WhatsApp
+                  </button>
+                  <button 
+                    onClick={shareEmail}
+                    className="flex items-center justify-center gap-2 bg-gray-900 text-white py-3.5 rounded-xl font-bold hover:bg-gray-800 transition-colors"
+                  >
+                    <Mail size={18} />
+                    Email
+                  </button>
+                </div>
+              </div>
+
+              <div className="mt-8 pt-8 border-t border-gray-100 text-center">
+                <p className="text-sm text-gray-500 font-medium italic">
+                  "Give {activeConfig?.friendDiscountPercentage || 15}% OFF, Get ₹{activeConfig?.referrerCashbackAmount || 200} Cashback"
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT: HOW IT WORKS & INFO */}
+          <div className="lg:col-span-2 space-y-12">
+            {sections.map((section, idx) => (
+              <div key={idx}>
+                <h2 className="text-xl font-bold text-gray-900 tracking-tight mb-6 flex items-center gap-3">
+                  <span className="w-1.5 h-6 bg-emerald-600 rounded-full"></span>
+                  {section.title}
+                </h2>
+                
+                <ul className="grid grid-cols-1 md:grid-cols-1 gap-4">
                   {section.content.map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 bg-white p-5 rounded-2xl shadow-sm border border-green-50 hover:border-green-200 transition-colors">
-                      <div className="mt-1 bg-green-100 p-1 rounded-full text-green-700 flex-shrink-0">
-                        <ChevronRight size={14} />
+                    <li key={i} className="flex items-start gap-4 bg-white p-6 rounded-2xl shadow-sm border border-emerald-50/50 hover:shadow-md transition-all">
+                      <div className="mt-1 bg-emerald-600 p-1.5 rounded-lg text-white flex-shrink-0">
+                        <ChevronRight size={14} strokeWidth={3} />
                       </div>
-                      <span className="text-gray-700 font-medium leading-relaxed">{item}</span>
+                      <span className="text-gray-700 font-semibold leading-relaxed">{item}</span>
                     </li>
                   ))}
                 </ul>
-              ) : (
-                <div className="space-y-4">
-                  {section.content.map((para, i) => (
-                    <p key={i} className="text-gray-700 text-base leading-relaxed text-justify">
-                      {para}
-                    </p>
-                  ))}
-                </div>
-              )}
+              </div>
+            ))}
+
+            {/* TERMS PREVIEW */}
+            <div className="bg-emerald-50/30 rounded-3xl p-8 border border-emerald-100">
+               <h2 className="text-xl font-bold text-emerald-900 mb-4">A Mutual Win</h2>
+               <p className="text-emerald-800/80 font-medium leading-relaxed mb-6">
+                 We believe in the power of shared health and happiness. By referring your friends, you're not just earning cashback—you're helping your community munch smarter with premium quality nuts and dry fruits.
+               </p>
+               <button className="text-emerald-700 font-bold flex items-center gap-2 hover:gap-3 transition-all">
+                  Read Full Terms & Conditions <ChevronRight size={18} />
+               </button>
             </div>
-          ))}
+          </div>
         </div>
       </div>
 

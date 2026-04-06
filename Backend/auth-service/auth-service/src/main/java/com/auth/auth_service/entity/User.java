@@ -46,4 +46,10 @@ public class User {
     @Column(name = "referral_code", unique = true)
     private String referralCode;
 
+    @Column(name = "referred_by")
+    private UUID referredBy;
+
+    @Column(name = "referral_credits")
+    private Double referralCredits = 0.0;
+
 }

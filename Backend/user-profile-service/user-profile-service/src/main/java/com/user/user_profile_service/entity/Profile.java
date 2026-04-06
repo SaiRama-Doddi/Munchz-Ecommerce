@@ -27,6 +27,8 @@ public class Profile {
 
     private String referralCode;
 
+    private Double referralCredits = 0.0;
+
 
     private Instant createdAt;
     private Instant updatedAt;

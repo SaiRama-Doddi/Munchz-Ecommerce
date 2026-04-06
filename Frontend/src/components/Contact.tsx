@@ -44,7 +44,7 @@ export default function ContactForm() {
         {/* LEFT IMAGE / INFO SECTION */}
         <div className="relative hidden md:block group">
           <img
-            src="https://res.cloudinary.com/dd4oiwnep/image/upload/ingredients-healthy-dessert-chia-puddings-kitchen-wooden-table_1_fiakub.jpg"
+            src="https://res.cloudinary.com/dpgomcvqz/image/upload/v1775062524/a-premium-realistic-hero-banner-for-a-dr__t2SoJKLSeGdREYTQcFu4w_WAsnhma9QuSYwHBpreN1rg_cover_sd_jwpwzh.jpg"
             alt="Premium Healthy Snacks"
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           />

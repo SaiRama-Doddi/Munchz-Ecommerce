@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
 const BANNERS = [
-  { image: "https://res.cloudinary.com/dpgomcvqz/image/upload/v1775062525/create-a-professional-featured-images-fo_TBrUMklvQD6S0--dfJZ6sg_bBRtmIYWQI-yWR4kCKFcHA_sd_kphwph.jpg" },
-  { image: "/banners/healthy-makhana.png" },
-  { image: "/banners/nut-mixes-energy.png" },
-  { image: "/banners/gift-boxes-premium.png" },
-  { image: "/banners/modern-lifestyle-snack.png" }
+  { image: "https://res.cloudinary.com/dpgomcvqz/image/upload/v1775062524/a-premium-food-photography-hero-banner-f_KwczsITjSwSurOmClsAj9g_ymYkL_w_QgujdNLS_b7CyQ_sd_gelodd.jpg" },
+  { image: "https://res.cloudinary.com/dpgomcvqz/image/upload/v1775062523/a-photograph-of-a-rustic-wooden-bowl-fil_mkHmbPX7T1SImqH-mSe80Q_kY1VIrMdTEe-RjD3z9o7aQ_sd_fkavyg.jpg" },
+  { image: "https://res.cloudinary.com/dpgomcvqz/image/upload/v1775062522/ultra-realistic-luxury-food-photography-_Z38VJZOSQyStlQi_lOlhQA_ONnJogLQR3qQY1fWzcFT6A_cover_sd_euv0jn.jpg" },
+  { image: "https://res.cloudinary.com/dpgomcvqz/image/upload/v1775062523/a-natural-lifestyle-photograph-of-a-medi_Yew6fnr2Tjqp_QquFRp0Uw_PSdVnGABQsO1Dcbqh0KhpA_sd_eoydrf.jpg" },
+  { image: "https://res.cloudinary.com/dpgomcvqz/image/upload/v1775062522/a-clean-product-photograph-of-an-assorte_baQFP3B5S3uC0BQxtXzVYA_6d6w4BHWTs-7ApjK7UlXCg_sd_z7dm2q.jpg" }
 ];
 
 export default function Hero() {

@@ -14,6 +14,8 @@ import {
   BookOpen,
   ChevronDown,
   ArrowLeft,
+  Gift,
+  BadgeAlert,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../state/CartContext";
@@ -220,6 +222,26 @@ export default function Header() {
               </NavLink>
             )
             }
+
+            {profile && (
+              <NavLink to="/refer-and-earn" className="relative group">
+                {({ isActive }) => (
+                  <>
+                    <Gift
+                      size={22}
+                      className={isActive ? "text-green-700" : "text-gray-700 group-hover:text-amber-500 transition-colors"}
+                    />
+                    {profile.referralCredits && profile.referralCredits > 0 ? (
+                      <span className="absolute -top-1.5 -right-2 bg-amber-400 text-black text-[9px] font-black px-1 rounded-sm shadow-sm border border-amber-500/20">
+                        ₹{profile.referralCredits}
+                      </span>
+                    ) : (
+                       <span className="absolute -top-1.5 -right-1.5 w-2 h-2 bg-amber-400 rounded-full animate-pulse shadow-sm"></span>
+                    )}
+                  </>
+                )}
+              </NavLink>
+            )}
 
 
             <NavLink to="/cart" className="relative">
@@ -495,6 +517,22 @@ export default function Header() {
             <NavLink to="/user-orders" className={({ isActive }) => `flex flex-col items-center text-[11px] ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
               <ShoppingBag size={22} />
               Orders
+            </NavLink>
+          )}
+
+          {profile && (
+            <NavLink to="/refer-and-earn" className={({ isActive }) => `flex flex-col items-center text-[10px] ${isActive ? "text-green-700 font-bold" : "text-gray-500"}`}>
+              {({ isActive }) => (
+                <>
+                  <div className="relative">
+                    <Gift size={20} className={isActive ? "text-green-700" : "text-amber-500"} />
+                    {profile.referralCredits && profile.referralCredits > 0 && (
+                       <span className="absolute -top-1 -right-2 bg-amber-400 text-black text-[8px] font-black px-1 rounded-sm">₹{profile.referralCredits}</span>
+                    )}
+                  </div>
+                  Earn
+                </>
+              )}
             </NavLink>
           )}
 

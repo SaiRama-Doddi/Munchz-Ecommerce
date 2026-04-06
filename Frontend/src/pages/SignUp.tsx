@@ -1,13 +1,18 @@
 import { useState } from "react";
 import { registerUser, googleRegister } from "../api/api";
 import { GoogleLogin } from "@react-oauth/google";
-import { useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
+
 export default function Signup() {
   const navigate = useNavigate(); 
+  const [searchParams] = useSearchParams();
+  const referralFromUrl = searchParams.get("ref") || "";
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [referralCode, setReferralCode] = useState(referralFromUrl);
   const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState("");
@@ -42,6 +47,7 @@ export default function Signup() {
         lastName,
         email,
         phone,
+        referralCode
       });
 
 setSuccess(res.data.message || "Registered successfully 🎉");
@@ -113,7 +119,7 @@ Join GoMunchz and start shopping
 <GoogleLogin
         onSuccess={async (res) => {
           try {
-            const apiRes = await googleRegister(res.credential!);
+            const apiRes = await googleRegister(res.credential!, referralCode);
             localStorage.setItem("token", apiRes.data.token);
             localStorage.setItem("userId", apiRes.data.userId);
 
@@ -184,6 +190,22 @@ className="border border-gray-300 rounded-lg px-4 py-2.5
 focus:outline-none focus:ring-2 focus:ring-green-600"
 />
 
+</div>
+
+{/* REFERRAL CODE (Optional but auto-filled) */}
+<div className="space-y-1">
+  <label className="text-[10px] text-gray-400 uppercase font-bold ml-1 italic">
+    Referral Code {referralFromUrl ? "(Applied)" : "(Optional)"}
+  </label>
+  <input
+    type="text"
+    placeholder="Referral Code"
+    value={referralCode}
+    onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
+    className={`w-full border border-gray-300 rounded-lg px-4 py-2.5 
+    focus:outline-none focus:ring-2 focus:ring-green-600 font-bold tracking-widest
+    ${referralFromUrl ? 'bg-green-50 border-green-200' : ''}`}
+  />
 </div>
 
 {/* SUBMIT */}

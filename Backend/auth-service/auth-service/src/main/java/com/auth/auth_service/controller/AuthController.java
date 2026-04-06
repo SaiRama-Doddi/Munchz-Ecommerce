@@ -138,6 +138,15 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
     user.setEmail(req.email());
     user.setPhone(req.phone());
     user.setEmailVerified(false);
+
+    // ✅ Track Referrer
+    if (req.referralCode() != null && !req.referralCode().isEmpty()) {
+        var referrer = userRepo.findByReferralCode(req.referralCode()).orElse(null);
+        if (referrer != null) {
+            user.setReferredBy(referrer.getId());
+        }
+    }
+
     userRepo.save(user);
 
     // Generate internal JWT
@@ -158,7 +167,8 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
                         req.firstName(),
                         req.lastName(),
                         req.phone(),
-                        referralCode
+                        referralCode,
+                        0.0
                 );
 
         userProfileClient.createProfile(
@@ -295,7 +305,9 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
                 profile.getLastName(),
                 user.getPhone(),
                 user.getEmail(),
-                user.getId()
+                user.getId(),
+                user.getReferralCredits(),
+                user.getReferralCode()
         );
 
     } catch (Exception e) {
@@ -373,6 +385,15 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
             user.setProvider("GOOGLE");
             user.setProviderId(googleUser.googleId());
             user.setEmailVerified(true);
+            
+            // ✅ Track Referrer
+            if (req.referralCode() != null && !req.referralCode().isEmpty()) {
+                var referrer = userRepo.findByReferralCode(req.referralCode()).orElse(null);
+                if (referrer != null) {
+                    user.setReferredBy(referrer.getId());
+                }
+            }
+            
             userRepo.save(user);
 
             // 5️⃣ INTERNAL JWT for Profile Creation
@@ -394,7 +415,8 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
                                 googleUser.firstName(),
                                 googleUser.lastName(),
                                 null,
-                                referralCode
+                                referralCode,
+                                0.0
                         )
                 );
             } catch (Exception e) {
@@ -483,7 +505,8 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
                                 googleUser.firstName(),
                                 googleUser.lastName(),
                                 null,
-                                referralCode
+                                referralCode,
+                                0.0
                         )
                 );
             } catch (Exception e) {
@@ -516,7 +539,9 @@ public Map<String, Object> register(@RequestBody RegisterRequest req) {
                 profile.getLastName(),
                 user.getPhone(),
                 user.getEmail(),
-                user.getId());
+                user.getId(),
+                user.getReferralCredits(),
+                user.getReferralCode());
 
         return ResponseEntity.ok(
                 Map.of(

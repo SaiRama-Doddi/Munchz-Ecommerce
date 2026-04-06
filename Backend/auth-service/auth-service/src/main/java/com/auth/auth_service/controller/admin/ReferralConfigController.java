@@ -10,24 +10,31 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/auth/admin/referral-config")
-@PreAuthorize("hasRole('ADMIN')")
+@RequestMapping("/auth")
 public class ReferralConfigController {
 
     @Autowired
     private ReferralConfigRepository referralConfigRepository;
 
-    @GetMapping
+    @GetMapping("/referral-config/active")
+    public ResponseEntity<List<ReferralConfig>> getActiveConfigs() {
+        return ResponseEntity.ok(referralConfigRepository.findByIsActiveTrue());
+    }
+
+    @GetMapping("/admin/referral-config")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<ReferralConfig>> getAllConfigs() {
         return ResponseEntity.ok(referralConfigRepository.findAll());
     }
 
-    @PostMapping
+    @PostMapping("/admin/referral-config")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ReferralConfig> createConfig(@RequestBody ReferralConfig newConfig) {
         return ResponseEntity.ok(referralConfigRepository.save(newConfig));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/referral-config/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ReferralConfig> updateConfig(@PathVariable Long id, @RequestBody ReferralConfig newConfig) {
         ReferralConfig existing = referralConfigRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Config not found"));

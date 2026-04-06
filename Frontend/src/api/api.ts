@@ -15,6 +15,7 @@ export const registerUser = (data: {
   lastName: string;
   email: string;
   phone: string;
+  referralCode?: string;
 }) => API.post("/auth/register", data);
 
 /* ---------- OTP (existing) ---------- */
@@ -70,8 +71,8 @@ export const updateProfileApi = (data: {
 
 /* ---------- GOOGLE AUTH ---------- */
 
-export const googleRegister = (idToken: string) =>
-  API.post("/auth/register/google", { idToken });
+export const googleRegister = (idToken: string, referralCode?: string) =>
+  API.post("/auth/register/google", { idToken, referralCode });
 
 export const googleLogin = (idToken: string) =>
   API.post("/auth/login/google", { idToken });
@@ -138,4 +139,7 @@ export const getProfileApi = () =>
       Authorization: "Bearer " + localStorage.getItem("token"),
     },
   });
+
+export const getActiveReferralConfigApi = () =>
+  API.get("/auth/referral-config/active");
 

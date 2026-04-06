@@ -4,5 +4,6 @@ public record CreateProfileRequest(
         String firstName,
         String lastName,
         String mobile,
-        String referralCode
+        String referralCode,
+        Double referralCredits
 ) {}

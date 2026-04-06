@@ -58,7 +58,8 @@ public class ReferralBackfillController {
                         firstName,
                         profile != null ? profile.getLastName() : null,
                         phone,
-                        referralCode
+                        referralCode,
+                        0.0
                 );
                 userProfileClient.patchProfile("Bearer " + token, patchReq);
                 

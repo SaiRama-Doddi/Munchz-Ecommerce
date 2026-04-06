@@ -16,5 +16,7 @@ public interface UserRepository extends JpaRepository<User,UUID> {
 
     boolean existsByReferralCode(String referralCode);
 
+    Optional<User> findByReferralCode(String referralCode);
+
     java.util.List<User> findByReferralCodeIsNull();
 }
