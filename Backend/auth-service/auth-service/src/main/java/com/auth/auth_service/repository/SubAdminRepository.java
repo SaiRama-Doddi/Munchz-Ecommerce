@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface SubAdminRepository extends JpaRepository<SubAdmin, UUID> {
     Optional<SubAdmin> findByEmail(String email);
+    boolean existsByEmail(String email);
 }
