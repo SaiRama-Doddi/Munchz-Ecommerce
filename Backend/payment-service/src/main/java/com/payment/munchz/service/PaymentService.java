@@ -30,38 +30,57 @@ public class PaymentService {
     private final OrderClient orderClient;
 
     @Value("${razorpay.key}")
-    private String razorpayKey;
+    private String razorpayKeyInjected;
 
     @Value("${razorpay.secret}")
-    private String razorpaySecret;
+    private String razorpaySecretInjected;
+
+    private String getRazorpayKey() {
+        if (razorpayKeyInjected == null || razorpayKeyInjected.isBlank() || razorpayKeyInjected.startsWith("${")) {
+            return System.getenv("RAZORPAY_KEY");
+        }
+        return razorpayKeyInjected;
+    }
+
+    private String getRazorpaySecret() {
+        if (razorpaySecretInjected == null || razorpaySecretInjected.isBlank() || razorpaySecretInjected.startsWith("${")) {
+            return System.getenv("RAZORPAY_SECRET");
+        }
+        return razorpaySecretInjected;
+    }
 
     @jakarta.annotation.PostConstruct
     public void validateConfig() {
-        boolean keyValid = razorpayKey != null && !razorpayKey.isEmpty() && !razorpayKey.startsWith("${");
-        boolean secretValid = razorpaySecret != null && !razorpaySecret.isEmpty() && !razorpaySecret.startsWith("${");
+        String key = getRazorpayKey();
+        String secret = getRazorpaySecret();
+
+        boolean keyValid = key != null && !key.isBlank() && !key.startsWith("${");
+        boolean secretValid = secret != null && !secret.isBlank() && !secret.startsWith("${");
 
         if (!keyValid) {
-            log.error("CRITICAL CONFIG ERROR: RAZORPAY_KEY is missing or incorrectly mapped! Current: {}", razorpayKey);
+            log.error("CRITICAL CONFIG ERROR: RAZORPAY_KEY is missing or unresolved! Current: '{}'", key);
         } else {
-            String maskedKey = razorpayKey.length() > 8 ? razorpayKey.substring(0, 8) + "..." : "Loaded";
-            log.info("Razorpay Key successfully loaded: {}", maskedKey);
+            String maskedKey = key.length() > 8 ? key.substring(0, 8) + "..." : "Loaded";
+            log.info("Razorpay Key successfully resolved: {}", maskedKey);
         }
 
         if (!secretValid) {
-            log.error("CRITICAL CONFIG ERROR: RAZORPAY_SECRET is missing or incorrectly mapped!");
+            log.error("CRITICAL CONFIG ERROR: RAZORPAY_SECRET is missing or unresolved!");
         } else {
-            log.info("Razorpay Secret successfully loaded (verified presence).");
+            log.info("Razorpay Secret successfully resolved.");
         }
     }
 
     public CreatePaymentResponse createPayment(CreatePaymentRequest req) throws Exception {
 
+        String key = getRazorpayKey();
+        
         log.info("--- [CREATE PAYMENT START] for Munchz Order: {} ---", req.orderId());
         log.info("Amount: {} {}, Receipt: {}", req.amount(), req.currency(), req.orderId());
 
-        // Diagnostic Check: Ensure keys are not literal placeholders
-        if (razorpayKey == null || razorpayKey.isBlank() || razorpayKey.startsWith("${")) {
-            log.error("PAYMENT CONFIG ERROR: RAZORPAY_KEY is missing or unresolved! Current: '{}'", razorpayKey);
+        // Final Diagnostic Check before calling SDK
+        if (key == null || key.isBlank() || key.startsWith("${")) {
+            log.error("PAYMENT CONFIG ERROR: Razorpay Key is definitively missing or unresolved! Current: '{}'", key);
             throw new RuntimeException("Payment Service Configuration Error: Razorpay Key is missing or invalid. Check .env / Docker environment.");
         }
 
@@ -79,7 +98,7 @@ public class PaymentService {
                     payment.getRazorpayOrderId(),
                     payment.getAmount(),
                     payment.getCurrency(),
-                    razorpayKey
+                    key
             );
         }
 
@@ -116,7 +135,7 @@ public class PaymentService {
                     razorpayOrderId,
                     req.amount(),
                     req.currency(),
-                    razorpayKey
+                    key
             );
         } catch (com.razorpay.RazorpayException re) {
             String msg = re.getMessage();
@@ -152,7 +171,7 @@ public class PaymentService {
         boolean valid = Utils.verifySignature(
                 payload,
                 req.razorpaySignature(),
-                razorpaySecret
+                getRazorpaySecret()
         );
 
         if (!valid) {
