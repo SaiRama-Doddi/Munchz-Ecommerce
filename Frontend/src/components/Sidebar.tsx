@@ -54,6 +54,7 @@ const items = [
     type: "header" 
   },
   { to: "/admin/coupons", label: "Coupons", icon: TicketPercent },
+  { to: "/admin/referral-settings", label: "Referral Settings", icon: CreditCard },
   { to: "/admin/reviews", label: "Reviews", icon: ClipboardList },
   { 
     label: "User Management", 

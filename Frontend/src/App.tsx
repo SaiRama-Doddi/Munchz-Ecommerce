@@ -64,6 +64,7 @@ const ReferAndEarn = lazy(() => import("./pages/ReferAndEarn"));
 const SubAdminManagement = lazy(() => import("./pages/SubAdminManagement"));
 const AuditLogs = lazy(() => import("./pages/AuditLogs"));
 const UserManagement = lazy(() => import("./pages/UserManagement"));
+const ReferralSettings = lazy(() => import("./pages/ReferralSettings"));
 
 
 export default function App() {
@@ -294,6 +295,7 @@ export default function App() {
       <Route path="sub-admins" element={<SubAdminManagement />} />
       <Route path="audit-logs" element={<AuditLogs />} />
       <Route path="users" element={<UserManagement />} />
+      <Route path="referral-settings" element={<ReferralSettings />} />
     </Route>
   </Route>
 
