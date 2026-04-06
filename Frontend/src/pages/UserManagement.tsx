@@ -31,6 +31,8 @@ interface UserResponse {
 export default function UserManagement() {
   const [users, setUsers] = useState<UserResponse[]>([]);
   const [loading, setLoading] = useState(true);
+  const [roleFilter, setRoleFilter] = useState("ALL");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetchUsers();
@@ -80,6 +82,18 @@ export default function UserManagement() {
     return `${addr.addressLine1}${addr.addressLine2 ? ', ' + addr.addressLine2 : ''}, ${addr.city}, ${addr.state} - ${addr.pincode}`;
   };
 
+  const filteredUsers = users.filter(user => {
+    const matchesRole = roleFilter === "ALL" || 
+      (roleFilter === "ADMIN" && user.roles.includes("ADMIN")) ||
+      (roleFilter === "SUB_ADMIN" && user.roles.includes("SUB_ADMIN")) ||
+      (roleFilter === "USER" && !user.roles.includes("ADMIN") && !user.roles.includes("SUB_ADMIN"));
+
+    const searchStr = (user.firstName + " " + user.lastName + " " + user.email).toLowerCase();
+    const matchesSearch = searchStr.includes(searchTerm.toLowerCase());
+
+    return matchesRole && matchesSearch;
+  });
+
   return (
     <div className="space-y-8 animate-fadeIn">
       {/* Header */}
@@ -89,10 +103,29 @@ export default function UserManagement() {
           <p className="text-[10px] text-gray-400 uppercase tracking-widest mt-1">Manage global user identities and delivery profiles</p>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <input 
+            type="text"
+            placeholder="Search by name or email..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="bg-white border border-gray-200 text-xs rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all min-w-[200px]"
+          />
+          
+          <select 
+            value={roleFilter}
+            onChange={(e) => setRoleFilter(e.target.value)}
+            className="bg-white border border-gray-200 text-xs font-bold rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all cursor-pointer"
+          >
+            <option value="ALL">All Accounts</option>
+            <option value="ADMIN">Super Admins</option>
+            <option value="SUB_ADMIN">Sub-Admins</option>
+            <option value="USER">Customers / Users</option>
+          </select>
+
           <div className="bg-white px-6 py-3 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-3">
              <Users className="text-emerald-500" size={20} />
-             <span className="text-sm font-bold">{users.length} Total Users</span>
+             <span className="text-sm font-bold whitespace-nowrap">{filteredUsers.length} Users</span>
           </div>
         </div>
       </div>
@@ -116,7 +149,7 @@ export default function UserManagement() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                {users.map((user) => (
+                {filteredUsers.map((user) => (
                   <tr key={user.id} className="hover:bg-gray-50/30 transition-colors group">
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-4">
