@@ -170,9 +170,10 @@ export default function CheckoutPage() {
         return;
       }
       openRazorpay(paymentRes.data, orderId);
-    } catch (err) {
-      console.error(err);
-      alert("Order or payment failed");
+    } catch (err: any) {
+      console.error("Payment creation failed:", err);
+      const errorMsg = err.response?.data?.message || err.message || "Order or payment failed";
+      alert(`Error: ${errorMsg}`);
       setIsPlacingOrder(false);
     }
   };
