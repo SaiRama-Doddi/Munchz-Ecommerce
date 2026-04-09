@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { ChevronRight, Gift, Copy, Share2, MessageCircle, Mail, CheckCircle2 } from "lucide-react";
+import { ChevronRight, Gift, Copy, Share2, MessageCircle, Mail, CheckCircle2, Coins, Percent, Zap } from "lucide-react";
 import TopHeader from "../components/TopHeader";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { getProfileApi, getActiveReferralConfigApi } from "../api/api";
+import PremiumSpinner from "../components/PremiumSpinner";
 
 export default function ReferAndEarn() {
   const [profile, setProfile] = useState<any>(null);
@@ -31,6 +32,8 @@ export default function ReferAndEarn() {
     };
     fetchData();
   }, []);
+
+  if (loading) return <PremiumSpinner text="Loading Referral Details..." />;
 
   const referralCode = profile?.referralCode || "LOGIN_TO_SEE";
   const referralLink = `${window.location.origin}/signup?ref=${referralCode}`;
@@ -88,14 +91,45 @@ export default function ReferAndEarn() {
       <Header />
       
       <div className="max-w-7xl mx-auto px-4 md:px-6 pt-8 pb-12">
-        {/* HERO HEADER */}
-        <div className="mb-10 text-center md:text-left">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
-            Refer & <span className="text-emerald-600">Earn</span>
-          </h1>
-          <p className="text-gray-500 text-lg max-w-2xl">
-            Spread the joy of healthy munching and get rewarded for every friend who joins the family.
-          </p>
+        {/* HERO HEADER & STATS */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
+          <div className="text-center md:text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-4 animate-pulse">
+                <div className="w-2 h-2 rounded-full bg-emerald-600"></div>
+                Program Live
+            </div>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight mb-4 leading-tight">
+              Refer & <span className="text-emerald-600">Earn</span>
+            </h1>
+            <p className="text-gray-500 text-lg max-w-xl font-medium">
+              Share the goodness of Munchz. Get rewarded for every friend who joins.
+            </p>
+          </div>
+
+          {/* STATS CARDS */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full lg:w-auto">
+             <div className="bg-white p-6 rounded-3xl border border-emerald-50 shadow-sm flex flex-col items-center sm:items-start min-w-[180px]">
+                <div className="text-gray-400 mb-4 bg-gray-50 p-2 rounded-xl group-hover:bg-emerald-50 transition-colors">
+                    <Coins size={20} />
+                </div>
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Total Earned</p>
+                <p className="text-3xl font-black text-emerald-600 leading-none">₹{profile?.referralCredits?.toFixed(0) || 0}</p>
+             </div>
+             <div className="bg-white p-6 rounded-3xl border border-emerald-50 shadow-sm flex flex-col items-center sm:items-start min-w-[180px]">
+                <div className="text-gray-400 mb-4 bg-gray-50 p-2 rounded-xl">
+                    <Zap size={20} />
+                </div>
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">You Get</p>
+                <p className="text-3xl font-black text-gray-900 leading-none">₹{activeConfig?.referrerCashbackAmount || 200}</p>
+             </div>
+             <div className="bg-white p-6 rounded-3xl border border-emerald-50 shadow-sm flex flex-col items-center sm:items-start min-w-[180px]">
+                <div className="text-gray-400 mb-4 bg-gray-50 p-2 rounded-xl">
+                    <Percent size={20} />
+                </div>
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">They Get</p>
+                <p className="text-3xl font-black text-gray-900 leading-none">{activeConfig?.friendDiscountPercentage || 15}%</p>
+             </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
