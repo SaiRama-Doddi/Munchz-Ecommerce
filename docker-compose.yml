@@ -109,6 +109,9 @@ services:
       - "9092"
     env_file:
       - .env
+    environment:
+      - RZP_K=${RZP_K}
+      - RZP_S=${RZP_S}
 
   review-service:
     build: ./Backend/review-service
