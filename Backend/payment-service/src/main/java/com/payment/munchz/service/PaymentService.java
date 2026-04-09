@@ -58,6 +58,11 @@ public class PaymentService {
         return val != null && !val.isBlank() && !val.startsWith("${") && !val.equals("MISSING");
     }
 
+    private String mask(String val) {
+        if (val == null || val.length() < 3) return val == null ? "NULL" : "SHORT";
+        return val.substring(0, 3) + "****";
+    }
+
     public CreatePaymentResponse createPayment(CreatePaymentRequest req) throws Exception {
         
         log.info("--- [CREATE PAYMENT START] for Munchz Order: {} ---", req.orderId());
@@ -223,6 +228,8 @@ public class PaymentService {
         
         health.put("razorpayKeyResolved", keyValid);
         health.put("razorpaySecretResolved", secretValid);
+        health.put("razorpayKeyPreview", mask(razorpayKey));
+        health.put("razorpaySecretPreview", mask(razorpaySecret));
         
         if (!keyValid || !secretValid) {
             health.put("configStatus", "ERROR: Missing Credentials");
