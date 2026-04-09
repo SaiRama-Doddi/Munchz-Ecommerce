@@ -38,21 +38,24 @@ public class PaymentService {
 
     @jakarta.annotation.PostConstruct
     public void validateConfig() {
-        boolean keyValid = razorpayKey != null && !razorpayKey.isBlank() && !razorpayKey.startsWith("${");
-        boolean secretValid = razorpaySecret != null && !razorpaySecret.isBlank() && !razorpaySecret.startsWith("${");
+        boolean keyValid = isKeyValid(razorpayKey);
+        boolean secretValid = isKeyValid(razorpaySecret);
 
         if (!keyValid) {
-            log.error("CRITICAL CONFIG ERROR: RAZORPAY_KEY is missing or unresolved! Payment features will fail.");
+            log.error("CRITICAL CONFIG ERROR: RAZORPAY_KEY is missing or unresolved! Value: {}", razorpayKey);
         } else {
-            String maskedKey = razorpayKey.length() > 8 ? razorpayKey.substring(0, 8) + "..." : "Loaded";
-            log.info("Razorpay Key successfully resolved: {}", maskedKey);
+            log.info("Razorpay Key successfully resolved: {}...", razorpayKey.substring(0, 4));
         }
 
         if (!secretValid) {
-            log.error("CRITICAL CONFIG ERROR: RAZORPAY_SECRET is missing or unresolved! Payment verification will fail.");
+            log.error("CRITICAL CONFIG ERROR: RAZORPAY_SECRET is missing or unresolved! Value: {}", razorpaySecret);
         } else {
             log.info("Razorpay Secret successfully resolved.");
         }
+    }
+
+    private boolean isKeyValid(String val) {
+        return val != null && !val.isBlank() && !val.startsWith("${") && !val.equals("MISSING");
     }
 
     public CreatePaymentResponse createPayment(CreatePaymentRequest req) throws Exception {
@@ -215,7 +218,18 @@ public class PaymentService {
             health.put("status", "DEGRADED");
         }
 
-        health.put("razorpayKeyResolved", (razorpayKey != null && !razorpayKey.startsWith("${")));
+        boolean keyValid = isKeyValid(razorpayKey);
+        boolean secretValid = isKeyValid(razorpaySecret);
+        
+        health.put("razorpayKeyResolved", keyValid);
+        health.put("razorpaySecretResolved", secretValid);
+        
+        if (!keyValid || !secretValid) {
+            health.put("configStatus", "ERROR: Missing Credentials");
+            health.put("status", "DEGRADED");
+        } else {
+            health.put("configStatus", "VALID");
+        }
         
         return health;
     }
