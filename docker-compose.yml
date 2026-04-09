@@ -109,9 +109,6 @@ services:
       - "9092"
     env_file:
       - .env
-    environment:
-      - RAZORPAY_KEY=${RAZORPAY_KEY}
-      - RAZORPAY_SECRET=${RAZORPAY_SECRET}
 
   review-service:
     build: ./Backend/review-service
