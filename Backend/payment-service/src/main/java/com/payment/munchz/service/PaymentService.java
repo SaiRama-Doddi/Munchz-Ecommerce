@@ -231,6 +231,15 @@ public class PaymentService {
         health.put("razorpayKeyPreview", mask(razorpayKey));
         health.put("razorpaySecretPreview", mask(razorpaySecret));
         
+        // Debug: List all relevant env vars starting with MUNCHZ_
+        Map<String, String> m_vars = new HashMap<>();
+        System.getenv().forEach((k, v) -> {
+            if (k.startsWith("MUNCHZ_")) {
+                m_vars.put(k, mask(v));
+            }
+        });
+        health.put("detectedEnvVars", m_vars);
+        
         if (!keyValid || !secretValid) {
             health.put("configStatus", "ERROR: Missing Credentials");
             health.put("status", "DEGRADED");
