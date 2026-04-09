@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -94,17 +95,22 @@ public class PaymentService {
             String razorpayOrderId = order.get("id");
             log.info("Razorpay Order Created: {}", razorpayOrderId);
 
+            // Using mutable HashMap for metadata to avoid persistence issues
+            Map<String, Object> metadata = new HashMap<>();
+            metadata.put("receipt", req.orderId().toString());
+
             PaymentEntity payment = PaymentEntity.builder()
                     .orderId(req.orderId())
                     .amount(req.amount())
                     .currency(req.currency())
                     .razorpayOrderId(razorpayOrderId)
                     .status("CREATED")
-                    .metadata(Map.of("receipt", req.orderId().toString()))
+                    .metadata(metadata)
                     .build();
 
+            log.info("Saving Payment Record to DB for Munchz Order: {}...", req.orderId());
             paymentRepo.save(payment);
-            log.info("Payment Record saved to DB for Order: {}", req.orderId());
+            log.info("Payment Record successfully saved to DB.");
 
             return new CreatePaymentResponse(
                     razorpayOrderId,

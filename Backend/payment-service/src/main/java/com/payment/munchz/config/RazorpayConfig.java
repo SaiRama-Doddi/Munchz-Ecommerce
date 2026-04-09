@@ -18,20 +18,25 @@ public class RazorpayConfig {
 
     @Bean
     public RazorpayClient razorpayClient() throws Exception {
-        String finalKey = (key == null || key.isBlank() || key.startsWith("${")) 
-                ? System.getenv("RAZORPAY_KEY") 
-                : key;
+        boolean isKeyFromValue = key != null && !key.isBlank() && !key.startsWith("${");
+        String finalKey = isKeyFromValue ? key : System.getenv("RAZORPAY_KEY");
                 
-        String finalSecret = (secret == null || secret.isBlank() || secret.startsWith("${")) 
-                ? System.getenv("RAZORPAY_SECRET") 
-                : secret;
+        boolean isSecretFromValue = secret != null && !secret.isBlank() && !secret.startsWith("${");
+        String finalSecret = isSecretFromValue ? secret : System.getenv("RAZORPAY_SECRET");
 
-        if (finalKey == null || finalKey.isBlank() || finalKey.startsWith("${")) {
-            throw new RuntimeException("CRITICAL CONFIG ERROR: RAZORPAY_KEY is missing or unresolved! Check .env or Docker configuration.");
+        // Advanced Logging for Troubleshooting
+        String keySource = isKeyFromValue ? "Spring Property (@Value)" : "System Environment (System.getenv)";
+        if (finalKey != null && !finalKey.isBlank() && !finalKey.startsWith("${")) {
+            String masked = finalKey.substring(0, 8) + "..." + finalKey.substring(finalKey.length() - 4);
+            System.out.println(">>> RAZORPAY_CONFIG: Resolved Key via " + keySource + ": " + masked);
+        } else {
+            System.err.println(">>> RAZORPAY_CONFIG: FAILED to resolve Key via both Spring Property and System Env!");
+            throw new RuntimeException("CRITICAL CONFIG ERROR: RAZORPAY_KEY is missing! Check .env or Docker/VPS shell environment.");
         }
         
         if (finalSecret == null || finalSecret.isBlank() || finalSecret.startsWith("${")) {
-            throw new RuntimeException("CRITICAL CONFIG ERROR: RAZORPAY_SECRET is missing or unresolved! Check .env or Docker configuration.");
+             System.err.println(">>> RAZORPAY_CONFIG: FAILED to resolve Secret via both Spring Property and System Env!");
+            throw new RuntimeException("CRITICAL CONFIG ERROR: RAZORPAY_SECRET is missing! Check .env or Docker/VPS shell environment.");
         }
 
         return new RazorpayClient(finalKey, finalSecret);

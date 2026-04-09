@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# Load environment variables from .env file
+if [ -f "../.env" ]; then
+    echo "Loading environment variables from ../.env"
+    export $(grep -v '^#' ../.env | xargs)
+elif [ -f ".env" ]; then
+    echo "Loading environment variables from .env"
+    export $(grep -v '^#' .env | xargs)
+else
+    echo "WARNING: No .env file found! Service startup might fail due to missing keys."
+fi
+
+
 echo "Starting Auth Service..."
 nohup java -jar auth-service/auth-service/target/auth-service-0.0.1-SNAPSHOT.jar > auth.log 2>&1 &
 
