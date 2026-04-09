@@ -110,8 +110,8 @@ services:
     env_file:
       - .env
     environment:
-      - RZP_K=${RZP_K}
-      - RZP_S=${RZP_S}
+      - RZP_K=rzp_live_SOfmd9G29HMEuL
+      - RZP_S=rRVf9tna2lCD9w6apZVr4pYk
 
   review-service:
     build: ./Backend/review-service
