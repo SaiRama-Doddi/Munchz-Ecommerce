@@ -40,4 +40,9 @@ public class PaymentController {
     public ResponseEntity<?> getAllPayments() {
         return ResponseEntity.ok(paymentService.getAllPayments());
     }
+
+    @GetMapping("/health")
+    public ResponseEntity<Map<String, Object>> healthCheck() {
+        return ResponseEntity.ok(paymentService.checkHealth());
+    }
 }

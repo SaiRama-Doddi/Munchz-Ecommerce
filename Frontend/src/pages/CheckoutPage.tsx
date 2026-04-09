@@ -171,13 +171,19 @@ export default function CheckoutPage() {
       }
       openRazorpay(paymentRes.data, orderId);
     } catch (err: any) {
-      console.error("Order or Payment failed:", err);
+      console.error("--- [DEBUG] Order or Payment failed ---");
+      console.error("Full Error Object:", err);
       
       let errorMsg = "Something went wrong. Please try again.";
       
       if (err.response && err.response.data) {
+        console.error("Backend Error Data:", err.response.data);
         // Handle standard Spring Boot error or our custom GlobalExceptionHandler format
         errorMsg = err.response.data.message || err.response.data.error || errorMsg;
+        
+        if (err.response.data.details) {
+            console.error("Root Cause Details:", err.response.data.details);
+        }
       } else if (err.message) {
         errorMsg = err.message;
       }

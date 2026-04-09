@@ -199,4 +199,24 @@ public class PaymentService {
     public List<PaymentEntity> getAllPayments() {
         return paymentRepo.findAll();
     }
+
+    public Map<String, Object> checkHealth() {
+        Map<String, Object> health = new HashMap<>();
+        health.put("status", "UP");
+        health.put("service", "payment-service");
+        health.put("timestamp", Instant.now().toString());
+        
+        try {
+            long count = paymentRepo.count();
+            health.put("database", "CONNECTED");
+            health.put("paymentRecordCount", count);
+        } catch (Exception e) {
+            health.put("database", "DOWN: " + e.getMessage());
+            health.put("status", "DEGRADED");
+        }
+
+        health.put("razorpayKeyResolved", (razorpayKey != null && !razorpayKey.startsWith("${")));
+        
+        return health;
+    }
 }

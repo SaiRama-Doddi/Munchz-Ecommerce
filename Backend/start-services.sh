@@ -1,16 +1,22 @@
 #!/bin/bash
 
 # Load environment variables from .env file
-if [ -f "../.env" ]; then
-    echo "Loading environment variables from ../.env"
-    export $(grep -v '^#' ../.env | xargs)
-elif [ -f ".env" ]; then
-    echo "Loading environment variables from .env"
-    export $(grep -v '^#' .env | xargs)
-else
-    echo "WARNING: No .env file found! Service startup might fail due to missing keys."
+ENV_FILE="../.env"
+if [ ! -f "$ENV_FILE" ]; then 
+    ENV_FILE=".env"
 fi
 
+if [ -f "$ENV_FILE" ]; then
+    echo "--- Loading environment variables from $ENV_FILE ---"
+    export $(grep -v '^#' "$ENV_FILE" | xargs)
+else
+    echo "WARNING: No .env file found!"
+fi
+
+# Determine Java command
+JAVA_CMD=$(which java || echo "java")
+echo "Using Java command: $JAVA_CMD"
+$JAVA_CMD -version
 
 echo "Starting Auth Service..."
 nohup java -jar auth-service/auth-service/target/auth-service-0.0.1-SNAPSHOT.jar > auth.log 2>&1 &
