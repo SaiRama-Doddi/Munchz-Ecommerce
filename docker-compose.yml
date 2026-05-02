@@ -26,6 +26,12 @@ services:
       - .env
     ports:
       - "8080:8080"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.munchz.rule=Host(`gomunchz.com`) || Host(`www.gomunchz.com`)"
+      - "traefik.http.routers.munchz.entrypoints=websecure"
+      - "traefik.http.routers.munchz.tls.certresolver=myresolver"
+      - "traefik.http.services.munchz.loadbalancer.server.port=8080"
     depends_on:
       - auth-service
       - user-profile-service
