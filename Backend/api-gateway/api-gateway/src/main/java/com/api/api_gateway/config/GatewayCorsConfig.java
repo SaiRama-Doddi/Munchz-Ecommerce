@@ -19,6 +19,8 @@ public class GatewayCorsConfig {
         config.setAllowedOrigins(List.of(
                 "https://www.gomunchz.com",
                 "https://gomunchz.com",
+                "http://www.gomunchz.com",
+                "http://gomunchz.com",
                 "http://localhost:5173"
         ));
 
