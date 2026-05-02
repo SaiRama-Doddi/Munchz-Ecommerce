@@ -139,10 +139,12 @@ services:
       - .env
 
 
-networks:
-  default:
-    external:
-      name: traefik-public
+
+# networks:
+#   default:
+#     external:
+#       name: traefik-public
+
 
 volumes:
   postgres-data:
