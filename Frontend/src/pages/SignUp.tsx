@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { registerUser, googleRegister, confirmLoginOtp } from "../api/api";
+import { registerUser, googleRegister, confirmLoginOtp, sendLoginOtp } from "../api/api";
 import { GoogleLogin } from "@react-oauth/google";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
@@ -53,9 +53,16 @@ export default function Signup() {
         referralCode
       });
 
-      setSuccess(res.data.message || "OTP sent to your email! 🎉");
+      // 🔥 Explicitly trigger OTP send since /register only sends welcome mail
+      try {
+        await sendLoginOtp(email);
+        setSuccess("Account created! OTP sent to your email! 🎉");
+      } catch (otpErr) {
+        console.error("Failed to send OTP:", otpErr);
+        setSuccess("Account created, but OTP failed to send. Please use Login to try again.");
+      }
+      
       setStep("otp");
-      // Don't reset form yet, we need email for OTP verification
     }
     catch (err: any) {
   console.log("Error:", err.response);
