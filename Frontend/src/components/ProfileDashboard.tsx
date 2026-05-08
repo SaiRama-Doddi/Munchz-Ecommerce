@@ -180,7 +180,7 @@ export default function ProfileDashboard({ open, onClose }: Props) {
       <div className="fixed right-0 top-0 h-full w-full sm:w-[420px] bg-white z-50 shadow-[0_0_50px_rgba(0,0,0,0.15)] flex flex-col animate-in slide-in-from-right duration-500 ease-out border-l border-gray-100">
         
         {/* PREMIUM HEADER WITH AVATAR */}
-        <div className="relative h-48 bg-green-600 overflow-hidden shrink-0">
+        <div className="relative h-44 bg-green-600 shrink-0">
           <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
           <div className="absolute top-6 left-6 right-6 flex justify-between items-center z-10">
             <h2 className="text-white font-black text-xl tracking-tight uppercase">My Profile</h2>
@@ -189,21 +189,21 @@ export default function ProfileDashboard({ open, onClose }: Props) {
             </button>
           </div>
 
-          <div className="absolute -bottom-10 left-8 flex items-end gap-5">
-            <div className="w-24 h-24 bg-white rounded-[2rem] shadow-2xl flex items-center justify-center border-4 border-white text-green-600 font-black text-3xl tracking-tighter overflow-hidden">
+          <div className="absolute -bottom-8 left-8 flex items-end gap-4 z-20">
+            <div className="w-20 h-20 bg-white rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.1)] flex items-center justify-center border-4 border-white text-green-600 font-black text-2xl tracking-tighter shrink-0">
                {profile.firstName?.charAt(0).toUpperCase()}{profile.lastName?.charAt(0).toUpperCase()}
             </div>
-            <div className="mb-12">
-               <p className="text-white font-black text-xl tracking-tight">{profile.firstName} {profile.lastName}</p>
-               <p className="text-green-50 text-[10px] font-bold uppercase tracking-widest opacity-80 flex items-center gap-1">
-                 <Mail size={10} /> {profile.email}
+            <div className="mb-3">
+               <h3 className="text-white font-black text-xl tracking-tight leading-none drop-shadow-sm">{profile.firstName} {profile.lastName}</h3>
+               <p className="text-green-50 text-[10px] font-bold uppercase tracking-widest opacity-90 mt-1.5 flex items-center gap-1.5">
+                 <div className="w-1 h-1 bg-white rounded-full"></div> {profile.email}
                </p>
             </div>
           </div>
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto px-6 pt-14 pb-8 space-y-8 scrollbar-hide">
+        <div className="flex-1 overflow-y-auto px-6 pt-16 pb-8 space-y-8 scrollbar-hide">
           
           {/* USER INFO SECTION */}
           <div className="space-y-4">
