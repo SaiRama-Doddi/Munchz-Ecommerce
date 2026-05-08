@@ -172,234 +172,179 @@ export default function ProfileDashboard({ open, onClose }: Props) {
     <>
       {/* Overlay */}
       <div
-        className="fixed inset-0 bg-black/40 z-40 backdrop-blur-sm"
+        className="fixed inset-0 bg-black/60 z-40 backdrop-blur-sm transition-opacity duration-500"
         onClick={onClose}
       />
 
       {/* Sidebar */}
-      <div className="fixed right-0 top-0 h-full w-[380px] bg-white z-50 shadow-2xl flex flex-col">
-        {/* Header */}
-        <div className="flex justify-between px-6 py-4 border-b">
-          <h2 className="font-semibold">My Profile</h2>
-          <X onClick={onClose} className="cursor-pointer" />
+      <div className="fixed right-0 top-0 h-full w-full sm:w-[420px] bg-white z-50 shadow-[0_0_50px_rgba(0,0,0,0.15)] flex flex-col animate-in slide-in-from-right duration-500 ease-out border-l border-gray-100">
+        
+        {/* PREMIUM HEADER WITH AVATAR */}
+        <div className="relative h-48 bg-green-600 overflow-hidden shrink-0">
+          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+          <div className="absolute top-6 left-6 right-6 flex justify-between items-center z-10">
+            <h2 className="text-white font-black text-xl tracking-tight uppercase">My Profile</h2>
+            <button onClick={onClose} className="p-2 bg-white/20 hover:bg-white/30 text-white rounded-full transition-all backdrop-blur-md">
+              <X size={20} />
+            </button>
+          </div>
+
+          <div className="absolute -bottom-10 left-8 flex items-end gap-5">
+            <div className="w-24 h-24 bg-white rounded-[2rem] shadow-2xl flex items-center justify-center border-4 border-white text-green-600 font-black text-3xl tracking-tighter overflow-hidden">
+               {profile.firstName?.charAt(0).toUpperCase()}{profile.lastName?.charAt(0).toUpperCase()}
+            </div>
+            <div className="mb-12">
+               <p className="text-white font-black text-xl tracking-tight">{profile.firstName} {profile.lastName}</p>
+               <p className="text-green-50 text-[10px] font-bold uppercase tracking-widest opacity-80 flex items-center gap-1">
+                 <Mail size={10} /> {profile.email}
+               </p>
+            </div>
+          </div>
         </div>
 
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto px-6 py-4 space-y-5">
+        {/* Content Area */}
+        <div className="flex-1 overflow-y-auto px-6 pt-14 pb-8 space-y-8 scrollbar-hide">
+          
+          {/* USER INFO SECTION */}
+          <div className="space-y-4">
+             <div className="flex items-center gap-3 mb-6">
+                <div className="w-1 h-6 bg-green-600 rounded-full"></div>
+                <h3 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400">Account Details</h3>
+             </div>
+             <div className="grid grid-cols-2 gap-3">
+               <FloatingInput value={firstName} onChange={setFirstName} label="First Name" icon={<User size={14} className="text-green-600" />} />
+               <FloatingInput value={lastName} onChange={setLastName} label="Last Name" icon={<User size={14} className="text-green-600" />} />
+             </div>
+             <FloatingInput value={mobile} onChange={setMobile} label="Phone Number" icon={<Phone size={14} className="text-green-600" />} />
+          </div>
 
-          {/* Profile */}
-          <FloatingInput value={firstName} onChange={setFirstName} label="First Name" icon={<User size={16} />} />
-          <FloatingInput value={lastName} onChange={setLastName} label="Last Name" icon={<User size={16} />} />
-          <FloatingInput value={mobile
-
-          } onChange={setMobile} label="Mobile" icon={<Phone size={16} />} />
-          <FloatingInput value={profile.email || ""} readOnly label="Email" icon={<Mail size={16} />} />
-
-          {/* Addresses */}
-          <div className="border-t pt-4">
-            <h3 className="font-medium mb-2">Saved Addresses</h3>
-
-            {addresses.length === 0 && (
-              <p className="text-sm text-gray-500">No addresses added</p>
-            )}
-
-            {addresses.map(addr => (
-              <div
-                key={addr.id}
-                className={`border rounded-lg p-3 mb-3 relative transition ${
-  editingId === addr.id
-    ? "border-green-600 bg-green-50 shadow-lg"
-    : addr.isDefault
-    ? "border-green-500 bg-green-50"
-    : ""
-}`}
-
-              >
-                {editingId === addr.id ? (
-                  <>
-                    {/* EDIT FORM */}
-                    <div className="space-y-2">
-                      <button
-                        onClick={handleLiveLocation}
-                        className="flex items-center justify-center gap-2 w-full py-2 bg-green-50 text-green-700 border-2 border-dashed border-green-200 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-green-100 transition-all mb-2"
-                      >
-                        <Navigation size={14} className="animate-pulse" />
-                        Use Live Location
-                      </button>
-
-                      <FloatingInput value={form.label || ""} onChange={v => setForm({ ...form, label: v })} label="Label (e.g. Home, Work)" />
-                      <FloatingInput value={form.addressLine1 || ""} onChange={v => setForm({ ...form, addressLine1: v })} label="Address Line 1" />
-                      <FloatingInput value={form.addressLine2 || ""} onChange={v => setForm({ ...form, addressLine2: v })} label="Address Line 2" />
-
-                      <div className="grid grid-cols-2 gap-2">
-                        <FloatingInput value={form.city || ""} onChange={v => setForm({ ...form, city: v })} label="City" />
-                        <FloatingInput value={form.state || ""} onChange={v => setForm({ ...form, state: v })} label="State" />
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-2">
-                        <FloatingInput value={form.country || ""} onChange={v => setForm({ ...form, country: v })} label="Country" />
-                        <FloatingInput value={form.pincode || ""} onChange={handlePincodeChange} label="6-Digit Pincode" />
-                      </div>
-
-                      <FloatingInput value={form.phone || ""} onChange={v => setForm({ ...form, phone: v })} label="Mobile (optional)" />
-
-                      <label className="flex items-center gap-2 text-sm">
-                        <input
-                          type="checkbox"
-                          checked={form.isDefault || false}
-                          onChange={e => setForm({ ...form, isDefault: e.target.checked })}
-                        />
-                        Set as default address
-                      </label>
-
-                      <div className="flex gap-2">
-                        <button
-  onClick={() => handleUpdateAddress(addr.id)}
-  className="flex-1 bg-green-700 text-white py-2 rounded-lg font-medium shadow"
->
-  Update Address
-</button>
-
-                        <button
-                          onClick={() => {
-                            setEditingId(null);
-                            resetForm();
-                          }}
-                          className="flex-1 border py-1.5 rounded-lg"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    {/* VIEW MODE */}
-                    <p className="font-medium flex items-center gap-2">
-                      {addr.label}
-                      {addr.isDefault && (
-                        <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
-                          Default
-                        </span>
-                      )}
-                    </p>
-
-                    <div className="text-sm text-gray-600 mt-1 space-y-0.5">
-                      <p>{addr.addressLine1}</p>
-                      {addr.addressLine2 && <p>{addr.addressLine2}</p>}
-                      <p>{addr.city}, {addr.state}</p>
-                      <p>{addr.country} – {addr.pincode}</p>
-                      {addr.phone && <p>📞 {addr.phone}</p>}
-                    </div>
-
-                    <div className="absolute top-3 right-3 flex gap-2">
-                      <Pencil
-                        size={16}
-                        onClick={() => {
-                          setEditingId(addr.id);
-                        setForm({
-  label: addr.label,
-  addressLine1: addr.addressLine1,
-  addressLine2: addr.addressLine2,
-  city: addr.city,
-  state: addr.state,
-  country: addr.country,
-  pincode: addr.pincode,
-  phone: addr.phone ?? "",
-  isDefault: addr.isDefault,
-});
-
-                        }}
-                        className="cursor-pointer"
-                      />
-                      <Trash2
-                        size={16}
-                        onClick={() => handleDeleteAddress(addr.id)}
-                        className="cursor-pointer text-red-600"
-                      />
-                    </div>
-                  </>
-                )}
+          {/* ADDRESSES SECTION */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-1 h-6 bg-green-600 rounded-full"></div>
+                <h3 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400">Saved Addresses</h3>
               </div>
-            ))}
+              <button 
+                onClick={() => setShowAddForm(true)}
+                className="text-[10px] font-black uppercase tracking-widest text-green-600 hover:text-green-700 transition-colors"
+              >
+                + Add New
+              </button>
+            </div>
 
-            {/* ADD ADDRESS */}
-            {showAddForm ? (
-              <div className="mt-3 space-y-2 border rounded-lg p-4 bg-gray-50 animate-in fade-in slide-in-from-top-2 duration-300">
+            {/* ADD ADDRESS FORM - REDESIGNED */}
+            {showAddForm && (
+              <div className="bg-gray-50/50 p-5 rounded-[2rem] border-2 border-dashed border-green-200 space-y-4 animate-in fade-in slide-in-from-top-4 duration-500">
                 <button
                   onClick={handleLiveLocation}
-                  className="flex items-center justify-center gap-2 w-full py-2 bg-white text-green-700 border-2 border-dashed border-green-200 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-green-50 transition-all mb-2"
+                  className="flex items-center justify-center gap-2 w-full py-2 bg-white text-green-700 border-2 border-dashed border-green-200 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-green-50 transition-all"
                 >
                   <Navigation size={14} className="animate-pulse" />
                   Use Live Location
                 </button>
 
                 <FloatingInput value={form.label || ""} onChange={v => setForm({ ...form, label: v })} label="Label (e.g. Home, Work)" />
-                <FloatingInput value={form.addressLine1 || ""} onChange={v => setForm({ ...form, addressLine1: v })} label="Address Line 1" />
-                <FloatingInput value={form.addressLine2 || ""} onChange={v => setForm({ ...form, addressLine2: v })} label="Address Line 2" />
-
-                <div className="grid grid-cols-2 gap-2">
+                <FloatingInput value={form.addressLine1 || ""} onChange={v => setForm({ ...form, addressLine1: v })} label="Street Address" />
+                
+                <div className="grid grid-cols-2 gap-3">
                   <FloatingInput value={form.city || ""} onChange={v => setForm({ ...form, city: v })} label="City" />
                   <FloatingInput value={form.state || ""} onChange={v => setForm({ ...form, state: v })} label="State" />
                 </div>
 
-                <div className="grid grid-cols-2 gap-2">
-                  <FloatingInput value={form.country || ""} onChange={v => setForm({ ...form, country: v })} label="Country" />
-                  <FloatingInput value={form.pincode || ""} onChange={handlePincodeChange} label="6-Digit Pincode" />
+                <div className="grid grid-cols-2 gap-3">
+                  <FloatingInput value={form.pincode || ""} onChange={handlePincodeChange} label="Pincode" />
+                  <div className="flex items-center gap-2 px-3">
+                    <input type="checkbox" checked={form.isDefault || false} onChange={e => setForm({ ...form, isDefault: e.target.checked })} className="accent-green-600" />
+                    <span className="text-[10px] font-bold text-gray-500">Default</span>
+                  </div>
                 </div>
 
-                <FloatingInput value={form.phone || ""} onChange={v => setForm({ ...form, phone: v })} label="Mobile (optional)" />
-
-                <label className="flex items-center gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={form.isDefault || false}
-                    onChange={e => setForm({ ...form, isDefault: e.target.checked })}
-                  />
-                  Set as default address
-                </label>
-
-                <button
-                  onClick={handleAddAddress}
-                  className="w-full bg-green-600 text-white py-2 rounded-lg"
-                >
-                  Save Address
-                </button>
+                <div className="flex gap-2 pt-2">
+                  <button onClick={handleAddAddress} className="flex-1 bg-green-600 text-white py-3 rounded-xl font-black text-[10px] uppercase tracking-widest shadow-xl shadow-green-100">Save</button>
+                  <button onClick={() => setShowAddForm(false)} className="px-6 bg-white border border-gray-200 text-gray-400 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest">Cancel</button>
+                </div>
               </div>
-            ) : (
-              <button
-                onClick={() => setShowAddForm(true)}
-                className="text-green-600 text-sm mt-2"
-              >
-                + Add New Address
-              </button>
             )}
+
+            <div className="space-y-4">
+              {addresses.length === 0 && !showAddForm && (
+                <div className="bg-gray-50 border-2 border-dashed border-gray-100 rounded-[2rem] p-8 text-center">
+                   <MapPin size={24} className="mx-auto text-gray-200 mb-2" />
+                   <p className="text-xs font-bold text-gray-400">No addresses saved yet</p>
+                </div>
+              )}
+
+              {addresses.map(addr => (
+                <div
+                  key={addr.id}
+                  className={`group relative border-2 rounded-[2rem] p-5 transition-all duration-300 ${
+                    editingId === addr.id
+                      ? "border-green-600 bg-white shadow-2xl scale-[1.02]"
+                      : addr.isDefault
+                      ? "border-green-100 bg-green-50/30"
+                      : "border-gray-50 bg-white hover:border-green-100"
+                  }`}
+                >
+                  {editingId === addr.id ? (
+                    <div className="space-y-4 animate-in fade-in duration-300">
+                       <FloatingInput value={form.label || ""} onChange={v => setForm({ ...form, label: v })} label="Label" />
+                       <FloatingInput value={form.addressLine1 || ""} onChange={v => setForm({ ...form, addressLine1: v })} label="Address" />
+                       <div className="grid grid-cols-2 gap-3">
+                         <FloatingInput value={form.city || ""} onChange={v => setForm({ ...form, city: v })} label="City" />
+                         <FloatingInput value={form.pincode || ""} onChange={handlePincodeChange} label="Pincode" />
+                       </div>
+                       <div className="flex gap-2">
+                         <button onClick={() => handleUpdateAddress(addr.id)} className="flex-1 bg-green-600 text-white py-3 rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg">Update</button>
+                         <button onClick={() => { setEditingId(null); resetForm(); }} className="px-6 bg-white border border-gray-200 text-gray-400 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest">Cancel</button>
+                       </div>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="flex justify-between items-start">
+                        <div className="space-y-1">
+                           <div className="flex items-center gap-2">
+                             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-green-600">{addr.label}</span>
+                             {addr.isDefault && <span className="bg-green-600 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest">Primary</span>}
+                           </div>
+                           <p className="font-bold text-gray-900 text-sm leading-snug">{addr.addressLine1}</p>
+                           <p className="text-gray-400 font-medium text-[11px]">{addr.city}, {addr.state} • {addr.pincode}</p>
+                           {addr.phone && <p className="text-green-600/60 font-black text-[10px] pt-1 tracking-wider uppercase">📞 {addr.phone}</p>}
+                        </div>
+                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button onClick={() => { setEditingId(addr.id); setForm(addr); }} className="p-2 hover:bg-green-50 text-gray-400 hover:text-green-600 rounded-lg transition-all"><Pencil size={14} /></button>
+                          <button onClick={() => handleDeleteAddress(addr.id)} className="p-2 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-lg transition-all"><Trash2 size={14} /></button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Footer */}
-       {/* Footer */}
-{!editingId && (
-  <div className="border-t px-6 py-4 space-y-2">
-    <button
-      onClick={handleSaveProfile}
-      disabled={loading} 
-      className="w-full bg-green-600 text-white py-2.5 rounded-lg flex items-center justify-center gap-2 cursor-pointer transition disabled:opacity-70"
-    >
-      <Save size={18} />
-      Save Changes
-    </button>
+        {/* Footer Actions */}
+        {!editingId && (
+          <div className="p-6 border-t border-gray-100 space-y-3 bg-gray-50/50 backdrop-blur-md">
+            <button
+              onClick={handleSaveProfile}
+              disabled={loading}
+              className="w-full bg-green-600 text-white py-4 rounded-2xl font-black text-sm tracking-tight flex items-center justify-center gap-3 shadow-xl shadow-green-100 hover:bg-green-700 transition-all active:scale-95 disabled:opacity-50"
+            >
+              {loading ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <Save size={20} />}
+              SAVE PROFILE CHANGES
+            </button>
 
-    <button
-      onClick={logout}
-      className="w-full flex items-center justify-center gap-2 text-red-600 py-2 rounded-lg cursor-pointer border border-red-600 hover:bg-red-50 transition"
-    >
-      <LogOut size={18} />
-      Logout
-    </button>
-  </div>
-)}
-
+            <button
+              onClick={logout}
+              className="w-full bg-white border-2 border-red-50 text-red-500 py-4 rounded-2xl font-black text-sm tracking-tight flex items-center justify-center gap-3 hover:bg-red-50 hover:border-red-100 transition-all group active:scale-95"
+            >
+              <LogOut size={20} className="group-hover:-translate-x-1 transition-transform" />
+              LOGOUT FROM ACCOUNT
+            </button>
+          </div>
+        )}
       </div>
     </>
   );
