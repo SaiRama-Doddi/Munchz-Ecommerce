@@ -1,6 +1,27 @@
 version: '3.8'
 
 services:
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik
+    restart: always
+    command:
+      - "--api.insecure=false"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.myresolver.acme.email=sairamadoddi@gmail.com"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
 
   postgres:
     image: postgres:15
@@ -24,8 +45,8 @@ services:
     container_name: api-gateway
     env_file:
       - .env
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.munchz.rule=Host(`gomunchz.com`) || Host(`www.gomunchz.com`)"
