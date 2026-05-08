@@ -231,10 +231,10 @@ export default function CheckoutPage() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10 px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10 px-4 sm:px-6 lg:px-8 py-6 sm:py-10 items-stretch">
 
           {/* LEFT SIDE: ITEMS & ADDRESS */}
-          <div className="lg:col-span-2 space-y-6 sm:space-y-8">
+          <div className="lg:col-span-2 space-y-6 sm:space-y-8 flex flex-col">
 
             {/* ORDER ITEMS SECTION */}
             <div className="bg-white p-5 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border border-green-50 shadow-sm relative overflow-hidden group">
@@ -271,7 +271,7 @@ export default function CheckoutPage() {
             </div>
 
             {/* SHIPPING ADDRESS SECTION */}
-            <div className="bg-white p-5 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border border-green-50 shadow-sm relative overflow-hidden group">
+            <div className="bg-white p-5 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border border-green-50 shadow-sm relative overflow-hidden group flex-1 flex flex-col">
               <div className="absolute top-0 right-0 p-5 sm:p-10 opacity-[0.03] group-hover:scale-110 transition-transform pointer-events-none"><MapPin className="w-[80px] h-[80px] sm:w-[110px] sm:h-[110px]" /></div>
 
               <h3 className="text-base font-bold text-gray-900 mb-6 sm:mb-8 flex items-center gap-2 sm:gap-3 tracking-tight">
@@ -279,7 +279,25 @@ export default function CheckoutPage() {
                 Shipping Address
               </h3>
 
-              <div className="space-y-4">
+              {!profile ? (
+                <div className="flex-1 flex flex-col items-center justify-center py-12 px-6 text-center bg-green-50/30 rounded-[2rem] border-2 border-dashed border-green-100 min-h-[300px]">
+                  <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-4">
+                    <Lock className="w-8 h-8 text-green-600" />
+                  </div>
+                  <p className="text-lg font-bold text-gray-900 mb-2 tracking-tight">Login Required</p>
+                  <p className="text-gray-500 text-sm font-medium mb-8 max-w-[280px]">
+                    You need to be logged in to manage your shipping addresses and complete your order.
+                  </p>
+                  <button 
+                    onClick={() => navigate("/login", { state: { from: "/checkout", checkoutState: state } })}
+                    className="w-full sm:w-auto bg-green-600 text-white px-10 py-4 rounded-xl font-bold tracking-tight shadow-xl shadow-green-100 hover:bg-green-700 transition-all"
+                  >
+                    SIGN IN TO CONTINUE
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className="space-y-4">
                 {addresses.map((addr) => (
                   <div
                     key={addr.id}
@@ -317,6 +335,18 @@ export default function CheckoutPage() {
                           {addr.phone && <p className="text-green-700 text-sm sm:text-base font-bold mt-1 sm:mt-2 flex items-center gap-2">📞 {addr.phone}</p>}
                         </div>
                         <div className="flex sm:flex-col gap-2 shrink-0">
+                          {/* Selection Checkbox */}
+                          <button 
+                            onClick={() => setSelectedAddress(addr)}
+                            className={`p-3 rounded-xl transition-all border flex items-center justify-center ${
+                              selectedAddress?.id === addr.id 
+                                ? "bg-green-600 border-green-600 text-white shadow-lg shadow-green-100" 
+                                : "bg-white border-gray-100 text-gray-300 hover:border-green-200 hover:bg-green-50"
+                            }`}
+                          >
+                            <Check size={18} strokeWidth={3} />
+                          </button>
+
                           <button onClick={()=>{setEditingId(addr.id); setForm(addr);}} className="p-3 bg-white text-gray-400 hover:text-green-600 hover:bg-green-50 border border-gray-100 rounded-xl transition-all"><Pencil size={18} /></button>
                           <button onClick={()=>handleDeleteAddress(addr.id)} className="p-3 bg-white text-gray-400 hover:text-red-500 hover:bg-red-50 border border-gray-100 rounded-xl transition-all"><Trash2 size={18} /></button>
                         </div>
@@ -343,12 +373,14 @@ export default function CheckoutPage() {
                   <button onClick={saveNewAddress} className="bg-green-600 text-white py-4 sm:py-5 rounded-xl sm:rounded-2xl font-bold tracking-tight shadow-xl shadow-green-100 hover:bg-green-700 transition-all mt-2 text-sm sm:text-base">SAVE ADDRESS & CONTINUE</button>
                 </div>
               )}
+                </>
+              )}
             </div>
           </div>
 
           {/* RIGHT SIDE: PRICE SUMMARY */}
-          <div className="space-y-6">
-            <div className="bg-white p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border-2 border-green-600 shadow-xl lg:sticky lg:top-32 relative overflow-hidden">
+          <div className="space-y-6 flex flex-col h-full">
+            <div className="bg-white p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border-2 border-green-600 shadow-xl lg:sticky lg:top-32 relative overflow-hidden flex-1">
                <div className="absolute top-0 right-0 p-6 sm:p-10 opacity-5 pointer-events-none rotate-12"><CreditCard className="w-[60px] h-[60px] sm:w-[80px] sm:h-[80px]" /></div>
                
                <h3 className="text-base font-bold text-gray-900 mb-6 sm:mb-8 flex items-center gap-2 sm:gap-3 tracking-tight">
