@@ -5,6 +5,8 @@ services:
     image: traefik:v3.3
     container_name: traefik
     restart: always
+    environment:
+      - DOCKER_API_VERSION=1.44
     command:
       - "--api.insecure=false"
       - "--providers.docker=true"
