@@ -40,7 +40,7 @@ export default function LoginPage() {
 
         {/* Logo */}
         <img
-          src="/munchz.png"
+          src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774178657/gomunchz_logo_transparent_r8r0a8.png"
           alt="GoMunchz"
           className="w-16 mx-auto mb-4"
         />

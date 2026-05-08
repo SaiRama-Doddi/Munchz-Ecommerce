@@ -87,7 +87,7 @@ setTimeout(() => {
 {/* LOGO */}
 <div className="flex flex-col items-center mb-6">
 <img
-src="/munchz.png"
+src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774178657/gomunchz_logo_transparent_r8r0a8.png"
 alt="GoMunchz logo"
 className="w-20 sm:w-24 mb-2"
 />

@@ -5,7 +5,7 @@ export const generateInvoice = (order: any, profile: any) => {
   const doc = new jsPDF();
 
   /* ================= LOGO ================= */
-  const logoUrl = "/logo.png";
+  const logoUrl = "https://res.cloudinary.com/dd4oiwnep/image/upload/v1774178657/gomunchz_logo_transparent_r8r0a8.png";
   doc.addImage(logoUrl, "PNG", 15, 10, 40, 20);
 
   /* ================= HEADER ================= */

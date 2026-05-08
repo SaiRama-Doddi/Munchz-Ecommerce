@@ -134,7 +134,7 @@ export default function UserOrders() {
     const doc = new jsPDF();
     doc.setFont("helvetica", "normal");
     doc.setFontSize(11);
-    doc.addImage("/munchz.png", "PNG", 14, 10, 30, 15);
+    doc.addImage("https://res.cloudinary.com/dd4oiwnep/image/upload/v1774178657/gomunchz_logo_transparent_r8r0a8.png", "PNG", 14, 10, 30, 15);
     doc.setFontSize(12);
     doc.text("GoMunchz Foods Pvt Ltd", 150, 15, { align: "right" });
     doc.text("Hyderabad, India", 150, 22, { align: "right" });
@@ -176,7 +176,7 @@ export default function UserOrders() {
               My <span className="text-green-600">Orders</span>
             </h1>
             <p className="text-xs sm:text-base text-gray-500 font-medium mt-1 sm:mt-3 max-w-2xl leading-relaxed">
-              Order history & status • {orders.length} Munchz Moments
+              Order history & status • {orders.length} GoMunchz Moments
             </p>
           </div>
           <button
@@ -258,7 +258,7 @@ export default function UserOrders() {
           {filteredOrders.length === 0 ? (
             <div className="col-span-full py-20 text-center bg-white rounded-[2rem] border border-green-50 shadow-sm">
                 <ShoppingBag size={50} className="mx-auto text-gray-200 mb-4" />
-                <p className="text-gray-400 font-bold uppercase tracking-widest">No Munchz Found for this period</p>
+                <p className="text-gray-400 font-bold uppercase tracking-widest">No GoMunchz Found for this period</p>
             </div>
           ) : (
             filteredOrders.map((order) => (
