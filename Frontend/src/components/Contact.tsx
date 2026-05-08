@@ -39,7 +39,7 @@ export default function ContactForm() {
 
   return (
     <div className="h-[calc(100vh-72px)] bg-[#f9fdf7] flex items-center justify-center px-4 overflow-hidden">
-      <div className="max-w-6xl w-full h-[90%] max-h-[850px] bg-[#ecfdf5] rounded-[2.5rem] shadow-xl overflow-hidden grid md:grid-cols-2 border border-green-100/50">
+      <div className="max-w-5xl w-full h-auto max-h-[92vh] bg-[#ecfdf5] rounded-[2.5rem] shadow-2xl overflow-hidden grid md:grid-cols-2 border border-green-100/50">
 
         {/* LEFT IMAGE / INFO SECTION */}
         <div className="relative hidden md:block group">
@@ -59,17 +59,17 @@ export default function ContactForm() {
         </div>
 
         {/* RIGHT FORM SECTION */}
-        <div className="p-6 md:p-10 lg:p-12 bg-[#ecfdf5] flex flex-col justify-center">
+        <div className="p-6 md:p-8 lg:p-10 bg-[#ecfdf5] flex flex-col justify-center">
           
-          <div className="mb-6">
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight mb-2">
+          <div className="mb-4">
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight mb-1">
                Get in <span className="text-green-600">Touch</span>
             </h2>
-            <p className="text-sm text-gray-500 font-medium">We'd love to hear from you. Send us a message on WhatsApp!</p>
+            <p className="text-xs text-gray-500 font-medium leading-none">Send us a message on WhatsApp!</p>
           </div>
 
           {/* ORDER TYPE SELECTOR */}
-          <div className="flex bg-white/50 p-1.5 rounded-2xl gap-2 mb-6 w-fit border border-white">
+          <div className="flex bg-white/50 p-1 rounded-2xl gap-2 mb-4 w-fit border border-white">
             <button
               onClick={() => setOrderType("individual")}
               className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${
@@ -93,72 +93,72 @@ export default function ContactForm() {
           </div>
 
           {/* FORM */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-3">
             
             {/* NAME GRID */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600/50" size={18} />
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600/50" size={16} />
                 <input
                   type="text"
                   name="firstName"
                   placeholder="First name"
                   value={formData.firstName}
                   onChange={handleChange}
-                  className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-black placeholder:text-gray-500 text-sm"
+                  className="w-full pl-12 pr-4 py-3 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-black placeholder:text-gray-500 text-xs"
                   required
                 />
               </div>
               <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600/50" size={18} />
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600/50" size={16} />
                 <input
                   type="text"
                   name="lastName"
                   placeholder="Last name"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-black placeholder:text-gray-500 text-sm"
+                  className="w-full pl-12 pr-4 py-3 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-black placeholder:text-gray-500 text-xs"
                 />
               </div>
             </div>
 
             {/* EMAIL */}
             <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600/50" size={18} />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600/50" size={16} />
               <input
                 type="email"
                 name="email"
                 placeholder="Your email address"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-black placeholder:text-gray-500 text-sm"
+                className="w-full pl-12 pr-4 py-3 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-black placeholder:text-gray-500 text-xs"
                 required
               />
             </div>
 
             {/* PHONE */}
             <div className="relative">
-              <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600/50" size={18} />
+              <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600/50" size={16} />
               <input
                 type="tel"
                 name="phone"
                 placeholder="Mobile number (optional)"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-black placeholder:text-gray-500 text-sm"
+                className="w-full pl-12 pr-4 py-3 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-black placeholder:text-gray-500 text-xs"
               />
             </div>
 
             {/* MESSAGE */}
             <div className="relative">
-              <MessageSquare className="absolute left-4 top-5 text-green-600/50" size={18} />
+              <MessageSquare className="absolute left-4 top-4 text-green-600/50" size={16} />
               <textarea
                 name="message"
                 placeholder="How can we help you?"
                 value={formData.message}
                 onChange={handleChange}
-                rows={3}
-                className="w-full pl-12 pr-4 py-3 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-black placeholder:text-gray-500 resize-none text-sm"
+                rows={2}
+                className="w-full pl-12 pr-4 py-3 rounded-2xl border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-100 transition-all font-semibold text-black placeholder:text-gray-500 resize-none text-xs"
                 required
               />
             </div>
@@ -166,15 +166,15 @@ export default function ContactForm() {
             {/* BUTTON */}
             <button
               type="submit"
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-bold px-10 py-4 rounded-2xl shadow-lg shadow-green-200 transition-all hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-3 decoration-0 text-sm"
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-bold px-10 py-3.5 rounded-2xl shadow-lg shadow-green-200 transition-all hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-3 decoration-0 text-xs"
             >
-              <FaWhatsapp size={22} />
+              <FaWhatsapp size={20} />
               <span>SEND TO WHATSAPP</span>
-              <Send size={16} className="ml-1 opacity-50" />
+              <Send size={14} className="ml-1 opacity-50" />
             </button>
             
-            <p className="text-center text-[10px] text-gray-400 font-bold uppercase tracking-widest pt-2">
-               Typical response time: <span className="text-green-600">Within 30 minutes</span>
+            <p className="text-center text-[9px] text-gray-400 font-bold uppercase tracking-widest pt-1">
+               Response time: <span className="text-green-600">Within 30 minutes</span>
             </p>
           </form>
         </div>
