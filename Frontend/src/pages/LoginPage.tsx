@@ -52,7 +52,9 @@ export default function LoginPage() {
               const apiRes = await googleLogin(res.credential!);
               localStorage.setItem("token", apiRes.data.token);
               localStorage.setItem("userId", apiRes.data.userId);
+              localStorage.setItem("profile", JSON.stringify(apiRes.data.profile));
               navigate("/");
+              window.location.reload();
             } catch (err: any) {
               setError(err.response?.data?.message || "Google login failed");
             }

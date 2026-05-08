@@ -95,15 +95,16 @@ const handleVerifyOtp = async (e: React.FormEvent) => {
       setIsVerifying(true);
       const res = await confirmLoginOtp(email, otp);
       
-      // Save tokens
+      // Save tokens & profile
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("userId", res.data.userId);
+      localStorage.setItem("profile", JSON.stringify(res.data.profile));
 
       setSuccess("Verification successful! Redirecting...");
       
       setTimeout(() => {
         navigate("/");
-        window.location.reload(); // To refresh profile context
+        window.location.reload(); 
       }, 1500);
 
     } catch (err: any) {
@@ -158,11 +159,13 @@ className="w-20 sm:w-24 mb-2"
                 const apiRes = await googleRegister(res.credential!, referralCode);
                 localStorage.setItem("token", apiRes.data.token);
                 localStorage.setItem("userId", apiRes.data.userId);
+                localStorage.setItem("profile", JSON.stringify(apiRes.data.profile));
 
                 setSuccess("Registered successfully 🎉");
 
                 setTimeout(() => {
                   navigate("/");
+                  window.location.reload();
                 }, 1500);
               } catch {
                 setError("Google signup failed");
