@@ -387,91 +387,105 @@ export default function UserOrders() {
       {/* REVIEW PRODUCT MODAL */}
       {reviewItem && selectedOrder && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[60] flex items-end md:items-center justify-center md:p-4">
-          <div className="bg-white w-full max-h-[90vh] sm:max-w-lg rounded-t-[2rem] md:rounded-[2.5rem] rounded-b-none md:rounded-b-[2.5rem] shadow-2xl p-6 sm:p-8 space-y-5 sm:space-y-8 overflow-y-auto animate-slideUp border border-green-50 relative">
-            <button onClick={() => setReviewItem(null)} className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all z-10"><X size={20} /></button>
-            
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
-              <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
-              Post a Review
-            </h3>
-            
-            <div className="flex gap-6 items-center p-4 bg-white rounded-3xl border border-green-50">
-               <img src={productImages[reviewItem.productId] || "/placeholder.png"} className="w-16 h-16 object-contain bg-white rounded-2xl border shadow-sm" alt={reviewItem.productName} />
-               <p className="font-bold text-gray-900 text-base tracking-tight leading-tight uppercase truncate">{reviewItem.productName}</p>
-            </div>
+          <div className="bg-white w-full max-h-[90vh] sm:max-w-lg rounded-t-[2rem] md:rounded-[2.5rem] shadow-2xl p-6 sm:p-8 overflow-y-auto animate-slideUp border border-green-50 relative">
+            <div className="flex flex-col items-center text-center space-y-6">
+              {/* CLOSE BUTTON */}
+              <button onClick={() => setReviewItem(null)} className="absolute top-6 right-6 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all z-20"><X size={24} /></button>
 
-            <div className="space-y-3">
-              <label className="text-xs font-black uppercase tracking-widest text-gray-400 flex items-center gap-2">Munch Rating <Star size={10} className="text-yellow-400 fill-yellow-400" /></label>
-              <div className="flex gap-2">
-                {[1, 2, 3, 4, 5].map((r) => (
-                  <button
-                    key={r}
-                    onClick={() => setRating(r)}
-                    className={`transition-all duration-300 transform hover:scale-125 ${rating >= r ? "text-yellow-400 fill-yellow-400" : "text-gray-100"}`}
-                  >
-                    <Star className="w-[28px] h-[28px] sm:w-[36px] sm:h-[36px]" />
-                  </button>
-                ))}
+              <div className="space-y-2">
+                <h3 className="text-2xl font-black text-gray-900 tracking-tight">How was your experience?</h3>
+                <p className="text-sm text-gray-500 font-medium">Your feedback helps GoMunchz community grow!</p>
               </div>
-            </div>
 
-            <div className="space-y-3">
-              <label className="text-xs font-black uppercase tracking-widest text-gray-400">Share your story</label>
-              <textarea
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder="Unreal flavor? Absolutely zero compromise? Tell us everything!"
-                rows={4}
-                className="w-full bg-gray-50/50 border-2 border-transparent border-gray-100 rounded-[1.5rem] p-4 font-bold text-gray-900 tracking-tight focus:border-green-600 focus:bg-white outline-none transition-all placeholder:text-gray-300"
-              />
-            </div>
-
-            <div className="space-y-3">
-              <label className="text-xs font-black uppercase tracking-widest text-gray-400 flex justify-between">
-                <span>Add a snap</span>
-                <span className="font-bold italic normal-case text-green-600/50">Optional</span>
-              </label>
-              {!preview ? (
-                <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-100 rounded-[1.5rem] cursor-pointer hover:border-green-400 hover:bg-green-50/20 transition-all group">
-                  <div className="flex flex-col items-center justify-center">
-                    <Upload className="w-6 h-6 text-gray-200 mb-2 group-hover:text-green-500 transition-all" />
-                    <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-green-600 transition-all">Max size 5MB</p>
-                  </div>
-                  <input
-                    type="file"
-                    className="hidden"
-                    accept="image/*"
-                    onChange={(e) => {
-                      if (e.target.files && e.target.files[0]) {
-                        const f = e.target.files[0];
-                        if (f.size > MAX_FILE_SIZE) {
-                          alert("File size too large (Max 5MB). Please reduce image size to continue.");
-                          e.target.value = "";
-                          return;
-                        }
-                        setFile(f);
-                        setPreview(URL.createObjectURL(f));
-                      }
-                    }}
-                  />
-                </label>
-              ) : (
-                <div className="relative w-full h-40 rounded-[1.5rem] overflow-hidden border-2 border-green-100 shadow-inner group">
-                  <img src={preview} className="w-full h-full object-cover" alt="Preview" />
-                  <button
-                    onClick={() => { setFile(null); setPreview(null); }}
-                    className="absolute top-3 right-3 p-2.5 bg-red-500/80 text-white rounded-full hover:bg-red-600 transition-all backdrop-blur-sm shadow-xl"
-                  >
-                    <Trash2 size={16} />
-                  </button>
+              {/* PRODUCT IMAGE - CENTERED & LARGE */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-green-100 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                <img 
+                  src={productImages[reviewItem.productId] || "/placeholder.png"} 
+                  className="w-32 h-32 object-contain bg-white rounded-3xl border border-gray-100 shadow-xl relative z-10" 
+                  alt={reviewItem.productName} 
+                />
+                <div className="mt-4">
+                   <p className="font-black text-gray-900 text-lg tracking-tight uppercase">{reviewItem.productName}</p>
                 </div>
-              )}
-            </div>
+              </div>
 
-            <div className="flex gap-4 pt-4">
-              <button onClick={() => setReviewItem(null)} className="flex-1 py-4 text-xs font-black uppercase tracking-widest text-gray-400 bg-white rounded-2xl hover:bg-gray-100 transition-all">Back</button>
+              {/* RATING SECTION - PROMINENT */}
+              <div className="w-full space-y-4">
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-600/60">Rate your Munch</p>
+                <div className="flex justify-center gap-3">
+                  {[1, 2, 3, 4, 5].map((r) => (
+                    <button
+                      key={r}
+                      onClick={() => setRating(r)}
+                      className={`transition-all duration-300 transform active:scale-90 hover:scale-125 
+                      ${rating >= r ? "text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.4)]" : "text-gray-100"}`}
+                    >
+                      <Star size={44} fill={rating >= r ? "currentColor" : "none"} strokeWidth={1.5} />
+                    </button>
+                  ))}
+                </div>
+                {rating > 0 && (
+                  <p className="text-xs font-bold text-gray-400 italic animate-in fade-in duration-500">
+                    {rating === 5 ? "Exceptional! 🤩" : rating === 4 ? "Great! 😊" : rating === 3 ? "Good 😋" : rating === 2 ? "Could be better 😕" : "Disappointed 😞"}
+                  </p>
+                )}
+              </div>
+
+              {/* TEXT AREA */}
+              <div className="w-full space-y-2 text-left">
+                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Write your review</label>
+                <textarea
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder="What did you love about this snack?"
+                  rows={3}
+                  className="w-full bg-gray-50/50 border-2 border-gray-100 rounded-2xl p-4 font-bold text-gray-900 tracking-tight focus:border-green-600 focus:bg-white outline-none transition-all placeholder:text-gray-300 resize-none"
+                />
+              </div>
+
+              {/* PHOTO UPLOAD */}
+              <div className="w-full space-y-3">
+                {!preview ? (
+                  <label className="flex items-center justify-center gap-3 w-full py-4 border-2 border-dashed border-gray-200 rounded-2xl cursor-pointer hover:border-green-400 hover:bg-green-50/30 transition-all group">
+                    <ImageIcon className="w-5 h-5 text-gray-300 group-hover:text-green-500 transition-colors" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-green-600 transition-colors">Add a Photo (Optional)</span>
+                    <input
+                      type="file"
+                      className="hidden"
+                      accept="image/*"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          const f = e.target.files[0];
+                          if (f.size > MAX_FILE_SIZE) {
+                            alert("File size too large (Max 5MB).");
+                            e.target.value = "";
+                            return;
+                          }
+                          setFile(f);
+                          setPreview(URL.createObjectURL(f));
+                        }
+                      }}
+                    />
+                  </label>
+                ) : (
+                  <div className="relative w-full h-32 rounded-2xl overflow-hidden border-2 border-green-100 shadow-md group">
+                    <img src={preview} className="w-full h-full object-cover" alt="Preview" />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                       <button
+                        onClick={() => { setFile(null); setPreview(null); }}
+                        className="p-3 bg-red-500 text-white rounded-full hover:bg-red-600 transition-all transform hover:scale-110"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* SUBMIT BUTTON */}
               <button
-                disabled={submitting || !comment}
+                disabled={submitting || !comment || rating === 0}
                 onClick={async () => {
                   try {
                     setSubmitting(true);
@@ -503,9 +517,9 @@ export default function UserOrders() {
                     setSubmitting(false);
                   }
                 }}
-                className="flex-[2] py-4 bg-green-600 text-white rounded-2xl text-sm font-bold tracking-tight flex items-center justify-center gap-3 disabled:opacity-50 hover:bg-green-700 transition-all shadow-md"
+                className="w-full py-4.5 bg-green-600 text-white rounded-2xl text-base font-black tracking-tight flex items-center justify-center gap-3 disabled:opacity-50 hover:bg-green-700 transition-all shadow-xl shadow-green-100 active:scale-95"
               >
-                {submitting ? <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : "Submit Review"}
+                {submitting ? <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin" /> : "SUBMIT REVIEW"}
               </button>
             </div>
           </div>
