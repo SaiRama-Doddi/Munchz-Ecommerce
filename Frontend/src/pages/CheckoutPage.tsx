@@ -298,33 +298,25 @@ export default function CheckoutPage() {
               ) : (
                 <>
                 <>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <>
+                  <div className="space-y-4">
                     {addresses.map((addr) => (
                       <div
                         key={addr.id}
                         onClick={() => setSelectedAddress(addr)}
-                        className={`group relative rounded-[2rem] p-6 sm:p-8 transition-all cursor-pointer border-2 flex flex-col justify-between min-h-[220px] ${
+                        className={`group relative rounded-2xl p-5 sm:p-6 transition-all cursor-pointer border-2 flex flex-col sm:flex-row sm:items-start justify-between gap-4 ${
                           selectedAddress?.id === addr.id
-                            ? "border-green-600 bg-green-50/40 shadow-xl shadow-green-100/50 scale-[1.02]"
-                            : "border-gray-100 bg-white hover:border-green-200 hover:shadow-lg hover:shadow-gray-100/50 hover:scale-[1.01]"
+                            ? "border-green-600 bg-white shadow-lg shadow-green-50"
+                            : "border-gray-100 bg-white hover:border-green-200"
                         }`}
                       >
-                        {/* Selected Indicator Badge */}
-                        {selectedAddress?.id === addr.id && (
-                          <div className="absolute -top-3 -right-3 bg-green-600 text-white p-2.5 rounded-full shadow-lg border-4 border-white z-10 animate-in zoom-in duration-300">
-                            <Check size={18} strokeWidth={4} />
-                          </div>
-                        )}
-
                         {editingId === addr.id ? (
                           <div className="w-full flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
-                            <div className="grid grid-cols-1 gap-3">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                               <input placeholder="Label (Home/Work)" className="bg-white border-2 border-gray-100 p-3.5 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none transition-all" value={form.label || ""} onChange={(e)=>setForm({...form,label:e.target.value})} onClick={(e)=>e.stopPropagation()} />
                               <input placeholder="Street Address" className="bg-white border-2 border-gray-100 p-3.5 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none transition-all" value={form.addressLine1 || ""} onChange={(e)=>setForm({...form,addressLine1:e.target.value})} onClick={(e)=>e.stopPropagation()} />
-                              <div className="grid grid-cols-2 gap-3">
-                                <input placeholder="City" className="bg-white border-2 border-gray-100 p-3.5 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none transition-all" value={form.city || ""} onChange={(e)=>setForm({...form,city:e.target.value})} onClick={(e)=>e.stopPropagation()} />
-                                <input placeholder="Pincode" className="bg-white border-2 border-gray-100 p-3.5 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none transition-all" value={form.pincode || ""} onChange={(e)=>setForm({...form,pincode:e.target.value})} onClick={(e)=>e.stopPropagation()} />
-                              </div>
+                              <input placeholder="City" className="bg-white border-2 border-gray-100 p-3.5 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none transition-all" value={form.city || ""} onChange={(e)=>setForm({...form,city:e.target.value})} onClick={(e)=>e.stopPropagation()} />
+                              <input placeholder="Pincode" className="bg-white border-2 border-gray-100 p-3.5 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none transition-all" value={form.pincode || ""} onChange={(e)=>setForm({...form,pincode:e.target.value})} onClick={(e)=>e.stopPropagation()} />
                             </div>
                             <div className="flex gap-3">
                               <button onClick={(e)=>{e.stopPropagation(); handleUpdateAddress(addr.id);}} className="flex-1 bg-green-600 text-white py-3.5 rounded-xl font-bold tracking-tight shadow-lg shadow-green-100 hover:bg-green-700 transition-all text-sm">UPDATE</button>
@@ -333,57 +325,70 @@ export default function CheckoutPage() {
                           </div>
                         ) : (
                           <>
-                            <div className="space-y-4">
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-3">
-                                  <div className={`p-2.5 rounded-xl ${selectedAddress?.id === addr.id ? "bg-green-600 text-white" : "bg-gray-100 text-gray-400 group-hover:bg-green-100 group-hover:text-green-600"} transition-colors`}>
-                                    {addr.label?.toLowerCase().includes('home') ? <Home size={20} /> : addr.label?.toLowerCase().includes('work') ? <Briefcase size={20} /> : <MapPin size={20} />}
-                                  </div>
-                                  <p className="font-bold text-gray-900 text-lg tracking-tight uppercase truncate max-w-[150px]">{addr.label}</p>
-                                </div>
-                                {addr.isDefault && (
-                                  <span className="text-[9px] bg-gray-900 text-white px-3 py-1.5 rounded-full font-black uppercase tracking-widest leading-none">Primary</span>
-                                )}
+                            <div className="flex-1 space-y-1.5 min-w-0">
+                              <div className="flex items-center gap-2">
+                                <h4 className="text-base sm:text-lg font-bold text-gray-900 tracking-tight leading-none">
+                                  Delivering to {profile?.firstName} {profile?.lastName}
+                                </h4>
+                                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-50 px-2 py-0.5 rounded border border-gray-100">{addr.label}</span>
+                                {addr.isDefault && <span className="text-[10px] font-black text-green-600 uppercase tracking-widest">Primary</span>}
                               </div>
-
-                              <p className="text-gray-500 text-sm sm:text-base font-medium leading-relaxed line-clamp-3 min-h-[3rem]">
-                                {addr.addressLine1}, {addr.city}, {addr.state} - {addr.pincode}
+                              
+                              <p className="text-gray-600 text-sm sm:text-base font-medium leading-relaxed max-w-2xl">
+                                {addr.addressLine1}, {addr.city}, {addr.state}, {addr.pincode}, India
                               </p>
-
-                              <div className="flex items-center gap-2 text-green-700 font-bold text-sm bg-green-50/80 w-fit px-3.5 py-2 rounded-xl border border-green-100/50">
-                                <span className="text-lg leading-none">📞</span> {addr.phone}
+                              
+                              <div className="flex items-center gap-4 pt-1">
+                                <button className="text-green-600 text-xs sm:text-sm font-bold hover:underline flex items-center gap-1.5 transition-colors">
+                                  Add delivery instructions
+                                </button>
+                                <div className="h-4 w-px bg-gray-100"></div>
+                                <div className="flex items-center gap-2 text-gray-400 text-xs font-bold">
+                                  <span>📞 {addr.phone}</span>
+                                </div>
                               </div>
                             </div>
 
-                            <div className="flex gap-2 pt-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                              <button 
-                                onClick={(e) => { e.stopPropagation(); setEditingId(addr.id); setForm(addr); }}
-                                className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-white text-gray-500 hover:text-green-600 hover:bg-green-50 border border-gray-100 rounded-xl transition-all font-bold text-xs"
-                              >
-                                <Pencil size={14} /> EDIT
-                              </button>
-                              <button 
-                                onClick={(e) => { e.stopPropagation(); handleDeleteAddress(addr.id); }}
-                                className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-white text-gray-400 hover:text-red-500 hover:bg-red-50 border border-gray-100 rounded-xl transition-all font-bold text-xs"
-                              >
-                                <Trash2 size={14} /> DELETE
-                              </button>
+                            <div className="flex items-center gap-4">
+                              <div className="hidden sm:flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button 
+                                  onClick={(e) => { e.stopPropagation(); setEditingId(addr.id); setForm(addr); }}
+                                  className="p-2 text-gray-400 hover:text-green-600 transition-colors"
+                                  title="Edit Address"
+                                >
+                                  <Pencil size={16} />
+                                </button>
+                                <button 
+                                  onClick={(e) => { e.stopPropagation(); handleDeleteAddress(addr.id); }}
+                                  className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                                  title="Delete Address"
+                                >
+                                  <Trash2 size={16} />
+                                </button>
+                              </div>
+
+                              {/* Clear Visible Checkbox Indicator */}
+                              <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all shrink-0 ${
+                                selectedAddress?.id === addr.id
+                                  ? "bg-green-600 border-green-600 shadow-lg shadow-green-200 scale-110"
+                                  : "bg-white border-gray-200 group-hover:border-green-300"
+                              }`}>
+                                {selectedAddress?.id === addr.id && <Check size={18} strokeWidth={4} className="text-white" />}
+                              </div>
                             </div>
                           </>
                         )}
                       </div>
                     ))}
-
-                    <button 
-                      onClick={() => setShowNewAddress(!showNewAddress)}
-                      className="group relative rounded-[2rem] p-8 transition-all border-2 border-dashed border-gray-200 bg-gray-50/30 hover:bg-green-50/30 hover:border-green-200 flex flex-col items-center justify-center gap-4 min-h-[220px]"
-                    >
-                      <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-gray-400 group-hover:text-green-600 group-hover:scale-110 transition-all border border-gray-100 shadow-sm">
-                        <Plus size={32} />
-                      </div>
-                      <p className="font-bold text-gray-400 group-hover:text-green-600 tracking-tight">Add New Address</p>
-                    </button>
                   </div>
+
+                  <button 
+                    onClick={() => setShowNewAddress(!showNewAddress)}
+                    className="flex items-center gap-2 text-green-600 font-bold tracking-tight mt-6 hover:bg-green-50 px-5 py-3 rounded-xl transition-all border border-dashed border-transparent hover:border-green-100"
+                  >
+                    <Plus size={18} /> Add New Address
+                  </button>
+
 
                   {showNewAddress && (
                     <div className="mt-8 grid gap-6 bg-green-50/20 p-6 sm:p-10 rounded-[2rem] border-2 border-dashed border-green-200 animate-in fade-in slide-in-from-top-4 duration-500">
