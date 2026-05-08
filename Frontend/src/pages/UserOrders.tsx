@@ -386,11 +386,18 @@ export default function UserOrders() {
 
       {/* REVIEW PRODUCT MODAL */}
       {reviewItem && selectedOrder && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[60] flex items-end md:items-center justify-center md:p-4">
-          <div className="bg-white w-full max-h-[90vh] sm:max-w-lg rounded-t-[2rem] md:rounded-[2.5rem] shadow-2xl p-6 sm:p-8 overflow-y-auto animate-slideUp border border-green-50 relative">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[60] flex items-center justify-center p-4">
+          <div className="bg-white w-full max-w-xl rounded-[2.5rem] shadow-2xl p-8 animate-slideUp border border-green-50 relative overflow-hidden">
+            {/* Scrollable area with hidden scrollbar */}
+            <div className="max-h-[85vh] overflow-y-auto pr-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             <div className="flex flex-col items-center text-center space-y-6">
               {/* CLOSE BUTTON */}
-              <button onClick={() => setReviewItem(null)} className="absolute top-6 right-6 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all z-20"><X size={24} /></button>
+              <button 
+                onClick={() => setReviewItem(null)} 
+                className="absolute top-6 right-6 p-2 text-gray-300 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all z-20 group/close"
+              >
+                <X size={20} className="group-hover/close:scale-110 transition-transform" />
+              </button>
 
               <div className="space-y-2">
                 <h3 className="text-2xl font-black text-gray-900 tracking-tight">How was your experience?</h3>
@@ -524,6 +531,7 @@ export default function UserOrders() {
             </div>
           </div>
         </div>
+      </div>
       )}
 
     </div>
