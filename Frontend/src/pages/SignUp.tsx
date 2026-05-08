@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { registerUser, googleRegister } from "../api/api";
+import { registerUser, googleRegister, confirmLoginOtp } from "../api/api";
 import { GoogleLogin } from "@react-oauth/google";
 import { useSearchParams, useNavigate } from "react-router-dom";
 
