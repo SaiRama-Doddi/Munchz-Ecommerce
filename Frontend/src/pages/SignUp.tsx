@@ -70,10 +70,12 @@ export default function Signup() {
 }
 
 
- finally {
-      setLoading(false);
-    }
-  const handleVerifyOtp = async (e: React.FormEvent) => {
+  finally {
+    setLoading(false);
+  }
+};
+
+const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setSuccess("");
