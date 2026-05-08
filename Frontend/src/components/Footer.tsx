@@ -14,7 +14,7 @@ export default function Footer() {
   return (
     <footer className="text-black bg-[#ecfdf5]">
       <div className="max-w-7xl mx-auto px-0">
-        <div className="bg-[#ecfdf5] px-4 sm:px-6 lg:px-8 py-12 md:py-16 rounded-t-[2.5rem] border-t border-green-100/50">
+        <div className="bg-[#ecfdf5] px-4 sm:px-6 lg:px-8 pt-12 md:pt-16 pb-6 rounded-t-[2.5rem] border-t border-green-100/50">
           {/* ================= TOP SECTION ================= */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
             {/* BRAND */}

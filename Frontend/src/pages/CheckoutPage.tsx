@@ -6,7 +6,7 @@ import { listAddressesApi, addAddressApi, updateAddressApi, deleteAddressApi } f
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../state/CartContext";
 import type { CartItem, Address } from "../types/checkout";
-import { ArrowLeft, Pencil, Trash2, ShieldCheck, MapPin, CreditCard, ShoppingBag, ChevronRight, X, Check, Lock, Flame, Plus } from "lucide-react";
+import { ArrowLeft, Pencil, Trash2, ShieldCheck, MapPin, CreditCard, ShoppingBag, ChevronRight, X, Check, Lock, Flame, Plus, Home, Briefcase } from "lucide-react";
 import PremiumSpinner from "../components/PremiumSpinner";
 
 export default function CheckoutPage() {
@@ -231,7 +231,7 @@ export default function CheckoutPage() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10 px-4 sm:px-6 lg:px-8 py-6 sm:py-10 items-stretch">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10 px-4 sm:px-6 lg:px-8 py-6 sm:py-10 items-start">
 
           {/* LEFT SIDE: ITEMS & ADDRESS */}
           <div className="lg:col-span-2 space-y-6 sm:space-y-8 flex flex-col">
@@ -297,90 +297,144 @@ export default function CheckoutPage() {
                 </div>
               ) : (
                 <>
-                  <div className="space-y-4">
-                {addresses.map((addr) => (
-                  <div
-                    key={addr.id}
-                    className={`rounded-2xl sm:rounded-[1.5rem] p-5 sm:p-6 relative transition-all border-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-4 ${
-                      selectedAddress?.id === addr.id
-                        ? "border-green-600 bg-green-50/50"
-                        : "border-gray-100 bg-white hover:border-green-200"
-                    }`}
-                  >
-                    {editingId === addr.id ? (
-                      <div className="w-full grid gap-4">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <input placeholder="Label (e.g. Home)" className="bg-white border-2 border-gray-100 p-4 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none" value={form.label || ""} onChange={(e)=>setForm({...form,label:e.target.value})} />
-                          <input placeholder="Address Line" className="bg-white border-2 border-gray-100 p-4 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none" value={form.addressLine1 || ""} onChange={(e)=>setForm({...form,addressLine1:e.target.value})} />
-                          <input placeholder="City" className="bg-white border-2 border-gray-100 p-4 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none" value={form.city || ""} onChange={(e)=>setForm({...form,city:e.target.value})} />
-                          <input placeholder="State" className="bg-white border-2 border-gray-100 p-4 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none" value={form.state || ""} onChange={(e)=>setForm({...form,state:e.target.value})} />
-                          <input placeholder="Pincode" className="bg-white border-2 border-gray-100 p-4 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none" value={form.pincode || ""} onChange={(e)=>setForm({...form,pincode:e.target.value})} />
-                          <input placeholder="Phone" className="bg-white border-2 border-gray-100 p-4 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none" value={form.phone || ""} onChange={(e)=>setForm({...form,phone:e.target.value})} />
+                <>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {addresses.map((addr) => (
+                      <div
+                        key={addr.id}
+                        onClick={() => setSelectedAddress(addr)}
+                        className={`group relative rounded-[2rem] p-6 sm:p-8 transition-all cursor-pointer border-2 flex flex-col justify-between min-h-[220px] ${
+                          selectedAddress?.id === addr.id
+                            ? "border-green-600 bg-green-50/40 shadow-xl shadow-green-100/50 scale-[1.02]"
+                            : "border-gray-100 bg-white hover:border-green-200 hover:shadow-lg hover:shadow-gray-100/50 hover:scale-[1.01]"
+                        }`}
+                      >
+                        {/* Selected Indicator Badge */}
+                        {selectedAddress?.id === addr.id && (
+                          <div className="absolute -top-3 -right-3 bg-green-600 text-white p-2.5 rounded-full shadow-lg border-4 border-white z-10 animate-in zoom-in duration-300">
+                            <Check size={18} strokeWidth={4} />
+                          </div>
+                        )}
+
+                        {editingId === addr.id ? (
+                          <div className="w-full flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                            <div className="grid grid-cols-1 gap-3">
+                              <input placeholder="Label (Home/Work)" className="bg-white border-2 border-gray-100 p-3.5 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none transition-all" value={form.label || ""} onChange={(e)=>setForm({...form,label:e.target.value})} onClick={(e)=>e.stopPropagation()} />
+                              <input placeholder="Street Address" className="bg-white border-2 border-gray-100 p-3.5 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none transition-all" value={form.addressLine1 || ""} onChange={(e)=>setForm({...form,addressLine1:e.target.value})} onClick={(e)=>e.stopPropagation()} />
+                              <div className="grid grid-cols-2 gap-3">
+                                <input placeholder="City" className="bg-white border-2 border-gray-100 p-3.5 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none transition-all" value={form.city || ""} onChange={(e)=>setForm({...form,city:e.target.value})} onClick={(e)=>e.stopPropagation()} />
+                                <input placeholder="Pincode" className="bg-white border-2 border-gray-100 p-3.5 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none transition-all" value={form.pincode || ""} onChange={(e)=>setForm({...form,pincode:e.target.value})} onClick={(e)=>e.stopPropagation()} />
+                              </div>
+                            </div>
+                            <div className="flex gap-3">
+                              <button onClick={(e)=>{e.stopPropagation(); handleUpdateAddress(addr.id);}} className="flex-1 bg-green-600 text-white py-3.5 rounded-xl font-bold tracking-tight shadow-lg shadow-green-100 hover:bg-green-700 transition-all text-sm">UPDATE</button>
+                              <button onClick={(e)=>{e.stopPropagation(); setEditingId(null);}} className="flex-1 bg-white border-2 border-gray-100 text-gray-400 py-3.5 rounded-xl font-bold tracking-tight hover:bg-gray-50 transition-all text-sm">CANCEL</button>
+                            </div>
+                          </div>
+                        ) : (
+                          <>
+                            <div className="space-y-4">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                  <div className={`p-2.5 rounded-xl ${selectedAddress?.id === addr.id ? "bg-green-600 text-white" : "bg-gray-100 text-gray-400 group-hover:bg-green-100 group-hover:text-green-600"} transition-colors`}>
+                                    {addr.label?.toLowerCase().includes('home') ? <Home size={20} /> : addr.label?.toLowerCase().includes('work') ? <Briefcase size={20} /> : <MapPin size={20} />}
+                                  </div>
+                                  <p className="font-bold text-gray-900 text-lg tracking-tight uppercase truncate max-w-[150px]">{addr.label}</p>
+                                </div>
+                                {addr.isDefault && (
+                                  <span className="text-[9px] bg-gray-900 text-white px-3 py-1.5 rounded-full font-black uppercase tracking-widest leading-none">Primary</span>
+                                )}
+                              </div>
+
+                              <p className="text-gray-500 text-sm sm:text-base font-medium leading-relaxed line-clamp-3 min-h-[3rem]">
+                                {addr.addressLine1}, {addr.city}, {addr.state} - {addr.pincode}
+                              </p>
+
+                              <div className="flex items-center gap-2 text-green-700 font-bold text-sm bg-green-50/80 w-fit px-3.5 py-2 rounded-xl border border-green-100/50">
+                                <span className="text-lg leading-none">📞</span> {addr.phone}
+                              </div>
+                            </div>
+
+                            <div className="flex gap-2 pt-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <button 
+                                onClick={(e) => { e.stopPropagation(); setEditingId(addr.id); setForm(addr); }}
+                                className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-white text-gray-500 hover:text-green-600 hover:bg-green-50 border border-gray-100 rounded-xl transition-all font-bold text-xs"
+                              >
+                                <Pencil size={14} /> EDIT
+                              </button>
+                              <button 
+                                onClick={(e) => { e.stopPropagation(); handleDeleteAddress(addr.id); }}
+                                className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-white text-gray-400 hover:text-red-500 hover:bg-red-50 border border-gray-100 rounded-xl transition-all font-bold text-xs"
+                              >
+                                <Trash2 size={14} /> DELETE
+                              </button>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    ))}
+
+                    <button 
+                      onClick={() => setShowNewAddress(!showNewAddress)}
+                      className="group relative rounded-[2rem] p-8 transition-all border-2 border-dashed border-gray-200 bg-gray-50/30 hover:bg-green-50/30 hover:border-green-200 flex flex-col items-center justify-center gap-4 min-h-[220px]"
+                    >
+                      <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center text-gray-400 group-hover:text-green-600 group-hover:scale-110 transition-all border border-gray-100 shadow-sm">
+                        <Plus size={32} />
+                      </div>
+                      <p className="font-bold text-gray-400 group-hover:text-green-600 tracking-tight">Add New Address</p>
+                    </button>
+                  </div>
+
+                  {showNewAddress && (
+                    <div className="mt-8 grid gap-6 bg-green-50/20 p-6 sm:p-10 rounded-[2rem] border-2 border-dashed border-green-200 animate-in fade-in slide-in-from-top-4 duration-500">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-10 h-10 rounded-xl bg-green-600 flex items-center justify-center text-white shadow-lg shadow-green-100">
+                          <MapPin size={20} />
                         </div>
-                        <div className="flex gap-2 sm:gap-4">
-                          <button onClick={()=>handleUpdateAddress(addr.id)} className="flex-1 bg-green-600 text-white py-3 sm:py-4 rounded-xl font-bold tracking-tight shadow-lg shadow-green-100 hover:bg-green-700 transition-all text-sm sm:text-base">UPDATE</button>
-                          <button onClick={()=>setEditingId(null)} className="flex-1 bg-white border-2 border-gray-100 text-gray-400 py-3 sm:py-4 rounded-xl font-bold tracking-tight hover:bg-white transition-all text-sm sm:text-base">CANCEL</button>
+                        <h4 className="text-xl font-bold text-gray-900 tracking-tight">New Shipping Address</h4>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                        <div className="space-y-1.5">
+                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Address Label</label>
+                          <input placeholder="e.g. Home, Work" className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>setNewAddress({...newAddress,label:e.target.value})} />
+                        </div>
+                        <div className="space-y-1.5">
+                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Full Address</label>
+                          <input placeholder="Street, Apartment, etc." className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>setNewAddress({...newAddress,addressLine1:e.target.value})} />
+                        </div>
+                        <div className="space-y-1.5">
+                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">City</label>
+                          <input placeholder="Enter City" className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>setNewAddress({...newAddress,city:e.target.value})} />
+                        </div>
+                        <div className="space-y-1.5">
+                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">State</label>
+                          <input placeholder="Enter State" className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>setNewAddress({...newAddress,state:e.target.value})} />
+                        </div>
+                        <div className="space-y-1.5">
+                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Pincode</label>
+                          <input placeholder="6-digit code" className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>setNewAddress({...newAddress,pincode:e.target.value})} />
+                        </div>
+                        <div className="space-y-1.5">
+                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Phone Number</label>
+                          <input placeholder="10-digit mobile" className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>setNewAddress({...newAddress,phone:e.target.value})} />
                         </div>
                       </div>
-                    ) : (
-                      <>
-                        <div onClick={()=>setSelectedAddress(addr)} className="cursor-pointer flex-1 min-w-0">
-                          <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
-                            <p className="font-bold text-gray-900 text-base tracking-tight uppercase leading-none truncate">{addr.label}</p>
-                            {addr.isDefault && <span className="text-[9px] sm:text-[10px] bg-green-600 text-white px-2 sm:px-3 py-1 rounded-full font-black uppercase tracking-widest shrink-0">Default</span>}
-                          </div>
-                          <p className="text-gray-500 text-sm sm:text-base font-medium leading-relaxed max-w-sm shrink-0 break-words">
-                            {addr.addressLine1}, {addr.city}, {addr.state} - {addr.pincode}
-                          </p>
-                          {addr.phone && <p className="text-green-700 text-sm sm:text-base font-bold mt-1 sm:mt-2 flex items-center gap-2">📞 {addr.phone}</p>}
-                        </div>
-                        <div className="flex sm:flex-col gap-2 shrink-0">
-                          {/* Selection Checkbox */}
-                          <button 
-                            onClick={() => setSelectedAddress(addr)}
-                            className={`p-3 rounded-xl transition-all border flex items-center justify-center ${
-                              selectedAddress?.id === addr.id 
-                                ? "bg-green-600 border-green-600 text-white shadow-lg shadow-green-100" 
-                                : "bg-white border-gray-100 text-gray-300 hover:border-green-200 hover:bg-green-50"
-                            }`}
-                          >
-                            <Check size={18} strokeWidth={3} />
-                          </button>
-
-                          <button onClick={()=>{setEditingId(addr.id); setForm(addr);}} className="p-3 bg-white text-gray-400 hover:text-green-600 hover:bg-green-50 border border-gray-100 rounded-xl transition-all"><Pencil size={18} /></button>
-                          <button onClick={()=>handleDeleteAddress(addr.id)} className="p-3 bg-white text-gray-400 hover:text-red-500 hover:bg-red-50 border border-gray-100 rounded-xl transition-all"><Trash2 size={18} /></button>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              <button onClick={()=>setShowNewAddress(!showNewAddress)} className="flex items-center gap-2 text-green-600 font-bold tracking-tight mt-8 hover:bg-green-50 px-5 py-3 rounded-xl transition-all border border-transparent hover:border-green-100">
-                <Plus size={18} /> Add New Address
-              </button>
-
-              {showNewAddress && (
-                <div className="mt-6 grid gap-4 bg-white p-5 sm:p-6 rounded-2xl sm:rounded-[1.5rem] border border-gray-100 border-dashed">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                    <input placeholder="Label (e.g. Work, Home)" className="bg-white border-2 border-gray-100 p-3 sm:p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,label:e.target.value})} />
-                    <input placeholder="Address" className="bg-white border-2 border-gray-100 p-3 sm:p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,addressLine1:e.target.value})} />
-                    <input placeholder="City" className="bg-white border-2 border-gray-100 p-3 sm:p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,city:e.target.value})} />
-                    <input placeholder="State" className="bg-white border-2 border-gray-100 p-3 sm:p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,state:e.target.value})} />
-                    <input placeholder="Pincode" className="bg-white border-2 border-gray-100 p-3 sm:p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,pincode:e.target.value})} />
-                    <input placeholder="Phone" className="bg-white border-2 border-gray-100 p-3 sm:p-4 rounded-xl font-bold text-gray-900 focus:border-green-600 outline-none" onChange={(e)=>setNewAddress({...newAddress,phone:e.target.value})} />
-                  </div>
-                  <button onClick={saveNewAddress} className="bg-green-600 text-white py-4 sm:py-5 rounded-xl sm:rounded-2xl font-bold tracking-tight shadow-xl shadow-green-100 hover:bg-green-700 transition-all mt-2 text-sm sm:text-base">SAVE ADDRESS & CONTINUE</button>
-                </div>
-              )}
+                      <div className="flex gap-4 mt-2">
+                        <button onClick={saveNewAddress} className="flex-1 bg-green-600 text-white py-4 sm:py-5 rounded-2xl font-bold tracking-tight shadow-xl shadow-green-100 hover:bg-green-700 transition-all text-sm sm:text-base">SAVE ADDRESS</button>
+                        <button onClick={() => setShowNewAddress(false)} className="px-8 bg-white border-2 border-gray-100 text-gray-400 py-4 sm:py-5 rounded-2xl font-bold tracking-tight hover:bg-gray-50 transition-all text-sm sm:text-base">CANCEL</button>
+                      </div>
+                    </div>
+                  )}
+                </>
                 </>
               )}
             </div>
           </div>
 
           {/* RIGHT SIDE: PRICE SUMMARY */}
-          <div className="space-y-6 flex flex-col h-full">
-            <div className="bg-white p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border-2 border-green-600 shadow-xl lg:sticky lg:top-32 relative overflow-hidden flex-1">
+          <div className="space-y-6 flex flex-col">
+            <div className="bg-white p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border-2 border-green-600 shadow-xl lg:sticky lg:top-32 relative overflow-hidden h-fit">
                <div className="absolute top-0 right-0 p-6 sm:p-10 opacity-5 pointer-events-none rotate-12"><CreditCard className="w-[60px] h-[60px] sm:w-[80px] sm:h-[80px]" /></div>
                
                <h3 className="text-base font-bold text-gray-900 mb-6 sm:mb-8 flex items-center gap-2 sm:gap-3 tracking-tight">
