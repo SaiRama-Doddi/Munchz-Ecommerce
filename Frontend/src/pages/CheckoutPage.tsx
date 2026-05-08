@@ -231,7 +231,7 @@ export default function CheckoutPage() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10 px-4 sm:px-6 lg:px-8 py-6 sm:py-10 items-start">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10 px-4 sm:px-6 lg:px-8 pt-6 sm:pt-10 pb-20 items-start">
 
           {/* LEFT SIDE: ITEMS & ADDRESS */}
           <div className="lg:col-span-2 space-y-6 sm:space-y-8 flex flex-col">
@@ -271,7 +271,7 @@ export default function CheckoutPage() {
             </div>
 
             {/* SHIPPING ADDRESS SECTION */}
-            <div className="bg-white p-5 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border border-green-50 shadow-sm relative overflow-hidden group flex-1 flex flex-col">
+            <div className="bg-white p-5 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border-2 border-green-50 shadow-sm relative overflow-hidden group flex-1 flex flex-col">
               <div className="absolute top-0 right-0 p-5 sm:p-10 opacity-[0.03] group-hover:scale-110 transition-transform pointer-events-none"><MapPin className="w-[80px] h-[80px] sm:w-[110px] sm:h-[110px]" /></div>
 
               <h3 className="text-base font-bold text-gray-900 mb-6 sm:mb-8 flex items-center gap-2 sm:gap-3 tracking-tight">
@@ -435,7 +435,7 @@ export default function CheckoutPage() {
           </div>
 
           {/* RIGHT SIDE: PRICE SUMMARY */}
-          <div className="space-y-6 flex flex-col">
+          <div className="space-y-8 flex flex-col">
             <div className="bg-white p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] border-2 border-green-600 shadow-xl lg:sticky lg:top-32 relative overflow-hidden h-fit">
                <div className="absolute top-0 right-0 p-6 sm:p-10 opacity-5 pointer-events-none rotate-12"><CreditCard className="w-[60px] h-[60px] sm:w-[80px] sm:h-[80px]" /></div>
                
@@ -494,7 +494,7 @@ export default function CheckoutPage() {
                </div>
             </div>
 
-            <p className="text-[10px] text-gray-400 text-center font-medium leading-relaxed">
+            <p className="text-[10px] text-gray-400 text-center font-medium leading-relaxed mt-8 px-4">
               By placing the order, you agree to our terms and conditions. <br />
               Secure payment processed via Razorpay.
             </p>

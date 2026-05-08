@@ -103,10 +103,15 @@ export default function Header() {
               onMouseEnter={() => setShowBlogDropdown(true)}
               onMouseLeave={() => setShowBlogDropdown(false)}
             >
-              <div className="flex items-center gap-1 cursor-pointer text-gray-800 hover:text-green-700 transition-colors">
+              <NavLink 
+                to="/blog" 
+                className={({ isActive }) => 
+                  `flex items-center gap-1 cursor-pointer transition-colors ${isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}`
+                }
+              >
                 <span>Blog</span>
                 <ChevronDown size={16} className={`transition-transform duration-300 ${showBlogDropdown ? "rotate-180" : ""}`} />
-              </div>
+              </NavLink>
 
               {showBlogDropdown && (
                 <div className="absolute top-full left-0 w-80 bg-white shadow-2xl rounded-2xl border border-gray-100 py-4 z-50 animate-in fade-in slide-in-from-top-2 duration-300">
