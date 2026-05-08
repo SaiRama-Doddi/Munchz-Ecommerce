@@ -7,7 +7,9 @@ import {
   Mail,
   Pencil,
   Trash2,
-  LayoutDashboard
+  LayoutDashboard,
+  Navigation,
+  MapPin
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
@@ -21,6 +23,7 @@ import {
   deleteAddressApi,
 } from "../api/api";
 import FloatingInput from "../components/FloatingInput";
+import { getAddressFromPincode, getCurrentPosition, getAddressFromCoords } from "../utils/addressUtils";
 
 /* ================= TYPES ================= */
 
@@ -96,6 +99,43 @@ export default function ProfileDashboard({ open, onClose }: Props) {
 
   const resetForm = () =>
     setForm({ country: "India", isDefault: false });
+
+  const handlePincodeChange = async (val: string) => {
+    setForm((prev: any) => ({ ...prev, pincode: val }));
+    if (val.length === 6) {
+      const data = await getAddressFromPincode(val);
+      if (data) {
+        setForm((prev: any) => ({
+          ...prev,
+          city: data.city,
+          state: data.state,
+          country: data.country
+        }));
+      }
+    }
+  };
+
+  const handleLiveLocation = async () => {
+    try {
+      setLoading(true);
+      const pos = await getCurrentPosition();
+      const data = await getAddressFromCoords(pos.coords.latitude, pos.coords.longitude);
+      if (data) {
+        setForm((prev: any) => ({
+          ...prev,
+          addressLine1: data.addressLine1,
+          city: data.city,
+          state: data.state,
+          pincode: data.pincode,
+          country: data.country
+        }));
+      }
+    } catch (err) {
+      alert("Could not get your location. Please check your browser permissions.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
   const handleAddAddress = async () => {
@@ -179,7 +219,15 @@ export default function ProfileDashboard({ open, onClose }: Props) {
                   <>
                     {/* EDIT FORM */}
                     <div className="space-y-2">
-                      <FloatingInput value={form.label || ""} onChange={v => setForm({ ...form, label: v })} label="Label" />
+                      <button
+                        onClick={handleLiveLocation}
+                        className="flex items-center justify-center gap-2 w-full py-2 bg-green-50 text-green-700 border-2 border-dashed border-green-200 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-green-100 transition-all mb-2"
+                      >
+                        <Navigation size={14} className="animate-pulse" />
+                        Use Live Location
+                      </button>
+
+                      <FloatingInput value={form.label || ""} onChange={v => setForm({ ...form, label: v })} label="Label (e.g. Home, Work)" />
                       <FloatingInput value={form.addressLine1 || ""} onChange={v => setForm({ ...form, addressLine1: v })} label="Address Line 1" />
                       <FloatingInput value={form.addressLine2 || ""} onChange={v => setForm({ ...form, addressLine2: v })} label="Address Line 2" />
 
@@ -190,7 +238,7 @@ export default function ProfileDashboard({ open, onClose }: Props) {
 
                       <div className="grid grid-cols-2 gap-2">
                         <FloatingInput value={form.country || ""} onChange={v => setForm({ ...form, country: v })} label="Country" />
-                        <FloatingInput value={form.pincode || ""} onChange={v => setForm({ ...form, pincode: v })} label="Pincode" />
+                        <FloatingInput value={form.pincode || ""} onChange={handlePincodeChange} label="6-Digit Pincode" />
                       </div>
 
                       <FloatingInput value={form.phone || ""} onChange={v => setForm({ ...form, phone: v })} label="Mobile (optional)" />
@@ -277,8 +325,16 @@ export default function ProfileDashboard({ open, onClose }: Props) {
 
             {/* ADD ADDRESS */}
             {showAddForm ? (
-              <div className="mt-3 space-y-2 border rounded-lg p-4 bg-gray-50">
-                <FloatingInput value={form.label || ""} onChange={v => setForm({ ...form, label: v })} label="Label" />
+              <div className="mt-3 space-y-2 border rounded-lg p-4 bg-gray-50 animate-in fade-in slide-in-from-top-2 duration-300">
+                <button
+                  onClick={handleLiveLocation}
+                  className="flex items-center justify-center gap-2 w-full py-2 bg-white text-green-700 border-2 border-dashed border-green-200 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-green-50 transition-all mb-2"
+                >
+                  <Navigation size={14} className="animate-pulse" />
+                  Use Live Location
+                </button>
+
+                <FloatingInput value={form.label || ""} onChange={v => setForm({ ...form, label: v })} label="Label (e.g. Home, Work)" />
                 <FloatingInput value={form.addressLine1 || ""} onChange={v => setForm({ ...form, addressLine1: v })} label="Address Line 1" />
                 <FloatingInput value={form.addressLine2 || ""} onChange={v => setForm({ ...form, addressLine2: v })} label="Address Line 2" />
 
@@ -289,7 +345,7 @@ export default function ProfileDashboard({ open, onClose }: Props) {
 
                 <div className="grid grid-cols-2 gap-2">
                   <FloatingInput value={form.country || ""} onChange={v => setForm({ ...form, country: v })} label="Country" />
-                  <FloatingInput value={form.pincode || ""} onChange={v => setForm({ ...form, pincode: v })} label="Pincode" />
+                  <FloatingInput value={form.pincode || ""} onChange={handlePincodeChange} label="6-Digit Pincode" />
                 </div>
 
                 <FloatingInput value={form.phone || ""} onChange={v => setForm({ ...form, phone: v })} label="Mobile (optional)" />

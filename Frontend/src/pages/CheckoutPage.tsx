@@ -6,8 +6,9 @@ import { listAddressesApi, addAddressApi, updateAddressApi, deleteAddressApi } f
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../state/CartContext";
 import type { CartItem, Address } from "../types/checkout";
-import { ArrowLeft, Pencil, Trash2, ShieldCheck, MapPin, CreditCard, ShoppingBag, ChevronRight, X, Check, Lock, Flame, Plus, Home, Briefcase } from "lucide-react";
+import { ArrowLeft, Pencil, Trash2, ShieldCheck, MapPin, CreditCard, ShoppingBag, ChevronRight, X, Check, Lock, Flame, Plus, Home, Briefcase, Navigation } from "lucide-react";
 import PremiumSpinner from "../components/PremiumSpinner";
+import { getAddressFromPincode, getCurrentPosition, getAddressFromCoords } from "../utils/addressUtils";
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
@@ -45,6 +46,52 @@ export default function CheckoutPage() {
     pincode: "",
     phone: "",
   });
+
+  const [isLoadingLocation, setIsLoadingLocation] = useState(false);
+
+  const handlePincodeChange = async (val: string, isEditing: boolean = false) => {
+    if (isEditing) {
+      setForm((prev: any) => ({ ...prev, pincode: val }));
+    } else {
+      setNewAddress((prev: any) => ({ ...prev, pincode: val }));
+    }
+
+    if (val.length === 6) {
+      const data = await getAddressFromPincode(val);
+      if (data) {
+        if (isEditing) {
+          setForm((prev: any) => ({ ...prev, city: data.city, state: data.state }));
+        } else {
+          setNewAddress((prev: any) => ({ ...prev, city: data.city, state: data.state }));
+        }
+      }
+    }
+  };
+
+  const handleLiveLocation = async (isEditing: boolean = false) => {
+    try {
+      setIsLoadingLocation(true);
+      const pos = await getCurrentPosition();
+      const data = await getAddressFromCoords(pos.coords.latitude, pos.coords.longitude);
+      if (data) {
+        const update = {
+          addressLine1: data.addressLine1,
+          city: data.city,
+          state: data.state,
+          pincode: data.pincode,
+        };
+        if (isEditing) {
+          setForm((prev: any) => ({ ...prev, ...update }));
+        } else {
+          setNewAddress((prev: any) => ({ ...prev, ...update }));
+        }
+      }
+    } catch (err) {
+      alert("Could not get your location. Please check browser permissions.");
+    } finally {
+      setIsLoadingLocation(false);
+    }
+  };
 
   /* ================= LOAD ADDRESSES ================= */
   useEffect(() => {
@@ -310,11 +357,19 @@ export default function CheckoutPage() {
                       >
                         {editingId === addr.id ? (
                           <div className="w-full flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                            <button
+                              onClick={(e) => { e.stopPropagation(); handleLiveLocation(true); }}
+                              disabled={isLoadingLocation}
+                              className="flex items-center justify-center gap-2 w-full py-2 bg-green-50 text-green-700 border-2 border-dashed border-green-200 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-green-100 transition-all"
+                            >
+                              {isLoadingLocation ? <div className="w-3 h-3 border-2 border-green-600 border-t-transparent rounded-full animate-spin" /> : <Navigation size={14} className="animate-pulse" />}
+                              Use Live Location
+                            </button>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                               <input placeholder="Label (Home/Work)" className="bg-white border-2 border-gray-100 p-3.5 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none transition-all" value={form.label || ""} onChange={(e)=>setForm({...form,label:e.target.value})} onClick={(e)=>e.stopPropagation()} />
                               <input placeholder="Street Address" className="bg-white border-2 border-gray-100 p-3.5 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none transition-all" value={form.addressLine1 || ""} onChange={(e)=>setForm({...form,addressLine1:e.target.value})} onClick={(e)=>e.stopPropagation()} />
                               <input placeholder="City" className="bg-white border-2 border-gray-100 p-3.5 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none transition-all" value={form.city || ""} onChange={(e)=>setForm({...form,city:e.target.value})} onClick={(e)=>e.stopPropagation()} />
-                              <input placeholder="Pincode" className="bg-white border-2 border-gray-100 p-3.5 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none transition-all" value={form.pincode || ""} onChange={(e)=>setForm({...form,pincode:e.target.value})} onClick={(e)=>e.stopPropagation()} />
+                              <input placeholder="Pincode" className="bg-white border-2 border-gray-100 p-3.5 rounded-xl font-bold text-gray-900 tracking-tight focus:border-green-600 outline-none transition-all" value={form.pincode || ""} onChange={(e)=>handlePincodeChange(e.target.value, true)} onClick={(e)=>e.stopPropagation()} />
                             </div>
                             <div className="flex gap-3">
                               <button onClick={(e)=>{e.stopPropagation(); handleUpdateAddress(addr.id);}} className="flex-1 bg-green-600 text-white py-3.5 rounded-xl font-bold tracking-tight shadow-lg shadow-green-100 hover:bg-green-700 transition-all text-sm">UPDATE</button>
@@ -390,11 +445,21 @@ export default function CheckoutPage() {
 
                   {showNewAddress && (
                     <div className="mt-8 grid gap-6 bg-green-50/20 p-6 sm:p-10 rounded-[2rem] border-2 border-dashed border-green-200 animate-in fade-in slide-in-from-top-4 duration-500">
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="w-10 h-10 rounded-xl bg-green-600 flex items-center justify-center text-white shadow-lg shadow-green-100">
-                          <MapPin size={20} />
+                      <div className="flex items-center justify-between gap-3 mb-2">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-green-600 flex items-center justify-center text-white shadow-lg shadow-green-100">
+                            <MapPin size={20} />
+                          </div>
+                          <h4 className="text-xl font-bold text-gray-900 tracking-tight">New Shipping Address</h4>
                         </div>
-                        <h4 className="text-xl font-bold text-gray-900 tracking-tight">New Shipping Address</h4>
+                        <button
+                          onClick={() => handleLiveLocation(false)}
+                          disabled={isLoadingLocation}
+                          className="flex items-center gap-2 px-4 py-2 bg-white text-green-700 border-2 border-dashed border-green-200 rounded-xl font-bold text-xs hover:bg-green-50 transition-all disabled:opacity-50"
+                        >
+                          {isLoadingLocation ? <div className="w-4 h-4 border-2 border-green-600 border-t-transparent rounded-full animate-spin" /> : <Navigation size={14} />}
+                          <span>LIVE LOCATION</span>
+                        </button>
                       </div>
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
@@ -404,19 +469,19 @@ export default function CheckoutPage() {
                         </div>
                         <div className="space-y-1.5">
                           <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Full Address</label>
-                          <input placeholder="Street, Apartment, etc." className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>setNewAddress({...newAddress,addressLine1:e.target.value})} />
+                          <input value={newAddress.addressLine1} placeholder="Street, Apartment, etc." className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>setNewAddress({...newAddress,addressLine1:e.target.value})} />
                         </div>
                         <div className="space-y-1.5">
                           <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">City</label>
-                          <input placeholder="Enter City" className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>setNewAddress({...newAddress,city:e.target.value})} />
+                          <input value={newAddress.city} placeholder="Enter City" className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>setNewAddress({...newAddress,city:e.target.value})} />
                         </div>
                         <div className="space-y-1.5">
                           <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">State</label>
-                          <input placeholder="Enter State" className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>setNewAddress({...newAddress,state:e.target.value})} />
+                          <input value={newAddress.state} placeholder="Enter State" className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>setNewAddress({...newAddress,state:e.target.value})} />
                         </div>
                         <div className="space-y-1.5">
                           <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Pincode</label>
-                          <input placeholder="6-digit code" className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>setNewAddress({...newAddress,pincode:e.target.value})} />
+                          <input value={newAddress.pincode} placeholder="6-digit code" className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>handlePincodeChange(e.target.value, false)} />
                         </div>
                         <div className="space-y-1.5">
                           <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Phone Number</label>
