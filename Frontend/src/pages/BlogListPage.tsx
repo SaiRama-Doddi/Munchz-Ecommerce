@@ -18,10 +18,10 @@ export default function BlogListPage() {
           <span className="inline-block px-4 py-1.5 bg-green-100 text-green-700 text-xs font-bold rounded-full mb-6 uppercase tracking-[0.2em] animate-in fade-in slide-in-from-bottom duration-500">
             Insights & Updates
           </span>
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-tight mb-6 animate-in fade-in slide-in-from-bottom-2 duration-700">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight leading-tight mb-6 animate-in fade-in slide-in-from-bottom-2 duration-700">
             Welcome to <span className="text-green-600">GoMunchz Blog</span>
           </h1>
-          <p className="text-gray-500 text-base mt-3 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <p className="text-gray-500 text-xs mt-3 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000">
             Exploring the world of healthy snacking, nutritional powerhouses, and smarter lifestyle choices for a better you.
           </p>
 
@@ -48,11 +48,11 @@ export default function BlogListPage() {
                   </div>
                 </div>
 
-                <h2 className="text-base font-bold text-gray-900 mb-4 group-hover:text-green-700 transition-colors leading-tight line-clamp-2">
+                <h2 className="text-xs font-bold text-gray-900 mb-4 group-hover:text-green-700 transition-colors leading-tight line-clamp-2">
                   <Link to={`/blog/${blog.slug}`}>{blog.title}</Link>
                 </h2>
                 
-                <p className="text-gray-500 text-sm md:text-base leading-relaxed mb-8 line-clamp-3">
+                <p className="text-gray-500 text-[10px] md:text-xs leading-relaxed mb-8 line-clamp-3">
                   {blog.description}
                 </p>
 

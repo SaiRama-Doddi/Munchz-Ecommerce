@@ -16,7 +16,7 @@ export default function BlogDetail() {
         <TopHeader />
         <Header />
         <div className="flex-grow flex flex-col items-center justify-center p-4">
-          <h1 className="text-2xl font-bold text-gray-800 mb-4">Blog Not Found</h1>
+          <h1 className="text-[28px] font-bold text-gray-800 mb-4">Blog Not Found</h1>
           <Link to="/" className="text-green-600 hover:underline flex items-center gap-2">
             <ArrowLeft size={20} /> Back to Home
           </Link>
@@ -58,11 +58,11 @@ export default function BlogDetail() {
             </div>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-tight mb-6">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight leading-tight mb-6">
             {blog.title}
           </h1>
           
-          <p className="text-gray-600 text-base max-w-3xl leading-relaxed italic border-l-4 border-green-600 pl-6 py-2">
+          <p className="text-gray-600 text-xs max-w-3xl leading-relaxed italic border-l-4 border-green-600 pl-6 py-2">
             {blog.description}
           </p>
 
@@ -70,12 +70,12 @@ export default function BlogDetail() {
 
         {/* ================= CONTENT AREA ================= */}
         <main className="w-full">
-          <div className="space-y-5 text-gray-700 leading-relaxed text-base text-justify">
+          <div className="space-y-5 text-gray-700 leading-relaxed text-xs text-justify">
             {blog.sections.map((section, idx) => {
               switch (section.type) {
                 case "heading":
                   return (
-                    <h2 key={idx} className="text-2xl font-bold text-gray-900 tracking-tight mt-6 mb-4 flex items-center gap-3">
+                    <h2 key={idx} className="text-[28px] font-bold text-gray-900 tracking-tight mt-6 mb-4 flex items-center gap-3">
                       <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
                       {section.content as string}
                     </h2>
@@ -95,7 +95,7 @@ export default function BlogDetail() {
                   );
                 case "quote":
                   return (
-                    <div key={idx} className="font-bold text-gray-900 border-l-4 border-green-600 pl-6 italic bg-green-50/50 py-5 rounded-r-2xl my-10 text-base md:text-base shadow-sm">
+                    <div key={idx} className="font-bold text-gray-900 border-l-4 border-green-600 pl-6 italic bg-green-50/50 py-5 rounded-r-2xl my-10 text-xs md:text-xs shadow-sm">
                       "{section.content as string}"
                     </div>
                   );

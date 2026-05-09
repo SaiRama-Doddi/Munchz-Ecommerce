@@ -10,6 +10,8 @@ import TopHeader from "../components/TopHeader";
 import Header from "../components/Header";
 import { FiShoppingCart } from "react-icons/fi";
 import { getProductUrl } from "../utils/slugify";
+import { useCategories } from "../hooks/useQueryHelpers";
+import { useSubcategories } from "../hooks/useSubcategories";
 
 /* ================= TYPES ================= */
 
@@ -41,12 +43,19 @@ export default function SearchProducts() {
   const [qtyMap, setQtyMap] = useState<Record<number, number>>({});
   const [variantMap, setVariantMap] = useState<Record<number, number>>({});
   const [price, setPrice] = useState(5000);
-  const [weights, setWeights] = useState<number[]>([]);
+  
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | "ALL">("ALL");
+  const [selectedSubcategoryId, setSelectedSubcategoryId] = useState<number | "ALL">("ALL");
 
-  const toggleWeight = (w: number) =>
-    setWeights((prev) =>
-      prev.includes(w) ? prev.filter((x) => x !== w) : [...prev, w]
-    );
+  const { data: categories = [] } = useCategories();
+  const { subcategories, fetchSubcats } = useSubcategories();
+
+  useEffect(() => {
+    if (selectedCategoryId !== "ALL") {
+      fetchSubcats(selectedCategoryId);
+    }
+    setSelectedSubcategoryId("ALL");
+  }, [selectedCategoryId]);
 
   const incQty = (id: number) =>
     setQtyMap((p) => ({ ...p, [id]: (p[id] || 1) + 1 }));
@@ -68,52 +77,30 @@ export default function SearchProducts() {
   /* ================= FILTER LOGIC ================= */
 
   const filteredProducts = useMemo(() => {
-    return products.filter((p) => {
+    return products.filter((p: any) => {
       const sellVariants = p.variants.filter(
-        (v) => v.weightInGrams !== 100
+        (v: any) => v.weightInGrams !== 100
       );
 
       const priceMatch = sellVariants.some(
-        (v) => v.offerPrice <= price
+        (v: any) => v.offerPrice <= price
       );
 
-      const weightMatch =
-        weights.length === 0 ||
-        sellVariants.some((v) =>
-          weights.includes(v.weightInGrams)
-        );
+      let categoryMatch = true;
+      if (selectedCategoryId !== "ALL") {
+        const pCatId = p.category?.id ?? p.categoryId ?? null;
+        categoryMatch = pCatId === selectedCategoryId;
+      }
 
-      return priceMatch && weightMatch;
+      let subcategoryMatch = true;
+      if (selectedSubcategoryId !== "ALL") {
+        const pSubcatId = p.subcategory?.id ?? p.subcategoryId ?? null;
+        subcategoryMatch = pSubcatId === selectedSubcategoryId;
+      }
+
+      return priceMatch && categoryMatch && subcategoryMatch;
     });
-  }, [products, price, weights]);
-
-  /* ================= SYNC FILTER → VARIANT ================= */
-
-  useEffect(() => {
-    if (weights.length === 0) return;
-
-    const preferredWeight = weights[0];
-
-    setVariantMap((prev) => {
-      const updated = { ...prev };
-
-      products.forEach((p) => {
-        const sellVariants = p.variants.filter(
-          (v) => v.weightInGrams !== 100
-        );
-
-        const matchIndex = sellVariants.findIndex(
-          (v) => v.weightInGrams === preferredWeight
-        );
-
-        if (matchIndex !== -1) {
-          updated[p.id] = matchIndex;
-        }
-      });
-
-      return updated;
-    });
-  }, [weights, products]);
+  }, [products, price, selectedCategoryId, selectedSubcategoryId]);
 
   if (isLoading) {
     return (
@@ -163,27 +150,75 @@ export default function SearchProducts() {
           />
         </div>
 
-        {/* WEIGHT */}
-        <div>
-          <p className="font-medium mb-3">Weight</p>
-
-          {[250, 500, 750, 1000].map((w) => (
-            <label
-              key={w}
-              className="flex items-center gap-2 text-sm mb-2"
-            >
+        {/* CATEGORY */}
+        <div className="mb-6">
+          <p className="font-medium mb-3">Category</p>
+          <div className="flex flex-col gap-2">
+            <label className="flex items-center gap-2 text-sm cursor-pointer hover:text-green-700 transition">
               <input
-                type="checkbox"
-                checked={weights.includes(w)}
-                onChange={() => toggleWeight(w)}
+                type="radio"
+                name="category"
+                checked={selectedCategoryId === "ALL"}
+                onChange={() => setSelectedCategoryId("ALL")}
                 className="accent-green-600"
               />
-
-              {w === 1000 ? "1kg" : `${w}gm`}
+              All Categories
             </label>
-          ))}
+            {categories.map((c: any) => {
+              // Only show category if it has products in the search results
+              const hasProducts = products.some((p: any) => (p.category?.id ?? p.categoryId) === c.id);
+              if (!hasProducts) return null;
 
+              return (
+                <label key={c.id} className="flex items-center gap-2 text-sm cursor-pointer hover:text-green-700 transition">
+                  <input
+                    type="radio"
+                    name="category"
+                    checked={selectedCategoryId === c.id}
+                    onChange={() => setSelectedCategoryId(c.id)}
+                    className="accent-green-600"
+                  />
+                  {c.name}
+                </label>
+              );
+            })}
+          </div>
         </div>
+
+        {/* SUBCATEGORY */}
+        {selectedCategoryId !== "ALL" && subcategories.length > 0 && (
+          <div>
+            <p className="font-medium mb-3">Subcategory</p>
+            <div className="flex flex-col gap-2">
+              <label className="flex items-center gap-2 text-sm cursor-pointer hover:text-green-700 transition">
+                <input
+                  type="radio"
+                  name="subcategory"
+                  checked={selectedSubcategoryId === "ALL"}
+                  onChange={() => setSelectedSubcategoryId("ALL")}
+                  className="accent-green-600"
+                />
+                All Subcategories
+              </label>
+              {subcategories.map((s: any) => {
+                const hasProducts = products.some((p: any) => (p.subcategory?.id ?? p.subcategoryId) === s.id);
+                if (!hasProducts) return null;
+                return (
+                  <label key={s.id} className="flex items-center gap-2 text-sm cursor-pointer hover:text-green-700 transition">
+                    <input
+                      type="radio"
+                      name="subcategory"
+                      checked={selectedSubcategoryId === s.id}
+                      onChange={() => setSelectedSubcategoryId(s.id)}
+                      className="accent-green-600"
+                    />
+                    {s.name}
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
       </aside>
 

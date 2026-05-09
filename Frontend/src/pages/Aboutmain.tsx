@@ -8,10 +8,10 @@ export default function About() {
 
         {/* ================= HEADER AREA ================= */}
         <div className="mb-6 md:mb-8">
-          <h2 className="text-4xl font-bold text-gray-900 tracking-tight">
+          <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
             About <span className="text-green-600">GoMunchz</span>
           </h2>
-          <p className="text-gray-500 text-sm md:text-base mt-2 leading-relaxed">
+          <p className="text-gray-500 text-[10px] md:text-xs mt-2 leading-relaxed">
             Bringing back the goodness of real, honest ingredients and transforming them into snacks you can feel good about.
           </p>
         </div>
@@ -20,7 +20,7 @@ export default function About() {
         <main className="grid lg:grid-cols-1 gap-6">
           
           {/* STORY SECTION */}
-          <div className="space-y-5 text-gray-700 leading-relaxed text-base text-justify">
+          <div className="space-y-5 text-gray-700 leading-relaxed text-xs text-justify">
             <p>
               At <span className="text-green-700 font-bold tracking-tight">GoMunchz</span>, we believe that great snacking should never be a compromise between taste and health. In a world full of processed options, our mission is simple—bring back the goodness of real, honest ingredients and transform them into snacks you can feel good about.
             </p>
@@ -46,7 +46,7 @@ export default function About() {
           <div className="mt-2 bg-white p-6 md:p-10 rounded-3xl shadow-sm border border-green-50">
             <div className="flex items-center gap-3 mb-8">
               <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
-              <h2 className="text-base font-bold text-gray-900 tracking-tight">
+              <h2 className="text-xs font-bold text-gray-900 tracking-tight">
                 Why Choose GoMunchz
               </h2>
             </div>
@@ -93,7 +93,7 @@ function FeatureItem({ text, icon }: { text: string; icon: React.ReactNode }) {
       <div className="flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform">
         {icon}
       </div>
-      <p className="text-gray-800 font-semibold text-base leading-tight">
+      <p className="text-gray-800 font-semibold text-xs leading-tight">
         {text}
       </p>
     </div>

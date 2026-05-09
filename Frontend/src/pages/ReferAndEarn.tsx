@@ -98,7 +98,7 @@ export default function ReferAndEarn() {
                 <div className="w-2 h-2 rounded-full bg-emerald-600"></div>
                 Program Live
             </div>
-            <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight mb-4 leading-tight">
+            <h1 className="text-3xl md:text-6xl font-extrabold text-gray-900 tracking-tight mb-4 leading-tight">
               Refer & <span className="text-emerald-600">Earn</span>
             </h1>
             <p className="text-gray-500 text-lg max-w-xl font-medium">
