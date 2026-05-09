@@ -10,7 +10,7 @@ export default function AboutUs() {
 
           {/* LEFT SIDE — TEXT */}
           <div className="py-8 sm:py-12 md:py-16 pr-8 sm:pr-12 md:pr-16">
-            <h2 className="text-3xl font-bold mb-8 text-gray-900 tracking-tight">
+            <h2 className="text-2xl font-bold mb-8 text-gray-900 tracking-tight">
               About <span className="text-green-600">GoMunchz</span>
             </h2>
 
@@ -33,25 +33,25 @@ export default function AboutUs() {
             <div className="mt-10 grid sm:grid-cols-2 gap-6 text-gray-700 font-medium text-xs">
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
-                  <span className="text-green-600 text-sm">✓</span>
+                  <span className="text-green-600 text-xs">✓</span>
                 </div>
                 Premium quality dry fruits
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
-                  <span className="text-green-600 text-sm">✓</span>
+                  <span className="text-green-600 text-xs">✓</span>
                 </div>
                 Carefully sourced ingredients
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
-                  <span className="text-green-600 text-sm">✓</span>
+                  <span className="text-green-600 text-xs">✓</span>
                 </div>
                 Hygienic packaging standards
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
-                  <span className="text-green-600 text-sm">✓</span>
+                  <span className="text-green-600 text-xs">✓</span>
                 </div>
                 Taste with nutrition combined
               </div>
@@ -81,7 +81,7 @@ export default function AboutUs() {
               <ShieldCheck className="text-green-700" size={28} />
             </div>
             <div>
-              <p className="font-bold text-gray-900 text-sm tracking-wide">
+              <p className="font-bold text-gray-900 text-xs tracking-wide">
                 PREMIUM QUALITY
               </p>
               <p className="text-gray-500 text-xs mt-1">
@@ -96,7 +96,7 @@ export default function AboutUs() {
               <Truck className="text-green-700" size={28} />
             </div>
             <div>
-              <p className="font-bold text-gray-900 text-sm tracking-wide">
+              <p className="font-bold text-gray-900 text-xs tracking-wide">
                 SWIFT SHIPPING
               </p>
               <p className="text-gray-500 text-xs mt-1">
@@ -111,7 +111,7 @@ export default function AboutUs() {
               <RotateCcw className="text-green-700" size={28} />
             </div>
             <div>
-              <p className="font-bold text-gray-900 text-sm tracking-wide">
+              <p className="font-bold text-gray-900 text-xs tracking-wide">
                 EASY RETURN
               </p>
               <p className="text-gray-500 text-xs mt-1">
@@ -126,7 +126,7 @@ export default function AboutUs() {
               <Headphones className="text-green-700" size={28} />
             </div>
             <div>
-              <p className="font-bold text-gray-900 text-sm tracking-wide">
+              <p className="font-bold text-gray-900 text-xs tracking-wide">
                 24/7 SUPPORT
               </p>
               <p className="text-gray-500 text-xs mt-1">

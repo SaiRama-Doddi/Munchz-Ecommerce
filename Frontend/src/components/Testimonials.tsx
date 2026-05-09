@@ -121,7 +121,7 @@ export default function Testimonials() {
         {/* HEADER SECTION WITH NAVIGATION */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
+            <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
               What Our <span className="text-green-600">Customers Say</span>
             </h2>
 
@@ -175,12 +175,12 @@ export default function Testimonials() {
                 </div>
 
                 {/* TITLE */}
-                <h3 className="text-xs font-bold text-gray-900 mb-2 tracking-tight uppercase group-hover:text-green-700 transition-colors">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2 tracking-tight uppercase group-hover:text-green-700 transition-colors">
                   {item.title}
                 </h3>
 
                 {/* CONTENT */}
-                <p className="text-gray-600 leading-relaxed mb-5 italic text-xs md:text-sm">
+                <p className="text-gray-600 leading-relaxed mb-5 italic text-xs">
                   "{item.content}"
                 </p>
 
@@ -192,7 +192,7 @@ export default function Testimonials() {
                   <p className="font-bold text-gray-900 tracking-wide text-xs">
                     {item.name}
                   </p>
-                  <p className="text-[10px] md:text-xs text-green-600 font-medium uppercase tracking-widest mt-1">Verified Buyer</p>
+                  <p className="text-xs text-green-600 font-medium uppercase tracking-widest mt-1">Verified Buyer</p>
                 </div>
               </div>
             </div>

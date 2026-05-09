@@ -98,10 +98,10 @@ export default function ReferAndEarn() {
                 <div className="w-2 h-2 rounded-full bg-emerald-600"></div>
                 Program Live
             </div>
-            <h1 className="text-3xl md:text-6xl font-extrabold text-gray-900 tracking-tight mb-4 leading-tight">
+            <h1 className="text-2xl font-extrabold text-gray-900 tracking-tight mb-4 leading-tight">
               Refer & <span className="text-emerald-600">Earn</span>
             </h1>
-            <p className="text-gray-500 text-lg max-w-xl font-medium">
+            <p className="text-gray-500 text-xs max-w-xl font-medium">
               Share the goodness of Munchz. Get rewarded for every friend who joins.
             </p>
           </div>
@@ -112,22 +112,22 @@ export default function ReferAndEarn() {
                 <div className="text-gray-400 mb-4 bg-gray-50 p-2 rounded-xl group-hover:bg-emerald-50 transition-colors">
                     <Coins size={20} />
                 </div>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Total Earned</p>
-                <p className="text-3xl font-black text-emerald-600 leading-none">₹{profile?.referralCredits?.toFixed(0) || 0}</p>
+                <p className="text-2xl font-bold text-gray-400 uppercase tracking-widest mb-1">Total Earned</p>
+                <p className="text-2xl font-black text-emerald-600 leading-none">₹{profile?.referralCredits?.toFixed(0) || 0}</p>
              </div>
              <div className="bg-white p-6 rounded-3xl border border-emerald-50 shadow-sm flex flex-col items-center sm:items-start min-w-[180px]">
                 <div className="text-gray-400 mb-4 bg-gray-50 p-2 rounded-xl">
                     <Zap size={20} />
                 </div>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">You Get</p>
-                <p className="text-3xl font-black text-gray-900 leading-none">₹{activeConfig?.referrerCashbackAmount || 200}</p>
+                <p className="text-2xl font-bold text-gray-400 uppercase tracking-widest mb-1">You Get</p>
+                <p className="text-2xl font-black text-gray-900 leading-none">₹{activeConfig?.referrerCashbackAmount || 200}</p>
              </div>
              <div className="bg-white p-6 rounded-3xl border border-emerald-50 shadow-sm flex flex-col items-center sm:items-start min-w-[180px]">
                 <div className="text-gray-400 mb-4 bg-gray-50 p-2 rounded-xl">
                     <Percent size={20} />
                 </div>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">They Get</p>
-                <p className="text-3xl font-black text-gray-900 leading-none">{activeConfig?.friendDiscountPercentage || 15}%</p>
+                <p className="text-2xl font-bold text-gray-400 uppercase tracking-widest mb-1">They Get</p>
+                <p className="text-2xl font-black text-gray-900 leading-none">{activeConfig?.friendDiscountPercentage || 15}%</p>
              </div>
           </div>
         </div>
@@ -141,15 +141,15 @@ export default function ReferAndEarn() {
                   <Gift size={28} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-xl text-gray-900">Your Invite</h3>
+                  <h3 className="font-bold text-2xl text-gray-900">Your Invite</h3>
                   <p className="text-emerald-600 font-medium">Ready to share</p>
                 </div>
               </div>
 
               {/* REFERRAL CODE DISPLAY */}
               <div className="bg-gray-50 rounded-2xl p-6 mb-8 border border-gray-100 text-center">
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">My Unique Code</p>
-                <p className="text-3xl font-black text-gray-900 tracking-tighter">{referralCode}</p>
+                <p className="text-2xl font-bold text-gray-400 uppercase tracking-widest mb-2">My Unique Code</p>
+                <p className="text-2xl font-black text-gray-900 tracking-tighter">{referralCode}</p>
               </div>
 
               {/* LINK & COPY */}
@@ -161,11 +161,11 @@ export default function ReferAndEarn() {
                   <input 
                     readOnly
                     value={referralLink}
-                    className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-11 pr-4 py-3.5 text-sm font-medium text-gray-600 focus:outline-none"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-11 pr-4 py-3.5 text-xs font-medium text-gray-600 focus:outline-none"
                   />
                   <button 
                     onClick={handleCopy}
-                    className={`absolute right-2 top-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2
+                    className={`absolute right-2 top-1.5 px-4 py-2 rounded-lg text-2xl font-bold transition-all flex items-center gap-2
                       ${copied ? 'bg-emerald-600 text-white' : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 shadow-sm'}`}
                   >
                     {copied ? <CheckCircle2 size={14} /> : <Copy size={14} />}
@@ -192,7 +192,7 @@ export default function ReferAndEarn() {
               </div>
 
               <div className="mt-8 pt-8 border-t border-gray-100 text-center">
-                <p className="text-sm text-gray-500 font-medium italic">
+                <p className="text-xs text-gray-500 font-medium italic">
                   "Give {activeConfig?.friendDiscountPercentage || 15}% OFF, Get ₹{activeConfig?.referrerCashbackAmount || 200} Cashback"
                 </p>
               </div>
@@ -203,7 +203,7 @@ export default function ReferAndEarn() {
           <div className="lg:col-span-2 space-y-12">
             {sections.map((section, idx) => (
               <div key={idx}>
-                <h2 className="text-xl font-bold text-gray-900 tracking-tight mb-6 flex items-center gap-3">
+                <h2 className="text-2xl font-bold text-gray-900 tracking-tight mb-6 flex items-center gap-3">
                   <span className="w-1.5 h-6 bg-emerald-600 rounded-full"></span>
                   {section.title}
                 </h2>
@@ -223,7 +223,7 @@ export default function ReferAndEarn() {
 
             {/* TERMS PREVIEW */}
             <div className="bg-emerald-50/30 rounded-3xl p-8 border border-emerald-100">
-               <h2 className="text-xl font-bold text-emerald-900 mb-4">A Mutual Win</h2>
+               <h2 className="text-2xl font-bold text-emerald-900 mb-4">A Mutual Win</h2>
                <p className="text-emerald-800/80 font-medium leading-relaxed mb-6">
                  We believe in the power of shared health and happiness. By referring your friends, you're not just earning cashback—you're helping your community munch smarter with premium quality nuts and dry fruits.
                </p>

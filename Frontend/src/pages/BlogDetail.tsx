@@ -16,7 +16,7 @@ export default function BlogDetail() {
         <TopHeader />
         <Header />
         <div className="flex-grow flex flex-col items-center justify-center p-4">
-          <h1 className="text-[28px] font-bold text-gray-800 mb-4">Blog Not Found</h1>
+          <h1 className="text-2xl font-bold text-gray-800 mb-4">Blog Not Found</h1>
           <Link to="/" className="text-green-600 hover:underline flex items-center gap-2">
             <ArrowLeft size={20} /> Back to Home
           </Link>
@@ -33,7 +33,7 @@ export default function BlogDetail() {
       
       <div className="max-w-7xl mx-auto px-4 md:px-6 pt-4 pb-10 md:pt-6 md:pb-16">
         {/* ================= BREADCRUMBS ================= */}
-        <nav className="flex items-center gap-2 text-sm text-gray-500 mb-8 overflow-x-auto whitespace-nowrap">
+        <nav className="flex items-center gap-2 text-xs text-gray-500 mb-8 overflow-x-auto whitespace-nowrap">
           <Link to="/" className="hover:text-green-600">Home</Link>
           <ChevronRight size={14} />
           <Link to="/#blog-section" className="hover:text-green-600">Blog</Link>
@@ -43,7 +43,7 @@ export default function BlogDetail() {
 
         {/* ================= HEADER AREA ================= */}
         <div className="mb-6 md:mb-8">
-          <div className="flex flex-wrap items-center gap-4 text-xs md:text-sm text-gray-500 mb-6">
+          <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500 mb-6">
             <div className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm">
               <Calendar size={14} className="text-green-600" />
               <span>March 25, 2025</span>
@@ -58,7 +58,7 @@ export default function BlogDetail() {
             </div>
           </div>
 
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight leading-tight mb-6">
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight leading-tight mb-6">
             {blog.title}
           </h1>
           
@@ -75,7 +75,7 @@ export default function BlogDetail() {
               switch (section.type) {
                 case "heading":
                   return (
-                    <h2 key={idx} className="text-[28px] font-bold text-gray-900 tracking-tight mt-6 mb-4 flex items-center gap-3">
+                    <h2 key={idx} className="text-2xl font-bold text-gray-900 tracking-tight mt-6 mb-4 flex items-center gap-3">
                       <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
                       {section.content as string}
                     </h2>
@@ -95,7 +95,7 @@ export default function BlogDetail() {
                   );
                 case "quote":
                   return (
-                    <div key={idx} className="font-bold text-gray-900 border-l-4 border-green-600 pl-6 italic bg-green-50/50 py-5 rounded-r-2xl my-10 text-xs md:text-xs shadow-sm">
+                    <div key={idx} className="font-bold text-gray-900 border-l-4 border-green-600 pl-6 italic bg-green-50/50 py-5 rounded-r-2xl my-10 text-xs shadow-sm">
                       "{section.content as string}"
                     </div>
                   );
@@ -107,7 +107,7 @@ export default function BlogDetail() {
                         <thead>
                           <tr className="bg-green-600 text-white">
                             {tableData.headers.map((header, i) => (
-                              <th key={i} className="px-6 py-4 font-bold uppercase tracking-wider text-sm">{header}</th>
+                              <th key={i} className="px-6 py-4 font-bold uppercase tracking-wider text-xs">{header}</th>
                             ))}
                           </tr>
                         </thead>

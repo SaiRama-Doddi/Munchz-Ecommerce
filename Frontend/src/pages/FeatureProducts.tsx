@@ -156,7 +156,7 @@ const scrollRight = () => {
         {/* HEADING */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
+            <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
               Curated <span className="text-green-600">Collection</span>
             </h2>
             <p className="text-gray-500 text-xs mt-3 max-w-lg">
@@ -240,7 +240,7 @@ const scrollRight = () => {
                     />
 
                     {discount > 0 && (
-                      <div className="absolute top-2.5 right-2.5 bg-green-600 text-white text-sm px-3 py-1 rounded-full font-bold shadow-lg">
+                      <div className="absolute top-2.5 right-2.5 bg-green-600 text-white text-xs px-3 py-1 rounded-full font-bold shadow-lg">
                         {discount}% OFF
                       </div>
                     )}
@@ -248,10 +248,10 @@ const scrollRight = () => {
 
                   {/* CONTENT AREA */}
                   <div className="px-4 pb-4 pt-1 flex flex-col flex-grow">
-                    <h3 className="text-xs font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">
+                    <h3 className="text-2xl font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">
                       {p.name}
                     </h3>
-                    <p className="text-[10px] text-gray-400 line-clamp-1 mt-0.5">
+                    <p className="text-xs text-gray-400 line-clamp-1 mt-0.5">
                       {p.description}
                     </p>
 
@@ -271,7 +271,7 @@ const scrollRight = () => {
                           )}
                         </div>
                         
-                        <span className="px-2.5 py-1 bg-white border border-green-200 text-green-700 text-[10px] font-bold rounded-full shadow-sm uppercase tracking-wider">
+                        <span className="px-2.5 py-1 bg-white border border-green-200 text-green-700 text-xs font-bold rounded-full shadow-sm uppercase tracking-wider">
                           {selectedVariant.weightLabel}
                         </span>
                       </div>
@@ -289,7 +289,7 @@ const scrollRight = () => {
                           >
                             -
                           </button>
-                          <span className="w-5 text-center text-xs font-bold text-gray-900">
+                          <span className="w-5 text-center text-2xl font-bold text-gray-900">
                             {qty}
                           </span>
                           <button

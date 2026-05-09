@@ -15,10 +15,10 @@ export default function BlogListPage() {
       <div className="max-w-7xl mx-auto px-4 md:px-6 pt-4 pb-10 md:pt-6 md:pb-20 text-center">
         {/* ================= HEADER AREA ================= */}
         <div className="mb-12 md:mb-20">
-          <span className="inline-block px-4 py-1.5 bg-green-100 text-green-700 text-xs font-bold rounded-full mb-6 uppercase tracking-[0.2em] animate-in fade-in slide-in-from-bottom duration-500">
+          <span className="inline-block px-4 py-1.5 bg-green-100 text-green-700 text-2xl font-bold rounded-full mb-6 uppercase tracking-[0.2em] animate-in fade-in slide-in-from-bottom duration-500">
             Insights & Updates
           </span>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight leading-tight mb-6 animate-in fade-in slide-in-from-bottom-2 duration-700">
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight leading-tight mb-6 animate-in fade-in slide-in-from-bottom-2 duration-700">
             Welcome to <span className="text-green-600">GoMunchz Blog</span>
           </h1>
           <p className="text-gray-500 text-xs mt-3 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000">
@@ -48,17 +48,17 @@ export default function BlogListPage() {
                   </div>
                 </div>
 
-                <h2 className="text-xs font-bold text-gray-900 mb-4 group-hover:text-green-700 transition-colors leading-tight line-clamp-2">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-green-700 transition-colors leading-tight line-clamp-2">
                   <Link to={`/blog/${blog.slug}`}>{blog.title}</Link>
                 </h2>
                 
-                <p className="text-gray-500 text-[10px] md:text-xs leading-relaxed mb-8 line-clamp-3">
+                <p className="text-gray-500 text-xs leading-relaxed mb-8 line-clamp-3">
                   {blog.description}
                 </p>
 
                 <div className="mt-auto pt-6 border-t border-gray-50 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center text-green-700 font-bold text-[10px]">
+                    <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center text-green-700 font-bold text-xs">
                       GM
                     </div>
                     <span className="text-[11px] font-bold text-gray-700 uppercase tracking-widest">GoMunchz Team</span>
@@ -66,7 +66,7 @@ export default function BlogListPage() {
                   
                   <Link 
                     to={`/blog/${blog.slug}`} 
-                    className="flex items-center gap-1.5 text-xs font-bold text-green-700 hover:gap-3 transition-all tracking-widest uppercase"
+                    className="flex items-center gap-1.5 text-2xl font-bold text-green-700 hover:gap-3 transition-all tracking-widest uppercase"
                   >
                     Read More <ChevronRight size={14} />
                   </Link>

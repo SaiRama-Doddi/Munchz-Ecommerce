@@ -8,10 +8,10 @@ export default function About() {
 
         {/* ================= HEADER AREA ================= */}
         <div className="mb-6 md:mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
+          <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
             About <span className="text-green-600">GoMunchz</span>
           </h2>
-          <p className="text-gray-500 text-[10px] md:text-xs mt-2 leading-relaxed">
+          <p className="text-gray-500 text-xs mt-2 leading-relaxed">
             Bringing back the goodness of real, honest ingredients and transforming them into snacks you can feel good about.
           </p>
         </div>
@@ -46,7 +46,7 @@ export default function About() {
           <div className="mt-2 bg-white p-6 md:p-10 rounded-3xl shadow-sm border border-green-50">
             <div className="flex items-center gap-3 mb-8">
               <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
-              <h2 className="text-xs font-bold text-gray-900 tracking-tight">
+              <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
                 Why Choose GoMunchz
               </h2>
             </div>

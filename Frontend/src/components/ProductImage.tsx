@@ -9,7 +9,7 @@ export default function ProductImage() {
             Pure Ingredients
           </p>
 
-          <h2 className="text-3xl font-semibold leading-tight tracking-tight">
+          <h2 className="text-2xl font-semibold leading-tight tracking-tight">
             Real ingredients <span className="font-light text-gray-700 italic">Unreal flavor</span>
           </h2>
 
@@ -18,7 +18,7 @@ export default function ProductImage() {
           </p>
 
           <div className="pt-8">
-            <span className="inline-block text-2xl md:text-3xl font-bold tracking-tight">
+            <span className="inline-block text-2xl font-bold tracking-tight">
               GoMunchz
             </span>
 

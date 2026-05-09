@@ -55,7 +55,7 @@ export default function FAQ() {
         <div className="mb-8">
 
 
-          <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
+          <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
             Frequently Asked <span className="text-green-600">Questions</span>
           </h2>
 

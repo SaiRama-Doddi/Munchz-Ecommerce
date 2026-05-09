@@ -150,7 +150,7 @@ export default function PrivacyPolicy() {
       
       <div className="max-w-7xl mx-auto px-4 md:px-6 pt-4 pb-12 md:pt-6 md:pb-20">
         <div className="mb-12 md:mb-16">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
+          <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
             Privacy <span className="text-green-600">Policy</span>
           </h2>
 
@@ -159,7 +159,7 @@ export default function PrivacyPolicy() {
         <div className="space-y-12">
           {sections.map((section, idx) => (
             <div key={idx}>
-              <h2 className="text-xs font-bold text-gray-900 tracking-tight mb-6 flex items-center gap-3">
+              <h2 className="text-2xl font-bold text-gray-900 tracking-tight mb-6 flex items-center gap-3">
                 <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
                 {section.title}
               </h2>

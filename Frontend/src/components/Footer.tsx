@@ -27,7 +27,7 @@ export default function Footer() {
                   onClick={() => navigate("/")}
                 />
               </div>
-              <p className="text-sm text-gray-700 leading-relaxed max-w-xs mb-6">
+              <p className="text-xs text-gray-700 leading-relaxed max-w-xs mb-6">
                 Premium healthy snacks made with real ingredients,
                 crafted for energy, balance, and everyday performance.
               </p>
@@ -40,7 +40,7 @@ export default function Footer() {
                 />
                 <div className="leading-tight">
                   <p className="font-semibold text-gray-500 uppercase tracking-wider text-xs">License Number:</p>
-                  <p className="font-bold text-gray-900 text-sm">13626026000066</p>
+                  <p className="font-bold text-gray-900 text-xs">13626026000066</p>
                 </div>
               </div>
             </div>
@@ -48,7 +48,7 @@ export default function Footer() {
             {/* Contact */}
             <div className="md:col-span-4">
               <h4 className="font-bold text-xs mb-6 text-black">Contact</h4>
-              <div className="space-y-4 text-sm text-gray-700">
+              <div className="space-y-4 text-xs text-gray-700">
                 <div className="flex items-start gap-3">
                   <MapPin size={18} className="mt-1 text-black shrink-0" />
                   <span className="font-medium whitespace-nowrap">
@@ -71,7 +71,7 @@ export default function Footer() {
             {/* Quick Links */}
             <div className="md:col-span-2">
               <h4 className="font-bold text-xs mb-6 text-black">Quick Links</h4>
-              <ul className="space-y-3 text-sm text-gray-700 font-medium whitespace-nowrap">
+              <ul className="space-y-3 text-xs text-gray-700 font-medium whitespace-nowrap">
                 <li className="cursor-pointer hover:text-green-700 transition" onClick={() => navigate("/")}>Home</li>
                 <li className="cursor-pointer hover:text-green-700 transition" onClick={() => navigate("/Aboutmain")}>About Us</li>
                 <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/productpage")}>Shop</li>
@@ -85,7 +85,7 @@ export default function Footer() {
             {/* Legal */}
             <div className="md:col-span-2">
               <h4 className="font-bold text-xs mb-6 text-black">Legal</h4>
-              <ul className="space-y-3 text-sm text-gray-700 font-medium whitespace-nowrap">
+              <ul className="space-y-3 text-xs text-gray-700 font-medium whitespace-nowrap">
                 <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/terms-and-conditions")}>Terms & Conditions</li>
                 <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/privacy-policy")}>Privacy Policy</li>
                 <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/return-refund-policy")}>Return & Refund</li>
@@ -110,11 +110,11 @@ export default function Footer() {
 
             {/* COPYRIGHTS */}
             <div className="flex flex-col items-center md:items-end gap-1 text-gray-700">
-              <p className="text-sm">
+              <p className="text-xs">
                 © 2026 GoMunchz. All rights reserved.
               </p>
-              <p className="text-sm flex items-center gap-1.5">
-                Made with <span className="text-red-500 text-lg">❤️</span> by GoMunchz
+              <p className="text-xs flex items-center gap-1.5">
+                Made with <span className="text-red-500 text-xs">❤️</span> by GoMunchz
               </p>
             </div>
           </div>
