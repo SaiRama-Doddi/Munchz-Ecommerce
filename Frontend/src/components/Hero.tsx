@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
 const BANNERS = [
-  { image: "https://res.cloudinary.com/dpgomcvqz/image/upload/v1775062524/a-premium-food-photography-hero-banner-f_KwczsITjSwSurOmClsAj9g_ymYkL_w_QgujdNLS_b7CyQ_sd_gelodd.jpg" },
-  { image: "https://res.cloudinary.com/dpgomcvqz/image/upload/v1775062523/a-photograph-of-a-rustic-wooden-bowl-fil_mkHmbPX7T1SImqH-mSe80Q_kY1VIrMdTEe-RjD3z9o7aQ_sd_fkavyg.jpg" },
-  { image: "https://res.cloudinary.com/dpgomcvqz/image/upload/v1775062522/ultra-realistic-luxury-food-photography-_Z38VJZOSQyStlQi_lOlhQA_ONnJogLQR3qQY1fWzcFT6A_cover_sd_euv0jn.jpg" },
-  { image: "https://res.cloudinary.com/dpgomcvqz/image/upload/v1775062523/a-natural-lifestyle-photograph-of-a-medi_Yew6fnr2Tjqp_QquFRp0Uw_PSdVnGABQsO1Dcbqh0KhpA_sd_eoydrf.jpg" },
-  { image: "https://res.cloudinary.com/dpgomcvqz/image/upload/v1775062522/a-clean-product-photograph-of-an-assorte_baQFP3B5S3uC0BQxtXzVYA_6d6w4BHWTs-7ApjK7UlXCg_sd_z7dm2q.jpg" }
+  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778332622/desktop_banners_2.jpg_1_c1fukp.jpg" },
+  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778332498/coming_soon.jpg_1_riifqq.jpg" },
+  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778332424/coming_soon_2.jpg_c2wxdf.jpg" },
+  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778332498/coming_soon_2.jpg_b0jnv3.jpg" },
+  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778332622/desktop_banners_2.jpg_1_c1fukp.jpg" }
 ];
 
 export default function Hero() {
@@ -26,7 +26,7 @@ export default function Hero() {
         className="
         relative w-full overflow-hidden bg-black
         h-[260px] sm:h-[380px] md:h-[480px] lg:h-[75vh]
-        rounded-[1.5rem] md:rounded-[2.5rem] shadow-2xl
+        shadow-2xl
         "
       >
 
