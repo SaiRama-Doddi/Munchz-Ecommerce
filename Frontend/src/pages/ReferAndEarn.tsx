@@ -94,7 +94,7 @@ export default function ReferAndEarn() {
         {/* HERO HEADER & STATS */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
           <div className="text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-4 animate-pulse">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-2xl font-bold uppercase tracking-wider mb-4 animate-pulse">
                 <div className="w-2 h-2 rounded-full bg-emerald-600"></div>
                 Program Live
             </div>

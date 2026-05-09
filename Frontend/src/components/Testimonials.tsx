@@ -121,7 +121,7 @@ export default function Testimonials() {
         {/* HEADER SECTION WITH NAVIGATION */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
+            <h2 className="text-4xl font-bold text-gray-900 tracking-tight">
               What Our <span className="text-green-600">Customers Say</span>
             </h2>
 
@@ -175,12 +175,12 @@ export default function Testimonials() {
                 </div>
 
                 {/* TITLE */}
-                <h3 className="text-2xl font-bold text-gray-900 mb-2 tracking-tight uppercase group-hover:text-green-700 transition-colors">
+                <h3 className="text-base font-bold text-gray-900 mb-2 tracking-tight uppercase group-hover:text-green-700 transition-colors">
                   {item.title}
                 </h3>
 
                 {/* CONTENT */}
-                <p className="text-gray-600 leading-relaxed mb-5 italic text-xs">
+                <p className="text-gray-600 leading-relaxed mb-5 italic text-xs md:text-sm">
                   "{item.content}"
                 </p>
 
@@ -189,10 +189,8 @@ export default function Testimonials() {
                   <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-white flex items-center justify-center mx-auto mb-3 border-2 border-green-50 group-hover:border-green-300 transition-all duration-500 overflow-hidden shadow-inner">
                     <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                   </div>
-                  <p className="font-bold text-gray-900 tracking-wide text-xs">
-                    {item.name}
-                  </p>
-                  <p className="text-xs text-green-600 font-medium uppercase tracking-widest mt-1">Verified Buyer</p>
+                  <p className="font-bold text-gray-900 tracking-wide text-sm md:text-base">{item.name}</p>
+                  <p className="text-[10px] md:text-xs text-green-600 font-medium uppercase tracking-widest mt-1">Verified Buyer</p>
                 </div>
               </div>
             </div>

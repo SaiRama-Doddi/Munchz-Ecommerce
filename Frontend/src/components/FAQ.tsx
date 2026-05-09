@@ -55,7 +55,7 @@ export default function FAQ() {
         <div className="mb-8">
 
 
-          <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
+          <h2 className="text-4xl font-bold text-gray-900 tracking-tight">
             Frequently Asked <span className="text-green-600">Questions</span>
           </h2>
 
@@ -86,7 +86,7 @@ export default function FAQ() {
                 className="w-full px-6 py-5 flex justify-between items-center text-left"
               >
 
-                <p className="text-gray-900 font-medium text-xs">
+                <p className="text-gray-900 font-medium text-[16px]">
                   {item.question}
                 </p>
 
@@ -105,7 +105,7 @@ export default function FAQ() {
                 className={`px-6 overflow-hidden transition-all duration-300 ${openIndex === i ? "max-h-40 pb-5" : "max-h-0"
                   }`}
               >
-                <p className="text-gray-600 leading-relaxed text-xs">
+                <p className="text-gray-600 leading-relaxed text-sm">
                   {item.answer}
                 </p>
               </div>
