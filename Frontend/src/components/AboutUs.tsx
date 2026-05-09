@@ -10,11 +10,11 @@ export default function AboutUs() {
 
           {/* LEFT SIDE — TEXT */}
           <div className="py-8 sm:py-12 md:py-16 pr-8 sm:pr-12 md:pr-16">
-            <h2 className="text-4xl font-bold mb-8 text-gray-900 tracking-tight">
+            <h2 className="text-3xl font-bold mb-8 text-gray-900 tracking-tight">
               About <span className="text-green-600">GoMunchz</span>
             </h2>
 
-            <div className="space-y-6 text-gray-600 leading-relaxed text-base">
+            <div className="space-y-6 text-gray-600 leading-relaxed text-xs">
               <p>
                 At <span className="font-semibold text-green-700">GoMunchz</span>, we
                 believe great snacks start with real ingredients. Our mission is to
@@ -30,7 +30,7 @@ export default function AboutUs() {
               </p>
             </div>
 
-            <div className="mt-10 grid sm:grid-cols-2 gap-6 text-gray-700 font-medium">
+            <div className="mt-10 grid sm:grid-cols-2 gap-6 text-gray-700 font-medium text-xs">
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
                   <span className="text-green-600 text-sm">✓</span>

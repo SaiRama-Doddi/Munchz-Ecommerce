@@ -51,7 +51,7 @@ export default function ContactForm() {
           <div className="absolute inset-0 bg-green-900/20 group-hover:bg-green-900/10 transition-colors" />
           
           <div className="absolute bottom-6 left-6 right-6 p-6 bg-white/90 backdrop-blur-md rounded-3xl shadow-lg border border-white/50">
-            <h3 className="text-base font-bold text-gray-900 mb-2">Quality You Can Trust</h3>
+            <h3 className="text-xs font-bold text-gray-900 mb-2">Quality You Can Trust</h3>
             <p className="text-sm text-gray-600 leading-relaxed font-medium">
               Have a bulk requirement or a special occasion? Our team is here to help you curate the perfect snack boxes.
             </p>
@@ -62,7 +62,7 @@ export default function ContactForm() {
         <div className="p-6 md:p-8 lg:p-10 bg-[#ecfdf5] flex flex-col justify-center">
           
           <div className="mb-4">
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight mb-1">
+            <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight mb-1">
                Get in <span className="text-green-600">Touch</span>
             </h2>
             <p className="text-xs text-gray-500 font-medium leading-none">Send us a message on WhatsApp!</p>

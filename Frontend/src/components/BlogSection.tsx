@@ -53,11 +53,11 @@ export default function BlogSection() {
         {/* ================= HEADER ================= */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
           <div>
-            <h2 className="text-4xl font-bold text-gray-900 tracking-tight">
+            <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
               Our <span className="text-green-600">Blog</span>
             </h2>
 
-            <p className="text-gray-600 text-sm md:text-base mt-2 font-normal">
+            <p className="text-gray-600 text-xs mt-2 font-normal">
               Latest from GoMunchz Blog
             </p>
           </div>
@@ -113,14 +113,14 @@ export default function BlogSection() {
 
                   {/* TITLE WITH ARROW */}
                   <div className="flex items-start justify-between gap-4 mb-4">
-                    <h3 className="text-gray-900 font-bold text-base leading-snug group-hover/card:text-green-700 transition-colors line-clamp-2 mt-1">
+                    <h3 className="text-gray-900 font-bold text-xs leading-snug group-hover/card:text-green-700 transition-colors line-clamp-2 mt-1">
                       {blog.title}
                     </h3>
                     <ArrowUpRight size={20} className="text-gray-400 group-hover/card:text-green-700 transition-all group-hover/card:-translate-y-1 group-hover/card:translate-x-1 shrink-0 mt-1" />
                   </div>
 
                   {/* EXCERPT/DESCRIPTION */}
-                  <p className="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3">
+                  <p className="text-gray-500 text-xs leading-relaxed mb-6 line-clamp-3">
                     {blogExcerpts[index]}
                   </p>
                 </div>

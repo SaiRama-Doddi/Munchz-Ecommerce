@@ -39,7 +39,7 @@ export default function Footer() {
                   className="h-10 object-contain mix-blend-multiply"
                 />
                 <div className="leading-tight">
-                  <p className="font-semibold text-gray-500 uppercase tracking-wider text-base">License Number:</p>
+                  <p className="font-semibold text-gray-500 uppercase tracking-wider text-xs">License Number:</p>
                   <p className="font-bold text-gray-900 text-sm">13626026000066</p>
                 </div>
               </div>
@@ -47,7 +47,7 @@ export default function Footer() {
 
             {/* Contact */}
             <div className="md:col-span-4">
-              <h4 className="font-bold text-base mb-6 text-black">Contact</h4>
+              <h4 className="font-bold text-xs mb-6 text-black">Contact</h4>
               <div className="space-y-4 text-sm text-gray-700">
                 <div className="flex items-start gap-3">
                   <MapPin size={18} className="mt-1 text-black shrink-0" />
@@ -70,7 +70,7 @@ export default function Footer() {
 
             {/* Quick Links */}
             <div className="md:col-span-2">
-              <h4 className="font-bold text-base mb-6 text-black">Quick Links</h4>
+              <h4 className="font-bold text-xs mb-6 text-black">Quick Links</h4>
               <ul className="space-y-3 text-sm text-gray-700 font-medium whitespace-nowrap">
                 <li className="cursor-pointer hover:text-green-700 transition" onClick={() => navigate("/")}>Home</li>
                 <li className="cursor-pointer hover:text-green-700 transition" onClick={() => navigate("/Aboutmain")}>About Us</li>
@@ -84,7 +84,7 @@ export default function Footer() {
 
             {/* Legal */}
             <div className="md:col-span-2">
-              <h4 className="font-bold text-base mb-6 text-black">Legal</h4>
+              <h4 className="font-bold text-xs mb-6 text-black">Legal</h4>
               <ul className="space-y-3 text-sm text-gray-700 font-medium whitespace-nowrap">
                 <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/terms-and-conditions")}>Terms & Conditions</li>
                 <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/privacy-policy")}>Privacy Policy</li>

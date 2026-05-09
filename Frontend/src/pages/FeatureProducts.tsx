@@ -156,10 +156,10 @@ const scrollRight = () => {
         {/* HEADING */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
               Curated <span className="text-green-600">Collection</span>
             </h2>
-            <p className="text-gray-500 text-sm mt-3 max-w-lg">
+            <p className="text-gray-500 text-xs mt-3 max-w-lg">
               Premium-quality products handpicked for excellence
             </p>
           </div>
@@ -248,10 +248,10 @@ const scrollRight = () => {
 
                   {/* CONTENT AREA */}
                   <div className="px-4 pb-4 pt-1 flex flex-col flex-grow">
-                    <h3 className="text-base font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">
+                    <h3 className="text-xs font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">
                       {p.name}
                     </h3>
-                    <p className="text-sm text-gray-400 line-clamp-1 mt-0.5">
+                    <p className="text-[10px] text-gray-400 line-clamp-1 mt-0.5">
                       {p.description}
                     </p>
 
@@ -261,7 +261,7 @@ const scrollRight = () => {
                       {/* PRICE & WEIGHT */}
                       <div className="flex items-center justify-between mt-2.5">
                         <div className="flex flex-col">
-                          <span className="text-base font-medium text-gray-900 tracking-tight">
+                          <span className="text-xs font-medium text-gray-900 tracking-tight">
                             ₹{selectedVariant.offerPrice * qty}
                           </span>
                           {base100g && (
