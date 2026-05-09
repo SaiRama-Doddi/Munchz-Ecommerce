@@ -65,6 +65,7 @@ const SubAdminManagement = lazy(() => import("./pages/SubAdminManagement"));
 const AuditLogs = lazy(() => import("./pages/AuditLogs"));
 const UserManagement = lazy(() => import("./pages/UserManagement"));
 const ReferralSettings = lazy(() => import("./pages/ReferralSettings"));
+const GiftingPage = lazy(() => import("./pages/GiftingPage"));
 
 
 export default function App() {
@@ -228,6 +229,18 @@ export default function App() {
               <TopHeader />
               <Header />
               <ProductsPage />
+              <Footer />
+            </>
+          }
+        />
+
+        <Route
+          path="/gifting"
+          element={
+            <>
+              <TopHeader />
+              <Header />
+              <GiftingPage />
               <Footer />
             </>
           }

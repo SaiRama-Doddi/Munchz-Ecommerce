@@ -228,7 +228,7 @@ const scrollRight = () => {
                 <div
                   key={p.id}
                   onClick={() => navigate(getProductUrl(p.id, p.name))}
-                  className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col min-w-[85%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[23%] h-auto hover:-translate-y-2"
+                  className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col min-w-[85%] max-w-[85%] sm:min-w-[45%] sm:max-w-[45%] md:min-w-[30%] md:max-w-[30%] lg:min-w-[23%] lg:max-w-[23%] flex-shrink-0 h-auto hover:-translate-y-2"
                 >
 
                   {/* IMAGE BOX */}
