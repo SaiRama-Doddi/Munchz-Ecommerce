@@ -419,7 +419,7 @@ export default function UserOrders() {
 
               {/* RATING SECTION - PROMINENT */}
               <div className="w-full space-y-4">
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-600/60">Rate your Munch</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-600/60">Rate your GoMunchz</p>
                 <div className="flex justify-center gap-3">
                   {[1, 2, 3, 4, 5].map((r) => (
                     <button

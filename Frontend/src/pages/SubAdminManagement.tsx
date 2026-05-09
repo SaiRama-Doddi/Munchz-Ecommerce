@@ -207,7 +207,7 @@ export default function SubAdminManagement() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="name@munchz.com"
+                    placeholder="name@gomunchz.com"
                     className="w-full bg-gray-50 border border-gray-100 rounded-2xl py-4 pl-14 pr-4 text-sm focus:outline-none focus:bg-white focus:ring-4 focus:ring-emerald-500/5 transition-all h-14"
                   />
                 </div>

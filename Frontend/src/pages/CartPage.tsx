@@ -94,7 +94,7 @@ export default function CartPremium() {
   const milestones = [
     { target: 499, label: "Free Gift", icon: <Gift className="w-4 h-4" />, color: "from-green-400 to-green-600" },
     { target: 899, label: "Extra Off", icon: <Star className="w-4 h-4" />, color: "from-green-600 to-teal-600" },
-    { target: 1299, label: "Munchz Box", icon: <Trophy className="w-4 h-4" />, color: "from-teal-600 to-emerald-700" },
+    { target: 1299, label: "GoMunchz Box", icon: <Trophy className="w-4 h-4" />, color: "from-teal-600 to-emerald-700" },
   ];
 
   /* ================= NEXT GOAL TRACKING ================= */
@@ -178,7 +178,7 @@ export default function CartPremium() {
                 {/* HEADER AREA */}
                 <div className="flex-shrink-0">
                   <h2 className="text-base font-bold text-gray-900 tracking-tight leading-none mb-1">
-                    Munchz <span className="text-green-600">Rewards</span>
+                    GoMunchz <span className="text-green-600">Rewards</span>
                   </h2>
                   <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-2 flex items-center gap-2">
                     <Flame size={12} className="text-orange-500" /> Current level: ₹{totalPrice.toFixed(0)}

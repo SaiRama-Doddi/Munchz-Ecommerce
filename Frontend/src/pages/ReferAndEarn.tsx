@@ -102,7 +102,7 @@ export default function ReferAndEarn() {
               Refer & <span className="text-emerald-600">Earn</span>
             </h1>
             <p className="text-gray-500 text-xs max-w-xl font-medium">
-              Share the goodness of Munchz. Get rewarded for every friend who joins.
+              Share the goodness of GoMunchz. Get rewarded for every friend who joins.
             </p>
           </div>
 

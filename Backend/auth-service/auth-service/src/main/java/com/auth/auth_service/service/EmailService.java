@@ -30,7 +30,7 @@ public class EmailService {
 
     public void sendWelcomeMail(String to) {
         String content = 
-            "<h2 style='color: #111827; margin-bottom: 16px;'>Welcome to the Munchz Family! 🎉</h2>" +
+            "<h2 style='color: #111827; margin-bottom: 16px;'>Welcome to the GoMunchz Family! 🎉</h2>" +
             "<p style='color: #4b5563; font-size: 16px; line-height: 1.6;'>" +
             "Thank you for joining GoMunchz! We're excited to have you with us. " +
             "Get ready to explore our premium range of healthy, delicious snacks crafted just for you." +
@@ -46,7 +46,7 @@ public class EmailService {
         String content = 
             "<h2 style='color: #111827; margin-bottom: 16px;'>Authority Granted 🛡️</h2>" +
             "<p style='color: #4b5563; font-size: 16px; line-height: 1.6;'>" +
-            "Congratulations! You have been successfully registered as a <b>Sub-Admin</b> on the Munchz Platform.<br><br>" +
+            "Congratulations! You have been successfully registered as a <b>Sub-Admin</b> on the GoMunchz Platform.<br><br>" +
             "You can now log in using your secure OTP to manage your assigned modules and contribute to our growth." +
             "</p>" +
             "<div style='margin-top: 32px;'>" +

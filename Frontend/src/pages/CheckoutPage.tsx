@@ -252,7 +252,7 @@ export default function CheckoutPage() {
       {isRedirecting && (
         <PremiumSpinner 
           text="Payment Successful! 🎉" 
-          subtext="Your delicious Munchz are being prepared. Redirecting to confirmation..." 
+          subtext="Your delicious GoMunchz are being prepared. Redirecting to confirmation..." 
         />
       )}
 
@@ -266,7 +266,7 @@ export default function CheckoutPage() {
                 Checkout
               </h1>
               <p className="text-xs sm:text-base text-gray-500 font-medium mt-1 sm:mt-3 max-w-2xl leading-relaxed">
-                Securely finishing your order • {items.length} Munchz
+                Securely finishing your order • {items.length} GoMunchz
               </p>
             </div>
             <button
