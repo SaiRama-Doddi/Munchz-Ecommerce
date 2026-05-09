@@ -16,6 +16,8 @@ import {
   ShieldAlert
 } from "lucide-react";
 import { usePermissions } from "../hooks/usePermissions";
+import { useSubcategories } from "../hooks/useSubcategories";
+import { useEffect } from "react";
 
 /* =====================
    CATEGORY TYPE
@@ -52,6 +54,16 @@ export default function Products() {
   ===================== */
   const [selectedCategoryId, setSelectedCategoryId] =
     useState<number | "ALL">("ALL");
+  const [selectedSubcategoryId, setSelectedSubcategoryId] = useState<number | "ALL">("ALL");
+
+  const { subcategories, fetchSubcats } = useSubcategories();
+
+  useEffect(() => {
+    if (selectedCategoryId !== "ALL") {
+      fetchSubcats(selectedCategoryId);
+    }
+    setSelectedSubcategoryId("ALL"); // Reset subcat when cat changes
+  }, [selectedCategoryId]);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -79,6 +91,13 @@ export default function Products() {
       result = result.filter((p: any) => {
         const productCategoryId = p.category?.id ?? p.categoryId ?? null;
         return productCategoryId === selectedCategoryId;
+      });
+    }
+
+    if (selectedSubcategoryId !== "ALL") {
+      result = result.filter((p: any) => {
+        const productSubcategoryId = p.subcategory?.id ?? p.subcategoryId ?? null;
+        return productSubcategoryId === selectedSubcategoryId;
       });
     }
 
@@ -159,6 +178,41 @@ export default function Products() {
                 </button>
               ))}
             </div>
+
+            {/* SUBCATEGORY FILTER OPTIONS */}
+            {selectedCategoryId !== "ALL" && subcategories.length > 0 && (
+              <div className="mt-4">
+                <label className="text-[10px] text-gray-400 uppercase ml-1 mb-2 block flex items-center gap-2">
+                  <Layers size={12} />
+                  Subcategories
+                </label>
+                <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide no-scrollbar -mx-1 px-1">
+                  <button
+                    onClick={() => setSelectedSubcategoryId("ALL")}
+                    className={`shrink-0 px-5 py-2.5 rounded-xl text-[10px] uppercase border transition-all duration-300 whitespace-nowrap ${
+                      selectedSubcategoryId === "ALL"
+                        ? "bg-emerald-600 text-white border-emerald-600 shadow-lg shadow-emerald-600/20"
+                        : "bg-white text-gray-400 border-gray-100 hover:border-emerald-600 hover:text-emerald-600"
+                    }`}
+                  >
+                    All Types
+                  </button>
+                  {subcategories.map((s: any) => (
+                    <button
+                      key={s.id}
+                      onClick={() => setSelectedSubcategoryId(s.id)}
+                      className={`shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-xl text-[10px] uppercase border transition-all duration-300 whitespace-nowrap ${
+                        selectedSubcategoryId === s.id
+                          ? "bg-emerald-600 text-white border-emerald-600 shadow-lg shadow-emerald-600/20"
+                          : "bg-white text-gray-400 border-gray-100 hover:border-emerald-600 hover:text-emerald-600"
+                      }`}
+                    >
+                      {s.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

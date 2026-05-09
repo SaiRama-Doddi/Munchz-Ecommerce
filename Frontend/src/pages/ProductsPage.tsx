@@ -6,6 +6,7 @@ import { useCart } from "../state/CartContext";
 import { getProductUrl } from "../utils/slugify";
 import { ArrowLeft } from "lucide-react";
 import PremiumSpinner from "../components/PremiumSpinner";
+import { useSubcategories } from "../hooks/useSubcategories";
 
 
 /* =========================
@@ -116,14 +117,36 @@ export default function AllProducts() {
   const [qtyMap, setQtyMap] = useState<Record<number, number>>({});
   const [variantMap, setVariantMap] = useState<Record<number, number>>({});
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | "ALL">("ALL");
+  const [selectedSubcategoryId, setSelectedSubcategoryId] = useState<number | "ALL">("ALL");
+
+  const { subcategories, fetchSubcats } = useSubcategories();
+
+  useEffect(() => {
+    if (selectedCategoryId !== "ALL") {
+      fetchSubcats(selectedCategoryId);
+    }
+    setSelectedSubcategoryId("ALL"); // Reset subcat when cat changes
+  }, [selectedCategoryId]);
 
   const filteredProducts = useMemo(() => {
-    if (selectedCategoryId === "ALL") return products;
-    return products.filter((p: any) => {
-      const pCatId = p.category?.id ?? p.categoryId ?? null;
-      return pCatId === selectedCategoryId;
-    });
-  }, [products, selectedCategoryId]);
+    let result = products;
+
+    if (selectedCategoryId !== "ALL") {
+      result = result.filter((p: any) => {
+        const pCatId = p.category?.id ?? p.categoryId ?? null;
+        return pCatId === selectedCategoryId;
+      });
+    }
+
+    if (selectedSubcategoryId !== "ALL") {
+      result = result.filter((p: any) => {
+        const pSubcatId = p.subcategory?.id ?? p.subcategoryId ?? null;
+        return pSubcatId === selectedSubcategoryId;
+      });
+    }
+
+    return result;
+  }, [products, selectedCategoryId, selectedSubcategoryId]);
 
   const selectedCategoryName = useMemo(() => {
     if (selectedCategoryId === "ALL") return "All";
@@ -215,6 +238,40 @@ export default function AllProducts() {
               </button>
             ))}
           </div>
+
+          {/* SUBCATEGORIES SLIDER */}
+          {selectedCategoryId !== "ALL" && subcategories.length > 0 && (
+            <div className="mt-4 pt-4 border-t border-gray-100">
+              <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">
+                Refine by Subcategory
+              </p>
+              <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 no-scrollbar">
+                <button
+                  onClick={() => setSelectedSubcategoryId("ALL")}
+                  className={`shrink-0 px-5 py-2 rounded-xl text-[11px] font-bold uppercase transition-all shadow-sm ${
+                    selectedSubcategoryId === "ALL"
+                      ? "bg-green-600 text-white shadow-green-600/20"
+                      : "bg-white text-gray-500 border border-gray-100 hover:border-green-600 hover:text-green-600"
+                  }`}
+                >
+                  All Types
+                </button>
+                {subcategories.map((s: any) => (
+                  <button
+                    key={s.id}
+                    onClick={() => setSelectedSubcategoryId(s.id)}
+                    className={`shrink-0 px-5 py-2 rounded-xl text-[11px] font-bold uppercase transition-all shadow-sm ${
+                      selectedSubcategoryId === s.id
+                        ? "bg-green-600 text-white shadow-green-600/20"
+                        : "bg-white text-gray-500 border border-gray-100 hover:border-green-600 hover:text-green-600"
+                    }`}
+                  >
+                    {s.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* DYNAMIC SECTION HEADER */}

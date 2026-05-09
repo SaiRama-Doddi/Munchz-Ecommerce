@@ -12,7 +12,7 @@ export function useSubcategories() {
     staleTime: 5 * 60 * 1000,
     queryFn: async () => {
       const res = await api.get(
-        `/product/api/subcategories/by-category/${categoryId}`
+        `/subcategories/by-category/${categoryId}`
       );
       return res.data?.data ?? res.data;
     },
