@@ -12,19 +12,15 @@ export default function BlogListPage() {
       <TopHeader />
       <Header />
 
-      <div className="max-w-7xl mx-auto px-4 md:px-6 pt-4 pb-10 md:pt-6 md:pb-20 text-center">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 pt-4 pb-10 md:pt-6 md:pb-20">
         {/* ================= HEADER AREA ================= */}
-        <div className="mb-12 md:mb-20">
-          <span className="inline-block px-4 py-1.5 bg-green-100 text-green-700 text-2xl font-bold rounded-full mb-6 uppercase tracking-[0.2em] animate-in fade-in slide-in-from-bottom duration-500">
-            Insights & Updates
-          </span>
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight leading-tight mb-6 animate-in fade-in slide-in-from-bottom-2 duration-700">
-            Welcome to <span className="text-green-600">GoMunchz Blog</span>
+        <div className="mb-10 md:mb-14">
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight leading-tight">
+            Insights & <span className="text-green-600">Updates</span>
           </h1>
-          <p className="text-gray-500 text-sm mt-3 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <p className="text-gray-500 text-sm mt-2 leading-relaxed">
             Exploring the world of healthy snacking, nutritional powerhouses, and smarter lifestyle choices for a better you.
           </p>
-
         </div>
 
         {/* ================= BLOG GRID ================= */}
