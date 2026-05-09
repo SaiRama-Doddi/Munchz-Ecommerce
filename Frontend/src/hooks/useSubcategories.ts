@@ -23,5 +23,8 @@ export function useSubcategories() {
     isLoading: query.isLoading,
     isError: query.isError,
     fetchSubcats: setCategoryId,
+
+
+
   };
 }

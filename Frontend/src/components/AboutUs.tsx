@@ -84,7 +84,7 @@ export default function AboutUs() {
               <p className="font-bold text-gray-900 text-sm tracking-wide">
                 PREMIUM QUALITY
               </p>
-              <p className="text-gray-500 text-xs mt-1">
+              <p className="text-gray-500 text-sm mt-1">
                 100% Quality Guarantee
               </p>
             </div>
@@ -99,7 +99,7 @@ export default function AboutUs() {
               <p className="font-bold text-gray-900 text-sm tracking-wide">
                 SWIFT SHIPPING
               </p>
-              <p className="text-gray-500 text-xs mt-1">
+              <p className="text-gray-500 text-sm mt-1">
                 Delivering across India
               </p>
             </div>
@@ -114,7 +114,7 @@ export default function AboutUs() {
               <p className="font-bold text-gray-900 text-sm tracking-wide">
                 EASY RETURN
               </p>
-              <p className="text-gray-500 text-xs mt-1">
+              <p className="text-gray-500 text-sm mt-1">
                 Hassle-free 7-day returns
               </p>
             </div>
@@ -129,7 +129,7 @@ export default function AboutUs() {
               <p className="font-bold text-gray-900 text-sm tracking-wide">
                 24/7 SUPPORT
               </p>
-              <p className="text-gray-500 text-xs mt-1">
+              <p className="text-gray-500 text-sm mt-1">
                 Dedicated support team
               </p>
             </div>

@@ -73,8 +73,8 @@ services:
     env_file:
       - .env
     environment:
-      MAIL_USERNAME: sairamadoddi@gmail.com
-      MAIL_PASSWORD: fcxl alrt wwwx mkrc
+      MAIL_USERNAME: gomunchz@gmail.com
+      MAIL_PASSWORD: nupw xezb fmur wzev
 
   user-profile-service:
     build: ./Backend/user-profile-service/user-profile-service

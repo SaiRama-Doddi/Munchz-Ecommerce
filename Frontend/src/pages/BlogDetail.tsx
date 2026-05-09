@@ -33,7 +33,7 @@ export default function BlogDetail() {
       
       <div className="max-w-7xl mx-auto px-4 md:px-6 pt-4 pb-10 md:pt-6 md:pb-16">
         {/* ================= BREADCRUMBS ================= */}
-        <nav className="flex items-center gap-2 text-xs text-gray-500 mb-8 overflow-x-auto whitespace-nowrap">
+        <nav className="flex items-center gap-2 text-sm text-gray-500 mb-8 overflow-x-auto whitespace-nowrap">
           <Link to="/" className="hover:text-green-600">Home</Link>
           <ChevronRight size={14} />
           <Link to="/#blog-section" className="hover:text-green-600">Blog</Link>
@@ -43,7 +43,7 @@ export default function BlogDetail() {
 
         {/* ================= HEADER AREA ================= */}
         <div className="mb-6 md:mb-8">
-          <div className="flex flex-wrap items-center gap-4 text-xs text-gray-500 mb-6">
+          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-6">
             <div className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm">
               <Calendar size={14} className="text-green-600" />
               <span>March 25, 2025</span>
@@ -62,7 +62,7 @@ export default function BlogDetail() {
             {blog.title}
           </h1>
           
-          <p className="text-gray-600 text-xs max-w-3xl leading-relaxed italic border-l-4 border-green-600 pl-6 py-2">
+          <p className="text-gray-600 text-sm max-w-3xl leading-relaxed italic border-l-4 border-green-600 pl-6 py-2">
             {blog.description}
           </p>
 
@@ -70,7 +70,7 @@ export default function BlogDetail() {
 
         {/* ================= CONTENT AREA ================= */}
         <main className="w-full">
-          <div className="space-y-5 text-gray-700 leading-relaxed text-xs text-justify">
+          <div className="space-y-5 text-gray-700 leading-relaxed text-sm text-justify">
             {blog.sections.map((section, idx) => {
               switch (section.type) {
                 case "heading":
@@ -95,7 +95,7 @@ export default function BlogDetail() {
                   );
                 case "quote":
                   return (
-                    <div key={idx} className="font-bold text-gray-900 border-l-4 border-green-600 pl-6 italic bg-green-50/50 py-5 rounded-r-2xl my-10 text-xs shadow-sm">
+                    <div key={idx} className="font-bold text-gray-900 border-l-4 border-green-600 pl-6 italic bg-green-50/50 py-5 rounded-r-2xl my-10 text-sm shadow-sm">
                       "{section.content as string}"
                     </div>
                   );
@@ -107,7 +107,7 @@ export default function BlogDetail() {
                         <thead>
                           <tr className="bg-green-600 text-white">
                             {tableData.headers.map((header, i) => (
-                              <th key={i} className="px-6 py-4 font-bold uppercase tracking-wider text-xs">{header}</th>
+                              <th key={i} className="px-6 py-4 font-bold uppercase tracking-wider text-sm">{header}</th>
                             ))}
                           </tr>
                         </thead>

@@ -11,7 +11,7 @@ export default function About() {
           <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
             About <span className="text-green-600">GoMunchz</span>
           </h2>
-          <p className="text-gray-500 text-xs mt-2 leading-relaxed">
+          <p className="text-gray-500 text-sm mt-2 leading-relaxed">
             Bringing back the goodness of real, honest ingredients and transforming them into snacks you can feel good about.
           </p>
         </div>
@@ -20,7 +20,7 @@ export default function About() {
         <main className="grid lg:grid-cols-1 gap-6">
           
           {/* STORY SECTION */}
-          <div className="space-y-5 text-gray-700 leading-relaxed text-xs text-justify">
+          <div className="space-y-5 text-gray-700 leading-relaxed text-sm text-justify">
             <p>
               At <span className="text-green-700 font-bold tracking-tight">GoMunchz</span>, we believe that great snacking should never be a compromise between taste and health. In a world full of processed options, our mission is simple—bring back the goodness of real, honest ingredients and transform them into snacks you can feel good about.
             </p>
@@ -93,7 +93,7 @@ function FeatureItem({ text, icon }: { text: string; icon: React.ReactNode }) {
       <div className="flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform">
         {icon}
       </div>
-      <p className="text-gray-800 font-semibold text-xs leading-tight">
+      <p className="text-gray-800 font-semibold text-sm leading-tight">
         {text}
       </p>
     </div>

@@ -21,7 +21,7 @@ export default function BlogListPage() {
           <h1 className="text-2xl font-bold text-gray-900 tracking-tight leading-tight mb-6 animate-in fade-in slide-in-from-bottom-2 duration-700">
             Welcome to <span className="text-green-600">GoMunchz Blog</span>
           </h1>
-          <p className="text-gray-500 text-xs mt-3 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <p className="text-gray-500 text-sm mt-3 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000">
             Exploring the world of healthy snacking, nutritional powerhouses, and smarter lifestyle choices for a better you.
           </p>
 
@@ -37,7 +37,7 @@ export default function BlogListPage() {
             >
               <div className="p-8 md:p-10 flex flex-col flex-grow text-left">
                 {/* Meta Info */}
-                <div className="flex items-center gap-4 text-xs text-gray-400 mb-6 font-medium">
+                <div className="flex items-center gap-4 text-sm text-gray-400 mb-6 font-medium">
                   <div className="flex items-center gap-1.5">
                     <Calendar size={14} className="text-green-600" />
                     <span>March 2025</span>
@@ -52,13 +52,13 @@ export default function BlogListPage() {
                   <Link to={`/blog/${blog.slug}`}>{blog.title}</Link>
                 </h2>
                 
-                <p className="text-gray-500 text-xs leading-relaxed mb-8 line-clamp-3">
+                <p className="text-gray-500 text-sm leading-relaxed mb-8 line-clamp-3">
                   {blog.description}
                 </p>
 
                 <div className="mt-auto pt-6 border-t border-gray-50 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center text-green-700 font-bold text-xs">
+                    <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center text-green-700 font-bold text-sm">
                       GM
                     </div>
                     <span className="text-[11px] font-bold text-gray-700 uppercase tracking-widest">GoMunchz Team</span>

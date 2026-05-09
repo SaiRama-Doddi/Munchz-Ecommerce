@@ -213,7 +213,7 @@ export default function TermsAndConditions() {
               ) : (
                 <div className="space-y-4">
                   {section.content.map((para, i) => (
-                    <p key={i} className="text-gray-700 text-xs leading-relaxed text-justify">
+                    <p key={i} className="text-gray-700 text-sm leading-relaxed text-justify">
                       {para}
                     </p>
                   ))}
