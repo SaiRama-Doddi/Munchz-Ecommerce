@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const BANNERS = [
   { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778332622/desktop_banners_2.jpg_1_c1fukp.jpg" },
   { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778332498/coming_soon.jpg_1_riifqq.jpg" },
-  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778332424/coming_soon_2.jpg_c2wxdf.jpg" },
+  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778564998/desktop_banners_3.jpg_mtdats.jpg" },
   { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778332498/coming_soon_2.jpg_b0jnv3.jpg" },
   { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778332622/desktop_banners_2.jpg_1_c1fukp.jpg" }
 ];

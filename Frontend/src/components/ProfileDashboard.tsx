@@ -9,7 +9,10 @@ import {
   Trash2,
   LayoutDashboard,
   Navigation,
-  MapPin
+  MapPin,
+  Wallet,
+  ArrowRight,
+  Gift
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
@@ -21,6 +24,7 @@ import {
   addAddressApi,
   updateAddressApi,
   deleteAddressApi,
+  getProfileApi,
 } from "../api/api";
 import FloatingInput from "../components/FloatingInput";
 import { getAddressFromPincode, getCurrentPosition, getAddressFromCoords } from "../utils/addressUtils";
@@ -72,8 +76,18 @@ export default function ProfileDashboard({ open, onClose }: Props) {
       setLastName(profile.lastName || "");
       setMobile(profile.mobile || "");
       fetchAddresses();
+      refreshProfile();
     }
-  }, [profile, open]);
+  }, [open]);
+
+  const refreshProfile = async () => {
+    try {
+      const res = await getProfileApi();
+      updateProfile(res.data);
+    } catch (err) {
+      console.error("Failed to refresh profile", err);
+    }
+  };
 
   const fetchAddresses = async () => {
     try {
@@ -205,6 +219,33 @@ export default function ProfileDashboard({ open, onClose }: Props) {
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto px-6 pt-16 pb-8 space-y-8 scrollbar-hide">
           
+          {/* WALLET SECTION */}
+          <div className="bg-emerald-600 rounded-[2rem] p-6 text-white relative overflow-hidden shadow-xl shadow-emerald-600/20 group">
+             <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform pointer-events-none">
+               <Wallet size={80} />
+             </div>
+             <div className="relative z-10">
+               <div className="flex items-center gap-2 mb-4 opacity-80">
+                 <Gift size={14} />
+                 <span className="text-[10px] font-black uppercase tracking-widest">Rewards Wallet</span>
+               </div>
+               <div className="flex items-end justify-between">
+                 <div>
+                   <p className="text-3xl font-black tracking-tighter leading-none mb-1">
+                     ₹{profile.referralCredits?.toFixed(0) || 0}
+                   </p>
+                   <p className="text-[10px] font-bold text-emerald-100 uppercase tracking-wider">Available Balance</p>
+                 </div>
+                 <button 
+                   onClick={() => { navigate("/refer-and-earn"); onClose(); }}
+                   className="bg-white/20 hover:bg-white/30 backdrop-blur-md px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 transition-all"
+                 >
+                   Refer & Earn <ArrowRight size={12} />
+                 </button>
+               </div>
+             </div>
+          </div>
+
           {/* USER INFO SECTION */}
           <div className="space-y-4">
              <div className="flex items-center gap-3 mb-6">
