@@ -63,9 +63,7 @@ export default function UserCategories() {
       {/* MOBILE SLIDER */}
 
       <div className="md:hidden flex gap-5 overflow-x-auto pb-6 no-scrollbar">
-
-        {categories.map((c) => (
-
+        {Array.isArray(categories) && categories.map((c) => (
           <div
             key={c.id}
             onClick={() => navigate(`/category/${c.id}`)}
@@ -109,7 +107,7 @@ export default function UserCategories() {
           "
       >
 
-        {categories.map((c) => (
+        {Array.isArray(categories) && categories.map((c) => (
 
           <div
             key={c.id}

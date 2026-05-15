@@ -1,9 +1,8 @@
 import React from "react";
-import { CheckCircle2, Leaf, Box, Heart, Activity } from "lucide-react";
 
 export default function About() {
   return (
-    <div className="w-full bg-white min-h-screen pt-4 pb-10 md:pt-6 md:pb-16">
+    <div className="w-full min-h-screen pt-4 pb-10 md:pt-6 md:pb-16">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
 
         {/* ================= HEADER AREA ================= */}
@@ -17,7 +16,7 @@ export default function About() {
         </div>
 
         {/* ================= CONTENT AREA ================= */}
-        <main className="grid lg:grid-cols-1 gap-6">
+        <main className="flex flex-col gap-2">
           
           {/* STORY SECTION */}
           <div className="space-y-5 text-gray-700 leading-relaxed text-sm text-justify">
@@ -37,48 +36,18 @@ export default function About() {
               At GoMunchz, we’re not just building a snack brand—we’re creating a smarter snacking culture. Whether you're at work, traveling, working out, or simply relaxing, our products are designed to fit seamlessly into your lifestyle.
             </p>
 
-            <p className="font-bold text-gray-900 border-l-4 border-green-600 pl-6 italic bg-white py-5 rounded-r-2xl">
+            <p className="font-bold text-gray-900 border-l-4 border-green-600 pl-6 italic bg-white/80 backdrop-blur-md py-5 rounded-r-2xl shadow-sm">
               Because we believe snacking should energize you, not weigh you down.
             </p>
           </div>
 
-          {/* WHY CHOOSE SECTION */}
-          <div className="mt-2 bg-white p-6 md:p-10 rounded-3xl shadow-sm border border-green-50">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
-              <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
-                Why Choose GoMunchz
-              </h2>
-            </div>
-
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-1">
-              
-              <FeatureItem 
-                text="Premium quality dry fruits and nuts" 
-                icon={<CheckCircle2 className="text-green-600" size={20} />} 
-              />
-              
-              <FeatureItem 
-                text="Carefully sourced, high-grade ingredients" 
-                icon={<Leaf className="text-green-600" size={20} />} 
-              />
-              
-              <FeatureItem 
-                text="Hygienic, modern packaging standards" 
-                icon={<Box className="text-green-600" size={20} />} 
-              />
-              
-              <FeatureItem 
-                text="Thoughtfully crafted flavors" 
-                icon={<Heart className="text-green-600" size={20} />} 
-              />
-              
-              <FeatureItem 
-                text="A perfect balance of taste and nutrition" 
-                icon={<Activity className="text-green-600" size={20} />} 
-              />
-
-            </div>
+          {/* WHY CHOOSE SECTION - REPLACED WITH PREMIUM BANNER */}
+          <div className="relative w-full overflow-hidden rounded-3xl shadow-lg border border-green-50 h-[260px] sm:h-[380px] md:h-[480px] lg:h-[75vh]">
+            <img 
+              src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1778814027/why_choose_banner.jpg_imekt0.jpg" 
+              alt="Why Choose GoMunchz"
+              className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+            />
           </div>
 
         </main>
@@ -87,15 +56,4 @@ export default function About() {
   );
 }
 
-function FeatureItem({ text, icon }: { text: string; icon: React.ReactNode }) {
-  return (
-    <div className="flex items-start gap-4 group p-3 rounded-xl hover:bg-green-50 transition-all border border-transparent hover:border-green-100">
-      <div className="flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform">
-        {icon}
-      </div>
-      <p className="text-gray-800 font-semibold text-sm leading-tight">
-        {text}
-      </p>
-    </div>
-  );
-}
+

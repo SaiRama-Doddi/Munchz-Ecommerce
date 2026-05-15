@@ -110,7 +110,7 @@ export default function UserOrders() {
         const payload: any = JSON.parse(atob(token.split(".")[1]));
         const userId = payload.sub;
         const res = await axios.get(`/reviews/user/${userId}`);
-        const reviewList = res.data || [];
+        const reviewList = Array.isArray(res.data) ? res.data : [];
         const itemKeys = new Set<string>(reviewList.map((r: any) => `${r.orderId}:${r.productId}`));
         setReviewedItems(itemKeys);
       } catch (err) {
