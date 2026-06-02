@@ -240,11 +240,12 @@ public class OrderService {
                     req.setQuantity(item.getQuantity().intValue());
                     inventoryClient.reduceStockOnOrder(req);
                 });
-            } catch (FeignException ex) {
-                throw new RuntimeException("Inventory update failed. Payment must be reconciled.", ex);
+            } catch (Exception ex) {
+                log.error("INVENTORY ERROR: Failed to reduce stock for order {}: {}", orderId, ex.getMessage(), ex);
+                // We do NOT throw here so that the order is still marked as PAID and synced with Shiprocket!
             }
             orderRepository.save(order);
-            System.out.println("DEBUG: Order " + orderId + " saved with status PAID and inventory reduced.");
+            System.out.println("DEBUG: Order " + orderId + " saved with status PAID (inventory error bypassed if logged).");
         }
 
         // 🚛 CALL SHIPPING SERVICE (Shiprocket)

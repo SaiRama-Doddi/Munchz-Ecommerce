@@ -132,6 +132,32 @@ const OrdersPage: React.FC = () => {
       });
   }, []);
 
+  const handleMarkAsPaid = async (orderId: string) => {
+    if (!confirm("Are you sure you want to mark this order as PAID and trigger Shiprocket shipment creation?")) {
+      return;
+    }
+    const token = localStorage.getItem("token");
+    try {
+      await axios.put(`/order/api/orders/${orderId}/payment-success`, null, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      alert("Order successfully marked as PAID! Shiprocket shipment has been created.");
+      
+      // Update local state
+      setOrders((prev) =>
+        prev.map((o) =>
+          o.orderId === orderId ? { ...o, orderStatus: "PAID" } : o
+        )
+      );
+      if (selectedOrder && selectedOrder.orderId === orderId) {
+        setSelectedOrder((prev) => prev ? { ...prev, orderStatus: "PAID" } : null);
+      }
+    } catch (err: any) {
+      console.error(err);
+      alert("Failed to update order status. Please check backend logs.");
+    }
+  };
+
   const filteredOrders = [...orders]
     .sort((a, b) => new Date(b.placedAt).getTime() - new Date(a.placedAt).getTime())
     .filter((o) => {
@@ -462,19 +488,31 @@ const OrdersPage: React.FC = () => {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-8 border-t border-gray-100 bg-gray-50/50 flex justify-between items-center">
+            <div className="p-8 border-t border-gray-100 bg-gray-50/50 flex justify-between items-center flex-wrap gap-4">
               <div className="flex items-center gap-3">
                 <Tag size={16} className="text-gray-400" />
                 <span className="text-xs text-gray-500 uppercase text-[10px]">
                   Coupon: <span className="text-black">{selectedOrder.couponCode || "NONE"}</span>
                 </span>
               </div>
-              <button
-                onClick={() => setSelectedOrder(null)}
-                className="bg-black text-white px-10 py-3.5 rounded-2xl text-[10px] uppercase hover:bg-emerald-600 transition-all shadow-xl shadow-black/5"
-              >
-                CLOSE VIEW
-              </button>
+              
+              <div className="flex items-center gap-3">
+                {selectedOrder.orderStatus === "CREATED" && (
+                  <button
+                    onClick={() => handleMarkAsPaid(selectedOrder.orderId)}
+                    className="bg-emerald-600 text-white px-6 py-3.5 rounded-2xl text-[10px] uppercase hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-600/5 font-semibold flex items-center gap-2"
+                  >
+                    <Truck size={14} /> Mark as Paid & Ship
+                  </button>
+                )}
+                
+                <button
+                  onClick={() => setSelectedOrder(null)}
+                  className="bg-black text-white px-10 py-3.5 rounded-2xl text-[10px] uppercase hover:bg-emerald-600 transition-all shadow-xl shadow-black/5"
+                >
+                  CLOSE VIEW
+                </button>
+              </div>
             </div>
           </div>
         </div>
