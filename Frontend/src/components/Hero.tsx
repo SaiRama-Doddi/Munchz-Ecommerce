@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 
 const BANNERS = [
+  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1780388897/gifts_coming_soon_banner_zo4uvh.png" },
   { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778332622/desktop_banners_2.jpg_1_c1fukp.jpg" },
-  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778332498/coming_soon.jpg_1_riifqq.jpg" },
-  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778564998/desktop_banners_3.jpg_mtdats.jpg" },
-  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778332498/coming_soon_2.jpg_b0jnv3.jpg" },
-  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778332622/desktop_banners_2.jpg_1_c1fukp.jpg" }
+  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778564998/desktop_banners_3.jpg_mtdats.jpg" }
 ];
 
 export default function Hero() {
@@ -19,14 +17,13 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="mt-4 sm:mt-6 lg:mt-8 max-w-7xl mx-auto px-4">
+    <section className="w-full mb-8 sm:mb-12 lg:mb-16">
 
       {/* HERO CONTAINER */}
       <div
         className="
         relative w-full overflow-hidden bg-black
-        h-[260px] sm:h-[380px] md:h-[480px] lg:h-[75vh]
-        shadow-2xl
+        aspect-[1920/900]
         "
       >
 
@@ -41,8 +38,7 @@ export default function Hero() {
             <img
               src={banner.image}
               alt="Premium snacks"
-              className={`absolute inset-0 w-full h-full object-cover transition-transform duration-[6000ms] ease-out
-              ${index === active ? "scale-100" : "scale-110"}`}
+              className="absolute inset-0 w-full h-full object-cover"
             />
 
             {/* Very Subtle Overlay for depth */}
