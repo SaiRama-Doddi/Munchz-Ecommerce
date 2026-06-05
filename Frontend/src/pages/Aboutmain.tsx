@@ -48,7 +48,7 @@ export default function About() {
           <div className="lg:col-span-6 w-full">
             <div className="relative w-full overflow-hidden rounded-[2.5rem] shadow-xl border border-green-100/50 aspect-square">
               <img 
-                src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1780413411/why_choose_banner_rewjth.jpg" 
+                src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1780413411/why_choose_banner_rewjth.jpg" 
                 alt="Why Choose GoMunchz"
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-103"
               />

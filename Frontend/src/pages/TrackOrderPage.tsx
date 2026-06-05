@@ -50,7 +50,7 @@ export default function TrackOrderPage() {
           {/* Left Side: The Image properly displayed */}
           <div className="md:w-1/2 w-full relative min-h-[300px] md:min-h-0 overflow-hidden bg-gray-50 border-r border-green-50">
             <img 
-              src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1780413088/track_board_banner_t1yvlz.jpg" 
+              src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1780413088/track_board_banner_t1yvlz.jpg" 
               className="absolute inset-0 w-full h-full object-cover object-left"
               alt="Track Banner"
             />

@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getProductUrl } from "../utils/slugify";
 import api from "../api/client";
 import { useCart } from "../state/CartContext";
+import { optimizeCloudinaryUrl } from "../utils/imageUtils";
 
 /* =========================
    TYPES
@@ -270,7 +271,7 @@ export default function CategoryProducts() {
                 {/* IMAGE BOX */}
                 <div className="relative bg-transparent aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden flex-shrink-0">
                   <img
-                    src={displayImage}
+                    src={optimizeCloudinaryUrl(displayImage)}
                     alt={p.name}
                     className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700"
                   />

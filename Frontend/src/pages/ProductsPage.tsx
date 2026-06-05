@@ -7,6 +7,7 @@ import { getProductUrl } from "../utils/slugify";
 import { ArrowLeft } from "lucide-react";
 import PremiumSpinner from "../components/PremiumSpinner";
 import { useSubcategories } from "../hooks/useSubcategories";
+import { optimizeCloudinaryUrl } from "../utils/imageUtils";
 
 
 /* =========================
@@ -225,7 +226,7 @@ export default function AllProducts() {
                   : "border-transparent bg-white group-hover:border-green-200"
                 }`}>
                   <img 
-                    src={c.thumbnailImage || "https://placehold.co/100x100?text=Category"} 
+                    src={optimizeCloudinaryUrl(c.thumbnailImage) || "https://placehold.co/100x100?text=Category"} 
                     alt={c.name}
                     className={`w-full h-full object-cover transition-all ${
                       selectedCategoryId === c.id ? "scale-110" : "group-hover:scale-110"
@@ -328,7 +329,7 @@ export default function AllProducts() {
                 {/* IMAGE BOX */}
                 <div className="relative bg-transparent aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden flex-shrink-0">
                   <img
-                    src={p.imageUrl}
+                    src={optimizeCloudinaryUrl(p.imageUrl)}
                     alt={p.name}
                     className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700"
                   />

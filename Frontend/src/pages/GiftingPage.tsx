@@ -10,7 +10,7 @@ export default function GiftingPage() {
         {/* Banner Image Container */}
         <div className="relative overflow-hidden rounded-2xl md:rounded-[2.5rem] shadow-2xl border border-gray-100 mb-8 group">
           <img
-            src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1780413412/gifts_coming_soon_banner_ysz6lu.png"
+            src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1780413412/gifts_coming_soon_banner_ysz6lu.png"
             alt="Gifting Coming Soon Banner"
             className="w-full h-auto block transition-transform duration-700 group-hover:scale-[1.02]"
             loading="lazy"

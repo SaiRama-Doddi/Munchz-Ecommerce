@@ -1,4 +1,5 @@
 import api from "../api/client";
+import { optimizeCloudinaryUrl } from "../utils/imageUtils";
 
 export interface Banner {
   id?: string | number;
@@ -6,9 +7,9 @@ export interface Banner {
 }
 
 const DEFAULT_BANNERS: Banner[] = [
-  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1780388897/gifts_coming_soon_banner_zo4uvh.png" },
-  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778332622/desktop_banners_2.jpg_1_c1fukp.jpg" },
-  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778564998/desktop_banners_3.jpg_mtdats.jpg" }
+  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1780388897/gifts_coming_soon_banner_zo4uvh.png" },
+  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1778332622/desktop_banners_2.jpg_1_c1fukp.jpg" },
+  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1778564998/desktop_banners_3.jpg_mtdats.jpg" }
 ];
 
 const LOCAL_STORAGE_KEY = "gomunchz_banners";
@@ -18,9 +19,14 @@ export const bannerService = {
     try {
       const res = await api.get("/banners");
       if (res.data && Array.isArray(res.data) && res.data.length > 0) {
+        // Automatically optimize banner image URLs dynamically
+        const optimized = res.data.map((b: Banner) => ({
+          ...b,
+          image: optimizeCloudinaryUrl(b.image)
+        }));
         // Sync to local storage
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(res.data));
-        return res.data;
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(optimized));
+        return optimized;
       }
     } catch (err) {
       console.warn("Backend banners endpoint failed, falling back to local storage:", err);

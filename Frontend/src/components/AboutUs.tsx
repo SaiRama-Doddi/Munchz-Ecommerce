@@ -62,7 +62,7 @@ export default function AboutUs() {
           <div className="p-8 lg:p-12 flex items-center justify-center">
             <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-white aspect-square w-full max-w-[450px]">
               <img
-                src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1780413409/About_GoMunchz_banner_thvxg8.jpg"
+                src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1780413409/About_GoMunchz_banner_thvxg8.jpg"
                 alt="About GoMunchz Premium Selection"
                 className="w-full h-full object-cover hover:scale-110 transition duration-1000"
               />

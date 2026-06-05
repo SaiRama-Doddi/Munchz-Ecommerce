@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import api from "../api/client";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import PremiumSpinner from "../components/PremiumSpinner";
+import { optimizeCloudinaryUrl } from "../utils/imageUtils";
 
 interface Category {
   id: number;
@@ -16,7 +17,11 @@ function useCategories() {
     queryKey: ["categories"],
     queryFn: async () => {
       const res = await api.get("/categories");
-      return res.data as Category[];
+      const data = res.data as Category[];
+      return data.map(c => ({
+        ...c,
+        thumbnailImage: optimizeCloudinaryUrl(c.thumbnailImage)
+      }));
     },
   });
 }

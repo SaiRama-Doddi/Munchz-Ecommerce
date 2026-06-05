@@ -12,6 +12,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { getProductUrl } from "../utils/slugify";
 import { useCategories } from "../hooks/useQueryHelpers";
 import { useSubcategories } from "../hooks/useSubcategories";
+import { optimizeCloudinaryUrl } from "../utils/imageUtils";
 
 /* ================= TYPES ================= */
 
@@ -273,7 +274,7 @@ export default function SearchProducts() {
                   <div className="relative bg-gray-50 aspect-square flex items-center justify-center">
 
                     <img
-                      src={p.imageUrl}
+                      src={optimizeCloudinaryUrl(p.imageUrl)}
                       alt={p.name}
                       className="w-full h-full object-contain p-4 group-hover:scale-105 transition"
                     />

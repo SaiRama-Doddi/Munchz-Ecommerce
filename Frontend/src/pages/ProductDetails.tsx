@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import api from "../api/client";
 import { useCart } from "../state/CartContext";
+import { optimizeCloudinaryUrl } from "../utils/imageUtils";
 import TopHeader from "../components/TopHeader";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -279,7 +280,7 @@ export default function ProductDetails() {
                   }}
                 >
                   <img
-                    src={selectedImage || images[0]}
+                    src={optimizeCloudinaryUrl(selectedImage || images[0])}
                     alt={product.name}
                     className="w-full h-full object-contain p-8 transition-transform duration-700 group-hover/main:scale-105"
                   />
@@ -287,7 +288,7 @@ export default function ProductDetails() {
                     <div
                       className="absolute inset-0 z-50 pointer-events-none hidden lg:block"
                       style={{
-                        backgroundImage: `url(${selectedImage || images[0]})`,
+                        backgroundImage: `url(${optimizeCloudinaryUrl(selectedImage || images[0])})`,
                         backgroundPosition: `${zoomPos.x}% ${zoomPos.y}%`,
                         backgroundSize: "250%",
                       }}
@@ -306,7 +307,7 @@ export default function ProductDetails() {
                         : "border-gray-100 bg-white hover:border-green-200"
                         }`}
                     >
-                      <img src={img} alt="thumb" className="w-full h-full object-contain rounded-xl" />
+                      <img src={optimizeCloudinaryUrl(img)} alt="thumb" className="w-full h-full object-contain rounded-xl" />
                     </button>
                   ))}
                 </div>
@@ -472,7 +473,7 @@ export default function ProductDetails() {
                 <div key={p.id} onClick={() => navigate(`/product/${p.id}`)} className="group bg-white rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2">
 
                   <div className="relative bg-transparent aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden flex-shrink-0">
-                    <img src={p.imageUrl || ((p.imageUrls && p.imageUrls.length > 0) ? p.imageUrls[0] : "")} alt={p.name} className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700" />
+                    <img src={optimizeCloudinaryUrl(p.imageUrl || ((p.imageUrls && p.imageUrls.length > 0) ? p.imageUrls[0] : ""))} alt={p.name} className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700" />
                     {relDiscount > 0 && (
                       <div className="absolute top-2.5 right-2.5 bg-green-600 text-white text-sm px-3 py-1 rounded-full font-bold shadow-lg">{relDiscount}% OFF</div>
                     )}

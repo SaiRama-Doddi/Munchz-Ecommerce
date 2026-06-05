@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { getProductUrl } from "../utils/slugify";
+import { optimizeCloudinaryUrl } from "../utils/imageUtils";
 /* =========================
    TYPES
 ========================= */
@@ -234,7 +235,7 @@ const scrollRight = () => {
                   {/* IMAGE BOX */}
                   <div className="relative bg-transparent aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden flex-shrink-0">
                     <img
-                      src={p.imageUrl}
+                      src={optimizeCloudinaryUrl(p.imageUrl)}
                       alt={p.name}
                       className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700"
                     />
