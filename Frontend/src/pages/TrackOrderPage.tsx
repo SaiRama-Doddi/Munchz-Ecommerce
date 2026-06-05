@@ -50,7 +50,7 @@ export default function TrackOrderPage() {
           {/* BACKGROUND IMAGE - FORCED COVERAGE */}
           <div className="absolute inset-0 z-0">
             <img 
-              src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1778814010/track_board_banner.jpg_kb5jia.jpg" 
+              src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1780413088/track_board_banner_t1yvlz.jpg" 
               className="w-full h-full object-cover sm:object-fill"
               alt="Track Background"
             />
