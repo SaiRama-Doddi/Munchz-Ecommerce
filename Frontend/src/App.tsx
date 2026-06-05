@@ -66,6 +66,7 @@ const AuditLogs = lazy(() => import("./pages/AuditLogs"));
 const UserManagement = lazy(() => import("./pages/UserManagement"));
 const ReferralSettings = lazy(() => import("./pages/ReferralSettings"));
 const GiftingPage = lazy(() => import("./pages/GiftingPage"));
+const AdminBanners = lazy(() => import("./pages/AdminBanners"));
 
 
 export default function App() {
@@ -296,6 +297,7 @@ export default function App() {
       <Route path="orders" element={<OrdersPage />} />
       <Route path="payments" element={<AdminPayments />} />
       <Route path="coupons" element={<AdminCoupons />} />
+      <Route path="banners" element={<AdminBanners />} />
       <Route path="reviews" element={<AdminReviews />} />
       <Route path="stock-entry" element={<AddStockDetails />} />
       <Route path="stock-details" element={<StockDetails />} />

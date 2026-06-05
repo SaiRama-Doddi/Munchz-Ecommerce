@@ -1,34 +1,53 @@
 import { useEffect, useState } from "react";
-
-const BANNERS = [
-  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1780388897/gifts_coming_soon_banner_zo4uvh.png" },
-  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778332622/desktop_banners_2.jpg_1_c1fukp.jpg" },
-  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/v1778564998/desktop_banners_3.jpg_mtdats.jpg" }
-];
+import { bannerService, Banner } from "../services/bannerService";
 
 export default function Hero() {
+  const [banners, setBanners] = useState<Banner[]>([]);
   const [active, setActive] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        const data = await bannerService.getBanners();
+        setBanners(data);
+      } catch (err) {
+        console.error("Failed to load hero banners:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBanners();
+  }, []);
+
+  useEffect(() => {
+    if (banners.length <= 1) return;
     const timer = setInterval(() => {
-      setActive((prev) => (prev + 1) % BANNERS.length);
+      setActive((prev) => (prev + 1) % banners.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, []);
+  }, [banners.length]);
+
+  if (loading || banners.length === 0) {
+    return (
+      <div 
+        className="w-full bg-gray-100 animate-pulse" 
+        style={{ aspectRatio: "1920/900" }} 
+      />
+    );
+  }
 
   return (
     <section className="w-full mb-8 sm:mb-12 lg:mb-16">
 
       {/* HERO CONTAINER */}
       <div
-        className="
-        relative w-full overflow-hidden bg-black
-        aspect-[1920/900]
-        "
+        className="relative w-full overflow-hidden bg-black"
+        style={{ aspectRatio: "1920/900" }}
       >
 
         {/* Images */}
-        {BANNERS.map((banner, index) => (
+        {banners.map((banner, index) => (
           <div
             key={index}
             className={`absolute inset-0 w-full h-full transition-all duration-[1500ms]
@@ -38,7 +57,7 @@ export default function Hero() {
             <img
               src={banner.image}
               alt="Premium snacks"
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-fill"
             />
 
             {/* Very Subtle Overlay for depth */}
@@ -48,7 +67,7 @@ export default function Hero() {
 
         {/* DOT INDICATOR */}
         <div className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-20 flex gap-4">
-          {BANNERS.map((_, index) => (
+          {banners.map((_, index) => (
             <button
               key={index}
               onClick={() => setActive(index)}

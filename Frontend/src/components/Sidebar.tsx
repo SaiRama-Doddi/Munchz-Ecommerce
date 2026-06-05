@@ -54,6 +54,7 @@ const items = [
     type: "header" 
   },
   { to: "/admin/coupons", label: "Coupons", icon: TicketPercent },
+  { to: "/admin/banners", label: "Banners", icon: Layers },
   { to: "/admin/referral-settings", label: "Referral Settings", icon: CreditCard },
   { to: "/admin/reviews", label: "Reviews", icon: ClipboardList },
   { 
@@ -105,7 +106,7 @@ export default function Sidebar({ isOpen = true, onClose = () => {} }: SidebarPr
     ) {
       return hasPermission("STOCKS", "READ");
     }
-    if (item.to === "/admin/coupons") {
+    if (item.to === "/admin/coupons" || item.to === "/admin/banners") {
       return hasPermission("COUPONS", "READ");
     }
     if (item.to === "/admin/reviews") {

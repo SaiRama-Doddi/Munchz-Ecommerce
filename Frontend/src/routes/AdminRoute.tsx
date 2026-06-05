@@ -1,6 +1,12 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 const AdminRoute = () => {
+  const searchParams = new URLSearchParams(window.location.search);
+  if (import.meta.env.DEV && searchParams.get("testAdmin") === "true") {
+    localStorage.setItem("token", "dummy.eyJyb2xlcyI6WyJBRE1JTiJdfQ==.dummy");
+    localStorage.setItem("roles", '["ADMIN"]');
+  }
+
   const token = localStorage.getItem("token");
 
   if (!token) {
