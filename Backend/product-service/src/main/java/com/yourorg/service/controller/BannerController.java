@@ -2,6 +2,7 @@ package com.yourorg.service.controller;
 
 import com.yourorg.service.entity.Banner;
 import com.yourorg.service.service.BannerService;
+import com.yourorg.service.util.NotificationUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +13,11 @@ import java.util.List;
 public class BannerController {
 
     private final BannerService bannerService;
+    private final NotificationUtil notificationUtil;
 
-    public BannerController(BannerService bannerService) {
+    public BannerController(BannerService bannerService, NotificationUtil notificationUtil) {
         this.bannerService = bannerService;
+        this.notificationUtil = notificationUtil;
     }
 
     @GetMapping
@@ -25,6 +28,8 @@ public class BannerController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public List<Banner> save(@RequestBody List<Banner> banners) {
-        return bannerService.saveBanners(banners);
+        List<Banner> result = bannerService.saveBanners(banners);
+        notificationUtil.sendNotification("BANNER_UPDATE");
+        return result;
     }
 }

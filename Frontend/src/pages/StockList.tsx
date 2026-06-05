@@ -33,6 +33,17 @@ export default function StockList() {
 
   useEffect(() => {
     fetchStock();
+
+    const handleUpdate = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail?.type === "STOCK_UPDATE") {
+        console.log("StockList: Reloading stock list due to live update...");
+        fetchStock();
+      }
+    };
+
+    window.addEventListener("munchz-update", handleUpdate);
+    return () => window.removeEventListener("munchz-update", handleUpdate);
   }, []);
 
   const deleteStock = async (id: number) => {

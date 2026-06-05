@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.yourorg.service.dto.AddStockRequest;
 import com.yourorg.service.dto.ReduceStockRequest;
 import com.yourorg.service.service.StockService;
+import com.yourorg.service.util.NotificationUtil;
 
 @RestController
 @RequestMapping("/api/stock")
@@ -23,6 +24,9 @@ public class StockController {
 
     @Autowired
     private StockService stockService;
+
+    @Autowired
+    private NotificationUtil notificationUtil;
 
     // ADD STOCK
     @PostMapping("/add")
@@ -35,6 +39,8 @@ public class StockController {
                 req.getQuantityKg()
         );
 
+        notificationUtil.sendNotification("STOCK_UPDATE");
+        notificationUtil.sendNotification("PRODUCT_UPDATE");
         return ResponseEntity.ok("Stock Added Successfully");
     }
 
@@ -48,6 +54,8 @@ public class StockController {
             return ResponseEntity.badRequest().body("Insufficient Stock");
         }
 
+        notificationUtil.sendNotification("STOCK_UPDATE");
+        notificationUtil.sendNotification("PRODUCT_UPDATE");
         return ResponseEntity.ok("Stock Reduced Successfully");
     }
 
@@ -70,12 +78,16 @@ public class StockController {
             @RequestBody BigDecimal qtyKg
     ) {
         stockService.updateStock(productId, qtyKg);
+        notificationUtil.sendNotification("STOCK_UPDATE");
+        notificationUtil.sendNotification("PRODUCT_UPDATE");
         return ResponseEntity.ok("Stock Updated Successfully");
     }
     @DeleteMapping("/delete/{productId}")
-public ResponseEntity<?> deleteStock(@PathVariable Long productId) {
-    stockService.deleteStock(productId);
-    return ResponseEntity.ok("Stock Deleted Successfully");
-}
+    public ResponseEntity<?> deleteStock(@PathVariable Long productId) {
+        stockService.deleteStock(productId);
+        notificationUtil.sendNotification("STOCK_UPDATE");
+        notificationUtil.sendNotification("PRODUCT_UPDATE");
+        return ResponseEntity.ok("Stock Deleted Successfully");
+    }
 
 }

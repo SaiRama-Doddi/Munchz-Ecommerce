@@ -3,6 +3,7 @@ package com.yourorg.coupon.controller;
 
 import com.yourorg.coupon.dto.*;
 import com.yourorg.coupon.service.CouponService;
+import com.yourorg.coupon.util.NotificationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,20 +16,26 @@ import java.util.UUID;
 public class CouponController {
 
     private final CouponService couponService;
+    private final NotificationUtil notificationUtil;
 
     @PostMapping
     public CouponResponse create(@RequestBody CouponRequest request) {
-        return couponService.createCoupon(request);
+        CouponResponse response = couponService.createCoupon(request);
+        notificationUtil.sendNotification("COUPON_UPDATE");
+        return response;
     }
 
     @PutMapping("/{id}")
     public CouponResponse update(@PathVariable Long id, @RequestBody CouponRequest request) {
-        return couponService.updateCoupon(id, request);
+        CouponResponse response = couponService.updateCoupon(id, request);
+        notificationUtil.sendNotification("COUPON_UPDATE");
+        return response;
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         couponService.deleteCoupon(id);
+        notificationUtil.sendNotification("COUPON_UPDATE");
     }
 
     @GetMapping

@@ -69,7 +69,10 @@ const GiftingPage = lazy(() => import("./pages/GiftingPage"));
 const AdminBanners = lazy(() => import("./pages/AdminBanners"));
 
 
+import { useLiveUpdates } from "./hooks/useLiveUpdates";
+
 export default function App() {
+  useLiveUpdates();
   const { pathname, hash } = useLocation();
 
   useEffect(() => {

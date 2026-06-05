@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.yourorg.service.dto.ProductRequest;
 import com.yourorg.service.dto.ProductResponse;
 import com.yourorg.service.service.ProductService;
+import com.yourorg.service.util.NotificationUtil;
 
 import jakarta.validation.Valid;
 
@@ -16,29 +17,28 @@ import jakarta.validation.Valid;
 public class ProductController {
 
     private final ProductService productService;
+    private final NotificationUtil notificationUtil;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, NotificationUtil notificationUtil) {
         this.productService = productService;
+        this.notificationUtil = notificationUtil;
     }
-
-
-
-
-
-
-    
 
     /** CREATE PRODUCT */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductResponse create(@Valid @RequestBody ProductRequest request) {
-        return productService.create(request);
+        ProductResponse response = productService.create(request);
+        notificationUtil.sendNotification("PRODUCT_UPDATE");
+        return response;
     }
 
     /** UPDATE PRODUCT */
     @PutMapping("/{id}")
     public ProductResponse update(@PathVariable Long id, @Valid @RequestBody ProductRequest request) {
-        return productService.update(id, request);
+        ProductResponse response = productService.update(id, request);
+        notificationUtil.sendNotification("PRODUCT_UPDATE");
+        return response;
     }
 
     /** DELETE PRODUCT */
@@ -46,6 +46,7 @@ public class ProductController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         productService.delete(id);
+        notificationUtil.sendNotification("PRODUCT_UPDATE");
     }
 
     /** GET PRODUCT BY ID */

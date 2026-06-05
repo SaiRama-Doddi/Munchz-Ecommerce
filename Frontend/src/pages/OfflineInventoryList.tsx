@@ -42,6 +42,17 @@ export default function OfflineInventoryList() {
   useEffect(() => {
     loadStocks();
     api.get("/categories").then(res => setCategories(res.data));
+
+    const handleUpdate = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail?.type === "STOCK_UPDATE") {
+        console.log("OfflineInventoryList: Reloading physical stocks due to live update...");
+        loadStocks();
+      }
+    };
+
+    window.addEventListener("munchz-update", handleUpdate);
+    return () => window.removeEventListener("munchz-update", handleUpdate);
   }, []);
 
   /* ================= DELETE ================= */

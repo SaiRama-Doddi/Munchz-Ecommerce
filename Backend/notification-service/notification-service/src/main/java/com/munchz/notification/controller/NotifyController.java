@@ -15,4 +15,9 @@ public class NotifyController {
     public void sendOrderNotification(@RequestBody String message) {
         messagingTemplate.convertAndSend("/topic/orders", message);
     }
+
+    @PostMapping("/broadcast")
+    public void broadcast(@RequestBody String message) {
+        messagingTemplate.convertAndSend("/topic/updates", message);
+    }
 }

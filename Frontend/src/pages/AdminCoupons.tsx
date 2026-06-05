@@ -54,6 +54,17 @@ export default function AdminCoupons() {
 
   useEffect(() => {
     fetchCoupons();
+
+    const handleUpdate = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail?.type === "COUPON_UPDATE") {
+        console.log("AdminCoupons: Reloading coupons due to live update...");
+        fetchCoupons();
+      }
+    };
+
+    window.addEventListener("munchz-update", handleUpdate);
+    return () => window.removeEventListener("munchz-update", handleUpdate);
   }, []);
 
   /* ================= HANDLERS ================= */

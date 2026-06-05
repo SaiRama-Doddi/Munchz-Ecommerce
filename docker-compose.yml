@@ -160,6 +160,16 @@ services:
     env_file:
       - .env
 
+  notification-service:
+    build: ./Backend/notification-service/notification-service
+    container_name: notification-service
+    depends_on:
+      - postgres
+    expose:
+      - "8090"
+    env_file:
+      - .env
+
 
 
 # networks:

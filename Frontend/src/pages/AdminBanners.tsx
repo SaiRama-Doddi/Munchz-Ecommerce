@@ -40,6 +40,17 @@ export default function AdminBanners() {
       }
     };
     fetchBanners();
+
+    const handleUpdate = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail?.type === "BANNER_UPDATE") {
+        console.log("AdminBanners: Reloading banners list due to live update...");
+        fetchBanners();
+      }
+    };
+
+    window.addEventListener("munchz-update", handleUpdate);
+    return () => window.removeEventListener("munchz-update", handleUpdate);
   }, []);
 
   const handleAddBanner = async () => {

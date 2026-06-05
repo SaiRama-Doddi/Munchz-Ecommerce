@@ -18,6 +18,17 @@ export default function Hero() {
       }
     };
     fetchBanners();
+
+    const handleUpdate = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail?.type === "BANNER_UPDATE") {
+        console.log("Hero: Reloading banners due to live update...");
+        fetchBanners();
+      }
+    };
+
+    window.addEventListener("munchz-update", handleUpdate);
+    return () => window.removeEventListener("munchz-update", handleUpdate);
   }, []);
 
   useEffect(() => {
