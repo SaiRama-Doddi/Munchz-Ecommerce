@@ -89,7 +89,7 @@ export default function UserOrders() {
           if (!imageMap[item.productId]) {
             try {
               const res = await axios.get(`/product/api/products/${item.productId}`);
-              imageMap[item.productId] = res.data.imageUrls?.[0] || res.data.imageUrl || "/placeholder.png";
+              imageMap[item.productId] = res.data.imageUrl || res.data.imageUrls?.[0] || "/placeholder.png";
             } catch {
               imageMap[item.productId] = "/placeholder.png";
             }

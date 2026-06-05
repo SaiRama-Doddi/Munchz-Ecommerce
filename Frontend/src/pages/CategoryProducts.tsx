@@ -258,7 +258,7 @@ export default function CategoryProducts() {
                 )
                 : 0;
 
-            const displayImage = (p.imageUrls && p.imageUrls.length > 0) ? p.imageUrls[0] : p.imageUrl;
+            const displayImage = p.imageUrl || ((p.imageUrls && p.imageUrls.length > 0) ? p.imageUrls[0] : "");
 
             return (
               <div

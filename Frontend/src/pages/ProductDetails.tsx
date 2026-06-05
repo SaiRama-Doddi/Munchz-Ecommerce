@@ -472,7 +472,7 @@ export default function ProductDetails() {
                 <div key={p.id} onClick={() => navigate(`/product/${p.id}`)} className="group bg-white rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2">
 
                   <div className="relative bg-transparent aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden flex-shrink-0">
-                    <img src={(p.imageUrls && p.imageUrls.length > 0) ? p.imageUrls[0] : p.imageUrl} alt={p.name} className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700" />
+                    <img src={p.imageUrl || ((p.imageUrls && p.imageUrls.length > 0) ? p.imageUrls[0] : "")} alt={p.name} className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700" />
                     {relDiscount > 0 && (
                       <div className="absolute top-2.5 right-2.5 bg-green-600 text-white text-sm px-3 py-1 rounded-full font-bold shadow-lg">{relDiscount}% OFF</div>
                     )}
