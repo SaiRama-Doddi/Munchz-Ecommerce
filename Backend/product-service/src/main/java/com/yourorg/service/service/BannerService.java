@@ -24,6 +24,14 @@ public class BannerService {
     public List<Banner> saveBanners(List<Banner> banners) {
         // Delete all existing banners to replace them with the new order/list
         bannerRepository.deleteAll();
+        
+        // Clear IDs so they are treated as new inserts (prevents OptimisticLockingFailureException)
+        if (banners != null) {
+            for (Banner banner : banners) {
+                banner.setId(null);
+            }
+        }
+        
         // Save the new list
         return bannerRepository.saveAll(banners);
     }
