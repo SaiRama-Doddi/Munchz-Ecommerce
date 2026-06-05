@@ -7,7 +7,7 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           
           {/* ================= LEFT SIDE: CONTENT ================= */}
-          <div className="lg:col-span-7 flex flex-col gap-6 md:gap-8">
+          <div className="lg:col-span-8 flex flex-col gap-6 md:gap-8">
             
             {/* HEADER AREA */}
             <div>
@@ -45,7 +45,7 @@ export default function About() {
           </div>
 
           {/* ================= RIGHT SIDE: IMAGE ================= */}
-          <div className="lg:col-span-5 w-full">
+          <div className="lg:col-span-4 w-full">
             <div className="relative w-full overflow-hidden rounded-[2.5rem] shadow-xl border border-green-100/50 aspect-square">
               <img 
                 src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1780388898/why_choose_banner_gsscea.jpg" 
