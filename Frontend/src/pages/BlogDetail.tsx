@@ -62,19 +62,9 @@ export default function BlogDetail() {
             {blog.title}
           </h1>
           
-          <div className="text-gray-600 text-sm max-w-3xl leading-relaxed italic border-l-4 border-green-600 pl-6 py-2">
-            {blog.description.split(". ").map((sentence, idx) => {
-              let trimmed = sentence.trim();
-              if (trimmed && !trimmed.endsWith(".")) {
-                trimmed += ".";
-              }
-              return (
-                <p key={idx} className={idx > 0 ? "mt-2" : ""}>
-                  {trimmed}
-                </p>
-              );
-            })}
-          </div>
+          <p className="text-gray-600 text-sm max-w-3xl leading-relaxed italic border-l-4 border-green-600 pl-6 py-2">
+            {blog.description}
+          </p>
 
         </div>
 
