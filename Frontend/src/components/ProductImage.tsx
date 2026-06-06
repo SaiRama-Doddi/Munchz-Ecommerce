@@ -21,14 +21,13 @@ export default function ProductImage() {
             <span className="inline-block text-3xl md:text-4xl font-bold tracking-tight">
               GoMunchz
             </span>
-
           </div>
         </div>
 
         {/* RIGHT PRODUCT IMAGE */}
         <div className="flex justify-center md:justify-end">
           <img
-            src="/premium_snacks.png"
+            src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1780478793/all_makhana_flavour_rrkwf9.jpg"
             alt="GoMunchz Premium Snacks"
             className="w-full max-w-lg max-h-[300px] md:max-h-[400px] object-contain hover:scale-105 transition duration-700"
           />
