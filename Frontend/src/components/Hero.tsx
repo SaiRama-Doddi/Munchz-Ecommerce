@@ -39,13 +39,17 @@ export default function Hero() {
     return () => clearInterval(timer);
   }, [banners.length]);
 
-  if (loading || banners.length === 0) {
+  if (loading) {
     return (
       <div 
         className="w-full bg-gray-100 animate-pulse" 
         style={{ aspectRatio: "1920/900" }} 
       />
     );
+  }
+
+  if (banners.length === 0) {
+    return null;
   }
 
   return (

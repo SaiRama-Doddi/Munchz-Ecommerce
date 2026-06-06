@@ -1,10 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Calendar, User, Clock, ChevronRight, BookOpen } from "lucide-react";
+import { Calendar, Clock, ChevronDown } from "lucide-react";
 import { blogs } from "../data/blogData";
 import TopHeader from "../components/TopHeader";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+
+import blog1 from "../assets/blog/blog_healthy_future.png";
+import blog2 from "../assets/blog/blog_makhana_choice.png";
+import blog3 from "../assets/blog/blog_weight_loss_snacks.png";
+import blog4 from "../assets/blog/blog_choose_snacks.png";
+import blog5 from "../assets/blog/blog_late_night_cravings.png";
+import blog6 from "../assets/blog/blog_makhana_5_ways.png";
+
+const blogImages = [blog1, blog2, blog3, blog4, blog5, blog6];
 
 export default function BlogListPage() {
   return (
@@ -33,40 +42,44 @@ export default function BlogListPage() {
             >
               <div className="p-8 md:p-10 flex flex-col flex-grow text-left">
                 {/* Meta Info */}
-                <div className="flex items-center gap-4 text-sm text-gray-400 mb-6 font-medium">
-                  <div className="flex items-center gap-1.5">
-                    <Calendar size={14} className="text-green-600" />
-                    <span>March 2025</span>
+                <div className="flex items-center justify-between text-sm text-gray-400 mb-6 font-medium">
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-1.5">
+                      <Calendar size={14} className="text-green-600" />
+                      <span>March 2025</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Clock size={14} className="text-green-600" />
+                      <span>5 min</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1.5">
-                    <Clock size={14} className="text-green-600" />
-                    <span>5 min</span>
-                  </div>
+                  {/* Chevron down inside circular outline */}
+                  <Link 
+                    to={`/blog/${blog.slug}`}
+                    className="w-8 h-8 rounded-full border border-green-600 flex items-center justify-center text-green-600 hover:bg-green-600 hover:text-white transition-all duration-300"
+                  >
+                    <ChevronDown size={16} />
+                  </Link>
+                </div>
+
+                {/* Blog Image */}
+                <div className="w-full aspect-[16/10] overflow-hidden rounded-2xl mb-6">
+                  <Link to={`/blog/${blog.slug}`}>
+                    <img 
+                      src={blogImages[index]} 
+                      alt={blog.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" 
+                    />
+                  </Link>
                 </div>
 
                 <h2 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-green-700 transition-colors leading-tight line-clamp-2">
                   <Link to={`/blog/${blog.slug}`}>{blog.title}</Link>
                 </h2>
                 
-                <p className="text-gray-500 text-sm leading-relaxed mb-8 line-clamp-3">
+                <p className="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3">
                   {blog.description}
                 </p>
-
-                <div className="mt-auto pt-6 border-t border-gray-50 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center text-green-700 font-bold text-sm">
-                      GM
-                    </div>
-                    <span className="text-[11px] font-bold text-gray-700 uppercase tracking-widest">GoMunchz Team</span>
-                  </div>
-                  
-                  <Link 
-                    to={`/blog/${blog.slug}`} 
-                    className="flex items-center gap-1.5 text-2xl font-bold text-green-700 hover:gap-3 transition-all tracking-widest uppercase"
-                  >
-                    Read More <ChevronRight size={14} />
-                  </Link>
-                </div>
               </div>
             </article>
           ))}

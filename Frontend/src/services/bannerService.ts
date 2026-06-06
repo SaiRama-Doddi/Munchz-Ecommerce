@@ -18,7 +18,7 @@ export const bannerService = {
   getBanners: async (): Promise<Banner[]> => {
     try {
       const res = await api.get("/banners");
-      if (res.data && Array.isArray(res.data) && res.data.length > 0) {
+      if (res.data && Array.isArray(res.data)) {
         // Automatically optimize banner image URLs dynamically
         const optimized = res.data.map((b: Banner) => ({
           ...b,

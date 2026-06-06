@@ -5,19 +5,22 @@ export default function GiftingPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-white min-h-[70vh] flex flex-col items-center justify-center px-4 py-8 md:py-16">
-      <div className="max-w-6xl w-full mx-auto">
-        {/* Banner Image Container */}
-        <div className="relative overflow-hidden rounded-2xl md:rounded-[2.5rem] shadow-2xl border border-gray-100 mb-8 group">
-          <img
-            src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1780413412/gifts_coming_soon_banner_ysz6lu.png"
-            alt="Gifting Coming Soon Banner"
-            className="w-full h-auto block transition-transform duration-700 group-hover:scale-[1.02]"
-            loading="lazy"
-          />
-        </div>
+    <div className="bg-white min-h-screen flex flex-col">
+      {/* Banner Image Container - Full Width, No gaps (Hero Banner style) */}
+      <div 
+        className="relative w-full overflow-hidden bg-black"
+        style={{ aspectRatio: "1920/900" }}
+      >
+        <img
+          src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1780413412/gifts_coming_soon_banner_ysz6lu.png"
+          alt="Gifting Coming Soon Banner"
+          className="absolute inset-0 w-full h-full object-fill"
+          loading="lazy"
+        />
+      </div>
 
-        {/* Message and Call to Actions */}
+      {/* Message and Call to Actions */}
+      <div className="max-w-6xl w-full mx-auto px-4 py-8 md:py-16 flex-grow flex flex-col justify-center">
         <div className="text-center">
           <p className="text-gray-500 text-base md:text-lg max-w-lg mx-auto mb-8 leading-relaxed">
             Our premium curated gifting hampers and custom snack boxes are on their way. Stay tuned to make your celebrations extra special!
