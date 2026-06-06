@@ -8,14 +8,14 @@ import {
 } from "lucide-react";
 import { blogs } from "../data/blogData";
 
-import blog1 from "../assets/blog/blog_healthy_future.png";
-import blog2 from "../assets/blog/blog_makhana_choice.png";
-import blog3 from "../assets/blog/blog_weight_loss_snacks.png";
-import blog4 from "../assets/blog/blog_choose_snacks.png";
-import blog5 from "../assets/blog/blog_late_night_cravings.png";
-import blog6 from "../assets/blog/blog_makhana_5_ways.png";
-
-const blogImages = [blog1, blog2, blog3, blog4, blog5, blog6];
+const blogImages = [
+  "https://res.cloudinary.com/dxfdcmxze/image/upload/v1780478794/blog_banner_01_n8vzfy.jpg",
+  "https://res.cloudinary.com/dxfdcmxze/image/upload/v1780478793/blog_banner_02_vishvo.jpg",
+  "https://res.cloudinary.com/dxfdcmxze/image/upload/v1780478792/blog_banner_03_fv6rhw.jpg",
+  "https://res.cloudinary.com/dxfdcmxze/image/upload/v1780478792/blog_banner_04_fznyhj.jpg",
+  "https://res.cloudinary.com/dxfdcmxze/image/upload/v1780478792/blog_banner_05_wmo2xk.jpg",
+  "https://res.cloudinary.com/dxfdcmxze/image/upload/v1780478792/blog_banner_06_fbrmpb.jpg"
+];
 
 const blogCategories = [
   "Lifestyle",
