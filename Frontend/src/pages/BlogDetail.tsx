@@ -62,7 +62,7 @@ export default function BlogDetail() {
             {blog.title}
           </h1>
           
-          <p className="text-gray-600 text-sm max-w-3xl leading-relaxed italic border-l-4 border-green-600 pl-6 py-2">
+          <p className="text-gray-600 text-sm max-w-none leading-relaxed italic border-l-4 border-green-600 pl-6 py-2 text-left">
             {blog.description}
           </p>
 
