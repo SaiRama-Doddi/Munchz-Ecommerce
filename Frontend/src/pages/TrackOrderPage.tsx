@@ -42,20 +42,7 @@ export default function TrackOrderPage() {
       <TopHeader />
       <Header />
 
-      <main className="flex-grow max-w-7xl mx-auto px-4 py-8 md:py-12 lg:py-16 w-full flex flex-col items-center">
-        {/* PAGE HEADER */}
-        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wider text-green-700 bg-green-50 border border-green-200/50 uppercase mb-3">
-            🚚 Real-Time Tracking
-          </span>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight leading-tight">
-            Track Your <span className="text-green-600">Craving Journey</span>
-          </h1>
-          <p className="text-gray-500 text-sm mt-3 leading-relaxed max-w-lg mx-auto">
-            Follow your GoMunchz package in real-time from our roasting facility straight to your door.
-          </p>
-        </div>
-        
+      <main className="flex-grow max-w-7xl mx-auto px-4 pt-0 pb-6 md:pb-10 lg:pb-14 w-full flex flex-col items-center">
         {/* MAIN TRACKING CARD - SPLIT COLUMN LAYOUT */}
         <div className="max-w-6xl w-full bg-white shadow-[0_20px_50px_rgba(22,101,52,0.08)] overflow-hidden border border-green-100/50 flex flex-col md:flex-row min-h-0 md:min-h-[600px] rounded-[2.5rem]">
           
