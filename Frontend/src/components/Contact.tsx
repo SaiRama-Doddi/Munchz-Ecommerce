@@ -41,7 +41,7 @@ export default function ContactForm() {
     <div className="min-h-screen bg-[#f9fdf7] flex flex-col font-sans">
       <main className="flex-grow max-w-7xl mx-auto px-4 pt-0 pb-6 md:pb-10 lg:pb-14 w-full flex flex-col items-center">
         {/* MAIN CONTACT CARD */}
-        <div className="max-w-6xl w-full bg-white shadow-[0_20px_50px_rgba(22,101,52,0.08)] overflow-hidden border border-green-100/50 flex flex-col md:flex-row min-h-0 md:min-h-[600px] rounded-[2.5rem]">
+        <div className="max-w-6xl w-full bg-white shadow-[0_20px_50px_rgba(22,101,52,0.08)] overflow-hidden border border-green-100/50 flex flex-col md:flex-row min-h-0 md:min-h-[500px] rounded-[2.5rem]">
 
           {/* LEFT IMAGE / INFO SECTION */}
           <div className="md:w-1/2 w-full relative min-h-[250px] md:min-h-0 overflow-hidden bg-gray-50 border-b md:border-b-0 md:border-r border-green-100 group">
@@ -51,17 +51,10 @@ export default function ContactForm() {
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-green-950/20 via-transparent to-transparent opacity-80" />
-            
-            <div className="absolute bottom-6 left-6 right-6 p-5 bg-white/90 backdrop-blur-md rounded-2xl shadow-lg border border-white/50 hidden sm:block">
-              <h3 className="text-sm font-bold text-gray-900 mb-1">Quality You Can Trust</h3>
-              <p className="text-xs text-gray-600 leading-relaxed font-medium">
-                Have a bulk requirement or a special occasion? Our team is here to help you curate the perfect snack boxes.
-              </p>
-            </div>
           </div>
 
           {/* RIGHT FORM SECTION */}
-          <div className="md:w-1/2 w-full p-6 sm:p-12 md:p-16 flex flex-col justify-center bg-gradient-to-br from-green-50/20 via-white to-amber-50/15">
+          <div className="md:w-1/2 w-full p-6 sm:p-10 md:p-12 flex flex-col justify-center bg-gradient-to-br from-green-50/20 via-white to-amber-50/15">
             <div className="max-w-md mx-auto w-full space-y-6">
               <div className="text-center md:text-left">
                 <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight mb-2">

@@ -142,6 +142,7 @@ export default function Header() {
             </div>
 
             <NavLink to="/track" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Track</NavLink>
+            <NavLink to="/refer-and-earn" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Reward</NavLink>
             <NavLink to="/gifting" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Gifting</NavLink>
             <NavLink to="/contact" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Contact Us</NavLink>
           </nav>
@@ -423,6 +424,10 @@ export default function Header() {
                       <MapPin size={20} /> Track
                     </Link>
 
+                    <Link to="/refer-and-earn" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
+                      <Gift size={20} /> Reward
+                    </Link>
+
                     <Link to="/gifting" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
                       <ShoppingBag size={20} /> Gifting
                     </Link>
@@ -525,21 +530,19 @@ export default function Header() {
             </NavLink>
           )}
 
-          {profile && (
-            <NavLink to="/refer-and-earn" className={({ isActive }) => `flex flex-col items-center text-[10px] ${isActive ? "text-green-700 font-bold" : "text-gray-500"}`}>
-              {({ isActive }) => (
-                <>
-                  <div className="relative">
-                    <Gift size={20} className={isActive ? "text-green-700" : "text-amber-500"} />
-                    {profile.referralCredits && profile.referralCredits > 0 && (
-                       <span className="absolute -top-1 -right-2 bg-amber-400 text-black text-[8px] font-black px-1 rounded-sm">₹{profile.referralCredits}</span>
-                    )}
-                  </div>
-                  Earn
-                </>
-              )}
-            </NavLink>
-          )}
+          <NavLink to="/refer-and-earn" className={({ isActive }) => `flex flex-col items-center text-[10px] ${isActive ? "text-green-700 font-bold" : "text-gray-500"}`}>
+            {({ isActive }) => (
+              <>
+                <div className="relative">
+                  <Gift size={20} className={isActive ? "text-green-700" : "text-amber-500"} />
+                  {profile && profile.referralCredits && profile.referralCredits > 0 && (
+                     <span className="absolute -top-1 -right-2 bg-amber-400 text-black text-[8px] font-black px-1 rounded-sm">₹{profile.referralCredits}</span>
+                  )}
+                </div>
+                Earn
+              </>
+            )}
+          </NavLink>
 
           {profile ? (
             <button onClick={() => setOpenProfile(true)} className="flex flex-col items-center text-[11px] text-gray-600">
