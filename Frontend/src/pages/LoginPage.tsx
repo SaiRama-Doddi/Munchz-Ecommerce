@@ -45,7 +45,8 @@ export default function LoginPage() {
           className="w-16 mx-auto mb-4"
         />
 
-        {/* GOOGLE LOGIN */}
+        {/* GOOGLE LOGIN (Hidden for now) */}
+        {/*
         <GoogleLogin
           onSuccess={async (res) => {
             try {
@@ -63,6 +64,7 @@ export default function LoginPage() {
         />
 
         <div className="my-4 text-gray-400 text-xs text-center">OR</div>
+        */}
 
         {/* Email Input */}
         <input

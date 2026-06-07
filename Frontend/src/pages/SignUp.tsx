@@ -151,7 +151,8 @@ className="w-20 sm:w-24 mb-2"
 
 {step === "form" ? (
   <>
-    {/* GOOGLE SIGNUP */}
+    {/* GOOGLE SIGNUP (Hidden for now) */}
+    {/*
     <div className="flex justify-center mb-4">
     <GoogleLogin
             onSuccess={async (res) => {
@@ -178,6 +179,7 @@ className="w-20 sm:w-24 mb-2"
     <div className="my-5 text-center text-gray-400 text-sm">
     OR
     </div>
+    */}
 
     {/* FORM */}
     <form className="space-y-4" onSubmit={handleSubmit}>

@@ -71,7 +71,7 @@ export default function Header() {
 
           {/* LEFT */}
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 md:-ml-4 lg:-ml-6">
 
             <button
               onClick={() => setOpenMenu(true)}
