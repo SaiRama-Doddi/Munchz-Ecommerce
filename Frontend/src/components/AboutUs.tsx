@@ -29,33 +29,6 @@ export default function AboutUs() {
                 anytime with confidence.
               </p>
             </div>
-
-            <div className="mt-10 grid sm:grid-cols-2 gap-6 text-gray-700 font-medium">
-              <div className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
-                  <span className="text-green-600 text-sm">✓</span>
-                </div>
-                Premium quality dry fruits
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
-                  <span className="text-green-600 text-sm">✓</span>
-                </div>
-                Carefully sourced ingredients
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
-                  <span className="text-green-600 text-sm">✓</span>
-                </div>
-                Hygienic packaging standards
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
-                  <span className="text-green-600 text-sm">✓</span>
-                </div>
-                Taste with nutrition combined
-              </div>
-            </div>
           </div>
 
           {/* RIGHT SIDE — IMAGE */}

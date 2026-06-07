@@ -220,6 +220,7 @@ export default function App() {
               <TopHeader />
               <Header />
               <Contact />
+              <Footer />
             </>
           }
         />

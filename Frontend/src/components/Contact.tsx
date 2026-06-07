@@ -38,11 +38,11 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="h-[calc(100vh-120px)] md:h-[calc(100vh-112px)] bg-[#f9fdf7] flex items-center justify-center px-4 overflow-hidden">
-      <div className="max-w-4xl w-full h-auto max-h-[85vh] bg-[#ecfdf5] rounded-[2rem] shadow-2xl overflow-hidden grid md:grid-cols-2 border border-green-100/50">
+    <div className="min-h-[calc(100vh-120px)] md:min-h-[calc(100vh-112px)] bg-[#f9fdf7] flex items-center justify-center px-4 py-8 md:py-12">
+      <div className="max-w-4xl w-full h-auto md:max-h-[85vh] bg-[#ecfdf5] rounded-[2rem] shadow-2xl overflow-hidden grid md:grid-cols-2 border border-green-100/50">
 
         {/* LEFT IMAGE / INFO SECTION */}
-        <div className="relative hidden md:block group">
+        <div className="relative block h-64 md:h-full group overflow-hidden">
           <img
             src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1780728563/contact_us_banner_bppqqp.png"
             alt="Premium Healthy Snacks"
@@ -50,7 +50,7 @@ export default function ContactForm() {
           />
           <div className="absolute inset-0 bg-green-900/20 group-hover:bg-green-900/10 transition-colors" />
           
-          <div className="absolute bottom-6 left-6 right-6 p-5 bg-white/90 backdrop-blur-md rounded-2xl shadow-lg border border-white/50">
+          <div className="absolute bottom-6 left-6 right-6 p-5 bg-white/90 backdrop-blur-md rounded-2xl shadow-lg border border-white/50 hidden sm:block">
             <h3 className="text-sm font-bold text-gray-900 mb-1">Quality You Can Trust</h3>
             <p className="text-xs text-gray-600 leading-relaxed font-medium">
               Have a bulk requirement or a special occasion? Our team is here to help you curate the perfect snack boxes.
