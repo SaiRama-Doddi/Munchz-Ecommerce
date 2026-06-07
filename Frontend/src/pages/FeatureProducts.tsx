@@ -21,6 +21,7 @@ interface Variant {
 
 interface Product {
   id: number;
+  categoryId: number;
   name: string;
   imageUrl: string;
   imageUrls: string[];
@@ -28,8 +29,13 @@ interface Product {
   variants: Variant[];
 }
 
+interface Category {
+  id: number;
+  name: string;
+}
+
 /* =========================
-   FETCH PRODUCTS
+   FETCH DATA
 ========================= */
 function useFeaturedProducts() {
   return useQuery({
@@ -37,6 +43,16 @@ function useFeaturedProducts() {
     queryFn: async () => {
       const res = await api.get("/products");
       return res.data as Product[];
+    },
+  });
+}
+
+function useCategories() {
+  return useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const res = await api.get("/categories");
+      return res.data as Category[];
     },
   });
 }
@@ -95,9 +111,33 @@ export default function FeaturedProducts() {
   const navigate = useNavigate();
   const { addToCart, items: cartItems } = useCart();
   const { data: products = [], isLoading, isError } = useFeaturedProducts();
+  const { data: categories = [] } = useCategories();
 
   const [qtyMap, setQtyMap] = useState<Record<number, number>>({});
   const [variantMap, setVariantMap] = useState<Record<number, number>>({});
+
+  const orderedProducts = React.useMemo(() => {
+    if (!products || products.length === 0) return [];
+    if (!categories || categories.length === 0) return products;
+
+    const categoryOrderMap = new Map<number, number>();
+    categories.forEach((cat, index) => {
+      categoryOrderMap.set(cat.id, index);
+    });
+
+    return [...products].sort((a, b) => {
+      const aCatId = a.categoryId;
+      const bCatId = b.categoryId;
+
+      const aIndex = categoryOrderMap.has(aCatId) ? categoryOrderMap.get(aCatId)! : Infinity;
+      const bIndex = categoryOrderMap.has(bCatId) ? categoryOrderMap.get(bCatId)! : Infinity;
+
+      if (aIndex !== bIndex) {
+        return aIndex - bIndex;
+      }
+      return a.id - b.id;
+    });
+  }, [products, categories]);
 
   const sliderRef = useRef<HTMLDivElement>(null);
 const scrollLeft = () => {
@@ -194,7 +234,7 @@ const scrollRight = () => {
             className="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar"
           >
 
-            {products.map((p) => {
+            {orderedProducts.map((p) => {
 
               const base100g = p.variants.find(
                 (v) => v.weightInGrams === 100

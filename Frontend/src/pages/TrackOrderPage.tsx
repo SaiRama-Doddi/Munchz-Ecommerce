@@ -38,17 +38,17 @@ export default function TrackOrderPage() {
   };
 
   return (
-    <div className="min-h-screen font-sans bg-transparent flex flex-col">
+    <div className="min-h-screen font-sans bg-[#f9fdf7] flex flex-col">
       <TopHeader />
       <Header />
 
-      <main className="flex-grow flex items-center justify-center p-4 md:p-8 lg:p-12">
+      <main className="flex-grow flex items-center justify-center px-4 py-8 md:py-12 lg:py-16">
         
         {/* MAIN TRACKING CARD - SPLIT COLUMN LAYOUT */}
-        <div className="max-w-6xl w-full bg-white shadow-2xl overflow-hidden border border-green-100 flex flex-col md:flex-row min-h-[500px] md:min-h-[550px] rounded-[2.5rem]">
+        <div className="max-w-6xl w-full bg-white shadow-2xl overflow-hidden border border-green-100 flex flex-col md:flex-row min-h-0 md:min-h-[600px] rounded-[2.5rem]">
           
           {/* Left Side: The Image properly displayed */}
-          <div className="md:w-1/2 w-full relative min-h-[300px] md:min-h-0 overflow-hidden bg-gray-50 border-r border-green-50">
+          <div className="md:w-1/2 w-full relative min-h-[250px] md:min-h-0 overflow-hidden bg-gray-50 border-b md:border-b-0 md:border-r border-green-100">
             <img 
               src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1780413088/track_board_banner_t1yvlz.jpg" 
               className="absolute inset-0 w-full h-full object-cover object-left"
@@ -57,7 +57,7 @@ export default function TrackOrderPage() {
           </div>
 
           {/* Right Side: Tracking Form (Light Green Color Background) */}
-          <div className="md:w-1/2 w-full p-8 sm:p-12 md:p-16 flex flex-col justify-center bg-green-50/70">
+          <div className="md:w-1/2 w-full p-6 sm:p-12 md:p-16 flex flex-col justify-center bg-green-50/70">
             <div className="max-w-md mx-auto w-full">
               <div className="mb-8 text-center md:text-left">
                 <h2 className="text-3xl font-black text-gray-900 mb-3 tracking-tighter uppercase italic">

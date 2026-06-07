@@ -129,8 +129,31 @@ export default function AllProducts() {
     setSelectedSubcategoryId("ALL"); // Reset subcat when cat changes
   }, [selectedCategoryId]);
 
+  const sortedProducts = useMemo(() => {
+    if (!products || products.length === 0) return [];
+    if (!categories || categories.length === 0) return products;
+
+    const categoryOrderMap = new Map<number, number>();
+    categories.forEach((cat, index) => {
+      categoryOrderMap.set(cat.id, index);
+    });
+
+    return [...products].sort((a: any, b: any) => {
+      const aCatId = a.category?.id ?? a.categoryId ?? null;
+      const bCatId = b.category?.id ?? b.categoryId ?? null;
+
+      const aIndex = categoryOrderMap.has(aCatId) ? categoryOrderMap.get(aCatId)! : Infinity;
+      const bIndex = categoryOrderMap.has(bCatId) ? categoryOrderMap.get(bCatId)! : Infinity;
+
+      if (aIndex !== bIndex) {
+        return aIndex - bIndex;
+      }
+      return a.id - b.id;
+    });
+  }, [products, categories]);
+
   const filteredProducts = useMemo(() => {
-    let result = products;
+    let result = sortedProducts;
 
     if (selectedCategoryId !== "ALL") {
       result = result.filter((p: any) => {
@@ -147,7 +170,7 @@ export default function AllProducts() {
     }
 
     return result;
-  }, [products, selectedCategoryId, selectedSubcategoryId]);
+  }, [sortedProducts, selectedCategoryId, selectedSubcategoryId]);
 
   const selectedCategoryName = useMemo(() => {
     if (selectedCategoryId === "ALL") return "All";
