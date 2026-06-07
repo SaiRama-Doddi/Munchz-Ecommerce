@@ -42,33 +42,46 @@ export default function TrackOrderPage() {
       <TopHeader />
       <Header />
 
-      <main className="flex-grow flex items-center justify-center px-4 py-8 md:py-12 lg:py-16">
+      <main className="flex-grow max-w-7xl mx-auto px-4 py-8 md:py-12 lg:py-16 w-full flex flex-col items-center">
+        {/* PAGE HEADER */}
+        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wider text-green-700 bg-green-50 border border-green-200/50 uppercase mb-3">
+            🚚 Real-Time Tracking
+          </span>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight leading-tight">
+            Track Your <span className="text-green-600">Craving Journey</span>
+          </h1>
+          <p className="text-gray-500 text-sm mt-3 leading-relaxed max-w-lg mx-auto">
+            Follow your GoMunchz package in real-time from our roasting facility straight to your door.
+          </p>
+        </div>
         
         {/* MAIN TRACKING CARD - SPLIT COLUMN LAYOUT */}
-        <div className="max-w-6xl w-full bg-white shadow-2xl overflow-hidden border border-green-100 flex flex-col md:flex-row min-h-0 md:min-h-[600px] rounded-[2.5rem]">
+        <div className="max-w-6xl w-full bg-white shadow-[0_20px_50px_rgba(22,101,52,0.08)] overflow-hidden border border-green-100/50 flex flex-col md:flex-row min-h-0 md:min-h-[600px] rounded-[2.5rem]">
           
           {/* Left Side: The Image properly displayed */}
-          <div className="md:w-1/2 w-full relative min-h-[250px] md:min-h-0 overflow-hidden bg-gray-50 border-b md:border-b-0 md:border-r border-green-100">
+          <div className="md:w-1/2 w-full relative min-h-[250px] md:min-h-0 overflow-hidden bg-gray-50 border-b md:border-b-0 md:border-r border-green-100 group">
             <img 
               src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1780413088/track_board_banner_t1yvlz.jpg" 
-              className="absolute inset-0 w-full h-full object-cover object-left"
+              className="absolute inset-0 w-full h-full object-cover object-left transition-transform duration-700 group-hover:scale-105"
               alt="Track Banner"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-green-950/20 via-transparent to-transparent opacity-80" />
           </div>
 
           {/* Right Side: Tracking Form (Light Green Color Background) */}
-          <div className="md:w-1/2 w-full p-6 sm:p-12 md:p-16 flex flex-col justify-center bg-green-50/70">
-            <div className="max-w-md mx-auto w-full">
-              <div className="mb-8 text-center md:text-left">
-                <h2 className="text-3xl font-black text-gray-900 mb-3 tracking-tighter uppercase italic">
-                  Find Order
+          <div className="md:w-1/2 w-full p-6 sm:p-12 md:p-16 flex flex-col justify-center bg-gradient-to-br from-green-50/20 via-white to-amber-50/15">
+            <div className="max-w-md mx-auto w-full space-y-6">
+              <div className="text-center md:text-left">
+                <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight mb-2">
+                  Find Your <span className="text-green-600">Order</span>
                 </h2>
-                <p className="text-gray-600 font-bold italic">
-                  Look for the Shipment ID in your confirmation email or order history.
+                <p className="text-xs text-gray-500 font-medium">
+                  Enter the Shipment ID sent via SMS or email to get started.
                 </p>
               </div>
 
-              <form onSubmit={handleTrack} className="space-y-6">
+              <form onSubmit={handleTrack} className="space-y-4">
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none transition-transform group-focus-within:scale-110">
                     <Search className={`transition-colors ${error ? "text-red-400" : "text-gray-400 group-focus-within:text-green-600"}`} size={20} />
@@ -81,19 +94,19 @@ export default function TrackOrderPage() {
                       if (error) setError(null);
                     }}
                     placeholder="Enter Shipment ID (e.g. 123047...)"
-                    className={`w-full pl-14 pr-6 py-5 bg-white border-2 rounded-3xl font-bold text-gray-800 placeholder:text-gray-300 transition-all outline-none ${
+                    className={`w-full pl-14 pr-6 py-4 bg-white border-2 rounded-[1.5rem] font-semibold text-gray-800 placeholder:text-gray-300 transition-all outline-none text-sm ${
                       error
                         ? "border-red-200 focus:border-red-500 focus:ring-red-50"
-                        : "border-gray-200 focus:bg-white focus:border-green-500 focus:ring-4 focus:ring-green-100"
+                        : "border-gray-200 focus:bg-white focus:border-green-500 focus:ring-4 focus:ring-green-50"
                     }`}
                     required
                     disabled={validating}
                   />
 
                   {error && (
-                    <div className="flex items-center gap-2 mt-3 px-2 text-red-600 font-bold">
-                      <AlertCircle size={16} />
-                      <span className="text-sm italic">{error}</span>
+                    <div className="flex items-center gap-2 mt-2 px-2 text-red-600 font-bold">
+                      <AlertCircle size={14} />
+                      <span className="text-xs italic">{error}</span>
                     </div>
                   )}
                 </div>
@@ -101,30 +114,51 @@ export default function TrackOrderPage() {
                 <button
                   type="submit"
                   disabled={!shipmentId.trim() || validating}
-                  className="w-full bg-green-700 text-white py-5 rounded-3xl font-black text-base uppercase tracking-widest flex items-center justify-center gap-3 hover:bg-green-800 hover:shadow-2xl hover:shadow-green-200 transition-all disabled:opacity-70 disabled:cursor-not-allowed group relative overflow-hidden"
+                  className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-4 rounded-[1.5rem] font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-green-200 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed group relative overflow-hidden"
                 >
                   {validating ? (
-                    <div className="flex items-center gap-3">
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                       Validating...
                     </div>
                   ) : (
                     <>
-                      Track Now
-                      <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
+                      <span>Track Now</span>
+                      <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                     </>
                   )}
                 </button>
               </form>
 
-              <div className="mt-10 pt-8 border-t border-green-200/50 text-center">
-                <p className="text-gray-400 text-sm font-bold uppercase tracking-widest mb-3">Need help?</p>
+              <div className="pt-6 border-t border-green-100 flex flex-col items-center">
                 <button
                   onClick={() => navigate('/user-orders')}
-                  className="text-green-700 font-black hover:underline underline-offset-8 decoration-4 decoration-green-100 transition-all"
+                  className="text-xs font-bold text-green-700 hover:text-green-800 transition-colors uppercase tracking-wider hover:underline underline-offset-4"
                 >
-                  VIEW MY COMPLETE ORDER HISTORY
+                  View complete order history
                 </button>
+              </div>
+
+              {/* Trust Badges */}
+              <div className="grid grid-cols-3 gap-3 pt-6 border-t border-green-50 text-center">
+                <div className="flex flex-col items-center">
+                  <div className="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center mb-1.5 text-green-600">
+                    <span className="text-sm">⚡</span>
+                  </div>
+                  <span className="text-[10px] font-bold text-gray-700 uppercase tracking-tight">Instant Status</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center mb-1.5 text-green-600">
+                    <span className="text-sm">🔒</span>
+                  </div>
+                  <span className="text-[10px] font-bold text-gray-700 uppercase tracking-tight">Secure Info</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center mb-1.5 text-green-600">
+                    <span className="text-sm">📞</span>
+                  </div>
+                  <span className="text-[10px] font-bold text-gray-700 uppercase tracking-tight">24/7 Helpline</span>
+                </div>
               </div>
             </div>
           </div>

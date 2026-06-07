@@ -84,30 +84,23 @@ export default function ProductImage() {
           </div>
 
           {/* RIGHT SIDE: PRODUCT SHOWCASE */}
-          <div className="lg:col-span-5 flex justify-center lg:justify-end relative lg:h-full">
+          <div className="lg:col-span-5 flex items-center justify-center relative lg:h-full w-full min-h-[300px] lg:min-h-0 group">
             {/* Elegant Glowing Backdrop */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-green-100/50 via-amber-100/30 to-transparent rounded-[2.5rem] blur-2xl transform rotate-3 scale-95 -z-10" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-green-100/40 via-amber-100/25 to-transparent rounded-[2.5rem] blur-2xl transform rotate-3 scale-95 -z-10" />
             
-            {/* Main Showcase Container */}
-            <div className="relative w-full max-w-md bg-white rounded-[2.5rem] p-6 sm:p-8 border border-white/60 shadow-xl overflow-hidden group lg:h-full lg:flex lg:flex-col lg:justify-center">
-              <div className="absolute inset-0 bg-gradient-to-br from-green-50/30 to-amber-50/30 opacity-50 group-hover:opacity-100 transition duration-500" />
-              
-              <div className="relative aspect-square lg:aspect-auto lg:h-full flex items-center justify-center">
-                <img
-                  src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1780478793/all_makhana_flavour_rrkwf9.jpg"
-                  alt="GoMunchz Premium Snacks"
-                  className="w-full h-full object-contain p-4 group-hover:scale-105 transition duration-700 ease-out select-none filter drop-shadow-[0_15px_30px_rgba(22,101,52,0.15)]"
-                />
-              </div>
+            <img
+              src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1780478793/all_makhana_flavour_rrkwf9.jpg"
+              alt="GoMunchz Premium Snacks"
+              className="w-full h-full max-h-[400px] lg:max-h-[500px] object-contain p-4 group-hover:scale-105 transition duration-700 ease-out select-none filter drop-shadow-[0_20px_40px_rgba(22,101,52,0.18)]"
+            />
 
-              {/* Floating Badges */}
-              <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-md border border-green-50/60 flex items-center gap-1.5 text-xs font-bold text-gray-800 scale-95 group-hover:scale-100 transition-all duration-300">
-                <span className="text-base">✨</span> Guilt-Free Snacking
-              </div>
-              
-              <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-md border border-amber-50/60 flex items-center gap-1.5 text-xs font-bold text-gray-800 scale-95 group-hover:scale-100 transition-all duration-300">
-                <span className="text-base">❌</span> Zero Palm Oil
-              </div>
+            {/* Floating Badges */}
+            <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-md border border-green-50/60 flex items-center gap-1.5 text-xs font-bold text-gray-800 transition-all duration-300 hover:scale-105">
+              <span className="text-base">✨</span> Guilt-Free Snacking
+            </div>
+            
+            <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-md border border-amber-50/60 flex items-center gap-1.5 text-xs font-bold text-gray-800 transition-all duration-300 hover:scale-105">
+              <span className="text-base">❌</span> Zero Palm Oil
             </div>
           </div>
 
