@@ -26,13 +26,13 @@ export default function ProductImage() {
   ];
 
   return (
-    <section className="relative w-full overflow-hidden bg-gradient-to-br from-green-50/20 via-white to-amber-50/25 py-12 md:py-20 lg:py-24">
+    <section className="relative w-full overflow-hidden bg-gradient-to-br from-green-50/20 via-white to-amber-50/25 pt-12 pb-4 md:pt-20 md:pb-6 lg:pt-24 lg:pb-8">
       {/* Decorative Background Glows */}
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-green-100/30 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-amber-100/20 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-stretch">
           
           {/* LEFT SIDE: TEXT & PROCESS */}
           <div className="lg:col-span-7 space-y-8">
@@ -41,12 +41,11 @@ export default function ProductImage() {
                 🌱 The GoMunchz Promise
               </span>
               
-              <h2 className="text-4xl sm:text-5xl font-black text-gray-950 tracking-tight leading-tight">
-                Real ingredients. <br />
-                <span className="font-serif italic font-light text-green-600">Unreal flavor.</span>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
+                Real ingredients. <span className="text-green-600">Unreal flavor.</span>
               </h2>
               
-              <p className="text-gray-600 text-base md:text-lg max-w-2xl leading-relaxed">
+              <p className="text-gray-500 text-sm mt-3 max-w-lg leading-relaxed">
                 We believe snacking should be exciting, clean, and completely guilt-free. Here's a look at the thoughtful process behind every premium pack of GoMunchz.
               </p>
             </div>
@@ -85,15 +84,15 @@ export default function ProductImage() {
           </div>
 
           {/* RIGHT SIDE: PRODUCT SHOWCASE */}
-          <div className="lg:col-span-5 flex justify-center lg:justify-end relative">
+          <div className="lg:col-span-5 flex justify-center lg:justify-end relative lg:h-full">
             {/* Elegant Glowing Backdrop */}
             <div className="absolute inset-0 bg-gradient-to-tr from-green-100/50 via-amber-100/30 to-transparent rounded-[2.5rem] blur-2xl transform rotate-3 scale-95 -z-10" />
             
             {/* Main Showcase Container */}
-            <div className="relative w-full max-w-md bg-white rounded-[2.5rem] p-6 sm:p-8 border border-white/60 shadow-xl overflow-hidden group">
+            <div className="relative w-full max-w-md bg-white rounded-[2.5rem] p-6 sm:p-8 border border-white/60 shadow-xl overflow-hidden group lg:h-full lg:flex lg:flex-col lg:justify-center">
               <div className="absolute inset-0 bg-gradient-to-br from-green-50/30 to-amber-50/30 opacity-50 group-hover:opacity-100 transition duration-500" />
               
-              <div className="relative aspect-square flex items-center justify-center">
+              <div className="relative aspect-square lg:aspect-auto lg:h-full flex items-center justify-center">
                 <img
                   src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1780478793/all_makhana_flavour_rrkwf9.jpg"
                   alt="GoMunchz Premium Snacks"

@@ -4,7 +4,7 @@ export default function About() {
   return (
     <div className="w-full min-h-screen pt-4 pb-10 md:pt-8 md:pb-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-stretch">
           
           {/* ================= LEFT SIDE: CONTENT ================= */}
           <div className="lg:col-span-6 flex flex-col gap-6 md:gap-8">
@@ -45,8 +45,8 @@ export default function About() {
           </div>
 
           {/* ================= RIGHT SIDE: IMAGE ================= */}
-          <div className="lg:col-span-6 w-full">
-            <div className="relative w-full overflow-hidden rounded-[2.5rem] shadow-xl border border-green-100/50 aspect-square">
+          <div className="lg:col-span-6 w-full lg:h-full">
+            <div className="relative w-full overflow-hidden rounded-[2.5rem] shadow-xl border border-green-100/50 aspect-square lg:aspect-auto lg:h-full">
               <img 
                 src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1780413411/why_choose_banner_rewjth.jpg" 
                 alt="Why Choose GoMunchz"
