@@ -53,7 +53,7 @@ export default function Hero() {
   }
 
   return (
-    <section className="w-full mb-8 sm:mb-12 lg:mb-16">
+    <section className="w-full mb-0">
 
       {/* HERO CONTAINER */}
       <div

@@ -287,7 +287,7 @@ export default function AllProducts() {
                 </div>
 
                 {/* PRODUCTS GRID */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                   {catProducts.map((p: any) => {
                     const base100g = p.variants.find(
                       (v) => v.weightInGrams === 100
@@ -448,7 +448,7 @@ export default function AllProducts() {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                   {uncategorizedProducts.map((p: any) => {
                     const base100g = p.variants.find(
                       (v) => v.weightInGrams === 100

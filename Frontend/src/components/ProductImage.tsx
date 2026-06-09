@@ -40,7 +40,7 @@ export default function ProductImage() {
   ];
 
   return (
-    <section className="relative w-full overflow-hidden bg-gradient-to-br from-green-50/20 via-white to-amber-50/25 pt-8 pb-4 md:pt-12 md:pb-6 lg:pt-14 lg:pb-6">
+    <section className="relative w-full overflow-hidden bg-gradient-to-br from-green-50/20 via-white to-amber-50/25 pt-4 pb-4 md:pt-6 md:pb-6 lg:pt-8 lg:pb-6">
       {/* Decorative Background Glows */}
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-green-100/30 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-amber-100/20 rounded-full blur-3xl pointer-events-none" />
@@ -59,7 +59,7 @@ export default function ProductImage() {
                 Real ingredients. <span className="text-green-600">Unreal flavor.</span>
               </h2>
               
-              <p className="text-gray-500 text-sm mt-1.5 max-w-lg leading-relaxed">
+              <p className="text-gray-500 text-sm mt-1.5 max-w-none leading-relaxed">
                 We believe snacking should be exciting, clean, and completely guilt-free. Here's a look at the thoughtful process behind every premium pack of GoMunchz.
               </p>
             </div>
