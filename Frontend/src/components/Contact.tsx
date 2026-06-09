@@ -38,15 +38,15 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f9fdf7] flex flex-col font-sans">
-      <main className="flex-grow max-w-7xl mx-auto px-4 pt-0 pb-6 md:pb-10 lg:pb-14 w-full flex flex-col items-center">
+    <div className="bg-[#f9fdf7] flex flex-col font-sans">
+      <main className="flex-grow max-w-7xl mx-auto px-4 py-10 md:py-16 lg:py-20 w-full flex flex-col items-center">
         {/* MAIN CONTACT CARD */}
-        <div className="max-w-6xl w-full bg-white shadow-[0_20px_50px_rgba(22,101,52,0.08)] overflow-hidden border border-green-100/50 flex flex-col md:flex-row min-h-0 md:min-h-[500px] rounded-[2.5rem]">
+        <div className="max-w-6xl w-full bg-white shadow-[0_30px_70px_rgba(22,101,52,0.06)] overflow-hidden border border-green-100/30 flex flex-col md:flex-row min-h-0 md:min-h-[550px] rounded-[2.5rem] transition-all duration-300 hover:shadow-[0_40px_80px_rgba(22,101,52,0.09)]">
 
           {/* LEFT IMAGE / INFO SECTION */}
-          <div className="md:w-1/2 w-full relative min-h-[250px] md:min-h-0 overflow-hidden bg-gray-50 border-b md:border-b-0 md:border-r border-green-100 group">
+          <div className="md:w-1/2 w-full relative min-h-[300px] md:min-h-0 overflow-hidden bg-gray-50 border-b md:border-b-0 md:border-r border-green-100/20 group">
             <img
-              src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1780728563/contact_us_banner_bppqqp.png"
+              src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1780893983/contact_us_banner_ay7la9.jpg"
               alt="Premium Healthy Snacks"
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
@@ -54,24 +54,25 @@ export default function ContactForm() {
           </div>
 
           {/* RIGHT FORM SECTION */}
-          <div className="md:w-1/2 w-full p-6 sm:p-10 md:p-12 flex flex-col justify-center bg-gradient-to-br from-green-50/20 via-white to-amber-50/15">
+          <div className="md:w-1/2 w-full p-6 sm:p-10 md:p-12 flex flex-col justify-center bg-gradient-to-br from-green-50/10 via-white to-amber-50/10">
             <div className="max-w-md mx-auto w-full space-y-6">
               <div className="text-center md:text-left">
-                <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight mb-2">
-                   Get in <span className="text-green-600">Touch</span>
+                <span className="text-[10px] font-bold text-green-600 tracking-widest uppercase block mb-1">Let's Connect</span>
+                <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight leading-none mb-2">
+                   Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">Touch</span>
                 </h2>
                 <p className="text-xs text-gray-500 font-medium">Send us a message on WhatsApp!</p>
               </div>
 
               {/* ORDER TYPE SELECTOR */}
-              <div className="flex bg-white/50 p-1 rounded-2xl gap-2 mb-4 w-fit border border-white">
+              <div className="flex bg-green-50/40 p-1.5 rounded-2xl gap-1 w-full sm:w-fit border border-green-100/20 shadow-inner">
                 <button
                   type="button"
                   onClick={() => setOrderType("individual")}
-                  className={`px-5 py-2 rounded-xl text-xs font-bold transition-all ${
+                  className={`flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer ${
                     orderType === "individual" 
-                    ? "bg-green-600 text-white shadow-md shadow-green-200" 
-                    : "text-gray-500 hover:text-green-600"
+                    ? "bg-white text-green-700 shadow-sm border border-gray-100" 
+                    : "text-green-700/60 hover:text-green-800 hover:bg-white/30"
                   }`}
                 >
                   Individual Orders
@@ -79,10 +80,10 @@ export default function ContactForm() {
                 <button
                   type="button"
                   onClick={() => setOrderType("bulk")}
-                  className={`px-5 py-2 rounded-xl text-xs font-bold transition-all ${
+                  className={`flex-1 sm:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer ${
                     orderType === "bulk" 
-                    ? "bg-green-600 text-white shadow-md shadow-green-200" 
-                    : "text-gray-500 hover:text-green-600"
+                    ? "bg-white text-green-700 shadow-sm border border-gray-100" 
+                    : "text-green-700/60 hover:text-green-800 hover:bg-white/30"
                   }`}
                 >
                   Bulk Orders
@@ -90,72 +91,72 @@ export default function ContactForm() {
               </div>
 
               {/* FORM */}
-              <form onSubmit={handleSubmit} className="space-y-3">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 
                 {/* NAME GRID */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="relative">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600/50" size={16} />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="relative group">
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-green-600 transition-colors duration-200" size={16} />
                     <input
                       type="text"
                       name="firstName"
                       placeholder="First name"
                       value={formData.firstName}
                       onChange={handleChange}
-                      className="w-full pl-12 pr-4 py-3 rounded-[1.5rem] border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-50 transition-all font-semibold text-black placeholder:text-gray-500 text-xs"
+                      className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200/80 bg-gray-50/20 focus:bg-white outline-none focus:border-green-600 focus:ring-4 focus:ring-green-600/5 transition-all duration-200 font-semibold text-gray-800 placeholder:text-gray-400 text-xs shadow-sm"
                       required
                     />
                   </div>
-                  <div className="relative">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600/50" size={16} />
+                  <div className="relative group">
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-green-600 transition-colors duration-200" size={16} />
                     <input
                       type="text"
                       name="lastName"
                       placeholder="Last name"
                       value={formData.lastName}
                       onChange={handleChange}
-                      className="w-full pl-12 pr-4 py-3 rounded-[1.5rem] border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-50 transition-all font-semibold text-black placeholder:text-gray-500 text-xs"
+                      className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200/80 bg-gray-50/20 focus:bg-white outline-none focus:border-green-600 focus:ring-4 focus:ring-green-600/5 transition-all duration-200 font-semibold text-gray-800 placeholder:text-gray-400 text-xs shadow-sm"
                     />
                   </div>
                 </div>
 
                 {/* EMAIL */}
-                <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600/50" size={16} />
+                <div className="relative group">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-green-600 transition-colors duration-200" size={16} />
                   <input
                     type="email"
                     name="email"
                     placeholder="Your email address"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-3 rounded-[1.5rem] border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-50 transition-all font-semibold text-black placeholder:text-gray-500 text-xs"
+                    className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200/80 bg-gray-50/20 focus:bg-white outline-none focus:border-green-600 focus:ring-4 focus:ring-green-600/5 transition-all duration-200 font-semibold text-gray-800 placeholder:text-gray-400 text-xs shadow-sm"
                     required
                   />
                 </div>
 
                 {/* PHONE */}
-                <div className="relative">
-                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600/50" size={16} />
+                <div className="relative group">
+                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-green-600 transition-colors duration-200" size={16} />
                   <input
                     type="tel"
                     name="phone"
                     placeholder="Mobile number (optional)"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-3 rounded-[1.5rem] border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-50 transition-all font-semibold text-black placeholder:text-gray-500 text-xs"
+                    className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200/80 bg-gray-50/20 focus:bg-white outline-none focus:border-green-600 focus:ring-4 focus:ring-green-600/5 transition-all duration-200 font-semibold text-gray-800 placeholder:text-gray-400 text-xs shadow-sm"
                   />
                 </div>
 
                 {/* MESSAGE */}
-                <div className="relative">
-                  <MessageSquare className="absolute left-4 top-4 text-green-600/50" size={16} />
+                <div className="relative group">
+                  <MessageSquare className="absolute left-4 top-4 text-gray-400 group-focus-within:text-green-600 transition-colors duration-200" size={16} />
                   <textarea
                     name="message"
                     placeholder="How can we help you?"
                     value={formData.message}
                     onChange={handleChange}
-                    rows={3}
-                    className="w-full pl-12 pr-4 py-3 rounded-[1.5rem] border-2 border-white bg-white/80 focus:bg-white outline-none focus:border-green-400 focus:ring-4 focus:ring-green-50 transition-all font-semibold text-black placeholder:text-gray-500 resize-none text-xs"
+                    rows={4}
+                    className="w-full pl-11 pr-4 py-3.5 rounded-2xl border border-gray-200/80 bg-gray-50/20 focus:bg-white outline-none focus:border-green-600 focus:ring-4 focus:ring-green-600/5 transition-all duration-200 font-semibold text-gray-800 placeholder:text-gray-400 resize-none text-xs shadow-sm"
                     required
                   />
                 </div>
@@ -163,37 +164,40 @@ export default function ContactForm() {
                 {/* BUTTON */}
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold px-10 py-3.5 rounded-[1.5rem] shadow-lg shadow-green-200 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 flex items-center justify-center gap-3 decoration-0 text-xs cursor-pointer"
+                  className="group w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold px-10 py-4 rounded-2xl shadow-lg shadow-green-600/10 hover:shadow-xl hover:shadow-green-600/20 hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-3 text-xs uppercase tracking-wider cursor-pointer"
                 >
-                  <FaWhatsapp size={20} />
+                  <FaWhatsapp size={18} className="transition-transform duration-300 group-hover:scale-110" />
                   <span>SEND TO WHATSAPP</span>
-                  <Send size={14} className="ml-1 opacity-50" />
+                  <Send size={14} className="ml-1 opacity-60 transition-transform duration-300 group-hover:translate-x-1" />
                 </button>
                 
-                <p className="text-center text-[9px] text-gray-400 font-bold uppercase tracking-widest pt-1">
+                <p className="text-center text-[10px] text-gray-400 font-bold uppercase tracking-widest pt-1">
                    Response time: <span className="text-green-600">Within 30 minutes</span>
                 </p>
               </form>
 
               {/* Contact Badges */}
-              <div className="grid grid-cols-3 gap-3 pt-6 border-t border-green-50 text-center">
-                <div className="flex flex-col items-center">
-                  <div className="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center mb-1.5 text-green-600">
+              <div className="grid grid-cols-3 gap-3 pt-6 border-t border-gray-100 text-center">
+                <div className="flex flex-col items-center group/badge cursor-pointer">
+                  <div className="w-10 h-10 rounded-full bg-green-50/60 flex items-center justify-center mb-2 text-green-600 transition-all duration-300 group-hover/badge:bg-green-100 group-hover/badge:scale-105 shadow-sm">
                     <span className="text-sm">💬</span>
                   </div>
-                  <span className="text-[10px] font-bold text-gray-700 uppercase tracking-tight">Fast Reply</span>
+                  <span className="text-[10px] font-bold text-gray-700 uppercase tracking-wider">Fast Reply</span>
+                  <span className="text-[8px] text-gray-400 font-bold uppercase tracking-tight mt-0.5">&lt; 30 mins</span>
                 </div>
-                <div className="flex flex-col items-center">
-                  <div className="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center mb-1.5 text-green-600">
+                <div className="flex flex-col items-center group/badge cursor-pointer">
+                  <div className="w-10 h-10 rounded-full bg-green-50/60 flex items-center justify-center mb-2 text-green-600 transition-all duration-300 group-hover/badge:bg-green-100 group-hover/badge:scale-105 shadow-sm">
                     <span className="text-sm">🎁</span>
                   </div>
-                  <span className="text-[10px] font-bold text-gray-700 uppercase tracking-tight">Bulk Gifts</span>
+                  <span className="text-[10px] font-bold text-gray-700 uppercase tracking-wider">Bulk Gifts</span>
+                  <span className="text-[8px] text-gray-400 font-bold uppercase tracking-tight mt-0.5">Custom Orders</span>
                 </div>
-                <div className="flex flex-col items-center">
-                  <div className="w-8 h-8 rounded-lg bg-green-50 flex items-center justify-center mb-1.5 text-green-600">
+                <div className="flex flex-col items-center group/badge cursor-pointer">
+                  <div className="w-10 h-10 rounded-full bg-green-50/60 flex items-center justify-center mb-2 text-green-600 transition-all duration-300 group-hover/badge:bg-green-100 group-hover/badge:scale-105 shadow-sm">
                     <span className="text-sm">🌱</span>
                   </div>
-                  <span className="text-[10px] font-bold text-gray-700 uppercase tracking-tight">Premium Care</span>
+                  <span className="text-[10px] font-bold text-gray-700 uppercase tracking-wider">Premium Care</span>
+                  <span className="text-[8px] text-gray-400 font-bold uppercase tracking-tight mt-0.5">100% Organic</span>
                 </div>
               </div>
             </div>

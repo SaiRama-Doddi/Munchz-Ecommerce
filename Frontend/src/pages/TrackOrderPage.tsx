@@ -44,7 +44,7 @@ export default function TrackOrderPage() {
 
       <main className="flex-grow max-w-7xl mx-auto px-4 pt-0 pb-6 md:pb-10 lg:pb-14 w-full flex flex-col items-center">
         {/* MAIN TRACKING CARD - SPLIT COLUMN LAYOUT */}
-        <div className="max-w-6xl w-full bg-white shadow-[0_20px_50px_rgba(22,101,52,0.08)] overflow-hidden border border-green-100/50 flex flex-col md:flex-row min-h-0 md:min-h-[500px] rounded-[2.5rem]">
+        <div className="max-w-6xl w-full -mt-4 md:-mt-6 lg:-mt-8 bg-white shadow-[0_20px_50px_rgba(22,101,52,0.08)] overflow-hidden border border-green-100/50 flex flex-col md:flex-row min-h-0 md:min-h-[500px] rounded-[2.5rem]">
           
           {/* Left Side: The Image properly displayed */}
           <div className="md:w-1/2 w-full relative min-h-[250px] md:min-h-0 overflow-hidden bg-gray-50 border-b md:border-b-0 md:border-r border-green-100 group">

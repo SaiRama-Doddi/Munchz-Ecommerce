@@ -207,15 +207,15 @@ export default function FeaturedProducts() {
               const discount =
                 selectedVariant.mrp > selectedVariant.offerPrice
                   ? Math.round(
-                      ((selectedVariant.mrp -
-                        selectedVariant.offerPrice) /
-                        selectedVariant.mrp) *
-                        100
-                    )
+                    ((selectedVariant.mrp -
+                      selectedVariant.offerPrice) /
+                      selectedVariant.mrp) *
+                    100
+                  )
                   : 0;
 
-              const isInCart = cartItems.some(item => 
-                item.productId === p.id && 
+              const isInCart = cartItems.some(item =>
+                item.productId === p.id &&
                 item.selectedVariantIndex === selectedVariantIndex
               );
               return (
@@ -264,7 +264,7 @@ export default function FeaturedProducts() {
                             </span>
                           )}
                         </div>
-                        
+
                         <span className="px-2.5 py-1 bg-white border border-green-200 text-green-700 text-[10px] font-bold rounded-full shadow-sm uppercase tracking-wider">
                           {selectedVariant.weightLabel}
                         </span>
@@ -278,7 +278,7 @@ export default function FeaturedProducts() {
                         {/* QTY BOX */}
                         <div className="flex items-center bg-white rounded-xl border border-green-200 p-1 shadow-sm h-9">
                           <button
-                            onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: Math.max(1, (pvs[p.id] || 1) - 1)}))}
+                            onClick={() => setQtyMap(pvs => ({ ...pvs, [p.id]: Math.max(1, (pvs[p.id] || 1) - 1) }))}
                             className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-l-lg transition-all font-bold text-base cursor-pointer"
                           >
                             -
@@ -287,7 +287,7 @@ export default function FeaturedProducts() {
                             {qty}
                           </span>
                           <button
-                            onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: (pvs[p.id] || 1) + 1}))}
+                            onClick={() => setQtyMap(pvs => ({ ...pvs, [p.id]: (pvs[p.id] || 1) + 1 }))}
                             className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-r-lg transition-all font-bold text-base cursor-pointer"
                           >
                             +
@@ -307,11 +307,10 @@ export default function FeaturedProducts() {
                               qty,
                             });
                           }}
-                          className={`flex-1 h-9 flex items-center justify-center gap-1.5 rounded-xl font-bold text-[12px] transition-all active:scale-95 shadow-md ${
-                            isInCart
+                          className={`flex-1 h-9 flex items-center justify-center gap-1.5 rounded-xl font-bold text-[12px] transition-all active:scale-95 shadow-md ${isInCart
                               ? "bg-green-100 text-green-700 border-2 border-green-200"
                               : "bg-green-600 text-white hover:bg-green-700 hover:shadow-xl"
-                          }`}
+                            }`}
                         >
                           <FiShoppingCart size={14} />
                           {isInCart ? "ADDED" : "ADD TO CART"}
@@ -326,7 +325,7 @@ export default function FeaturedProducts() {
 
           </div>
           {/* RIGHT BUTTON */}
-        
+
         </div>
       </div>
     </div>
