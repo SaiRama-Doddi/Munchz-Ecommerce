@@ -99,7 +99,7 @@ export default function App() {
               <TopHeader />
               <Header />
               <Hero />
-              <UserCategories />
+              {/* <UserCategories /> */}
               <ProductImage />
               <FeaturedProducts />
               <AboutUs />

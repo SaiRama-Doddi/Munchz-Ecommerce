@@ -193,7 +193,7 @@ export default function AllProducts() {
     <div className="bg-white min-h-screen pt-4 pb-10 md:pt-6 md:pb-16">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
 
-        {/* HEADER AREA */}
+        {/* COMMENTED OUT TOP HEADER AND FILTER SLIDER AS REQUESTED
         <div className="mb-6 md:mb-8">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
             Our <span className="text-green-600">Premium Range</span>
@@ -201,16 +201,13 @@ export default function AllProducts() {
           <p className="text-gray-500 text-sm mt-3 max-w-lg">
             Delicious snacks crafted with quality and care
           </p>
-
         </div>
 
-        {/* CATEGORY FILTER (SLIDER) */}
         <div className="mb-6 md:mb-8">
           <p className="text-[13px] font-bold text-green-700 uppercase tracking-widest mb-3 ml-1">
             Browse By Category
           </p>
           <div className="flex gap-4 overflow-x-auto pb-2 md:pb-4 -mx-1 px-1 no-scrollbar">
-            
             <button
               onClick={() => setSelectedCategoryId("ALL")}
               className={`flex flex-col items-center gap-3 p-2 rounded-2xl transition-all group min-w-[100px] ${
@@ -232,7 +229,6 @@ export default function AllProducts() {
                 Everything
               </span>
             </button>
-
             {categories.map((c) => (
               <button
                 key={c.id}
@@ -262,190 +258,328 @@ export default function AllProducts() {
               </button>
             ))}
           </div>
-
-          {/* SUBCATEGORIES SLIDER */}
-          {selectedCategoryId !== "ALL" && subcategories.length > 0 && (
-            <div className="mt-4 pt-4 border-t border-gray-100">
-              <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3 ml-1">
-                Refine by Subcategory
-              </p>
-              <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 no-scrollbar">
-                <button
-                  onClick={() => setSelectedSubcategoryId("ALL")}
-                  className={`shrink-0 px-5 py-2 rounded-xl text-[11px] font-bold uppercase transition-all shadow-sm ${
-                    selectedSubcategoryId === "ALL"
-                      ? "bg-green-600 text-white shadow-green-600/20"
-                      : "bg-white text-gray-500 border border-gray-100 hover:border-green-600 hover:text-green-600"
-                  }`}
-                >
-                  All Types
-                </button>
-                {subcategories.map((s: any) => (
-                  <button
-                    key={s.id}
-                    onClick={() => setSelectedSubcategoryId(s.id)}
-                    className={`shrink-0 px-5 py-2 rounded-xl text-[11px] font-bold uppercase transition-all shadow-sm ${
-                      selectedSubcategoryId === s.id
-                        ? "bg-green-600 text-white shadow-green-600/20"
-                        : "bg-white text-gray-500 border border-gray-100 hover:border-green-600 hover:text-green-600"
-                    }`}
-                  >
-                    {s.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
+        */}
 
-        {/* DYNAMIC SECTION HEADER */}
-        <div className="mb-6 md:mb-8 flex items-center justify-between">
-           <div className="flex items-center gap-3">
-              <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
-              <h3 className="text-base font-bold text-gray-900">
-                {selectedCategoryName} Products
-              </h3>
-           </div>
-           <span className="text-[12px] font-bold text-gray-400 bg-white px-3 py-1.5 rounded-full">
-              {filteredProducts.length} Items
-           </span>
-        </div>
+        {/* CATEGORY-WISE PRODUCTS SECTIONS */}
+        <div className="space-y-12">
+          {categories.map((cat) => {
+            const catProducts = sortedProducts.filter((p: any) => {
+              const pCatId = p.category?.id ?? p.categoryId ?? null;
+              return pCatId === cat.id;
+            });
 
-        {/* PRODUCTS GRID */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {filteredProducts.map((p: any) => {
-            const base100g = p.variants.find(
-              (v) => v.weightInGrams === 100
-            );
-
-            const sellVariants = p.variants.filter(
-              (v) => v.weightInGrams !== 100
-            );
-
-            const selectedVariantIndex = variantMap[p.id] ?? 0;
-            const selectedVariant = sellVariants[selectedVariantIndex];
-            const qty = qtyMap[p.id] || 1;
-
-            if (!selectedVariant) return null;
-
-            const discount =
-              selectedVariant.mrp > selectedVariant.offerPrice
-                ? Math.round(
-                  ((selectedVariant.mrp - selectedVariant.offerPrice) /
-                    selectedVariant.mrp) *
-                  100
-                )
-                : 0;
-
-            const isInCart = cartItems.some(item => 
-              item.productId === p.id && 
-              item.selectedVariantIndex === selectedVariantIndex
-            );
+            if (catProducts.length === 0) return null;
 
             return (
-              <div
-                key={p.id}
-                onClick={() => navigate(getProductUrl(p.id, p.name))}
-                className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2 h-full"
-              >
-
-                {/* IMAGE BOX */}
-                <div className="relative bg-transparent aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden flex-shrink-0">
-                  <img
-                    src={optimizeCloudinaryUrl(p.imageUrl)}
-                    alt={p.name}
-                    className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700"
-                  />
-
-                  {discount > 0 && (
-                    <div className="absolute top-2.5 right-2.5 bg-green-600 text-white text-sm px-3 py-1 rounded-full font-bold shadow-lg">
-                      {discount}% OFF
-                    </div>
-                  )}
+              <div key={cat.id} className="space-y-6">
+                {/* CATEGORY NAME HEADING */}
+                <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
+                    <h3 className="text-xl font-bold text-gray-900 tracking-tight">
+                      {cat.name}
+                    </h3>
+                  </div>
+                  <span className="text-[12px] font-bold text-gray-400 bg-white border border-gray-100 px-3 py-1.5 rounded-full">
+                    {catProducts.length} Items
+                  </span>
                 </div>
 
-                {/* CONTENT AREA */}
-                <div className="px-4 pb-4 pt-1 flex flex-col flex-grow">
-                  <h3 className="text-base font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">
-                    {p.name}
-                  </h3>
-                  <p className="text-sm text-gray-400 line-clamp-1 mt-0.5">
-                    {p.description}
-                  </p>
+                {/* PRODUCTS GRID */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                  {catProducts.map((p: any) => {
+                    const base100g = p.variants.find(
+                      (v) => v.weightInGrams === 100
+                    );
 
-                  <div className="mt-2.5 flex-grow flex flex-col justify-end">
-                    <ProductReviewStats productId={p.id} />
+                    const sellVariants = p.variants.filter(
+                      (v) => v.weightInGrams !== 100
+                    );
 
-                    {/* PRICE & WEIGHT */}
-                    <div className="flex items-center justify-between mt-2.5">
-                      <div className="flex flex-col">
-                        <span className="text-base font-medium text-gray-900 tracking-tight">
-                          ₹{selectedVariant.offerPrice * qty}
-                        </span>
-                        {base100g && (
-                          <span className="text-xs text-gray-500 font-medium tracking-tight">
-                            (₹{base100g.offerPrice}/100g)
-                          </span>
-                        )}
-                      </div>
-                      
-                      <span className="px-2.5 py-1 bg-white border border-green-200 text-green-700 text-[10px] font-bold rounded-full shadow-sm uppercase tracking-wider">
-                        {selectedVariant.weightLabel}
-                      </span>
-                    </div>
+                    const selectedVariantIndex = variantMap[p.id] ?? 0;
+                    const selectedVariant = sellVariants[selectedVariantIndex];
+                    const qty = qtyMap[p.id] || 1;
 
-                    {/* ACTION ROW */}
-                    <div
-                      className="flex items-center gap-1.5 mt-3.5"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      {/* QTY BOX */}
-                      <div className="flex items-center bg-white rounded-xl border border-green-200 p-1 shadow-sm h-9">
-                        <button
-                          onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: Math.max(1, (pvs[p.id] || 1) - 1)}))}
-                          className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-l-lg transition-all font-bold text-base"
-                        >
-                          -
-                        </button>
-                        <span className="w-5 text-center text-xs font-bold text-gray-900">
-                          {qty}
-                        </span>
-                        <button
-                          onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: (pvs[p.id] || 1) + 1}))}
-                          className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-r-lg transition-all font-bold text-base"
-                        >
-                          +
-                        </button>
-                      </div>
+                    if (!selectedVariant) return null;
 
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          addToCart({
-                            productId: p.id,
-                            name: p.name,
-                            imageUrl: p.imageUrl,
-                            variants: sellVariants,
-                            selectedVariantIndex,
-                            base100gPrice: base100g?.offerPrice,
-                            qty,
-                          });
-                        }}
-                        className={`flex-1 h-9 flex items-center justify-center gap-1.5 rounded-xl font-bold text-[12px] transition-all active:scale-95 shadow-md ${
-                          isInCart
-                            ? "bg-green-100 text-green-700 border-2 border-green-200"
-                            : "bg-green-600 text-white hover:bg-green-700 hover:shadow-xl"
-                        }`}
+                    const discount =
+                      selectedVariant.mrp > selectedVariant.offerPrice
+                        ? Math.round(
+                            ((selectedVariant.mrp - selectedVariant.offerPrice) /
+                              selectedVariant.mrp) *
+                              100
+                          )
+                        : 0;
+
+                    const isInCart = cartItems.some(item => 
+                      item.productId === p.id && 
+                      item.selectedVariantIndex === selectedVariantIndex
+                    );
+
+                    return (
+                      <div
+                        key={p.id}
+                        onClick={() => navigate(getProductUrl(p.id, p.name))}
+                        className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2 h-full"
                       >
-                        <FiShoppingCart size={14} />
-                        {isInCart ? "ADDED" : "ADD TO CART"}
-                      </button>
-                    </div>
-                  </div>
+                        {/* IMAGE BOX */}
+                        <div className="relative bg-transparent aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden flex-shrink-0">
+                          <img
+                            src={optimizeCloudinaryUrl(p.imageUrl)}
+                            alt={p.name}
+                            className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700"
+                          />
+
+                          {discount > 0 && (
+                            <div className="absolute top-2.5 right-2.5 bg-green-600 text-white text-sm px-3 py-1 rounded-full font-bold shadow-lg">
+                              {discount}% OFF
+                            </div>
+                          )}
+                        </div>
+
+                        {/* CONTENT AREA */}
+                        <div className="px-4 pb-4 pt-1 flex flex-col flex-grow">
+                          <h3 className="text-base font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">
+                            {p.name}
+                          </h3>
+                          <p className="text-sm text-gray-400 line-clamp-1 mt-0.5">
+                            {p.description}
+                          </p>
+
+                          <div className="mt-2.5 flex-grow flex flex-col justify-end">
+                            <ProductReviewStats productId={p.id} />
+
+                            {/* PRICE & WEIGHT */}
+                            <div className="flex items-center justify-between mt-2.5">
+                              <div className="flex flex-col">
+                                <span className="text-base font-medium text-gray-900 tracking-tight">
+                                  ₹{selectedVariant.offerPrice * qty}
+                                </span>
+                                {base100g && (
+                                  <span className="text-xs text-gray-500 font-medium tracking-tight">
+                                    (₹{base100g.offerPrice}/100g)
+                                  </span>
+                                )}
+                              </div>
+                              
+                              <span className="px-2.5 py-1 bg-white border border-green-200 text-green-700 text-[10px] font-bold rounded-full shadow-sm uppercase tracking-wider">
+                                {selectedVariant.weightLabel}
+                              </span>
+                            </div>
+
+                            {/* ACTION ROW */}
+                            <div
+                              className="flex items-center gap-1.5 mt-3.5"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              {/* QTY BOX */}
+                              <div className="flex items-center bg-white rounded-xl border border-green-200 p-1 shadow-sm h-9">
+                                <button
+                                  onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: Math.max(1, (pvs[p.id] || 1) - 1)}))}
+                                  className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-l-lg transition-all font-bold text-base cursor-pointer"
+                                >
+                                  -
+                                </button>
+                                <span className="w-5 text-center text-xs font-bold text-gray-900">
+                                  {qty}
+                                </span>
+                                <button
+                                  onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: (pvs[p.id] || 1) + 1}))}
+                                  className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-r-lg transition-all font-bold text-base cursor-pointer"
+                                >
+                                  +
+                                </button>
+                              </div>
+
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  addToCart({
+                                    productId: p.id,
+                                    name: p.name,
+                                    imageUrl: p.imageUrl,
+                                    variants: sellVariants,
+                                    selectedVariantIndex,
+                                    base100gPrice: base100g?.offerPrice,
+                                    qty,
+                                  });
+                                }}
+                                className={`flex-1 h-9 flex items-center justify-center gap-1.5 rounded-xl font-bold text-[12px] transition-all active:scale-95 shadow-md ${
+                                  isInCart
+                                    ? "bg-green-100 text-green-700 border-2 border-green-200"
+                                    : "bg-green-600 text-white hover:bg-green-700 hover:shadow-xl"
+                                }`}
+                              >
+                                <FiShoppingCart size={14} />
+                                {isInCart ? "ADDED" : "ADD TO CART"}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             );
           })}
+
+          {/* FALLBACK FOR UN-CATEGORIZED PRODUCTS */}
+          {(() => {
+            const uncategorizedProducts = sortedProducts.filter((p: any) => {
+              const pCatId = p.category?.id ?? p.categoryId ?? null;
+              return !pCatId || !categories.some((c) => c.id === pCatId);
+            });
+
+            if (uncategorizedProducts.length === 0) return null;
+
+            return (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
+                    <h3 className="text-xl font-bold text-gray-900 tracking-tight">
+                      Other Products
+                    </h3>
+                  </div>
+                  <span className="text-[12px] font-bold text-gray-400 bg-white border border-gray-100 px-3 py-1.5 rounded-full">
+                    {uncategorizedProducts.length} Items
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                  {uncategorizedProducts.map((p: any) => {
+                    const base100g = p.variants.find(
+                      (v) => v.weightInGrams === 100
+                    );
+
+                    const sellVariants = p.variants.filter(
+                      (v) => v.weightInGrams !== 100
+                    );
+
+                    const selectedVariantIndex = variantMap[p.id] ?? 0;
+                    const selectedVariant = sellVariants[selectedVariantIndex];
+                    const qty = qtyMap[p.id] || 1;
+
+                    if (!selectedVariant) return null;
+
+                    const discount =
+                      selectedVariant.mrp > selectedVariant.offerPrice
+                        ? Math.round(
+                            ((selectedVariant.mrp - selectedVariant.offerPrice) /
+                              selectedVariant.mrp) *
+                              100
+                          )
+                        : 0;
+
+                    const isInCart = cartItems.some(item => 
+                      item.productId === p.id && 
+                      item.selectedVariantIndex === selectedVariantIndex
+                    );
+
+                    return (
+                      <div
+                        key={p.id}
+                        onClick={() => navigate(getProductUrl(p.id, p.name))}
+                        className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col hover:-translate-y-2 h-full"
+                      >
+                        <div className="relative bg-transparent aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden flex-shrink-0">
+                          <img
+                            src={optimizeCloudinaryUrl(p.imageUrl)}
+                            alt={p.name}
+                            className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700"
+                          />
+
+                          {discount > 0 && (
+                            <div className="absolute top-2.5 right-2.5 bg-green-600 text-white text-sm px-3 py-1 rounded-full font-bold shadow-lg">
+                              {discount}% OFF
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="px-4 pb-4 pt-1 flex flex-col flex-grow">
+                          <h3 className="text-base font-bold text-gray-900 line-clamp-1 group-hover:text-green-700 transition-colors">
+                            {p.name}
+                          </h3>
+                          <p className="text-sm text-gray-400 line-clamp-1 mt-0.5">
+                            {p.description}
+                          </p>
+
+                          <div className="mt-2.5 flex-grow flex flex-col justify-end">
+                            <ProductReviewStats productId={p.id} />
+
+                            <div className="flex items-center justify-between mt-2.5">
+                              <div className="flex flex-col">
+                                <span className="text-base font-medium text-gray-900 tracking-tight">
+                                  ₹{selectedVariant.offerPrice * qty}
+                                </span>
+                                {base100g && (
+                                  <span className="text-xs text-gray-500 font-medium tracking-tight">
+                                    (₹{base100g.offerPrice}/100g)
+                                  </span>
+                                )}
+                              </div>
+                              
+                              <span className="px-2.5 py-1 bg-white border border-green-200 text-green-700 text-[10px] font-bold rounded-full shadow-sm uppercase tracking-wider">
+                                {selectedVariant.weightLabel}
+                              </span>
+                            </div>
+
+                            <div
+                              className="flex items-center gap-1.5 mt-3.5"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <div className="flex items-center bg-white rounded-xl border border-green-200 p-1 shadow-sm h-9">
+                                <button
+                                  onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: Math.max(1, (pvs[p.id] || 1) - 1)}))}
+                                  className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-l-lg transition-all font-bold text-base cursor-pointer"
+                                >
+                                  -
+                                </button>
+                                <span className="w-5 text-center text-xs font-bold text-gray-900">
+                                  {qty}
+                                </span>
+                                <button
+                                  onClick={() => setQtyMap(pvs => ({...pvs, [p.id]: (pvs[p.id] || 1) + 1}))}
+                                  className="w-7 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-r-lg transition-all font-bold text-base cursor-pointer"
+                                >
+                                  +
+                                </button>
+                              </div>
+
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  addToCart({
+                                    productId: p.id,
+                                    name: p.name,
+                                    imageUrl: p.imageUrl,
+                                    variants: sellVariants,
+                                    selectedVariantIndex,
+                                    base100gPrice: base100g?.offerPrice,
+                                    qty,
+                                  });
+                                }}
+                                className={`flex-1 h-9 flex items-center justify-center gap-1.5 rounded-xl font-bold text-[12px] transition-all active:scale-95 shadow-md ${
+                                  isInCart
+                                    ? "bg-green-100 text-green-700 border-2 border-green-200"
+                                    : "bg-green-600 text-white hover:bg-green-700 hover:shadow-xl"
+                                }`}
+                              >
+                                <FiShoppingCart size={14} />
+                                {isInCart ? "ADDED" : "ADD TO CART"}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </div>
     </div>

@@ -139,34 +139,7 @@ export default function FeaturedProducts() {
     });
   }, [products, categories]);
 
-  const sliderRef = useRef<HTMLDivElement>(null);
-const scrollLeft = () => {
-  if (!sliderRef.current) return;
 
-  const card = sliderRef.current.querySelector("div");
-  if (!card) return;
-
-  const cardWidth = (card as HTMLElement).offsetWidth + 16;
-
-  sliderRef.current.scrollBy({
-    left: -cardWidth,
-    behavior: "smooth",
-  });
-};
-
-const scrollRight = () => {
-  if (!sliderRef.current) return;
-
-  const card = sliderRef.current.querySelector("div");
-  if (!card) return;
-
-  const cardWidth = (card as HTMLElement).offsetWidth + 16;
-
-  sliderRef.current.scrollBy({
-    left: cardWidth,
-    behavior: "smooth",
-  });
-};
 
   if (isLoading) {
     return (
@@ -204,37 +177,17 @@ const scrollRight = () => {
               Premium-quality products handpicked for excellence
             </p>
           </div>
-
-          {/* NAVIGATION BUTTONS */}
-          <div className="flex gap-4">
-            <button
-              onClick={scrollLeft}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow border hover:bg-green-600 hover:text-white transition"
-            >
-              <FiChevronLeft size={20} />
-            </button>
-
-            <button
-              onClick={scrollRight}
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow border hover:bg-green-600 hover:text-white transition"
-            >
-              <FiChevronRight size={20} />
-            </button>
-          </div>
         </div>
 
-        {/* SLIDER */}
+        {/* PRODUCTS GRID */}
         <div className="relative">
-
-          
 
           {/* PRODUCTS */}
           <div
-            ref={sliderRef}
-            className="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           >
 
-            {orderedProducts.map((p) => {
+            {orderedProducts.slice(0, 4).map((p) => {
 
               const base100g = p.variants.find(
                 (v) => v.weightInGrams === 100
@@ -269,7 +222,7 @@ const scrollRight = () => {
                 <div
                   key={p.id}
                   onClick={() => navigate(getProductUrl(p.id, p.name))}
-                  className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col min-w-[85%] max-w-[85%] sm:min-w-[45%] sm:max-w-[45%] md:min-w-[30%] md:max-w-[30%] lg:min-w-[23%] lg:max-w-[23%] flex-shrink-0 h-auto hover:-translate-y-2"
+                  className="group bg-[#ecfdf5] rounded-3xl shadow-sm hover:shadow-xl border border-green-100 overflow-hidden cursor-pointer transition-all duration-500 flex flex-col w-full h-auto hover:-translate-y-2"
                 >
 
                   {/* IMAGE BOX */}
