@@ -6,19 +6,19 @@ export default function GiftingPage() {
 
   return (
     <div className="bg-white flex flex-col">
-      {/* Banner Image Container - Hero Banner style with limited height to prevent gaps */}
-      <div className="relative w-full overflow-hidden bg-gray-50 h-[120px] sm:h-[180px] md:h-[220px]">
+      {/* Banner Image Container - Full view to prevent cropping */}
+      <div className="w-full bg-gray-50">
         <img
           src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1780413412/gifts_coming_soon_banner_ysz6lu.png"
           alt="Gifting Coming Soon Banner"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="w-full h-auto block"
           loading="lazy"
         />
       </div>
 
       {/* Message and Call to Actions */}
       <div className="max-w-6xl w-full mx-auto px-4 py-6 md:py-10 text-center">
-        <p className="text-gray-500 text-sm md:text-base max-w-4xl mx-auto mb-6 leading-relaxed">
+        <p className="text-gray-500 text-sm md:text-base max-w-6xl mx-auto mb-6 leading-relaxed lg:whitespace-nowrap">
           Our premium curated gifting hampers and custom snack boxes are on their way. Stay tuned to make your celebrations extra special!
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
