@@ -187,7 +187,7 @@ export default function FeaturedProducts() {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
           >
 
-            {orderedProducts.slice(0, 4).map((p) => {
+            {orderedProducts.map((p) => {
 
               const base100g = p.variants.find(
                 (v) => v.weightInGrams === 100

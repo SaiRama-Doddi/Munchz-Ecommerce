@@ -98,15 +98,15 @@ export default function ProductImage() {
           </div>
 
           {/* RIGHT SIDE: PRODUCT SHOWCASE */}
-          <div className="lg:col-span-5 flex items-center justify-center w-full group">
-            <div className="relative w-full rounded-2xl overflow-hidden shadow-sm bg-white border border-gray-100 flex items-center justify-center">
+          <div className="lg:col-span-5 flex items-stretch h-full w-full group">
+            <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-sm bg-[#1d130e] border border-gray-100 flex items-stretch min-h-[400px] lg:min-h-0">
               {/* Elegant Glowing Backdrop */}
               <div className="absolute inset-0 bg-gradient-to-tr from-green-100/40 via-amber-100/25 to-transparent rounded-2xl blur-2xl transform rotate-3 scale-95 -z-10" />
               
               <img
                 src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1780908877/The_GoMunchz_Promise_nlyir6.png"
                 alt="The GoMunchz Promise"
-                className="w-full h-auto object-contain rounded-2xl group-hover:scale-[1.01] transition duration-700 ease-out select-none"
+                className="w-full h-full object-contain rounded-2xl group-hover:scale-[1.01] transition duration-700 ease-out select-none"
               />
             </div>
           </div>
