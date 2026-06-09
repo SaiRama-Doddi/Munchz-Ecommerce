@@ -275,7 +275,7 @@ export default function App() {
         <Route path="/blog/:slug" element={<BlogDetail />} />
         <Route path="/blog" element={<BlogListPage />} />
         
-        <Route path="/AboutMain" element ={<>
+        <Route path="/Aboutmain" element ={<>
               <TopHeader />
               <Header />
               <AboutMain />

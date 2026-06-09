@@ -21,7 +21,7 @@ export default function Footer() {
             <div className="flex flex-col items-start md:col-span-4">
               <div className="mb-4">
                 <img
-                  src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774178657/gomunchz_logo_transparent_r8r0a8.png"
+                  src="https://res.cloudinary.com/dd4oiwnep/image/upload/f_auto,q_auto/v1774178657/gomunchz_logo_transparent_r8r0a8.png"
                   alt="GoMunchz"
                   className="h-28 cursor-pointer object-contain"
                   onClick={() => navigate("/")}
@@ -34,7 +34,7 @@ export default function Footer() {
               {/* FSSAI SECTION */}
               <div className="flex items-center gap-3 w-full max-w-[280px]">
                 <img
-                  src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774172170/unnamed_r2g1px.png"
+                  src="https://res.cloudinary.com/dd4oiwnep/image/upload/f_auto,q_auto/v1774172170/unnamed_r2g1px.png"
                   alt="FSSAI"
                   className="h-10 object-contain mix-blend-multiply"
                 />

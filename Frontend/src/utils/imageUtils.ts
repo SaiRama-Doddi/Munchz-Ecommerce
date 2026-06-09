@@ -1,16 +1,23 @@
-/**
- * Optimizes a Cloudinary image URL by appending auto format (f_auto) and auto quality (q_auto) parameters.
- * If the URL is not a Cloudinary URL or already has optimization params, it returns the URL unchanged.
- */
-export function optimizeCloudinaryUrl(url: string | null | undefined): string {
+export function optimizeCloudinaryUrl(url: string | null | undefined, width?: number): string {
   if (!url) return "";
   
   // Check if it's a Cloudinary URL
   if (url.includes("cloudinary.com") && url.includes("/image/upload/")) {
-    // Check if it already has f_auto or q_auto to avoid duplicating
-    if (!url.includes("f_auto") && !url.includes("q_auto")) {
-      return url.replace("/image/upload/", "/image/upload/f_auto,q_auto/");
+    // Remove existing basic transformations if present to avoid nesting duplicates
+    let cleanUrl = url;
+    cleanUrl = cleanUrl.replace(/\/image\/upload\/f_auto,q_auto[^\/]*\//, "/image/upload/");
+    cleanUrl = cleanUrl.replace(/\/image\/upload\/f_auto,q_auto,w_\d+(?:,c_scale)?\//, "/image/upload/");
+    cleanUrl = cleanUrl.replace(/\/image\/upload\/w_\d+(?:,c_scale)?,f_auto,q_auto\//, "/image/upload/");
+    
+    // Construct new transformation params
+    const params = ["f_auto", "q_auto"];
+    if (width) {
+      params.push(`w_${width}`);
+      params.push("c_scale");
     }
+    
+    const transformStr = params.join(",");
+    return cleanUrl.replace("/image/upload/", `/image/upload/${transformStr}/`);
   }
   return url;
 }

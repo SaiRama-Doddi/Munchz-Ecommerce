@@ -45,6 +45,18 @@ export default function Header() {
   const [mobileBlogOpen, setMobileBlogOpen] = useState(false);
   const navigate = useNavigate();
 
+  // Route chunk preloading to eliminate navigation lag
+  const preloadAbout = () => import("../pages/Aboutmain");
+  const preloadShop = () => import("../pages/ProductsPage");
+  const preloadBlog = () => import("../pages/BlogListPage");
+  const preloadTrack = () => import("../pages/TrackOrderPage");
+  const preloadReward = () => import("../pages/ReferAndEarn");
+  const preloadGifting = () => import("../pages/GiftingPage");
+  const preloadContact = () => import("./Contact");
+  const preloadCart = () => import("../pages/CartPage");
+  const preloadOrders = () => import("../pages/UserOrders");
+  const preloadLogin = () => import("../pages/LoginPage");
+
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && searchTerm.trim()) {
       navigate(`/search?keyword=${searchTerm}`);
@@ -82,7 +94,7 @@ export default function Header() {
 
             <Link to="/" className="flex items-center cursor-pointer">
               <img
-                src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774178657/gomunchz_logo_transparent_r8r0a8.png"
+                src="https://res.cloudinary.com/dd4oiwnep/image/upload/f_auto,q_auto/v1774178657/gomunchz_logo_transparent_r8r0a8.png"
                 alt="GoMunchz"
                 className="h-14 md:h-16 lg:h-18 w-auto object-contain cursor-pointer"
               />
@@ -94,17 +106,22 @@ export default function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8 font-medium text-sm">
             <NavLink to="/" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Home</NavLink>
-            <NavLink to="/Aboutmain" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>About Us</NavLink>
-            <NavLink to="/productpage" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Shop</NavLink>
+            <NavLink to="/Aboutmain" onMouseEnter={preloadAbout} onTouchStart={preloadAbout} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>About Us</NavLink>
+            <NavLink to="/productpage" onMouseEnter={preloadShop} onTouchStart={preloadShop} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Shop</NavLink>
 
             {/* Blog Dropdown */}
             <div 
               className="relative group py-4 h-full flex items-center"
-              onMouseEnter={() => setShowBlogDropdown(true)}
+              onMouseEnter={() => {
+                setShowBlogDropdown(true);
+                preloadBlog();
+              }}
               onMouseLeave={() => setShowBlogDropdown(false)}
             >
               <NavLink 
                 to="/blog" 
+                onMouseEnter={preloadBlog}
+                onTouchStart={preloadBlog}
                 className={({ isActive }) => 
                   `flex items-center gap-1 cursor-pointer transition-colors ${isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}`
                 }
@@ -141,10 +158,10 @@ export default function Header() {
               )}
             </div>
 
-            <NavLink to="/track" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Track</NavLink>
-            <NavLink to="/refer-and-earn" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Reward</NavLink>
-            <NavLink to="/gifting" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Gifting</NavLink>
-            <NavLink to="/contact" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Contact Us</NavLink>
+            <NavLink to="/track" onMouseEnter={preloadTrack} onTouchStart={preloadTrack} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Track</NavLink>
+            <NavLink to="/refer-and-earn" onMouseEnter={preloadReward} onTouchStart={preloadReward} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Reward</NavLink>
+            <NavLink to="/gifting" onMouseEnter={preloadGifting} onTouchStart={preloadGifting} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Gifting</NavLink>
+            <NavLink to="/contact" onMouseEnter={preloadContact} onTouchStart={preloadContact} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Contact Us</NavLink>
           </nav>
 
 
@@ -376,7 +393,7 @@ export default function Header() {
 
                 <Link to="/" onClick={() => setOpenMenu(false)} className="flex items-center">
                   <img
-                    src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774171195/gomunchz_logo_resized_ynw790.png"
+                    src="https://res.cloudinary.com/dd4oiwnep/image/upload/f_auto,q_auto/v1774171195/gomunchz_logo_resized_ynw790.png"
                     alt="GoMunchz"
                     className="h-20 w-auto object-contain"
                   />
@@ -402,16 +419,18 @@ export default function Header() {
                       <Home size={20} /> Home
                     </Link>
 
-                    <Link to="/Aboutmain" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
+                    <Link to="/Aboutmain" onMouseEnter={preloadAbout} onTouchStart={preloadAbout} onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
                       <Info size={20} /> About Us
                     </Link>
 
-                    <Link to="/productpage" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
+                    <Link to="/productpage" onMouseEnter={preloadShop} onTouchStart={preloadShop} onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
                       <Grid2x2 size={20} /> Shop
                     </Link>
 
                     <button 
                       onClick={() => setMobileBlogOpen(true)}
+                      onMouseEnter={preloadBlog}
+                      onTouchStart={preloadBlog}
                       className="flex items-center justify-between w-full hover:text-green-700 transition-colors"
                     >
                       <div className="flex items-center gap-3">
@@ -420,23 +439,23 @@ export default function Header() {
                       <ChevronDown size={18} className="-rotate-90" />
                     </button>
 
-                    <Link to="/track" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
+                    <Link to="/track" onMouseEnter={preloadTrack} onTouchStart={preloadTrack} onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
                       <MapPin size={20} /> Track
                     </Link>
 
-                    <Link to="/refer-and-earn" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
+                    <Link to="/refer-and-earn" onMouseEnter={preloadReward} onTouchStart={preloadReward} onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
                       <Gift size={20} /> Reward
                     </Link>
 
-                    <Link to="/gifting" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
+                    <Link to="/gifting" onMouseEnter={preloadGifting} onTouchStart={preloadGifting} onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
                       <ShoppingBag size={20} /> Gifting
                     </Link>
 
-                    <Link to="/contact" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
+                    <Link to="/contact" onMouseEnter={preloadContact} onTouchStart={preloadContact} onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
                       <Phone size={20} /> Contact Us
                     </Link>
 
-                    <Link to="/cart" onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
+                    <Link to="/cart" onMouseEnter={preloadCart} onTouchStart={preloadCart} onClick={() => setOpenMenu(false)} className="flex items-center gap-3 hover:text-green-700 transition-colors">
                       <ShoppingCart size={20} /> Cart ({cartCount})
                     </Link>
                   </>
@@ -506,12 +525,12 @@ export default function Header() {
             Home
           </NavLink>
 
-          <NavLink to="/productpage" className={({ isActive }) => `flex flex-col items-center text-[11px] ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
+          <NavLink to="/productpage" onMouseEnter={preloadShop} onTouchStart={preloadShop} className={({ isActive }) => `flex flex-col items-center text-[11px] ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
             <Grid2x2 size={22} />
             Shop
           </NavLink>
 
-          <NavLink to="/cart" className={({ isActive }) => `relative flex flex-col items-center text-[11px] ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
+          <NavLink to="/cart" onMouseEnter={preloadCart} onTouchStart={preloadCart} className={({ isActive }) => `relative flex flex-col items-center text-[11px] ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
             <ShoppingCart size={22} />
             Cart
 
@@ -524,13 +543,13 @@ export default function Header() {
           </NavLink>
 
           {profile && (
-            <NavLink to="/user-orders" className={({ isActive }) => `flex flex-col items-center text-[11px] ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
+            <NavLink to="/user-orders" onMouseEnter={preloadOrders} onTouchStart={preloadOrders} className={({ isActive }) => `flex flex-col items-center text-[11px] ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
               <ShoppingBag size={22} />
               Orders
             </NavLink>
           )}
 
-          <NavLink to="/refer-and-earn" className={({ isActive }) => `flex flex-col items-center text-[10px] ${isActive ? "text-green-700 font-bold" : "text-gray-500"}`}>
+          <NavLink to="/refer-and-earn" onMouseEnter={preloadReward} onTouchStart={preloadReward} className={({ isActive }) => `flex flex-col items-center text-[10px] ${isActive ? "text-green-700 font-bold" : "text-gray-500"}`}>
             {({ isActive }) => (
               <>
                 <div className="relative">
@@ -550,7 +569,7 @@ export default function Header() {
               Profile
             </button>
           ) : (
-            <NavLink to="/login" className={({ isActive }) => `flex flex-col items-center text-[11px] ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
+            <NavLink to="/login" onMouseEnter={preloadLogin} onTouchStart={preloadLogin} className={({ isActive }) => `flex flex-col items-center text-[11px] ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
               <User size={22} />
               Login
             </NavLink>

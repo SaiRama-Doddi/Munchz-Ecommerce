@@ -159,7 +159,7 @@ export default function OtpPage() {
       <div className="bg-white w-full max-w-md rounded-xl shadow-lg p-6 sm:p-8 text-center">
 
         {/* Logo */}
-        <img src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774178657/gomunchz_logo_transparent_r8r0a8.png" className="w-20 mx-auto mb-3" />
+        <img src="https://res.cloudinary.com/dd4oiwnep/image/upload/f_auto,q_auto/v1774178657/gomunchz_logo_transparent_r8r0a8.png" className="w-20 mx-auto mb-3" />
 
         <h2 className="text-base font-semibold">Enter OTP</h2>
 

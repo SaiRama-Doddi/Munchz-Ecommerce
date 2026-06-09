@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { bannerService, Banner } from "../services/bannerService";
+import { optimizeCloudinaryUrl } from "../utils/imageUtils";
 
 export default function Hero() {
   const [banners, setBanners] = useState<Banner[]>([]);
@@ -70,9 +71,13 @@ export default function Hero() {
           >
             {/* Background Image */}
             <img
-              src={banner.image}
+              src={optimizeCloudinaryUrl(banner.image, 1400)}
+              srcSet={`${optimizeCloudinaryUrl(banner.image, 640)} 640w, ${optimizeCloudinaryUrl(banner.image, 1024)} 1024w, ${optimizeCloudinaryUrl(banner.image, 1400)} 1400w`}
+              sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1400px"
               alt="Premium snacks"
               className="absolute inset-0 w-full h-full object-fill"
+              fetchPriority={index === 0 ? "high" : "auto"}
+              loading={index === 0 ? "eager" : "lazy"}
             />
 
             {/* Very Subtle Overlay for depth */}
