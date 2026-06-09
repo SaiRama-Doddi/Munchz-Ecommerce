@@ -53,7 +53,7 @@ export default function ContactForm() {
           </div>
 
           {/* RIGHT FORM SECTION */}
-          <div className="md:w-1/2 w-full p-4 sm:p-5 md:p-6 lg:p-8 flex flex-col justify-center bg-gradient-to-br from-green-50/10 via-white to-amber-50/10 md:h-full overflow-y-auto">
+          <div className="md:w-1/2 w-full p-4 sm:p-5 md:p-6 lg:p-8 flex flex-col justify-center bg-gradient-to-br from-green-50/10 via-white to-amber-50/10 md:h-full overflow-hidden">
             <div className="max-w-md mx-auto w-full space-y-4">
               <div className="text-center md:text-left">
                 <span className="text-[9px] font-bold text-green-600 tracking-widest uppercase block">Let's Connect</span>
@@ -174,31 +174,6 @@ export default function ContactForm() {
                    Response time: <span className="text-green-600">Within 30 minutes</span>
                 </p>
               </form>
-
-              {/* Contact Badges */}
-              <div className="grid grid-cols-3 gap-3 pt-4 border-t border-gray-100 text-center">
-                <div className="flex flex-col items-center group/badge cursor-pointer">
-                  <div className="w-8 h-8 rounded-full bg-green-50/60 flex items-center justify-center mb-1 text-green-600 transition-all duration-300 group-hover/badge:bg-green-100 group-hover/badge:scale-105 shadow-sm">
-                    <span className="text-xs">💬</span>
-                  </div>
-                  <span className="text-[9px] font-bold text-gray-700 uppercase tracking-wider leading-tight">Fast Reply</span>
-                  <span className="text-[8px] text-gray-400 font-bold uppercase tracking-tight mt-0.5">&lt; 30 mins</span>
-                </div>
-                <div className="flex flex-col items-center group/badge cursor-pointer">
-                  <div className="w-8 h-8 rounded-full bg-green-50/60 flex items-center justify-center mb-1 text-green-600 transition-all duration-300 group-hover/badge:bg-green-100 group-hover/badge:scale-105 shadow-sm">
-                    <span className="text-xs">🎁</span>
-                  </div>
-                  <span className="text-[9px] font-bold text-gray-700 uppercase tracking-wider leading-tight">Bulk Gifts</span>
-                  <span className="text-[8px] text-gray-400 font-bold uppercase tracking-tight mt-0.5">Custom Orders</span>
-                </div>
-                <div className="flex flex-col items-center group/badge cursor-pointer">
-                  <div className="w-8 h-8 rounded-full bg-green-50/60 flex items-center justify-center mb-1 text-green-600 transition-all duration-300 group-hover/badge:bg-green-100 group-hover/badge:scale-105 shadow-sm">
-                    <span className="text-xs">🌱</span>
-                  </div>
-                  <span className="text-[9px] font-bold text-gray-700 uppercase tracking-wider leading-tight">Premium Care</span>
-                  <span className="text-[8px] text-gray-400 font-bold uppercase tracking-tight mt-0.5">100% Organic</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
