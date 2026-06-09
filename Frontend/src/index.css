@@ -1,4 +1,30 @@
+/* Import Source Sans 3 (Variable Font) from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+
 @import "tailwindcss";
+
+/* Register 'Source Sans Variable' alias pointing to Google Fonts WOFF2 or local fonts */
+@font-face {
+  font-family: 'Source Sans Variable';
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: local('Source Sans Variable'), 
+       local('Source Sans 3'), 
+       local('Source Sans Pro'), 
+       url('https://fonts.gstatic.com/s/sourcesans3/v15/n71L-Z8kx1t098URCX_5xxM.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Source Sans Variable';
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: local('Source Sans Variable Italic'), 
+       local('Source Sans 3 Italic'), 
+       local('Source Sans Pro Italic'), 
+       url('https://fonts.gstatic.com/s/sourcesans3/v15/n71N-Z8kx1t098URCX_5xxM0b57_.woff2') format('woff2');
+}
 
 @theme {
   --color-premium-dark: #0f172a;
@@ -16,13 +42,17 @@
   --admin-secondary: #10b981; /* Accent Green */
   --admin-hover: #f0fdf4; /* Light Green Hover */
   --admin-border: #e5e7eb;
+
+  /* Custom Font Theme Variables */
+  --font-sans: 'Source Sans Variable', 'Source Sans 3', system-ui, -apple-system, sans-serif;
+  --font-inter: 'Source Sans Variable', 'Source Sans 3', system-ui, -apple-system, sans-serif;
 }
 
 html,
 body {
   height: 100%;
   margin: 0;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Source Sans Variable', 'Source Sans 3', system-ui, -apple-system, sans-serif;
   background-color: #ffffff;
   color: #1e293b;
 }

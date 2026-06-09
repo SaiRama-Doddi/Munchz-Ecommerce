@@ -109,6 +109,16 @@ export default function ReferAndEarn() {
       <Header />
       
       <div className="max-w-7xl mx-auto px-4 md:px-6 pt-8 pb-12">
+        {/* Premium Banner */}
+        <div className="w-full mb-10 overflow-hidden rounded-[2rem] shadow-[0_15px_30px_rgba(16,185,129,0.08)] border border-emerald-100/50">
+          <img 
+            src="/banners/refer_and_earn_banner.png" 
+            alt="GoMunchz Refer & Earn Banner" 
+            className="w-full h-auto object-cover max-h-[380px] hover:scale-[1.01] transition-transform duration-700 ease-out"
+            loading="lazy"
+          />
+        </div>
+
         {/* HERO HEADER & STATS */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
           <div className="text-center md:text-left">
