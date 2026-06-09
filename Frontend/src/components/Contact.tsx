@@ -44,13 +44,12 @@ export default function ContactForm() {
         <div className="max-w-6xl w-full bg-white shadow-[0_30px_70px_rgba(22,101,52,0.06)] overflow-hidden border border-green-100/30 flex flex-col md:flex-row md:h-[530px] rounded-[2rem] md:rounded-[2.5rem] transition-all duration-300 hover:shadow-[0_40px_80px_rgba(22,101,52,0.09)]">
 
           {/* LEFT IMAGE / INFO SECTION */}
-          <div className="md:w-1/2 w-full relative h-[200px] md:h-full overflow-hidden bg-gray-50 border-b md:border-b-0 md:border-r border-green-100/20 group">
+          <div className="md:w-1/2 w-full relative h-[200px] md:h-full overflow-hidden bg-[#e4edd4] border-b md:border-b-0 md:border-r border-green-100/20 group">
             <img
               src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1780893983/contact_us_banner_ay7la9.jpg"
               alt="Premium Healthy Snacks"
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              className="absolute inset-0 w-full h-full object-contain transition-transform duration-700 group-hover:scale-[1.01]"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-green-950/20 via-transparent to-transparent opacity-80" />
           </div>
 
           {/* RIGHT FORM SECTION */}
