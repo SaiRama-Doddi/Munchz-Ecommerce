@@ -148,6 +148,13 @@ export default function AllProducts() {
       if (aIndex !== bIndex) {
         return aIndex - bIndex;
       }
+
+      const aOrder = a.sortOrder ?? 0;
+      const bOrder = b.sortOrder ?? 0;
+      if (aOrder !== bOrder) {
+        return aOrder - bOrder;
+      }
+
       return a.id - b.id;
     });
   }, [products, categories]);

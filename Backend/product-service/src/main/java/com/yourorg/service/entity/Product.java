@@ -56,6 +56,9 @@ private String customId;
 @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
 private List<ProductImage> images = new ArrayList<>();
 
+    @Column(name = "sort_order")
+    private Integer sortOrder = 0;
+
 
     public Product() {
     }
@@ -87,6 +90,15 @@ private List<ProductImage> images = new ArrayList<>();
 public void setCustomId(String customId) {
     this.customId = customId;
 }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
     public String getDescription() {
         return description;
     }

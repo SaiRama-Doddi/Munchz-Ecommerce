@@ -63,6 +63,7 @@ public class ProductServiceImpl implements ProductService {
                 category,
                 subcategory
         );
+        product.setSortOrder(request.getSortOrder() != null ? request.getSortOrder() : 0);
 
         // Add images
         if (request.getImageUrls() != null) {
@@ -129,6 +130,7 @@ public class ProductServiceImpl implements ProductService {
         product.setImageUrl(request.getImageUrl());
         product.setCategory(category);
         product.setSubcategory(subcategory);
+        product.setSortOrder(request.getSortOrder() != null ? request.getSortOrder() : 0);
 
         // --------------------------------------------
         // UPDATE IMAGES (SAFE ORPHAN HANDLING)
@@ -270,7 +272,8 @@ public class ProductServiceImpl implements ProductService {
             imageUrls,
             variantResponses,
             product.getCustomId(), // VERY IMPORTANT,
-            product.getCreatedAt()
+            product.getCreatedAt(),
+            product.getSortOrder()
     );
 }
 

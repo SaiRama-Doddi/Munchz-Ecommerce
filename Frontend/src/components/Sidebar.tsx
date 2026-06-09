@@ -36,6 +36,7 @@ const items = [
   { to: "/admin/category", label: "Categories", icon: Layers },
   { to: "/admin/sub-category", label: "Subcategories", icon: Layers },
   { to: "/admin/products", label: "Products", icon: ShoppingBag },
+  { to: "/admin/product-position", label: "Product Position", icon: Layers },
   { to: "/admin/orders", label: "Orders", icon: ClipboardList },
   { to: "/admin/payments", label: "Payments", icon: CreditCard },
   { 
@@ -90,7 +91,7 @@ export default function Sidebar({ isOpen = true, onClose = () => {} }: SidebarPr
     if (item.to === "/admin/category" || item.to === "/admin/sub-category") {
       return hasPermission("CATEGORIES", "READ");
     }
-    if (item.to === "/admin/products") {
+    if (item.to === "/admin/products" || item.to === "/admin/product-position") {
       return hasPermission("PRODUCTS", "READ");
     }
     if (item.to === "/admin/orders") {

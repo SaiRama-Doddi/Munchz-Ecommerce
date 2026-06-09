@@ -15,6 +15,7 @@ public class ProductResponse {
     private List<ProductVariantResponse> variants;
     private String customId;
     private LocalDateTime createdAt; // IMPORTANT
+    private Integer sortOrder;
 
     public ProductResponse() {}
 
@@ -27,7 +28,8 @@ public class ProductResponse {
                            List<String> imageUrls,
                            List<ProductVariantResponse> variants,
                            String customId,
-                           LocalDateTime createdAt) {   // ADD HERE
+                           LocalDateTime createdAt,
+                           Integer sortOrder) {   // ADD HERE
         this.id = id;
         this.categoryId = categoryId;
         this.subcategoryId = subcategoryId;
@@ -38,6 +40,7 @@ public class ProductResponse {
         this.variants = variants;
         this.customId = customId;
         this.createdAt = createdAt; // ADD HERE
+        this.sortOrder = sortOrder;
     }
 
     public Long getId() { return id; }
@@ -53,4 +56,7 @@ public class ProductResponse {
 
     public void setCustomId(String customId) { this.customId = customId; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; } // ADD
+
+    public Integer getSortOrder() { return sortOrder; }
+    public void setSortOrder(Integer sortOrder) { this.sortOrder = sortOrder; }
 }

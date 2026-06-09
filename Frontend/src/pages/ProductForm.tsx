@@ -123,6 +123,7 @@ export default function ProductForm() {
         mrp: Number(v.mrp),
         offerPrice: Number(v.offerPrice),
       })),
+      sortOrder: 0,
     };
 
     try {

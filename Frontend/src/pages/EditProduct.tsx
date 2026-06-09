@@ -35,6 +35,7 @@ export default function EditProduct() {
     imageUrl: "",
     imageUrls: [] as string[],
     variants: [] as any[],
+    sortOrder: 0,
   });
 
   useEffect(() => {
@@ -77,6 +78,7 @@ export default function EditProduct() {
         imageUrl: p.imageUrl || "",
         imageUrls: images.length ? images : [""],
         variants: mappedVariants,
+        sortOrder: p.sortOrder || 0,
       });
 
       setLoading(false);
@@ -144,6 +146,7 @@ export default function EditProduct() {
       imageUrl: form.imageUrl,
       imageUrls: form.imageUrls.filter((x) => x.trim() !== ""),
       variants: form.variants,
+      sortOrder: form.sortOrder,
     };
 
     try {

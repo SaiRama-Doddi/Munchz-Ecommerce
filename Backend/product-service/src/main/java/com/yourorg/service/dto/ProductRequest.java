@@ -29,6 +29,8 @@ public class ProductRequest {
     @NotNull
     private List<ProductVariantRequest> variants;
 
+    private Integer sortOrder;
+
     public ProductRequest() {
     }
 
@@ -38,7 +40,8 @@ public class ProductRequest {
                           String description,
                           String imageUrl,
                           List<String> imageUrls,
-                          List<ProductVariantRequest> variants) {
+                          List<ProductVariantRequest> variants,
+                          Integer sortOrder) {
 
         this.categoryId = categoryId;
         this.subcategoryId = subcategoryId;
@@ -47,6 +50,7 @@ public class ProductRequest {
         this.imageUrl = imageUrl;
         this.imageUrls = imageUrls;
         this.variants = variants;
+        this.sortOrder = sortOrder;
     }
 
     public Long getCategoryId() {
@@ -103,5 +107,13 @@ public class ProductRequest {
 
     public void setVariants(List<ProductVariantRequest> variants) {
         this.variants = variants;
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 }

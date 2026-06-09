@@ -110,7 +110,7 @@ export default function Header() {
             <NavLink to="/productpage" onMouseEnter={preloadShop} onTouchStart={preloadShop} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Shop</NavLink>
 
             {/* Blog Dropdown */}
-            <div 
+            <div
               className="relative group py-4 h-full flex items-center"
               onMouseEnter={() => {
                 setShowBlogDropdown(true);
@@ -118,11 +118,11 @@ export default function Header() {
               }}
               onMouseLeave={() => setShowBlogDropdown(false)}
             >
-              <NavLink 
-                to="/blog" 
+              <NavLink
+                to="/blog"
                 onMouseEnter={preloadBlog}
                 onTouchStart={preloadBlog}
-                className={({ isActive }) => 
+                className={({ isActive }) =>
                   `flex items-center gap-1 cursor-pointer transition-colors ${isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}`
                 }
               >
@@ -147,8 +147,8 @@ export default function Header() {
                       </p>
                     </Link>
                   ))}
-                  <Link 
-                    to="/blog" 
+                  <Link
+                    to="/blog"
                     className="mt-2 mx-4 py-2 text-center block bg-green-600 text-white text-xs font-bold rounded-lg hover:bg-green-700 transition"
                     onClick={() => setShowBlogDropdown(false)}
                   >
@@ -159,7 +159,7 @@ export default function Header() {
             </div>
 
             <NavLink to="/track" onMouseEnter={preloadTrack} onTouchStart={preloadTrack} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Track</NavLink>
-            <NavLink to="/refer-and-earn" onMouseEnter={preloadReward} onTouchStart={preloadReward} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Reward</NavLink>
+            <NavLink to="/refer-and-earn" onMouseEnter={preloadReward} onTouchStart={preloadReward} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>GoMunchz Points</NavLink>
             <NavLink to="/gifting" onMouseEnter={preloadGifting} onTouchStart={preloadGifting} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Gifting</NavLink>
             <NavLink to="/contact" onMouseEnter={preloadContact} onTouchStart={preloadContact} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Contact Us</NavLink>
           </nav>
@@ -259,7 +259,7 @@ export default function Header() {
                         ₹{profile.referralCredits}
                       </span>
                     ) : (
-                       <span className="absolute -top-1.5 -right-1.5 w-2 h-2 bg-amber-400 rounded-full animate-pulse shadow-sm"></span>
+                      <span className="absolute -top-1.5 -right-1.5 w-2 h-2 bg-amber-400 rounded-full animate-pulse shadow-sm"></span>
                     )}
                   </>
                 )}
@@ -427,7 +427,7 @@ export default function Header() {
                       <Grid2x2 size={20} /> Shop
                     </Link>
 
-                    <button 
+                    <button
                       onClick={() => setMobileBlogOpen(true)}
                       onMouseEnter={preloadBlog}
                       onTouchStart={preloadBlog}
@@ -461,17 +461,17 @@ export default function Header() {
                   </>
                 ) : (
                   <div className="flex flex-col gap-6 animate-in slide-in-from-right duration-300">
-                    <button 
+                    <button
                       onClick={() => setMobileBlogOpen(false)}
                       className="flex items-center gap-2 text-green-700 font-bold mb-2 group"
                     >
-                      <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" /> 
+                      <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
                       <span>Back to Menu</span>
                     </button>
 
                     <div className="space-y-1">
                       <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] px-2 mb-4">Our Latest Stories</p>
-                      
+
                       {blogs.map((blog) => (
                         <Link
                           key={blog.id}
@@ -555,7 +555,7 @@ export default function Header() {
                 <div className="relative">
                   <Gift size={20} className={isActive ? "text-green-700" : "text-amber-500"} />
                   {profile && profile.referralCredits && profile.referralCredits > 0 && (
-                     <span className="absolute -top-1 -right-2 bg-amber-400 text-black text-[8px] font-black px-1 rounded-sm">₹{profile.referralCredits}</span>
+                    <span className="absolute -top-1 -right-2 bg-amber-400 text-black text-[8px] font-black px-1 rounded-sm">₹{profile.referralCredits}</span>
                   )}
                 </div>
                 Earn

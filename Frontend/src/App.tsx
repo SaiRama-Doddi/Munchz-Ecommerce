@@ -67,6 +67,7 @@ const UserManagement = lazy(() => import("./pages/UserManagement"));
 const ReferralSettings = lazy(() => import("./pages/ReferralSettings"));
 const GiftingPage = lazy(() => import("./pages/GiftingPage"));
 const AdminBanners = lazy(() => import("./pages/AdminBanners"));
+const AdminProductPosition = lazy(() => import("./pages/AdminProductPosition"));
 
 
 import { useLiveUpdates } from "./hooks/useLiveUpdates";
@@ -294,6 +295,7 @@ export default function App() {
       <Route path="category" element={<Categories />} />
       <Route path="sub-category" element={<Subcategories />} />
       <Route path="products" element={<Products />} />
+      <Route path="product-position" element={<AdminProductPosition />} />
       <Route path="products/new" element={<ProductForm />} />
       <Route path="add-product" element={<ProductForm />} />
       <Route path="edit-product/:id" element={<EditProduct />} />
