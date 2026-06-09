@@ -135,6 +135,13 @@ export default function FeaturedProducts() {
       if (aIndex !== bIndex) {
         return aIndex - bIndex;
       }
+
+      const aOrder = (a as any).sortOrder ?? 0;
+      const bOrder = (b as any).sortOrder ?? 0;
+      if (aOrder !== bOrder) {
+        return aOrder - bOrder;
+      }
+
       return a.id - b.id;
     });
   }, [products, categories]);
