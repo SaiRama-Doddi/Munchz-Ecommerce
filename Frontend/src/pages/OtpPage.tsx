@@ -154,96 +154,159 @@ export default function OtpPage() {
   };
 
   return (
-    <div className="min-h-[10vh] bg-white px-4 pt-6 pb-20 flex justify-center">
+    <div className="min-h-screen bg-[#f3f8f2] flex items-center justify-center px-4 py-8 md:py-16 font-sans">
+      
+      {/* SPLIT WRAPPER */}
+      <div className="w-full max-w-5xl flex flex-col md:flex-row items-stretch justify-center gap-6 transition-all duration-300">
+        
+        {/* Left Column: Image and Marketing Banner */}
+        <div className="md:w-1/2 w-full relative rounded-[2rem] overflow-hidden bg-[#e4edd4] border border-green-100/30 shadow-[0_20px_50px_rgba(22,101,52,0.03)] flex flex-col justify-between p-8 min-h-[360px] md:h-[620px]">
+          <img 
+            src="/images/auth_banner.png" 
+            alt="Munchz Premium Quality" 
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#eaf2e8]/20 via-transparent to-black/35" />
+          
+          <div className="absolute inset-0 p-8 flex flex-col justify-between text-left select-none z-10">
+            <div>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 text-green-700 text-[10px] font-black uppercase tracking-wider shadow-sm mb-4">
+                <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" /> 100% Natural & Premium Quality
+              </span>
+              <h1 className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight leading-none mb-3">
+                Good Food <br />
+                Good Health <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">Good Life</span>
+              </h1>
+              <p className="text-gray-500 text-[11px] font-semibold leading-relaxed max-w-xs">
+                100% natural and premium quality products delivered to your doorstep.
+              </p>
+            </div>
 
-      <div className="bg-white w-full max-w-md rounded-xl shadow-lg p-6 sm:p-8 text-center">
-
-        {/* Logo */}
-        <img src="https://res.cloudinary.com/dd4oiwnep/image/upload/f_auto,q_auto/v1774178657/gomunchz_logo_transparent_r8r0a8.png" className="w-20 mx-auto mb-3" />
-
-        <h2 className="text-base font-semibold">Enter OTP</h2>
-
-        {/* OTP INPUTS */}
-        <div
-          className="flex justify-between max-w-xs mx-auto mt-6"
-          onPaste={handlePaste}
-        >
-          {otp.map((digit, i) => (
-            <input
-              key={i}
-              ref={(el) => {
-                if (el) inputsRef.current[i] = el;
-              }}
-              type="text"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              maxLength={1}
-              value={digit}
-              onChange={(e) => handleChange(e.target.value, i)}
-              onKeyDown={(e) => handleKeyDown(e, i)}
-              className="
-                w-9 h-11
-                sm:w-11 sm:h-12
-                border rounded-md
-                text-center text-base
-                focus:outline-none
-                focus:border-green-600
-              "
-            />
-          ))}
+            <div className="space-y-3 hidden sm:block">
+              <div className="flex items-center gap-3 bg-white/70 backdrop-blur-xs p-2.5 rounded-2xl border border-white/50 shadow-xs">
+                <div className="w-8 h-8 rounded-full bg-white shadow-xs flex items-center justify-center text-green-600 shrink-0">
+                  <span className="text-xs font-black">🍃</span>
+                </div>
+                <div>
+                  <h4 className="font-extrabold text-xs text-gray-800 uppercase tracking-wider leading-none mb-0.5">100% Natural</h4>
+                  <p className="text-[10px] text-gray-400 font-bold">No artificial ingredients</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 bg-white/70 backdrop-blur-xs p-2.5 rounded-2xl border border-white/50 shadow-xs">
+                <div className="w-8 h-8 rounded-full bg-white shadow-xs flex items-center justify-center text-green-600 shrink-0">
+                  <span className="text-xs font-black">⭐</span>
+                </div>
+                <div>
+                  <h4 className="font-extrabold text-xs text-gray-800 uppercase tracking-wider leading-none mb-0.5">Premium Quality</h4>
+                  <p className="text-[10px] text-gray-400 font-bold">Carefully sourced products</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 bg-white/70 backdrop-blur-xs p-2.5 rounded-2xl border border-white/50 shadow-xs">
+                <div className="w-8 h-8 rounded-full bg-white shadow-xs flex items-center justify-center text-green-600 shrink-0">
+                  <span className="text-xs font-black">🚚</span>
+                </div>
+                <div>
+                  <h4 className="font-extrabold text-xs text-gray-800 uppercase tracking-wider leading-none mb-0.5">Fast Delivery</h4>
+                  <p className="text-[10px] text-gray-400 font-bold">Free shipping on orders above Rs 799</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <p className="text-gray-500 text-sm mt-4">
-          OTP sent to your registered email
-        </p>
+        {/* Right Column: OTP Card */}
+        <div className="md:w-1/2 w-full p-6 sm:p-8 flex flex-col justify-center bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(22,101,52,0.05)] border border-green-100/30 md:h-[620px] overflow-y-auto scrollbar-hide">
+          <div className="max-w-md mx-auto w-full space-y-4 text-center">
+            
+            {/* Logo */}
+            <img 
+              src="https://res.cloudinary.com/dd4oiwnep/image/upload/f_auto,q_auto/v1774178657/gomunchz_logo_transparent_r8r0a8.png" 
+              className="w-16 mx-auto mb-1 cursor-pointer object-contain" 
+              onClick={() => navigate("/")}
+            />
 
-        {/* RESEND OTP */}
-        <button
-          onClick={handleResendOtp}
-          disabled={timer > 0 || resendLoading}
-          className={`mt-3 text-sm font-medium underline
-          ${
-            timer > 0
-              ? "text-gray-400 cursor-not-allowed"
-              : "text-green-700 cursor-pointer"
-          }`}
-        >
-          {resendLoading
-            ? "Resending..."
-            : timer > 0
-            ? `Resend OTP in ${timer}s`
-            : "Resend OTP"}
-        </button>
+            <h2 className="text-xl font-black text-gray-900 tracking-tight leading-none mb-1">Enter OTP</h2>
+            <p className="text-[11px] text-gray-500 font-semibold mb-6">
+              OTP sent to {email}
+            </p>
 
-        {/* LOGIN BUTTON */}
-        <button
-          onClick={handleVerify}
-          disabled={loading}
-          className={`w-full py-2.5 rounded-md mt-6 font-medium
-          flex items-center justify-center gap-2
-          ${
-            loading
-              ? "bg-green-500 cursor-not-allowed"
-              : "bg-green-600 hover:bg-green-700 cursor-pointer"
-          }
-          text-white`}
-        >
-          {loading ? (
-            <>
-              <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              Verifying...
-            </>
-          ) : (
-            "Login"
-          )}
-        </button>
+            {/* OTP INPUTS */}
+            <div
+              className="flex justify-between gap-2 max-w-xs mx-auto mt-4"
+              onPaste={handlePaste}
+            >
+              {otp.map((digit, i) => (
+                <input
+                  key={i}
+                  ref={(el) => {
+                    if (el) inputsRef.current[i] = el;
+                  }}
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  maxLength={1}
+                  value={digit}
+                  onChange={(e) => handleChange(e.target.value, i)}
+                  onKeyDown={(e) => handleKeyDown(e, i)}
+                  className="w-10 h-12 border border-gray-200 rounded-xl text-center text-lg font-black focus:outline-none focus:border-green-600 focus:ring-4 focus:ring-green-600/5 transition-all"
+                />
+              ))}
+            </div>
 
-        <a
-          href="/signup"
-          className="text-green-600 text-sm block mt-4 underline cursor-pointer"
-        >
-          Sign up
-        </a>
+            <p className="text-gray-400 text-[10px] font-bold mt-4">
+              OTP sent to your registered email
+            </p>
+
+            {/* RESEND OTP */}
+            <button
+              onClick={handleResendOtp}
+              disabled={timer > 0 || resendLoading}
+              className={`mt-2 text-xs font-bold transition-colors block mx-auto
+              ${
+                timer > 0
+                  ? "text-gray-300 cursor-not-allowed"
+                  : "text-green-700 hover:text-green-800 cursor-pointer"
+              }`}
+            >
+              {resendLoading
+                ? "Resending..."
+                : timer > 0
+                ? `Resend OTP in ${timer}s`
+                : "Resend OTP"}
+            </button>
+
+            {/* LOGIN BUTTON */}
+            <button
+              onClick={handleVerify}
+              disabled={loading}
+              className={`w-full py-3.5 rounded-xl mt-6 font-bold text-xs uppercase tracking-wider
+              flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg
+              ${
+                loading
+                  ? "bg-green-500 cursor-not-allowed opacity-60 text-white"
+                  : "bg-green-600 hover:bg-green-700 text-white shadow-green-600/10 hover:shadow-xl hover:shadow-green-600/20"
+              }`}
+            >
+              {loading ? (
+                <>
+                  <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span>Verifying...</span>
+                </>
+              ) : (
+                "Login"
+              )}
+            </button>
+
+            <span
+              onClick={() => navigate("/signup")}
+              className="text-green-700 text-xs font-bold block mt-4 hover:underline cursor-pointer"
+            >
+              Sign up
+            </span>
+
+          </div>
+        </div>
 
       </div>
     </div>

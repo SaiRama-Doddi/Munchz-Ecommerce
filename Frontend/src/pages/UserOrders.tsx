@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { getProductUrl } from "../utils/slugify";
 import { useAuth } from "../context/AuthContext";
-import { Mail, User, LayoutGrid, List, Eye, Upload, Image as ImageIcon, Star, Trash2, ArrowLeft, X, ShoppingBag, Check, Flame, Trophy, ChevronRight } from "lucide-react";
+import { Mail, User, LayoutGrid, List, Eye, Upload, Image as ImageIcon, Star, Trash2, ArrowLeft, X, ShoppingBag, Check, Flame, Trophy, ChevronRight, Leaf, ShieldCheck, Truck, Lock } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { FaTimes } from "react-icons/fa";
@@ -67,6 +67,7 @@ export default function UserOrders() {
   const [loading, setLoading] = useState(true);
   const [filterDays, setFilterDays] = useState<number | "ALL">("ALL");
   const [gridView, setGridView] = useState(true);
+  const [activeProduct, setActiveProduct] = useState<any>(null);
 
   const { profile } = useAuth();
   const navigate = useNavigate();
@@ -119,6 +120,27 @@ export default function UserOrders() {
     };
     fetchReviews();
   }, []);
+
+  useEffect(() => {
+    if (reviewItem) {
+      axios
+        .get(`/product/api/products/${reviewItem.productId}`)
+        .then((res) => {
+          setActiveProduct(res.data);
+        })
+        .catch((err) => {
+          console.error("Failed to fetch active product for review", err);
+          setActiveProduct({
+            name: reviewItem.productName,
+            imageUrl: reviewItem.imageUrl || productImages[reviewItem.productId] || "/placeholder.png",
+            description: "A premium healthy snack by GoMunchz, crafted for your active and balanced lifestyle.",
+            category: { name: "Snack" }
+          });
+        });
+    } else {
+      setActiveProduct(null);
+    }
+  }, [reviewItem, productImages]);
 
   const filteredOrders = useMemo(() => {
     let filtered = orders;
@@ -387,153 +409,245 @@ export default function UserOrders() {
       {/* REVIEW PRODUCT MODAL */}
       {reviewItem && selectedOrder && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[60] flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-xl rounded-[2.5rem] shadow-2xl p-8 animate-slideUp border border-green-50 relative overflow-hidden">
-            {/* Scrollable area with hidden scrollbar */}
-            <div className="max-h-[85vh] overflow-y-auto pr-2 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-            <div className="flex flex-col items-center text-center space-y-6">
-              {/* CLOSE BUTTON */}
-              <button 
-                onClick={() => setReviewItem(null)} 
-                className="absolute top-6 right-6 p-2 text-gray-300 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all z-20 group/close"
-              >
-                <X size={20} className="group-hover/close:scale-110 transition-transform" />
-              </button>
+          <div className="bg-white w-full max-w-4xl rounded-[2rem] shadow-2xl overflow-hidden border border-green-50 flex flex-col md:flex-row relative animate-slideUp">
+            {/* CLOSE BUTTON */}
+            <button 
+              onClick={() => setReviewItem(null)} 
+              className="absolute top-5 right-5 p-2 bg-gray-50/80 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all border border-gray-100 z-[70] group/close"
+            >
+              <X size={18} className="group-hover/close:scale-110 transition-transform" />
+            </button>
 
-              <div className="space-y-2">
-                <h3 className="text-2xl font-black text-gray-900 tracking-tight">How was your experience?</h3>
-                <p className="text-sm text-gray-500 font-medium">Your feedback helps GoMunchz community grow!</p>
+            {/* LEFT PANEL: MARKETING / PRODUCT DETAIL (Desktop only) */}
+            <div className="hidden md:flex md:w-[45%] bg-gradient-to-br from-[#ecfdf5]/80 via-[#f0fdf4]/30 to-white p-7 flex-col items-center text-center justify-between border-r border-gray-100 select-none relative overflow-hidden">
+              {/* Decorative leafy elements */}
+              <div className="absolute top-0 left-0 w-32 h-32 bg-emerald-500/5 blur-3xl rounded-full -translate-x-12 -translate-y-12"></div>
+              <div className="absolute bottom-0 right-0 w-32 h-32 bg-emerald-500/5 blur-3xl rounded-full translate-x-12 translate-y-12"></div>
+
+              {/* Logo / Subtitle */}
+              <div className="flex flex-col items-center gap-1 mt-1 z-10">
+                <img 
+                  src="https://res.cloudinary.com/dd4oiwnep/image/upload/v1774178657/gomunchz_logo_transparent_r8r0a8.png" 
+                  alt="Go Munchz" 
+                  className="h-8 object-contain"
+                />
+                <span className="text-[10px] font-bold text-emerald-800 tracking-[0.2em] uppercase">Just Good Stuff</span>
               </div>
 
-              {/* PRODUCT IMAGE - CENTERED & LARGE */}
-              <div className="relative group">
-                <div className="absolute inset-0 bg-green-100 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                <img 
-                  src={productImages[reviewItem.productId] || "/placeholder.png"} 
-                  className="w-32 h-32 object-contain bg-white rounded-3xl border border-gray-100 shadow-xl relative z-10" 
-                  alt={reviewItem.productName} 
-                />
-                <div className="mt-4">
-                   <p className="font-black text-gray-900 text-lg tracking-tight uppercase">{reviewItem.productName}</p>
+              {/* Product Visual */}
+              <div className="my-auto flex flex-col items-center z-10 w-full px-4">
+                <div className="relative group/prod py-2">
+                  <div className="absolute inset-0 bg-emerald-100/50 rounded-full blur-2xl opacity-40 group-hover/prod:opacity-60 transition-opacity"></div>
+                  <img 
+                    src={activeProduct?.imageUrl || productImages[reviewItem.productId] || "/placeholder.png"} 
+                    className="max-h-44 object-contain drop-shadow-[0_12px_18px_rgba(0,0,0,0.06)] relative z-10 transform group-hover/prod:scale-105 transition-transform duration-500" 
+                    alt={reviewItem.productName} 
+                  />
+                </div>
+
+                <div className="space-y-2.5 mt-4 w-full">
+                  <h4 className="font-black text-gray-900 text-lg tracking-tight uppercase leading-tight line-clamp-1">{reviewItem.productName}</h4>
+                  <span className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 text-[10px] font-black tracking-wider px-3 py-1 rounded-full uppercase border border-emerald-100">
+                    <Leaf size={10} className="fill-emerald-700" />
+                    {activeProduct?.category?.name || "Premium Healthy Snack"}
+                  </span>
+                  <p className="text-gray-500 text-xs leading-relaxed max-w-[240px] mx-auto line-clamp-2">
+                    {activeProduct?.description 
+                      ? (activeProduct.description.split(".")[0] + ".") 
+                      : "Light, crunchy and perfectly seasoned snack. A guilt-free snack for your healthy lifestyle."}
+                  </p>
                 </div>
               </div>
 
-              {/* RATING SECTION - PROMINENT */}
-              <div className="w-full space-y-4">
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-green-600/60">Rate your GoMunchz</p>
-                <div className="flex justify-center gap-3">
+              {/* Bottom Row Highlights */}
+              <div className="w-full bg-white/70 backdrop-blur-sm border border-emerald-50/50 rounded-xl p-3 flex justify-between items-center shadow-[0_4px_12px_rgba(0,0,0,0.02)] z-10">
+                <div className="flex flex-col items-center gap-1 flex-1">
+                  <Leaf size={14} className="text-emerald-600 fill-emerald-100" />
+                  <span className="text-[9px] font-extrabold text-gray-800 text-center leading-tight">Natural<br/>Ingredients</span>
+                </div>
+                <div className="h-6 w-px bg-gray-100"></div>
+                <div className="flex flex-col items-center gap-1 flex-1">
+                  <ShieldCheck size={14} className="text-emerald-600 fill-emerald-100" />
+                  <span className="text-[9px] font-extrabold text-gray-800 text-center leading-tight">Premium<br/>Quality</span>
+                </div>
+                <div className="h-6 w-px bg-gray-100"></div>
+                <div className="flex flex-col items-center gap-1 flex-1">
+                  <Truck size={14} className="text-emerald-600 fill-emerald-100" />
+                  <span className="text-[9px] font-extrabold text-gray-800 text-center leading-tight">Fast<br/>Delivery</span>
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT PANEL: EXPERIENCE FORM */}
+            <div className="w-full md:w-[55%] p-6 sm:p-8 flex flex-col justify-between min-h-[480px]">
+              {/* Mobile Product Header (Visible only on mobile) */}
+              <div className="flex md:hidden items-center gap-3 bg-emerald-50/40 p-3 rounded-2xl border border-emerald-100/30 mb-4 text-left">
+                <img
+                  src={activeProduct?.imageUrl || productImages[reviewItem.productId] || "/placeholder.png"}
+                  className="w-14 h-14 object-contain bg-white rounded-xl border border-gray-100 shadow-sm"
+                  alt={reviewItem.productName}
+                />
+                <div>
+                  <p className="font-black text-gray-900 text-xs tracking-tight uppercase leading-tight">{reviewItem.productName}</p>
+                  <span className="inline-block bg-emerald-100/60 text-emerald-800 text-[8px] font-black tracking-wider px-2 py-0.5 rounded-full mt-1 uppercase">
+                    {activeProduct?.category?.name || "Premium Snack"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Title & Subtitle */}
+              <div className="text-center space-y-1">
+                <h3 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight flex items-center justify-center gap-1.5 leading-none">
+                  How was your experience?
+                  <Leaf className="w-5 h-5 text-emerald-600 fill-emerald-600 rotate-45 flex-shrink-0" />
+                </h3>
+                <p className="text-xs text-gray-500 font-semibold">Your feedback helps GoMunchz grow and serve you better.</p>
+              </div>
+
+              {/* Rating Star Selection */}
+              <div className="text-center space-y-1.5 my-3 sm:my-4">
+                <div className="flex justify-center gap-2">
                   {[1, 2, 3, 4, 5].map((r) => (
                     <button
                       key={r}
                       onClick={() => setRating(r)}
-                      className={`transition-all duration-300 transform active:scale-90 hover:scale-125 
-                      ${rating >= r ? "text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.4)]" : "text-gray-100"}`}
+                      className={`transition-all duration-300 transform active:scale-90 hover:scale-115 
+                      ${rating >= r ? "text-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.35)]" : "text-gray-200"}`}
                     >
-                      <Star size={44} fill={rating >= r ? "currentColor" : "none"} strokeWidth={1.5} />
+                      <Star size={36} fill={rating >= r ? "currentColor" : "none"} strokeWidth={1.5} />
                     </button>
                   ))}
                 </div>
                 {rating > 0 && (
-                  <p className="text-xs font-bold text-gray-400 italic animate-in fade-in duration-500">
+                  <p className="text-xs font-black text-emerald-600 tracking-wide animate-in fade-in duration-300">
                     {rating === 5 ? "Exceptional! 🤩" : rating === 4 ? "Great! 😊" : rating === 3 ? "Good 😋" : rating === 2 ? "Could be better 😕" : "Disappointed 😞"}
                   </p>
                 )}
               </div>
 
-              {/* TEXT AREA */}
-              <div className="w-full space-y-2 text-left">
-                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 ml-1">Write your review</label>
-                <textarea
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  placeholder="What did you love about this snack?"
-                  rows={3}
-                  className="w-full bg-gray-50/50 border-2 border-gray-100 rounded-2xl p-4 font-bold text-gray-900 tracking-tight focus:border-green-600 focus:bg-white outline-none transition-all placeholder:text-gray-300 resize-none"
-                />
+              {/* Leaf Divider */}
+              <div className="relative flex items-center justify-center my-2.5 w-full">
+                <div className="absolute inset-x-0 h-px bg-gray-100"></div>
+                <div className="relative z-10 w-7 h-7 rounded-full bg-white border border-gray-100 flex items-center justify-center shadow-sm">
+                  <Leaf className="w-3.5 h-3.5 text-emerald-600 fill-emerald-600 rotate-12" />
+                </div>
               </div>
 
-              {/* PHOTO UPLOAD */}
-              <div className="w-full space-y-3">
-                {!preview ? (
-                  <label className="flex items-center justify-center gap-3 w-full py-4 border-2 border-dashed border-gray-200 rounded-2xl cursor-pointer hover:border-green-400 hover:bg-green-50/30 transition-all group">
-                    <ImageIcon className="w-5 h-5 text-gray-300 group-hover:text-green-500 transition-colors" />
-                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 group-hover:text-green-600 transition-colors">Add a Photo (Optional)</span>
-                    <input
-                      type="file"
-                      className="hidden"
-                      accept="image/*"
-                      onChange={(e) => {
-                        if (e.target.files && e.target.files[0]) {
-                          const f = e.target.files[0];
-                          if (f.size > MAX_FILE_SIZE) {
-                            alert("File size too large (Max 5MB).");
-                            e.target.value = "";
-                            return;
+              {/* Form Input fields */}
+              <div className="space-y-3 flex-1 flex flex-col justify-center">
+                {/* Text Area */}
+                <div className="space-y-1.5 text-left">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-emerald-700 ml-1">Write your review</label>
+                  <textarea
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    placeholder="What did you love about this snack?"
+                    rows={2}
+                    className="w-full bg-gray-50/50 border border-gray-200 rounded-xl p-3 font-semibold text-gray-900 text-xs tracking-tight focus:border-emerald-600 focus:bg-white outline-none transition-all placeholder:text-gray-300 resize-none"
+                  />
+                </div>
+
+                {/* Photo Upload */}
+                <div className="space-y-1.5">
+                  {!preview ? (
+                    <label className="flex items-center justify-center gap-2.5 w-full py-3.5 border border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-emerald-500 hover:bg-emerald-50/10 transition-all group">
+                      <ImageIcon className="w-4 h-4 text-gray-400 group-hover:text-emerald-600 transition-colors" />
+                      <div className="text-left">
+                        <span className="block text-[10px] font-black uppercase tracking-widest text-gray-700 group-hover:text-emerald-700 transition-colors leading-none mb-0.5">Add a Photo (Optional)</span>
+                        <span className="block text-[8px] font-bold text-gray-400 group-hover:text-emerald-500 transition-colors leading-none">Share your experience with a photo</span>
+                      </div>
+                      <input
+                        type="file"
+                        className="hidden"
+                        accept="image/*"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files[0]) {
+                            const f = e.target.files[0];
+                            if (f.size > MAX_FILE_SIZE) {
+                              alert("File size too large (Max 5MB).");
+                              e.target.value = "";
+                              return;
+                            }
+                            setFile(f);
+                            setPreview(URL.createObjectURL(f));
                           }
-                          setFile(f);
-                          setPreview(URL.createObjectURL(f));
-                        }
-                      }}
-                    />
-                  </label>
-                ) : (
-                  <div className="relative w-full h-32 rounded-2xl overflow-hidden border-2 border-green-100 shadow-md group">
-                    <img src={preview} className="w-full h-full object-cover" alt="Preview" />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                       <button
-                        onClick={() => { setFile(null); setPreview(null); }}
-                        className="p-3 bg-red-500 text-white rounded-full hover:bg-red-600 transition-all transform hover:scale-110"
-                      >
-                        <Trash2 size={18} />
-                      </button>
+                        }}
+                      />
+                    </label>
+                  ) : (
+                    <div className="relative w-full h-16 rounded-xl overflow-hidden border border-emerald-100 shadow-sm group">
+                      <img src={preview} className="w-full h-full object-cover" alt="Preview" />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <button
+                          onClick={() => { setFile(null); setPreview(null); }}
+                          className="p-1.5 bg-red-500 text-white rounded-full hover:bg-red-600 transition-all transform hover:scale-110"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
 
-              {/* SUBMIT BUTTON */}
-              <button
-                disabled={submitting || !comment || rating === 0}
-                onClick={async () => {
-                  try {
-                    setSubmitting(true);
-                    const token = localStorage.getItem("token")!;
-                    const payload: any = JSON.parse(atob(token.split(".")[1]));
-                    const formData = new FormData();
-                    formData.append("request", JSON.stringify({
-                      orderId: selectedOrder.orderId,
-                      productId: reviewItem.productId,
-                      productName: reviewItem.productName,
-                      userId: payload.sub,
-                      userName: payload.name,
-                      rating,
-                      comment,
-                    }));
-                    if (file) formData.append("file", file);
-                    await axios.post("/reviews/form", formData);
-                    alert("Ayyy! Your review is live! 🚀");
-                    const key = `${selectedOrder.orderId}:${reviewItem.productId}`;
-                    setReviewedItems(prev => new Set(prev).add(key));
-                    setReviewItem(null);
-                    setComment("");
-                    setRating(5);
-                    setFile(null);
-                    setPreview(null);
-                  } catch (e: any) {
-                    alert(e.response?.data?.message || "Oops! Review submission failed.");
-                  } finally {
-                    setSubmitting(false);
-                  }
-                }}
-                className="w-full py-4.5 bg-green-600 text-white rounded-2xl text-base font-black tracking-tight flex items-center justify-center gap-3 disabled:opacity-50 hover:bg-green-700 transition-all shadow-xl shadow-green-100 active:scale-95"
-              >
-                {submitting ? <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin" /> : "SUBMIT REVIEW"}
-              </button>
+              {/* Submit Action and Footer */}
+              <div className="space-y-3 mt-4">
+                <button
+                  disabled={submitting || !comment || rating === 0}
+                  onClick={async () => {
+                    try {
+                      setSubmitting(true);
+                      const token = localStorage.getItem("token")!;
+                      const payload: any = JSON.parse(atob(token.split(".")[1]));
+                      const formData = new FormData();
+                      formData.append("request", JSON.stringify({
+                        orderId: selectedOrder.orderId,
+                        productId: reviewItem.productId,
+                        productName: reviewItem.productName,
+                        userId: payload.sub,
+                        userName: payload.name,
+                        rating,
+                        comment,
+                      }));
+                      if (file) formData.append("file", file);
+                      await axios.post("/reviews/form", formData);
+                      alert("Ayyy! Your review is live! 🚀");
+                      const key = `${selectedOrder.orderId}:${reviewItem.productId}`;
+                      setReviewedItems(prev => new Set(prev).add(key));
+                      setReviewItem(null);
+                      setComment("");
+                      setRating(5);
+                      setFile(null);
+                      setPreview(null);
+                    } catch (e: any) {
+                      alert(e.response?.data?.message || "Oops! Review submission failed.");
+                    } finally {
+                      setSubmitting(false);
+                    }
+                  }}
+                  className="w-full py-3 bg-gradient-to-r from-emerald-600 to-green-500 hover:from-emerald-700 hover:to-green-600 text-white rounded-xl text-sm font-black tracking-wide flex items-center justify-center gap-2 disabled:opacity-50 transition-all shadow-md shadow-emerald-100/50 active:scale-98 cursor-pointer"
+                >
+                  {submitting ? (
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <>
+                      <Leaf size={14} className="fill-white" />
+                      SUBMIT REVIEW
+                    </>
+                  )}
+                </button>
+
+                <div className="flex items-center justify-center gap-1 text-gray-400 text-[10px] font-semibold">
+                  <Lock size={12} className="text-gray-400" />
+                  Your review is safe and secure with us.
+                </div>
+              </div>
+
             </div>
+
           </div>
         </div>
-      </div>
       )}
-
     </div>
   );
 }
