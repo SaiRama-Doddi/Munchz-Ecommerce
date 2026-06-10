@@ -49,8 +49,8 @@ export default function TrackOrderPage() {
           {/* Left Side: The Image properly displayed */}
           <div className="md:w-1/2 w-full relative h-[200px] md:h-full overflow-hidden bg-[#e4edd4] border-b md:border-b-0 md:border-r border-green-100/20 group">
             <img 
-               src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1780413088/track_board_banner_t1yvlz.jpg" 
-              className="absolute inset-0 w-full h-full object-contain transition-transform duration-700 group-hover:scale-[1.01]"
+               src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1780999951/track_borad_ivxwrr.jpg" 
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.01]"
               alt="Track Banner"
             />
           </div>

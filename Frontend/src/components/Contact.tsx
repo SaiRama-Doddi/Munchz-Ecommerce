@@ -46,9 +46,9 @@ export default function ContactForm() {
           {/* LEFT IMAGE / INFO SECTION */}
           <div className="md:w-1/2 w-full relative h-[200px] md:h-full overflow-hidden bg-[#e4edd4] border-b md:border-b-0 md:border-r border-green-100/20 group">
             <img
-              src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto,w_800/v1780893983/contact_us_banner_ay7la9.jpg"
+              src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto,w_800/v1780999859/track_borad_xeyjtp.jpg"
               alt="Premium Healthy Snacks"
-              className="absolute inset-0 w-full h-full object-contain transition-transform duration-700 group-hover:scale-[1.01]"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.01]"
             />
           </div>
 

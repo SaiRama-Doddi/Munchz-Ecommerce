@@ -2,16 +2,34 @@ import { useEffect, useState } from "react";
 import { bannerService, Banner } from "../services/bannerService";
 import { optimizeCloudinaryUrl } from "../utils/imageUtils";
 
+const DEFAULT_BANNERS: Banner[] = [
+  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1780388897/gifts_coming_soon_banner_zo4uvh.png" },
+  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1778332622/desktop_banners_2.jpg_1_c1fukp.jpg" },
+  { image: "https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1778564998/desktop_banners_3.jpg_mtdats.jpg" }
+];
+
 export default function Hero() {
-  const [banners, setBanners] = useState<Banner[]>([]);
+  const [banners, setBanners] = useState<Banner[]>(() => {
+    const local = localStorage.getItem("gomunchz_banners");
+    if (local) {
+      try {
+        const parsed = JSON.parse(local);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      } catch (e) {}
+    }
+    return DEFAULT_BANNERS;
+  });
   const [active, setActive] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchBanners = async () => {
       try {
         const data = await bannerService.getBanners();
-        setBanners(data);
+        setBanners((prev) => {
+          const match = data.length === prev.length && data.every((b, i) => b.image === prev[i].image);
+          return match ? prev : data;
+        });
       } catch (err) {
         console.error("Failed to load hero banners:", err);
       } finally {
@@ -77,7 +95,7 @@ export default function Hero() {
               alt="Premium snacks"
               className="absolute inset-0 w-full h-full object-fill"
               fetchPriority={index === 0 ? "high" : "auto"}
-              loading={index === 0 ? "eager" : "lazy"}
+              loading="eager"
             />
 
             {/* Very Subtle Overlay for depth */}
