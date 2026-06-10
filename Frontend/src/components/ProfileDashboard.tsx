@@ -194,23 +194,26 @@ export default function ProfileDashboard({ open, onClose }: Props) {
       <div className="fixed right-0 top-0 h-full w-full sm:w-[420px] bg-white z-50 shadow-[0_0_50px_rgba(0,0,0,0.15)] flex flex-col animate-in slide-in-from-right duration-500 ease-out border-l border-gray-100">
         
         {/* PREMIUM HEADER WITH AVATAR */}
-        <div className="relative h-44 bg-green-600 shrink-0">
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+        <div className="relative h-44 bg-gradient-to-b from-[#ecfdf5] via-[#ecfdf5]/50 to-white shrink-0 border-b border-gray-100/35">
+          {/* Subtle leaves/curves decoration in background */}
+          <div className="absolute top-0 left-0 w-24 h-24 bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-green-200/20 to-transparent rounded-br-full pointer-events-none" />
+          <div className="absolute top-2 right-2 w-32 h-32 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-green-200/10 to-transparent rounded-bl-full pointer-events-none" />
+          
           <div className="absolute top-6 left-6 right-6 flex justify-between items-center z-10">
-            <h2 className="text-white font-black text-xl tracking-tight uppercase">My Profile</h2>
-            <button onClick={onClose} className="p-2 bg-white/20 hover:bg-white/30 text-white rounded-full transition-all backdrop-blur-md">
+            <h2 className="text-gray-800 font-extrabold text-lg tracking-tight uppercase">My Profile</h2>
+            <button onClick={onClose} className="p-2 bg-green-50 hover:bg-green-100 text-green-700 rounded-full transition-all duration-200 cursor-pointer">
               <X size={20} />
             </button>
           </div>
 
           <div className="absolute -bottom-8 left-8 flex items-end gap-4 z-20">
-            <div className="w-20 h-20 bg-white rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.1)] flex items-center justify-center border-4 border-white text-green-600 font-black text-2xl tracking-tighter shrink-0">
+            <div className="w-20 h-20 bg-white rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.06)] flex items-center justify-center border-4 border-white text-green-600 font-extrabold text-2xl tracking-tighter shrink-0">
                {profile.firstName?.charAt(0).toUpperCase()}{profile.lastName?.charAt(0).toUpperCase()}
             </div>
             <div className="mb-3">
-               <h3 className="text-white font-black text-xl tracking-tight leading-none drop-shadow-sm">{profile.firstName} {profile.lastName}</h3>
-               <p className="text-green-50 text-[10px] font-bold uppercase tracking-widest opacity-90 mt-1.5 flex items-center gap-1.5">
-                 <div className="w-1 h-1 bg-white rounded-full"></div> {profile.email}
+               <h3 className="text-gray-900 font-extrabold text-lg tracking-tight leading-none">{profile.firstName} {profile.lastName}</h3>
+               <p className="text-gray-400 text-xs font-semibold mt-1.5 flex items-center gap-1.5">
+                 <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div> {profile.email}
                </p>
             </div>
           </div>
@@ -219,28 +222,29 @@ export default function ProfileDashboard({ open, onClose }: Props) {
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto px-6 pt-16 pb-8 space-y-8 scrollbar-hide">
           
-          {/* WALLET SECTION */}
-          <div className="bg-emerald-600 rounded-[2rem] p-6 text-white relative overflow-hidden shadow-xl shadow-emerald-600/20 group">
-             <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform pointer-events-none">
+          {/* WALLET SECTION - Premium White Card */}
+          <div className="bg-white border border-gray-100 rounded-3xl p-6 relative overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.02)] group hover:shadow-[0_8px_40px_rgb(0,0,0,0.04)] transition-all duration-300">
+             <div className="absolute top-0 right-0 p-8 opacity-5 text-green-750 group-hover:scale-105 transition-transform pointer-events-none">
                <Wallet size={80} />
              </div>
              <div className="relative z-10">
-               <div className="flex items-center gap-2 mb-4 opacity-80">
-                 <Gift size={14} />
-                 <span className="text-[10px] font-black uppercase tracking-widest">Rewards Wallet</span>
+               <div className="flex items-center gap-2 mb-4">
+                 <Gift size={16} className="text-green-600" />
+                 <span className="text-[10px] font-black uppercase tracking-widest text-green-700">Rewards Wallet</span>
                </div>
                <div className="flex items-end justify-between">
                  <div>
-                   <p className="text-3xl font-black tracking-tighter leading-none mb-1">
+                   <p className="text-3xl font-black text-gray-900 tracking-tighter leading-none mb-1.5">
                      ₹{profile.referralCredits?.toFixed(0) || 0}
                    </p>
-                   <p className="text-[10px] font-bold text-emerald-100 uppercase tracking-wider">Available Balance</p>
+                   <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Available Balance</p>
                  </div>
                  <button 
                    onClick={() => { navigate("/refer-and-earn"); onClose(); }}
-                   className="bg-white/20 hover:bg-white/30 backdrop-blur-md px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 transition-all"
+                   className="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-2 transition-all shadow-md shadow-green-600/10 hover:shadow-lg hover:shadow-green-600/20 hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
                  >
-                   Refer & Earn <ArrowRight size={12} />
+                   <span>Refer & Earn</span>
+                   <ArrowRight size={12} />
                  </button>
                </div>
              </div>
@@ -319,12 +323,12 @@ export default function ProfileDashboard({ open, onClose }: Props) {
               {addresses.map(addr => (
                 <div
                   key={addr.id}
-                  className={`group relative border-2 rounded-[2rem] p-5 transition-all duration-300 ${
+                  className={`group relative border rounded-3xl p-5 transition-all duration-300 ${
                     editingId === addr.id
-                      ? "border-green-600 bg-white shadow-2xl scale-[1.02]"
+                      ? "border-green-600 bg-white shadow-xl scale-[1.01]"
                       : addr.isDefault
-                      ? "border-green-100 bg-green-50/30"
-                      : "border-gray-50 bg-white hover:border-green-100"
+                      ? "border-green-100 bg-[#ecfdf5]/20"
+                      : "border-gray-100 bg-white hover:border-green-100"
                   }`}
                 >
                   {editingId === addr.id ? (
@@ -342,19 +346,25 @@ export default function ProfileDashboard({ open, onClose }: Props) {
                     </div>
                   ) : (
                     <>
-                      <div className="flex justify-between items-start">
-                        <div className="space-y-1">
-                           <div className="flex items-center gap-2">
+                      <div className="flex gap-4 items-start">
+                        {/* Map Pin Circle Icon */}
+                        <div className="w-10 h-10 rounded-2xl bg-green-50 flex items-center justify-center text-green-600 shrink-0">
+                          <MapPin size={18} />
+                        </div>
+                        
+                        <div className="flex-1 space-y-1 min-w-0">
+                           <div className="flex items-center gap-2 flex-wrap">
                              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-green-600">{addr.label}</span>
                              {addr.isDefault && <span className="bg-green-600 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest">Primary</span>}
                            </div>
-                           <p className="font-bold text-gray-900 text-sm leading-snug">{addr.addressLine1}</p>
+                           <p className="font-bold text-gray-900 text-sm leading-snug break-words">{addr.addressLine1}</p>
                            <p className="text-gray-400 font-medium text-[11px]">{addr.city}, {addr.state} • {addr.pincode}</p>
-                           {addr.phone && <p className="text-green-600/60 font-black text-[10px] pt-1 tracking-wider uppercase">📞 {addr.phone}</p>}
+                           {addr.phone && <p className="text-green-600/60 font-black text-[10px] pt-1 tracking-wider uppercase flex items-center gap-1">📞 {addr.phone}</p>}
                         </div>
-                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button onClick={() => { setEditingId(addr.id); setForm(addr); }} className="p-2 hover:bg-green-50 text-gray-400 hover:text-green-600 rounded-lg transition-all"><Pencil size={14} /></button>
-                          <button onClick={() => handleDeleteAddress(addr.id)} className="p-2 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-lg transition-all"><Trash2 size={14} /></button>
+                        
+                        <div className="flex flex-col gap-1 shrink-0 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                          <button onClick={() => { setEditingId(addr.id); setForm(addr); }} className="p-1.5 hover:bg-green-50 text-gray-400 hover:text-green-600 rounded-lg transition-all cursor-pointer"><Pencil size={13} /></button>
+                          <button onClick={() => handleDeleteAddress(addr.id)} className="p-1.5 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-lg transition-all cursor-pointer"><Trash2 size={13} /></button>
                         </div>
                       </div>
                     </>
