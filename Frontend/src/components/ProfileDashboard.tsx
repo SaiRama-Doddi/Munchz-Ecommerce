@@ -193,34 +193,40 @@ export default function ProfileDashboard({ open, onClose }: Props) {
       {/* Sidebar */}
       <div className="fixed right-0 top-0 h-full w-full sm:w-[420px] bg-white z-50 shadow-[0_0_50px_rgba(0,0,0,0.15)] flex flex-col animate-in slide-in-from-right duration-500 ease-out border-l border-gray-100">
         
-        {/* PREMIUM HEADER WITH AVATAR */}
-        <div className="relative h-44 bg-gradient-to-b from-[#ecfdf5] via-[#ecfdf5]/50 to-white shrink-0 border-b border-gray-100/35">
-          {/* Subtle leaves/curves decoration in background */}
+        {/* PREMIUM HEADER */}
+        <div className="bg-[#ecfdf5] shrink-0 border-b border-green-100/40 p-6 space-y-4 relative overflow-hidden">
+          {/* Subtle decoration in background */}
           <div className="absolute top-0 left-0 w-24 h-24 bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-green-200/20 to-transparent rounded-br-full pointer-events-none" />
-          <div className="absolute top-2 right-2 w-32 h-32 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-green-200/10 to-transparent rounded-bl-full pointer-events-none" />
           
-          <div className="absolute top-6 left-6 right-6 flex justify-between items-center z-10">
-            <h2 className="text-gray-800 font-extrabold text-lg tracking-tight uppercase">My Profile</h2>
-            <button onClick={onClose} className="p-2 bg-green-50 hover:bg-green-100 text-green-700 rounded-full transition-all duration-200 cursor-pointer">
-              <X size={20} />
+          {/* Top Row: Title and Close */}
+          <div className="flex justify-between items-center relative z-10">
+            <h2 className="text-gray-800 font-extrabold text-base tracking-tight uppercase">My Profile</h2>
+            <button 
+              onClick={onClose} 
+              className="p-1.5 bg-white/80 hover:bg-white text-green-700 rounded-full transition-all duration-200 cursor-pointer shadow-sm"
+            >
+              <X size={18} />
             </button>
           </div>
 
-          <div className="absolute -bottom-8 left-8 flex items-end gap-4 z-20">
-            <div className="w-20 h-20 bg-white rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.06)] flex items-center justify-center border-4 border-white text-green-600 font-extrabold text-2xl tracking-tighter shrink-0">
+          {/* User Info Row */}
+          <div className="flex items-center gap-4 relative z-10">
+            <div className="w-14 h-14 bg-white rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.04)] border-2 border-white flex items-center justify-center text-green-600 font-extrabold text-lg shrink-0">
                {profile.firstName?.charAt(0).toUpperCase()}{profile.lastName?.charAt(0).toUpperCase()}
             </div>
-            <div className="mb-3">
-               <h3 className="text-gray-900 font-extrabold text-lg tracking-tight leading-none">{profile.firstName} {profile.lastName}</h3>
-               <p className="text-gray-400 text-xs font-semibold mt-1.5 flex items-center gap-1.5">
-                 <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div> {profile.email}
+            <div className="min-w-0">
+               <h3 className="text-gray-900 font-extrabold text-base tracking-tight leading-tight truncate">
+                 {profile.firstName} {profile.lastName}
+               </h3>
+               <p className="text-gray-400 text-xs font-semibold truncate mt-1 flex items-center gap-1.5">
+                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span> {profile.email}
                </p>
             </div>
           </div>
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto px-6 pt-16 pb-8 space-y-8 scrollbar-hide">
+        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6 scrollbar-hide">
           
           {/* WALLET SECTION - Premium White Card */}
           <div className="bg-white border border-gray-100 rounded-3xl p-6 relative overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.02)] group hover:shadow-[0_8px_40px_rgb(0,0,0,0.04)] transition-all duration-300">
