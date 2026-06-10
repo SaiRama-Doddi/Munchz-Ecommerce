@@ -34,7 +34,8 @@ export default function FloatingActions() {
         <FaWhatsapp size={34} className="text-white" />
       </a>
 
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes bounce-subtle {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-5px); }

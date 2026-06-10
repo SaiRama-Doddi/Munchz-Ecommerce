@@ -22,17 +22,17 @@ export default function ContactForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Construct WhatsApp message
     const text = `*New Contact Inquiry (${orderType.toUpperCase()} ORDER)*\n\n` +
-                 `*Name:* ${formData.firstName} ${formData.lastName}\n` +
-                 `*Email:* ${formData.email}\n` +
-                 `*Phone:* ${formData.phone || "Not provided"}\n` +
-                 `*Message:* ${formData.message}`;
-    
+      `*Name:* ${formData.firstName} ${formData.lastName}\n` +
+      `*Email:* ${formData.email}\n` +
+      `*Phone:* ${formData.phone || "Not provided"}\n` +
+      `*Message:* ${formData.message}`;
+
     const encodedText = encodeURIComponent(text);
     const whatsappUrl = `https://wa.me/91${whatsappNumber}?text=${encodedText}`;
-    
+
     // Redirect to WhatsApp
     window.open(whatsappUrl, "_blank");
   };
@@ -58,7 +58,7 @@ export default function ContactForm() {
               <div className="text-center md:text-left">
                 <span className="text-[9px] font-bold text-green-600 tracking-widest uppercase block">Let's Connect</span>
                 <h2 className="text-xl md:text-2xl font-black text-gray-900 tracking-tight leading-none mb-1">
-                   Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">Touch</span>
+                  Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">Touch</span>
                 </h2>
                 <p className="text-[11px] text-gray-500 font-medium">Send us a message on WhatsApp!</p>
               </div>
@@ -68,22 +68,20 @@ export default function ContactForm() {
                 <button
                   type="button"
                   onClick={() => setOrderType("individual")}
-                  className={`flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer ${
-                    orderType === "individual" 
-                    ? "bg-white text-green-700 shadow-sm border border-gray-100" 
-                    : "text-green-700/60 hover:text-green-800 hover:bg-white/30"
-                  }`}
+                  className={`flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer ${orderType === "individual"
+                      ? "bg-white text-green-700 shadow-sm border border-gray-100"
+                      : "text-green-700/60 hover:text-green-800 hover:bg-white/30"
+                    }`}
                 >
                   Individual Orders
                 </button>
                 <button
                   type="button"
                   onClick={() => setOrderType("bulk")}
-                  className={`flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer ${
-                    orderType === "bulk" 
-                    ? "bg-white text-green-700 shadow-sm border border-gray-100" 
-                    : "text-green-700/60 hover:text-green-800 hover:bg-white/30"
-                  }`}
+                  className={`flex-1 sm:flex-none px-5 py-2 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer ${orderType === "bulk"
+                      ? "bg-white text-green-700 shadow-sm border border-gray-100"
+                      : "text-green-700/60 hover:text-green-800 hover:bg-white/30"
+                    }`}
                 >
                   Bulk Orders
                 </button>
@@ -91,7 +89,7 @@ export default function ContactForm() {
 
               {/* FORM */}
               <form onSubmit={handleSubmit} className="space-y-3">
-                
+
                 {/* NAME GRID */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="relative group">
@@ -169,9 +167,9 @@ export default function ContactForm() {
                   <span>SEND TO WHATSAPP</span>
                   <Send size={14} className="ml-1 opacity-60 transition-transform duration-300 group-hover:translate-x-1" />
                 </button>
-                
+
                 <p className="text-center text-[10px] text-gray-400 font-bold uppercase tracking-widest pt-1">
-                   Response time: <span className="text-green-600">Within 30 minutes</span>
+                  Response time: <span className="text-green-600">Within 30 minutes</span>
                 </p>
               </form>
             </div>

@@ -147,7 +147,7 @@ export default function PrivacyPolicy() {
     <div className="w-full bg-white min-h-screen">
       <TopHeader />
       <Header />
-      
+
       <div className="max-w-7xl mx-auto px-4 md:px-6 pt-4 pb-12 md:pt-6 md:pb-20">
         <div className="mb-12 md:mb-16">
           <h2 className="text-2xl font-bold text-gray-900 tracking-tight">
@@ -163,7 +163,7 @@ export default function PrivacyPolicy() {
                 <div className="w-1.5 h-8 bg-green-600 rounded-full"></div>
                 {section.title}
               </h2>
-              
+
               {section.isList ? (
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {section.content.map((item, i) => (
