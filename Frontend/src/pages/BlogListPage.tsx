@@ -10,7 +10,7 @@ const blogImages = [
   "https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1781004002/blog_1_muy6ag.png",
   "https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1781004003/blog_2_t9an3n.png",
   "https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1781004000/blog_3_kboy9y.png",
-  "https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1781004002/blog_5_mppsm0.jpg",
+  "https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1781003996/blog_4_ngssc3.png",
   "https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1781004002/blog_5_mppsm0.jpg",
   "https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1781004007/blog_6_y2zkrr.png"
 ];
