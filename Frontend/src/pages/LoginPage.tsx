@@ -35,17 +35,17 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-120px)] bg-[#f3f8f2] flex items-start justify-center px-4 py-4 md:py-8 font-sans">
+    <div className="bg-[#f3f8f2] flex items-center justify-center px-4 py-6 md:py-10 font-sans">
       
       {/* SPLIT WRAPPER */}
-      <div className="w-full max-w-4xl flex flex-col md:flex-row items-center md:items-start justify-center gap-4 md:gap-6 transition-all duration-300">
+      <div className="w-full max-w-4xl flex flex-col md:flex-row items-stretch justify-center gap-4 md:gap-6 transition-all duration-300">
         
         {/* Left Column: Premium Marketing Banner */}
-        <div className="md:w-1/2 w-full flex items-center justify-center">
+        <div className="md:w-1/2 w-full bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(22,101,52,0.05)] border border-green-100/30 overflow-hidden flex items-stretch">
           <img 
             src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1781106349/login_page_nw50ib.png" 
             alt="Munchz Premium Quality" 
-            className="w-full h-auto rounded-[2rem] shadow-[0_20px_50px_rgba(22,101,52,0.03)] border border-green-100/30 object-contain"
+            className="w-full h-auto aspect-[1308/1203] md:aspect-auto md:h-full object-cover"
           />
         </div>
 
