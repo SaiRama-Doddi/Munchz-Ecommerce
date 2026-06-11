@@ -118,66 +118,19 @@ const handleVerifyOtp = async (e: React.FormEvent) => {
     <div className="min-h-screen bg-[#f3f8f2] flex items-center justify-center px-4 py-8 md:py-16 font-sans">
       
       {/* SPLIT WRAPPER */}
-      <div className="w-full max-w-5xl flex flex-col md:flex-row items-stretch justify-center gap-6 transition-all duration-300">
+      <div className="w-full max-w-4xl flex flex-col md:flex-row items-center justify-center gap-8 transition-all duration-300">
         
-        {/* Left Column: Image and Marketing Banner */}
-        <div className="md:w-1/2 w-full relative rounded-[2rem] overflow-hidden bg-[#e4edd4] border border-green-100/30 shadow-[0_20px_50px_rgba(22,101,52,0.03)] flex flex-col justify-between p-8 min-h-[360px] md:h-[620px]">
+        {/* Left Column: Premium Marketing Banner */}
+        <div className="md:w-1/2 w-full flex items-center justify-center">
           <img 
-            src="/images/auth_banner.png" 
+            src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1781106350/sign_in_page_f6ltoz.png" 
             alt="Munchz Premium Quality" 
-            className="absolute inset-0 w-full h-full object-cover"
+            className="w-full h-auto rounded-[2rem] shadow-[0_20px_50px_rgba(22,101,52,0.03)] border border-green-100/30 object-contain"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#eaf2e8]/20 via-transparent to-black/35" />
-          
-          <div className="absolute inset-0 p-8 flex flex-col justify-between text-left select-none z-10">
-            <div>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 text-green-700 text-[10px] font-black uppercase tracking-wider shadow-sm mb-4">
-                <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" /> 100% Natural & Premium Quality
-              </span>
-              <h1 className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight leading-none mb-3">
-                Good Food <br />
-                Good Health <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">Good Life</span>
-              </h1>
-              <p className="text-gray-500 text-[11px] font-semibold leading-relaxed max-w-xs">
-                100% natural and premium quality products delivered to your doorstep.
-              </p>
-            </div>
-
-            <div className="space-y-3 hidden sm:block">
-              <div className="flex items-center gap-3 bg-white/70 backdrop-blur-xs p-2.5 rounded-2xl border border-white/50 shadow-xs">
-                <div className="w-8 h-8 rounded-full bg-white shadow-xs flex items-center justify-center text-green-600 shrink-0">
-                  <span className="text-xs font-black">🍃</span>
-                </div>
-                <div>
-                  <h4 className="font-extrabold text-xs text-gray-800 uppercase tracking-wider leading-none mb-0.5">100% Natural</h4>
-                  <p className="text-[10px] text-gray-400 font-bold">No artificial ingredients</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 bg-white/70 backdrop-blur-xs p-2.5 rounded-2xl border border-white/50 shadow-xs">
-                <div className="w-8 h-8 rounded-full bg-white shadow-xs flex items-center justify-center text-green-600 shrink-0">
-                  <span className="text-xs font-black">⭐</span>
-                </div>
-                <div>
-                  <h4 className="font-extrabold text-xs text-gray-800 uppercase tracking-wider leading-none mb-0.5">Premium Quality</h4>
-                  <p className="text-[10px] text-gray-400 font-bold">Carefully sourced products</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3 bg-white/70 backdrop-blur-xs p-2.5 rounded-2xl border border-white/50 shadow-xs">
-                <div className="w-8 h-8 rounded-full bg-white shadow-xs flex items-center justify-center text-green-600 shrink-0">
-                  <span className="text-xs font-black">🚚</span>
-                </div>
-                <div>
-                  <h4 className="font-extrabold text-xs text-gray-800 uppercase tracking-wider leading-none mb-0.5">Fast Delivery</h4>
-                  <p className="text-[10px] text-gray-400 font-bold">Free shipping on orders above Rs 799</p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Right Column: Form Card */}
-        <div className="md:w-1/2 w-full p-6 sm:p-8 flex flex-col justify-center bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(22,101,52,0.05)] border border-green-100/30 md:h-[620px] overflow-y-auto scrollbar-hide">
+        <div className="md:w-1/2 w-full p-6 sm:p-10 flex flex-col justify-center bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(22,101,52,0.05)] border border-green-100/30">
           <div className="max-w-md mx-auto w-full space-y-4">
             
             {/* LOGO & HEADER */}
