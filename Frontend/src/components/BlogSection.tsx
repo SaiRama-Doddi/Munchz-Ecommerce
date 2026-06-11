@@ -9,12 +9,12 @@ import {
 import { blogs } from "../data/blogData";
 
 const blogImages = [
-  "/blog_healthy_future.png",
-  "/blog_makhana_choice.png",
-  "/blog_weight_loss_snacks.png",
-  "/blog_choose_snacks.png",
-  "/blog_late_night_cravings.png",
-  "/blog_makhana_5_ways.png"
+  "https://res.cloudinary.com/dxfdcmxze/image/upload/v1781072064/blog-1_gxv6y7.jpg",
+  "https://res.cloudinary.com/dxfdcmxze/image/upload/v1781072071/blog-2_bth1df.jpg",
+  "https://res.cloudinary.com/dxfdcmxze/image/upload/v1781072078/blog-3_udfeic.jpg",
+  "https://res.cloudinary.com/dxfdcmxze/image/upload/v1781072101/blog-4_ugnefn.jpg",
+  "https://res.cloudinary.com/dxfdcmxze/image/upload/v1781072113/blog-5_ulcdyp.jpg",
+  "https://res.cloudinary.com/dxfdcmxze/image/upload/v1781072132/blog-6_jkskqk.jpg"
 ];
 
 const blogCategories = [
