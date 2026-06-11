@@ -111,7 +111,7 @@ export default function ReferAndEarn() {
       {/* Banner Image Container - Full view to prevent cropping */}
       <div className="w-full bg-gray-50">
         <img 
-          src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1781004036/earn_GoMunchz_points_lvnq7x.png" 
+          src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1781106064/earn_GoMunchz_points_t7tmfh.jpg" 
           alt="GoMunchz Refer & Earn Banner" 
           className="w-full h-auto block"
           loading="lazy"
