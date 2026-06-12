@@ -56,11 +56,11 @@ export default function ContactForm() {
           <div className="md:w-1/2 w-full p-4 sm:p-5 md:p-6 lg:p-8 flex flex-col justify-center bg-gradient-to-br from-green-50/10 via-white to-amber-50/10 md:h-full overflow-hidden">
             <div className="max-w-md mx-auto w-full space-y-4">
               <div className="text-center md:text-left">
-                <span className="text-[9px] font-bold text-green-600 tracking-widest uppercase block">Let's Connect</span>
+                <span className="text-base font-bold text-green-600 tracking-widest uppercase block">Let's Connect</span>
                 <h2 className="text-xl md:text-2xl font-black text-gray-900 tracking-tight leading-none mb-1">
                   Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">Touch</span>
                 </h2>
-                <p className="text-[11px] text-gray-500 font-medium">Send us a message on WhatsApp!</p>
+                <p className="text-base text-gray-500 font-medium">Send us a message on WhatsApp!</p>
               </div>
 
               {/* ORDER TYPE SELECTOR */}
@@ -168,7 +168,7 @@ export default function ContactForm() {
                   <Send size={14} className="ml-1 opacity-60 transition-transform duration-300 group-hover:translate-x-1" />
                 </button>
 
-                <p className="text-center text-[10px] text-gray-400 font-bold uppercase tracking-widest pt-1">
+                <p className="text-center text-base text-gray-400 font-bold uppercase tracking-widest pt-1">
                   Response time: <span className="text-green-600">Within 30 minutes</span>
                 </p>
               </form>

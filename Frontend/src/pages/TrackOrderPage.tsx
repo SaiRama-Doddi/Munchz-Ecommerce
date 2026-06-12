@@ -59,11 +59,11 @@ export default function TrackOrderPage() {
           <div className="md:w-1/2 w-full p-4 sm:p-5 md:p-6 lg:p-8 flex flex-col justify-center bg-gradient-to-br from-green-50/10 via-white to-amber-50/10 md:h-full overflow-hidden">
             <div className="max-w-md mx-auto w-full space-y-4">
               <div className="text-center md:text-left">
-                <span className="text-[9px] font-bold text-green-600 tracking-widest uppercase block">Order Tracking</span>
+                <span className="text-base font-bold text-green-600 tracking-widest uppercase block">Order Tracking</span>
                 <h2 className="text-xl md:text-2xl font-black text-gray-900 tracking-tight leading-none mb-1">
                   Find Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-600">Order</span>
                 </h2>
-                <p className="text-[11px] text-gray-500 font-medium">
+                <p className="text-base text-gray-500 font-medium">
                   Enter the Shipment ID sent via SMS or email to get started.
                 </p>
               </div>
@@ -120,7 +120,7 @@ export default function TrackOrderPage() {
               <div className="pt-4 border-t border-gray-100 flex flex-col items-center">
                 <button
                   onClick={() => navigate('/user-orders')}
-                  className="text-[10px] font-bold text-green-700 hover:text-green-800 transition-colors uppercase tracking-wider hover:underline underline-offset-4"
+                  className="text-base font-bold text-green-700 hover:text-green-800 transition-colors uppercase tracking-wider hover:underline underline-offset-4"
                 >
                   View complete order history
                 </button>

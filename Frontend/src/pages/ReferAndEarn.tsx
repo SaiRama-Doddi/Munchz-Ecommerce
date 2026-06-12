@@ -137,15 +137,15 @@ export default function ReferAndEarn() {
           {/* STATS CARDS */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full lg:w-auto">
              <div className="bg-white py-3.5 px-5 rounded-2xl border border-emerald-50/60 shadow-sm flex flex-col items-center sm:items-start min-w-[150px]">
-                <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Total Earned</p>
+                <p className="text-base font-bold text-gray-400 uppercase tracking-wider mb-1">Total Earned</p>
                 <p className="text-xl font-extrabold text-emerald-600 leading-none">₹{profile?.referralCredits?.toFixed(0) || 0}</p>
              </div>
              <div className="bg-white py-3.5 px-5 rounded-2xl border border-emerald-50/60 shadow-sm flex flex-col items-center sm:items-start min-w-[150px]">
-                <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">You Get</p>
+                <p className="text-base font-bold text-gray-400 uppercase tracking-wider mb-1">You Get</p>
                 <p className="text-xl font-extrabold text-gray-900 leading-none">₹{activeConfig?.referrerCashbackAmount || 50}</p>
              </div>
              <div className="bg-white py-3.5 px-5 rounded-2xl border border-emerald-50/60 shadow-sm flex flex-col items-center sm:items-start min-w-[150px]">
-                <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">They Get</p>
+                <p className="text-base font-bold text-gray-400 uppercase tracking-wider mb-1">They Get</p>
                 <p className="text-xl font-extrabold text-gray-900 leading-none">{activeConfig?.friendDiscountPercentage || 5}%</p>
              </div>
           </div>

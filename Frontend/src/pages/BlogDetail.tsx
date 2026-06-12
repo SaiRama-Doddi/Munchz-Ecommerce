@@ -30,7 +30,7 @@ export default function BlogDetail() {
     <div className="w-full bg-white min-h-screen">
       <TopHeader />
       <Header />
-      
+
       <div className="max-w-7xl mx-auto px-4 md:px-6 pt-4 pb-10 md:pt-6 md:pb-16">
         {/* ================= BREADCRUMBS ================= */}
         <nav className="flex items-center gap-2 text-sm text-gray-500 mb-8 overflow-x-auto whitespace-nowrap">
@@ -61,7 +61,7 @@ export default function BlogDetail() {
           <h1 className="text-2xl font-bold text-gray-900 tracking-tight leading-tight mb-6">
             {blog.title}
           </h1>
-          
+
           <p className="text-gray-600 text-sm max-w-none leading-relaxed italic border-l-4 border-green-600 pl-6 py-2 text-left">
             {blog.description}
           </p>
