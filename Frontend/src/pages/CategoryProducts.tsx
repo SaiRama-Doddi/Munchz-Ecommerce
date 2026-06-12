@@ -308,7 +308,7 @@ export default function CategoryProducts() {
                         )}
                       </div>
                       
-                      <span className="px-2.5 py-1 bg-white border border-green-200 text-green-700 text-[10px] font-bold rounded-full shadow-sm uppercase tracking-wider">
+                      <span className="px-2.5 py-1 bg-white border border-green-200 text-green-700 text-base font-bold rounded-full shadow-sm uppercase tracking-wider">
                         {selectedVariant.weightLabel}
                       </span>
                     </div>

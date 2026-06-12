@@ -20,7 +20,7 @@ export default function About() {
             </div>
 
             {/* STORY SECTION */}
-            <div className="space-y-4 md:space-y-5 text-gray-700 leading-relaxed text-sm md:text-[15px] text-justify">
+            <div className="space-y-4 md:space-y-5 text-gray-700 leading-relaxed text-base text-justify">
               <p>
                 At <span className="text-green-700 font-bold tracking-tight">GoMunchz</span>, we believe that great snacking should never be a compromise between taste and health. In a world full of processed options, our mission is simple—bring back the goodness of real, honest ingredients and transform them into snacks you can feel good about.
               </p>

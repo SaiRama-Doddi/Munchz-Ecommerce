@@ -64,7 +64,7 @@ export default function LoginPage() {
               <h2 className="text-xl md:text-2xl font-black text-gray-900 tracking-tight leading-none mb-1">
                 Welcome Back!
               </h2>
-              <p className="text-[11px] text-gray-500 font-semibold">
+              <p className="text-base text-gray-500 font-semibold">
                 Login to your GoMunchz account
               </p>
             </div>

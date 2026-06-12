@@ -211,7 +211,7 @@ export default function AllProducts() {
         </div>
 
         <div className="mb-6 md:mb-8">
-          <p className="text-[13px] font-bold text-green-700 uppercase tracking-widest mb-3 ml-1">
+          <p className="text-base font-bold text-green-700 uppercase tracking-widest mb-3 ml-1">
             Browse By Category
           </p>
           <div className="flex gap-4 overflow-x-auto pb-2 md:pb-4 -mx-1 px-1 no-scrollbar">
@@ -370,7 +370,7 @@ export default function AllProducts() {
                                 )}
                               </div>
                               
-                              <span className="px-2.5 py-1 bg-white border border-green-200 text-green-700 text-[10px] font-bold rounded-full shadow-sm uppercase tracking-wider">
+                              <span className="px-2.5 py-1 bg-white border border-green-200 text-green-700 text-base font-bold rounded-full shadow-sm uppercase tracking-wider">
                                 {selectedVariant.weightLabel}
                               </span>
                             </div>
@@ -528,7 +528,7 @@ export default function AllProducts() {
                                 )}
                               </div>
                               
-                              <span className="px-2.5 py-1 bg-white border border-green-200 text-green-700 text-[10px] font-bold rounded-full shadow-sm uppercase tracking-wider">
+                              <span className="px-2.5 py-1 bg-white border border-green-200 text-green-700 text-base font-bold rounded-full shadow-sm uppercase tracking-wider">
                                 {selectedVariant.weightLabel}
                               </span>
                             </div>

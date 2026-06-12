@@ -304,7 +304,7 @@ export default function CheckoutPage() {
                         <p className="font-bold text-gray-900 text-base tracking-tight line-clamp-1 truncate cursor-pointer hover:text-green-600 transition-colors" onClick={() => navigate(`/product/${item.productId}`)}>
                           {item.name}
                         </p>
-                        <p className="text-[10px] sm:text-xs text-gray-400 font-bold uppercase mt-0.5 sm:mt-1 tracking-widest">
+                        <p className="text-base text-gray-400 font-bold uppercase mt-0.5 sm:mt-1 tracking-widest">
                           {v.weightLabel} × {item.qty}
                         </p>
                       </div>
@@ -360,7 +360,7 @@ export default function CheckoutPage() {
                             <button
                               onClick={(e) => { e.stopPropagation(); handleLiveLocation(true); }}
                               disabled={isLoadingLocation}
-                              className="flex items-center justify-center gap-2 w-full py-2 bg-green-50 text-green-700 border-2 border-dashed border-green-200 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-green-100 transition-all"
+                              className="flex items-center justify-center gap-2 w-full py-2 bg-green-50 text-green-700 border-2 border-dashed border-green-200 rounded-xl font-black text-base uppercase tracking-[0.2em] hover:bg-green-100 transition-all"
                             >
                               {isLoadingLocation ? <div className="w-3 h-3 border-2 border-green-600 border-t-transparent rounded-full animate-spin" /> : <Navigation size={14} className="animate-pulse" />}
                               Use Live Location
@@ -383,8 +383,8 @@ export default function CheckoutPage() {
                                 <h4 className="text-base sm:text-lg font-bold text-gray-900 tracking-tight leading-none">
                                   Delivering to {profile?.firstName} {profile?.lastName}
                                 </h4>
-                                <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-50 px-2 py-0.5 rounded border border-gray-100">{addr.label}</span>
-                                {addr.isDefault && <span className="text-[10px] font-black text-green-600 uppercase tracking-widest">Primary</span>}
+                                <span className="text-base font-black text-gray-400 uppercase tracking-widest bg-gray-50 px-2 py-0.5 rounded border border-gray-100">{addr.label}</span>
+                                {addr.isDefault && <span className="text-base font-black text-green-600 uppercase tracking-widest">Primary</span>}
                               </div>
                               
                               <p className="text-gray-600 text-sm sm:text-base font-medium leading-relaxed max-w-2xl">
@@ -464,27 +464,27 @@ export default function CheckoutPage() {
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                         <div className="space-y-1.5">
-                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Address Label</label>
+                          <label className="text-base font-black text-gray-400 uppercase tracking-widest ml-1">Address Label</label>
                           <input placeholder="e.g. Home, Work" className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>setNewAddress({...newAddress,label:e.target.value})} />
                         </div>
                         <div className="space-y-1.5">
-                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Full Address</label>
+                          <label className="text-base font-black text-gray-400 uppercase tracking-widest ml-1">Full Address</label>
                           <input value={newAddress.addressLine1} placeholder="Street, Apartment, etc." className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>setNewAddress({...newAddress,addressLine1:e.target.value})} />
                         </div>
                         <div className="space-y-1.5">
-                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">City</label>
+                          <label className="text-base font-black text-gray-400 uppercase tracking-widest ml-1">City</label>
                           <input value={newAddress.city} placeholder="Enter City" className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>setNewAddress({...newAddress,city:e.target.value})} />
                         </div>
                         <div className="space-y-1.5">
-                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">State</label>
+                          <label className="text-base font-black text-gray-400 uppercase tracking-widest ml-1">State</label>
                           <input value={newAddress.state} placeholder="Enter State" className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>setNewAddress({...newAddress,state:e.target.value})} />
                         </div>
                         <div className="space-y-1.5">
-                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Pincode</label>
+                          <label className="text-base font-black text-gray-400 uppercase tracking-widest ml-1">Pincode</label>
                           <input value={newAddress.pincode} placeholder="6-digit code" className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>handlePincodeChange(e.target.value, false)} />
                         </div>
                         <div className="space-y-1.5">
-                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Phone Number</label>
+                          <label className="text-base font-black text-gray-400 uppercase tracking-widest ml-1">Phone Number</label>
                           <input placeholder="10-digit mobile" className="w-full bg-white border-2 border-gray-100 p-4 rounded-2xl font-bold text-gray-900 focus:border-green-600 outline-none transition-all shadow-sm" onChange={(e)=>setNewAddress({...newAddress,phone:e.target.value})} />
                         </div>
                       </div>
@@ -515,19 +515,19 @@ export default function CheckoutPage() {
                    <span className="font-bold">₹{totalAmount + discount}</span>
                  </div>
                  {discount > 0 && (
-                   <div className="flex justify-between items-center text-sm md:text-base font-bold text-green-700 tracking-tight px-3">
+                   <div className="flex justify-between items-center text-base md:text-base font-bold text-green-700 tracking-tight px-3">
                      <span>Coupon Discount</span>
                      <span className="font-bold">-₹{discount}</span>
                    </div>
                  )}
-                 <div className="flex justify-between items-center text-sm md:text-base font-bold text-green-700 tracking-tight px-3">
+                 <div className="flex justify-between items-center text-base md:text-base font-bold text-green-700 tracking-tight px-3">
                    <span>Shipping</span>
-                   <span className="font-bold text-green-600 uppercase tracking-widest text-[10px]">FREE</span>
+                   <span className="font-bold text-green-600 uppercase tracking-widest text-base">FREE</span>
                  </div>
                  <div className="h-px bg-white my-4"></div>
                  <div className="flex justify-between items-end bg-green-50/50 p-4 rounded-2xl border border-green-100">
                    <div>
-                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1">Grand Total</p>
+                     <p className="text-base font-bold text-gray-400 uppercase tracking-[0.2em] mb-1">Grand Total</p>
                      <p className="text-base font-bold text-gray-900 tracking-tighter leading-none">₹{totalAmount.toFixed(0)}</p>
                    </div>
                    <div className="pb-1 opacity-20"><ShieldCheck className="w-[24px] h-[24px] sm:w-[32px] sm:h-[32px]" /></div>
@@ -546,20 +546,20 @@ export default function CheckoutPage() {
                <div className="mt-8 grid grid-cols-3 gap-2 opacity-40">
                  <div className="flex flex-col items-center gap-1">
                    <Lock size={16} />
-                   <span className="text-[8px] font-bold uppercase tracking-widest">Secure</span>
+                   <span className="text-base font-bold uppercase tracking-widest">Secure</span>
                  </div>
                  <div className="flex flex-col items-center gap-1 border-x border-gray-100">
                    <ShieldCheck size={16} />
-                   <span className="text-[8px] font-bold uppercase tracking-widest">Razorpay</span>
+                   <span className="text-base font-bold uppercase tracking-widest">Razorpay</span>
                  </div>
                  <div className="flex flex-col items-center gap-1">
                    <Flame size={16} />
-                   <span className="text-[8px] font-bold uppercase tracking-widest">Fast</span>
+                   <span className="text-base font-bold uppercase tracking-widest">Fast</span>
                  </div>
                </div>
             </div>
 
-            <p className="text-[10px] text-gray-400 text-center font-medium leading-relaxed mt-8 px-4">
+            <p className="text-base text-gray-400 text-center font-medium leading-relaxed mt-8 px-4">
               By placing the order, you agree to our terms and conditions. <br />
               Secure payment processed via Razorpay.
             </p>

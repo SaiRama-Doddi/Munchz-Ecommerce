@@ -332,7 +332,7 @@ export default function ProductDetails() {
 
                 {/* DESCRIPTION */}
                 <div className="bg-white border border-green-50 rounded-2xl p-6 mb-8 shadow-sm">
-                  <p className="text-[13px] font-bold text-green-700 uppercase tracking-widest mb-3">
+                  <p className="text-base font-bold text-green-700 uppercase tracking-widest mb-3">
                     Key Highlights
                   </p>
                   <ul className="space-y-2.5">
@@ -368,13 +368,13 @@ export default function ProductDetails() {
                     <div className="text-gray-500 text-sm">
                       M.R.P.: <span className="line-through">₹{selectedVariant?.mrp || 0}</span>
                     </div>
-                    <div className="text-[13px] text-gray-700">Inclusive of all taxes</div>
+                    <div className="text-base text-gray-700">Inclusive of all taxes</div>
                   </div>
                 </div>
 
                 {/* VARIANT SELECTOR */}
                 <div className="mb-8">
-                  <p className="text-[13px] font-bold text-gray-900 mb-4 ml-1">Select Quantity (Pack Size)</p>
+                  <p className="text-base font-bold text-gray-900 mb-4 ml-1">Select Quantity (Pack Size)</p>
                   <div className="flex gap-3 flex-wrap">
                     {variants.map((v, i) => (
                       <button
@@ -399,8 +399,8 @@ export default function ProductDetails() {
                     <button onClick={() => setQty(qty + 1)} className="w-10 h-full flex items-center justify-center text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-xl transition-all font-bold text-base">+</button>
                   </div>
                   <div className="flex-1 flex gap-3">
-                    <button onClick={() => addToCart({ productId: product.id, name: product.name, imageUrl: product.imageUrl, variants, selectedVariantIndex, base100gPrice: base100g?.offerPrice, qty })} className="flex-grow bg-green-600 text-white rounded-2xl font-black text-[15px] uppercase tracking-wider hover:bg-green-700 transition shadow-lg active:scale-95">Add to cart</button>
-                    <button onClick={() => { addToCart({ productId: product.id, name: product.name, imageUrl: product.imageUrl, variants, selectedVariantIndex, base100gPrice: base100g?.offerPrice, qty }); navigate("/cart"); }} className="flex-grow bg-green-600 text-white rounded-2xl font-black text-[15px] uppercase tracking-wider hover:bg-green-700 transition shadow-lg active:scale-95">Buy now</button>
+                    <button onClick={() => addToCart({ productId: product.id, name: product.name, imageUrl: product.imageUrl, variants, selectedVariantIndex, base100gPrice: base100g?.offerPrice, qty })} className="flex-grow bg-green-600 text-white rounded-2xl font-black text-base uppercase tracking-wider hover:bg-green-700 transition shadow-lg active:scale-95">Add to cart</button>
+                    <button onClick={() => { addToCart({ productId: product.id, name: product.name, imageUrl: product.imageUrl, variants, selectedVariantIndex, base100gPrice: base100g?.offerPrice, qty }); navigate("/cart"); }} className="flex-grow bg-green-600 text-white rounded-2xl font-black text-base uppercase tracking-wider hover:bg-green-700 transition shadow-lg active:scale-95">Buy now</button>
                   </div>
                 </div>
               </div>
@@ -425,7 +425,7 @@ export default function ProductDetails() {
                 <div className="flex justify-between items-center mb-4">
                   <div>
                     <p className="font-bold text-gray-900 text-base">{review.userName}</p>
-                    <p className="text-[10px] md:text-[11px] font-bold text-gray-400 uppercase tracking-widest">{new Date(review.createdAt).toLocaleDateString()}</p>
+                    <p className="text-base font-bold text-gray-400 uppercase tracking-widest">{new Date(review.createdAt).toLocaleDateString()}</p>
                   </div>
                   <div className="text-yellow-500 text-xs md:text-sm">{"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}</div>
                 </div>
@@ -493,7 +493,7 @@ export default function ProductDetails() {
                             <span className="text-xs text-gray-500 font-medium tracking-tight">(₹{base100g.offerPrice}/100g)</span>
                           )}
                         </div>
-                        <span className="px-2.5 py-1 bg-white border border-green-200 text-green-700 text-[10px] font-bold rounded-full shadow-sm uppercase tracking-wider">{selectedVariant.weightLabel}</span>
+                        <span className="px-2.5 py-1 bg-white border border-green-200 text-green-700 text-base font-bold rounded-full shadow-sm uppercase tracking-wider">{selectedVariant.weightLabel}</span>
                       </div>
 
                       {/* ACTION ROW */}

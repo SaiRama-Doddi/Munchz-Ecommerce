@@ -144,7 +144,7 @@ const handleVerifyOtp = async (e: React.FormEvent) => {
               <h2 className="text-xl font-black text-gray-900 tracking-tight leading-none mb-1">
                 {step === "form" ? "Create Account" : "Verify Email"}
               </h2>
-              <p className="text-[11px] text-gray-500 font-semibold">
+              <p className="text-base text-gray-500 font-semibold">
                 {step === "form" ? "Join GoMunchz and start shopping" : `Enter the OTP sent to ${email}`}
               </p>
             </div>
@@ -216,7 +216,7 @@ const handleVerifyOtp = async (e: React.FormEvent) => {
 
                 {/* Referral Code */}
                 <div className="space-y-1">
-                  <label className="text-[9px] text-gray-400 uppercase font-black tracking-widest ml-1">
+                  <label className="text-base text-gray-400 uppercase font-black tracking-widest ml-1">
                     Referral Code {referralFromUrl ? "(Applied)" : "(Optional)"}
                   </label>
                   <div className="relative">
@@ -255,7 +255,7 @@ const handleVerifyOtp = async (e: React.FormEvent) => {
             ) : (
               <form className="space-y-4 animate-in fade-in duration-500" onSubmit={handleVerifyOtp}>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Verification Code</label>
+                  <label className="text-base font-black text-gray-400 uppercase tracking-widest ml-1">Verification Code</label>
                   <input
                     type="text"
                     placeholder="Enter 6-digit OTP"

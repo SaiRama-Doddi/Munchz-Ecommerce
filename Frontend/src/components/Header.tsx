@@ -255,7 +255,7 @@ export default function Header() {
                       className={isActive ? "text-green-700" : "text-gray-700 group-hover:text-amber-500 transition-colors"}
                     />
                     {profile.referralCredits && profile.referralCredits > 0 ? (
-                      <span className="absolute -top-1.5 -right-2 bg-amber-400 text-black text-[9px] font-black px-1 rounded-sm shadow-sm border border-amber-500/20">
+                      <span className="absolute -top-1.5 -right-2 bg-amber-400 text-black text-base font-black px-1 rounded-sm shadow-sm border border-amber-500/20">
                         ₹{profile.referralCredits}
                       </span>
                     ) : (
@@ -276,7 +276,7 @@ export default function Header() {
                   />
 
                   {cartCount > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] px-1.5 rounded-full">
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-base px-1.5 rounded-full">
                       {cartCount}
                     </span>
                   )}
@@ -470,7 +470,7 @@ export default function Header() {
                     </button>
 
                     <div className="space-y-1">
-                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] px-2 mb-4">Our Latest Stories</p>
+                      <p className="text-base font-bold text-gray-400 uppercase tracking-[0.2em] px-2 mb-4">Our Latest Stories</p>
 
                       {blogs.map((blog) => (
                         <Link
@@ -520,22 +520,22 @@ export default function Header() {
 
         <div className="flex justify-around items-center h-[64px]">
 
-          <NavLink to="/" className={({ isActive }) => `flex flex-col items-center text-[11px] ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
+          <NavLink to="/" className={({ isActive }) => `flex flex-col items-center text-base ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
             <Home size={22} />
             Home
           </NavLink>
 
-          <NavLink to="/productpage" onMouseEnter={preloadShop} onTouchStart={preloadShop} className={({ isActive }) => `flex flex-col items-center text-[11px] ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
+          <NavLink to="/productpage" onMouseEnter={preloadShop} onTouchStart={preloadShop} className={({ isActive }) => `flex flex-col items-center text-base ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
             <Grid2x2 size={22} />
             Shop
           </NavLink>
 
-          <NavLink to="/cart" onMouseEnter={preloadCart} onTouchStart={preloadCart} className={({ isActive }) => `relative flex flex-col items-center text-[11px] ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
+          <NavLink to="/cart" onMouseEnter={preloadCart} onTouchStart={preloadCart} className={({ isActive }) => `relative flex flex-col items-center text-base ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
             <ShoppingCart size={22} />
             Cart
 
             {cartCount > 0 && (
-              <span className="absolute -top-1 right-3 bg-red-500 text-white text-[9px] px-1 rounded-full">
+              <span className="absolute -top-1 right-3 bg-red-500 text-white text-base px-1 rounded-full">
                 {cartCount}
               </span>
             )}
@@ -543,19 +543,19 @@ export default function Header() {
           </NavLink>
 
           {profile && (
-            <NavLink to="/user-orders" onMouseEnter={preloadOrders} onTouchStart={preloadOrders} className={({ isActive }) => `flex flex-col items-center text-[11px] ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
+            <NavLink to="/user-orders" onMouseEnter={preloadOrders} onTouchStart={preloadOrders} className={({ isActive }) => `flex flex-col items-center text-base ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
               <ShoppingBag size={22} />
               Orders
             </NavLink>
           )}
 
-          <NavLink to="/refer-and-earn" onMouseEnter={preloadReward} onTouchStart={preloadReward} className={({ isActive }) => `flex flex-col items-center text-[10px] ${isActive ? "text-green-700 font-bold" : "text-gray-500"}`}>
+          <NavLink to="/refer-and-earn" onMouseEnter={preloadReward} onTouchStart={preloadReward} className={({ isActive }) => `flex flex-col items-center text-base ${isActive ? "text-green-700 font-bold" : "text-gray-500"}`}>
             {({ isActive }) => (
               <>
                 <div className="relative">
                   <Gift size={20} className={isActive ? "text-green-700" : "text-amber-500"} />
                   {profile && profile.referralCredits && profile.referralCredits > 0 && (
-                    <span className="absolute -top-1 -right-2 bg-amber-400 text-black text-[8px] font-black px-1 rounded-sm">₹{profile.referralCredits}</span>
+                    <span className="absolute -top-1 -right-2 bg-amber-400 text-black text-base font-black px-1 rounded-sm">₹{profile.referralCredits}</span>
                   )}
                 </div>
                 Earn
@@ -564,12 +564,12 @@ export default function Header() {
           </NavLink>
 
           {profile ? (
-            <button onClick={() => setOpenProfile(true)} className="flex flex-col items-center text-[11px] text-gray-600">
+            <button onClick={() => setOpenProfile(true)} className="flex flex-col items-center text-base text-gray-600">
               <User size={22} />
               Profile
             </button>
           ) : (
-            <NavLink to="/login" onMouseEnter={preloadLogin} onTouchStart={preloadLogin} className={({ isActive }) => `flex flex-col items-center text-[11px] ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
+            <NavLink to="/login" onMouseEnter={preloadLogin} onTouchStart={preloadLogin} className={({ isActive }) => `flex flex-col items-center text-base ${isActive ? "text-green-700 font-semibold" : "text-gray-600"}`}>
               <User size={22} />
               Login
             </NavLink>

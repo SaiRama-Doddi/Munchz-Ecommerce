@@ -180,7 +180,7 @@ export default function OtpPage() {
             />
 
             <h2 className="text-xl font-black text-gray-900 tracking-tight leading-none mb-1">Enter OTP</h2>
-            <p className="text-[11px] text-gray-500 font-semibold mb-6">
+            <p className="text-base text-gray-500 font-semibold mb-6">
               OTP sent to {email}
             </p>
 
@@ -207,7 +207,7 @@ export default function OtpPage() {
               ))}
             </div>
 
-            <p className="text-gray-400 text-[10px] font-bold mt-4">
+            <p className="text-gray-400 text-base font-bold mt-4">
               OTP sent to your registered email
             </p>
 
