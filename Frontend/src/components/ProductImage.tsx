@@ -51,7 +51,7 @@ export default function ProductImage() {
           {/* LEFT SIDE: TEXT & PROCESS */}
           <div className="lg:col-span-7 flex flex-col justify-between space-y-5">
             <div className="space-y-2.5">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wider text-green-700 bg-green-50 border border-green-200/50 uppercase">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-bold tracking-wider text-green-700 bg-green-50 border border-green-200/50 uppercase">
                 🌱 The GoMunchz Promise
               </span>
               
@@ -88,7 +88,7 @@ export default function ProductImage() {
                         {step.badge}
                       </span>
                     </div>
-                    <p className="text-gray-500 text-xs sm:text-[13px] leading-relaxed">
+                    <p className="text-gray-500 text-[12px] leading-relaxed">
                       {step.desc}
                     </p>
                   </div>

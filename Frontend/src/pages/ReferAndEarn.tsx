@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ChevronRight, Gift, Copy, Share2, MessageCircle, Mail, CheckCircle2, Coins, Percent, Zap } from "lucide-react";
+import { ChevronRight, Gift, Copy, Share2, MessageCircle, Mail, CheckCircle2 } from "lucide-react";
 import TopHeader from "../components/TopHeader";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -111,7 +111,7 @@ export default function ReferAndEarn() {
       {/* Banner Image Container - Full view to prevent cropping */}
       <div className="w-full bg-gray-50">
         <img 
-          src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1781106064/earn_GoMunchz_points_t7tmfh.jpg" 
+          src="https://res.cloudinary.com/dxfdcmxze/image/upload/v1781204271/earn_GoMunchz_points_oh3ti8.jpg" 
           alt="GoMunchz Refer & Earn Banner" 
           className="w-full h-auto block"
           loading="lazy"
@@ -136,24 +136,15 @@ export default function ReferAndEarn() {
 
           {/* STATS CARDS */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full lg:w-auto">
-             <div className="bg-white p-6 rounded-3xl border border-emerald-50 shadow-sm flex flex-col items-center sm:items-start min-w-[180px]">
-                <div className="text-gray-400 mb-4 bg-gray-50 p-2 rounded-xl group-hover:bg-emerald-50 transition-colors">
-                    <Coins size={20} />
-                </div>
+             <div className="bg-white py-5 px-6 rounded-3xl border border-emerald-50 shadow-sm flex flex-col items-center sm:items-start min-w-[180px]">
                 <p className="text-2xl font-bold text-gray-400 uppercase tracking-widest mb-1">Total Earned</p>
                 <p className="text-2xl font-black text-emerald-600 leading-none">₹{profile?.referralCredits?.toFixed(0) || 0}</p>
              </div>
-             <div className="bg-white p-6 rounded-3xl border border-emerald-50 shadow-sm flex flex-col items-center sm:items-start min-w-[180px]">
-                <div className="text-gray-400 mb-4 bg-gray-50 p-2 rounded-xl">
-                    <Zap size={20} />
-                </div>
+             <div className="bg-white py-5 px-6 rounded-3xl border border-emerald-50 shadow-sm flex flex-col items-center sm:items-start min-w-[180px]">
                 <p className="text-2xl font-bold text-gray-400 uppercase tracking-widest mb-1">You Get</p>
                 <p className="text-2xl font-black text-gray-900 leading-none">₹{activeConfig?.referrerCashbackAmount || 50}</p>
              </div>
-             <div className="bg-white p-6 rounded-3xl border border-emerald-50 shadow-sm flex flex-col items-center sm:items-start min-w-[180px]">
-                <div className="text-gray-400 mb-4 bg-gray-50 p-2 rounded-xl">
-                    <Percent size={20} />
-                </div>
+             <div className="bg-white py-5 px-6 rounded-3xl border border-emerald-50 shadow-sm flex flex-col items-center sm:items-start min-w-[180px]">
                 <p className="text-2xl font-bold text-gray-400 uppercase tracking-widest mb-1">They Get</p>
                 <p className="text-2xl font-black text-gray-900 leading-none">{activeConfig?.friendDiscountPercentage || 5}%</p>
              </div>
@@ -264,22 +255,24 @@ export default function ReferAndEarn() {
           {/* RIGHT: HOW IT WORKS & INFO */}
           <div className="lg:col-span-2 space-y-12">
             {sections.map((section, idx) => (
-              <div key={idx}>
-                <h2 className="text-2xl font-bold text-gray-900 tracking-tight mb-6 flex items-center gap-3">
+              <div key={idx} className="space-y-6">
+                <h2 className="text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
                   <span className="w-1.5 h-6 bg-emerald-600 rounded-full"></span>
                   {section.title}
                 </h2>
                 
-                <ul className="grid grid-cols-1 md:grid-cols-1 gap-4">
-                  {section.content.map((item, i) => (
-                    <li key={i} className="flex items-start gap-4 bg-white p-6 rounded-2xl shadow-sm border border-emerald-50/50 hover:shadow-md transition-all">
-                      <div className="mt-1 bg-emerald-600 p-1.5 rounded-lg text-white flex-shrink-0">
-                        <ChevronRight size={14} strokeWidth={3} />
-                      </div>
-                      <span className="text-gray-700 font-semibold leading-relaxed">{item}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="bg-white p-6 md:p-8 rounded-3xl border border-emerald-50/50 shadow-sm">
+                  <ul className="space-y-5">
+                    {section.content.map((item, i) => (
+                      <li key={i} className="flex items-start gap-4">
+                        <div className="mt-1 bg-emerald-100 p-1.5 rounded-lg text-emerald-700 flex-shrink-0">
+                          <ChevronRight size={14} strokeWidth={3} />
+                        </div>
+                        <span className="text-gray-700 font-semibold leading-relaxed">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             ))}
 

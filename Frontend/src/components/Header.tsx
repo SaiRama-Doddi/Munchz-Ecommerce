@@ -104,7 +104,7 @@ export default function Header() {
 
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8 font-medium text-sm">
+          <nav className="hidden md:flex items-center gap-8 font-medium text-base">
             <NavLink to="/" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Home</NavLink>
             <NavLink to="/Aboutmain" onMouseEnter={preloadAbout} onTouchStart={preloadAbout} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>About Us</NavLink>
             <NavLink to="/productpage" onMouseEnter={preloadShop} onTouchStart={preloadShop} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Shop</NavLink>
