@@ -27,6 +27,14 @@
 }
 
 @theme {
+  /* Global font size override for text-xs (12px to 16px) */
+  --text-xs: 1rem;
+  --text-xs--line-height: 1.5rem;
+
+  /* Global font size override for text-sm (14px to 16px) */
+  --text-sm: 1rem;
+  --text-sm--line-height: 1.5rem;
+
   --color-premium-dark: #0f172a;
   --color-premium-card: #1e293b;
   --color-premium-sidebar: #020617;
@@ -190,7 +198,7 @@ body {
 .marquee-content {
   display: flex;
   white-space: nowrap;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 @keyframes scroll {

@@ -135,18 +135,18 @@ export default function ReferAndEarn() {
           </div>
 
           {/* STATS CARDS */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full lg:w-auto">
-             <div className="bg-white py-5 px-6 rounded-3xl border border-emerald-50 shadow-sm flex flex-col items-center sm:items-start min-w-[180px]">
-                <p className="text-2xl font-bold text-gray-400 uppercase tracking-widest mb-1">Total Earned</p>
-                <p className="text-2xl font-black text-emerald-600 leading-none">₹{profile?.referralCredits?.toFixed(0) || 0}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full lg:w-auto">
+             <div className="bg-white py-3.5 px-5 rounded-2xl border border-emerald-50/60 shadow-sm flex flex-col items-center sm:items-start min-w-[150px]">
+                <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Total Earned</p>
+                <p className="text-xl font-extrabold text-emerald-600 leading-none">₹{profile?.referralCredits?.toFixed(0) || 0}</p>
              </div>
-             <div className="bg-white py-5 px-6 rounded-3xl border border-emerald-50 shadow-sm flex flex-col items-center sm:items-start min-w-[180px]">
-                <p className="text-2xl font-bold text-gray-400 uppercase tracking-widest mb-1">You Get</p>
-                <p className="text-2xl font-black text-gray-900 leading-none">₹{activeConfig?.referrerCashbackAmount || 50}</p>
+             <div className="bg-white py-3.5 px-5 rounded-2xl border border-emerald-50/60 shadow-sm flex flex-col items-center sm:items-start min-w-[150px]">
+                <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">You Get</p>
+                <p className="text-xl font-extrabold text-gray-900 leading-none">₹{activeConfig?.referrerCashbackAmount || 50}</p>
              </div>
-             <div className="bg-white py-5 px-6 rounded-3xl border border-emerald-50 shadow-sm flex flex-col items-center sm:items-start min-w-[180px]">
-                <p className="text-2xl font-bold text-gray-400 uppercase tracking-widest mb-1">They Get</p>
-                <p className="text-2xl font-black text-gray-900 leading-none">{activeConfig?.friendDiscountPercentage || 5}%</p>
+             <div className="bg-white py-3.5 px-5 rounded-2xl border border-emerald-50/60 shadow-sm flex flex-col items-center sm:items-start min-w-[150px]">
+                <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">They Get</p>
+                <p className="text-xl font-extrabold text-gray-900 leading-none">{activeConfig?.friendDiscountPercentage || 5}%</p>
              </div>
           </div>
         </div>
@@ -253,39 +253,43 @@ export default function ReferAndEarn() {
           </div>
 
           {/* RIGHT: HOW IT WORKS & INFO */}
-          <div className="lg:col-span-2 space-y-12">
-            {sections.map((section, idx) => (
-              <div key={idx} className="space-y-6">
-                <h2 className="text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
-                  <span className="w-1.5 h-6 bg-emerald-600 rounded-full"></span>
-                  {section.title}
-                </h2>
-                
-                <div className="bg-white p-6 md:p-8 rounded-3xl border border-emerald-50/50 shadow-sm">
-                  <ul className="space-y-5">
-                    {section.content.map((item, i) => (
-                      <li key={i} className="flex items-start gap-4">
-                        <div className="mt-1 bg-emerald-100 p-1.5 rounded-lg text-emerald-700 flex-shrink-0">
-                          <ChevronRight size={14} strokeWidth={3} />
-                        </div>
-                        <span className="text-gray-700 font-semibold leading-relaxed">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
+          <div className="lg:col-span-2 space-y-8">
+             <div className="bg-white p-6 md:p-8 rounded-3xl border border-emerald-50/50 shadow-sm space-y-8">
+                {sections.map((section, idx) => (
+                  <div key={idx} className="space-y-4">
+                    <h2 className="text-xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
+                      <span className="w-1 h-5 bg-emerald-600 rounded-full"></span>
+                      {section.title}
+                    </h2>
+                    
+                    <ul className="space-y-3.5">
+                      {section.content.map((item, i) => (
+                        <li key={i} className="flex items-start gap-3">
+                          <div className="mt-1 bg-emerald-50 p-1 rounded text-emerald-700 flex-shrink-0">
+                            <ChevronRight size={12} strokeWidth={3} />
+                          </div>
+                          <span className="text-gray-700 text-sm font-semibold leading-relaxed">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    {idx < sections.length - 1 && (
+                      <hr className="border-gray-100 mt-6" />
+                    )}
+                  </div>
+                ))}
+             </div>
 
-            {/* TERMS PREVIEW */}
-            <div className="bg-emerald-50/30 rounded-3xl p-8 border border-emerald-100">
-               <h2 className="text-2xl font-bold text-emerald-900 mb-4">A Mutual Win</h2>
-               <p className="text-emerald-800/80 font-medium leading-relaxed mb-6">
-                 We believe in the power of shared health and happiness. By referring your friends, you're not just earning cashback—you're helping your community munch smarter with premium quality nuts and dry fruits.
-               </p>
-               <button className="text-emerald-700 font-bold flex items-center gap-2 hover:gap-3 transition-all">
-                  Read Full Terms & Conditions <ChevronRight size={18} />
-               </button>
-            </div>
+             {/* TERMS PREVIEW */}
+             <div className="bg-emerald-50/30 rounded-3xl p-8 border border-emerald-100">
+                <h2 className="text-2xl font-bold text-emerald-900 mb-4">A Mutual Win</h2>
+                <p className="text-emerald-800/80 font-medium leading-relaxed mb-6">
+                  We believe in the power of shared health and happiness. By referring your friends, you're not just earning cashback—you're helping your community munch smarter with premium quality nuts and dry fruits.
+                </p>
+                <button className="text-emerald-700 font-bold flex items-center gap-2 hover:gap-3 transition-all">
+                   Read Full Terms & Conditions <ChevronRight size={18} />
+                </button>
+             </div>
           </div>
         </div>
       </div>

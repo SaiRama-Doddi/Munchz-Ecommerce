@@ -510,7 +510,7 @@ export default function ProductDetails() {
                             e.stopPropagation();
                             addToCart({ productId: p.id, name: p.name, imageUrl: p.imageUrl, variants: sellVariants, selectedVariantIndex, base100gPrice: base100g?.offerPrice, qty });
                           }}
-                          className={`flex-1 h-9 flex items-center justify-center gap-1.5 rounded-xl font-bold text-[12px] transition-all active:scale-95 shadow-md ${isInCart ? "bg-green-100 text-green-700 border-2 border-green-200" : "bg-green-600 text-white hover:bg-green-700 hover:shadow-xl"
+                          className={`flex-1 h-9 flex items-center justify-center gap-1.5 rounded-xl font-bold text-base transition-all active:scale-95 shadow-md ${isInCart ? "bg-green-100 text-green-700 border-2 border-green-200" : "bg-green-600 text-white hover:bg-green-700 hover:shadow-xl"
                             }`}
                         >
                           <FiShoppingCart size={14} />

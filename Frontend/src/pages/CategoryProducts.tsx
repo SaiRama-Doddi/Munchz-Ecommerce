@@ -228,7 +228,7 @@ export default function CategoryProducts() {
                 {category?.name || "Category"} Products
               </h3>
            </div>
-           <span className="text-[12px] font-bold text-gray-400 bg-white border border-gray-100 px-3 py-1.5 rounded-full">
+           <span className="text-base font-bold text-gray-400 bg-white border border-gray-100 px-3 py-1.5 rounded-full">
               {filteredProducts.length} Items
            </span>
         </div>
@@ -350,7 +350,7 @@ export default function CategoryProducts() {
                             qty,
                           });
                         }}
-                        className="flex-1 h-9 flex items-center justify-center gap-1.5 rounded-xl font-bold text-[12px] bg-green-600 text-white hover:bg-green-700 hover:shadow-xl transition-all active:scale-95 shadow-md"
+                        className="flex-1 h-9 flex items-center justify-center gap-1.5 rounded-xl font-bold text-base bg-green-600 text-white hover:bg-green-700 hover:shadow-xl transition-all active:scale-95 shadow-md"
                       >
                         <FiShoppingCart size={14} />
                         ADD TO CART

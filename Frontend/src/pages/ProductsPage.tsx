@@ -288,7 +288,7 @@ export default function AllProducts() {
                       {cat.name}
                     </h3>
                   </div>
-                  <span className="text-[12px] font-bold text-gray-400 bg-white border border-gray-100 px-3 py-1.5 rounded-full">
+                  <span className="text-base font-bold text-gray-400 bg-white border border-gray-100 px-3 py-1.5 rounded-full">
                     {catProducts.length} Items
                   </span>
                 </div>
@@ -412,7 +412,7 @@ export default function AllProducts() {
                                     qty,
                                   });
                                 }}
-                                className={`flex-1 h-9 flex items-center justify-center gap-1.5 rounded-xl font-bold text-[12px] transition-all active:scale-95 shadow-md ${
+                                className={`flex-1 h-9 flex items-center justify-center gap-1.5 rounded-xl font-bold text-base transition-all active:scale-95 shadow-md ${
                                   isInCart
                                     ? "bg-green-100 text-green-700 border-2 border-green-200"
                                     : "bg-green-600 text-white hover:bg-green-700 hover:shadow-xl"
@@ -450,7 +450,7 @@ export default function AllProducts() {
                       Other Products
                     </h3>
                   </div>
-                  <span className="text-[12px] font-bold text-gray-400 bg-white border border-gray-100 px-3 py-1.5 rounded-full">
+                  <span className="text-base font-bold text-gray-400 bg-white border border-gray-100 px-3 py-1.5 rounded-full">
                     {uncategorizedProducts.length} Items
                   </span>
                 </div>
@@ -568,7 +568,7 @@ export default function AllProducts() {
                                     qty,
                                   });
                                 }}
-                                className={`flex-1 h-9 flex items-center justify-center gap-1.5 rounded-xl font-bold text-[12px] transition-all active:scale-95 shadow-md ${
+                                className={`flex-1 h-9 flex items-center justify-center gap-1.5 rounded-xl font-bold text-base transition-all active:scale-95 shadow-md ${
                                   isInCart
                                     ? "bg-green-100 text-green-700 border-2 border-green-200"
                                     : "bg-green-600 text-white hover:bg-green-700 hover:shadow-xl"

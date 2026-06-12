@@ -107,7 +107,7 @@ export default function BlogSection() {
 
                 <div className="p-6 flex flex-col flex-grow">
                   {/* CATEGORY TAG */}
-                  <p className="text-[12px] font-bold text-[#8b5cf6] mb-3 uppercase tracking-wider">
+                  <p className="text-base font-bold text-[#8b5cf6] mb-3 uppercase tracking-wider">
                     {blogCategories[index]}
                   </p>
 
