@@ -46,7 +46,7 @@ export default function BlogListPage() {
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1.5">
                       <Calendar size={14} className="text-green-600" />
-                      <span>March 2025</span>
+                      <span>June 2026</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <Clock size={14} className="text-green-600" />

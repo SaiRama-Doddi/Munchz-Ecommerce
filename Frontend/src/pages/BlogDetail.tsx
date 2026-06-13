@@ -46,7 +46,7 @@ export default function BlogDetail() {
           <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-6">
             <div className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm">
               <Calendar size={14} className="text-green-600" />
-              <span>March 25, 2025</span>
+              <span>June 25, 2026</span>
             </div>
             <div className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-full border border-gray-100 shadow-sm">
               <User size={14} className="text-green-600" />
