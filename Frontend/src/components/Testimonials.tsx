@@ -10,79 +10,62 @@ interface Testimonial {
   image: string;
 }
 
-import pman1 from "../assets/profiles/profile_man_1.png";
-import pman2 from "../assets/profiles/profile_man_2.png";
-import pman3 from "../assets/profiles/profile_man_3.png";
-import pman4 from "../assets/profiles/profile_man_4.png";
-import pwoman1 from "../assets/profiles/profile_woman_1.png";
-import pwoman2 from "../assets/profiles/profile_woman_2.png";
-import pwoman3 from "../assets/profiles/profile_woman_3.png";
-import pwoman4 from "../assets/profiles/profile_woman_4.png";
-
 const testimonials: Testimonial[] = [
   {
     id: 1,
-    name: "Arjun Reddy",
+    name: "Sai Rama Doddi",
     title: "CRISPY, SMOOTH, NOVEL!",
     content: "These snacks have the perfect balance of crunch and taste—light, crispy, and absolutely delicious. They’re a game-changer compared to any other healthy snack I've tried.",
     rating: 5,
-    image: pman1,
+    image: "https://c8.alamy.com/comp/DWGJJD/1-indian-rural-girl-standing-at-home-DWGJJD.jpg",
   },
   {
     id: 2,
-    name: "Meenakshi Iyer",
+    name: "Prasanna Kumar",
     title: "HELPS WITH STRESS EATING!",
     content: "I've noticed a huge reduction in my sugar cravings since I started snacking on GoMunchz. It helps me make better food choices throughout the day.",
     rating: 5,
-    image: pwoman1,
+    image: "https://upload.wikimedia.org/wikipedia/commons/4/48/Outdoors-man-portrait_%28cropped%29.jpg",
   },
   {
     id: 3,
-    name: "Karthik Subramanian",
+    name: "Pavan Kalyan",
     title: "MORE ENERGY, LESS BURNOUT",
     content: "I used to feel exhausted by evening, but these premium nuts have helped me power through my day without feeling drained. Highly recommend!",
     rating: 5,
-    image: pman2,
+    image: "https://framerusercontent.com/images/iQDrKBEYZ7KRkNtOShrPjsUm9U.jpg",
   },
   {
     id: 4,
-    name: "Lakshmi Narayanan",
+    name: "Meena Varalaxmi",
     title: "BEST QUALITY EVER",
     content: "The freshness of the almonds and cashews is unmatched. You can tell they source only the best. My whole family loves it!",
     rating: 5,
-    image: pwoman2,
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFWa-lXeO8YHtAHhNVLHaKf5_HcYL2pCbWOw&s",
   },
   {
     id: 5,
-    name: "Sai Prasad",
+    name: "Srinivas Rao",
     title: "PERFECT OFFICE SNACK",
     content: "Great for munching during long meetings. It's healthy, filling, and doesn't leave you feeling sluggish. Great job GoMunchz!",
     rating: 5,
-    image: pman3,
+    image: "https://i.pinimg.com/736x/13/f2/1a/13f21a8e434da028f25bd155dd0701bb.jpg",
   },
   {
     id: 6,
-    name: "Ananya Hegde",
+    name: "Anjali Devi",
     title: "DELICIOUS & NUTRITIOUS",
     content: "Hard to believe something this tasty is also healthy. The dry fruit mix is my absolute favorite. Will definitely order more.",
     rating: 5,
-    image: pwoman3,
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReD8IBrpTsWYfGisDBW2lnv4kXBSi0_qmdlg&s",
   },
   {
     id: 7,
-    name: "Venkatesh Rao",
+    name: "Dristi",
     title: "PREMIUM PACKAGING",
     content: "The packaging keeps everything so fresh. It's clear that GoMunchz cares about quality at every step. Very impressed.",
     rating: 5,
-    image: pman4,
-  },
-  {
-    id: 8,
-    name: "Priyanka Balan",
-    title: "GREAT TASTE, NO GUILT",
-    content: "Finally a snack that I don't have to feel guilty about! Crisp, fresh, and perfectly seasoned. Best healthy find this year.",
-    rating: 5,
-    image: pwoman4,
+    image: "https://media.istockphoto.com/id/1050242220/photo/girl-looking-at-camera-stock-images.jpg?s=612x612&w=0&k=20&c=r4XJdj7XAqn9q_UQIsw0VBjmdpLtALd8dwT4HVgI4BA=",
   },
 ];
 

@@ -49,7 +49,7 @@ export default function AboutUs() {
         <div className="bg-white rounded-2xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-gray-100 border border-gray-100">
 
           {/* PREMIUM QUALITY */}
-          <div className="flex items-center gap-4 py-4 px-6 md:py-5 justify-center sm:justify-start">
+          <div className="flex items-center gap-4 py-4 px-6 md:py-5 justify-start">
             <div className="p-2.5 bg-green-50 rounded-xl">
               <ShieldCheck className="text-green-700" size={24} />
             </div>
@@ -64,7 +64,7 @@ export default function AboutUs() {
           </div>
 
           {/* SWIFT SHIPPING */}
-          <div className="flex items-center gap-4 py-4 px-6 md:py-5 justify-center sm:justify-start">
+          <div className="flex items-center gap-4 py-4 px-6 md:py-5 justify-start">
             <div className="p-2.5 bg-green-50 rounded-xl">
               <Truck className="text-green-700" size={24} />
             </div>
@@ -79,7 +79,7 @@ export default function AboutUs() {
           </div>
 
           {/* EASY RETURN */}
-          <div className="flex items-center gap-4 py-4 px-6 md:py-5 justify-center sm:justify-start">
+          <div className="flex items-center gap-4 py-4 px-6 md:py-5 justify-start">
             <div className="p-2.5 bg-green-50 rounded-xl">
               <RotateCcw className="text-green-700" size={24} />
             </div>
@@ -94,7 +94,7 @@ export default function AboutUs() {
           </div>
 
           {/* 24/7 SUPPORT */}
-          <div className="flex items-center gap-4 py-4 px-6 md:py-5 justify-center sm:justify-start">
+          <div className="flex items-center gap-4 py-4 px-6 md:py-5 justify-start">
             <div className="p-2.5 bg-green-50 rounded-xl">
               <Headphones className="text-green-700" size={24} />
             </div>
