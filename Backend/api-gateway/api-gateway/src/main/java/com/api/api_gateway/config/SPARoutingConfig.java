@@ -38,6 +38,11 @@ public class SPARoutingConfig {
                 path.startsWith("/static/") ||
                 path.matches(".*\\.(js|css|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|txt|json)$")) {
                 
+                exchange.getResponse().beforeCommit(() -> {
+                    exchange.getResponse().getHeaders().set("Cache-Control", "max-age=31536000, public");
+                    return Mono.empty();
+                });
+                
                 // If it's a relative asset request (e.g. /product/assets/...), 
                 // we should internally forward to the absolute path.
                 if (path.contains("/assets/") && !path.startsWith("/assets/")) {

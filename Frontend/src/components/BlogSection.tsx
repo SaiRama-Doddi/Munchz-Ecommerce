@@ -7,6 +7,7 @@ import {
   ArrowUpRight
 } from "lucide-react";
 import { blogs } from "../data/blogData";
+import { optimizeCloudinaryUrl } from "../utils/imageUtils";
 
 const blogImages = [
   "https://res.cloudinary.com/dxfdcmxze/image/upload/v1781072064/blog-1_gxv6y7.jpg",
@@ -99,9 +100,10 @@ export default function BlogSection() {
                 {/* BLOG IMAGE - FIXED ASPECT RATIO AS PER REQUESTED DESIGN */}
                 <div className="w-full aspect-[16/10] overflow-hidden">
                   <img 
-                    src={blogImages[index]} 
+                    src={optimizeCloudinaryUrl(blogImages[index], 500)} 
                     alt={blog.title} 
                     className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-700" 
+                    loading="lazy"
                   />
                 </div>
 

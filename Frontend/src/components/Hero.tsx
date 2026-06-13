@@ -94,8 +94,8 @@ export default function Hero() {
               sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1400px"
               alt="Premium snacks"
               className="absolute inset-0 w-full h-full object-fill"
-              fetchPriority={index === 0 ? "high" : "auto"}
-              loading="eager"
+              fetchPriority={index === 0 ? "high" : "low"}
+              loading={index === 0 ? "eager" : "lazy"}
             />
 
             {/* Very Subtle Overlay for depth */}

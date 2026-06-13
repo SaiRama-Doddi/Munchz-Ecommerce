@@ -21,6 +21,7 @@ import { useAuth } from "../context/AuthContext";
 import { useCart } from "../state/CartContext";
 import { useState } from "react";
 import { getProductUrl } from "../utils/slugify";
+import { optimizeCloudinaryUrl } from "../utils/imageUtils";
 import ProfileDashboard from "./ProfileDashboard";
 import { Link, NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -200,7 +201,7 @@ export default function Header() {
                     >
 
                       <img
-                        src={p.imageUrl}
+                        src={optimizeCloudinaryUrl(p.imageUrl, 80)}
                         className="w-10 h-10 object-contain rounded"
                       />
 
@@ -349,7 +350,7 @@ export default function Header() {
                 >
 
                   <img
-                    src={p.imageUrl}
+                    src={optimizeCloudinaryUrl(p.imageUrl, 80)}
                     className="w-10 h-10 object-contain rounded"
                   />
 

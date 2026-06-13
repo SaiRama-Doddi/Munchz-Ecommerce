@@ -252,7 +252,7 @@ export default function AllProducts() {
                   : "border-transparent bg-white group-hover:border-green-200"
                 }`}>
                   <img 
-                    src={optimizeCloudinaryUrl(c.thumbnailImage) || "https://placehold.co/100x100?text=Category"} 
+                    src={optimizeCloudinaryUrl(c.thumbnailImage, 200) || "https://placehold.co/100x100?text=Category"} 
                     alt={c.name}
                     className={`w-full h-full object-cover transition-all ${
                       selectedCategoryId === c.id ? "scale-110" : "group-hover:scale-110"
@@ -333,9 +333,10 @@ export default function AllProducts() {
                         {/* IMAGE BOX */}
                         <div className="relative bg-transparent aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden flex-shrink-0">
                           <img
-                            src={optimizeCloudinaryUrl(p.imageUrl)}
+                            src={optimizeCloudinaryUrl(p.imageUrl, 400)}
                             alt={p.name}
                             className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700"
+                            loading="lazy"
                           />
 
                           {discount > 0 && (
@@ -493,9 +494,10 @@ export default function AllProducts() {
                       >
                         <div className="relative bg-transparent aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden flex-shrink-0">
                           <img
-                            src={optimizeCloudinaryUrl(p.imageUrl)}
+                            src={optimizeCloudinaryUrl(p.imageUrl, 400)}
                             alt={p.name}
                             className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700"
+                            loading="lazy"
                           />
 
                           {discount > 0 && (

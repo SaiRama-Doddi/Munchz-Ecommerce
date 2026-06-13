@@ -25,6 +25,7 @@ export default function Footer() {
                   alt="GoMunchz"
                   className="h-28 cursor-pointer object-contain"
                   onClick={() => navigate("/")}
+                  loading="lazy"
                 />
               </div>
               <p className="text-sm text-gray-700 leading-relaxed max-w-xs mb-6">
@@ -37,6 +38,7 @@ export default function Footer() {
                   src="https://res.cloudinary.com/dd4oiwnep/image/upload/f_auto,q_auto/v1774172170/unnamed_r2g1px.png"
                   alt="FSSAI"
                   className="h-10 object-contain mix-blend-multiply"
+                  loading="lazy"
                 />
                 <div className="leading-tight">
                   <p className="font-semibold text-gray-500 uppercase tracking-wider text-base">License Number:</p>

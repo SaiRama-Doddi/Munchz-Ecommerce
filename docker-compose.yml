@@ -54,6 +54,8 @@ services:
       - "traefik.http.routers.munchz.entrypoints=websecure"
       - "traefik.http.routers.munchz.tls=true"
       - "traefik.http.routers.munchz.tls.certresolver=myresolver"
+      - "traefik.http.middlewares.compress.compress=true"
+      - "traefik.http.routers.munchz.middlewares=compress"
       - "traefik.http.services.munchz.loadbalancer.server.port=8080"
     depends_on:
       - auth-service

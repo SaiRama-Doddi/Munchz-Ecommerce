@@ -1,4 +1,4 @@
-import { Leaf, Flame, Sparkles, Heart, ShieldCheck } from "lucide-react";
+import { Leaf, Flame, Sparkles, Heart } from "lucide-react";
 
 export default function ProductImage() {
   const steps = [
@@ -29,13 +29,6 @@ export default function ProductImage() {
       desc: "Enjoy your favorite snacks without regrets—nutrient-rich, low-calorie, and wholesome.",
       badge: "Healthy Choice",
       badgeColor: "bg-rose-50 text-rose-700 border-rose-200/60",
-    },
-    {
-      icon: <ShieldCheck className="w-5 h-5 transition-colors duration-300 text-teal-600 group-hover:text-white" />,
-      title: "Zero Palm Oil",
-      desc: "Prepared with heart-friendly healthy fats, completely free of palm oil and trans fats.",
-      badge: "100% Clean",
-      badgeColor: "bg-teal-50 text-teal-700 border-teal-200/60",
     },
   ];
 
@@ -106,7 +99,7 @@ export default function ProductImage() {
               <img
                 src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto,w_600/v1780908877/The_GoMunchz_Promise_nlyir6.png"
                 alt="The GoMunchz Promise"
-                className="w-full h-full object-contain rounded-2xl group-hover:scale-[1.01] transition duration-700 ease-out select-none"
+                className="w-full h-full object-cover rounded-2xl group-hover:scale-[1.01] transition duration-700 ease-out select-none"
               />
             </div>
           </div>

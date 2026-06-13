@@ -1,4 +1,5 @@
 import { ShieldCheck, Truck, RotateCcw, Headphones } from "lucide-react";
+import { optimizeCloudinaryUrl } from "../utils/imageUtils";
 
 export default function AboutUs() {
   return (
@@ -35,9 +36,10 @@ export default function AboutUs() {
           <div className="p-3 lg:p-4 flex items-center justify-center">
             <div className="relative w-full max-w-[420px] aspect-square">
               <img
-                src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1780413409/About_GoMunchz_banner_thvxg8.jpg"
+                src={optimizeCloudinaryUrl("https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/v1780413409/About_GoMunchz_banner_thvxg8.jpg", 600)}
                 alt="About GoMunchz Premium Selection"
                 className="w-full h-full object-cover rounded-2xl"
+                loading="lazy"
               />
             </div>
           </div>

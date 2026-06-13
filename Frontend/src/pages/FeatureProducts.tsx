@@ -235,9 +235,10 @@ export default function FeaturedProducts() {
                   {/* IMAGE BOX */}
                   <div className="relative bg-transparent aspect-square flex items-center justify-center m-1.5 rounded-2xl overflow-hidden flex-shrink-0">
                     <img
-                      src={optimizeCloudinaryUrl(p.imageUrl)}
+                      src={optimizeCloudinaryUrl(p.imageUrl, 400)}
                       alt={p.name}
                       className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700"
+                      loading="lazy"
                     />
 
                     {discount > 0 && (

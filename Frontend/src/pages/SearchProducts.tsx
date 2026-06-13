@@ -274,9 +274,10 @@ export default function SearchProducts() {
                   <div className="relative bg-gray-50 aspect-square flex items-center justify-center">
 
                     <img
-                      src={optimizeCloudinaryUrl(p.imageUrl)}
+                      src={optimizeCloudinaryUrl(p.imageUrl, 400)}
                       alt={p.name}
                       className="w-full h-full object-contain p-4 group-hover:scale-105 transition"
+                      loading="lazy"
                     />
 
                     {discount > 0 && (
