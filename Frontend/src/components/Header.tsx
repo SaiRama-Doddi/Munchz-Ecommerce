@@ -88,7 +88,7 @@ export default function Header() {
 
             <button
               onClick={() => setOpenMenu(true)}
-              className="md:hidden p-2 rounded-lg hover:bg-white transition cursor-pointer"
+              className="lg:hidden p-2 rounded-lg hover:bg-white transition cursor-pointer"
             >
               <Menu size={26} />
             </button>
@@ -105,7 +105,7 @@ export default function Header() {
 
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8 font-medium text-base">
+          <nav className="hidden lg:flex items-center lg:gap-4 xl:gap-8 font-medium lg:text-sm xl:text-base">
             <NavLink to="/" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Home</NavLink>
             <NavLink to="/Aboutmain" onMouseEnter={preloadAbout} onTouchStart={preloadAbout} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>About Us</NavLink>
             <NavLink to="/productpage" onMouseEnter={preloadShop} onTouchStart={preloadShop} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Shop</NavLink>

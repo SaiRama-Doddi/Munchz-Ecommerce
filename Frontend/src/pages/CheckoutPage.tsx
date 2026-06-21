@@ -524,11 +524,11 @@ export default function CheckoutPage() {
                    <span>Shipping</span>
                    <span className="font-bold text-green-600 uppercase tracking-widest text-base">FREE</span>
                  </div>
-                 <div className="h-px bg-white my-4"></div>
+                 <div className="h-px bg-gray-100 my-4"></div>
                  <div className="flex justify-between items-end bg-green-50/50 p-4 rounded-2xl border border-green-100">
                    <div>
-                     <p className="text-base font-bold text-gray-400 uppercase tracking-[0.2em] mb-1">Grand Total</p>
-                     <p className="text-base font-bold text-gray-900 tracking-tighter leading-none">₹{totalAmount.toFixed(0)}</p>
+                     <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-1">Grand Total</p>
+                     <p className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tighter leading-none">₹{totalAmount.toFixed(0)}</p>
                    </div>
                    <div className="pb-1 opacity-20"><ShieldCheck className="w-[24px] h-[24px] sm:w-[32px] sm:h-[32px]" /></div>
                  </div>

@@ -185,7 +185,7 @@ export default function ReferAndEarn() {
                     />
                     <button 
                       onClick={handleCopy}
-                      className={`absolute right-2 top-1.5 px-4 py-2 rounded-lg text-2xl font-bold transition-all flex items-center gap-2
+                      className={`absolute right-2 top-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-2
                         ${copied ? 'bg-emerald-600 text-white' : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 shadow-sm'}`}
                     >
                       {copied ? <CheckCircle2 size={14} /> : <Copy size={14} />}

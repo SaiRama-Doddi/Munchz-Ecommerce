@@ -16,9 +16,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-0">
         <div className="bg-[#ecfdf5] px-4 sm:px-6 lg:px-8 pt-12 md:pt-16 pb-6 rounded-t-[2.5rem] border-t border-green-100/50">
           {/* ================= TOP SECTION ================= */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-12">
             {/* BRAND */}
-            <div className="flex flex-col items-start md:col-span-4">
+            <div className="flex flex-col items-start lg:col-span-4">
               <div className="mb-4">
                 <img
                   src="https://res.cloudinary.com/dd4oiwnep/image/upload/f_auto,q_auto/v1774178657/gomunchz_logo_transparent_r8r0a8.png"
@@ -48,12 +48,12 @@ export default function Footer() {
             </div>
 
             {/* Contact */}
-            <div className="md:col-span-4">
+            <div className="lg:col-span-4">
               <h4 className="font-bold text-base mb-6 text-black">Contact</h4>
               <div className="space-y-4 text-sm text-gray-700">
                 <div className="flex items-start gap-3">
                   <MapPin size={18} className="mt-1 text-black shrink-0" />
-                  <span className="font-medium whitespace-nowrap">
+                  <span className="font-medium">
                     Sri Venkateshwara Super Foods LLP<br />
                     H.No-16-317/678, Symphony Park Homes,<br />
                     Patancheru, Sangareddy, Telangana-502319
@@ -71,7 +71,7 @@ export default function Footer() {
             </div>
 
             {/* Quick Links */}
-            <div className="md:col-span-2">
+            <div className="lg:col-span-2">
               <h4 className="font-bold text-base mb-6 text-black">Quick Links</h4>
               <ul className="space-y-3 text-sm text-gray-700 font-medium whitespace-nowrap">
                 <li className="cursor-pointer hover:text-green-700 transition" onClick={() => navigate("/")}>Home</li>
@@ -85,7 +85,7 @@ export default function Footer() {
             </div>
 
             {/* Legal */}
-            <div className="md:col-span-2">
+            <div className="lg:col-span-2">
               <h4 className="font-bold text-base mb-6 text-black">Legal</h4>
               <ul className="space-y-3 text-sm text-gray-700 font-medium whitespace-nowrap">
                 <li className="cursor-pointer hover:text-green-600 transition" onClick={() => navigate("/terms-and-conditions")}>Terms & Conditions</li>

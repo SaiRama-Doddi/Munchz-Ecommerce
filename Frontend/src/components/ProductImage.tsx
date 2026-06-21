@@ -97,9 +97,9 @@ export default function ProductImage() {
               <div className="absolute inset-0 bg-gradient-to-tr from-green-100/40 via-amber-100/25 to-transparent rounded-2xl blur-2xl transform rotate-3 scale-95 -z-10" />
               
               <img
-                src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto,w_600/v1780908877/The_GoMunchz_Promise_nlyir6.png"
+                src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/w_600/v1780908877/The_GoMunchz_Promise_nlyir6.png"
                 alt="The GoMunchz Promise"
-                className="w-full h-full object-cover rounded-2xl group-hover:scale-[1.01] transition duration-700 ease-out select-none"
+                className="w-full h-full object-contain rounded-2xl group-hover:scale-[1.01] transition duration-700 ease-out select-none"
               />
             </div>
           </div>

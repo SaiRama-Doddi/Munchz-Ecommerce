@@ -169,7 +169,7 @@ export default function TrackingPage() {
                               <Icon size={24} className={isActive ? "animate-pulse" : ""} />
                             </div>
                             <span className={`
-                              mt-4 text-xs font-black uppercase tracking-wider
+                              mt-4 text-[10px] sm:text-xs font-black uppercase tracking-wider text-center max-w-[80px] sm:max-w-none
                               ${isActive ? "text-green-700" : "text-gray-400"}
                             `}>
                               {step.label}

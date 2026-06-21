@@ -198,7 +198,7 @@ export default function CartPremium() {
 
                 {/* PROGRESS TRACK */}
                 <div className="flex-1 relative py-4">
-                  <div className="h-[3px] bg-white rounded-full w-full relative">
+                  <div className="h-[3px] bg-gray-200/60 rounded-full w-full relative">
                     {/* GLOWING PROGRESS LINE */}
                     <div
                       className="absolute h-full bg-gradient-to-r from-green-400 to-green-600 rounded-full transition-all duration-1000 shadow-[0_0_15px_rgba(22,163,74,0.3)]"

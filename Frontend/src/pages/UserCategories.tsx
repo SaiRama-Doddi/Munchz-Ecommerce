@@ -103,8 +103,8 @@ export default function UserCategories() {
         ref={scrollRef}
         className="
           hidden md:flex
-          justify-center
-          gap-10
+          justify-start lg:justify-center
+          gap-6 lg:gap-10
           overflow-x-auto
           scroll-smooth
           no-scrollbar

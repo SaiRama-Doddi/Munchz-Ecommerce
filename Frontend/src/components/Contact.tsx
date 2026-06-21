@@ -41,19 +41,19 @@ export default function ContactForm() {
     <div className="bg-[#f9fdf7] flex flex-col font-sans">
       <main className="flex-grow max-w-7xl mx-auto px-4 py-3 md:py-5 w-full flex flex-col items-center">
         {/* MAIN CONTACT CARD */}
-        <div className="max-w-6xl w-full bg-white shadow-[0_30px_70px_rgba(22,101,52,0.06)] overflow-hidden border border-green-100/30 flex flex-col md:flex-row md:h-[530px] rounded-[2rem] md:rounded-[2.5rem] transition-all duration-300 hover:shadow-[0_40px_80px_rgba(22,101,52,0.09)]">
+        <div className="max-w-6xl w-full bg-white shadow-[0_30px_70px_rgba(22,101,52,0.06)] overflow-hidden border border-green-100/30 flex flex-col md:flex-row md:min-h-[530px] rounded-[2rem] md:rounded-[2.5rem] transition-all duration-300 hover:shadow-[0_40px_80px_rgba(22,101,52,0.09)]">
 
           {/* LEFT IMAGE / INFO SECTION */}
-          <div className="md:w-1/2 w-full md:relative md:h-full overflow-hidden bg-[#e4edd4] border-b md:border-b-0 md:border-r border-green-100/20 group">
+          <div className="md:w-1/2 w-full flex items-stretch overflow-hidden bg-[#e4edd4] border-b md:border-b-0 md:border-r border-green-100/20 group">
             <img
               src="https://res.cloudinary.com/dxfdcmxze/image/upload/f_auto,q_auto/w_800/v1780999859/track_borad_xeyjtp.jpg"
               alt="Premium Healthy Snacks"
-              className="w-full h-auto block md:absolute md:inset-0 md:w-full md:h-full object-cover transition-transform duration-700 group-hover:scale-[1.01]"
+              className="w-full h-full object-cover object-left transition-transform duration-700 group-hover:scale-[1.01]"
             />
           </div>
 
           {/* RIGHT FORM SECTION */}
-          <div className="md:w-1/2 w-full p-4 sm:p-5 md:p-6 lg:p-8 flex flex-col justify-center bg-gradient-to-br from-green-50/10 via-white to-amber-50/10 md:h-full overflow-hidden">
+          <div className="md:w-1/2 w-full p-4 sm:p-5 md:p-6 lg:p-8 flex flex-col justify-center bg-gradient-to-br from-green-50/10 via-white to-amber-50/10 md:min-h-[530px]">
             <div className="max-w-md mx-auto w-full space-y-4">
               <div className="text-center md:text-left">
                 <span className="text-base font-bold text-green-600 tracking-widest uppercase block">Let's Connect</span>
