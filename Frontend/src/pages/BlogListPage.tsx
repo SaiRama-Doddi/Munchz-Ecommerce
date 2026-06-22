@@ -64,12 +64,12 @@ export default function BlogListPage() {
                 </div>
 
                 {/* Blog Image */}
-                <div className="w-full aspect-[16/10] overflow-hidden rounded-2xl mb-6">
+                <div className="w-full overflow-hidden rounded-2xl mb-6">
                   <Link to={`/blog/${blog.slug}`}>
                     <img
                       src={optimizeCloudinaryUrl(blogImages[index], 500)}
                       alt={blog.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      className="w-full h-auto block group-hover:scale-105 transition-transform duration-700"
                       loading="lazy"
                     />
                   </Link>

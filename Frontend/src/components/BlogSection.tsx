@@ -97,12 +97,12 @@ export default function BlogSection() {
                 to={`/blog/${blog.slug}`}
                 className="min-w-[85%] sm:min-w-[45%] md:min-w-0 bg-[#ecfdf5] rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-green-100/50 group/card flex flex-col"
               >
-                {/* BLOG IMAGE - FIXED ASPECT RATIO AS PER REQUESTED DESIGN */}
-                <div className="w-full aspect-[16/10] overflow-hidden">
+                {/* BLOG IMAGE - NO CROPPING */}
+                <div className="w-full overflow-hidden">
                   <img 
                     src={optimizeCloudinaryUrl(blogImages[index], 500)} 
                     alt={blog.title} 
-                    className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-700" 
+                    className="w-full h-auto block group-hover/card:scale-105 transition-transform duration-700" 
                     loading="lazy"
                   />
                 </div>

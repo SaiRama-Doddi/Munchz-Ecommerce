@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { ChevronRight, Calendar, User, Clock, ArrowLeft } from "lucide-react";
-import { blogs } from "../data/blogData";
+import { blogs, BlogContent } from "../data/blogData";
 import TopHeader from "../components/TopHeader";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -13,6 +13,111 @@ const blogImages: Record<string, string> = {
   "4": "https://res.cloudinary.com/dxfdcmxze/image/upload/v1781072101/blog-4_ugnefn.jpg",
   "5": "https://res.cloudinary.com/dxfdcmxze/image/upload/v1781072113/blog-5_ulcdyp.jpg",
   "6": "https://res.cloudinary.com/dxfdcmxze/image/upload/v1781072132/blog-6_jkskqk.jpg"
+};
+
+interface GroupedItem {
+  heading: string;
+  paragraph?: string;
+}
+
+type RenderBlock = 
+  | { type: 'normal'; section: BlogContent }
+  | { type: 'numbered-grid'; items: GroupedItem[] };
+
+const processSections = (sections: BlogContent[]): RenderBlock[] => {
+  const result: RenderBlock[] = [];
+  let i = 0;
+  
+  while (i < sections.length) {
+    const current = sections[i];
+    
+    // Check if current is a numbered heading ("1. ", "2. ", etc.)
+    const isNumberedHeading = 
+      current.type === 'heading' && 
+      typeof current.content === 'string' && 
+      /^\d+\.\s/.test(current.content);
+      
+    // Check if current is a numbered paragraph ("1. ", "2. ", etc.)
+    const isNumberedParagraph = 
+      current.type === 'paragraph' && 
+      typeof current.content === 'string' && 
+      /^\d+\.\s/.test(current.content);
+      
+    if (isNumberedHeading) {
+      const groupItems: GroupedItem[] = [];
+      while (i < sections.length) {
+        const itemHeading = sections[i];
+        const isNextNumberedHeading = 
+          itemHeading.type === 'heading' && 
+          typeof itemHeading.content === 'string' && 
+          /^\d+\.\s/.test(itemHeading.content);
+          
+        if (!isNextNumberedHeading) {
+          break;
+        }
+        
+        let paragraphText: string | undefined = undefined;
+        if (i + 1 < sections.length && sections[i + 1].type === 'paragraph') {
+          paragraphText = sections[i + 1].content as string;
+          i += 2;
+        } else {
+          i += 1;
+        }
+        
+        groupItems.push({
+          heading: itemHeading.content as string,
+          paragraph: paragraphText
+        });
+      }
+      result.push({
+        type: 'numbered-grid',
+        items: groupItems
+      });
+    } 
+    else if (isNumberedParagraph) {
+      const groupItems: GroupedItem[] = [];
+      while (i < sections.length) {
+        const itemPara = sections[i];
+        const isNextNumberedParagraph = 
+          itemPara.type === 'paragraph' && 
+          typeof itemPara.content === 'string' && 
+          /^\d+\.\s/.test(itemPara.content);
+          
+        if (!isNextNumberedParagraph) {
+          break;
+        }
+        
+        const contentStr = itemPara.content as string;
+        const colonIndex = contentStr.indexOf(":");
+        let headingText = contentStr;
+        let descText: string | undefined = undefined;
+        
+        if (colonIndex !== -1) {
+          headingText = contentStr.substring(0, colonIndex).trim();
+          descText = contentStr.substring(colonIndex + 1).trim();
+        }
+        
+        groupItems.push({
+          heading: headingText,
+          paragraph: descText
+        });
+        i++;
+      }
+      result.push({
+        type: 'numbered-grid',
+        items: groupItems
+      });
+    } 
+    else {
+      result.push({
+        type: 'normal',
+        section: current
+      });
+      i++;
+    }
+  }
+  
+  return result;
 };
 
 export default function BlogDetail() {
@@ -58,11 +163,11 @@ export default function BlogDetail() {
           <div className="lg:col-span-8 space-y-5">
             
             {/* FEATURED COVER IMAGE */}
-            <div className="w-full aspect-[21/10] overflow-hidden rounded-3xl shadow-sm border border-gray-100">
+            <div className="w-full overflow-hidden rounded-3xl shadow-sm border border-gray-100">
               <img 
                 src={blogImages[blog.id] || "https://res.cloudinary.com/dxfdcmxze/image/upload/v1781072064/blog-1_gxv6y7.jpg"}
                 alt={blog.title} 
-                className="w-full h-full object-cover"
+                className="w-full h-auto block"
               />
             </div>
 
@@ -95,7 +200,36 @@ export default function BlogDetail() {
             {/* MAIN CONTENT TEXT */}
             <main className="w-full">
               <div className="space-y-4 text-gray-700 leading-relaxed text-sm text-justify">
-                {blog.sections.map((section, idx) => {
+                {processSections(blog.sections).map((block, idx) => {
+                  if (block.type === "numbered-grid") {
+                    const isOdd = block.items.length % 2 !== 0;
+                    return (
+                      <div key={idx} className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+                        {block.items.map((item, itemIdx) => {
+                          const isLast = itemIdx === block.items.length - 1;
+                          return (
+                            <div 
+                              key={itemIdx} 
+                              className={`bg-green-50/40 border border-green-100/50 p-5 rounded-2xl shadow-sm flex flex-col justify-start text-left hover:shadow-md transition-all duration-300 ${
+                                isLast && isOdd ? "md:col-span-2" : ""
+                              }`}
+                            >
+                              <h3 className="text-base font-bold text-green-700 mb-1.5 flex items-center gap-2">
+                                {item.heading}
+                              </h3>
+                              {item.paragraph && (
+                                <p className="text-gray-600 text-xs font-semibold leading-relaxed">
+                                  {item.paragraph}
+                                </p>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                  }
+
+                  const section = block.section;
                   switch (section.type) {
                     case "heading":
                       return (
@@ -119,7 +253,7 @@ export default function BlogDetail() {
                       );
                     case "quote":
                       return (
-                        <div key={idx} className="font-bold text-gray-900 border-l-4 border-green-600 pl-4 italic bg-green-50/50 py-4 rounded-r-xl my-4 text-sm shadow-sm">
+                        <div key={idx} className="font-bold text-gray-950 border-l-4 border-green-600 pl-4 italic bg-green-50/50 py-4 rounded-r-xl my-4 text-sm shadow-sm">
                           "{section.content as string}"
                         </div>
                       );
