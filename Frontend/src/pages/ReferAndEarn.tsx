@@ -286,7 +286,10 @@ export default function ReferAndEarn() {
                 <p className="text-emerald-800/80 font-medium leading-relaxed mb-6">
                   We believe in the power of shared health and happiness. By referring your friends, you're not just earning cashback—you're helping your community munch smarter with premium quality nuts and dry fruits.
                 </p>
-                <button className="text-emerald-700 font-bold flex items-center gap-2 hover:gap-3 transition-all">
+                <button 
+                   onClick={() => navigate("/terms-and-conditions")}
+                   className="text-emerald-700 font-bold flex items-center gap-2 hover:gap-3 transition-all cursor-pointer"
+                >
                    Read Full Terms & Conditions <ChevronRight size={18} />
                 </button>
              </div>

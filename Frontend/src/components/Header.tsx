@@ -27,7 +27,14 @@ import { Link, NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { blogs } from "../data/blogData";
 
-
+const blogImages: Record<string, string> = {
+  "1": "https://res.cloudinary.com/dxfdcmxze/image/upload/v1781072064/blog-1_gxv6y7.jpg",
+  "2": "https://res.cloudinary.com/dxfdcmxze/image/upload/v1781072071/blog-2_bth1df.jpg",
+  "3": "https://res.cloudinary.com/dxfdcmxze/image/upload/v1781072078/blog-3_udfeic.jpg",
+  "4": "https://res.cloudinary.com/dxfdcmxze/image/upload/v1781072101/blog-4_ugnefn.jpg",
+  "5": "https://res.cloudinary.com/dxfdcmxze/image/upload/v1781072113/blog-5_ulcdyp.jpg",
+  "6": "https://res.cloudinary.com/dxfdcmxze/image/upload/v1781072132/blog-6_jkskqk.jpg"
+};
 import { useQuery } from "@tanstack/react-query";
 import api from "../api/client";
 
@@ -80,116 +87,112 @@ export default function Header() {
       {/* ================= HEADER ================= */}
 
       <header className="sticky top-0 z-50 w-full bg-[#ecfdf5]/95 backdrop-blur-md border-b border-green-100/50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-[72px] flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-[72px] flex items-center justify-between gap-4">
 
-          {/* LEFT */}
-
-          <div className="flex items-center gap-3 md:-ml-4 lg:-ml-6">
-
-            <button
-              onClick={() => setOpenMenu(true)}
-              className="lg:hidden p-2 rounded-lg hover:bg-white transition cursor-pointer"
-            >
-              <Menu size={26} />
-            </button>
-
-            <Link to="/" className="flex items-center cursor-pointer">
-              <img
-                src="https://res.cloudinary.com/dd4oiwnep/image/upload/f_auto,q_auto/v1774178657/gomunchz_logo_transparent_r8r0a8.png"
-                alt="GoMunchz"
-                className="h-14 md:h-16 lg:h-18 w-auto object-contain cursor-pointer"
-              />
-            </Link>
-
-          </div>
-
-
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center lg:gap-4 xl:gap-8 font-medium lg:text-sm xl:text-base">
-            <NavLink to="/" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Home</NavLink>
-            <NavLink to="/Aboutmain" onMouseEnter={preloadAbout} onTouchStart={preloadAbout} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>About Us</NavLink>
-            <NavLink to="/productpage" onMouseEnter={preloadShop} onTouchStart={preloadShop} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Shop</NavLink>
-
-            {/* Blog Dropdown */}
-            <div
-              className="relative group py-4 h-full flex items-center"
-              onMouseEnter={() => {
-                setShowBlogDropdown(true);
-                preloadBlog();
-              }}
-              onMouseLeave={() => setShowBlogDropdown(false)}
-            >
-              <NavLink
-                to="/blog"
-                onMouseEnter={preloadBlog}
-                onTouchStart={preloadBlog}
-                className={({ isActive }) =>
-                  `flex items-center gap-1 cursor-pointer transition-colors ${isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}`
-                }
+          {/* Left Group: Logo & Desktop Navigation */}
+          <div className="flex items-center gap-6 xl:gap-10">
+            {/* LEFT (Hamburger + Logo) */}
+            <div className="flex items-center gap-3 md:-ml-4 lg:-ml-6">
+              <button
+                onClick={() => setOpenMenu(true)}
+                className="xl:hidden p-2 rounded-lg hover:bg-white transition cursor-pointer"
               >
-                <span>Blog</span>
-                <ChevronDown size={16} className={`transition-transform duration-300 ${showBlogDropdown ? "rotate-180" : ""}`} />
-              </NavLink>
+                <Menu size={26} />
+              </button>
 
-              {showBlogDropdown && (
-                <div className="absolute top-full left-0 w-80 bg-white shadow-2xl rounded-2xl border border-gray-100 py-4 z-50 animate-in fade-in slide-in-from-top-2 duration-300">
-                  <div className="px-4 mb-2 pb-2 border-b border-gray-50">
-                    <p className="text-xs font-bold text-green-600 uppercase tracking-widest">Our Latest Stories</p>
-                  </div>
-                  {blogs.map((blog) => (
+              <Link to="/" className="flex items-center cursor-pointer">
+                <img
+                  src="https://res.cloudinary.com/dd4oiwnep/image/upload/f_auto,q_auto/v1774178657/gomunchz_logo_transparent_r8r0a8.png"
+                  alt="GoMunchz"
+                  className="h-14 md:h-16 lg:h-18 w-auto object-contain cursor-pointer"
+                />
+              </Link>
+            </div>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden xl:flex items-center gap-6 xl:gap-8 font-medium text-sm xl:text-base">
+              <NavLink to="/" className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Home</NavLink>
+              <NavLink to="/Aboutmain" onMouseEnter={preloadAbout} onTouchStart={preloadAbout} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>About Us</NavLink>
+              <NavLink to="/productpage" onMouseEnter={preloadShop} onTouchStart={preloadShop} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Shop</NavLink>
+
+              {/* Blog Dropdown */}
+              <div
+                className="relative group py-4 h-full flex items-center"
+                onMouseEnter={() => {
+                  setShowBlogDropdown(true);
+                  preloadBlog();
+                }}
+                onMouseLeave={() => setShowBlogDropdown(false)}
+              >
+                <NavLink
+                  to="/blog"
+                  onMouseEnter={preloadBlog}
+                  onTouchStart={preloadBlog}
+                  className={({ isActive }) =>
+                    `flex items-center gap-1 cursor-pointer transition-colors ${isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}`
+                  }
+                >
+                  <span>Blog</span>
+                  <ChevronDown size={16} className={`transition-transform duration-300 ${showBlogDropdown ? "rotate-180" : ""}`} />
+                </NavLink>
+
+                {showBlogDropdown && (
+                  <div className="absolute top-full left-0 w-80 bg-white shadow-2xl rounded-2xl border border-gray-100 py-4 z-50 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <div className="px-4 mb-2 pb-2 border-b border-gray-50">
+                      <p className="text-xs font-bold text-green-600 uppercase tracking-widest">Our Latest Stories</p>
+                    </div>
+                    {blogs.map((blog) => (
+                      <Link
+                        key={blog.id}
+                        to={`/blog/${blog.slug}`}
+                        className="flex items-center gap-3 px-4 py-2 hover:bg-green-50 transition-colors group/item"
+                        onClick={() => setShowBlogDropdown(false)}
+                      >
+                        <img
+                          src={blogImages[blog.id] || "https://res.cloudinary.com/dxfdcmxze/image/upload/v1781072064/blog-1_gxv6y7.jpg"}
+                          alt=""
+                          className="w-12 h-9 object-cover rounded-lg border border-gray-100 flex-shrink-0"
+                        />
+                        <p className="text-xs font-semibold text-gray-800 group-hover/item:text-green-700 leading-snug line-clamp-2 text-left">
+                          {blog.title}
+                        </p>
+                      </Link>
+                    ))}
                     <Link
-                      key={blog.id}
-                      to={`/blog/${blog.slug}`}
-                      className="block px-4 py-3 hover:bg-green-50 transition-colors group/item"
+                      to="/blog"
+                      className="mt-2 mx-4 py-2 text-center block bg-green-600 text-white text-xs font-bold rounded-lg hover:bg-green-700 transition"
                       onClick={() => setShowBlogDropdown(false)}
                     >
-                      <p className="text-sm font-semibold text-gray-800 group-hover/item:text-green-700 leading-tight">
-                        {blog.title}
-                      </p>
+                      View All Blogs
                     </Link>
-                  ))}
-                  <Link
-                    to="/blog"
-                    className="mt-2 mx-4 py-2 text-center block bg-green-600 text-white text-xs font-bold rounded-lg hover:bg-green-700 transition"
-                    onClick={() => setShowBlogDropdown(false)}
-                  >
-                    View All Blogs
-                  </Link>
-                </div>
-              )}
-            </div>
+                  </div>
+                )}
+              </div>
 
-            <NavLink to="/track" onMouseEnter={preloadTrack} onTouchStart={preloadTrack} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Track</NavLink>
-            <NavLink to="/refer-and-earn" onMouseEnter={preloadReward} onTouchStart={preloadReward} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>GoMunchz Points</NavLink>
-            <NavLink to="/gifting" onMouseEnter={preloadGifting} onTouchStart={preloadGifting} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Gifting</NavLink>
-            <NavLink to="/contact" onMouseEnter={preloadContact} onTouchStart={preloadContact} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Contact Us</NavLink>
-          </nav>
+              <NavLink to="/track" onMouseEnter={preloadTrack} onTouchStart={preloadTrack} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Track</NavLink>
+              <NavLink to="/refer-and-earn" onMouseEnter={preloadReward} onTouchStart={preloadReward} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>GoMunchz Points</NavLink>
+              <NavLink to="/gifting" onMouseEnter={preloadGifting} onTouchStart={preloadGifting} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Gifting</NavLink>
+              <NavLink to="/contact" onMouseEnter={preloadContact} onTouchStart={preloadContact} className={({ isActive }) => isActive ? "text-green-700 border-b-2 border-green-700 pb-1" : "text-gray-800 hover:text-green-700"}>Contact Us</NavLink>
+            </nav>
+          </div>
 
+          {/* Right Group: Search & Right Icons */}
+          <div className="flex items-center flex-1 justify-end gap-4 xl:gap-8">
+            {/* DESKTOP SEARCH (Large screens only) */}
+            <div className="hidden xl:flex flex-1 max-w-[300px] relative cursor-pointer">
+              <div className="flex items-center w-full bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm cursor-text">
+                <Search size={18} className="text-gray-500 cursor-pointer" />
+                <input
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyDown={handleSearch}
+                  placeholder="Search products..."
+                  className="bg-transparent outline-none px-3 w-full text-sm"
+                />
+              </div>
 
-          {/* DESKTOP SEARCH (Large screens only) */}
-
-          < div className="hidden lg:flex flex-1 mx-4 max-w-[300px] relative cursor-pointer" >
-
-            <div className="flex items-center w-full bg-white border border-gray-200 rounded-full px-4 py-2 shadow-sm cursor-text">
-
-              <Search size={18} className="text-gray-500 cursor-pointer" />
-
-              <input
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={handleSearch}
-                placeholder="Search products..."
-                className="bg-transparent outline-none px-3 w-full text-sm"
-              />
-
-            </div>
-
-
-            {
-              searchTerm.length > 1 && suggestions.length > 0 && (
-
+              {searchTerm.length > 1 && suggestions.length > 0 && (
                 <div className="absolute top-full mt-2 w-full bg-white shadow-xl rounded-xl border z-50 overflow-hidden">
-
                   {suggestions.map((p: any) => (
                     <div
                       key={p.id}
@@ -199,17 +202,14 @@ export default function Header() {
                       }}
                       className="flex items-center gap-3 px-4 py-3 hover:bg-green-50 cursor-pointer"
                     >
-
                       <img
                         src={optimizeCloudinaryUrl(p.imageUrl, 80)}
                         className="w-10 h-10 object-contain rounded"
                       />
-
                       <div>
                         <p className="text-sm font-medium">{p.name}</p>
                         <p className="text-xs text-gray-500">{p.categoryName}</p>
                       </div>
-
                     </div>
                   ))}
 
@@ -222,79 +222,74 @@ export default function Header() {
                   >
                     View all results →
                   </div>
-
                 </div>
+              )}
+            </div>
 
-              )
-            }
+            {/* RIGHT ICONS */}
+            <div className="flex items-center gap-3 md:gap-5 text-gray-700">
+              {profile && (
+                <NavLink to="/user-orders" className="hidden md:flex">
+                  {({ isActive }) => (
+                    <ShoppingBag
+                      size={22}
+                      className={isActive ? "text-green-700" : "text-gray-700"}
+                    />
+                  )}
+                </NavLink>
+              )}
 
-          </div >
+              {profile && (
+                <NavLink to="/refer-and-earn" className="hidden md:flex relative group">
+                  {({ isActive }) => (
+                    <>
+                      <Gift
+                        size={22}
+                        className={isActive ? "text-green-700" : "text-gray-700 group-hover:text-amber-500 transition-colors"}
+                      />
+                      {profile.referralCredits && profile.referralCredits > 0 ? (
+                        <span className="absolute -top-1.5 -right-2 bg-amber-400 text-black text-[10px] font-black px-1 rounded-sm shadow-sm border border-amber-500/20">
+                          ₹{profile.referralCredits}
+                        </span>
+                      ) : (
+                        <span className="absolute -top-1.5 -right-1.5 w-2 h-2 bg-amber-400 rounded-full animate-pulse shadow-sm"></span>
+                      )}
+                    </>
+                  )}
+                </NavLink>
+              )}
 
-
-          {/* RIGHT ICONS */}
-
-          < div className="flex items-center gap-5 text-gray-700" >
-
-            {profile && (
-              <NavLink to="/user-orders">
-                {({ isActive }) => (
-                  <ShoppingBag
-                    size={22}
-                    className={isActive ? "text-green-700" : "text-gray-700"}
-                  />
-                )}
-              </NavLink>
-            )
-            }
-
-            {profile && (
-              <NavLink to="/refer-and-earn" className="relative group">
+              <NavLink to="/cart" className="relative">
                 {({ isActive }) => (
                   <>
-                    <Gift
-                      size={22}
-                      className={isActive ? "text-green-700" : "text-gray-700 group-hover:text-amber-500 transition-colors"}
+                    <ShoppingCart
+                      size={24}
+                      className={isActive ? "text-green-700" : "text-gray-700"}
                     />
-                    {profile.referralCredits && profile.referralCredits > 0 ? (
-                      <span className="absolute -top-1.5 -right-2 bg-amber-400 text-black text-base font-black px-1 rounded-sm shadow-sm border border-amber-500/20">
-                        ₹{profile.referralCredits}
+                    {cartCount > 0 && (
+                      <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1.5 rounded-full">
+                        {cartCount}
                       </span>
-                    ) : (
-                      <span className="absolute -top-1.5 -right-1.5 w-2 h-2 bg-amber-400 rounded-full animate-pulse shadow-sm"></span>
                     )}
                   </>
                 )}
               </NavLink>
-            )}
 
-
-            <NavLink to="/cart" className="relative">
-              {({ isActive }) => (
+              {profile ? (
                 <>
-                  <ShoppingCart
-                    size={24}
-                    className={isActive ? "text-green-700" : "text-gray-700"}
-                  />
-
-                  {cartCount > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-base px-1.5 rounded-full">
-                      {cartCount}
-                    </span>
-                  )}
-
+                  <button
+                    onClick={() => setOpenProfile(true)}
+                    className="hidden md:block text-sm font-medium text-gray-700 hover:text-green-700 transition cursor-pointer"
+                  >
+                    Hi, {profile.firstName}
+                  </button>
+                  <button
+                    onClick={() => setOpenProfile(true)}
+                    className="md:hidden flex items-center text-gray-700 hover:text-green-700 transition cursor-pointer"
+                  >
+                    <User size={22} />
+                  </button>
                 </>
-              )}
-            </NavLink>
-
-
-            {
-              profile ? (
-                <button
-                  onClick={() => setOpenProfile(true)}
-                  className="text-sm font-medium text-gray-700 hover:text-green-700 transition cursor-pointer"
-                >
-                  Hi, {profile.firstName}
-                </button>
               ) : (
                 <NavLink to="/login">
                   {({ isActive }) => (
@@ -304,14 +299,13 @@ export default function Header() {
                     />
                   )}
                 </NavLink>
-              )
-            }
+              )}
+            </div>
+          </div>
 
-          </div >
+        </div>
 
-        </div >
-
-      </header >
+      </header>
 
 
       {/* ================= MOBILE + TABLET SEARCH ================= */}
