@@ -78,8 +78,8 @@ services:
     env_file:
       - .env
     environment:
-      MAIL_USERNAME: gomunchz@gmail.com
-      MAIL_PASSWORD: nupw xezb fmur wzev
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
 
   user-profile-service:
     build: ./Backend/user-profile-service/user-profile-service
@@ -141,8 +141,8 @@ services:
     env_file:
       - .env
     environment:
-      - RZP_K=rzp_live_SOfmd9G29HMEuL
-      - RZP_S=rRVf9tna2lCD9w6apZVr4pYk
+      - RZP_K=${RZP_K}
+      - RZP_S=${RZP_S}
 
   review-service:
     build: ./Backend/review-service
